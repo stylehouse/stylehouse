@@ -1,0 +1,128 @@
+# event handler -> n someone
+    #ki = 4s&ki;
+    
+    $e = C;
+    # group meanings
+    e.t == 'input+esc' and e.t = 'says'
+    a&spec and C.t = a&spec+'+'+C.t
+    
+    # reorder hash, put lesser info later
+    $bor = ['ev','coord'];
+    each it bor {
+        $v = e.c[t];
+        v == null and continue;
+        delete e.c[t];
+        e.c[t] = v;
+    }
+    
+    # simplify keypress
+    $norm = new RegExp("^[A-Z] A;ev type:keydown,key:[A-Z],path:\\[body],Jat:\\[J:"+A.4.t+"],ev:\\{\\*\\d+} % emotion:3$")
+    $el = ki(e);
+    el.match(norm) and el = e.t;
+    
+    e.t == 'keydown' && ec&which >=16 && ec&which <= 18 and return T.not = 1;
+    
+    a&msg =
+    ~>8 ev: '>15:state', el
+    e.y.ev = A;
+    
+    # from NutText,
+    # unless wanting to watch typing as it happens,
+    # throws out events like click, keypress other than esc/enter
+    if (c&noisyinput) {
+        if (c&type != 'blur' && (!s || !s.type || s.type != 'blur')
+            && c&key != 'esc' && c&key != "\n") {
+            a&msg.set("state","noise");
+            return T.not = 1;
+        }
+        elsif (typeof c&noisyinput == 'function') {
+            c&noisyinput();
+        }
+    }
+    
+    # satisfaction with the call/elvising?
+    T.el = 1;
+    
+    # body genera
+    $har = {e:e};
+    if (ec&path) {
+        if (ec&path.length == 1) {
+            ec&key == 'A' and c&doi = 'Jin'
+            ec&key == 'C' and c&doi = 'Typ'
+            ec&key == 'G' and c&doi = 'begoin'
+            ec&key == 'T' and c&doi = 'Tri'
+        }
+        if (ec&key == "\n") {
+            return [1,2,3,4,5].filter(&{
+                ~>78 space:
+            });
+        }
+        # look at the last C
+        $y = ec&path.slice(-1)[0];
+        $K = y && y.A && y.A.c.s
+        if (K) {
+            Ks&doi and c&doi = Ks&doi;
+            Ks&dow and c&dow = Ks&dow;
+            if (Ks&doe) {
+                C.t = Ks&doe == '1' ? K.t : Ks&doe;
+                a&msg.set('state','doe:'+C.t);
+            }
+            har.c = K;
+        }
+    }
+    
+    # formulate the A:n from what is pointed to
+    $do_Jing = &{
+        a&msg.set("state","Jing");
+        $C = A&s;
+        !C || !c&Jat and return;
+
+        $Js = c&Jat.slice();
+        $W = [];
+        each iJ Js {
+            J.1 == J.3 and W.push(J);
+        }
+        W[0] == A.4 and W.shift();
+
+        W.length > 1 and ~>9 Wnesting: ki(W)
+        # Four listens to everything you say,
+        # makes art as a way to store entropy
+        !W.length and return
+        W = W[0];
+
+        a&wouldn = [W.t,'W',{e:e}];
+        #A.t = 'e';
+        #
+    };
+    
+    $async_Tcheck = &s{
+        T.el and return;
+        do_Jing();
+        A.cv = 0.3;
+        delete T.not;
+        4s&N.push(A);
+        # messes with cv: G&TuneTimeMachine,"Telnoanswer"
+    };
+    # could also be s&dosi
+    c&doi and c&did = 'i'; G&h,c&doi,e
+    else
+    c&dow and c&did = 'w'; ~dow: c&dow; G&waylay,c&dow,har,async_Tcheck
+    else {
+        # become unsatisfied, seek handling in J
+        delete T.el;
+    }
+    T.el and return
+    $F;
+    each iJ c&Jat {
+        J.1 == J.4 and F = J
+    }
+    # keys not sure which G to go to
+    $ela = F && Fc&elvrupto || 4s&elvrupto || Gs&elvrupto || window.elvrupto;
+    if (ela) {
+        # different kind of stylehouse takes it
+        T.not = "satistylehoused: "+(F&&F.t||"somehow");
+        ela(A,C,G,T);
+        return
+    }
+    do_Jing();
+    

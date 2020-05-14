@@ -1,0 +1,554 @@
+# non-I routines: json, dig, diff
+# disable Hut's particling of c&W
+$isHut = A.I.om && A.I.om.y.tw.W;
+isHut and A.I.om.y.tw.W.c.code = &acgts{};
+
+# data
+window.isC = &s{
+    return s && typeof s == 'object'
+        && s.t != null && s.y && s.c && s.sc && 1
+};
+
+# < use for subnet extraction & auto-+-<1ism
+# < passthrough non-number, return number as number if number
+# js caveat: numbers messily turn string, which breaks sort, +, etc
+#   esp the each i may be a string, i-+-1 is safer than i+1
+window.regexforanumber = new RegExp(/^\-?\d+(?:\.\d+)?$/);
+window.isnum = &s{
+    return typeof s == 'number' ||
+    (typeof s == 'string' && window.regexforanumber.test(s))
+};
+# [[...]...] to [......], with callback per/after flattening
+window.lineate = &L,d,cb{
+    typeof d == 'function' and cb = d; d = {}
+    typeof d == 'number' and d = {dl:d}
+    d and d = ex({},d); d.di = (d.di||1)-1;
+    d ||= {};
+    (d.di ||= 0) < -15 and debugger; throw "Too many lineate";
+    $s = [];
+    each il L {
+        if (l.constructor == Array && (!d.dl || d.dl > d.di)) {
+            $r = l = lineate(l,d,cb);
+            cb and r = cb(r,d,l);
+            r and l = r
+        }
+        if (l && l.constructor == Array) {
+            each i,ll l {
+                s.push(ll);
+            }
+        }
+        else {
+            s.push(l)
+        }
+    }
+    return s
+};
+# s=Object has keys, or has a d=key
+window.haks = &s,d{
+    $N = [];
+    !s and return N
+    each k,v s {
+        d == 'kv' and N.push(k,v)
+        else
+        d == 's' and N.push(v)
+        else {
+            N.push(k);
+        }
+    }
+    return N
+};
+# s=Object has keys, or has a d=key
+window.hak = &s,d{
+    !s and return 0
+    return d == null ? Object.keys(s).length : s.hasOwnProperty(d)
+};
+window.ex = &s,d{
+    return $.extend(s,d)
+};
+window.hup = &s{
+    $C = {y:{},c:{},sc:{}};
+    C.t = s.t;
+    C.y.cv = s.y.cv;
+    $.extend(C.y,s.y);
+    $.extend(C.c,s.c);
+    $.extend(C.sc,s.sc);
+    return C
+};
+# < for hash too?
+window.uniq = &N{
+    $M = [];
+    each is N {
+        M.indexOf(s) >= 0 and continue
+        M.push(s);
+    }
+    return M;
+};
+# dual array Stever
+# see ball-othering
+# returns 1 if had if !K,
+# or returns a separate value indexed by the first,
+# entered previously...
+window.ac = &skvKV{
+    K and K = k+'_'+K;
+    $S = s.sc;
+    k.substr(0,1) == 'y' and S = s.y; k = k.substr(1)
+    $l = S[k] ||= [];
+    $li = l.indexOf(v);
+    if (li >= 0) {
+        if (K) {
+            $L = S[K] ||= [];
+            $was = L[li];
+            V != null && V == 0 and V = was ||= []
+            V and L[li] = V
+            return was
+        }
+        else { return 1 }
+    }
+    else {
+        $li = l.push(v)-1;
+        !K and return
+        V != null && V == 0 and $trick = V = []; 
+        if (V) {
+            $L = S[K] ||= [];
+            L[li] = V;
+            trick and return V
+        }
+    }
+};
+
+#c encodings
+# < no knowing where they are fully, used for small things by G&toLines
+Function.prototype.toJSON = &lastkey,{
+    $ca = window.enj_catch;
+    if (ca) {
+        ca.push("Has a function at .../"+lastkey);
+        return "CODE"
+    }
+};
+window.enj = &sT{
+    if (T && T.enj_catch) {
+        window.enj_catch and throw "Nested (global) enj catch"
+        window.enj_catch = T.enj_catch;
+    }
+    $encoded = JSON.stringify(s)
+    delete window.enj_catch;
+    return encoded;
+};
+window.dej = &s{
+    return $.parseJSON(s)
+};
+# options (camelCase in there) etc:
+#   dl/nl                depth/node limit
+#   culdesacs=[]         many path=[k+] to tips
+#   dryrun               recon only, fast size check
+#     returns internal $state, with .node_count and .depth_max
+# void throwing on Function:
+#   catch/T.eny_catch=[] pushed Function warnings
+#   skipCode             Functions vanish
+# options can be given on T.eny_opt or n
+# T (or n if T=object, as T is) can be >0 nl, <0 dl
+window.eny = &sTn{
+    $opt = {};
+    typeof n == 'object' and ex(opt,n); n = 0
+    elsif (typeof T == 'object') {
+        opt.Tcatch = T.eny_catch;
+        T.eny_opt and ex(opt,T.eny_opt);
+        T = n;
+    }
+    T > 0 and opt.nl = T; # node limit
+    else
+    T < 0 and opt.dl = T * -1; # depth limit
+    
+    opt.Tcatch and opt.catch = opt.Tcatch
+    opt.catch ||= [];
+    opt.catch.length and throw "T.eny_catch not empty array"
+    $encoded;
+    $err;
+    try { encoded = jsyaml.safeDump(s,opt) }
+    catch(er) { err = er }
+    if (err || opt.catch.length) {
+        if (err) {
+            # even if Tcatch, have nothing to return,
+            #   so process between must abort
+            throw err, opt.catch
+        }
+        elsif (opt.Tcatch) {
+            # is minded by something up there,
+            # which should be closely coupled to here
+            # !err allows munted encodes,
+            #   so the process can go on/muntwarn at the end
+        }
+        else {
+            throw "Unyamlables", opt.catch
+        }
+    }
+    return encoded
+};
+window.dey = &s{
+    return jsyaml.safeLoad(s)
+};
+
+# the other hash
+window.dig = &s{
+    return sha256(s).slice(0,12)
+};
+
+#c diffing text
+window.dmp = new diff_match_patch();
+window.diff = &s,S,c{
+    c ||= {};
+    typeof c != 'object' and c = {chunk:'line'};
+    $dmp = window.dmp;
+    dmp.Diff_Timeout = 1; # second
+    dmp.Diff_EditCost = c.edar || 4;
+
+    $ms_start = (new Date()).getTime();
+    $d = dmp.diff_main(s, S);
+    $ms_end = (new Date()).getTime();
+    
+    # idealise the size of the groups coming/going
+    c.chunk ||= 'word';
+    c.chunk == 'line' and dmp.diff_cleanupSemantic(d)
+    c.chunk == 'word' and dmp.diff_cleanupEfficiency(d)
+    # or letters at a time, nice and noisy
+    
+    $ds = window.diff_prettyC(d);
+    
+    return ds;
+};
+# window.C = &t,y,c,sc{
+window.diff_prettyC = &diffs,{
+    $N = [];
+    each il diffs {
+        $op = l[0];
+        $s = l[1];
+        
+        $n = {y:{},c:{s:s},sc:{}};
+        n.t = op == DIFF_INSERT ? "new" :
+            op == DIFF_DELETE ? "gone" :
+            op == DIFF_EQUAL ? "same" :
+            'huh: '+op;
+        N.push(n)
+    }
+    return N
+};
+# the example
+# < make it use G&intag?
+window.diff_prettyHtml = &diffs,{
+    $html = [];
+    $pattern_amp = /&/g;
+    $pattern_lt = /</g;
+    $pattern_gt = />/g;
+    $pattern_para = /\n/g;
+    for (var x = 0; x < diffs.length; x++) {
+      var op = diffs[x][0];    // Operation (insert, delete, equal)
+      var data = diffs[x][1];  // Text of change.
+      var text = data.replace(pattern_amp, '&').replace(pattern_lt, '<')
+          .replace(pattern_gt, '>');
+          #.replace(pattern_para, '¶<br>');
+      switch (op) {
+        case DIFF_INSERT:
+          html[x] = '<ins style="background:#151;">' + text + '</ins>';
+          break;
+        case DIFF_DELETE:
+          html[x] = '<del style="background:#622;">' + text + '</del>';
+          break;
+        case DIFF_EQUAL:
+          html[x] = '<span>' + text + '</span>';
+          break;
+      }
+    }
+    return html.join('');
+};
+
+
+#c ki leaves through here for singular squish factory,
+    # optional c.keys
+    $cvf = window.cvf = &cv,{
+        m = (cv+'').match(/^0\.(\d+)$/);
+        return m && m.length ? m[1] : cv
+    };
+    $stringy = &s{
+        return typeof s == 'string' || typeof s == 'number'
+    };
+    $li = &s,c,k{
+        $ks = c.ks;
+        $was = c;
+        $c = $.extend({},c);
+        k != null and c.k = k; s = s[k]; c.up = was;
+        delete c.ks;
+        $M = [];
+        $joiner = ',';
+        if (s && typeof s == 'object') {
+            if (!ks) {
+                ks = [];
+                each kv s {
+                    ks.push(k);
+                }
+            }
+            $elem = 1;
+            each ik ks {
+                # could look at c.drawn but we're before/in the mouth of es()
+                (c.type == 'A' || c.type == 'J') && c.k == 'y' && (k == 't' || k == 'y' || k == 'c' || k == 'sc') and continue
+                
+                v = s[k]; # ]
+                $d = $.extend({},c);
+                d.d += 1;
+                d.up = c;
+                d.k = k;
+                $ke = '';
+                c.saykey and ke = k+':';
+                
+                c.k == 'y' and d.d += 2;
+                $sa = ki(v,d);
+                
+                # a number on its own is the cv
+                c.k == 'y' && d.k == 'cv' && sa.drawn == 'string' and sa.s = cvf(v); ke = '';
+                
+                elem && sa.drawn != 'html' and elem = 0;
+                if (elem && sa.drawn == 'html') {
+                    # shorten paths in (or out)
+                    if (elem != 1) {
+                        if (!(v.parentNode == elem
+                            || elem.parentNode == v)) {
+                            elem = 0
+                        }
+                    }
+                    elem and elem = v;
+                }
+                if (sa.drawn == 'type:t') {
+                    # its own type part of the key
+                    k.match(sa.type+'$') and ke = k+';'; sa = v.t
+                    c.type == 'a' and sa.s = sa.s.replace(/^{|}$/g,'');
+                }
+                if (sa.drawn == 'tycsc') {
+                    # enclosed t y c sc
+                    # smaller insides?
+                    sa.s = '('+sa.s+')';
+                }
+                M.push([ke,sa]);
+            }
+            # #c whatjust 
+            if (elem) {
+                joiner = '^'; # conjoiner of inside elements
+                each im M {
+                    sa = m[1];
+                    sa.s = sa.s.replace(/^\^|\^$/g,'');
+                    
+                }
+            }
+            if (c.up && c.up.type == 'C' && c.k == 'y') {
+                each im M {
+                    m[0] == 'cv:' and m[1] = cvf(m[1])
+                }
+            }
+            if (c.type == 'A' || c.type == 'J') {
+                # bits in each ks ^
+                if (c.k == 'y') {
+                    # split out A.\d, points on wormhole slope
+                    $Jnet = {};
+                    $N = [];
+                    $cvm;
+                    each im M {
+                        $sa = m[1];
+                        # not es() intel object
+                        stringy(sa) and N.push(m); continue
+                        # take out cv, prefix to Jnet
+                        sa.k == 'cv' and cvm = m; continue
+                        # take out Jnet numbers
+                        sa.k.match(/^\d+$/) and Jnet[sa.k] = sa; continue
+                        # we can see properties of string and undefined:
+                        # J.2 usually == J.up
+                        sa.k == 'up' && sa.v == c.v.2 and continue;
+                        sa.k == 'I' and continue;
+                        N.push(m);
+                    }
+                    # crunch them together implicitively
+                    $Jnek = Object.keys(Jnet);
+                    if (Jnek.length) {
+                        Jnek.sort();
+                        $E = [];
+                        $la;
+                        each in Jnek {
+                            $d = Jnet[n];
+                            d.type != 'J' and throw "JnetnotJ: ", d
+                            $l = la && Jnet[la.k];
+                            if (l) {
+                                # same J takes highest number
+                                l.v == d.v and E.pop()
+                            }
+                            if (n > 3) {
+                                n == 4 && !E.length and E.push('1-4')
+                                # leave off fqdn 4/5, if same as here
+                                # here from last B
+                                $Y = Gc&B && Gc&B.sc.A || A;
+                                d.v == Y[n] and continue
+                            }
+                            # dont say 2 if its 4 
+                            n == 2 && d.v == c.v.4 and continue
+                            # and if 1,3 etc is it
+                            d.v == c.v && d.v != c.v.4 and E.push(n); continue
+                            E.push(d);
+                            la = d;
+                        }
+                        $netname = [];
+                        each id E {
+                            !stringy(d) and d = d.v.t
+                            netname.push(d);
+                        }
+                        netname = netname.join('.');
+                        # cv can prefix a net name
+                        if (cvm) {
+                            netname = cvm[1] +'@'+ netname;
+                            cvm = null;
+                        }
+                        N.unshift(['',netname]);
+                    }
+                    cvm and N.unshift(cvm);
+                    M = N;
+                }
+                else
+                if (c.k == 'c' || c.k == 'sc') {
+                    $E = [];
+                    $N = [];
+                    each im M {
+                        c.k == 'c' && (m[0] == 'sip' || m[0] == 's' || m[0] == 'N') and E.push(m); continue
+                        c.k == 'sc' && (m[0] == 'N' || m[0] == 's') and E.push(m); continue
+                        N.push(m);
+                    }
+                    # will see later-defined things first, except for ^
+                    N = N.reverse();
+                    while (E.length)
+                        N.unshift(E.pop())
+                    M = N;
+                }
+            }
+            $N = [];
+            each im M {
+                # 'key:' label and its drawing, an overloaded object
+                $str = m[0]+m[1];
+                N.push(str);
+            }
+            M = N;
+        }
+        else {
+            $d = $.extend({},c);
+            d.d += 1;
+            d.up = c;
+            M.push(''+ki(s,d));
+        }
+        $m = M.join(joiner);
+        $strlim = c.lum * 20 + 5;
+        m.length > strlim + 10 and m = m.substr(0,strlim)+'..*'+M.length
+        
+        # TODO lightningbolt? coloured metacharacters title=unicode info?
+        # Cify the es() object, next/in all this stuff 
+        m = m.replace(/\r|\n/g, "↯");
+        
+        return m
+    };
+    # #c more ki
+    $arfgunc = &s{
+        typeof s != 'function' and return
+        $m = s.toString().match(/^function \((.+?)\)/);
+        return m && m[1] || ''
+    };
+    $ki = &s,c{
+        c && typeof c != 'object' and c = {dl:c*1};
+        c ||= {dl:4};
+        if (!c.d) {
+            c.d ||= 1;
+            # if 4.32, shrink de-dl by 2 at d=3
+            # to get a big top full of small items
+            # should balance itself
+            $detail = c.dl - c.dl.toFixed();
+            if (detail) {
+                detail = (detail+'').split('').slice(2);
+                detail[1] ||= 2;
+                c.ritard ||= {};
+                c.ritard[detail[0]] = detail[1];
+            }
+        }
+        c.ritard && c.ritard[c.d] and c.dl -= c.ritard[c.d]
+        c.d > 15 and throw "large ki";
+        c.lum = c.dl - c.d;
+        delete c.saykey;
+        c.v = s;
+        # turn c into string object, add knowing how it is drawn
+        $es = &s,drawn{
+            c.s = s;
+            drawn and c.drawn = drawn;
+            c.toString = &{ return ''+this.s };
+            c.d == 1 and return ''+c;
+            return c
+        };
+        
+        
+        if (s == null) {
+            return "n*ll"
+        }
+        else
+        if (typeof s == 'number' || typeof s == 'string') {
+            !(s+'').match(/^[\+\w]+$/) and s = "'"+s+"'";
+            return es(s,'string');
+        }
+        else
+        if (s.constructor == Array) {
+            c.type = 'a';
+            !s.length and return '[]'
+            c.lum < 1 and return '[*'+s.length+']'
+            return '['+li(s,c)+']'
+        }
+        else
+        if (s.constructor == Object) {
+            c.saykey = 1;
+            $ks = Object.keys(s);
+            !ks.length and return '{}'
+            $type = s.y ? s.y == s ? 'A' : 'C' : 'd';
+            !(s.c && s.sc && s.t != null) and type = 'd';
+            type == 'C' && ks.length > 4 and type = 'd';
+            type == 'A' && s.1 == s and type = 'J'
+            c.type = type;
+            if (type != 'd') {
+                type == 'A' and c.lum -= 1
+                type == 'J' and c.lum -= 1
+                if (c.lum < 2 && type == 'A') {
+                    $cv = cvf(s.cv);
+                    return es('{'+type+':'+s.t+'@'+cv+'}','type:t')
+                }
+                c.lum < 1 and return es('{'+type+':'+s.t+'}','type:t')
+                c.lum < 2 and return es(li(s,c,'t')+' '+li(s,c,'y'),'ty');
+                # t y c sc mode, for a clean screen
+                # A.on will be seen through A.y.on
+                return es(
+                    li(s,c,'t')+' '+li(s,c,'y')
+                    +' '+li(s,c,'c')+' % '
+                    +li(s,c,'sc'),
+                    'tycsc')
+            }
+            else {
+                c.lum < 3 and return es('{*'+ks.length+'}')
+                return es('{'+li(s,c)+'}')
+            }
+            return ''+s
+        }
+        else
+        if ((s.constructor+'').match(/^function HTML/)) {
+            $t = s.getAttribute && s.getAttribute('t');
+            t ||= s.tagName && s.tagName.toLowerCase();
+            t ||= s;
+            return es('^'+t+"^",'html')
+            
+        }
+        else
+        if (s.constructor == Function) {
+            return '&'+ arfgunc(s) +'{*}';
+        }
+        else {
+            return "?"+s+"?"
+        }
+    };
+    window.ki = 4s&ki = ki;
+    4s&ready and return
+    4s&ready = 1;
+    isHut and G&waylay,'NutReady';

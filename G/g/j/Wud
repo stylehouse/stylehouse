@@ -1,0 +1,475 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+no warnings qw(uninitialized redefine);
+use FindBin qw($Bin);
+use lib "$Bin/othlia";
+use lib "$Bin/slib";
+use G;
+sub dige { slm(12, Digest::SHA::sha256_hex( encode_utf8(shift) ) ) };
+my ($A,$C,$G,$T);
+my $ar = {};
+!-d $_ && `mkdir -p $_` for qw'wormhole/digway G W';
+
+use Mojolicious::Lite;
+use MIME::Base64;
+push @{app->static->paths}, '/home/s/styleshed/public';
+app->secrets(["nothing"]);
+# divert mojo log statements from our err channel
+#app->log->path((Gc&ipd || Gc&dir)."/mojo\.log")
+#    if Gc&dir || Gc&ipd;
+
+our $listen = "http://localhost:1422";
+if (-f 'listen') {
+    $_ = `cat listen`; chomp $_;
+    $listen = 'http://'.$_;
+}
+sub starts {
+    1 && saybl "Starting     listens: $listen";
+    app->start('daemon', '--listen' => "$listen");
+}
+sub JaBabz {
+    my $C = shift;
+    no warnings qw(uninitialized redefine);
+    # insert JaBabz here
+}
+get '/' => &c{
+    $c->reply->static("two\.html");
+};
+
+#c /peek/ - pull it into stylehouse
+any '/peek/*t' => &c{
+    my $resp = &s{ $c->render(text=>sjson($s)) };
+    # look at:
+    my $t = $c->param('t');
+    # for a size or range:
+    my $line = $c->param('line') || 0;
+    # for directory, text,
+    my $type = 'f';
+    $t += '/*' if -d $t;
+    $type = 'd' if $t =~ /\*/;
+    
+    my ($f) = my @l = glob $t;
+    
+    # weird corners:
+    #  supplying ?-ambiguated $t matching many
+    $type = 'd' if @l > 1 || -d $f;
+    my $re = {type=>$type};
+    return $resp->({sc=>{%$re,lines=>[@l],
+        dige=>dige(join "\n",@l)}}) if $type eq 'd';
+    # < symlinks
+    return $resp->({er=>'not found'}) if !-f $f;
+    
+    my $size = re.sizekb = 0.001 * (-s $f);
+    return $resp->({er=>'too big: '.$size.'kb'}) if $size > 420;
+    # < image or video...
+    return $resp->({er=>'not text'}) unless -T $f;
+    my $string = decode_utf8(read_file($f));
+    @l = split "\n", $string;
+    re.length = 0+@l;
+    
+    # how to chop that up
+    if ($line =~ s/<(\d+)$//) {
+        # only shallow indents, dige between
+        my $indentlt = $1;
+        # always has a leading something
+        my @between = [];
+        @l = grep {
+            if (!/\S+/ || /^ {$indentlt}/) {
+                push @{$between[-1] ||= []}, $_;
+                0
+            }
+            else {
+                push @between, [];
+                1
+            }
+        } @l;
+        1 && sayre "indgrep $indentlt ".@l." < ".re.length;
+        @between = map { !@$_ ? '' : @$_."x".dige(join("\n",@$_)) } @between;
+        re.dige = dige(join "\n",
+            $between[0], map{ $l[$_], $between[$_+1]||'' } 0..@l-1
+        );
+        re.between = \@between;
+    }
+    else {
+        $line ||= 0;
+        my $toline = $2 if $line =~ s/^(\d+)-(\d+)$/$1/;
+        $toline ||= $line + 100;
+        re.line = $line;
+        $toline = @l-1 if $toline > @l-1;
+        @l = @l[$line..$toline];
+        re.toline = $line + @l;
+        re.dige = dige(join "\n",@l);
+    }
+    
+    return $resp->({sc=>{%$re,lines=>[@l]}})
+};
+
+#c /digwaypoll/ notifier, see 281 Sevo
+# < check on connect
+my $poll = {tx=>[],ways=>{}};
+poll.wayt = {}; # pi/name -> pi-name
+poll.wayd = {}; # pi-name -> s&dige
+get '/digwtf' => &c{
+    $c->render(text => wdump(poll.wayd));
+};
+poll.doing = &o{
+    return if $o && poll.one && $o ne poll.one;
+    my $tw = {};
+    each pi poll.ways {
+        my $t = $p;
+        $t = poll.wayt.>$p ||= do { $t =~ s/\W/-/sg; $t };
+        my $digway = "wormhole/digway/$t";
+        my $dig = readlink $digway;
+        1 && sayre "no $digway" if !$dig;
+        next if !$dig;
+        my $was = poll.wayd.>$t;
+        next if $was && $dig eq $was;
+        poll.wayd.>$t = $dig;
+        $tw->{$p} = $dig;
+    }
+    
+    if (keys %$tw) {
+        # send many d=0 Lines as one message,
+        # so receiver can react immediately
+        for my $tx (@{poll.tx}) {
+            my $s = join"", map{ $_ ."\n" }
+                map{ $_.'%dige:'.$tw->{$_} }
+                grep { !tx.ways->{$_}
+                    || tx.ways->{$_} ne $tw->{$_}
+                } keys %$tw;
+            $tx->send($s);
+            1 && saygr "digwaypoll: $s"
+        }
+    }
+    
+    Mojo::IOLoop->timer(0.3,&{ poll.doing(poll.one = rand()) });
+};
+websocket '/digwaypoll' => &s{
+    my $tx = $s->tx;
+    poll.doing();
+    1 && sayyl "Got digwaypolling";
+    
+    # complete picture (t/dige) at new listeners
+    poll.wayd = {};
+    push @{poll.tx}, $tx;
+    
+    my $addr = $tx->remote_address;
+    Mojo::IOLoop->stream($tx->connection)->timeout(300000);
+    $tx->max_websocket_size(512000);
+    
+    $s->on(message => &M,m{ #}
+        die "Not wordy: $m" unless $m =~ /^([\w\-\/]+)(%\w+.*)?$/;
+        tx.ways.>$1 ++ || poll.ways.>$1 ++
+    });
+    
+    $s->on(finish => &M,code,reason{
+        @{poll.tx} = grep { $_ ne $tx } @{poll.tx};
+        each ti tx.ways {
+            -- poll.ways.>$t && next;
+            delete poll.ways.>$t;
+            $t = delete poll.wayt.>$t;
+            delete poll.wayd.>$t;
+        }
+        1 && sayre "digwaypoll Gone: $addr $code $reason";
+    });
+};
+
+#c /W/
+any '/W/*W' => &c{
+    my $t = $c->param('W');
+    my $s = $c->param('s');
+    my $patch = $c->param('patch') && die "know patch";
+    my $cache = G.Wache ||= {};
+    
+    # read t, write if s
+    # all there
+    $t = "W/$t";
+    # char safety
+    $t =~ /([^\w\/-]+)/ && return
+        $c->render(text=>sjson(
+            {er=>"illegal t[".pos()."] char: $1 in '$t'"}
+        ));
+    # and you can't use the name 1 etc
+    $t =~ s/\/(\d)$//;
+    my $species = $1 || '1';
+    my $f = "$t/$species";
+    
+    # returns json:
+    my $re = {ok=>0};
+    my $nos = 0;
+    
+    
+    if (defined $s) {
+        # optional safety - must replace such dige
+        my $pa = $c->param('parent');
+        if ($pa && $pa ne $cache.>$f ) {
+            re.er = 'not ffwd';
+            # could give out tree since...
+            $s = '';
+            # re.dige = $cache.>$f ;
+        }
+        elsif (!length $s) {
+            `rm $t/1`;
+            re.ok = 'deleted';
+        }
+        else {
+            # the whole name is directory
+            -d $t || `mkdir -p $t`;
+            my $new = !-f $f;
+            $s = "$s\n" if $s !~ /\n$/;
+            
+            write_file("$f\.1",encode_utf8($s));
+            `mv $f\.1 $f`;
+            
+            # the .5 may be in the same request
+            my $five = $c->param('fivestring');
+            if ($five) {
+                my $ff = "$t/5";
+                write_file("$ff\.1",encode_utf8($five));
+                `mv $ff\.1 $ff`;
+            }
+            
+            # < (notify nearby others, who )+
+            re.ok = 'updated';
+            re.ok = 'created' if $new;
+            $nos = 1;
+        }
+    }
+    else {
+        if (-f $f) {
+            $s = decode_utf8(read_file($f));
+            re.ok = 'found';
+        }
+        else {
+            re.er = 'not found'
+        }
+    }
+    if (length $s) {
+        # it should have a dig
+        my $dig = slm(12,
+            $f =~ m{^W/spot/} ? dig($s)
+            :
+            dige($s)
+        );
+        $cache->{$f} = $dig;
+        re.dige = $dig;
+        re.s = $s;
+        # if they know its hash, assume they don't need the string again
+        if (my $ha = $c->param('have')) {
+            delete re.s if grep {$_ eq $dig} split "\t", $ha
+        }
+        # or if it was a write
+        delete re.s if $nos;
+    }
+    $c->render(text=>sjson($re));
+};
+
+#c /ghost/
+any '/ghost/*w' => &c{
+    my $t = $c->param('w');
+    # / in t not meaning directory
+    (my $st = $t) =~ s/\W+/-/g;
+    my $se = $c->param('se') || '*';
+    my $s = $c->param('s');
+    my $patch = $c->param('patch') && die "know patch";
+    my $cache = G.ghostache ||= {};
+    my @opt = glob "G/$se/$st";
+    die "multiple @opt" if @opt > 1;
+    my $f = $opt[0] || '';
+    my ($cat) = $f =~ /^G\/([^\/]+)\//;
+    # < avoid some disking if $have
+    my $wig = "wormhole/digway/$st";
+    my $digway = readlink($wig);
+    
+    # returns json:
+    my $re = {ok=>0};
+    my $was_write = 0;
+    
+    # hasghost
+    if (defined $s) {
+        # optional safety - must replace such dige
+        my $pa = $c->param('parent');
+        if ($se eq '*') {
+            re.er = "!se param: writing G/\$se/\$t";
+            $s = '';
+        }
+        elsif ($pa && $pa ne $cache.>$f ) {
+            if (!$cache.>$f ) {
+                re.er = "lookup first";
+                # < or trust digway?
+            }
+            else {
+                re.er = 'not ffwd';
+            }
+            # could give out tree since...
+            $s = '';
+            # re.dige = $cache.>$f ;
+        }
+        elsif (!length $s) {
+            -f $f && `rm $f`;
+            re.ok = 'deleted';
+        }
+        else {
+            # non-name is directory
+            (my $dir = $f) =~ s/\/[^\/]+$//;
+            -d $dir || `mkdir -p $dir`;
+            my $new = !-f $f;
+            #$s = "$s\n" if $s !~ /\n$/;
+            
+            write_file("$f\.1",encode_utf8($s));
+            `mv $f\.1 $f`;
+            
+            # < (notify nearby others, who )+
+            re.ok = 'updated';
+            re.ok = 'created' if $new;
+            $was_write = 1;
+            
+            my $mv = $c->param('gitmv');
+            if ($mv) {
+                my $m = "$dir/$mv";
+                while ($m) {
+                    sayre("no $m to move from")
+                        && last unless -f $m;
+                    
+                    my $dif = `diff $f $m`;
+                    sayre("$f<-$mv not up to date:\n".$dif)
+                        && last if $dif =~ /\S/;
+                    
+                    `rm $f`;
+                    my $move = `git mv $m $f`;
+                    sayre("$f<-$mv git mv noise:\n".$move)
+                        && last if $move =~ /\S/;
+                    $m = ''
+                }
+            }
+        }
+    }
+    else {
+        if ($f && -f $f) {
+            $s = decode_utf8(read_file($f));
+            re.ok = 'found';
+        }
+        else {
+            re.er = 'not found'
+        }
+    }
+    if (length $s) {
+        my $dig = dige($s);
+        $cache->{$f} = $dig;
+        if ($dig ne $digway) {
+            -l $wig && `unlink $wig`;
+            `ln -s $dig $wig`;
+        }
+        re.dige = $dig;
+        die "no cat: $f" if !$cat;
+        re.se = $cat;# if $cat ne $se;
+        re.s = $s;
+        # they know string if:
+        if (my $ha = $c->param('have')) {
+            # they know its hash
+            delete re.s if grep {$_ eq $dig} split "\t", $ha
+        }
+        if ($was_write) {
+            # they just sent it
+            delete re.s;
+            # speed /digwaypol/
+            poll.doing() if poll.ways && poll.ways.>$t;
+        }
+        
+    }
+    $c->render(text=>sjson($re));
+};
+
+#c /way/ 4s&waythe way
+# < Accept headers to get the various translations
+sub away {
+    my $t = shift();
+    my $ot = $t;
+    $t =~ s/\W+/-/g;
+    my $w;
+    for ('G/*','wormhole/way') {
+        my @opt = glob "$_/$t";
+        my $f = shift @opt;
+        next if !$f || !-f $f;
+        # w.t will be pi/thing, t (on disk) is pi-thing
+        $w = {t=>$ot,y=>{}};
+        wc&s = decode_utf8(read_file($f));
+        ws&dige = slm(12, dig wc&s);
+        ws&of = 'w';
+        last
+    }
+    $w || return;
+    
+    # < JaBabz is final
+    my $babv = readlink("wormhole/digway/JaBabz");
+    a&wayjs = {} if !a&babv || a&babv ne $babv;
+    a&babv = $babv;
+    # swap s just read for s compiled against its t/dige
+    wc&s = a&wayjs.>w.t.>ws&dige ||= do {
+        $C = $w;
+        # this line is compiled to JaBabz($C):
+        Rw JaBabz $C;
+        wc&s
+    };
+    return $w
+};
+get '/way/*way' => &c{
+    my $t = $c->param('way');
+    my $w = away($t);
+    $w || return $c->reply->not_found;
+    
+    $c->res->headers->append(Dige => ws&dige);
+    
+    my $have = $c->param('have');
+    if ($have && $have eq ws&dige ) {
+        return $c->render(text => '')
+    }
+    $c->render(text => wc&s);
+};
+get '/wayjs/#dige/#args/*way' => &c{
+    my $t = $c->param('way');
+    my $w = away($t);
+    # must be that version
+    $w && $c->param('dige') eq ws&dige
+        || return $c->reply->not_found;
+    # put in a global namespace
+    my $name = join("__",'w',$t,
+        $c->param('dige'),$c->param('args'));
+    $name =~ s/\W+/_/g;
+    my $s = "function $name(A,C,G,T,"
+        .$c->param('args').") {\n".wc&s."\n}\n";
+    $c->render(text => $s);
+};
+get '/wjs/*way' => &c{
+    my $wayish = $c->param('way');
+    $wayish =~ s/\.js$//;
+    my ($t,$args,$dige) = split "__", $wayish;
+    
+    my $w = away($t);
+    $dige ||= '';
+    1 && saybl $c->param('way')."  ->  $t  $args  $dige";
+    
+    # must be that version
+    if (!$w) {
+        1 && sayre "404 $t";
+        return $c->reply->not_found
+    }
+    if ($dige && $dige ne ws&dige) {
+        1 && sayre "moved $t $dige -> ws&dige";
+        return $c->reply->not_found
+    }
+    $dige = ws&dige;
+    ws&args = $args;
+    
+    # put in a global namespace
+    my $name = join("__",'w',$t,$args,$dige);
+    $name =~ s/\W+/_/g;
+    
+    my $s = "function $name(A,C,G,T,$args) {\n".wc&s."\n}\n";
+    
+    $c->res->headers->append(sc => sjson(w.sc));
+    $c->render(text => $s);
+};
+
+starts();

@@ -1,0 +1,215 @@
+# proxy Search, plumbing updates -> elvis
+# could map all P to all Q and R,
+#  showing Q are sometimes recycling,
+#  any of them may zombie, Atime?
+
+# this way for a J
+R.t != "Pearch" and throw "notinR"
+# out of Wayout/Pearch, both having %Inn=R
+$to = me.cbu(R,'Utilis');
+Rs&Inn = R;
+$Search = me&Rsc,to,'^^Inn';
+$upting = Searchs&_ting;
+!upting and throw "^^Inn!_ting", Search
+
+# with of:w notifies via the Ghost of GhodigWap
+$Ghodig = 4s&Ghodig;
+Rs&Ghodigup = &QP{
+    # from Ghodig/sub/...c&ready()
+    # towards Qc&ready() via refresh
+    # < many Q thing, many P thing...
+    Qs&notsync = Qs&Want_Check = 1;
+    Searchs&_ting(Q);
+    Qs&P != P and ~>5 QP:
+}
+# Q updated or ready after async
+Rs&Qready = &Q{
+    # potentially from ancient Qc&ready capturing ancient R
+    #  zombies in Ghost/sub/...%Ps_Q,
+    #  if you don't recycle your Qs
+    #   unpacke will flatten it
+    $r = me&yfuture,R;
+    r != R and return rs&Qready && rs&Qready(Q);
+    ac(R,'Qu',Q);
+    # delay to allow batching
+    $cb = me&sccb,R,'Quping',&{Rs&Qup()};
+    G&delay,0.03,cb;
+};
+# Rs&Qu (Q updated) -> elvis to reality
+Rs&Qup = &{
+    $N = delete Rs&Qu;
+    !N and return ~>4 nothing
+    $wake = [];
+    each iQ N {
+        $P = Qs&P;
+        $s = Qc&s || Pc&s;
+        #!s and throw "Qup!s"
+        #~>6 WayQup: Qc&of, Q.t
+        # tell by the args if it emits me
+        $isme = Qc&of == 'wjs' &&
+            ss&args.match(/\bme\b/);
+        if (isme) {
+            # < e to Pearch to set things up
+            Rs&dropRcache();
+            me&way,R,Q.t,{me};
+        }
+        else {
+            wake.push(P)
+        }
+    }
+    # redisable feta
+    me.hacks and me&hacks;
+    if (wake.length) {
+        $JRoms = [];
+        each iP wake {
+            # one P many Q, one of whom found the news
+            each i,Pring Ps&Prings {
+                $J = me&yfuture,Prings&R;
+                JRoms.includes(J) and continue
+                # b-give it pairs of [Q,r] of interest (to %Yingu)
+                # < on the e, deeply, plan with
+                each in Prings&z {
+                    # < check bunch of P are ready, wait max 2s
+                    !ns&P.c.s and ~>3 prematuero: ns&P.t
+                    ns&P != P and continue
+                    each iz ns&z {
+                        $Q = zs&Q;
+                        # W el=8 get here
+                        Qs&dige == Ps&dige and continue
+                        ac(J,'Intere',Cye(['Qup',1,{},{Q,R:zs&R}]))
+                    }
+                }
+                !Js&Intere and continue
+                JRoms.push(J);
+            }
+        }
+        !JRoms.length and return
+    }
+   // and
+    if (JRoms) {
+        # elQups pack from Pearch, like elvoids from JRom
+        $E = Cye(['elQups',8,{pack:R}]);
+        each iJ JRoms {
+            $tz = {};
+            $Intere = Js&Intere;
+            each iq Intere {
+                $z = tz[qs&R.t] ||= [];
+                z.push(q)
+            }
+            $names = [];
+            each tz tz {
+                names.push( (t != J.t ? qs&R.t : "")+"<-"
+                    + uniq(z.map(q => qs&Q.c.of+':'+qs&Q.t)).join(',') )
+            }
+            names = J.t+": "+names.join(" ");
+            ~>6 elQueps: names
+            
+            $e = Cye(['elQup',1,{wake:J}]);
+            Intere and es&Intere = Intere
+            ac(E,'z',e);
+        }
+        # < unpause JRoms after debugger pauses
+        #  < as unpausing elvising there
+        $N = 4s&unplugbugcb || [];
+        4s&unplugbugcb = [];
+        N.map(cb => cb());
+        
+        me&elvis,R,E;
+    }
+    else {
+        ~>6 Qup generally: N.length, ki(wake,2)
+        me&elvis,R,'Qup',{wake:4s&mainthing}
+    }
+}
+# maintain P -> r^^%Jrom%Pring/n%P/z%Q -> r
+Rs&Pring = &Q{
+    $P = Qs&P;
+    $r = Qy&R;
+    !(P && r) and throw "noPr"
+    $J = me.cbu(r,'JRom');
+    !J and return ~>4 nonjrom: r.t, 'ting:'+Q.t
+    $Pring = Js&Pring ||= Cye(["Pring:"+J.t,1])
+    Prings&R = J;
+    $N = Prings&z ||= [];
+    # unique %Pring/n%P
+    $n = N.filter(n => ns&P == P)[0];
+    !n and n = Cye([Q.t,1]); N.push(n)
+    ns&P = P;
+    $N = ns&z ||= [];
+    # they might reuse Q
+    $z = N.filter(z => zs&Q == Q)[0];
+    # or new Q with R future
+    z ||= N.filter(z => z.t == R.t && me&yfuture,zs&R == r)[0];
+    # or leak memory until futures flattened on Qup/tunneling
+    !z and z = Cye([r.t,1]); N.push(z);
+    zs&R = r;
+    zs&Q = Q;
+    ac(P,'Prings',Pring);
+}
+# drops Ring's task cache, recompiling me.ruv
+Rs&dropRcache = &{
+    each tw A.5.I.w.y.tw {
+        delete ws&makesI;
+        delete ws&makesIw;
+    }
+    # and SCAing/Ying cache
+    me.Yingminds = {};
+    me.SCminds = {};
+}
+# bind Q-uestion to r-eason
+Rs&_ting = &Qr{
+    !isC(Q) and throw "ting !C"
+    # dispatch change, Q<->R:
+    r and Qy&R = r
+    
+    $already = Qc&ready;
+    if (already) {
+        # use it if we are !ready now
+        #  if T.non (eg me&way !cb) default to:
+    }
+    # from out of time Pull_a completion
+    #  per Q that we listened up
+    Qc&ready = &CP{
+        ~>3 Qcready: Q.t
+        Rs&Qready(Q);
+    }
+    
+    $s = upting(Q);
+    $P = Qs&P;
+    !P and ~>5 upting!P: Q.t
+    !P and return
+    4s&Pringit and Rs&Pring(Q);
+    
+    #!s and ~>5 upting!s: Q.t
+    !s || !P and return 
+    
+    # as found things go by, listen them
+    # c&of is containing, s&of is having
+    # < GhodigWap know $t c&of=w|wjs|ghost are all one
+    #   currently loads a w for every wjs|ghost subscribed...
+    if (ss&of == 'w' && !Ps&listened) {
+        # GhodigWap subscribes w.t
+        Ghodigy&subscribe(s);
+        # finds us here:
+        i $Ghodig/sub/#Q.t/#R.t:s
+        # < hist crunch,
+        #   the w < Ps pulling dialect < Qs using it
+        # the last P, Q will work for now
+        $r = me&Rsc,ya,'R';
+        ac(ya,'Ps',P,"Q",Q);
+        yas&R = R;
+        #yas&P && yas&P != P and debugger
+        yas&P = P;
+        yas&ein = &w{
+            # dispatch ready() on all these:
+            yas&Ps_Q.map(Q => ac(P,'readyingC',Q))
+            # dispatching the request on one:
+            Rs&Ghodigup(Q,P)
+        };
+        Ps&listened = 1;
+    }
+    # < use a new G&way that _tings
+    #   its Wayc&chin is creating the sub!!
+    # < Searches may trust upstream,
+    return s
+}

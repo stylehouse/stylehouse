@@ -1,0 +1,48 @@
+# Down
+
+
+=vectoria
+
+to get:
+ foreground objects - bitmap cutouts
+ > background in-fill
+  tiling/reflect-stretch the background
+   in: across the hole the foreground leaves
+   out: off the edges of the image,
+    continuing lines outward,
+    esp finding a horizon, joining that sensibly
+
+bitmap -> svg:
+ https://github.com/jankovicsandras/imagetracerjs
+line/shape -> locating: 
+ http://paperjs.org/reference/shape/#intersects-item
+ http://paperjs.org/reference/pathitem/#getintersections-path
+  then pull apart shapes until the exact line
+reflect-stretch the background:
+ ?
+
+the edgy image pile:
+ clip to shapes near the edge
+=cut
+
+$N = [1,2,3,4,5,6,4,7,8];
+each iv N {
+    $n = me&tsc,"a"+v,0,"p";
+    ns&fs = v*3;
+    ns&hue = v*40*ie
+}
+# searchable huge piles?
+#  dispatch qua batch to mixer instead of dis:0
+
+<input type="text" placeholder="search" id="search">
+<style id="search_style"></style>
+<script type="text/javascript">
+var searchStyle = document.getElementById('search_style');
+document.getElementById('search').addEventListener('input', function() {
+  if (!this.value) {
+    searchStyle.innerHTML = "";
+    return;
+  }
+  searchStyle.innerHTML = ".searchable:not([data-index*=\"" + this.value.toLowerCase() + "\"]) { display: none; }";
+});
+</script>

@@ -1,0 +1,210 @@
+//softov
+  feelins gorara
+  // 37 - < Domes
+   # glib glab
+   # somebodinoes
+   // stator
+    // Domes_o3|7 - both ends of the deal
+        # domes, transbrack init
+        me.Domes_o3 = &acgtr{
+            $s = rc&s;
+            me&etos_o3,r,s;
+            me&dome_o3,r,s;
+        }
+        # domes, transbrack accept
+        # < deeper first?
+        me.Domes_7 = &acgtRpr{
+            $s = rc&s;
+            me&node_accept,R,r,s;
+            # when not &bready, ask R%Ying to come back:
+            me&bready,r and R&ha,{waits:'wants',wants:r}
+            # %%eto|from
+            me&etos_6,R,p,r,s;
+            me&etos_7,R,p,r,s;
+            # %%dome replace if any new
+            me&dome_7,R,p,r,s;
+            # display
+            return me&stepbrack,r;
+        }
+        
+    // < %%dome - residing state
+       =pod
+        %%dome:$t,... - a row that resurrects
+         # not: another $z to seem in this one via bracko
+         @o3 sa'dome' -> ha, each nc&recycled=1
+         @6:
+           you ja your permanent-er state out of it
+           eg %Ying has orders of $p waiting
+           or commit log
+           or %Paving sanity checking as we .5<->.1
+         @7:
+           any ha %dome:$t,... replace them
+            or something configured
+           one ha %dome:$t - to drop it
+           no ha %dome:$t* - to keep them all
+            maybe for a ttl
+       =cut
+        # < += %%dome from last time
+        me.dome_o3 = &acgtrs{
+        }
+        # < %%dome replace if any new
+        me.dome_7 = &acgtRprs{
+            $N = r&ja,'dome';
+            $synthz = {};
+            $keeps = [];
+            each in N {
+                
+            }
+        }
+        
+    // %%eto - externalising state
+        # $to += %%efrom...
+        me.etos_o3 = &acgtrs{
+            $ef = sy&efroms;
+            !ef and return
+            me&ioty,ef .map(&fo,{
+                $h = fos&etos;
+                # h may re-node_hoist before we 7, if from /**
+                fos&using = hs&current;
+                hc&el == 9 and foc&el = 9; return
+                !hs&vers.includes(hs&current) and throw "vers!"
+                !hs&from and throw "!from"
+                hs&to != s and throw "to!"
+                me&ioty,h .map(&n{
+                    # each row is mixed in, +%%efrom
+                    n = r&ha,n,{efrom:hs&from}
+                    # < looking at s & n should notice this link:
+                    ny&efrom = fo;
+                });
+            })
+        };
+        # $from %%eto
+        #   -> $from sy&etos
+        #   -> Ying%%etos
+        # < brackstill config/slep
+        # < riding X, hoisting all the way up...
+        #  < a/b/-c/d should revoke d's stuff on b, a
+        me.etos_6 = &acgtRprs{
+            # all %%eto from this node
+            $eto = r&jaa,'eto' .filter (n => !ns&efrom);
+            # node s resolve to a %Ying/(pa/th)
+            $tpath = &to,{
+                $jo = toy&R;
+                $N = me.cby(jo,&r{
+                    return rc&s == Rc&s
+                });
+                N[0].c.s != Rc&s and throw "!^^%Ying"
+                N.shift();
+                N = N.filter(r => rs&ball);
+                !N.length and throw "!tpath"
+                return N.map(r => r.t).join('/')
+            };
+            $fromt = tpath(r);
+            # C:from/C:to/row
+            # grouped by where they're going
+            # with c&el=9
+            $ing = sy&etos ||= Cye([fromt,1]);
+            $gone = (ings&z||[]).slice();
+            each in eto {
+                $to = ns&eto;
+                # %%eto=1 means to the step
+                to == 1 and to = p
+                # select s given p/r/s
+                $jo = toy&R;
+                to = joc&s;
+                
+                $tot = tpath(to);
+                $h = fio(ing,tot);
+                $gi = gone.indexOf(h);
+                if (gi >= 0) {
+                    gone.splice(gi,1);
+                    # new bunch of rows
+                    hs&z = [];
+                }
+                
+                hs&to = to;
+                hs&from  = s;
+                ac(h,'z',n);
+                
+            }
+            # revoke
+            gone .map(&h{
+                !fio(ing,h.t,0) and throw "notnt"
+                if (hc&el != 9) {
+                    hs&current = h;
+                    hc&el = 9
+                }
+            });
+            # brackstill version off the previous
+            me&ioty,ing .map(&h{
+                hs&vers ||= [];
+                #!
+                if (hc&el != 9) {
+                    $la = hs&vers.slice(-1)[0];
+                    $cha = me&brackstill,r,h,la;
+                    if (cha) {
+                        delete hs&accepted_boring;
+                        # clone into vers[], h/* replaces
+                        hs&vers.push(Cye(h));
+                        #~>3 newvers: h.t
+                    }
+                    hs&current = hs&vers.slice(-1)[0];
+                }
+                !(hs&from || !hs&to) and throw "!to|from"
+                if (hs&accepted == hs&current) {
+                    # remove here once they accept 9ing it
+                    if (hc&el == 9) {
+                        ~>2 GC: h.t
+                        fio(ing,h.t,9)
+                    }
+                    $neu = !hs&accepted_boring;
+                    hs&accepted_boring = 1;
+                    neu and ~>3 hoistcept: h.t, '<-', fromt
+                }
+                else {
+                    # asking %Ying to transport
+                    R&ha,{etos:h,s,fromt}
+                    !cha and ~>3 oldnews: h.t, '<-', fromt
+                }
+            })
+        }
+        # $to %%efrom marked as accepted
+        #  relaxes $from sending it
+        me.etos_7 = &acgtRprs{
+            $ef = sy&efroms;
+            !ef and return
+            $gone = [];
+            me&ioty,ef .map(&fo,{
+                $h = fos&etos;
+                hs&accepted = fos&using;
+                hc&el == 9 and gone.push(fo); return
+                # something in the way it is now?
+            })
+            gone.map(fo => fio(ef,fo,9))
+        }
+        # Ying %%etos
+        #   -> $to sy&efroms
+        #   -> Ying%%waits:eto,wants:$to
+        me.etos_8 = &acgtR{
+            $froms = R&jaa,'etos';
+            froms.map(&n{
+                # ho = to with s&current from &node_hoist
+                !ns&fromt and throw "!fromt"
+                $h = ns&etos;
+                $to = hs&to;
+                $jo = toy&R;
+                to = joc&s;
+                # efroms - for|on the to node path
+                $ef = toy&efroms ||= Cye([h.t,1]);
+                ef.t != h.t and throw "misnodepath"
+                #  /$fromt - the from node path
+                $fo = fio(ef,ns&fromt);
+                fos&etos = h;
+                # jo tidies efroms, once el=9 accepted
+                # send attention
+                R&ha,{waits:'eto',wants:to}
+                
+                ~>5 efroms hoisting: ef.t, '<-', fo.t
+            });
+        }
+   

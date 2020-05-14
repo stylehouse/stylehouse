@@ -1,0 +1,229 @@
+# lines of characters, etc
+  // Textl
+    # follows the universal plant-in-the-lobby pattern:
+    #   headings followed by empty lines do not a chunk make
+    # < all known limitations involve io-happy regroup:
+    # < joining b in ((...,0),(1,2,2,1,2,2,1):b):a
+    #    esp if a > 80, we could look harder
+    #    b is otherwise 3 chunks, none big enough, also:
+    # < pre|post-amble, braces or comments, if gap beyond
+    #   (1,2,2,1),0,(1,2,2,1)
+    # see &chunksoflines various < 20 for some stumbling into:
+    # < play with which being open gives near 100 lines
+    #   or 100 lines per 1000 lines, or so
+    # < when aging/inserting folds,
+    #     open those the cursor/diff is mostly in
+   // cm side
+    # all at once
+    #   no memo, usu rarely happens via s&valuecha()
+    me.cm_chunksfold = &acgt,cm,z{
+        z ||= Cye([C.t,1,{s:cm.getValue()}]);
+        $lines = zc&s.split("\n");
+        # not the osc C?
+        z == C and z = Cye(['lod',1]);
+        # split that up
+        !zs&chunks and me&chunksoflines,z,lines;
+        # the existing marks
+        $ope = me&cm_foldmap,cm
+        # adjust to C
+        me&cm_foldCode,z,ope,cm;
+        return z
+    }
+    # our chunks match|make a fold
+    # < z**%ope=1/0, changing what is
+    # < top-down lazily, %open/%closed/* to instantly:
+    #   pop open, yet close more chunks within that
+    #    (closing a then a/b opens a)
+    me.cm_foldCode = &acgtz,ope,cm{
+        $found = [];
+        #$topdown = zs&chunks.slice().reverse();
+        each is zs&chunks {
+            $f = ope[ss&line];
+            f and fy&chunk = s
+            elsif (ss&proper) {
+                # this checks again that fold makes sense
+                $fo = cm.foldCode(CodeMirror.Pos(ss&line,0));
+                found.push(fo)
+                !fo and continue
+                nofo = 0
+                # doesn't make an $f
+                # open widgets
+                me&cm_mark_refoldable,fo,cm;
+            }
+        }
+        # see stylehouse/CodeMirror.git 0a8f8455f2d48
+        #  you might also findMarksAt after !cm.foldCode
+        found.length && !found.filter(n => n).length and ~>5 cm_foldCode none found:
+    }
+    # current folds by line, inc open if refold marked
+    me.cm_foldmap = &acgt,cm{
+        $M = cm.getAllMarks()
+        .filter(n => n.__isreFold && n.otherend || n.__isFold)
+        .map(&n{
+            $pos = n.find();
+            n.otherend and pos = {from:pos,to:n.otherend.find()}
+            return Cye(['fold',1,{},{mark:n,
+                line: pos.from.line,
+                toline: pos.to.line
+            }])
+        });
+        $ope = {};
+        each if M {
+            ope[fs&line] = f
+        }
+        return ope
+    }
+    # an open fold having close buttons at each end
+    me.cm_mark_refoldable = &acgtm,cm{
+        $refoldable;
+        refoldable = &m{
+            m._handlers and delete m._handlers.clear;
+            m.on('clear',&from,to{
+                !(from && to) and return ~>5 lost fold:
+                $N;
+                $foldagain = &{
+                    $pos = N[0].find();
+                    N.map(n => n.clear())
+                    !pos and return
+                    ~>3 foldat: pos.line
+                    $fo = cm.foldCode(pos);
+                    !fo and return ~>5 lost refold:
+                    refoldable(fo);
+                };
+                N = [from,to].map(&l{
+                    $sym = l == from ? "\u21A6" : "\u21A4";
+                    $widget = $('<n>'+sym+'</n>')
+                        .on('click',foldagain)
+                        .css('float','right')
+                        # < clickable large floaty things...
+                        #.css('font-size','280%')
+                        .css('color','#7c9')[0];
+                    $lop = cm.setBookmark(l,{widget});
+                    lop.__isreFold = 1;
+                    return lop;
+                });
+                N[0].otherend = N[1]
+            })
+        };
+        refoldable(m);
+    }
+   // lines side
+    # s/$c**, also s%chunks = [c in reverse (depth first)]
+    me.chunksoflines = &acgts,lines{
+        # starting from s = the whole document!
+        ss&line = 0;
+        ss&toline = lines.length-1;
+        # i $s/$c each divisible chunk
+        $N = me&indo,s,{dl:15} (&sd{
+            # keep small chunks, no further
+            #ss&toline-ss&line < 20 and return s
+
+            me&chunkchunksoflines,s,lines;
+            !ss&z and throw "nochunks"
+            
+            # drop small chunks
+            ss&z.filter(c => 1+cs&toline-cs&line < 20)
+                .map(c => me&fiu,s,c,9 );
+            # and any one chunk same as the parent chunk
+            ss&z.length == 1 && ss&z
+            .filter(c => cs&line == ss&line).map(&c{
+                cs&toline != ss&toline and throw "was shorter"
+                me&fiu,s,c,9
+            });
+            return s
+        });
+       // etc
+        # assign their substrings 
+        N.map(&s{
+            #ss&string = lines.slice(ss&line,ss&toline+1).join("\n");
+            ss&lines = 1+ss&toline-ss&line;
+            ss&lines < 20 and delete ss&proper
+        });
+        $rev = N.slice().reverse();
+        
+        # size supposing s/*%folded are each 1 line
+        rev.filter(s => ss&proper).map(&s{
+            ss&size = ss&lines;
+            ss&z .filter(c => cs&proper).map(&c{
+                ss&size -= cs&lines-1;
+            });
+            if (ss&size < 20 && 
+                !(ss&size > 5 && ss&heading))
+                delete ss&proper
+        })
+        ss&chunks = rev;
+    }
+    # i $s/$chunk+
+    #  relating s%(to)lines -> lines
+    me.chunkchunksoflines = &acgts,lines{
+        $chunk = &sil{
+            $c = Cye(['chunk@'+i,1]);
+            cs&line = l;
+            me&fiu,s,c;
+            return c
+        }
+        $c = null;
+        $i = 0;
+        $li = ss&line || 0;
+        $laindent = ss&indent || 0;
+        $ltoindent = {};
+        while (lines[li+i] != null) {
+            $l = lines[li+i];
+            $indent = ltoindent[li+i] ||= l.match(/^(\s*)(.*)$/);
+            $stuff = indent[2];
+            indent = indent[1].length;
+            $p = c;
+
+            # level this chunk is based at
+            $cind = c && cs&indent || 0;
+            # remaining at s's indent is not c-worthy
+            !c && ss&line && indent == ss&indent and i++; continue
+            else
+            !c and c = chunk(s,i,li+i)
+            else
+            !i and throw "i=0"
+            else
+            # not minding empty lines
+            !stuff and indent = laindent; 'grow'
+            else
+            stuff[0] == '#' && indent == cind and 'grow'
+            else
+            # (1,2),(1) or (2,3),(1)
+            if (cind == indent && indent < laindent
+                || cind > indent) {
+                c = chunk(s,i,li+i)
+            }
+            else
+            # (1,1),(2) -> (1),(1,2)
+            if (cind < indent && laindent <= cind
+                && (ps&toline - ps&line > 0
+                    || ps&line == ss&line)) {
+                c = chunk(s,i,li+i);
+                cs&laindent = laindent;
+                if (ps&line != ss&line && laindent != ss&indent) {
+                    # borrow the 1, or start indent from here
+                    cs&indent = laindent;
+                    ps&toline--; cs&line--;
+                }
+            }
+            else
+            # chunks with something further inside will cm.doFold
+            #  unless they're /^#/, no prob
+            # ie only the (1,2) of (1,1,1),(1,2)
+            indent > cind and cs&proper = 1
+            
+            if (p != c) {
+                $lindo = ltoindent[cs&line];
+                lindo[2][0] == '/' and cs&heading = 1
+            }
+
+            if (cs&indent == null) {
+                cs&indent = indent
+            }
+            cs&toline = li+i;
+            cs&toline >= ss&toline and break
+            laindent = indent;
+            i++;
+        }
+    }
+

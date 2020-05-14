@@ -1,0 +1,2824 @@
+# F > i/o > input/output
+$io = ar.io || {}; # a bunch!!
+
+# a limb
+io.F = &s,d{ return G&way,'PseudoF',{s:s,d:d,io:io} };
+
+# the base datatype
+# see also G&datam and C
+io.isC = &s{
+    return s && typeof s == 'object'
+        && s.t != null && s.y && s.c && s.sc
+}
+=these will all be G&F, G&o, G&i...
+
+round until found
+
+ other possible types of thisness:
+ - G&s for writing notes for itself
+   using traces left by i/oing etc nearby
+   doing crazy implicit templating
+   throwing universal weight around
+  also s is where situations are strategised on...
+
+=q[
+
+   on-name symbols:
+     -name deletes
+     @name referring to other name, from func or plumbing
+     #name just t/cv of v, which is doesn`t have to be set to
+     $name is a var parameterised into the call
+  
+   inbetween bits:
+     { code code s&look }:name
+       Babz auto return in sub`s last line
+       prepend arkfor: for just the ark (named column) 'arkfor'
+     function/doof becomes/is a column
+     greps if not named or named grep
+     gets fed all unique objects once if no arkfor:, as C
+     
+     
+     y
+       cloning the C as it moves over
+       forget about using its .y.tv tho, see perspective
+     yC,o
+       means cloned.y.C = origin, origin.y.o = cloned
+       and these have some knownness,
+       should always be able to go C-ward?
+     y-
+       cloning C but disconnecting them from things we dont take with us
+     
+  on iteration:
+    basically, get an iterator object:
+      $t = io.nz()
+    setup from T.o, the last i/o $d
+    flat map like G&ind:
+      t.ind(&s,t{ [t.d,s] })   # [ [depth,C]+ ]
+      t.ind(&s,t{ ki(s) })     # [indented toLinesish]
+    iterate rows:
+      shift each ay.sc.$k (before nz())
+      t = t.more() # named columns in t.sc.$k
+    see code about grouping nonarks as arrays
+    
+    while(ar=t.more()) it
+    or use Duning S with io in it
+      which will be most of the time!
+      the new way.
+      once subnetting S so Swhiles of io can
+        be used instead of for, each, etc.
+        and the data-picking-through excercise can compile for specifics
+    the $t then the cursor, which S shall:
+      take care of, and:
+        Babz: set vars from ar
+        S: hold the cursor while J6s exchange, see J6ing
+    
+    < getting the corresponding p? who cares
+    
+    function should be able to set the ind fu
+    
+  
+  J6ing
+    a J6 is a J attempting to do itself,
+      or something to do with itself, about dome consciousness
+      and s if it works, like a commit
+        or works enough for an s-level wake, like a savepoint
+          and s should be the total picture of the game being J`d
+    a J<6 is deciding on J6,
+      doing small things, like e,
+      then working out desire/skip/sleep potential,
+        sometimes working on only such domes,
+          but such work is J6ing.
+    
+    but 
+  
+  < pipelining, a rattley flood of A:o would...
+      esp if they push certainty on each other
+      as welding a long seam, its only a liquid for a little stretch
+      with a rolloff/on
+  
+  other stuff:
+  < specialise #things spacer creation (with a doof)
+    what about loose matches?
+      low levels want to take callback/expression?
+      and how to steer the search nearby,
+        or use datetime to seek when it was
+        or where else in the schema it might have disappeared to
+        if O knows when it disappeared?
+  
+    p could be C or A, etc,
+      is more shapely and langholdey than rows
+      they offer an alternative positioning system,
+        according to the new gravity cast on it.
+    and turn into A:o, a self-similar data-holding foam
+    p could become o@3 compatible
+    
+    p could become aware of what's around what they're aware of,
+      and then -od, fields of data that
+      can show when stuff isn't on the screen changes
+    
+    d has now a sc for sc[k] = v (ar) when iterating,
+      and before iteration begins is ar[k] = [v+] for unique and true v
+    could be some kind of A:o then.
+    they will have to handle travelling between representation modes
+    A:o awakening is a process of walking through A&insides, A&clones
+    
+    this one is sc that is like ar[k] = v 
+    before iteration begins its ar[k] = [v+]
+
+#c docs continued
+  < write d>o instead of i $d/$o?
+     magnetics want to... ranking, raking...
+     for sorting the junkdrifts of culture
+
+     < completing this -fod now so it sees d before io
+       WHILE it`s an M thing would be something
+       we will often be populating a populated space,
+       starting a job with half the required information
+    
+
+     have a right to left flow, assigney
+       i {funclast} pointy/path {funcfirst} o ...
+     usu.
+     
+     functions map/grep
+     < making rows
+       do that via T? see via T
+     should happen before descent into the d.path
+       since values maybe sarked (@name) from what it does
+     
+     via T:
+        like Swim things, they say:
+          understand this name, then you look it up
+            and figure out how to work it
+          Core describes Knowables, like how to:
+            input/output such index
+            where/what/how it's going
+              where as in something in s should consume it
+              pretend to be a column or iterator
+              or it's rows/columns being added/replaced/removed
+          T percolate out like errors/warnings if they are too unknown
+             may have a part to it specifying where,
+                like swim is to-cv
+    
+   < tv only
+     z/tw as well are near/were working
+       self-healing/noticing weirdness,
+         know how change in indexing we didn't do should be trusted
+     z preferrable source of ordering
+   
+   < sorting, DIY
+   < other spacer modes...
+   
+F, a culture of grasping transforms and reductions
+on top of o, data formulae
+
+]
+=cut
+
+#c parsetalk
+# parse out bits into m
+$parse;
+    $m;
+    $p = &r,place{
+        m = parse.match(r);
+        !m and return
+        m.shift();
+        place and place = place.split('').map(&i{ return m[i] }).join('');
+        else { place = '' }
+        parse = parse.replace(r,place);
+        return 1
+    };
+
+$ta = G.tiestowe = [];
+
+
+# general branch lingo
+# something for C-together
+# < making sql
+# params written as if string interpolated:
+# they create/read object or some reduced idea of an object:
+# the column will/must have/match the given param's value/identity,
+# $o - value
+# #o - looser/vaguer/processed copy of $o
+#      like spacers, with only C.t=o.t
+# word - spacer of C.t=word
+
+# < want o to find the exact object, not it's identity?
+
+# < unless it names a universal (1s&bareword) or so,
+#   then use that. inner lingosanctum.
+io.parsetalk = &talk,params,d{
+    d ||= {};
+    parse = talk;
+    # do i ... for o ...
+    p(/ ((i|o) .+)$/) and d.plumb = m[0]
+    # plumb/upstream parses after us but runs before
+    p(/^(i|o) /) and d.is = m[0]
+    # absorb the o lop ^
+    talk = parse; 
+    
+    # Babz shall do params, see 'compile time' ^
+    d.path = []; # pa+
+    while (p(/^(\S+)\s*/)) {
+        # < '{}:m' -> params contains a &acgts{ map/grep/sort }
+        #   with implicit return lastline
+        #   whose value becomes a column
+        $path = m[0].split('/');
+        $outer = parse;
+        $pa;
+        $dpa = &eatparam,{
+            if (eatparam) { # bind param to path bit
+                pa.isparam ||= 1
+            }
+            d.path.push(pa)
+        };
+        each in path {
+            parse = n;
+            pa = {};
+            
+            #c grasp tokens
+            # so i $o/yap will not param=$o, separation=ap
+            $island = path.length == 1;
+            
+            # y clones C
+            if (island && p(/^((\w+:)*)(\*)?y(\S*?)(:\w+)?$/,'04')) {
+                m[2] and pa.everything = m[2] && 1;
+                pa.separation = m[3] || 1;
+            }
+            
+            # delete all innards without returning em
+            p(/-$/) and pa.delete = 'in';
+            p(/^-/) and pa.delete = 'out';
+            
+            # set var/name column from path bit
+            p(/:(\w*)$/) and pa.ark = m[0] || 1
+            # .../:whatsit -> .../*:whatsit
+            pa.ark && hak(pa) == 1 && parse == '' and parse = '*';
+            
+            # which ark specifically (usu all/sarked) to doof
+            while (p(/^(\w+):/))
+                 (pa.arkfor ||= []).push(m[0])
+            
+            # where-iations on glob
+            # on-a-pa function, talk for F-iltering
+            #   for .found on whatever step
+            #     abit{3/*{>1/*{c&of/*{s&of=i
+            # greffing
+            if (p(/^(.*)\{([^\s\}]+\S*)\}?$/,'0')) {
+                $nongref = parse;
+                $other = m[0];
+                pa.gref = m[1];
+                parse = pa.gref;
+                while (p(/\$(\w[\w\[\]\.]*)/)) {
+                    (pa.grefpara ||= []).push(m[0]);
+                }
+                # < for input (@ark{conditions) it wants to grep P after Pmod
+                #   like a last minute doof
+                if (other) {
+                    # < needs to hang off another step sometimes
+                    # p(...,'0') has left other in parse
+                    # it (pa) may have arks and go on to word etc.
+                    # < loosen any specificity we want to control
+                    #   word does glob_cv, for now
+                }
+                parse = nongref;
+                # implies globbing
+                parse == '' and parse = '*'
+            }
+            
+            # function
+            p(/^\{(\w+)?\}$/) and pa.doof = m[0]||1; dpa(1); continue
+            pa.separation and dpa(); continue
+            pa.arkfor and throw "arkfor non-doof"
+            # and use each of them
+            #   name moves to new position (ark)
+            p(/^@/) and pa.sark = 1; pa.ark ||= 1;
+            # can be i $i/@#dee/$fings o $o/*:dee
+            #   to copy spacers
+            
+            # get path bit/value of here from a variable:
+            # t-only/squish/shaded clone of C, or
+            # C itself
+            # when o the C will match itself/navigate onwards
+            # or i will input that squished C,
+            #   and/or ark/return,
+            #   and/or climb past it and input more stuff...
+            # sheer spacer, made for a C
+            #   eg where desired.t == wanted.t
+            p(/^(\w+)?#/) and pa.isparam = 1; pa.relative = m[0] || 1;
+            pa.sark and delete pa.isparam;
+            
+            # uses thing from params
+            p(/^\$/) and pa.isparam = 1
+            
+            pa.t = parse;
+            
+            # anything, anything deeply, anything something matches
+            if (pa.t[0] == '*') {
+                pa.glob ||= 1;
+                pa.t == '*' and // yep
+                else
+                pa.t == '**' and pa.wander = 1
+                else
+                p(/^\*(\w+)$/) and pa.wander = pa.wanderer = m[0] || 1
+                else {
+                    throw "wandery looking", pa.t
+                }
+            }
+            
+            pa.ark == '1' and pa.ark = pa.t;
+            
+            # value of here from a:
+            if (pa.isparam) {} # variable/param, bind later
+            else
+            if (pa.glob) {} # anything
+            else
+            if (pa.sark) {} # name of a column in d.plumb
+            else {
+                # words are the lumber of the algorithm
+                pa.word = pa.spacer = 1;
+            }
+            # low-resolution image of something, usu t and maybe cv?
+            pa.relative and pa.spacer = 1
+            dpa();
+        }
+        parse = outer;
+    }
+    parse and throw "io Unparsed", parse
+    
+    #c 2 grasp better
+    $fi;
+    each i,pa d.path {
+        # < many pathed fun, dimensions?
+        if (pa.sark && pa.isparam) {
+            # array of something, eg @#$names spacerises an array of t
+            pa.isother = 1;
+        }
+        if (pa.separation) {
+            $mode = pa.separation;
+            mode == '1' and mode = 'C';
+            parse = mode;
+            # how to clone depth
+            p(/\,$/) and pa.yshallow = 1;
+            p(/\-$/) and pa.yalone = 1;
+            # can yer through time, 'y' implies new.y.C = old
+            mode = parse.split(',');
+            mode[0] and pa.yto = mode[0];
+            mode[1] and pa.yfrom = mode[1];
+            pa.doof = 'separation';
+        }
+        if (pa.wanderer) {
+            $name = pa.wanderer;
+            each i,da d.path {
+                !(da.arkfor && da.arkfor.indexOf(name) == 0) and continue
+                da.hijacked = pa;
+                pa.hijacks = da;
+            }
+            !pa.hijacked && !io[name] and throw "no wanderer "+name
+        }
+        if (pa.wander) {
+            # implies shape may vary
+            d.partial = 1;
+            $rest = d.path.slice(i+1);
+            $sensible = rest.filter(&s{ return !pa.doof });
+            sensible.length and throw "Cannot unwander";
+            # < because row must fit path
+            #   be nice to find such cul de sacs after however far
+            #   that's really what we want in a little while
+            #   Arrays only kind of work with fractions, no indexOf it seems
+            #     or a many-celled cell could do it...
+        }
+        if (pa.gref) {
+            # parse gref, params bind their names (at compile time)
+            $para = (pa.grefpara || []).slice();
+            pa.grefd = io.gref([],pa.gref,para,{not:1});
+        }
+        !pa.doof && !fi and fi = pa
+    }
+    if (d.path.length == 1) {
+        d.path[0].separation and throw "mistook yword for separation?"
+    }
+    #c 3 implications create path
+    
+    # adds to either end of the non-doof steps of the path
+    # < near t/ool's rediff etc wanting similar operations
+    $patin = &t,s{ //}}
+        $la;
+        each i,pa d.path {
+            if (la && pa.doof) {
+                t == 'push' and return d.path.splice(i,0,s)
+                t == 'last' and return d.path[i-1]
+            }
+            elsif (!pa.doof) {
+                t == 'unshift' and return d.path.splice(i,0,s)
+                t == 'first' and return d.path[i-1]
+            }
+            !pa.doof and la = pa
+        }
+        d.path.push(s);
+    };
+    
+    # o word   implies   o A.r/word
+    $implicitground = &{
+        # seems to have something to look at already
+        $implicity = A.R || A.r || A.ground;
+        !implicity and throw "unreal beginning, no Ar"
+        # < may refer to a 1s&word?
+        #   Babz must collect & maybe deposit them all somewhere
+        #     would make good autodoc
+        #   and so Domes and other tatters of process can be
+        #   undef'd after a point, or to some sense....
+        pa = {t:'r',implicit:1,v:implicity};
+        patin('unshift',pa);
+        # should leave out of rows, being implied?
+    };
+    if (fi) {
+        # first non-doofer
+        fi.glob || fi.spacer and implicitground();
+    }
+    
+    # o $d   implies   o $d/*
+    if (d.is == 'o') {
+        !fi and implicitground()
+        if (!fi || d.path.length == 1 && fi.isparam)
+            patin('push',{t:'*',glob:1})
+    }
+    
+    # i $d o $o   implies   i $d/@s o $o/*:s
+    if (d.plumb) {
+        # < i $i/@#dee o $o/*:dee   to copy spacers
+        A.gottadebug and debugger;
+        if (!d.path.filter(&pa,{ return pa.sark || pa.wander }).length)
+            patin('push',{sark:1,t:'s'})
+        # or, if d.plumb (iterator) has no ark:s
+        #   < use path[-1] (default in d.plumb's h.Pmod's coli)
+        #     should be here, where language sorts itself out
+        # call it wruple, the wriggle of tuples
+        # or if we have arks that don't exists over there:
+        #   < find @lamb in $lambs/*
+        # done just in time out in various places...
+        # < other: io-ish syntax/tool these such operations ^
+    }
+    else {
+        if (d.is == 'o') {
+            # o ... y   implies   o y ...
+            $i = 10;
+            while (1) {
+                i-- < 1 and throw "many y..."
+                $pa = d.path.slice(-1)[0];
+                !pa.separation and break
+                d.path.push(d.path.pop());
+            }
+        }
+    }
+    # < without plumbing, i $d would do nothing?
+    
+    $before = 1;
+    $after = 0;
+    each i,pa d.path {
+        before && !pa.doof and before = 0; # path begun
+        !before && pa.doof and after = 1; # path finished
+        after && !pa.doof and debugger; throw "two bits of path? "+talk
+    }
+    
+    # 6/8 others, use up params
+    d.plumb and d.plumb = io.parsetalk(d.plumb,params)
+    
+    # 7/8 in rowing, with params
+    
+    # without plumbings on
+    typeof talk == 'string' and d.talk = talk;
+    
+    # 8/9
+    return d
+};
+
+#c doof: through function
+# is a join from the rows already, but pretending its not
+# adds a column for return value
+io.doof = &D,t,pa{
+    # supplied for pa.wanderer to pick atoms with
+    pa.hijacked and debugger
+    # take iterator
+    !t.more and t = io.nz(t)
+    if (pa.doof == '1') {
+        $cb = pa.v;
+        typeof cb != 'function' and throw "Not function", pa
+    }
+    else {
+        # eg separation, must return a t (post-nz())
+        return io[pa.doof](D,t,pa)
+    }
+    # copy schema, little else
+    $d = {};
+    d.talk = t.talk;
+    d.plumb = t;
+    d.path = t.path.slice();
+    # try use the doof column for function's return
+    $funci = d.path.indexOf(pa);
+    funci < 0 and d.path.unshift(pa);
+    # iterations vote for/against row and a cell: {
+    #   r: func return value
+    #   row: in t.rows[t.i]
+    #   s: in .row[i/t.d], the one unique object, the cell
+    #   i: t.d (depth) or t.path[i], the column
+    $inc = [];
+    $exc = [];
+    $doofings = []; # everything
+    if ('grepping or mapping') {
+        if ('uni') { # que objects, rhythm >= to rows
+            t.partial = 1;
+            t.ind(&s,t{
+                # C the item, s the iterator, to them
+                !isC(s) and throw "doof-grep-ind got !C s",s,t.row;
+                $si = t.row.indexOf(s);
+                si < 0 and throw "s not in trow?",s,t.row
+                $sa = t.path[si];
+                if (pa.arkfor) {
+                    # only those for this y
+                    pa.arkfor.indexOf(sa.ark || sa.t) < 0 and return
+                }
+                
+                $was = {t:s.t,y:{cv:s.y.cv}};
+                $r = cb(A,s,G,T,t);
+                
+                # did they change its index?
+                # < replace with r if isC?
+                if (was.t != s.t || was.y.cv != s.y.cv) {
+                    $sup = t.row[si-1];
+                    sup && isC(sup) and io.replace(sup,s,was,{zcareful:1});
+                }
+                
+                $doofing = {
+                    r: r,
+                    row: t.row,
+                    s: s,
+                    i: t.d,
+                };
+                doofings.push(doofing);
+                (r ? inc : exc).push(doofing)
+            });
+        }
+        else {
+            throw "wants rows or the/other arks";
+            # changing path/arks means another iterator?
+            # or we just change em, t = nz(t)
+        }
+    }
+    else {
+        throw "mapping, doing, regrouping, signal gen, who knows"
+    }
+    # inc-ings vs exc-ings
+    # to dedupe itering objects on the same row,
+    # < pick the row that describes more matches at once?
+    #     to avoid talking about stuff that didn't match?
+    # < nonfirst objects on a row lose their return value,
+    #     since we only have one doof column for it
+    #     shapeliness problem
+    #   assume they will use d.objects and d.returns
+    #   
+    #   < rowing itself should use input/output
+    #     so any shapeliness problem can escalate and solve itself:
+    #     nonfirst objects return values:
+    #       could have column types,
+    #       make the doof an array referring to other columns?
+    #      so it can get really complicated,
+    #      methods for schema/data
+    #      ways of partitioning problems and stats near
+    # anyone says yes
+    # < we could tally results a bit
+    #   before deciding how we are operating
+    #     if they all seem boolean
+    # < maybe they should pick the best one along the row?
+    #   ie if we're looking for music, the live streams deep
+    #     within the music collection should win
+    # < the comp for attention
+    d.objects = [];
+    d.rows = [];
+    d.returns = [];
+    $la;
+    each i,r inc {
+        d.returns.push(r.r);
+        d.objects.push(r.s);
+        r.row == la and continue
+        !r.r and continue
+        la = r.row;
+        $row = la.slice();
+        funci < 0 and row.unshift(r.r)
+        else {
+            row[funci] = r.r
+        }
+        d.rows.push(row);
+    }
+    return io.nz(d)
+};
+
+#c separation - cloning process
+# pa is from a D.path consuming this t
+# happens as a firstfunc
+io.separation = &D,t,ya{
+    # another iterator
+    $d = {};
+    d.talk = t.talk;
+    d.plumb = t;
+    d.separation = 1;
+    # which should have clones
+    # we could know how separatey things want to be,
+    # doof tends to run over everything/all depths,
+    #   meaning we may have to clone for it
+    # < compile what's moving where in the path,
+    #   to give doof etc an orderly grasp of whats what
+    #   path being atoms/doofiness stays runny, resolves in a few places
+    # see "universals can want attention"
+    # see also "no find ark/column" for when they ...
+    if (!ya.arkfor) {
+        # defaults to stuff @heading Downstream
+        # < less column access ugliness
+        #   repeating special cases for s
+        # < imply .../@s when/how exactly?
+        # < .../@s or @jhon or nothing should match .../jhon
+        # < column accessors, knowing where looking from/through/to  
+        ya.arkfor = [];
+        $yai = D.path.indexOf(ya);
+        each i,Pa D.path {
+            Pa == ya and break
+            # name wanted
+            Pa.sark and ya.arkfor[i] = Pa.t
+            else
+            # name provided downstream
+            if (Pa.ark && Pa.doof)
+                ya.arkfor = ya.arkfor.filter(&s{ return s != Pa.ark });
+        }
+        # make sure each sark we are adapting an arkfor from
+        $arks = ya.arkfor.filter(&s{ return s });
+        if (arks.length) {
+            each i,pa t.path {
+                $ai = arks.indexOf(pa.ark || pa.t);
+                ai < 0 and continue
+                # is there
+                arks.splice(ai,1);
+            }
+        }
+        if (arks.length == 1) {
+            # find @lamb in $lambs/*
+            $si = t.arky.indexOf('s');
+            $k = t.arky[si-1];
+            if (k == arks[0]+'s') {
+                $ta = t.path[si];
+                ya.arkfor = [ta.t];
+                !ta.glob and debugger;
+                arks.shift();
+            }
+        }
+        if (arks.length == 1 && arks[0] == 's') {
+            # @s defaults to their last column,
+            #   which defaults to being named s only aft realise()
+            $la = t.path.slice(-1)[0];
+            la.doof and throw "they doof, looking for s, make column accessors"
+            ya.arkfor[t.path.length-1] = la.t;
+        }
+        else {
+            arks.length and debugger; throw "sarks unfound over there: "+arks.join(', ')
+        }
+        !arks.length and delete ya.arkfor
+    }
+    
+    if (!t) {
+        # funcfirst y, D.plumb would be t
+        D.plumb and throw "funcfirst y !t D.plumb"
+        if (D.is == 'o') {
+            # is alias for funclast y, in parsetalk
+            throw "o funcfirst y"
+        }
+        else {
+            $first = 1;
+            each i,Pa D.path {
+                Pa.doof and continue
+                first and first = 0; continue
+                !io.isC(pa.v) and continue
+                pa.v = io.separate(pa.v,Pa,Pa,ya)
+            }
+        }
+        # remain !D.plumb
+        return null
+    }
+    
+    d.path = t.path.slice();
+    d.rows = t.rows.slice();
+    each i,row d.rows {
+        row = d.rows[i] = row.slice();
+        # 'var la' doesn't reset its value to undefined
+        $la = null;
+        each is row {
+            $pa = t.path[i];
+            $Pa = d.path[i];
+            # is s real?
+            !io.isC(s) and continue
+            $sup = la;
+            la = s;
+            # is s wanted?
+            if (ya.arkfor) {
+                # only those - arkfor keyed by sark in D path, not t/d path
+                ya.arkfor.indexOf(pa.ark || pa.t) < 0 and continue
+            }
+            $sepi = ya.separates && ya.separates.indexOf(s);
+            if (sepi >= 0) {
+                # check if we did so already, as rows multi left joins
+                la = ya.separated[sepi];
+                !la and throw "already separated"
+                row[i] = la;
+                continue;
+            }
+            # not the first thing, or not
+            # < does i $neu/** y, o $old/** work?
+            #!sup && A.deyug and debugger;
+            !sup && !ya.everything and continue
+            # < separate other things,
+            #   even indexes themselves,
+            #     with new hash leading to changes, like git
+            la = row[i] = io.separate(s,Pa,pa,ya,D,sup);
+            # make a random note
+            (ya.separated ||= []).push(la);
+            (ya.separates ||= []).push(s);
+            # now (and after doofing), the la must replace s
+        }
+    }
+    
+    #A.debug and debugger;
+    return io.nz(d)
+};
+#c separate
+# could get complicated soon...
+# universals can want attention here
+io.separate = &s,Pa,pa,ya,D,sup{
+    # Pa - io going to's path bit
+    # pa - io coming from's path bit
+    # ya - the .separation path bit
+    ya ||= {};
+    ya.olds ||= [];
+    ya.neus ||= [];
+    $old = s;
+    $neu; # may already be:
+    $oi = ya.olds.indexOf(old);
+    oi < 0 and oi = ya.olds.push(old)-1;
+    else {
+        $neu = ya.neus[oi];
+        !neu and throw "olds/neus confuse"
+        return neu
+    }
+    
+    $neu = G&Cye,old;
+    ya.neus.push(neu)-1 != oi and throw "olds/neus differ"
+    
+    # < what to do with its innards
+    if (ya.yshallow) { # y,
+        # only the top clones, keeps all innards
+        #   whether path includes their depths or not
+        # Cye only rebuilds the C, not structures in it
+        #   since not replacing them
+        # < care about universals and how to move them around
+        io.reindex(neu);
+        # < to the bits
+        #$D = {asa:'tv',pa:ya};
+        #io.reindex(neu,D);
+    }
+    else
+    if (ya.yalone) { # y-
+        # disconnect innards
+        # < elabourate input()
+        io.deindex(neu);
+    }
+    else { # y
+        # clone everything
+        $wanders = D.path.filter(&pa,{ return pa.wander }).length;
+        if (!ya.arkfor && wanders) {
+            # ying everything, **ing above
+        }
+        # < more avoidance depending on how things move
+        elsif (io.deindex(neu)) {
+            i $neu/** y- o $old/**
+        }
+    }
+    
+    if (sup) {
+        # < knowiung 
+        if (D.is == 'i' &&
+            D.path.slice(0,D.path.indexOf(ya))
+            .filter(&s{ return !s.doof }).length) {
+            # we're going into an i, which will place things
+        }
+        else {
+            # for s into sup (the s above, Row[i-1])
+            io.replace(sup,neu,old,{zcareful:1});
+        }
+    }
+    
+    ya.yto and neu.y[ya.yto] = old
+    ya.yfrom and old.y[ya.yfrom] = neu
+    
+    return neu
+};
+#c rowing: travel d.path for i/o hooks
+# < able to async, when A:o things
+io.rowing = &talk,params,d,h{
+    # should be compiled (on hut) so talk is still up front
+    if (d && d.path) {
+        typeof d != 'object' and throw "dnotob"
+        typeof talk != 'string' and throw "talknotstring"
+        d.talk = talk;
+    }
+    else
+    if (typeof talk == 'object') {
+        # d already, if compiling enough (sjson(io.parsetalk()))
+        # or we are plumbed in to something that parsed our talk
+        d and throw "talkref + d"
+        d = talk;
+    }
+    else {
+        # d sometimes passes through
+        d ||= {};
+        h.is && !d.is and d.is = h.is
+        io.parsetalk(talk,params,d);
+    }
+    !d.talk and throw "no dtalk"
+    !d.path and debugger;
+    #throw "no path"
+    
+    #c plumbindoofins from somewhere
+    # bind params nowish so parsetalk can be compiletime
+    
+    # bind params
+    each i,pa d.path {
+        if (pa.isparam) {
+            !params.length and throw "Not enough params", pa.t, pa, d
+            pa.v = params.shift();
+        }
+        if (pa.grefpara) {
+            $m = pa.grefparam ||= [];
+            each i,para pa.grefpara {
+                !params.length and throw "Not enough grefparams", para, pa, d
+                m.push(params.shift());
+            }
+        }
+        # checks requiring params
+        if (pa.doof) {
+            !(pa.separation || pa.isparam) and throw "Doof no param"
+            $known = pa.doof;
+            if (known == '1') {
+                typeof pa.v != 'function' and throw "expecting doof",pa
+                # doof(acgts) each thing, or so
+            }
+            else {
+                typeof known != 'string' and throw "expecting doofstring",pa
+                !io[known] and throw "dont have doofer io."+known
+                # get thing to peel it already?
+                # then these d can be compiled in
+            }
+        }
+    }
+    
+    # do upstream first, after params taken
+    if (d.plumb && !d.plumb.more) {
+        $b = d.plumb;
+        !b.is and throw "no plumb.is, i/o?"
+        b.is != 'o' and throw "plumb not o"
+        d.is != 'i' and throw "plumb to not i"
+        # compile-time
+        d.not and b.not = 1
+        # make the call
+        io[b.is](b,params);
+        # have the iterator
+        #   or hold on to b again until $d is runtime (!not)
+        d.plumb = d.not ? b : io.nz(b);
+    }
+    # 7/8 sanity on dials, exact traction
+    params.length and throw "Too many params", params
+    
+    if (d.not) {
+        # compile-time does:
+        # $d = io.i(talk,params,{not:1})
+        # changing the call to:
+        # 'io.i(talk,params,'+sjson(d)+')'
+        # so the more we can smart/moving part before now the better
+        delete d.not;
+        each i,pa d.path {
+            pa.isparam and delete pa.v
+            pa.grefparam and delete pa.grefparam
+        }
+        return d
+    }
+    
+    # firstfuncs happen first, become upstream
+    $i = d.path.length-1;
+    while (d.path[i]) {
+        $pa = d.path[i];
+        # < support for mid-path doofing
+        #   could decide what to put after finding options for where
+        !pa.doof and break
+        !(d.plumb || pa.separation) and throw "firstfunc !y no plumb",pa
+        # new iterator replaces old
+        # may have minimal kind of $d, no .talk
+        # should have path/rows + ability to nz()
+        d.plumb = io.doof(d,d.plumb,pa);
+        i--;
+    }
+    #c d.plumb rowmuddler -one iterator multiplying itself in at several points
+    if (d.plumb) {
+        $t = d.plumb;
+        # pa.sark and pa.v = their rows's ark
+        # their (o's) rows are stitched in to ours
+        #  < sarkumulative grouping... instruct a vals=[],valis=[]
+        
+        # P = [p], p.row = our row
+        # p.pa be diverged from the one in d.path itself,
+        #   so to split their pa.v (value entering/space identity)
+        h.Pmod = &d,p,P,pa{
+            !P[0].row and throw "must be iterating the p.rows"
+            P.length > 1 and throw "already multiplying row?"
+            # if next bit of our path is sarky or wandery
+            !(pa.sark || pa.wander) and return P
+            # ^ is the P[0].pa also
+            # last sark thing has more rows
+            $la;
+            # climb p.up:
+            $pS = p;
+            while (pS && !la) {
+                pS.pa && pS.plumbpa and la = pS
+                else
+                pS.plumbpa and throw "plumbiplied above with no pa", pS
+                pS = pS.up
+            }
+            # ^ an io for that
+            #   could it be t? a three-t? protocol, I and t (and direction?)
+            #   are these d/p things protocols? or dialings?
+            $R = [];
+            each ib P {
+                # inject multiplicity into directions taken on the path
+                $rows;
+                if (la) {
+                    !la.pa and throw "last sarking p without pa",la
+                    !b.row[la.i] and throw "our row misses the last sark", b.row, la.i
+                    !la.pa.rows and throw "last pa.sark didn't set pa.rows", la
+                    # just their rows this row at that point dove into
+                    rows = la.pa.rows
+                }
+                else {
+                    # all they say
+                    rows = t.rows;
+                    # complete rows
+                    if (!(d.partial || t.partial))
+                        rows = rows.filter(&row,{ return row.slice(-1)[0] })
+                }
+                
+                # la.column
+                # eat their rows:
+                # < hook to select what? around column accessors
+                $coli;
+                if (pa.sark) { # as named
+                    # locate sark as ark of theirs
+                    # column number, for in d.path/p.row (G/W)
+                    # < try making this t.arky
+                    coli = t.arks.indexOf(pa.t);
+                    coli < 0 && pa.t == 's' and coli = t.path.length-1
+                    if (coli < 0) {
+                        # implicitly s after plural of what we want
+                        # if it's 'lamb' and they have 'lambs/*', s is a lamb
+                        $si = t.arky.indexOf('s');
+                        $k = t.arky[si-1];
+                        k == pa.t+'s' and coli = si
+                    }
+                    coli < 0 and throw "no find sark/column for",pa.t,t.arky
+                }
+                else
+                if (pa.wander) { # as they are
+                    coli = la && la.plumb_coli;
+                    if (coli == null) {
+                        # our/their first wander,
+                        # < plumbing sarks, then wandering the rest
+                        each i,opa t.path {
+                            opa.wander and coli = i * 1; break
+                        }
+                    }
+                    else { coli = coli + 1 }
+                }
+                
+                # for uniq sarked values, group unsarked (so far)
+                #   on b.pa.rows next sarking inward
+                $vals = []; # coming out here, to a pa.v
+                $valis = []; # corresponding further branches (rows)
+                each ir rows {
+                    $v = r[coli];
+                    $vi = vals.indexOf(v);
+                    if (vi < 0) {
+                        vi = vals.push(v)-1;
+                        valis[vi] = [];
+                    }
+                    valis[vi].push(r);
+                }
+                b.plumbiplied = vals.length;
+                b.plumbpa = t.path[coli];
+                b.plumb_coli = coli * 1;
+                
+                # multiply b by possible vals
+                $B = b;
+                each iv vals {
+                    b = ex({},B);
+                    b.pa ||= d.path[b.i];
+                    b.pa = ex({},B.pa);
+                    # b.row needn't clone?
+                    
+                    b.pa.v = v;
+                    $rows = 
+                    b.pa.rows = valis[i];
+                    if (v == null) {
+                        pa.wander and continue
+                        #debugger;
+                        #throw "nullish v! for rows",b.pa.rows
+                    }
+                    else {
+                        #~>78 plumba: ki(b.row), ki(v,3)
+                        R.push(b)
+                    }
+                }
+            }
+            p.plumbiplies = R.length;
+            
+            return R
+        };
+    }
+    #c isother pa.Pmod, array for pa.v
+    each i,pa d.path {
+        !pa.isother and continue
+        pa.Pmod and debugger
+        pa.Pmod = &d,p,P,pa{
+            !pa.isother and debugger
+            # < might mean one bit of v per incoming row...
+            P.length > 1 and throw "already multiplying row?"
+            # < v func? C packet of expanding foam to let off here?
+            $vals = pa.v;
+            !(vals && typeof vals == 'object' && vals.constructor == Array) and debugger
+            
+            $R = [];
+            each ib P {
+                # multiply b by possible vals
+                b.otheriplied = vals.length;
+                $B = b;
+                each iv vals {
+                    b = ex({},B);
+                    b.pa ||= d.path[b.i];
+                    $ba = b.pa = ex({},B.pa);
+                    if (!ba.relative && typeof v == 'string') {
+                        # @$strings wanting consciousness?
+                        # < 'get me a 2-94'
+                        # make word, but via relative string v
+                        ba.word = 1;
+                    }
+                    b.pa.v = v;
+                    R.push(b);
+                }
+            }
+            b.otheriplies = R.length;
+            return R
+        };
+    }
+    each i,pa d.path {
+        typeof pa.v == 'number' and pa.v += ""
+    }
+    
+    #c beginning
+    h.first ||= &{};
+    h.found ||= &{};
+    $first = 1;
+    $col = &q,p{
+        p ||= {};
+        p.i ||= q ? q.i+1 : 0;
+        $pa = p.pa || d.path[p.i];
+        !pa and throw "No pattern!: "+p.i
+        # Pmodding new pa for multiplying laters will change pa,
+        #  to create space to hold values insisted in pa.v
+        #  but later path must keep this multiplicity,
+        #   so eg pa.word which does pa.v = C pa.v 1,
+        #    doesn't happen again, when pa.v is not string
+        # < pa.v should be on the path-happening part (p)
+        pa != d.path[p.i] and d.pamultiplies = 1
+        else
+        d.pamultiplies and pa = p.pa = ex({},p.pa)
+        
+        
+        if (pa.relative) {
+            # relative spacers use the t+cv (space) of their param
+            # < are likely to not replace?
+            pa.vorig = pa.v;
+            # < we could assume it's lvish + delete etc through here?
+            #     and fraction ranges, via .y.in/out points instead
+            #   .spacer wants to alienate the from C,
+            #   but .relative assumes the C is already
+            #   alien and for this operation?
+            if (io.isC(pa.v)) {
+                pa.v = G&Cye,[pa.v.t,1];
+            }
+            else {
+                if (typeof pa.v == 'string') {
+                    # < something@4, stuff>3
+                    #!pa.sark and throw "!isC !sark relative string pav",pa,pa.v
+                    pa.v = G&Cye,[pa.v,1];
+                }
+                else {
+                    throw "!isC relative pav",pa,pa.v
+                }
+            }
+        }
+        if (pa.word) {
+            # not expecting the word to be called another word,
+            # see case of pa.v string in relative
+            if (pa.v != null) {
+                typeof pa.v == 'string' and // word(s) called another name
+                else {
+                    # should be C?
+                    !(pa.isC ||= io.isC(pa.v)) and throw "word with pa.v, not string or C",pa
+                }
+            }
+            else {
+                pa.v = pa.t;
+            }
+            if (typeof pa.v == 'string') {
+                $tys = pa.v.indexOf('@');
+                tys < 0 and pa.v = G&Cye,[pa.v,1]; pa.glob_cv = 1;
+                else {
+                    pa.v = G&Cye,[pa.v.slice(0,tys),pa.v.slice(tys+1)]
+                }
+            }
+        }
+        
+        if (pa.doof) { # not a real step
+            # lastfuncs at beginning of path
+            #  - happen just before this io returns
+            # firstfuncs at end of path
+            #  - happen before we started, are now d.plumb
+            # transparent?
+            p.found = ['adoof'];
+        }
+        else
+        if (first) {
+            first = 0;
+            !pa.v and debugger; #throw "nofirst"
+            
+            h.first(d,p,pa);
+            p.found ||= [pa.v];
+        }
+        else {
+            p.up = q;
+            
+            if (!q.found.length) {
+                # dont bother looking anywhere?
+                p.found = [];
+            }
+            else {
+                #c what matters
+                # onward
+                !p.row and throw "Nowhere"
+                $s = p.row.slice(-1)[0]; # or p.i?
+                !s and debugger; throw "doing empty"
+                
+                # what should be:
+                $v = pa.v;
+
+                # to the bits
+                $D = {asa:'tv',d:d,p:p,pa:pa};
+                # to diversify...
+                pa.spacer and D.spacer = 1;
+                # ** is a type of glob but gets plumbed in
+                # < i $h/*/something # just use many i/o
+                pa.glob && d.is != 'i' and D.meta = ['*','*']
+                else
+                pa.glob_cv and D.meta = ['','*']
+                else
+                pa.sark and // should have been figured by now?
+                # cos we want to input each thing via pa.v...
+                else
+                !v and debugger; #throw "null pav?"
+                
+                # make more rows
+                h.found(d,p,pa,s,D,v);
+                
+                if (pa.delete) {
+                    each i,x p.found {
+                        if (pa.delete == 'in') {
+                            io.deindex(x);
+                        }
+                        else if(pa.delete == 'out') {
+                            io.unlink(s,x);
+                        }
+                        else {
+                            throw "delete mode "+pa.delete
+                        }
+                    }
+                }
+            }
+        }
+        
+        #c middle - multiply row into here
+        # adds column + may multiply rows
+        
+        if (!p.row) {
+            # starts - rows = [[r]]
+            !p.found and throw "no row or found"
+            p.rows = p.found.map(&s{ return [s] });
+            p.nz = p.found.slice();
+        }
+        else
+        if (!p.found.length) {
+            # empty - full of null
+            p.row.push(null);
+            p.rows = [p.row];
+            # p.nz shapely enough to nothing when nothing
+        }
+        else {
+            # new column of many -
+            if (pa.gref) {
+                # usually filtering what glob found
+                # < expanding foam
+                # pa.gref is the talk
+                # pa.grefpara[i] param names/pa.t
+                # pa.grefparam[i] values to bind
+                p.found = io.gref(p.found,pa.gref,pa.grefparam||[],pa.grefd);
+            }
+            
+            if (pa.wander) {
+                # grep found directions, keep wandering
+                if (pa.wanderer) {
+                    $name = pa.wanderer;
+                    name == '1' and name = null
+                    $da = pa.hijacks;
+                    $cb;
+                    if (da) {
+                        !da.hijacked and throw "hijacks not hijacked",pa,da
+                        cb = da.v;
+                    }
+                    else
+                    name && io[name] and cb = io[name];
+                    else {
+                        throw "what wanderer?",pa
+                    }
+                    typeof cb != 'function' and throw "wanderer cb not function",pa,da
+                    
+                    # < might it want them all/a bunch? width first eventually
+                    # < B cursors, so we can find everything...
+                    #   chrome debugger itself does alright finding things
+                    
+                    p.found = p.found.filter(&s{
+                        $r = cb(A,s,G,T,d);
+                        r and return 1
+                        # to show the limit of the search
+                        # the edge of the d of light
+                        (p.uninteresting ||= []).push(s);
+                        return 1
+                        # or not show it:
+                        return 0
+                    });
+                }
+                if (p.found.length) {
+                    # stretch path
+                    $na = d.path[p.i+1];
+                    if (!na || !na.wander) {
+                        na = ex({},pa);
+                        na.wandering = pa.wandering || pa;
+                        d.path.splice(p.i+1,0,na);
+                    }
+                }
+                else {
+                    p.found.push(null)
+                }
+            }
+            
+            # duplicate this row out
+            p.rows = p.found.map(&s,i{
+                ro = p.row.slice();
+                ro.push(s);
+                return ro
+            });
+            # q.nz absorbs inners after loop
+            p.nz = p.found.slice();
+        }
+        # rows grow to the right
+        # < go width first? ps&z
+        !d.path[p.i+1] and return p
+        
+        #c inward - an expanding map
+        $rows = [];
+        each i,row p.rows {
+            # our next bit of path
+            $b = {};
+            b.i ||= p.i+1;
+            b.row = row;
+            $pa = b.pa = d.path[b.i];
+            
+            # can go down a path in multiple directions
+            $P = [b];
+            h.Pmod and P = h.Pmod(d,p,P,pa)
+            pa.Pmod and P = pa.Pmod(d,p,P,pa)
+            
+            each ib P {
+                # protection from going in circles (esp if pa.wander)
+                $s = b.row.slice(-1)[0];
+                $si = b.row.indexOf(s);
+                # < do this ^ for every atom (and then what?)
+                #   A:o (p for prototype) is all about much webbing
+                # short term solution, finish a row when it duplicates an object
+                if (typeof s == 'object' && si >= 0 && b.row.length-1 > si) {
+                    # < only if the path .wanders before now?
+                    # thing stated in row only twice
+                    # kind of thing you'd T when it starts happening
+                    d.loops ||= [];
+                    d.loops.indexOf(s) < 0 and d.loops.push(s)
+                    b.row.push(null);
+                    rows.push(b.row);
+                    continue
+                }
+                if (p.uninteresting // to pa.wanderer
+                    && p.uninteresting.indexOf(s) >= 0) {
+                    # after stating them once?
+                    b.row.push(null);
+                    rows.push(b.row);
+                    continue
+                }
+                # go
+                $b = col(p,b);
+                (p.pond ||= []).push(b);
+
+                if (b.nz) {
+                    # ...s... -> ...s, [s's many]...
+                    $s = b.row.slice(-1)[0];
+                    $i = p.nz.indexOf(s);
+                    i < 0 and throw "manying row[-1] not in p.nz", s, p.nz
+                    p.nz.splice(i+1,0,b.nz);
+                }
+
+                $r = b.rows;
+                !r and throw "rowing nothing"
+                if (!r.length) {
+                    # keeps pushing null once lost?
+                    # < should be a minor Ting
+                    #debugger; #throw "not one row"
+                }
+                r.map(&ro,{ rows.push(ro) })
+            }
+            # no more recursion at end of wander in
+            if (!P.length) {
+                pa.wander and rows.push(row)
+                else {
+                    #debugger;
+                }
+            }
+        }
+        p.rows = rows;
+        
+        return p
+    };
+    $p = d.p = col();
+    d.rows = p.rows;
+    T.o = d;
+    
+    # find any lastfuncs
+    $i = 0;
+    $lastfuncs = [];
+    while (d.path[i]) {
+        $pa = d.path[i];
+        # < support for mid-path doofing
+        #   could decide what to put after finding options for where
+        !pa.doof and break
+        lastfuncs.push(pa)
+        i++;
+    }
+    if (lastfuncs.length) {
+        lastfuncs.reverse();
+        each i,pa lastfuncs {
+            # new iterator replaces old
+            T.o = io.doof(d,T.o,pa)
+        }
+    }
+    
+    #c ps
+    # ay separation?
+    # ays&$arky = [grep{s} whole column]
+    $ay = T.o;
+    io.realise(ay);
+    ay.sc ||= {};
+    # sc is a stage, it gets set in many ways
+    # [] in sc implies it's all stuff you should know
+    # and usually the howness it is is sleeping (z)
+    each ik ay.arky {
+        ay.sc[k] and throw "have something ay.sc."+k, d
+    }
+    each i,row ay.rows {
+        each ik ay.arky {
+            $pa = ay.path[i];
+            # < sure?
+            pa.doof and continue;
+            if (pa.wandering) {
+                # nonfirst .wander globs are .wandering = the first
+                # the last should be empty, path exhausts things
+                # < spacetime limit while going wide will confuse this
+                # < how much and what is implied by the k:
+                if (1 || k[0] < 'm') {
+                    # easiest one to do already
+                    # < last not entirely null column
+                    pa = ay.path[--i];
+                }
+                else
+                if (k == 's' || k == 'S') {
+                    # < gather (unique|all) objects
+                    # art making
+                }
+                else {
+                    # < last not null cell on each row
+                }
+            }
+            !row[i] and continue
+            $N = ay.sc[k] ||= [];
+            N.slice(-1)[0] == row[i] and continue
+            N.push(row[i])
+        }
+    }
+    
+    #   < and eat arrays as params as many somethings it could match?
+    #     in a way that generates lots of permutations!
+    #   so d would be an A:o, c.stroke: scarkyN
+    #   a way to present foamy marks
+    # < higher order stylehouse
+    return ay
+};
+
+#c realise name columns
+# but first, name columns:
+io.realise = &t{
+    # name columns [i: name]
+    # < row/column accessors
+    t.arks = [];
+    each i,pa t.path {
+        pa.ark and t.arks[i] = pa.ark;
+    }
+    
+    t.arky = t.arks.slice();
+    # add anything else we can name but wasn't asked for
+    t.nonarks = []; # arky !arks
+    $la; # last thing t !doof
+    each i,pa t.path {
+        !pa.t and continue
+        pa.doof and continue
+        la = pa;
+        pa.ark || t.arky.indexOf(pa.t) >= 0 and continue
+        # doof never implicit arks
+        pa.t.match(/\W/) and continue
+        t.arky.indexOf(pa.t) >= 0 and continue
+        t.arky[i] = pa.t;
+        t.nonarks[i] = pa.t;
+    }
+    
+    # a word|glob !ark was last, known as s
+    #   may already have a wasn't-asked-for name
+    #   may already be another thing called s
+    if (la && (la.word || la.glob) && !la.ark && t.arky.indexOf('s') < 0) {
+        $i = t.path.indexOf(la);
+        i < 0 and throw "cant find last thing"
+        # see io.rowing/ps for more...
+        la.wandering && t.path[i-1] == la.wandering and i--
+        t.arky[i] = t.nonarks[i] = 's';
+    }
+    
+    if (!t.arky.length) {
+        $i = t.path.length;
+        while (t.path[--i]) {
+            $pa = t.path[i];
+            pa.doof and continue;
+            break
+        }
+        # even an io of one doof must have some path from data chewed on
+        !t.path[i] and throw "ran out of path looking for reals"
+        t.arky[i] =
+        t.nonarks[i] = 's';
+    }
+    
+    !t.arks.length and t.ungrouped = 'noarks'
+    # edge case: implicit thing should cede 'r' to ark
+    #   else it is counted early
+};
+#c nz $d/$ay -> $t so t.more()
+# converts d.rows to iteration or whatever
+io.nz = &d{
+    d ||= T.o;
+    !d and throw "Can't find T.o"
+    # takes over from o
+    $t = ex({},d);
+    
+    # gets names
+    !t.arky && io.realise(t);
+    
+    # iterate per row
+    t.i = null;
+    $pull = &{
+        $row;
+        while (1) {
+            # t.i -> i starts null -> 0, then 0 -> 1, 1 -> 2
+            $i = t.i == null ? 0 : t.i+1;
+            row = t.rows[i];
+            !row and return
+            t.i = i;
+            # only for complete rows
+            # < knowing pa.wander will stretch, use second to last?
+            # < way to talk partiality
+            !t.partial && row.slice(-1)[0] == null and continue
+            break
+        }
+        return row
+    };
+    # grouping by arks, after which implied names ar[k]=[v+]
+    # < naming stuff with arks, not grouping with them
+    # < to ungrouped, partial, nz(), regroup, grep/map row/column/objects, 
+    #     in one, ay.nz(3,&arks,_,nonarks{})?
+    $parkar = &roundagain,{
+        $ar = t.next; delete t.next;
+        # position save/load around grouping ahead
+        if (ar) {
+            t.i = t.next_i; delete t.next_i;
+            t.row = t.next_row; delete t.next_row;
+        }
+        else {
+            t.row = pull();
+            !t.row and return
+            ar = {};
+            each ik t.arky {
+                # < mess by choosing first column with given k?
+                ar[k] ||= t.row[i];
+            }
+        }
+        $ti = t.i;
+        $trow = t.row;
+        if (!t.ungrouped && !roundagain) {
+            # to group by, make sure enough of it changes
+            # i #Con:/@#G:/@W o $mag/*:G/*:W
+            # should iter for every Con and G
+            #  with W=[W+] read ahead
+            $be;
+            $first = 1;
+            $groupstarts = Object.keys(t.arks)[0];
+            $accumulate = &{
+                # d.path before the grouped stuff will never > 1
+                #   unless rows converged on one thing
+                #     with the same state, etc
+                each ik t.nonarks {
+                    if (i < groupstarts) {
+                        be && be[k] != ar[k] and throw "nonsimilar fore-grouped",k,be[k],ar[k],t
+                        continue
+                    }
+                    first and ar[k] = [ar[k]]
+                    be and ar[k].push(be[k]);
+                }
+            };
+            while (1) {
+                # get next one...
+                be = parkar(1);
+                !be and break
+                $diff = 0;
+                each ik t.arks {
+                    # if arked things change
+                    be[k] != ar[k] and diff = 1
+                }
+                if (diff) {
+                    t.next_i = t.i;
+                    t.next_row = t.row;
+                    t.next = be;
+                    be = null;
+                    break
+                }
+                accumulate();
+                first = 0
+            }
+            first and accumulate();
+        }
+        t.i = ti;
+        t.row = trow;
+        return ar
+    };
+    #
+    t.more = &{
+        #A.debug and debugger;
+        $ar = parkar();
+        !ar and return
+        # hash of values
+        t.ar and t.prev = t.ar
+        t.ar = ar;
+        #t.oned and return ar[t.oned]
+        t.sc = t.ar;
+        return t;
+    };
+    #c ind: callback per item, flat list with depth...
+    # < not a branch of it
+    t.ind = &cb,{
+        t.indstr ||= '  ';
+        $la = []; # last row
+        $las = []; # stack of return values
+        $N = [];
+        each i,row t.rows {
+            t.row = row;
+            # only for parents with children
+            !t.partial && t.row.slice(-1)[0] == null and continue
+            $unreal_depth = 0;
+            t.vind = [];
+            each dv row {
+                v == null and continue
+                d *= 1;
+                $pa = t.path[d];
+                pa.doof and unreal_depth++; continue
+                # path of real things, not path[i]
+                t.vind.push(v);
+                # same as last row, still at depth
+                la[d] == v and continue
+                
+                # < t.d should probably be t.vind.length...
+                t.d = d;
+                # name of column
+                t.ark = t.arky[d];
+                # last real/parent
+                t.parent = t.vind.slice(-2)[0];
+                # last s (cb return) before us, may != t.parent's
+                t.parenting = las.slice(0,d).reverse()
+                    .filter(&s{ return s })[0];
+                
+                $s = cb(v,t);
+                s == null and continue;
+                las[d] = s;
+                if (typeof s == 'string') {
+                    $ind = '';
+                    each id,v row {
+                        id == d-unreal_depth and break
+                        ind += t.indstr
+                    }
+                    s = s.split("\n").map(&s{ return ind+s }).join("\n")
+                }
+                N.push(s);
+            }
+            la = row;
+        }
+        return N
+    }
+    
+    return t;
+};
+
+
+#c forS, domes that iterate
+
+# and put iterator interface on T...
+# < later some way to do cursors more visibly,
+#     percolate and collaborate read-need-ness
+
+# but in an S:
+#  S can do io and then be iterating
+#  Babz setting params inside from T
+#    < wandering off to do something that wants to happen slow
+#    < and operating work-isolatingly from a big sleeping set
+
+io.forS = &talk,params,T{
+    $ng = 1s&forSing ||= {};
+    ng.talk && talk != ng.talk and delete ng.t;
+    ng.talk = talk;
+    A.deSug and debugger;
+    if (!ng.t) {
+        $d = io.parsetalk(talk,params);
+        !d.is and throw "No d.is"
+        d = io[d.is](d,params);
+        ng.t = io.nz(d);
+    }
+    $t = ng.t;
+    T.ransact = t;
+    t.in_progress and return t
+    return t.more()
+};
+#c gref attribute matching
+io.gref = &N,talk,params,d{
+    params ||= [];
+    $wouldeat = [];
+    if (d && d.code) {
+        d.talk = talk;
+    }
+    else {
+        d ||= {};
+        # compile time
+        io.parsegref(talk,params,d);
+        !d.path and debugger;
+        d.path.map(&pa,{
+            pa.isparam and wouldeat.push(1)
+        });
+        io.codegref(d);
+        d.talk = talk;
+    }
+    !d.talk and throw "no dtalk"
+    !d.code and debugger;
+    
+    if (d.not) {
+        # must eat params
+        wouldeat.map(&s{
+            !params.length and throw "gref not enough params "+ki(pa)
+            params.shift();
+        });
+        params.length and throw "gref Too many params", params
+        
+        delete d.not;
+        return d
+    }
+    
+    # we collect vars coming from params
+    
+    # codes hang on d such that d.code = eval(d.code),
+    #   then d.code(d,n) each n in N filters to M
+    # < they might like to know their position,
+    #    how much s&sand is in front of them...
+    #    the rolling crash of the matrix
+    # Babz must take them functions not strings,
+    #   in gref, in any pa of any io's d.path...
+    #   or we could emit their presence, a self-T
+    #   pass them as params instead?
+    
+    # ~~
+    # Babz can drop/move out d.talk
+    # ~~
+    
+    if (typeof d.code != 'function') {
+        d.begin and eval('d.begin = '+d.begin);
+        d.code2 and eval('d.code2 = '+d.code2);
+        eval('d.code = '+d.code);
+    }
+    
+    d.begin and d.begin(d,params)
+    
+    window.grefdone and window.grefdone.push(d);
+    
+    # < group by r?
+    $M = [];
+    $rs = [];
+    $out = [];
+    each in N {
+        $r = d.code(d,n);
+        r ? rs.push(r) && M.push(n) : out.push(n)
+    }
+    
+    return M
+};
+
+#c gref/parse
+# < ghost closer to FactorEase
+# < d should be C whose c&s is talk, s&r N...
+# < the compiling (and variating) thing should be native to G&t
+#   like w compiles args on: w/$args/$w,
+#   io/gref should compile gref/$talk/$d
+io.parsegref = &talk,params,d{
+    d.path = [];
+    parse = talk;
+    $i = 20;
+    while (1) {
+        i-- < 1 and throw "out of i"
+        $was = parse;
+        $pa = {};
+        $dpa = &isparam,{
+            isparam and pa.isparam = 1;
+            d.path.push(pa);
+            pa = {};
+        };
+        
+        # got value - left side
+        
+        # point to s&thing, etc (Babzd)
+        # < name other things, universals
+        if (p(/^(?:(\w+)&)(\w+)/) ||
+        p(/^(?:C\.(\w+)\.)(\w+)/)) {
+            pa.Climb = [m[0],m[1]]; dpa()
+        }
+        
+        # loose match, multiplies the rest of the code...
+        # so c* feeds C.c.*, keys and values,
+        # through the rest of the statement
+        # < lot to do with squishing sets of universals together
+        # < the treasure puzzle
+        # < find a Core/defined class of attribute,
+        # < resolve y-picture enough to find when in life something
+        if (p(/^(?:(\w)|%(\w+))%/)) {
+            pa.Calg = m[0] || m[1] || 1;
+            dpa();
+        }
+        
+        # short for {C.y.cv ...
+        if (p(/^@/)) {
+            pa.t = 'at-ycv';
+            pa.Climb = ['y','cv'];
+            pa.beA = 1;
+            dpa();
+        }
+        p(/^=/) and pa.op = 'eq'; dpa();
+        p(/^!=/) and pa.op = 'noteq'; dpa();
+        p(/^>/) and pa.op = 'gt';
+        p(/^</) and pa.op = 'lt';
+        pa.op && p(/^=/) and pa.orequal = 1;
+        pa.op and dpa()
+        
+        # Babz should $1s&choo -> $choo by now
+        # < on a second loop?
+        p(/^\$(\w[\[\]\.\w]+)/) and pa.t = m[0]; dpa(1);
+        p(/^(\w+)/) and pa.t = m[0]; pa.word = 1; dpa()
+        
+        if (p(/^~(.+)$/)) {
+            pa.op = 'regex';
+            $re = m[0];
+            # eg @~33 means in that subnet
+            re.match(/^\d+$/) and re = '^0\\.'+re
+            # < look for $things in there and ...
+            pa.regex = re;
+            dpa();
+        }
+        was == parse || parse == '' and break
+    }
+    parse and debugger; throw "gref Unparsed: "+parse
+    each i,pa d.path {
+        i *= 1;
+        $la = d.path[i-1] || {};
+        $qa = d.path[i+1] || {};
+        if (pa.Climb) {
+            $nk = pa.Climb[0];
+            nk == 's' and nk == 'sc';
+            $gk = pa.Climb[1];
+            gk == 't' && !nk and gk = null; nk = 't';
+            pa.nk = nk;
+            !nk and throw "no read nk/gk "+ki(pa)
+            gk != null and pa.gk = gk;
+        }
+        if (qa.word && pa.op && la.t == 'at-ycv') {
+            # or otherwise aiming at a fraction
+            # and the right side is whole numbery:
+            qa.t.match(/^\d+$/) and qa.t = "0."+qa.t
+        }
+    }
+    return d
+};
+#c grefcode
+# lazily written js 
+io.codegref = &d{
+    # compile stage
+    each i,pa d.path {
+        pa.op and pa.tok = 'op'
+        else
+        pa.Climb || pa.Calg and pa.tok = 'k'
+        else {
+            pa.tok = 'v'
+        }
+    }
+    $com = [];
+    $expr = [d.path.slice()];
+    $splitfour = &c{
+        $b = [];
+        b.push(c.shift());
+        b.push(c.shift());
+        expr.splice(0,0,b,c);
+    }
+    # hydrate tokens
+    # limited by not parsing smaller bits of syntax off the front
+    #   instead each whole statement as tokens must be known to break down
+    # < RecDesc sometime.
+    while (expr.length) {
+        $c = expr.shift();
+        # make summary of types of tokens
+        $l = c.map(&pa,{ return pa.tok }).join(' ');
+        # lots of what to match (k) implying
+        
+        if (l == 'k op v') {
+            # ideal/complete
+        }
+        elsif (l == 'op v k op') {
+            # too long, eg: >t@~33
+            splitfour(c);
+            continue
+        }
+        elsif (l == 'op v op v') {
+            # everything ands, only <3>5 can mean or
+            c[0].op == 'lt' && c[2].op == 'gt' and c[0].inanor = 1
+            splitfour(c);
+            continue
+        }
+        elsif (l == 'op v') {
+            # >3?
+            $v = c[1];
+            $k = {tok:'k'}; c.unshift(k);
+            # name/number fields discernible if v is, !param
+            !hak(v,'v') && v.word and v.v = v.t;
+            if (v.v && isnum(v.v)) {
+                k.Climb = ['y','cv'];
+                # < other places this etc type imposition can be...
+                while (v.v >= 1) { v.v *= 0.1 }
+            }
+            else {
+                k.Climb = ['t'];
+                # < clever for param not there yet
+                # if ref? something universal waves at others
+                #throw "what do op,v imply?"
+            }
+        }
+        elsif (l == 'op') {
+            # a regex or so looking in/at sc.* and c&s
+            # < OR, test t?
+            c.unshift({tok:'k',Calg:1});
+            expr.unshift(c);
+            continue;
+        }
+        elsif (l == 'k') {
+            # so just itself will do
+            if (0) {
+                # for not null - then s&great=0 would show up
+                c.push({tok:'op',op:'noteq'});
+                expr.unshift(c);
+                continue;
+            }
+        }
+        elsif (l == 'k op') {
+            if (c[1].op == 'regex') {
+                # look like this, pa.regex = string
+            }
+            else {
+                # nothing
+                c.push({tok:'v',v:null,word:1,isnull:1});
+            }
+        }
+        else {
+            debugger;
+        }
+        com.push(c);
+    }
+    
+    #c conjoin codelings
+    # begin for set up
+    #   params shift to d.ar.$t
+    #   and RegExp build (reusable objects)
+    #     begin may split a slower level to i-cache (t)
+    #     if we don't involve params in the RegExp, etc
+    #        which is unsupported but near happening
+    #     reminds me of the many flavours of begin there used to be,
+    #     when ghost could be a hash, since yaml
+    $begin = [];
+    # things too cumbersome and checky to put in the last line
+    #   throwings should be from insanity, return 0 to fail match
+    $pre = [];
+    # composited [bracketed bits], ('conjoin codily', [etc])*
+    $cod = [];
+    # so all the checks, carefully accessed, on one line
+    # < notice surroundings too, with a lesser severity
+    #   an -od design goal
+    
+    # also, modulate multiplicity
+    $Calgula = [];
+    
+    # assign pool of variables
+    # their name -> code that defines them, so can dedupe code unpacking the same thing over and over
+    $lets = {};
+    $knowname = 0;
+    $decl = &h,t,s{ //}}
+        knowname = 0; 
+        #di > 10 and throw "too much decl"
+        # if h != lets, dedupe/host names there as well
+        $know = h[t] || lets[t];
+        if (know) {
+            know == s and knowname = 1; return t
+            t = t+'2';
+            h[t] && h[t] != s and throw "need more names"
+            lets[t] && lets[t] != s and throw "need more names"
+        }
+        h[t] = lets[t]= s;
+        return t
+    };
+    # stringifies any [] or [[],'||',[]] arrangement
+    
+    $linear = &L{
+        # around everything
+        $s = lineate(L,&l{ return lineate(['(',l,')']) });
+        # between everything
+        return s.join(' ')
+    };
+    each comi,c com {
+        $co = [];
+        $op;
+        each i,pa c {
+            $hadparam = 0;
+            #c central figure
+            pa.tok == 'op' and op = pa
+            # got
+            if (pa.tok == 'k') {
+                if (pa.Climb) {
+                    # check limb names are easily coded
+                    pa.Climb.map(&s{
+                        s.match(/[^\w\.\-]/) and throw "weird limb"
+                    });
+                    
+                    # set/climb to S from n
+                    $t = decl(lets,'S',enj(pa.Climb));
+                    if (!knowname) {
+                        $def = [];
+                        each i,limb pa.Climb {
+                            $from = i == 0 ? 'n' : t+' && '+t;
+                            def.push(
+                                (i==0 ? 'var ' : '')
+                               +t+" = "+from+"['"+limb+"'];"
+                            );
+                        }
+                        def.map(&s{ pre.push(s) });
+                    }
+                    # turns into a var!
+                    co.push(t);
+                }
+                elsif (pa.Calg) {
+                    # < become multiplier...
+                    # let the code build around, back later
+                    co.push('n');
+                    Calgula.push(pa);
+                }
+                else {
+                    throw "non Climb k"
+                }
+            }
+            # compare
+            elsif (pa.tok == 'op') {
+                if (pa.op == 'regex') {
+                    $leg = pa.regex && typeof pa.regex != 'object';
+                    !leg and throw "not seeing pa.regex"
+                    # \ magic, quotes
+                    $dub = enj(pa.regex);
+                    $regex = "new RegExp("+dub+");";
+                    
+                    $t = decl(lets,'regex',regex);
+                    !knowname and begin.push("d['"+t+"'] = "+regex);
+                    # and to call it
+                    $arg = linear(co);
+                    !arg.length and debugger;
+                    co = [];
+                    co.push("d['"+t+"'].test("+arg+")");
+                }
+                else {
+                    $symb =
+                    pa.op == 'noteq' ? '!=' :
+                    pa.op == 'eq' ? '==' :
+                    pa.orequal && pa.op == 'gt' ? ">=" :
+                    pa.orequal && pa.op == 'lt' ? "<=" :
+                    pa.op == 'gt' ? ">" :
+                    pa.op == 'lt' ? "<" :
+                        'ohno';
+                    symb == 'ohno' and throw "what op "+pa.op
+                    co.push(symb)
+                }
+            }
+            # expected
+            elsif (pa.tok == 'v') {
+                if (pa.isparam) {
+                    # < it's more important they get their name? hard.
+                    d.ar ||= {};
+                    $t = decl(d.ar,pa.t||'value',1);
+                    knowname and throw "Already know param?"
+                    # params get consumed
+                    begin.push("d.ar['"+t+"'] = params.shift();");
+                    pre.push("var "+t+" = d.ar['"+t+"'];");
+                    co.push(t);
+                    hadparam = 1;
+                }
+                else {
+                    !pa.word and throw "What vealing?"
+                    !pa.v && !hak(pa,'v') and pa.v = pa.t
+                    if (pa.v != null && isnum(pa.v))
+                        pa.v = (pa.v*1).toPrecision(8)*1
+                    co.push(enj(pa.v));
+                }
+            }
+            else {
+                throw "tok what? "+ki(pa)
+            }
+            pa.isparam && !hadparam and throw "unhandled isparam"
+        }
+        cod.push(co);
+        com[comi-+-1] and cod.push(op.inanor ? '||' : '&&')
+    }
+    
+    #c fin, Calgula etc
+    # first/otherwise, compile everything
+    d.ar && d.ar.length and begin.unshift("d.ar = {};")
+    
+    if (begin.length) {
+        d.begin = lineate(["function(d,params){",begin,"};"]).join("\n");
+    }
+    
+    !cod.length and throw "no cod?"
+    d.code = lineate([
+        "function(d,n){",
+    # the setup
+        pre || [],
+    # the final expression
+        "return "+linear(cod),
+        "};",
+    ]).join("\n");
+    
+    
+    Calgula.length > 1 and throw "Many calg?"
+    each i,pa Calgula {
+        pa.Calg != '1' and throw "spec Calg"
+        # < know if the code wants strings or objects
+        #   if strings it may want to match keys as well
+        d.code2 = d.code;
+        d.code = <<"";
+        &d,n{
+            $maybe = &s{
+                if (s && (typeof s == 'string'
+                    || typeof s == 'number')) {
+                    return d.code2(d,s)
+                }
+            };
+            maybe(n.t) || maybe(n.y.cv) || maybe(c&s) and return 1
+            each k,v n.sc {
+                maybe(k) || maybe(v) and return 1
+            }
+        };
+        
+        # yup
+    }
+    
+    delete d.path;
+    # d is now storable/simple as possible
+    # < not assigning each step of paths
+    #   could everything be one line?
+};
+#c grefstatemash DEAD
+# done in a way nobody will want to maintain
+#  doesn't much order the problem, but might?
+#  gets a couple of things wrong like <or>, ...
+io.grefstatemash = &N,d{
+    # gref/proper to filter/expand thus
+    # < each [], as sort sip
+    #   
+    # < sort? after io lists a whole arky first?
+    #     we are called with each inside bunch (p.found)
+    # < ...
+    # should compile a single code to do the whole match...
+    #   then we can have logical expressions without the DIY
+    # 
+    $compute = &a,b,c{
+        # < A must exist && not be c
+        b.op == 'noteq' and return a != c
+        else
+        b.op == 'eq' and return a == c
+        else
+        b.orequal && b.op == 'gt' and return a >= c
+        else
+        b.orequal && b.op == 'lt' and return a <= c
+        else
+        b.op == 'gt' and return a > c
+        else
+        b.op == 'lt' and return a < c
+        else
+        if (b.op == 'regex') {
+            !c and throw "bop regex no fE";
+            $re = c.constructor == RegExp ? c : new RegExp(c);
+            return re.test(a)
+        }
+        else {
+            debugger; throw "what op "+b.op;
+        }
+    };
+    $M = [];
+    $sortby = []; # relative to M
+    each mi,n N {
+        $f = {};
+        # A value tested
+        # B pa of operation
+        # E value wanted
+        # C satisfied
+        # D for dead
+        each i,pa d.path {
+            i *= 1;
+            $qa = d.path[i+1] || {nothing:1}; # next
+            if (pa.Climb) {
+                # Climb C.$nk.$gk
+                !typeof n == 'object' and throw "cel nk/gk on nonobject", n
+                $S = n[pa.nk];
+                S && pa.gk != null and S = S[pa.gk];
+                f.E = S;
+            }
+            # little/big value
+            pa.word || pa.isparam and f.E = pa.v
+            pa.op and f.B = pa
+            pa.regex and f.E = pa.regex;
+            # put to A, to be tested
+            if (pa.beA) {
+                f.A = f.E;
+                delete f.E;
+            }
+            # E unstated E at end of path
+            $trick = 0;
+            if (qa.nothing && hak(f,'A') && hak(f,'B') && !hak(f,'E')) {
+                # not null: s&thing!=
+                #debugger;
+                f.B.op == 'eq' || f.B.op == 'noteq' and f.E = null; trick=1;
+                else
+                # a positive number: s&inte>
+                f.B.op == 'gt' || f.B.op == 'lt' and f.E = 0; trick=1;
+            }
+            $whilei = 20;
+            while (hak(f,'E')) {
+                whilei-- < 1 and debugger; throw "large grefcomp: "+ki(pa)
+                # A must be true, unless pulling the is-null trick
+                hak(f,'A') && !f.A && !trick and f.D = 1
+                f.D and break;
+                #A.grefbug and debugger;
+                if (f.A || trick) {
+                    trick = 0;
+                    if (f.B) {
+                        # try and be complete statement
+                        $r = compute(f.A,f.B,f.E);
+                        if (f.B.op == 'lt' && qa.op == 'gt') {
+                            # A<E>E means !between(E,E), inducing an or
+                            if (r) {
+                                f.C = 1;
+                                 break
+                            }
+                            else { r = 1 }
+                        }
+                        delete f.B;
+                        delete f.E;
+                        !r and f.D = 1; break
+                    }
+                    else {
+                        debugger; throw "no operation between"
+                    }
+                }
+                else {
+                    # no A yet: <E
+                    if (f.B) {
+                        # null is an object
+                        if (f.E && typeof f.E == 'object') {
+                            # something universal waves at others
+                            debugger; throw 'op to object';
+                        }
+                        elsif (typeof f.E == 'string' || typeof f.E == 'number') {
+                            if (f.E.match(/^\d+(?:\.\d+)?$/)) {
+                                # implies for cv, <1
+                                f.A = n.y.cv;
+                                while (f.E >= 1) { f.E *= 0.1 }
+                            }
+                            else {
+                                # implies for t
+                                f.A = n.t;
+                            }
+                        }
+                        else {
+                            debugger; throw "what to E?";
+                        }
+                    }
+                    # A must be true
+                    !f.A and f.A = f.E; delete f.E;
+                    # for not null: s&thing -> s&thing!=
+                    qa.nothing && hak(f,'A') && !f.B and f.B = {op:'noteq'}; f.E = null;
+                    qa.nothing && !hak(f,'A') and debugger;
+                }
+            }
+            f.D || f.C and break;
+            delete f.E;
+        }
+        f.D and continue
+        M.push(n)
+    }
+    return M
+};
+#c io
+# modes of rowing awareness
+
+# i: somewhere someway somestuff
+# the dot of the i is somestuff, index the space, trunk way etc.
+# shall we use a talky Babz'd params-implied-by-$ thing? yes
+io.i = &talk,params,d{
+    # talk: 
+    #   'universal keyworded-by $thing'
+    # the only universal available is A.r,
+    #   if your first thing is a spacer
+    # the only keyworded-by is /,
+    #   means inside, by tv or so
+    # find these things... barewords we have around?
+    # usually a J universal like N,M,1,9, etc.
+    # and somethinging to it:
+    # talk='N $by', param=[$by]
+    #   N means 3's A:n's r's cM, # caveful of atoms
+    #      or M 1's A:n's r's cM  # just the people around you
+    # < should kinda m:N $by,
+    #   but with the o kind of universal awareness, not A:n
+    # but simply as possible:
+    # - make sure this is so!
+    # as opposed to o:
+    # o how is this?
+    
+    # < wandery globs, must grow rows, path?
+    #     see separation + invent the talk for
+    # < sometimes (to doof many times in one row)
+    #   need a cell that corresponds to many other cells,
+    #   but not much
+    
+    return io.rowing(talk,params,d,{
+        found: &d,p,pa,s,D,v{
+            # what should be
+            # space to it gets filled in with hash
+            # and when should existing objects be replaced,
+            #   but indexes etc copied to the new one?
+            #   upstream changes joining local modulation
+            #   seems like s's buzz.
+            p.found = [io.input(s,D,v)]
+        },
+        is: 'i',
+    })
+};
+
+
+# o sketches use for A:o:
+# o gets you what you wanted from an intelligised pile
+#   midsection of o is the midsection of n
+#  S titles can use this to define iterators
+# operation of returning results from traversal,
+#   or advancing the A:o of the C, as in dome calmness check
+
+# o may ventually look like n,
+#   and n may eventually have blockquotes hanging on after it,
+#   even T things, grabbing whatever on/over/into Aing thereinout
+
+# hmmm. music collection will be lived by o,
+# QMS would be in a quarantine
+
+
+# there must be more
+# the o d will be... more infinite
+#   particularly grep/sort/map
+#  tal being apply
+# lingo shape glue session
+io.o = &talk,params,d{
+    return io.rowing(talk,params,d,{
+        found: &d,p,pa,s,D,v{
+            # 6, only the last column
+            p.found = io.output(s,D,v);
+        },
+        is: 'o',
+    })
+};
+#c input see,
+# fills in an index with a value
+# total definition of z/tv indexes, which should be one of a few...
+# along with the z/tv positioning system, there's an element of
+#   wiring or linked lists via y&in, y&up, y&next, y&prev,
+#   left out for code volume
+# < index/join types should be curated nearby
+#   proto hard-coded...
+# tv:
+#    lots of C via tvs can hold anything, just stretched out.
+#      maybe if you're database you want to know things.
+#    < in exact mode should keep z sorted,  overwrite tv
+#    < in soft mode should not overwrite (el=1)
+#      throwing input from various sources into various light
+#      to model contended content
+#    
+# non-tv index/join types:
+#    I: could be known to be of/ov/t/cv?
+#    x/y/z: what's in space...
+#    beliefs in cv like subnets, having octaves of octaves,
+#      non-linear spaces, klein bottle public netspace
+#      lanes of stripes whipping around a torus, etc.
+#    of a drawing made
+#    of an id dealt by indexOf(s)
+# 
+# s = data
+# d = [pa,th], puts at that path
+# d = {path:[pa,th],dup:&s{}}
+# does a single weld, usually C-C
+# carbon joint, some language in each place?
+# ignores the next/last/in/up wiring, let o do once sorted
+#   when it gives a kind of gravity,
+#   linearity to the stage that may not ever be there
+io.input = &s,d,v,replaces{
+    d = io.knowing(d,v);
+    # return d here to extract what we know, kind of 2
+    
+    # now 3 deals with what really shall be and how we shall create it
+    
+    # climb container different? may A?
+    # section of o, defined into several places... houses
+    # this is the most high speed bit, copying bunches of C,
+    # with a little lingeme sensitivity loaded in on the d,
+    # which is a lunk for A, C, T rivering the reverberate of revision
+    
+    # climb index
+    # d.ours ['nk','gk'], gets to the thing at the end of this thing
+    # +
+    # d.path ['Winning','0.1'] points of index, to the value
+    # not the same d.path (or d) of i/o, is a lower level, manyer
+    $path = (d.our||[]).slice();
+    d.path and d.path.map(&p{ path.push(p) });
+    
+    $S = s;
+    each ip path {
+        i *= 1;
+        $x = S[p];
+        x && typeof x != 'object' and throw "index broken"
+        # the last bit of our space: the universal
+        #   could be something trascendant
+        #   like being a thing with hooks, more our until path...
+        d.our && i == d.our.length-1 and d.on_our = x
+        # done, leave S on second to last thing
+        i+1 == path.length and continue
+        # hash usual
+        x == null and x = S[p] = {}
+        S = x;
+    }
+    
+    # S[p] may now = x
+    # S[p] soon will = v
+    if (d.t == 'z') {
+        # or include it
+        x == null and x = S[p] = d.zefault || [];
+        x.constructor != Array and throw "z broken"
+        
+        # the tv input that also z inputs
+        #   knows what z should replace
+        # < could be v.y.earlier already
+        #    aka v.y.continues for tw dups
+        #     they want to be at another level
+        $r = replaces;
+        if (io.properz && r && r != v) {
+            $ri = x.indexOf(r);
+            ri >= 0 and x.splice(ri,1);
+        }
+        #$xi = x.indexOf(v);
+        # exact object ^, also could be claiming a tv had already (up at tv)
+        # we shall start simply adding on, mentioning things more than once, etc
+        # no information lost!
+        # except the time of day, which is easy to find
+        # dups constitute weirdness that should be cleaned up...
+        #   before the system with it in goes production
+        # < z_dup: handled on the o end, as z things not in tv, and tv_dup
+        x.push(v);
+    }
+    else {
+        # set thing to thing
+        if (x != null) {
+            # already, noop?
+            d.spacer || x == v and return x
+            d.dup && d.dup(d,x,v) and return x
+        }
+        S[p] = v;
+    }
+    
+    # multiple angles of have
+    if (d.also) {
+        each in d.also {
+            typeof n == 'string' and io.input(s,n,v,x)
+            else {
+                throw "What else", n
+            }
+        }
+    }
+    return v
+};
+
+#c output
+io.doz = 1;
+io.output = &s,d,v{
+    d = io.knowing(d,v);
+    # path =
+    #   our  - reaches from thing to its universal (nk,gk)
+    # + path - into index (t,cv)
+    # not the same d.path (or d) of i/o
+    #   is a lower level, manyer
+    # meta applies to non-our path only.
+    $path = (d.our || []).slice();
+    $mi = path.length;
+    d.path and d.path.map(&p{ path.push(p) });
+    
+    # we only need to capture the endmost atoms at this low level
+    # < rows is S in input... could insert multiple times if crazy
+    d.rows = [[s]]; 
+    # flow
+    $i = 0;
+    while (path[i]) {
+        $k = path[i];
+        $pm = i >= mi && d.meta && d.meta[i-mi];
+        $rows = [];
+        each ri,row d.rows {
+            $S = row.slice(-1)[0];
+            # change view angle from tv to tw or z...
+            if ((io.doz||io.dotw) && S == null && i == mi && s.sc && (ss&z || s.y.tw)) {
+                d.our.join('') != 'ytv' and throw "have ss&z, null our thing, but what is dour?", d.our.join('')
+                if (ss&z) {
+                    # we got to y.tv, but it seems to use z instead
+                    # A:o used to mix all attachment methods together...
+                    # suppose this is fine:
+                    $tv = s.y.tv = {};
+                    each ii,n ss&z {
+                        tv[n.t] ||= {};
+                        tv[n.t][n.y.cv] = n;
+                    }
+                    S = tv;
+                }
+                else {
+                    !s.y.tw and throw "What"
+                    path.pop(); # tw is t:v, not t:cv:v
+                    S = s.y.tw;
+                }
+                row.splice(-1,1,S); # pop into row
+            }
+            if (S == null) {
+                row.push(null);
+                rows.push(row);
+                i++;
+                continue
+            }
+            $ks;
+            if (pm) { # loose match, may many
+                # use z order? grep by tv?
+                # in the order they were set
+                pm == '*' and ks = Object.keys(S)
+                else {
+                    # for WHERE k=v to be k>5, k~re
+                    throw "meta",pm
+                }
+            }
+            else { # exactly what path[i] says
+                # but when to cast it first? never I spose.
+                $ok = typeof k == 'string'
+                    || typeof k == 'number';
+                !ok and debugger
+                !ok and throw "nonstringstep"
+                ks = [k];
+            }
+            # < to sort, know fractional cv,
+            #   with freaks, histograms, history
+            # < if !x we could try as if 1=='',
+            #   misspellings, round until found,
+            #   using z a sorted z to scope up a cv faster...
+            #   even resurrecting a J that looks similar
+            each ik,k ks {
+                $x = S[k];
+                # extend row
+                $ro = row.slice();
+                ro.push(x);
+                rows.push(ro);
+            }
+        }
+        d.rows = rows;
+        # and add column:
+        i++;
+    }
+    # take off columns not in the formula (A.r)
+    
+    $last_column = d.rows
+        .map(&row,{ return row.slice(-1)[0] })
+        .filter(&s{ return s });
+    return last_column
+};
+
+#c misc lowlevelations
+# so tving (things in things) is mapped out from three angles/views:
+#   tv - t, y.cv index: C
+#   tw - t index: C
+#   z - ordered list of C
+# simple right?
+# < finish, be the one reindex, for tv/tw/z etc...
+#   needs to know gone/old thing,
+#   notice which view of space is upstream,
+#   which could be the one inconsistent with the others...
+io.reindex = &s,d{ 
+    d.glob = 1; # so .path shows its geometry
+    d = io.knowing(d);
+    
+    $starts = d.our.length-1;
+    $reindex = &s,i{
+        if (i <= starts) {
+            $p = d.our[i];
+            !s[p] and return
+            i < starts and reindex(s[p],i+1)
+            else {
+                
+            }
+        }
+        else {
+            each k,v s {
+                d.path[i+1] and reindex(v,i+1);
+            }
+        }
+    };
+};
+# regenerate objects of the index itself,
+#   so separated out-C can have its own indexes of in-C
+#   but share the in-C themselves with where ever else they are
+# only just not done by Cye, due to exponential complexity...
+#   changing an in-C.t should reindex it everywhere,
+#   o/s is the noticer of such
+# just replaces what's there without checking for contradictions
+# < which would mean knowing about change, which view is more right
+# < putting those "revision of an item" yers from usu_dup
+io.reindex = &s{
+    if (s.y.tv) {
+        $tv = {};
+        each t,cv,v s.y.tv {
+            t = v.t;
+            cv = v.y.cv;
+            tv[t] ||= {};
+            tv[t][cv] = v;
+        }}
+        s.y.tv = tv;
+    }
+    if (s.y.tw) {
+        $tw = {};
+        each t,v s.y.tw {
+            t = v.t;
+            tw[t] ||= v;
+        }
+        s.y.tw = tw;
+    }
+    if (s.sc.z) {
+        s.sc.z = s.sc.z.slice();
+    }
+};
+# blanks tving, leaving s empty
+io.deindex = &s{
+    $was = s.y.tv;
+    delete s.y.tv;
+    delete s.y.tw;
+    delete s.sc.z;
+    return was
+};
+# removes s's particular x
+io.unlink = &s,x,opt{
+    opt ||= {};
+    $tv = s.y.tv;
+    if (tv && tv[x.t]) {
+        tv[x.t][x.y.cv] == x and opt.was_tv = 1
+        delete tv[x.t][x.y.cv];
+        if (!hak(tv[x.t])) {
+            delete tv[x.t];
+            !hak(tv) and delete s.y.tv
+        }
+    }
+    $tw = s.y.tw;
+    if (tw && tw[x.t]) {
+        tw[x.t] == x and opt.was_tw = 1
+        delete tw[x.t]
+    }
+    $z = s.sc.z;
+    if (z && !opt.notz) {
+        $at = z.indexOf(x);
+        # < prefer to null it so some process can fade it out?
+        at >= 0 and z.splice(at,1); opt.was_z = at;
+    }
+    return opt;
+    # if unfound, check s&z.indexOf(x), which may indicate t/cv change
+    #   suppose then look for x in tv[x.t], then all of tv
+    # things should be isolated, change their names with el
+    # so 4, keeping itself from confusion
+};
+# replaces s's x
+# < putting those "revision of an item" yers from usu_dup
+#   ie can't just assign to tv, must check it is was or nothing
+#   layers...
+io.replace = &s,x,was,opt{
+    opt ||= {};
+    opt.notz == null and opt.notz = 1;
+    if (was) {
+        # remove the t/cv that was
+        io.unlink(s,was,opt);
+        $z = s.sc.z;
+        if (z) {
+            $at = z.indexOf(was);
+            at >= 0 and z[at] = x; opt.was_z = at
+            else {
+                opt.zcareful and throw "no find was in ss&z",was,s
+            }
+        }
+    }
+    $tv = s.y.tv ||= {};
+    tv[x.t] ||= {};
+    tv[x.t][x.y.cv] = x;
+    
+    if (A&io.dotw) {
+        $tw = s.y.tw ||= {};
+        tw[x.t] = x;
+    }
+    
+    if (A&io.yz) {
+        $z = s.sc.z ||= [];
+        opt.was_z == null and z.push(x)
+    }
+};
+#c knowables
+io.knowing = &d,v{
+    # a subtype, reenters at the end:
+    $p = d.p || {};
+    d.asa and $other = d; d = other.asa;
+    # types
+    d == 'tv' and d = {t:d,our:['y','tv'],usu:1};
+    d == 'tw' and d = {t:d,our:['y','tw'],usu:1}
+    d == 'z' and d = {t:d,our:['sc','z']}
+    # sheer bunch of keys
+    d.constructor == Array and d = {path:d,usu:1}
+    typeof d == 'string' and throw "intelligise", d, other
+    
+    other and ex(d,other)
+    # glob tv wants to make some path
+    !v and d.glob = 1; v = {t:'*',y:{cv:'*'}};
+    !d.glob && !io.isC(v) and debugger;
+    d.t == 'tv' and d.path ||= [v.t,v.y.cv]
+    d.t == 'tw' and d.path ||= [v.t]
+    
+    # apply the usual behaviour:
+    #  - when duplicate, overwrite
+    #    if tv, overwritings become linked lists
+    if (d.usu) {
+        if (d.t == 'tv') {
+            io.dotw and d.also = ['tw'];
+            # io.doz means copy z to tv when oing...
+            io.iz and d.also ||= ['z'];
+            # when not debugging etc:
+            #d.also ||= ['tw','z']
+        }
+        d.dup = io.usu_dup;
+    }
+    return d
+};
+# this should be available as around or after method call..
+# or "the usual" that the actual d.dup works with or without
+io.usu_dup = &d,x,v{
+            # can link duped things, new thing gets v.y.$to
+            # as in, newthing.y.earlier = oldthing
+            $from;
+            $to;
+            # make similar index to z to hold dupes, in order
+            # as s&z grep !in tv might reveal
+            $dupz;
+            
+            # revision of an item
+            d.t == 'tv' and from = 'later'; to = 'earlier'; dupz = 1;
+            # revision of name, moving through items
+            d.t == 'tw' and from = 'begins'; to = 'continues'; dupz = 1;
+            # < first relative thing keeps its position in tw
+            # < check new/old position in z, to inform who takes tw
+            #   hmmm, a flappy edge to the arrangement
+            # stuff moves through words
+            # these schema should be drawn out
+            # become keywords to io
+            # io will just work
+            
+            if (from || to) {
+                # which way is it going: new val stays, new val joins the queue
+                $backwards = from && x.y[from] || d.keep_first; #]
+                if (backwards) {
+                    !from and throw "can't go backwards with no from?"
+                    # ^ unless use in telling things that missed the spot who beat them
+                    !d.keep_first and throw "protocol changed"
+                    # we could -1 y&dup_tv index maybe?
+                    # or add y&most_$from to the end of the linked list
+                    # this should magnify into a huge democratic space for ...
+                    # space for 'space for ...'
+                    # or follow links:
+                    $X = x;
+                    # < all while loops should have some limit, spec learned
+                    #   badge earned. all code is is bestowment.
+                    $i = 100;
+                    while (X.y[from]) {
+                        i-- < 4 and throw "ixhaust"
+                        X = X.y[from];
+                    }
+                    # now last in the trail:
+                    X.y[from] = v;
+                    to and v.y[to] = X;
+                    # so tv stays something, but .y.later = v extends forever
+                }
+                else {
+                    from and x.y[from] = v;
+                    to and v.y[to] = x;
+                    # now tv sets us.
+                }
+            }
+            
+            # make tv_dup, index as tv but to [] of items at the point
+            # the minter will care about such things, T clutter, minor errors, noise
+            if (dupz) {
+                !d.our and throw "housing not given"
+                $p = {t:'z'};
+                p.our = d.our.slice();
+                $gk = p.our.pop();
+                p.our.push(gk+'_dup');
+                p.path = d.path.slice();
+                # dup should include the one already there
+                p.zefault = [x];
+                io.input(s,p,v);
+            }
+            
+            d.keep_first and return 1
+            # but we (as eg tv) shall go on to tw and z even dups
+            # no information lost!
+};
+A&io = io;
+return io

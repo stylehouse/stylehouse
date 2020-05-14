@@ -1,0 +1,25 @@
+# compile serve.pl from Wud + JaBabz
+my $way = sub {
+    my $t = shift;
+    G.way.>$t || die "No $t";
+};
+my $bab = sub {
+    my $s = shift;
+    my $C = {t=>'somba',y=>{},c=>{s=>$s}};
+    G&CoBabbler;
+    C.c.s
+};
+
+my $wab;$wab = sub {
+    my $t = shift;
+    my $w = $way->($t);
+    $t eq 'Wud' && $w =~ s/# insert JaBabz here/$way->('JaBabz')/e;
+    $w =~ s/Rw\ JaBabz \$C;/JaBabz(\$C);/sg;
+    $bab->($w);
+};
+
+my $f = "serve\.pl";
+my $perl = $wab->('Wud');
+write_file $f, $perl;
+`chmod +x $f`;
+sayre "Done";

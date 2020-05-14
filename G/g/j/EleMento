@@ -1,0 +1,153 @@
+# find A/J/C as tossed in the elements
+# < guts-tuck into A:ev
+# A may != the first A found up from event.target
+ws&now = G&time + 3600;
+
+    s = c&ev = A&ev;
+    C.y.A = A;
+    
+    # one A:ev per event SEMI-GONE
+    # < unifying all A:e-ings here
+    #   from one event triggering lots of handlers
+    #     as event.afterHandling or 1ms async
+    if (4s&last_event == s) {
+        # failing to off() when you on() events used to
+        G&Jinthe,'reset_event_listeners';
+        T.not = 1;
+        return ~toomanyevents
+    }
+    4s&last_event = s
+    
+    # allow 3 exceptions to 10Hz
+    G&jam,10,3 and return T.not = 1;
+    
+    C.t = c&type = s.type;
+    s&emotion = 3;
+    
+    # get info from event
+    
+    c&which = s.which;
+    if (s.keyCode) {
+        c&which != s.keyCode and ~differ which to keycode: s.which, s.keyCode
+        
+        # ignore shift, control, alt
+        c&which >= 16 && c&which <= 18 and return
+
+        c&key = String.fromCharCode(s.keyCode);
+        c&which == 27 and c&key = 'esc'
+        c&which == 32 and c&key = 'space'
+        c&key == "\r" and c&key = "\n"
+    }
+    
+    $mo = c&mode = {};
+    s.shiftKey and mo.S = 1;
+    s.ctrlKey and mo.C = 1;
+    s.altKey and mo.A = 1;
+    s.metaKey and mo.M = 1;
+    !Object.keys(mo).length and delete c&mode;
+    $spec = Object.keys(mo);
+    spec = spec.join('+');
+    spec and a&spec = spec;
+    
+    # combine C.t = A, S+F, C+click, M+2+click
+    # for typing into it with e.t...
+    if (c&type == 'keydown' || c&type == 'click') {
+        if (c&type == 'click') {
+            # left 'click', middle '2+click'
+            c&which != 1 and C.t = c&which+'+click';
+            delete c&which;
+        }
+        if (c&type == 'keydown') {
+            c&key.match(/[a-z0-9]/i) and C.t = c&key; delete c&which;
+        }
+    }
+    
+    if (c&type == 'click' && s.clientX) {
+        # relative to page? no pixel 0?
+        c&coord = s.clientX +','+ s.clientY;
+        # pageXOffset etc?
+    }
+    
+    $tag = $(s.target);
+    # lots of things have a val,
+    # only <input> or codemirror can input an empty string
+    if (tag[0].constructor != Window && (
+        tag.val && tag.val().length
+        || tag[0].nodeName == "INPUT")) {
+        $k = c&s != null ? 'val' : 's';
+        C.c[k] = tag.val();
+        C.t = 'input+'+C.t;
+    }
+    
+    # C should now be interesting
+    C.t == c&type and delete c&type;
+    
+    #c TODO s (event) already has a nice s.path (?)
+    # start looking at target
+    if (s.target) {
+        $S = s.target;
+        # anything with a t/cv should make the usual us&p path
+        # path after the last A outwards, for the last A.1 to know
+        $m = c&path_yon = [];
+        !S.A and m.push(S);
+        while (!S.A) {
+            !S.parentNode and break
+            S = S.parentNode;
+            m.unshift(S)
+        }
+        !m.length and delete c&path_yon
+        S.A and c&AS = S;
+    }
+    
+    # if A found, start proper list from there up
+    if (c&AS) {
+        $S = c&AS;
+        S.A.noelvis and return
+        delete c&AS;
+        # path through all elements on/between A, for A.3 to -> A.1
+        #   may be some elements S without .A?
+        # makes it to <body> who .A = A:top, window.A, A.1 == A.4
+        $m = c&path = [S];
+        while (S && !(S.A && S.A.1 == A.4)) {
+            !S.parentNode and break
+            S = S.parentNode;
+            m.unshift(S);
+            S.A && S.A.noelvis and return
+        }
+    }
+    
+    # path is elements, who might .A.1 = J
+    if (c&path) {
+        # reduce to unique Js
+        $m = c&Jat = [];
+        $la;
+        each iS c&path {
+            !S.A and continue
+            $J = S.A.1;
+            J == la and continue
+            m.push(J)
+            la = J;
+        }
+        !m.length and delete c&Jat
+        !c&Jat and ~>77 No Js, not even 4: ki(C)
+        
+        #m[0] && !m[0].A and ~>77 NoA on first path: ki(m), ki(c&path_yon)
+        #m[0] && m[0].A && m[0].A.1 != A.4 and ~>77 Didnt find 4 up: C
+        
+        $S = c&path.slice(-1)[0];
+        $Y = S.A;
+        !Y and ~last had no A:
+        $giveth = Y.b && Y.b.eintro || S.eintro;
+        if (giveth) {
+            #~asking: ki(Y)
+            giveth(C);
+        }
+        elsif (c&path_yon) {
+            each in c&path_yon {
+                n.eintro && n.eintro(C);
+            }
+        }
+    }
+    
+    # Jat path may have shape, A.2 != A.1.2, who knows
+    

@@ -1,0 +1,403 @@
+# sentences of stuff
+  // brackism
+    # see %%acty, %%may, %%wants, %%waits
+    #  not the usual row of stuff
+        # < bracktricks:
+        #  ha ...uniq - not if exactly like another row
+        #  transmit - solving %%may or %%wants
+        #   to be rolled into %wou early
+        #  ha waits... - could arrest Ring:r,
+        #   < wants Rc&ip.contains()
+        #  7 wants:n,acty:1,settled
+        #   acty transmit to $n,
+        #   waits for it to settle
+        #  ta - ternary ja $want ? ha $consequence : ha $waitsish
+        #  conseq - for the above, and %%may
+        #    hangs up the ja(expression),
+        #     we can tell if the rows were transmit to it etc
+   // may
+    # posit edge of a work
+    #  having a phase to interlock
+    # q describes a possibility of an act
+    # a what's needed to complete it
+    # might solve immediately, bracking no %%may
+    me.may = &acgtRtaq,qe{
+        isst(a) and a = G&peel,a
+        isst(q) and q = G&peel,q
+        a.may = t;
+        # the question %%may,...
+        q = ex({may:t},q);
+        ex(q,qe);
+        # the answer ..,%may
+        $N = (Ry&ja(a)||[])
+            .filter(n => haks(n.sc).slice(-1)[0] == 'may');
+        if (N && N.length) {
+            # a-found rows
+            # < merged with q?
+            # < ha with %%indeed, which noops the may+waits
+            return N
+        }
+        Ry&ha(q);
+        return []
+    };
+   // diff 
+        # < jy&da - differing wai of a node
+        me.diffwaia = &j,loose,tight,c{
+            c ||= {};
+            # what you want/specifically
+            isst(loose) and loose = G&peel,loose
+            isst(tight) and tight = G&peel,tight
+            $sa = me&stepwaia,j,ex({b:1},c);
+            $za = me&stepwaia,j,ex({now:1},c);
+            !(sa && za) and return
+            $was = sa(loose);
+            $now = za(loose);
+            # gets zu grounding into j
+            $C = js&C;
+            me&zu,'da',{was,now,tight};
+            $cha = {};
+            each kv tight {
+                # k - the column in either
+                # v - change type/reaction
+                #  ref, slep, in/decrease, growth...
+            }
+            return cha
+        }
+        
+  // brack io
+    // bracki
+        # brack into j%($k||='wough') ||= C:stuff%z%X
+        # < future ha: n %thing,etc
+        me.bracki = &acgtjz,s,shade,mix{
+            !z and throw "noz"
+            
+            isst(s) and s = G&peel,s
+            shade && isst(shade) and shade = G&peel,shade
+            mix && isst(mix) and mix = G&peel,mix
+            # we may be given an $n
+            isC(s) and $os = s; s = ex({},s.sc)
+            isar(s) and throw "many of these"
+
+            # listed
+            $n = Cye(['stuff',1]);
+            n.sc = s;
+            ac(z,'z',n);
+            zs&z.length > 1000 and throw "Giant brack",s
+
+            # mix shade -> n.sc for a while
+            shade || os and me&brackshade,n,shade,os;
+            # row pipelined around
+            os and ny&up = os
+            ny&brack = z;
+            T.act and ny&act = T.act;
+
+            # mix mix -> n.sc
+            each kv mix {
+                n.sc[k] = v
+            }
+
+            # indexed by ns&* index
+            $X = zs&X ||= {};
+            me&brackX,[n],X;
+            # < could know its siblings
+            #  < joining to another X.* partition out there,
+            #    so our queries can climb through their objects
+            # < return bracki localised to s, defaults and more
+            return n
+        }
+        # index n by n%*
+        #  X/k/ref(s) enumerate columns and their values
+        # ongoingly to index N-news into X
+        me.brackX = &acgtNX{
+            X ||= {};
+            X.k ||= {};
+            each in N {
+                each kv n.sc {
+                    $x = X.k[k] ||= {};
+                    # without ref(s):
+                    x.z ||= [];
+                    x.z.push(n);
+                    # by id of the value
+                    $fs = x.refs ||= [];
+                    $vi = fs.indexOf(v);
+                    vi < 0 and vi = fs.push(v)-1
+                    $f = x.ref ||= {};
+                    $fx = f[vi] ||= {};
+                    fx.z ||= [];
+                    # a row
+                    fx.z.push(n);
+                }
+            }
+            return X;
+        }
+        # to get rows piped around, grown + washed
+        me.brackshade = &acgtn,shade,os{
+            # track non-essential k/v, still in n.sc
+            #  don't inherit through ha(n)
+            # < we could also put separate row linked to n
+            #    {n,layer:'somesuch',...h}
+            #   then bracko may include the somesuch layer
+            #    of whatever it's asking about, if it wants to
+            if (shade) {
+                # add stuff that vanishes
+                nc&shade = ex({},os && osc&shade || {});
+                each kv shade {
+                    nc&shade[k] = 1;
+                    n.sc[k] = v;
+                }
+            }
+            elsif (os) {
+                # remove stuff that vanishes
+                each kv osc&shade {
+                    delete n.sc[k];
+                }
+            }
+        };
+    // bracko
+        # ry&sa = accessor of wai now|before
+        # query wai, context for
+        # < sorting by desire, OR if not AND,
+        #    so to solver from the parts we may have
+        me.bracko = &acgtjzco{
+            !z and return
+            !isC(z) and throw "braq!z"
+            !(c||o) and return zs&z
+            isst(c) and c = G&peel,c
+            $M = [];
+            # AND
+            $amongst;
+            $X = zs&X;
+            each tv c {
+                # might have indexing
+                if (X && !amongst) {
+                    $x = ahsk(X,'k',t);
+                    if (x && v != 1) {
+                        $vi = x.refs.indexOf(v);
+                        vi < 0 and return
+                        x = x.ref[vi];
+                    }
+                    !x and return
+                    each in x.z {
+                        !M.includes(n) and M.push(n)
+                    }
+                }
+                else {
+                    $from = amongst || zs&z;
+                    each in from {
+                        $non = !(n.sc[t] && (v == 1 || v == n.sc[t]));
+                        non && amongst and M = M.filter(out=>out!=n)
+                        non || amongst and continue
+                        !M.includes(n) and M.push(n)
+                    }
+                }
+                amongst = M;
+            }
+            # one column mode
+            if (o) {
+                o == 1 and o = haks(c)[0]
+                $N = M;
+                M = [];
+                each in N {
+                    $v = n.sc[o];
+                    v == null and continue
+                    M.push(v);
+                }
+            }
+            M.length and return M
+        };
+        
+  // brackology takes a look
+    # situating crammed meanings
+    #  wildest edge of things, where wheres where
+    # < fill with hooks, combine with KnowC?
+    #   see CB, which also wants:
+    # < brackology with styles
+    
+    # find openness asap, ology upwards
+    me.brackope = &acgtjk,forreal{
+        $C = js&C;
+        $bk = 'brack'+k+'ology';
+        
+        if (!forreal) {
+            me&reaw,j,bk,1;
+            $g = j.sc[bk] =
+                me&opeology,k,{label:{walls:'bg'}};
+            return g
+        }
+        $g = j.sc[bk];
+        !forreal and return
+        
+        $p = me.cbu(jy&up,bk);
+        p and $pp = me.cbu(py&up,bk)
+        p and p = p.sc[bk]
+        
+        gs&pow = gs&ope ? 2
+            : p && ps&ope || !pp ? 1
+            : 0;
+        
+        gs&ws = 0;
+        if (gs&pow > 1) {
+            #gs&float = 'right';
+            gs&dis = 2;
+        }
+        me&walls,g,'b:2.2h6';
+        
+        return g;
+    };
+    
+    me.brackology = &acgtjz{
+        $C = js&C;
+        isst(z) and z = j.sc[z]
+        !isC(z) and throw "!z"
+        $k = z.t;
+        $g = me&brackope,j,k,1
+        !z and return g;
+        
+        $X = zs&X ||= me&brackX,zs&z;
+        
+        !hak(X.k) and return g
+        
+        gy&brack = z;
+        zy&brackology = g;
+        gy&X = X;
+        
+        if (gs&ope) {
+            #me&nu,'waigh',z;
+            #me&nu,"X",X;
+        }
+        #j.t == 'Travel' and me&nu,"j",j;
+        
+        # 0 - 1 changes
+        # 1 - t-only, grouped
+        # 2 - t:v, for 1 v only (as now)
+        # < t-only, of at the toplevel
+        if (gs&pow < 0) {
+            # < only changes pop up, shrink in
+            $op = me&sizo,g,{t:'rows',len:zs&z.length,opelen:1};
+            me&sizo,g,{len:hak(X.k)};
+            !(op && ops&ope) and return g
+        }
+        
+        $N = me&brackgroupX,j,z;
+        
+        each ic N {
+            $ug = g;
+            if (!cs&X) {
+                cs&X = me&brackX,cs&z;
+                ug = me&opeKn,g,'rowology'+i,{walls:'bd:1.4'}
+                ugs&bgh = 581;
+                ugs&dis = 2;
+            }
+            ugs&pow = gs&pow;
+            ugs&ope = gs&ope;
+            #j.t == 'Travel' and me&nu,"rowish"+i,c
+            me&brackXology,ug,cs&X;
+        }
+        # < X.ref for inter-group object link
+        # < ny&act from a &acting%ope glow
+        return g;
+    };
+    # regroup similar rows
+    me.brackgroupX = &acgtjz{
+        $N = [];
+        each in zs&z {
+            $ks = haks(n.sc);
+            $matchness = 0;
+            $match = null;
+            each ic N {
+                $no = haks(c.c).filter(k => !hak(n.sc,k)).length;
+                no > 1 and continue
+                $yes = ks.filter(k => hak(c.c,k)).length;
+                $matched = yes - no;
+                matched <= matchness and continue
+                match = c;
+                matchness = matched;
+                #j.t == 'Travel' and me&nu,"matched"+i,[ks.join(','),matched+'('+yes+'/'+no+')'+matchness,c.t]
+            }
+            if (match && matchness >= ks.length-1) {
+                # groups members with <= 1 odd key
+                $c = match;
+                ac(c,'z',n);
+            }
+            else {
+                $c = Cye([ks.join(','),1]);
+                c.c = ex({},n.sc)
+                cs&z = [n];
+                N.push(c)
+            }
+        }
+        #N.length == 1 and N = [z]
+        return N
+    };
+    me.mnu = &acgtgts{
+        $nu = me&nu,t,s;
+        nus&ope = 1;
+        me&zN,nu;
+        me&zuct,g,nu;
+    };
+    # draw openable X.k/ref/z
+    me.brackXology = &acgtgX{
+        $Kms = [];
+        each kx X.k {
+            $Km = me&opeKm,g,k;
+            Kmc&k = k;
+            Kmc&x = x;
+            Kms&ope and gs&pow = 2
+            Kms.push(Km)
+        }
+        gs&pow < 2 and gs&ma = 0.2
+        each i,Km Kms {
+            $k = Kmc&k;
+            $x = Kmc&x;
+            if (gs&pow < 2) {
+                Kms&ma = 0.1
+                continue
+            }
+            
+            # total values for key, Km%ope if 1
+            me&opesizup,Km,{len:hak(x.ref)};
+            !Kms&ope and continue
+            
+            fio(Km,['ope',1,{s:":"},'hs:888']);
+            $vii = 0;
+            each vi,fx x.ref {
+                $v = x.refs[vi];
+                $tee = isC(v) ? v.t :
+                    !isob(v) ? v : ki(k,2);
+                $Kn = me&opeKn,Km,tee,{label:{tsc:'y'}};
+                
+                $lab = Kny&label;
+                Knc&sortcv = 1;
+                isC(v) &&
+                    fio(Kn,['sym',112,{s:'C'},
+                    'label,fs:13,lh:0.8,hs:757']);
+
+                # total rows for this value with this key
+                # < light up other k/v/rows this k/v/row has
+                me&sizo,Kn,{len:fx.z.length};
+                Kns&ma = 0.2;
+                if (Kns&ope) {
+                    each in fx.z {
+                        $val = n.sc[k];
+                        $na = [g.t,k,vi,i].join("'");
+                        $wa = me&opeKn,Kn,na;
+                        way&cv = 0.2;
+                        was&dis = 1;
+                        # sprout icon, some non-nu to click
+                        $wan = me&opeKn,wa,'ܤ',{label:{tsc:'y'}};
+                        if (wans&ope) {
+                            # whole row
+                            me&mnu,wa,'row',n
+                        }
+                        else {
+                            # for the value
+                            me&mnu,wa,k,val;
+                        }
+                        wany&cv = 0.8;
+                    }
+                }
+            }
+        }
+        return g
+    };
+    

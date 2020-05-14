@@ -9,6 +9,7 @@ use G;
 sub dige { slm(12, Digest::SHA::sha256_hex( encode_utf8(shift) ) ) };
 my ($A,$C,$G,$T);
 my $ar = {};
+!-d $_ && `mkdir -p $_` for qw'wormhole/digway G W';
 
 use Mojolicious::Lite;
 use MIME::Base64;
@@ -19,9 +20,13 @@ app->secrets(["nothing"]);
 #    if $G->{c}->{dir} || $G->{c}->{ipd};
 
 our $listen = "http://localhost:1422";
+if (-f 'listen') {
+    $_ = `cat listen`; chomp $_;
+    $listen = 'http://'.$_;
+}
 sub starts {
     1 && saybl "Starting     listens: $listen";
-    1 && saygr "Appstart: ". app->start('daemon', '--listen' => "$listen");
+    app->start('daemon', '--listen' => "$listen");
 }
 sub JaBabz {
     my $C = shift;
@@ -43,7 +48,7 @@ my $hide = {};
 # supposed to not babz anything in it...
 # < stylehouse (the editor) must know this too
 #     or it'll expand tabs to 4 spaces
-$C->{c}->{s} =~ s{^(\s*)($nlp)<<(''|"")($nlp?)\n((?:$nlp\n)+)[ \t]*\n}{
+$C->{c}->{s} =~ s{^(\s*)($nlp)<<(''|"")($nlp?)\n((?:\1$nlp\n)+)[ \t]*\n}{
     my $babin = $3 eq '""';
     my $ind = $1 || '';
     my $fore = $2;
@@ -650,6 +655,74 @@ get '/' => sub { my ($c) = @_;
     $c->reply->static("two\.html");
 };
 
+#c /peek/ - pull it into stylehouse
+any '/peek/*t' => sub { my ($c) = @_;
+    my $resp = sub { my ($s) = @_; $c->render(text=>sjson($s)) };
+    # look at:
+    my $t = $c->param('t');
+    # for a size or range:
+    my $line = $c->param('line') || 0;
+    # for directory, text,
+    my $type = 'f';
+    $t += '/*' if -d $t;
+    $type = 'd' if $t =~ /\*/;
+
+    my ($f) = my @l = glob $t;
+
+    # weird corners:
+    #  supplying ?-ambiguated $t matching many
+    $type = 'd' if @l > 1 || -d $f;
+    my $re = {type=>$type};
+    return $resp->({sc=>{%$re,lines=>[@l],
+        dige=>dige(join "\n",@l)}}) if $type eq 'd';
+    # < symlinks
+    return $resp->({er=>'not found'}) if !-f $f;
+
+    my $size = $re->{sizekb} = 0.001 * (-s $f);
+    return $resp->({er=>'too big: '.$size.'kb'}) if $size > 420;
+    # < image or video...
+    return $resp->({er=>'not text'}) unless -T $f;
+    my $string = decode_utf8(read_file($f));
+    @l = split "\n", $string;
+    $re->{length} = 0+@l;
+
+    # how to chop that up
+    if ($line =~ s/<(\d+)$//) {
+        # only shallow indents, dige between
+        my $indentlt = $1;
+        # always has a leading something
+        my @between = [];
+        @l = grep {
+            if (!/\S+/ || /^ {$indentlt}/) {
+                push @{$between[-1] ||= []}, $_;
+                0
+            }
+            else {
+                push @between, [];
+                1
+            }
+        } @l;
+        1 && sayre "indgrep $indentlt ".@l." < ".$re->{length};
+        @between = map { !@$_ ? '' : @$_."x".dige(join("\n",@$_)) } @between;
+        $re->{dige} = dige(join "\n",
+            $between[0], map{ $l[$_], $between[$_+1]||'' } 0..@l-1
+        );
+        $re->{between} = \@between;
+    }
+    else {
+        $line ||= 0;
+        my $toline = $2 if $line =~ s/^(\d+)-(\d+)$/$1/;
+        $toline ||= $line + 100;
+        $re->{line} = $line;
+        $toline = @l-1 if $toline > @l-1;
+        @l = @l[$line..$toline];
+        $re->{toline} = $line + @l;
+        $re->{dige} = dige(join "\n",@l);
+    }
+
+    return $resp->({sc=>{%$re,lines=>[@l]}})
+};
+
 #c /digwaypoll/ notifier, see 281 Sevo
 # < check on connect
 my $poll = {tx=>[],ways=>{}};
@@ -666,7 +739,7 @@ $poll->{doing} = sub { my ($o) = @_;
         $t = $poll->{wayt}->{"$p"} ||= do { $t =~ s/\W/-/sg; $t };
         my $digway = "wormhole/digway/$t";
         my $dig = readlink $digway;
-        1 && sayre "no $digway" if !$dig;
+        #1 && sayre "no $digway" if !$dig;
         next if !$dig;
         my $was = $poll->{wayd}->{"$t"};
         next if $was && $dig eq $was;
@@ -825,7 +898,7 @@ any '/ghost/*w' => sub { my ($c) = @_;
     my ($cat) = $f =~ /^G\/([^\/]+)\//;
     # < avoid some disking if $have
     my $wig = "wormhole/digway/$st";
-    my $digway = readlink($wig);
+    my $digway = readlink($wig) || '';
 
     # returns json:
     my $re = {ok=>0};
