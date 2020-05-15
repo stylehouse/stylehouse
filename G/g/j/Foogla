@@ -5,7 +5,7 @@ $io = me.io;
 
 =head1 #prepare to A=A
 
-some goals:
+some goals!!
 - efficiently educating on A passage of time
 - J to take < 200ms
 - not noticing anyway
@@ -4423,6 +4423,9 @@ me.Socketingness = &acgtR{ return [
     ['GhodigWap','3',&acgtRs{
         # replaces J:digwaypoll
         me&rolltog,R,'nodigway',1,&s{4c&nodigway=s};
+        $def = location.host.match(/edit/) && 1;
+        me&rolltog,R,'noGhodig',def,&s{4s&noGhodig=s};
+        
         
         # $w as heard about, seekended and living (Iw)
         me&introqua,[R,'ifd','Ghost','apparently'],{boost:-1},'@1';
@@ -4479,6 +4482,7 @@ me.Socketingness = &acgtR{ return [
             });
         # on change, queue:
         Ss&do_Further = &{
+            4s&noGhodig and return
             # /apparently/* changing creates /seek/*
             # to look it up since that dige changed
             o $Ghost/seek/*
@@ -4538,6 +4542,7 @@ me.Socketingness = &acgtR{ return [
         
         #c 7 thing-got
         Ss&sleep_Further = &ws{
+            4s&noGhodig and return
             if (!w) {
                 # from eout that sleeps
                 o $Way/#$s
