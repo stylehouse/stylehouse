@@ -3,8 +3,11 @@ coding coding
 
 run ./serve.pl
 
-http://localhost:1812
-  changes G/*
-http://localhost:1812/?Wayout/Fingo
-  uses G/*, changes W/*
+## http://edit.localhost:1812
+
+changes G/*, without listening for updates
+
+## http://localhost:1812/?Wayout/Fingo
+
+uses G/*, changes W/*
 
