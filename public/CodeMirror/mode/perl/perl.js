@@ -792,6 +792,7 @@ CodeMirror.defineMode("perl",function(){
             token: function(stream, state) {
                 return (state.tokenize || tokenPerl)(stream, state);
             },
+            fold: 'indent',
             lineComment: '#'
         };
 });
