@@ -949,6 +949,7 @@ me.Elvisingness = &acgt{ return [
 
 #c Wayout Fourismness Elfor=Codon|Slei
 me.Fourismness = &acgt{ return [
+
     ... me&Zavingness ,
     ... me&Elvisingness ,
    //Domebegin etc
@@ -1870,7 +1871,11 @@ me.Fourismness = &acgt{ return [
             # Oc&n = map modulat
             $se = d.se;
             # n/{t,...,z/...}
-            se and $ze = fio(se,'z'); zes&ml = 1;
+            if (se) {
+                $ze = fio(se,'z');
+                zes&ml = 1;
+                sey&ze = ze;
+            }
             $n = fio((ze||ma),s.t);
             d.se = Oc&n = n;
             nc&forgk = ds&gk;
@@ -1929,8 +1934,10 @@ me.Fourismness = &acgt{ return [
         });
         
         
-   //   #c map styled!
+   //   #c map styled!!
         # O-memorised c-styling n-modulat
+        #  not bound to reapply since O !~ n,
+        #   but we always call mapstyle
         $apply = &Onc{
             $modon = me&Dispon,n;
             me&eCsc,O,'mapstyle',c (modon);
@@ -1988,6 +1995,16 @@ me.Fourismness = &acgt{ return [
                             cm.refresh();
                         }
                     }
+                }
+                elsif (rs&Codin) {
+                    # explicitly shut hides $n/z
+                    $is = Os&ope == 0 ? 'none' : '';
+                    $zc = {};
+                    is and zc.dis = 0;
+                    $ze = ny&ze;
+                    # <! throw here looping crazy
+                    !ze and ~>6 stylemap Codin !ny&ze: O.t
+                    else { apply(ze,ze,zc) }
                 }
                 
                 apply(O,l,sc);
