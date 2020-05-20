@@ -1,210 +1,764 @@
-//softov
-  feelins gorara
-  // 37 - < Domes
-   # glib glab
-   # somebodinoes
-   // stator
-    // Domes_o3|7 - both ends of the deal
-        # domes, transbrack init
-        me.Domes_o3 = &acgtr{
-            $s = rc&s;
-            me&etos_o3,r,s;
-            me&dome_o3,r,s;
-        }
-        # domes, transbrack accept
-        # < deeper first?
-        me.Domes_7 = &acgtRpr{
-            $s = rc&s;
-            me&node_accept,R,r,s;
-            # when not &bready, ask R%Ying to come back:
-            me&bready,r and R&ha,{waits:'wants',wants:r}
-            # %%eto|from
-            me&etos_6,R,p,r,s;
-            me&etos_7,R,p,r,s;
-            # %%dome replace if any new
-            me&dome_7,R,p,r,s;
-            # display
-            return me&stepbrack,r;
-        }
-        
-    // < %%dome - residing state
-       =pod
-        %%dome:$t,... - a row that resurrects
-         # not: another $z to seem in this one via bracko
-         @o3 sa'dome' -> ha, each nc&recycled=1
-         @6:
-           you ja your permanent-er state out of it
-           eg %Ying has orders of $p waiting
-           or commit log
-           or %Paving sanity checking as we .5<->.1
-         @7:
-           any ha %dome:$t,... replace them
-            or something configured
-           one ha %dome:$t - to drop it
-           no ha %dome:$t* - to keep them all
-            maybe for a ttl
-       =cut
-        # < += %%dome from last time
-        me.dome_o3 = &acgtrs{
-        }
-        # < %%dome replace if any new
-        me.dome_7 = &acgtRprs{
-            $N = r&ja,'dome';
-            $synthz = {};
-            $keeps = [];
-            each in N {
-                
-            }
-        }
-        
-    // %%eto - externalising state
-        # $to += %%efrom...
-        me.etos_o3 = &acgtrs{
-            $ef = sy&efroms;
-            !ef and return
-            me&ioty,ef .map(&fo,{
-                $h = fos&etos;
-                # h may re-node_hoist before we 7, if from /**
-                fos&using = hs&current;
-                hc&el == 9 and foc&el = 9; return
-                !hs&vers.includes(hs&current) and throw "vers!"
-                !hs&from and throw "!from"
-                hs&to != s and throw "to!"
-                me&ioty,h .map(&n{
-                    # each row is mixed in, +%%efrom
-                    n = r&ha,n,{efrom:hs&from}
-                    # < looking at s & n should notice this link:
-                    ny&efrom = fo;
-                });
-            })
-        };
-        # $from %%eto
-        #   -> $from sy&etos
-        #   -> Ying%%etos
-        # < brackstill config/slep
-        # < riding X, hoisting all the way up...
-        #  < a/b/-c/d should revoke d's stuff on b, a
-        me.etos_6 = &acgtRprs{
-            # all %%eto from this node
-            $eto = r&jaa,'eto' .filter (n => !ns&efrom);
-            # node s resolve to a %Ying/(pa/th)
-            $tpath = &to,{
-                $jo = toy&R;
-                $N = me.cby(jo,&r{
-                    return rc&s == Rc&s
-                });
-                N[0].c.s != Rc&s and throw "!^^%Ying"
-                N.shift();
-                N = N.filter(r => rs&ball);
-                !N.length and throw "!tpath"
-                return N.map(r => r.t).join('/')
-            };
-            $fromt = tpath(r);
-            # C:from/C:to/row
-            # grouped by where they're going
-            # with c&el=9
-            $ing = sy&etos ||= Cye([fromt,1]);
-            $gone = (ings&z||[]).slice();
-            each in eto {
-                $to = ns&eto;
-                # %%eto=1 means to the step
-                to == 1 and to = p
-                # select s given p/r/s
-                $jo = toy&R;
-                to = joc&s;
-                
-                $tot = tpath(to);
-                $h = fio(ing,tot);
-                $gi = gone.indexOf(h);
-                if (gi >= 0) {
-                    gone.splice(gi,1);
-                    # new bunch of rows
-                    hs&z = [];
-                }
-                
-                hs&to = to;
-                hs&from  = s;
-                ac(h,'z',n);
-                
-            }
-            # revoke
-            gone .map(&h{
-                !fio(ing,h.t,0) and throw "notnt"
-                if (hc&el != 9) {
-                    hs&current = h;
-                    hc&el = 9
-                }
-            });
-            # brackstill version off the previous
-            me&ioty,ing .map(&h{
-                hs&vers ||= [];
-                #!
-                if (hc&el != 9) {
-                    $la = hs&vers.slice(-1)[0];
-                    $cha = me&brackstill,r,h,la;
-                    if (cha) {
-                        delete hs&accepted_boring;
-                        # clone into vers[], h/* replaces
-                        hs&vers.push(Cye(h));
-                        #~>3 newvers: h.t
-                    }
-                    hs&current = hs&vers.slice(-1)[0];
-                }
-                !(hs&from || !hs&to) and throw "!to|from"
-                if (hs&accepted == hs&current) {
-                    # remove here once they accept 9ing it
-                    if (hc&el == 9) {
-                        ~>2 GC: h.t
-                        fio(ing,h.t,9)
-                    }
-                    $neu = !hs&accepted_boring;
-                    hs&accepted_boring = 1;
-                    neu and ~>3 hoistcept: h.t, '<-', fromt
-                }
-                else {
-                    # asking %Ying to transport
-                    R&ha,{etos:h,s,fromt}
-                    !cha and ~>3 oldnews: h.t, '<-', fromt
-                }
-            })
-        }
-        # $to %%efrom marked as accepted
-        #  relaxes $from sending it
-        me.etos_7 = &acgtRprs{
-            $ef = sy&efroms;
-            !ef and return
-            $gone = [];
-            me&ioty,ef .map(&fo,{
-                $h = fos&etos;
-                hs&accepted = fos&using;
-                hc&el == 9 and gone.push(fo); return
-                # something in the way it is now?
-            })
-            gone.map(fo => fio(ef,fo,9))
-        }
-        # Ying %%etos
-        #   -> $to sy&efroms
-        #   -> Ying%%waits:eto,wants:$to
-        me.etos_8 = &acgtR{
-            $froms = R&jaa,'etos';
-            froms.map(&n{
-                # ho = to with s&current from &node_hoist
-                !ns&fromt and throw "!fromt"
-                $h = ns&etos;
-                $to = hs&to;
-                $jo = toy&R;
-                to = joc&s;
-                # efroms - for|on the to node path
-                $ef = toy&efroms ||= Cye([h.t,1]);
-                ef.t != h.t and throw "misnodepath"
-                #  /$fromt - the from node path
-                $fo = fio(ef,ns&fromt);
-                fos&etos = h;
-                # jo tidies efroms, once el=9 accepted
-                # send attention
-                R&ha,{waits:'eto',wants:to}
-                
-                ~>5 efroms hoisting: ef.t, '<-', fo.t
-            });
-        }
+# Domes prepare to A=A
+$me = 4c&me;
+!me and throw "no me";
+$io = me.io;
+
+=head1 #prepare to A=A
+
+some goals!!
+- efficiently educating on A passage of time
+- J to take < 200ms
+- not noticing anyway
+- Elvising running the shower
+- unpatch, failing, patch, passing in a few seconds
+
+=head3 future of sleep: Doming
+A starts works, D are their completion
+
+   C   E
+ A   D 
+   C   C
+
+A C9[C...] completes D and elvises a clone
+ D commits Gs, Es swarm T (*/W/*)
+  G wants the resources near-ish
+  T returns to the desire resolver
+
+D - the Aing grouping items sprout inside
+  z C & A to include C/group A workload
+  provide osc-like cha/continuity without osc,
+    yet be the atomicness osc uses to commit,
+    and load with decor/nativities to make for mediation
+      R:I is now being the osc workload gatherer + commit
+        which should work on >=1 'pages' of osc at a time
+          eg elvising from ...
+          or the whole/9er
+        rolling the others,
+        being able to async progress,
+          do work in parallel or not...
+make unities early to sleep/calculate desires better
+  eg. when A is @28, the state can be considered D:early
+  eg. when Jpin, S makes domes, which can then be known about
+internal buzz. pages of its ground.
+  get composited into D:top, C9[C...] post-osc
+  which gets hoisted/elvised into J/W timespace elsewhere,
+    the macro-J Doming-looking action: hosting stuff.
+so to:
+  make arbitrary groups
+    for groups sake:
+      naming stuff
+      handling streams
+    to stabilise/refine our sense of activity
+  transport C out of time,
+    so J>7 can help J<7 (sleep)
+    osc-think may play with things outside of osc,
+     < holds that state in a dome it hopes to pull in?
+  locate them as possible actions,
+    as bumping into a S-ection kinda defines it
+      < more at compile time
+    and elvis handlers... 1s&ein.sayeth = &acgts{
+  know inputs in a tracable way
+    Elvising pointing in here,
+      as Teing is
+    giving Desire pathways to trace processes
+
+Domes may iterate X/V or some structure from another Dome,
+  it may be important to iterate locally and do remotely,
+    they become transactions
+Desire might want to do something,
+as a new elvis pointing into here would
+ Teing is a kind of elvising
+   and is the float:right upside down triangle of stuff
+     the small network-edge pile coming down into
+     the big contenty pile of isness
+ Schemas too, float their potential/unfoldment
+   down holes they start matching
+
+#c sleep/done =head2 sleep tunnel
+
+%slep, a Tool probe
+  a way to map their changes fast and sleep
+    change of container vs. the values within etc
+    can give/take sy&slandige/Ry&Te_slandige
+ < could be faster/lessR: callback a huge ==-ish plucker,
+    50ms 3%slep could get down to 4ms?
+ < unicode everywhere. plants: 💮 🌸 🌷 🌹  🌺 🌻 🌼 🥀  🎕 ⚘ 🏵 🏶  🌱 🌽 🌾  ⸙ 🌰 🌿 🍀 🍁 🍂 🍃  🌵 🌴  🎋 🎄 🌲 🌳
+ < Cye takes y=o89 -> ycv=0.089
+ < put sdiff and dup etc in 11-ish (dup 1189)
+ < C/sc/css compressions, in Line or not
+ 
+Tool openness
+  configures injectoids and transfiguration
+  < more timely %differ growing out of it
+  real interesting later
+
+< Elvisory re-slaning on %push to it?
+   is the elvis delivery mechanism:
+    give edifice of deliverableness
+     resolve to best case or so:
+   if it were a different J:
+    enter it, changes input to thisJ
+    decide to redome thisJ to involve that,
+      or seeing our change come back to us
+   Matu-ish out-of-time with %push gravitate reruns
+  redo R building on changed elvisory?
+  see 'rebuild %push to use e'
+   %push currently injects the remote %ball%movingin
+     which will not work if its asleep
+     but it could be brought around about as fast if:
+< Te the %moves to Elvisory/anywhere
+   with a watch for completion and callback/expiry
+< universal vision of rc&ha.dup,
+< replace ravel with Doming and Display2
+< TEST io.i z much
+
+# another
+o rebuild I via Babd ways
+ o link G/ to W/G so we can update it ourselves
+ o get a Lis rolling nicely
+  o tests sign the version as it percolates
+o rebuild jsBab in js
+ o fast way changes, lots of test results if you want
+ o check against jsBabz for j/2/*
+
+o 'rebuild %push to use e'
+  %checkout the tangley varieties of %push
+
+o unify name extrusion (see names extruding)
+  like X but with where/when to D,
+    alt names and fuzzentations (figure name changes)
+      inc. crunchable path descriptions in various datalang
+    universal gone/unnoticed system
+
+make this data pointer (Cit)
+ add %doings that Cit the same way
+   and can share refs perfectly,
+   showing where internals began
+     set free with an everything bisector
+
+good study.
+perldoc -f study
+# < in general, knowing if the A is for a queue or for right now
+
+
+#c=head2 Maturation
+
+Gombulus hives elvising going in or coming out
+TX
+hands need to be projected
+
+o a&z toplevel thinker
+  and its localised sidecares
+    like AndContinue,
+      want J structure reengaged
+      A might %waitingfor
+  a bunch of R not expecting J overhead
+  rebuilding on the Co Joinup (W of W)
+    having it bring G (map of its dependencies) (see Give)
+      as an %H of a different name
+        once osc piles of whatever hoisting is?
+          not much doc about osc hoisting:
+           the W/of/t may W/what/ever/it/takes/t
+           for stats/accounting
+  Matu process with %ball
+    mapping the mapped into a transform,
+      redoing parts, remixing
+
+o and then making a coderupper and way in-outer
+  to the rest of the rennovation...
+    starting a new page of html,
+      built-in and W-contiguous
+        the simple funtimes embedded in the page,
+        if browser compatible, Wake up and do anything
+    I-ing up Sevo, then placing more A-ily,
+
+o names extruding, like X but with:
+  connection to a dome:
+    where/when they would have emerged (gonerism)
+      eg. from the ground, or some picking of Rc&s
+        done-ish by %slep
+          could describe path or so
+    decide once D:in !%more
+      D:new == D:old to sleep, or:
+      clone D:new to D:out and ...
+        becomes someones D:in
+          border control
+    
+o Display2, that goes via X instead of yup:
+    traversal iterators that choose a name system to use,
+      X is the given base name system
+
+o elvising coming out or going in on the X
+  and transacting the change of it
+   as Domes, which have versions of Domes going into them
+   an osc that keeps everything it sees would be first
+    and be the wandering frontiers of change
+ 
+o making the R an A.
+  compiling ravel into throat?
+
+fairly slow slow, need:
+ more sleep (R to 1/2 and no further) (%slep)
+ ongoing bisection of A
+
+then make go fast
+
+and then I land,
+  an editor native to
+ then A=A
+
+# anyway
+
+back to Pass...
+
+# thursday:
+  new A4,
+    < starts from a single /js/ with
+      one screenful of prior knowledge
+    A calmly pulls in its deps, sets foot...
+# saturday:
+# friday:
+  new I compiled fore-way,
+    composited and storaged in Pass
+    is a layer of tools on a type of wormhole,
+     which we also need to grasp moving around
+    the bunch of names, Lis
+#c monday:!
+W&Ha:
+  bugs:
+    seeI 1.2: is one of the Is Mlimits diags wrong?
+    a slep inside a slep has some history issue, keeps spawning?
+  W&ledges:
+   tests slepology:
+     specifically elvis change
+   since W&edges is too large
+ 
+ unseparated W&Ha starts taking Rc&N>1000 to check out
+  its the elvising:
+   < to be lv change only
+   < not deLinesing to Wing, wait til Ting
+  such shapes par importo A=A
+  
+W&large_edges:
+  W&edges:
+   tests slepology:
+     wakes on elvis/data change
+     %countlife%aTool shows if its awake
+     %differ goes round in circles as data loops
+   only just able to complete with the current memory leak
+   step 9 shows a bunch of yReal vanishing...
    
+  toomuch:
+   leading to '< %run/%differ' is desire to ease
+     accepting changes, to exp or Te
+   are both a little far away? would be nice
+     but nearly done with tests until A=R round,
+     which is likely to see them built more elegant
+    - exp: later %doing to bring earlier accepted change
+     see %differ. little far away.
+    - Te: %doing brings T/$W back if modified
+     also a little far away.
+     get both diffing,
+     the innermost T...%ball that was ==
+      cloning that over itself, 
+       pointed enough to apply to later %doing
+        that wants to resume that state with more
+      with a diff/accept stage
+       temporarily projected into the %run by %Tool
+     Lines|diff must find R per diffchunk
+       Bunchology with the diffchunks != new
+   will be:
+   < linking T/$W -> W:PuTe or W:City:
+      T/$W:edges.y.owner = $W:PuTe
+       and $W:edges ~ $W:PuTe/$W:edges
+      T/$W:City.y.owner = $W:City,
+       and $W:edges is further inside, etc
+         find refs for $W:City/*
+      possibly need more %Lines gathering points
+       or a function to gather them on demand
+   < diffing T/$W:edges <-> W:PuTe/$W:edges,
+     producing R in T/$W that have the change,
+      and those that are merely transporting it
+        common Lis sense:
+          T is species of edges, as is W:PuTe
+     so we know the minimum clone-over move to make,
+       and what it should be cloning over
+         < lv changes later
+   < being a pathy clone-in %Tool to apply to later %doings
+  
+  random niceups
+   %testrun=2 'get ahead of %run'
+    until %step with boost
+   %run: inventstep clones last step
+   
+   < %City is noisy, we want:
+     %slan to turn miniature diff on the noise
+      path to the Rthing, lines changed before next Rthing
+  
+   < %Cit shrinkgrouping known R props
+    < group them by the I producing them
+     < coder than dictionaries every property you use
+   < %Cit visual cues for:
+     R:Dough that %Someflav=C:Dough,
+       for eg Rs&C = picture of self
+      or C.y.Process = R
+       things R has may link back to R with typing
+   
+   and A=R
+   
+   #   the curves of this paragraph looks great up close:
+   #  this is what A:s-ions will look like
+   # state changes
+   # with casual causla {}
+   # along space wiggle
+   < %run:
+     < using %differ to:
+      < cursor various things to keep branchy,
+        and hooks to make the test reset/pause properlike
+          %differ becoming the time controller,
+          %push%act merely a workflow in it
+      < %doing brings T/$W back if modified
+        probably into $doing/$W (nab%aTool loses %H)
+        causing:
+      < later %doing to bring earlier accepted change
+        eg. PuTe arrangement before every step,
+        has the story of elvis along it
+        < must be applied as an lv change,
+          sensitive to overwriting anything etc.
+      < storing lv changes for consecutive %doings
+   
+#c tuesdA:
+new/old ground:
+come back to A, they are like R:
+  a&z (A.sc.z) are innards, like Rs&z
+   only used in A:u
+  a&N are innards anywhere wanting attention
+   w:TuneTimeMachine gives A to 1s&N
+   w:AndContinue: resumes all 3s&N
+so 1 can know what A it has in progress...
+ AndContinue shall come again
+  building W&Lis
+  ...
+have R that can simply keep Ringing?
+ < osc must get us back into whatever Ring:
+   init: Ring@1 everything (Graze)
+   then: resumes all Is&z
+  the cores may fall asleep at random
+   and may still percolate a Display anyway
+   or lock the dome it was finishing from starting again
+see I and repackage:
+   A:u makes .I
+     mixed from many .I,
+     got from /js/
+     with async for update/check
+   A.4:
+    has loop bits, local culture
+    .I:
+     is everything, mixed up with StyleHut
+     .i is all StyleHut,
+      figure out what we need to keep
+     never goes async, is trusted to be maintained,
+     .w:
+      has only this %namedcode thing
+   A.5:
+     looks neglected
+     .w:
+      is the spot, y&tw for $way
+       they s&dige and s&now, G&way asyncs
+       want to digwaypoll them, make sync
+      all scooped up by Shovel, per test run
+       which can make sync prior
+I.w is totally incidental,
+1s&minds[uname] = A c&N[4s&mind[t]]
+ u deals with W via /js/, mixes onto Normal
+G&question (and other asyncers) should provide:
+  ttl, ready=1 on callback
+ to be useful for testing this stuff efficiently
+
+ how it starts:
+   html <script> get & eval from /thestart?step=n
+    sends it A&loadI and Stylehut
+     which includes HutNuts (begoin/jsung)
+   G&begoin -> G&jsung,'NutMachine' cb -> G&Jinthe
+     jsung looks like A:u but overwrites any A.I[t] = W:of it loads
+     Jinthe sets up listeners,
+      waylays NutGravy, defines function,
+       waylays NutReady, more waylays.
+ 
+ will start:
+ < A&loadI a simple A:u@6 etc for basic mind mixing
+   gather more mind, global functions, start loop
+  should less async, and:
+   be totally new ev/e hookup:
+    Display:
+     lose on.A
+      use attr t/cv, attr sip if sJ
+      and lookup to the sips of 4s somewhere global
+      A.4 must always know about elvising
+     lose jQuery,
+      moving elements only as needed,
+      text inputs not rebuilding every time
+   
+   ways to keep track of updates...
+    make an islanding that can digwaypoll for:
+      w change
+      W change is regular /W/ with dige...
+    know W that contain other W we are watching,
+      digwaypoll for notify of W changing?
+      could be wired into /W/
+       not for the same socket?
+     future /W/ storer is an elvising with a route,
+      only then demands stringify to get across the net
+
+#c Wednesday
+water cactus
+very thinning impossibleness:
+< s&lv should come from the $main/A.4
+   output modes are a T
+< frames
+ < ifr:blank.html, inject with <script> etc, save
+ < the html we build able to serialise most C
+   such that search engines will see it
+     $Cs&W.html becomes the href=""
+     going to build a lot of piles of <stylehouse>
+< jsBabz should S to an indent, work in R
+
+W:Pass %ball web surfing
+ < keep openness from last time - part of:
+   provide autosaved W/T from last time
+    these could be tracked separately, likely to be mostly garbage
+ < testbedding
+   < deps: %Gounce - ghost versioning
+     knowing exactly each I it ran with
+     making cert to help that Gounce get places in W:Lis
+ < %play%W more properly,
+     see Be, can play out over time...
+       minor %R-ish manage what seems to be a situation
+     Rsync %gee%ball late,
+      checkout fully, same Ring (T.Rq?)
+       see about when %gee hits 92 before children done..?
+ 
+    # between
+    #   fio(F...) # f tv
+    #   fabioty(p..., # R f is for tv
+    #   Rc&X, Rs&Te
+    #  we have a few ways to gravitate the elvising made
+    # < ad hoc continuity:
+    #  < mez&rename (now ballrename) takes Rs&Te
+    #  < mez&move should takes Rc&X, in some cases?
+    #    if the A of it can be trusted to resync
+    # something somewhere in the equation of Waltz
+    #  knows exactly why things changed,
+    #  holds and spreads knowledge of the move
+    #  which may be done out there as:
+    #    lv with an el:9, el:6 ?
+    #     6 implying recycle the last 9,
+    #       or some specific one,
+    #       or resurrect recently deleted...
+    #      similar logic to:
+    #      Lc&responsey - expect one receive per send
+    #  requiring all these interations to be suspended
+    #  over the judders
+    
+ %play%R starts:
+ %Doming:
+   building up how to J(.3)
+    < have Swim-ish any index hoisting
+       mixing/reducing
+        ting Merge.js for J, with W:of
+    < ting search in %Doming
+      building indexes of I when they are required,
+      elvising changes:
+    
+ ballio, Ravelvis are
+ %ios:
+  < %balls have io/slep sense
+    for intended+not changes
+   i wanting to happen
+   o happened before
+    desire/surprise carrier
+    < slep/io <-> what Reaction, batched
+      eg /seek/ -> %do_Further()
+     < via Sectiona, for an atime iterator of /seek/
+   quite to do with:
+ < one big %ball,
+    < some of it grounded
+      there are C from/for Activity (osc-levitated)
+      and C for being the sticks in the mineshaft
+      < have a CdaR (fast) way to diff %balls to themselves
+      whatever it takes
+    < getting that change to Rsync %balls,
+   < even out of sync, to a degree
+    < these ch() comments shall Tool down to
+      fleeting speechbubbles, beneath the line
+    < tree -> table mode as we cross the line,
+      smoky action -> seeing office mode
+   
+ Mwty
+   rearranges modulats
+   dressing %ball%fixes for being about ...
+   eg the attr on a %Rom messes with the %Doming
+    and gave/give each other life
+ 
+ %JRom:
+   is separating into %Doming
+   
+     encapsulates activity, Doming in and outs
+     parts have error and (1|4)s&N plumbing
+     < T plumbing (see control)
+     < pausing if time/sheer Ring intensive
+       could control infinite loops in the same Ring
+         the first Ring inside 4 should ttl when starting Ring
+       for progress, may Ring more, when theres time
+         sleeping for Display meanwhile?
+           Rc&X will wander, merge the eventual completion
+         or osc-ing each section as it completes
+           like Doming, wants recode with T sense,
+            recording the set of args used, etc
+     
+     < R:Mapper may also have a little e/Mw on each of many,
+       hanging up its thinking amongst others language
+       
+     < folding, taking %noDisplay off chidlren with activity
+   
+ %mund: de-lies fact piles
+   various eg %Ghostways produce stuff
+   they each become a Ghost unto further ...
+   
+   %Ghostways:
+     your version checker
+      travel agent
+     historically:
+   %GhodigWap:
+     insures /way/$t against %mundws:digwaypoll
+     < tractorbeam $Way into Ghost/Way,
+       leaving the hoisting to $Way/5Iw up to mund
+       this Ghosts best guess for those ways
+       and providing data on dupover, etc.
+       and helping lay out ref phylogen
+     < G&ting/%ting forcing question/remote check
+   
+   sidenode:
+     everything we n ... in R is really an m Rs&M ...
+       unless it Cc&R: spawns R, c.* copied to sc.*
+     such is a tubeending
+  
+   
+ #c t!!
+ t:
+  is thing finding
+  t looks up A slope of places with things
+  t looks in the dome building now...
+   and for A-things around the place
+    as A needs to find As to A
+     t learning how to traverse every index
+  # now:
+  G.h(acgtt) does $t subroutine (I.i.h does I.i.$t)
+   therein looking for $t becomes:
+    G.t(acgt'i't) to avoid infinite h<->t loop
+  # future
+  B/T stack sensitive
+    any call may be paused by a variety of reasoning
+  G&lathe,3 Babz:
+      G(A,C,T,'lathe',3)
+  # or perhaps inlined non-inlined sub calls (no B-stack)
+      G.i.lathe(A,C,G,T,3)
+  # or totally inlined: ({}-scoped lexicals?)
+      s&surface-- for 1..$s;
+    this will be handy for generating G&throat
+     from the dimensional joint protocols the I use
+     these will need variants, as me&Ring is
+  
+  # lots of lang shall compile to lots of G(...)
+  #   anywhere we thing stuff
+  G = &ACTs{
+      # like G.h
+      $G = this;
+      $args = arguments.slice(4);
+      # simply looking for a function, closest A with it
+      $i = is_string s ? G.t(acgt'i',s)
+          # looking for something crazy,
+          #   may even take args about this call
+          #    and beyond, to find the right thing
+          : G.t(acgts,[M]);
+      B/T stacking {
+      T.return = i(A,C,G,T, ... args)
+      }
+      return T.return
+  }
+  G.t = &acgtM{
+      # like G.ting
+      # matches whatever W/C/c in M
+      #  sequences of them usu mean by z,
+      #  array of arrays for resetting cursor
+      # can also mean start doing a thing,
+      #  nearby doming invites it to keep state
+  }
+  # further future:
+  Babz realising parameters on things:
+  G&$Self$Ne:za,$R$s$c:limin,%vang
+  packs in the:
+    G.t s={Self,Ne} c={R,s,c} 
+     looking for (s) $Self and $Ne
+      knowing the act (c) if that helps?
+       or would it get confused with more itemology
+        spose G could decide on the first being WHERE,
+         the others being some extra into
+         seems like something for doing subroutine calls remotely
+    running it %vang mode with named arguments
+     %vang could specify output form,
+      a style to apply on something inside (G&tsc)
+      some T-condition, error/async continance
+      or name the object created
+       t looks in the dome building now...
+  T-condition,
+   check it every B-stack (soon to be a lot of them
+   error/async continance
+=cut
+#c bal/modulat
+# %ball suggested into/assumed from s)R%ball
+#  how processes create/sync their limbs
+#  the s storable, the R waking
+me.bal = &acgttsc{
+    $R ||= Cy&R;
+    $gaveC = isC(s);
+    !gaveC and c = s; s = null
+    c ||= {};
+    typeof c == 'string' and c = G&peel,c
+    c.R and R = c.R
+    
+    # r may exist
+    $r = me&ioty,R,'ball',t [0];
+    if (r) {
+        # < resolve through JRom
+        $z = rc&s;
+        #z && zs&J and debugger;
+        #rs&Inner and debugger
+        #r = rs&Inner;
+    }
+    if (c.dropempty && r && !me&ioty,r,'ball' .length) {
+        i Rc&s/-rc&s
+        return
+    }
+    
+    # create s
+    if (!r && !c.dropempty &&
+        (!c.maydo || me&rolltog,R,{maydo:t},0 )) {
+        # rolling s if !r the next time, eg c.eph unattached
+        s ||= me&rollbsc,R,'bal_tw_s/'+t;
+    }
+    
+    if (s && !r) {
+        delete c.dropempty;
+        ex(c,{t:t,s:s,ball:1,tightly:1});
+        r = me&Ret,R,c;
+        if (Rs&ball && !c.eph) {
+            me&input,R,rc&s;
+            # < i $R/$r
+            # < with ballio
+        }
+        rc&dupl = 5;
+        me&zN,r;
+    }
+    else {
+        ex(r.sc,c)
+    }
+    if (r && gaveC) {
+        R.sc[t] = r;
+    }
+    
+    if (r) {
+        ac(R,'balz',r);
+        # sort ss&z to order of me&likez
+        $li = Rs&balz.indexOf(r);
+        $ro = Rs&balz[li-1];
+        ro and me&zaft,Rs&z,ro,r
+    }
+    return r
+};
+
+# Rs&z moves t after r
+#  if not already somewhere after it
+me.zaft = &acgtzor{
+    $roi = z.indexOf(o);
+    $ri = z.indexOf(r);
+    if (roi > ri) {
+        z.splice(ri,1);
+        z.splice(roi,0,r);
+        z[roi] != r and throw "yos"
+    }
+}
+
+# r moves into modulat n
+me.zuct = &acgtnr{
+    rs&zuctedto = n;
+    # represents s
+    delete nc&s;
+    fio(n,r);
+};
+# n (modulat) lifted from some ground into C:t
+# < combine with zuck/mez/polify for all-regrouping?
+me.modopt = &acgtRmn{
+    !n and throw "modopt!n"
+    $could = [T.Mw,null,T.nN,Rs&M];
+    each it could {
+        $M = isar(t) ? t : me&Mw,R,t;
+        $ni = M.indexOf(n);
+        ni >= 0 and break
+    }
+    if (ni < 0) {
+        # look in named Mw too
+        each tM Rs&Mw {
+            $ni = M.indexOf(n);
+            ni >= 0 and break
+        }
+    }
+    if (ni < 0) {
+        # and where n ... go if there's no T.nN to catch them
+        M = A.ground.sc.z
+        ni = M.indexOf(n);
+    }
+    ni < 0 and throw "n not fground", could
+    M.splice(ni,1);
+    return fio(m,n.t,n);
+};
+# me&tsc into another modulat
+me.mtsc = &acgtmtsc{
+    $R = Cy&R;
+    $n = me&tsc,t,s,c;
+    me&modopt,R,m,n;
+    return n
+};
+# i $g/#$k/$d
+me.givi = &acgtgktd{
+    isC(t) and d = t; t = d.t
+    $hi = fio(g,k);
+    $b = fio(hi,t,0);
+    if (k == 'history') {
+        # puts new top on history
+        b and ac(d,'z',b);
+    }
+    return fio(hi,t,d);
+}
+#c modulata groupology/Km/Kn/label, sizo
+# the usual hierarchy:
+# top/groupr(r(gk))/groupology()/grouping(Km)/groupthing(Kn)acgttc
+# all openable
+# < each a -pi some other time
+
+# usual display case, for gy&can o,i,c
+me.case = &acgtt{
+    isnu(t) and $cv = sca(t); t = null
+    $g = me&opeolo,t||'Z';
+    gy&cv = cv || 0.7;
+    gs&dis = 5;
+    gy&label.sc.dis = 0;
+    # this is for some css subtlety
+    $p = g;
+    g = gy&can('w','aving');
+    gy&notifempty = &{
+        !(gs&z||[]).length and p.c.not = 1;
+    };
+    gy&up = p;
+    return g;
+};

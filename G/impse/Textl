@@ -133,24 +133,58 @@
             return s
         });
        // etc
-        # assign their substrings 
-        N.map(&s{
-            #ss&string = lines.slice(ss&line,ss&toline+1).join("\n");
-            ss&lines = 1+ss&toline-ss&line;
-            ss&lines < 20 and delete ss&proper
-        });
-        $rev = N.slice().reverse();
-        
-        # size supposing s/*%folded are each 1 line
-        rev.filter(s => ss&proper).map(&s{
-            ss&size = ss&lines;
-            ss&z .filter(c => cs&proper).map(&c{
-                ss&size -= cs&lines-1;
+        $assign = &N,lines{
+            # assign their substrings 
+            N.map(&s{
+                #ss&string = lines.slice(ss&line,ss&toline+1).join("\n");
+                ss&lines = 1+ss&toline-ss&line;
+                ss&lines < 20 and delete ss&proper
             });
-            if (ss&size < 20 && 
-                !(ss&size > 5 && ss&heading))
-                delete ss&proper
-        })
+            $rev = N.slice().reverse();
+
+            # size supposing s/*%folded are each 1 line
+            rev.filter(s => s == s || ss&proper).map(&s{
+                ss&size = ss&lines;
+                ss&z .filter(c => cs&proper).map(&c{
+                    ss&size -= cs&lines-1;
+                });
+                if (ss&size < 20 && 
+                    !(ss&size > 5 && ss&heading))
+                    delete ss&proper
+            })
+            
+            return rev
+        };
+        $rev = assign(N,lines);
+        if (ss&lines > 100 && ss&size > ss&lines*0.1) {
+            ~>3 didnt fold much:
+            # didnt fold much, fallback to #c markers
+            N = [s];
+            sy&tw = {};
+            ss&z = [];
+            # < why does this leave a few?
+            #ss&z.map(c => me&fiu,s,c,9);
+            #ss&z.map(c => me&fiu,s,c,9);
+            #ss&z.map(c => me&fiu,s,c,9);
+            $la;
+            each il lines {
+                !l.includes('#c') and continue
+                $c = Cye(['chunk@'+N.length,1]);
+                la and las&toline = i-1
+                cs&line = i;
+                cs&proper = 1;
+                me&fiu,s,c;
+                la = c;
+                N.push(c);
+            }
+            lac&toline = i;
+            rev = assign(N,lines);
+            if (ss&lines > 100 && ss&size > ss&lines*0.1) {
+                ~>7 chunksoflines confused by: s.t
+            }
+            # < indent rangeFinder may also:
+            ss&commentsey = 1;
+        }
         ss&chunks = rev;
     }
     # i $s/$chunk+
