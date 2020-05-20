@@ -1,9 +1,9 @@
-// start from Sevo
+# yip[]
+  // start from Sevo
     $me = 4c&me;
     !me and throw "no me";
     $io = me.io;
     4c&fps = 1;
-
     # loop comebacks between attentions
     $lastwas = 0;
     me.star = &acgt{
@@ -53,10 +53,8 @@
     me.starc = &acgt{
         $A = G&Aye,'star';
         $g = A.ground = G&Cye,[me.timestamp(),{},{root:1},{}];
-
         # clusp
         4s&paused and return
-
         # already part of some self-reflexive time
         4s&upghost and me&doupghost
         4s&downghost and me&dodownghost
@@ -171,7 +169,7 @@
                 continue
             }
             Rs&on ||= $("<stylehouse>")[0];
-
+            
             # each A.1 does os, plants sequencer of 
             if (Rs&J) {
                 $(Rs&on).css('display','block');
@@ -448,12 +446,12 @@ me.codemirror = &acgtRbh{
         me&valuesays,R,e;
     };
     #c codemirror 8
-    $save = &{
+    $save = &ev,{
         ~>3 cm-save:
-        G&gev 
+        G&gev,ev
     };
     cm.setOption('extraKeys', {
-        'Esc': save,
+        'Esc': &{ save() },
         'Tab': &c{
             c.getSelection().length ? 
                 c.execCommand('indentMore')
@@ -462,7 +460,7 @@ me.codemirror = &acgtRbh{
         'Shift-Tab': &c{
             c.execCommand('indentLess');
         },
-        "Ctrl-Enter": save,
+        "Ctrl-Enter": &{ save() },
 
         # TODO push the fix for mode/perl:
         #   add fold: "indent", next to electricChars:"{}"
@@ -484,16 +482,25 @@ me.codemirror = &acgtRbh{
     $hoi = s&hoistcm;
     hoi and hois&cm = cm
     
-    
+    $blurry = 0;
     $hands = {
         focus: &{
+            blurry = 0;
             # no click/key events
             G.clof();G.keof();
             me&wantpause,R,1;
         },
         # click: &{ G.clof();G.keof(); },
         blur:  &{
-            G.clon();G.keon(); save();
+            blurry = 1;
+            # https://github.com/codemirror/CodeMirror/issues/1394
+            # paste leaks a blur,focus, delay to detect it
+            $ev = event;
+            $cb = &{
+                !blurry and return
+                G.clon();G.keon(); save(ev);
+            }
+            G&yl,22,cb;
         },
         inputRead: &cm,ch{
             !ch.text || ch.text.length < 20 and return
