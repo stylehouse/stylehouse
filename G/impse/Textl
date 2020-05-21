@@ -36,6 +36,23 @@
     #    (closing a then a/b opens a)
     me.cm_foldCode = &acgtz,ope,cm{
         $found = [];
+        if (zs&commentsey) {
+            cm.options.foldOptions ||= {};
+            cm.options.foldOptions.rangeFinder = &cm,pos{
+                $from = pos.line;
+                $end = cm.lastLine();
+                $to = from;
+                while (to < end) {
+                    $text = cm.getLine(to+1);
+                    text && text.includes('#c') and break
+                    to++
+                }
+                if (to > from) { return {
+                    from: CodeMirror.Pos(from, cm.getLine(from).length),
+                    to: CodeMirror.Pos(to, cm.getLine(to).length)
+                }}
+            }
+        }
         #$topdown = zs&chunks.slice().reverse();
         each is zs&chunks {
             $f = ope[ss&line];
@@ -133,6 +150,7 @@
             return s
         });
        // etc
+        $z = s;
         $assign = &N,lines{
             # assign their substrings 
             N.map(&s{
@@ -143,7 +161,7 @@
             $rev = N.slice().reverse();
 
             # size supposing s/*%folded are each 1 line
-            rev.filter(s => s == s || ss&proper).map(&s{
+            rev.filter(s => s == z || ss&proper).map(&s{
                 ss&size = ss&lines;
                 ss&z .filter(c => cs&proper).map(&c{
                     ss&size -= cs&lines-1;
@@ -157,7 +175,6 @@
         };
         $rev = assign(N,lines);
         if (ss&lines > 100 && ss&size > ss&lines*0.1) {
-            ~>3 didnt fold much:
             # didnt fold much, fallback to #c markers
             N = [s];
             sy&tw = {};
@@ -168,8 +185,9 @@
             #ss&z.map(c => me&fiu,s,c,9);
             $la;
             each il lines {
-                !l.includes('#c') and continue
-                $c = Cye(['chunk@'+N.length,1]);
+                la && !l.includes('#c') and continue
+                i *= 1;
+                $c = Cye(['chunk@'+i,1]);
                 la and las&toline = i-1
                 cs&line = i;
                 cs&proper = 1;
