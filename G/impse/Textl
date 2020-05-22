@@ -1,5 +1,4 @@
 # lines of characters, etc
-  // Textl
     # follows the universal plant-in-the-lobby pattern:
     #   headings followed by empty lines do not a chunk make
     # < all known limitations involve io-happy regroup:
@@ -40,11 +39,18 @@
             cm.options.foldOptions ||= {};
             cm.options.foldOptions.rangeFinder = &cm,pos{
                 $from = pos.line;
+                if (from > 0 && !cm.getLine(from).includes('#c ')) {
+                    # not on a #c, use indent
+                    $f = cm.getHelpers(pos,'fold')[0];
+                    $range = f(cm,pos);
+                    !range and ~>5 seekup til #c?:
+                    return range
+                }
                 $end = cm.lastLine();
                 $to = from;
                 while (to < end) {
                     $text = cm.getLine(to+1);
-                    text && text.includes('#c') and break
+                    text && text.includes('#c ') and break
                     to++
                 }
                 if (to > from) { return {
@@ -150,11 +156,16 @@
         });
        // etc
         $z = s;
+        $resetN = &{
+            N = [s];
+            sy&tw = {};
+            ss&z = [];
+        }
         $assign = &N,lines{
             # assign their substrings 
             N.map(&s{
                 #ss&string = lines.slice(ss&line,ss&toline+1).join("\n");
-                ss&lines = 1+ss&toline-ss&line;
+                ss&lines = 1+(ss&toline-ss&line);
                 ss&lines < 20 and delete ss&proper
             });
             $rev = N.slice().reverse();
@@ -173,11 +184,11 @@
             return rev
         };
         $rev = assign(N,lines);
+       // or #c
         if (ss&lines > 100 && ss&size > ss&lines*0.1) {
             # didnt fold much, fallback to #c markers
-            N = [s];
-            sy&tw = {};
-            ss&z = [];
+            $wasN = N;
+            resetN();
             # < why does this leave a few?
             #ss&z.map(c => me&fiu,s,c,9);
             #ss&z.map(c => me&fiu,s,c,9);
@@ -194,13 +205,24 @@
                 la = c;
                 N.push(c);
             }
-            lac&toline = i;
+            las&toline = i;
             rev = assign(N,lines);
-            if (ss&lines > 100 && ss&size > ss&lines*0.1) {
+            
+            if (ss&size > ss&lines*0.1) {
                 ~>7 chunksoflines confused by: s.t
             }
-            # < indent rangeFinder may also:
-            ss&commentsey = 1;
+            elsif (ss&lines / ss&z.length > ss&lines / 2) {
+                #~>7 chunksoflines uncommentsey: s.t
+            }
+            else {
+                ss&commentsey = 1;
+            }
+            if (!ss&commentsey) {
+                resetN();
+                wasN.filter(c => c != s)
+                    .map(c => me&fiu,s,c && N.push(c) );
+                rev = assign(N,lines);
+            }
         }
         ss&chunks = rev;
     }
