@@ -3457,11 +3457,17 @@ me.Zavingness = &acgt{ return [
         }
         elsif (Rs&Gens) {
             # to reset a %Gens, put %self
-            if (allready && allnine && !Rs&self) {
-                s ||= Rs&other;
-                !isC(s) and throw "Gens init C"
-                Rs&self = Cye([s.t,1]);
-                me&elvis,R,'init-self';
+            if (allready && !Rs&self) {
+                if (allnine) {
+                    # init from the out-ball
+                    s ||= Rs&other;
+                    !isC(s) and throw "Gens init C"
+                    Rs&self = Cye([s.t,1]);
+                    me&elvis,R,'init-self';
+                }
+                else {
+                    # pull? see %Zave backflip
+                }
             }
         }
         if (!allready) {
@@ -3780,6 +3786,14 @@ me.Zavingness = &acgt{ return [
             };
             $old = me&mtsc,sym,'Describe','🔁','d';
             olds&fs = 16;
+            
+            if (!h && !ps&self && Rs&waits) {
+                # %Gens!%self backflip, when waits:!h@32
+                # after throw, rolling %Describing?
+                # < shouldn't lose %self but somehow does
+                $igwaits = 1
+                delete Rs&Described;
+            }
 
             if (!Rs&Described) {
                 # borrow
@@ -4033,7 +4047,7 @@ me.Zavingness = &acgt{ return [
             $says = Rs&Wantsto;
             $ma = me&mtsc,en,'make-commit',says,'B';
 
-            Rs&waits and '...'
+            Rs&waits && !igwaits and '...'
             else
             if (Rs&Amountto == 1) {
                 # clickable talk
