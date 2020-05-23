@@ -469,26 +469,14 @@ me.Yingmind.Steps = &acgt{ return [
             pi <0 and throw "!step"
             y(z[pi-1],z[pi+1])
         };
-        # makes eg R&za,c,o -> &acgtco{ za(acgtRco) }
-        # R.prototype.za? R = this? etc
-        #  does every haks(R) out there get confused?
-        # < Babz for each in me&thing { # call me&thing once
-        # < Babz R&za -> me&za,R (single character == self)
-        #   have me&za solve z for R
-        # takes a function that calls me&brack(i|o),R,z
-        #  which itself takes a function that solves z for R
-        me.Racgty = &y{
-            return &acgt{
-                $args = [...arguments].slice(4);
-                return y (A,C,G,T,args)
-            }
-        };
   
   // o3 - open
       # < ha that can think, stream news downstream (z gets read)
       # < sa that can log, selection replayable, dome input slep
       #   to check the conditions for a decision are still so,
       #    without having to conduce the decision again
+      # < Babz for each in me&thing { # call me&thing once
+      # < Babz R&za -> me&za,R (single character == self)
       # NervOS fibre bundles arm sleepy processes
       #  limbs becoming available
       
@@ -523,7 +511,7 @@ me.Yingmind.Steps = &acgt{ return [
             zy&R = j;
             
             # pseudo Nodes init o3
-            !jy&sa and me&Nodes_o3,j
+            !js&wou and me&Nodes_o3,j
             
             # Step's R that last o3'd, not sleeping
             !Sy&p and throw "Step !y&p"
@@ -532,76 +520,60 @@ me.Yingmind.Steps = &acgt{ return [
             return Sy&R
         };
         
+        # i - enterer
+        # < to react in a Ring,r hang way,
+        #   returning/jumping somewhere to think/reapproach
+        me.ha = &acgtj{
+            return me&bracki,j,js&wou,[...arguments].slice(5)
+        };
+        # o - reading,
+        # from what is beginning,
+        #  what was mid-way,
+        #  what got to the end
+        #   < without &bready? or just !sleep?
+        # ja always now
+        me.ja = &acgtj{
+            return me&bracko,j,js&wou,[...arguments].slice(5)
+        }
+        # sa last time
+        me.sa = &acgtj{
+            $z = js&wou;
+            return me&bracko,j,zy&get_saz(j),[...arguments].slice(5)
+        }
+        # za always >7
+        me.za = &acgtj{
+            $z = js&wou;
+            return me&bracko,j,zy&get_zaz(j),[...arguments].slice(5)
+        }
+        # and always array
+        me.saa = &{ return me.sa(...arguments) || [] }
+        me.zaa = &{ return me.za(...arguments) || [] }
+        me.jaa = &{ return me.ja(...arguments) || [] }
+
         # io %wou, a feedback loop
         #   experience -> notion, notion -> etc
         me.sahazaja = &acgtj{
             jy&R and j = jy&R
+            # < de-hard-code $k
             $k = 'wou';
             
-            # brackology openness becomes on the way in
-            me&brackope,j,k
-            
-            
-            # making acgt R&za,'things'
-            # ! currently R.* inherits to r.*, which is weird
-            # see '< Babz R&za -> me&za,R'
-            
-            # resolve z, expanding args to bracko
-            #  eg j&za,c,o -> me.bracko(acgtjzco)
-            $brack = &ky{
-                k = 'brack'+k;
-                return me.Racgty(&acgt,args{
-                    $z = y ();
-                    !z and return
-                    return me&$k,j,z,...args;
-                });
-            };
-            
-            # i - enterer
-            # is our chance to react in a Ring,r hang way,
-            #  returning/jumping somewhere to think/reapproach
+            # %wou = $z/$row+, via me&ha,j,data etc
             $z = j.sc[k] ||= Cye([k,1,{}]);
             zy&R ||= j;
-            j.ha = brack('i',&{ return z })
             
-            # o - reading,
-            # from what is beginning,
-            #  what was mid-way,
-            #  what got to the end
-            #   < without &bready? or just !sleep?
-            
-            # ja always now
-            j.ja = brack('o',&{ return j.sc[k] });
+            # %brackwouology = brack opeology
+            #  &brackology fills it out at the end
+            me&brackope,j,k
             
             # sa last time
             $saz = me&ollbs,j,k
-            j.sa = brack('o',&{ return saz });
+            zy&get_saz = &j{ return saz };
             
             # za always >7
             $zak = k+'_accepted';
             me&rollbs,j,zak;
             me&reaw,j,zak;
-            j.za = brack('o',&{ return j.sc[zak] });
-            
-            $thisj = j;
-            # and they can always return arrays (to .map...)
-            j.saa = &{ return thisj.sa(...arguments) || [] }
-            j.zaa = &{ return thisj.za(...arguments) || [] }
-            j.jaa = &{ return thisj.ja(...arguments) || [] }
-            
-            # GOING - call them with this ACGT until converted
-            jy&za = &{ return thisj&za,...arguments }
-            jy&sa = &{ return thisj&sa,...arguments }
-            jy&ja = &{ return thisj&ja,...arguments }
-            jy&ha = &{ return thisj&ha,...arguments }
-
-            # differ before <-> now
-            # < caching sa/za, then:
-            #   < versioned X, re-waigh if ha since da
-            jy&da = &loose,tight,c{
-                return 1; # too-caching wou
-                me&diffwaia,j,loose,tight,c;
-            };
+            zy&get_zaz = &j{ return j.sc[zak] };
         }
         
         # commit %wou to be za next time
@@ -642,7 +614,7 @@ me.Yingmind.Steps = &acgt{ return [
             $s = rc&s;
             me&node_accept,R,r,s;
             # when not &bready, ask R%Ying to come back:
-            me&bready,r and R&ha,{waits:'wants',wants:r}
+            me&bready,r and me&ha,R,{waits:'wants',wants:r}
             # %%eto|from
             me&etos_6,R,p,r,s;
             me&etos_7,R,p,r,s;
@@ -674,7 +646,7 @@ me.Yingmind.Steps = &acgt{ return [
         }
         # < %%dome replace if any new
         me.dome_7 = &acgtRprs{
-            $N = r&ja,'dome';
+            $N = me&ja,r,'dome';
             $synthz = {};
             $keeps = [];
             each in N {
@@ -697,7 +669,7 @@ me.Yingmind.Steps = &acgt{ return [
                 hs&to != s and throw "to!"
                 me&ioty,h .map(&n{
                     # each row is mixed in, +%%efrom
-                    n = r&ha,n,{efrom:hs&from}
+                    n = me&ha,r,n,{efrom:hs&from}
                     # < looking at s & n should notice this link:
                     ny&efrom = fo;
                 });
@@ -711,7 +683,7 @@ me.Yingmind.Steps = &acgt{ return [
         #  < a/b/-c/d should revoke d's stuff on b, a
         me.etos_6 = &acgtRprs{
             # all %%eto from this node
-            $eto = r&jaa,'eto' .filter (n => !ns&efrom);
+            $eto = me&jaa,r,'eto' .filter (n => !ns&efrom);
             # node s resolve to a %Ying/(pa/th)
             $tpath = &to,{
                 $jo = toy&R;
@@ -788,7 +760,7 @@ me.Yingmind.Steps = &acgt{ return [
                 }
                 else {
                     # asking %Ying to transport
-                    R&ha,{etos:h,s,fromt}
+                    me&ha,R,{etos:h,s,fromt}
                     !cha and ~>3 oldnews: h.t, '<-', fromt
                 }
             })
@@ -811,7 +783,7 @@ me.Yingmind.Steps = &acgt{ return [
         #   -> $to sy&efroms
         #   -> Ying%%waits:eto,wants:$to
         me.etos_8 = &acgtR{
-            $froms = R&jaa,'etos';
+            $froms = me&jaa,R,'etos';
             froms.map(&n{
                 # ho = to with s&current from &node_hoist
                 !ns&fromt and throw "!fromt"
@@ -827,7 +799,7 @@ me.Yingmind.Steps = &acgt{ return [
                 fos&etos = h;
                 # jo tidies efroms, once el=9 accepted
                 # send attention
-                R&ha,{waits:'eto',wants:to}
+                me&ha,R,{waits:'eto',wants:to}
                 
                 ~>5 efroms hoisting: ef.t, '<-', fo.t
             });
@@ -924,11 +896,11 @@ me.Yingmind.Steps = &acgt{ return [
             $e = ns&e;
             !isC(e) and throw "nodei!%%eto,e"
             # the %efrom:to,e:C:question,...answers
-            $replying = j&ja,{e};
-            $an = j&ja,ex({e},a);
+            $replying = me&ja,j,{e};
+            $an = me&ja,j,ex({e},a);
             
             if (es&done) {
-                !an and j&ha,{fail:'done',e}
+                !an and me&ha,j,{fail:'done',e}
                 else {
                     if (hak(a) == 1) {
                         # eg returning %%Live sent back
@@ -961,7 +933,7 @@ me.Yingmind.Steps = &acgt{ return [
             to = joc&s;
             $q = ex({eto:to},c);
             
-            $sending = j&ja,q;
+            $sending = me&ja,j,q;
             ex(q,o);
             if (sending) {
                 sending.length > 1 and throw "cant tell %%eto apart"
@@ -975,7 +947,7 @@ me.Yingmind.Steps = &acgt{ return [
             # < %Ying relays progress via %%eto?
             #    maybe if we %%uniq this it would return the recycled one
             #   or just via e, how else?
-            $n = j&ha,q;
+            $n = me&ha,j,q;
             
             return n
         };
@@ -984,7 +956,7 @@ me.Yingmind.Steps = &acgt{ return [
         me.nodeo = &acgtj,to,Q,qe{
             $qs = ex({tw:Q.t},Q.c);
             $jo = toy&R;
-            $N = joy&za(qs);
+            $N = me&za,jo,qs;
             if (!N) {
                 me&may,j,'input','s',{tw:Q.t,waits:'not-found'},qe
                 .map(&n{
@@ -1076,7 +1048,7 @@ me.Yingmind.Steps = &acgt{ return [
       
        =elvis
       
-      // nodeio-Ying # sort activity
+      // nodeio-Yingu-scussion # sort activity
        =elvis
        underneath &nodei:
         $from &nodei $to %%stuff
@@ -1147,7 +1119,7 @@ me.Yingmind.Steps = &acgt{ return [
             
             # w:KnowThee: toplevel automation on &settle
             # < maybrack
-            if (ry&za('ready')) {
+            if (me&za,j,'ready' ) {
                 # < bring back?
                 # j%wou..ready travel on
                 $n = py&n;
@@ -1258,7 +1230,7 @@ me.Yingmind.Steps = &acgt{ return [
        =elvis
         # Ying%%waits,wants:$to - come back for $to etc
         me.waits_8 = &acgtR{
-            $wakers = R&jaa,'waits','wants';
+            $wakers = me&jaa,R,'waits','wants';
             me&reaw,R,'Outlog';
             $l = me&rollbs,R,'Outlog',[];
             
@@ -1358,14 +1330,14 @@ me.Yingmind.Steps = &acgt{ return [
 
         me.bready = &acgtR{
             # got to via %%wants:R below
-            !Ry&ja and return Rs&waits
+            !Rs&wou and throw "notbegun"
             # R%waits -> %%waits
             each in Rs&waits {
-                R&ja,{waits:n} and continue
-                R&ha,{waits:n}
+                me&ja,R,{waits:n} and continue
+                me&ha,R,{waits:n}
             }
             # %%wants:$n%%waits -> %%waits:wants,...
-            R&jaa,'wants' .map(&n{
+            me&jaa,R,'wants' .map(&n{
                 # < %%waits bracktrick out the rest of the values,
                 #   unless viewed from the right angle, through waits?
                 ns&waits and return
@@ -1375,16 +1347,16 @@ me.Yingmind.Steps = &acgt{ return [
                 $j = zy&R;
                 if (!jy&ha) {
                     # not a node
-                    js&waits and R&ha,{waits:'wants',wants:z,notanode:1}
+                    js&waits and me&ha,R,{waits:'wants',wants:z,notanode:1}
                 }
                 else {
                     # < unpossiblate infinite recursion
                     #   with me&ind bit on the T?
-                    me&bready,j and R&ha,{waits:'wants',wants:z}
+                    me&bready,j and me&ha,R,{waits:'wants',wants:z}
                 }
             })
             
-            !R&ja,'waits' and return
+            !me&ja,R,'waits' and return
             # < %%waits -> pause|shy $R
             # avoiding the rest of the activity
             return 1
