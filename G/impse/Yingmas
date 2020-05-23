@@ -516,7 +516,7 @@ me.Yingmind.Steps = &acgt{ return [
             # Step's R that last o3'd, not sleeping
             !Sy&p and throw "Step !y&p"
             !Sy&R and throw "Step !y&R"
-            #T.act and jy&ha({noded:T.act})
+            #T.act and me&ha,j,{noded:T.act}
             return Sy&R
         };
         
@@ -524,7 +524,7 @@ me.Yingmind.Steps = &acgt{ return [
         # < to react in a Ring,r hang way,
         #   returning/jumping somewhere to think/reapproach
         me.ha = &acgtj{
-            return me&bracki,j,js&wou,[...arguments].slice(5)
+            return me&bracki,j,js&wou,...[...arguments].slice(5)
         };
         # o - reading,
         # from what is beginning,
@@ -533,17 +533,17 @@ me.Yingmind.Steps = &acgt{ return [
         #   < without &bready? or just !sleep?
         # ja always now
         me.ja = &acgtj{
-            return me&bracko,j,js&wou,[...arguments].slice(5)
+            return me&bracko,j,js&wou,...[...arguments].slice(5)
         }
         # sa last time
         me.sa = &acgtj{
             $z = js&wou;
-            return me&bracko,j,zy&get_saz(j),[...arguments].slice(5)
+            return me&bracko,j,zy&get_saz(j),...[...arguments].slice(5)
         }
         # za always >7
         me.za = &acgtj{
             $z = js&wou;
-            return me&bracko,j,zy&get_zaz(j),[...arguments].slice(5)
+            return me&bracko,j,zy&get_zaz(j),...[...arguments].slice(5)
         }
         # and always array
         me.saa = &{ return me.sa(...arguments) || [] }
@@ -1119,7 +1119,7 @@ me.Yingmind.Steps = &acgt{ return [
             
             # w:KnowThee: toplevel automation on &settle
             # < maybrack
-            if (me&za,j,'ready' ) {
+            if (me&za,r,'ready' ) {
                 # < bring back?
                 # j%wou..ready travel on
                 $n = py&n;
@@ -1345,7 +1345,7 @@ me.Yingmind.Steps = &acgt{ return [
                 !isC(z) and return
                 # could be p/r/s
                 $j = zy&R;
-                if (!jy&ha) {
+                if (!js&wou) {
                     # not a node
                     js&waits and me&ha,R,{waits:'wants',wants:z,notanode:1}
                 }

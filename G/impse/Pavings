@@ -109,7 +109,7 @@ me.Sch_Pavings = &acgt{ return [
         $qe = {host};
         $N = me&nodeo,R,host,Q,qe;
         each in N {
-            Ry&ha(n,null,qe);
+            me&ha,R,n,null,qe;
         }
     },'ift,D'],
     
@@ -128,7 +128,7 @@ me.Sch_Pavings = &acgt{ return [
         $q = {tw:s.t,s};
         Rs&Paving and q.of = Rs&Paving
         # for S to collect
-        Ry&ha(q,{eto:1});
+        me&ha,R,q,{eto:1};
     },'ift,D'],
     
    // ordering peers
@@ -143,7 +143,8 @@ me.Sch_Pavings = &acgt{ return [
     #   esp. n a using u a to define itself
     ['Omplateau','312',&acgtRs{
         $inside = &s{
-            aha(sy&R,'wou') ('mot:later,fro:inside,ste',s)
+            $j = sy&R;
+            me&ha,j,'mot:later,fro:inside',{},{ste:s}
         };
         # < [s, ... map{zy&N} ss&z]
         $N = me&ioty,s,[''];
@@ -201,14 +202,12 @@ me.Sch_Pavings = &acgt{ return [
         
         $Q;
         each ir Rs&Zaving {
-            R&ha,{wants:r}
-            #rs&waits and me&waits,'...'
+            me&ha,R,{wants:r}
             Q = rs&Q;
         }
         !Rs&Zaving and me&waits,"!Zaving"
         !Q and me&waits,"!Q"
         me&bready,R and return
-        #Rs&waits and return
         
         $notready = !Q || !Qs&ready;
         notready and me&waits,"!ready"
@@ -219,7 +218,6 @@ me.Sch_Pavings = &acgt{ return [
         Rs&Q = Q;
         
         me&bready,R and return
-        #Rs&waits and return
         
         Rs&Live = Qc&s;
         
@@ -267,7 +265,7 @@ me.Sch_Pavings = &acgt{ return [
                 me&mtsc,inc,'ig',0,'B'
                 # < also ignored by the compiler
                 Rs&ignore = 1;
-                Ry&ha('ignore');
+                me&ha,R,'ignore';
                 return
             }
             ss&el == 7 and me&mtsc,inc,'hmm',0,'B'
@@ -323,7 +321,7 @@ me.Sch_Pavings = &acgt{ return [
         Rs&trouble and me&tsc,'trouble','trou','G'
 
         Rs&Paving_good = 1;
-        Ry&ha('Goodish');
+        me&ha,R,'Goodish';
     },'ift,D'],
     &{
     # know about the Thing independent of the species
@@ -375,21 +373,19 @@ me.Sch_Pavings = &acgt{ return [
             #   dividing the ball in two
             
             # completed 51
-            !ry&ja('Goodish') and Ry&ha({waits:'Goodish',wants:r})
-            #    ah(R,'waitz','tw_scgk_r',r.t,'Paving_good',r);
+            !me&ja,r,'Goodish' and me&ha,R,{waits:'Goodish',wants:r}
 
             # completed 52
             #  which they haven't this future
-            !ry&za('Good') and Ry&ha({waits:'Good',wants:r})
-            #    ah(R,'waitz','tw_scgk_r',r.t,'Paving_goodin',r);
+            !me&za,r,'Good' and me&ha,R,{waits:'Good',wants:r}
 
         });
         
         # autothink:
         # < sending %trouble to solve %%waits,Good
-        each ir Ry&ja({waits:'Goodish'},'wants') {
-            ac(r,'trouble',R.t+" wants %%Goodish")
-        }
+        me&jaa,R,{waits:'Goodish'},'wants'
+            .map(r => ac(r,'trouble',R.t+" wants %%Goodish"))
+        
         # weakly supposing no signal means ok?
         me&bready,R and return
         #!me&waitzo,R,wa and return
@@ -397,10 +393,10 @@ me.Sch_Pavings = &acgt{ return [
         # children at least here
         #  Ring usu. children almost here
         Rs&Paving_goodin = 1;
-        Ry&ha("Good")
+        me&ha,R,"Good"
 
         # which means all we need to compile is connected!
-        !ps&Paving and Ry&ha('stabilised','eto')
+        !ps&Paving and me&ha,R,'stabilised','eto'
     },'ift,D'],
 
   // Paving 3
@@ -581,7 +577,7 @@ me.Sch_Pavings = &acgt{ return [
                 dy&R = R;
 
                 # sans %grype:
-                Ry&ha({cha:d,grype:k})
+                me&ha,R,{cha:d,grype:k}
             }
         }
         # modulat from the grype of late only
@@ -876,7 +872,7 @@ me.Sch_Pavings = &acgt{ return [
                 z.sc[k] != v and ds&cha = 'diff'
                 
                 # sans %grype:
-                ds&cha and Ry&ha({imps:t,wants:z,openey:1,cause:d});
+                ds&cha and me&ha,R,{imps:t,wants:z,openey:1,cause:d};
                 
                 # < gone is dcR != yfuture at the receiving end
                 #   with non-fatal not in Rc&N
