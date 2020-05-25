@@ -4342,66 +4342,6 @@ me.Tingingness = &acgtR{ return [
                 Ps&Want_Decode = T.Want_Decode || 'Lines';
             }
         };
-        #c way/js questions as C
-        # public interfaces
-        # shows how to plug their async gear into ting's
-        # the wandering part of G&way
-        Rs&quest_w = &acgttry{
-            $ar = r;
-            $cb = y;
-            $Q = G&Cye,[t,'',{of:'w'}];
-            Qc&ready = &{
-                # Jin should accept this A again
-                # < never set to 0, might speed it up if...
-                a&ready = 1;
-                # so wait for it...
-                !cb and return
-                if (G&arfgunc,cb == "s") {
-                    # way randomly happens, give return value to cb
-                    # without A lining up around it (it may do so itself)
-                    # see G&waylay for use case as delayed call
-                    $s = G&way,t,ar,'already_async';
-                    cb(s);
-                }
-                else {
-                    # containing a sync G&way call
-                    # or a way to get the context revisted?
-                    cb(t,ar,w);
-                }
-            };
-            Qc&async = &{
-                cb == 'noop' and cb = &{}
-                else
-                typeof cb == 'string' and throw "Cant go async: "+cb
-
-                # Jin should avoid this A for a while
-                a&ready = 0;
-                # and throw/abort if no callback
-                !cb and G&TuneTimeMachine,'w:'+t
-            };
-            $w = Rs&_ting,Q;
-            return w
-        };
-
-        Rs&quest_js = &acgtt{
-            $Q = G&Cye,[t,'',{of:'js'}];
-            Qc&ready = &{
-                A.cv = 0.4;
-                # Jin should accept this A again
-                # < never set to 0, might speed it up if...
-                a&ready = 1;
-            };
-            Qc&async = &{
-                a&ready = 0;
-                4s&N.push(A);
-                T.not = 1;
-            };
-            $W = Rs&_ting,Q;
-            #a&I = Ws&I;
-            #a&v = Ws&v;
-            return W
-        };
-
      
     },'ift,D'],
     
