@@ -193,146 +193,96 @@ me.Sch_Comm = &acgt{ return [
   // SummerCat
     ['SummerCat',0.297,&acgtRs{
         me&bal,'Inc','Aearch,eph'
+        me&bal,'Yusears','Yuse,eph'
         me&nu,R
     },'ift,D'],
-    ['Aearch',0.32,&acgtRs{
-        $S = me&inode,R;
+    ['Yuse',0.297,&acgtRs{
+        me&reaw,R,'Yuse';
+        me&bal,'Fields','Paving:W,fully,Yuaving'
         me&nu,R
     },'ift,D'],
+    ['Yuaving',0.38,&acgtRs{
+        me&reaw,R,'Yuaving';
+        
+    },'ift,D'],
+    
     ['sleeping+Aearch','4',&acgtRs{
         # they still know the R that set them
         me&rollbs,R,'do_permanence,_ting';
     },'ift,D'],
-    ['Aearch','4',&acgtRs{
-        $Ghost = Rs&perc = me&rollbsc,R,'Ghost';
+    ['Aearch','298',&acgtRs{
+        me&reaw,R,'Aearch';
+        $S = me&inode,R;
+        !S and return me&waits,'node'
+        $For = Ry&up;
+        Fors&Inn = Rs&Inn = R;
+        $Search = me&Rsc,S,'^^Inn';
+        $upting = Rs&upting = Searchs&_ting;
+        !upting and throw "^^Inn!_ting", Search
+
+        
+        $Ghost = me&bal,'Ghost','childy,eph' .c.s;
         me&introqua,[R,'Ghost'],{boost:-1},'@1';
-        n Ghost  $s:Ghost,R %ball,childy
         
-        # of/t=$P
-        i $Ghost/In
-        # of/t=$P in motion
-        i $Ghost/Pulling
+        # what are spaces for:
+        # things we look up
+        me&fiu,Ghost,'In';
+        # things we make up
+        me&fiu,Ghost,'Out';
         
+        # Ghost/$what:In|Out/ $of(/$args)? /$P
+        $whatP = &what,P{
+            what = me&fiu,Ghost,what;
+            $of = me&fiu,what,Pc&of;
+            Pc&args and of = me&fiu,of,Pc&args
+            return of
+        };
         
         $Pio = Rs&Pio = {};
         Pio.what = &tP{
-            if (Pc&args) {
-                o $Ghost/#$t/#Pc&of/#Pc&args/#$P:s
-            }
-            else {
-                o $Ghost/#$t/#Pc&of/#$P:s
-            }
-            return ya
+            $of = whatP(t,P);
+            return me&fiu,of,P.t,8
         };
         Pio.not = &tP{
-            if (Pc&args) {
-                i $Ghost/#$t/#Pc&of/#Pc&args/-#$P:s
-            }
-            else {
-                i $Ghost/#$t/#Pc&of/-#$P:s
-            }
+            $of = whatP(t,P);
+            me&fiu,of,P.t,9
         };
         Pio.is = &tP{
-            if (Pc&args) {
-                i $Ghost/#$t/#Pc&of/#Pc&args/-#$P:s
-                i $Ghost/#$t/#Pc&of/#Pc&args/$P:s
-            }
-            else {
-                i $Ghost/#$t/#Pc&of/-#$P:s
-                i $Ghost/#$t/#Pc&of/$P:s
-            }
+            $of = whatP(t,P);
+            me&fiu,of,P.t,9
+            me&fiu,of,P
         };
+        Rs&_ting = &Qr{
+            return me&Aearch_ting,R,Q,r
+        }
         
+    },'ift,D'],
+    &{
         #c _ting - a many arg'd entrypoint
         #  ting becomes the reduce for io's map
         # 
-        Rs&_ting = &stz{
-            # Question - may come with ...
-            $C = isC(s) ? s : G&Cye,[t,1,{of:s}];
-            Cy&cv ||= 0.1;
+        me.Aearch_ting = &acgtRQr{
+            !isC(Q) and throw "ting !C"
             
-            # the G.t variety?
-            # if !found of a Talky of:
-            
-            # C in the field, P in the store
-            $P = Pio.what('In',C);
-            if (!P) {
-                P = G&Cye,[C.t,1,{of:c&of},{}];
-                if (c&of == 'wjs' || c&of == 'peek') {
-                    Pc&args = Cc&args;
-                    !c&args and throw c&of+"wjs args required"
-                }
-                Pio.is('In',P);
-                Ps&Want_Check = 1;
-            }
-            # validate cache
-            if (s&Want_Check) {
-                Ps&Want_Check = 1;
-                delete s&Want_Check;
-            }
-            # Ps&listened for GhodigWaping, no ttl
-            $ttl = c&el == 9 ? 3600 : 25;
-            !Ps&listened && Ps&now && Gtime(Ps&now) > ttl and Ps&Want_Check = 1
-            
-            s&P && s&P != P and s&oP = delete s&P
-            s&P = P;
-            
-            # try to have the P ready to 
-            # in/out of time bit, lost in the store
-            $ok = Rs&Pull_a(C,P);
-            
-            if (s&notsync) {
-                # C is not experiencing changes,
-                #  eg refreshing things out of time
-                #  and Pull_a will c&ready(), leads back
-                delete s&notsync;
-                c&ready and ac(P,'readyingC',C)
+            if (Qs&string) {
+                $q = Rs&Pio.what('Out',Q);
+                q ||= Cye(Q);
+                Rs&Pio.is('Out',q);
+                q.sc = {};
+                qs&string = delete Qs&string;
+                qs&dige = dig(qs&string)
                 return
             }
             
-            # < don't wait for the async check
-            #   use the current, let remotes resolve async
-            # Pc&s only null if never found or not decoded
-            #!ok && Pc&s && !c&canwait and ok = 1
-            #C.t == 'Yingmas-light' and debugger;
-            
-            if (!ok) {
-                # go async
-                s&ready = 0;
-                # after, c&ready() climbs back to C time
-                c&ready and ac(P,'readyingC',C)
-                c&async and c&async()
-                else {
-                    G&TuneTimeMachine,c&of+':'+C.t
-                }
-            }
-            else {
-                # C is, Pc&s == null must be intentional
-                s&ready = 1;
-                
-                # C <dige> P, may surprise
-                # el=1/8 basically
-                c&el = Pc&el;
-                if (!c&el || c&el == 1) {
-                    c&el = s&dige != Ps&dige ? (s&dige ? 2 : 1)
-                        : 8
-                }
-                c&el && Py&decidedel && Py&decidedel(c&el);
-                
-                # < all/any sc
-                s&dige = Ps&dige;
-                s&section = Ps&section;
-                !s&section and delete s&section
-                c&s = Pc&s;
-                # C never gets s&string unless it makes it
-
-                # keeps Pc&s while update is looked for
-                Pc&s && Ps&Pulling_since && c&canwait and ~waitscan
-                else
-                Pc&s and return Pc&s
-            }
-        };
-    },'ift,D'],
+            $s = Rs&upting(Q,r);
+            $P = Qs&P;
+            !P and ~>5 upting!P: Q.t
+            !P and return
+            Rs&Pio.is('In',P);
+            !s and return
+            return s
+        }
+    },
     
     
   // Glimpes Textl
