@@ -116,7 +116,7 @@ me.Sch_Pavings = &acgt{ return [
    // twmt - matching Q
     # they make a pile of names
     ['twmt',0.37,&acgtRs{
-        me&reaw,R,'twmt';
+        me&reaw,R,'twmt,twmt_dl';
         $S = me&inode,R;
         #me&tsc,'twmt'
         
@@ -185,6 +185,13 @@ me.Sch_Pavings = &acgt{ return [
             $mad = me.adhere;
             each tn Rs&adhere {
                 rs&noadhere && rs&noadhere[t] and continue
+                
+                $tdl = R.sc[t+'_dl'];
+                if (tdl != null) {
+                    tdl == 0 and continue
+                    r.sc[t+'_dl'] = tdl-1
+                }
+                
                 rs&reneg and continue
                 mad[t] and mad[t](R,r) and continue
                 r.sc[t] ||= n;
