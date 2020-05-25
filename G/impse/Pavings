@@ -219,14 +219,20 @@ me.Sch_Pavings = &acgt{ return [
         $notready = !Q || !Qs&ready;
         notready and me&waits,"!ready"
         $w = Qc&s;
-        !w and me&waits,"!live"
-        # < negate the above %%waits if:
-        !w && !notready && Qc&el == '9' and Rs&creatine = 1
+        if (!w) {
+            if (!notready && Qc&el == '9') {
+                Rs&creatine = 1
+                me&tsc,'el:9',0,'b'
+            }
+            else {
+                me&waits,"!live"
+            }
+        }
         Rs&Q = Q;
         
-        me&bready,R and return
+        me&bready,R || !w and return
         
-        Rs&Live = Qc&s;
+        Rs&Live = w;
         
         # roll/sleepatch inner processes
         me&rolls,'grype',{s:Q.t+"@"+Qs&dige}
