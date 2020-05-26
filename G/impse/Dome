@@ -126,6 +126,21 @@
             #T.act and me&ha,j,{noded:T.act}
             return Sy&R
         };
+        # node s resolve to a %Ying/(pa/th)
+        #  for inter-noding, eg %%settle or %%eto
+        # < riding X, hoisting all the way up...
+        #  < a/b/-c/d should revoke d's stuff on b, a
+        me.tpath = &acgtR,to{
+            $jo = toy&R;
+            $N = me.cby(jo,&r{
+                return rc&s == Rc&s
+            });
+            N[0].c.s != Rc&s and throw "!^^%Ying"
+            N.shift();
+            N = N.filter(r => rs&ball);
+            !N.length and throw "!tpath"
+            return N.map(r => r.t).join('/')
+        };
         
   // 37 < Domes
    # < %%dome
@@ -153,9 +168,12 @@
             me&dome_o3,r,s;
         }
         # domes, transbrack accept
+        # everyone &bready or -> conclusion
         # < deeper first?
         me.Domes_7 = &acgtRpr{
             $s = rc&s;
+            me&settle_6,R,p,r,s;
+            me&settle_7,R,p,r,s;
             me&node_accept,R,r,s;
             # when not &bready, ask R%Ying to come back:
             me&bready,r and me&ha,R,{waits:'wants',wants:r}
@@ -223,24 +241,11 @@
         #   -> $from sy&etos
         #   -> Ying%%etos
         # < brackstill config/slep
-        # < riding X, hoisting all the way up...
-        #  < a/b/-c/d should revoke d's stuff on b, a
         me.etos_6 = &acgtRprs{
             # all %%eto from this node
             $eto = me&jaa,r,'eto' .filter (n => !ns&efrom);
-            # node s resolve to a %Ying/(pa/th)
-            $tpath = &to,{
-                $jo = toy&R;
-                $N = me.cby(jo,&r{
-                    return rc&s == Rc&s
-                });
-                N[0].c.s != Rc&s and throw "!^^%Ying"
-                N.shift();
-                N = N.filter(r => rs&ball);
-                !N.length and throw "!tpath"
-                return N.map(r => r.t).join('/')
-            };
-            $fromt = tpath(r);
+            !eto.length && !sy&etos and return
+            $fromt = me&tpath,R,r;
             # C:from/C:to/row
             # grouped by where they're going
             # with c&el=9
@@ -254,7 +259,7 @@
                 $jo = toy&R;
                 to = joc&s;
                 
-                $tot = tpath(to);
+                $tot = me&tpath,R,to;
                 $h = fio(ing,tot);
                 $gi = gone.indexOf(h);
                 if (gi >= 0) {
@@ -386,7 +391,6 @@
     }
        
    // < &nodei|o|e - makes %%eto..., going somewhere
-      
       // nodeio-doc 
        =elvis
        focused on:
@@ -752,14 +756,44 @@
        nodes above/below are at least &halfsettled
         eg: Settled/Unsettled/Chaos
          where Chaos is not brackstable etc but Unsettled is
+    
+     Ying_8:
+       has its own whats
+        $to - the thing that must &settle
+         stays aware that $from wants to know on re-&settle
+         happens before $from
+        $from - the thing wants $to to &settle
+         can revoke that?
+        
     =elvis
-    me.settle = &acgtR{
-        # <
+    me.settle = &acgtRr{
+        $from = Ry&R.c.s;
+        $to = ry&R.c.s;
+        # log it, so Ying_8 can transport-think
+        !me&ja,R,{settle:to} and me&ha,R,{settle:to}
+        
+        return 'not settled'
+    }
+    # %settle emits|completes
+    #  emittor sy&settleto
+    me.settle_6 = &acgtRprs{
+        # all %%eto from this node
+        $setto = me&jaa,r,'settle';
+        !setto.length && !sy&settleto and return
+        # $from:r emits these
+    }
+    me.settle_7 = &acgtRprs{
+        !sy&settlefrom and return
+        # $to:r completes
+    }
+    # reemerge by...
+    me.settle_8 = &acgtR{
+        
     }
        
   
   // 7
-      // ending # everyone &bready or -> conclusion
+      // ending &Steps_7, &Ying_8
         # $p done: $p & $j+ Domes_7
         #  depending on !node_issleeping
         me.Steps_7 = &acgtRprs{
@@ -782,11 +816,11 @@
             me&node_accept,R,R,s;
             
             me&etos_8,R;
+            me&settle_8,R;
             me&waits_8,R;
             
-            # push stepbrack to the Outlog
+            # < push stepbrack to the Outlog
             if (!me&node_issleeping,R,R ) {
-                ~>3 Ying_8 isntsleeping: R.t
                 $g = me&stepbrack,R;
                 me&walls,g,'b:3.3h9';
             }
@@ -818,7 +852,6 @@
           might be up to r:Know to %%wants:r/*,acty:1,settled,
        
        // mostly
-       
          most behaviour decisions wait for &settle
           waiting for confidence
           eg selecting nodes eg S o ... or &nodeo
@@ -832,7 +865,6 @@
          and they form loops!
          
        // Yingterms - see nodeio-Yingu-scussion
-       
         messaging / nodes / time
         find loops, pause/debug/trace
        
@@ -868,8 +900,9 @@
            if all %Zif-able, spotting increases etc.
         < go randomly visiting ($p/10s?)
           where further time plots emerge
-        
        =elvis
+       
+       // R%Ying &waits_8 -> e come back
         # Ying%%waits,wants:$to - come back for $to etc
         me.waits_8 = &acgtR{
             $wakers = me&jaa,R,'waits','wants';
