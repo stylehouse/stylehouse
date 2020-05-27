@@ -753,17 +753,26 @@
         < &bready
         < brack seemingly stable: ja == za
       and:
-       nodes above/below are at least &halfsettled
+       nodes below are at least &halfsettled
         eg: Settled/Unsettled/Chaos
          where Chaos is not brackstable etc but Unsettled is
+       < should be able to climb bunch of index then a node,
+         'nodes below' meaning the next layer of nodes inside
     
      Ying_8:
        has its own whats
-        $to - the thing that must &settle
-         stays aware that $from wants to know on re-&settle
-         happens before $from
-        $from - the thing wants $to to &settle
-         can revoke that?
+        stays aware of either end
+         eg that $to should &settle,
+          then $from can have $to &settle
+        $from 
+         &settle_6 - wants $to to &settle
+        $to
+         &settle_7 - checks for &settle
+          pushing &halfsettled to children
+          versioning %wou for:
+        $from
+         &settle_7 - accept $to &settled
+         
         
     =elvis
     me.settle = &acgtRr{
@@ -771,26 +780,122 @@
         $to = ry&R.c.s;
         # log it, so Ying_8 can transport-think
         !me&ja,R,{settle:to} and me&ha,R,{settle:to}
-        
         return 'not settled'
     }
     # %settle emits|completes
     #  emittor sy&settleto
     me.settle_6 = &acgtRprs{
         # all %%eto from this node
-        $setto = me&jaa,r,'settle';
-        !setto.length && !sy&settleto and return
+        $rows = me&jaa,r,'settle';
+        !rows.length && !sy&settletos and return
         # $from:r emits these
+        $c = {rows,k:'settle'};
+        $ing = me&either_6,R,r,c;
+        # nothing in the row matters,
+        #  only the from-to direction,
+        #   orders Ying wake towards settle
+        #  and some kind of $to version to $from accept
+        me&ioty,ing .map(&h{
+            # asking %Ying to transport
+            me&ha,R,{settles:h,s,fromt:ing.t}
+            ~>3 settle_6 rowsout: ing.t, h.t
+        })
     }
     me.settle_7 = &acgtRprs{
-        !sy&settlefrom and return
-        # $to:r completes
+        if (sy&settlefroms) {
+            # $to:r checks itself, makes version
+        }
+        if (sy&settletos) {
+            # $from:r accepts version of $to
+        }
     }
     # reemerge by...
     me.settle_8 = &acgtR{
+        # deals $from nodes awake now,
+        #  are probably the next $to,
+        #  subject to all other directions
+        $froms = me&jaa,R,'settles';
+        $s = Rc&s;
+        $set = sy&settles ||= Cye(['settles',1]);
+        
+        froms.map(&n{
+            # ho = to with s&current from &node_hoist
+            !ns&fromt and throw "!fromt"
+            $h = ns&settles;
+            $to = hs&to;
+            $jo = toy&R;
+            to = joc&s;
+            # efroms - for|on the to node path
+            $ef = toy&settlefroms ||= Cye([h.t,1]);
+            ef.t != h.t and throw "misnodepath"
+            #  /$fromt - the from node path
+            $fo = fio(ef,ns&fromt);
+            fos&settletos = h;
+            
+            # jo tidies efroms, once el=9 accepted
+            # send attention
+            me&ha,R,{waits:'settle',wants:to}
+
+            ~>5 settlefroms hoisted: ef.t, '<-', fo.t
+        });
         
     }
-       
+    
+    
+    # < convert etos_6 to:
+    me.not_etos_6 = &acgtRr{
+        # ...
+        $c = {rows,k:'eto',mk:'etos'};
+        c.onel9 = &h{
+            hs&current = h;
+        };
+        $ing = me&either_6,R,r,c;
+        # ...
+    }
+    # the (settle|etos)_(6|7|8) exchange
+    # rows leaving r, grouped by where to
+    #  eg sy&settletos/C:to/$row
+    me.either_6 = &acgtRrc{
+        !isst(c.k) and throw "give c.k"
+        !isar(c.rows) and throw "give c.rows"
+        $mk = c.mk || c.k+'tos';
+        $s = rc&s;
+        $fromt = me&tpath,R,r;
+        # k,mk = settle,settletos | eto,etos
+        $ing = s.y[mk] ||= Cye([fromt,1]);
+        $gone = (ings&z||[]).slice();
+        each in c.rows {
+            $to = n.sc[c.k];
+            !to and throw ""
+            # %%eto=1 means to the step
+            to == 1 and to = p
+            # select s given p/r/s
+            $jo = toy&R;
+            to = joc&s;
+
+            $tot = me&tpath,R,to;
+            $h = fio(ing,tot);
+            $gi = gone.indexOf(h);
+            if (gi >= 0) {
+                gone.splice(gi,1);
+                # new bunch of rows
+                hs&z = [];
+            }
+
+            hs&to = to;
+            hs&from  = s;
+            ac(h,'z',n);
+        }
+        # revoke
+        gone .map(&h{
+            !fio(ing,h.t,0) and throw "notnt"
+            if (hc&el != 9) {
+                hc&el = 9;
+                c.onel9 and c.onel9(h);
+            }
+        });
+        return ing
+    }
   
   // 7
       // ending &Steps_7, &Ying_8
