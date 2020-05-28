@@ -277,13 +277,19 @@
    // nodelinks
     # concept of leading rows -> sy&${k}tos|froms -> somewhere
     # the (settle|etos)_(6|7|8) exchange
-    
+    me.either_ftk = &acgtc{
+        !isst(c.k) and throw "give c.k"
+        !isar(c.rows) and throw "give c.rows"
+        # somethings that become somethingfroms
+        $k = c.k;
+        k.substr(-1) == 's' and k = k.substr(0,k.length-1)
+        c.tk ||= k+'tos';
+        c.fk ||= k+'froms';
+    }
     # rows leaving $from, grouped by $to
     #  eg sy&settletos/$h:to/$row
     me.either_6 = &acgtRrc{
-        !isst(c.k) and throw "give c.k"
-        !isar(c.rows) and throw "give c.rows"
-        c.tk ||= c.k+'tos';
+        me&either_ftk,c;
         $s = rc&s;
         $fromt = me&tpath,R,r;
         # k,tk = settle,settletos | eto,etos
@@ -323,10 +329,7 @@
     }
     # Ying for something_8 takes $from->$to
     me.either_8 = &acgtRc{
-        !isst(c.k) and throw "give c.k"
-        !isar(c.rows) and throw "give c.rows"
-        c.tk ||= c.k+'tos';
-        c.fk ||= c.k+'froms';
+        me&either_ftk,c;
         each in c.rows {
             !ns&fromt and throw "!fromt"
             $h = n.sc[c.k];
@@ -1285,13 +1288,11 @@
         eg: Settled/Unsettled/Chaos
          where Chaos is not &brackstable etc but Unsettled is
        < should be able to climb bunch of index then a node,
-         'nodes below' meaning the next layer of nodes beyond
+         'nodes below' meaning the next layer of nodes beyond!
     =elvis
     me.settle = &acgtRr{
         R = Ry&R;
-        if (isar(r))
-            return !r.map(r => me&settle,R,r )
-                .filter(r=>r).length
+        isar(r) and return r.filter(n => me&settle,R,n ).length
         r = ry&R;
         $from = Rc&s;
         $to = rc&s;
@@ -1299,10 +1300,17 @@
         !me&ja,R,{settle:to} and me&ha,R,{settle:to}
         # is figured at Doming_7, once est.
         $se = toy&settled;
-        $settled = se && ses&settled
+        $settled = se && ses&settled;
             # check these two loose-able aspects:
-            && me&node_issleeping,R,r
-            && !me&settle_halfsettle_down,to .length;
+        if (settled && !me&node_issleeping,R,r) {
+            ~>7 settled!sleeping: r.t
+            return 1
+        }
+        if (settled && me&settle_halfsettle_down,to .length) {
+            ~>7 settled!down: r.t
+            return 1
+        
+        }
         !settled and return 'not settled'
     }
     
