@@ -802,6 +802,57 @@
             me&ha,R,{waits:'settle',wants:to,for:'to'}
         });
     }
+   // %%settle <-> %%waits
+    # redundant orderer of orders
+    =couldbe
+     Ying waits_8, wakers order regarding &settle, etc
+     not: a lifo of $froms awaiting &settle,
+      not even a $to-before-$from separator,
+      to catch up lost|tangled $from-$to-$from impulse:
+     
+       $from|$to generate 8%%waits:settle,wants:each other,
+        to filter that by settle progress:
+         eg that $to should &settle,
+          then $from can have $to &settle
+        $from 
+         &settle_6 - wants $to to &settle
+        $to
+         &settle_7 - checks for &settle
+          pushing &halfsettled to children
+          versioning %wou for:
+        $from
+         &settle_7 - accept $to &settled
+    
+      while s &settle z, wakers[] may be:
+       sy&settletos/$z
+       zy&settlefroms/$s
+      both mean wake z then s,
+       which tends to happen anyway,
+       and &settle blocks anything not ready
+     
+     one day:  
+     < loop detect !sooner && !later
+        go for least conflicted, earliest in Sy&N
+     < guarantee the eventuality,
+        check every Y%settles %from?
+     < instant Yingu innard, style of collapse into time
+     < partition into several single-minded Yings,
+       for atomicity,
+     < study errors
+    =elvis
+    me.settle_wakers = &acgtR,set,wakers{
+        $later = [];
+        $sooner = [];
+        wakers.map(&s{
+            $j = sy&R;
+            !j || jc&s != s and debugger;
+            $tos = sy&settletos;
+            if (tos) {
+                # waiting for these
+            }
+        })
+        return wakers
+    }
    
    // < %%waits - state around
     # Ying%%waits,wants:$to
@@ -1261,23 +1312,6 @@
        < should be able to climb bunch of index then a node,
          'nodes below' meaning the next layer of nodes inside
     
-     Ying_8:
-       not: a lifo of $froms awaiting &settle,
-        not even a $to-before-$from separator,
-        to catch up lost|tangled $from-$to-$from impulse:
-       $from|$to generate 8%%waits:settle,wants:each other,
-        to filter that by settle progress:
-         eg that $to should &settle,
-          then $from can have $to &settle
-        $from 
-         &settle_6 - wants $to to &settle
-        $to
-         &settle_7 - checks for &settle
-          pushing &halfsettled to children
-          versioning %wou for:
-        $from
-         &settle_7 - accept $to &settled
-         
         
     =elvis
     me.settle = &acgtRr{
@@ -1286,33 +1320,6 @@
         # log it, so Ying_8 can transport-think
         !me&ja,R,{settle:to} and me&ha,R,{settle:to}
         return 'not settled'
-    }
-    
-    # while s &settle z, wakers[] may have either
-    #   sy&settletos/$z
-    #   zy&settlefroms/$s
-    #  both mean wake z then s,
-    #   the s case may need to create the z trip
-    # < loop detect !sooner && !later
-    #    go for least conflicted, earliest in Sy&N
-    # < guarantee the eventuality,
-    #    check every Y%settles %from?
-    # < instant Yingu innard, style of collapse into time
-    # < partition into several single-minded Yings,
-    #   for atomicity,
-    # < study errors
-    me.settle_wakers = &acgtR,set,wakers{
-        $later = [];
-        $sooner = [];
-        wakers.map(&s{
-            $j = sy&R;
-            !j || jc&s != s and debugger;
-            $tos = sy&settletos;
-            if (tos) {
-                # waiting for these
-            }
-        })
-        return wakers
     }
     
    // < &acting, &acty
