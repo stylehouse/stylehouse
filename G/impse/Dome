@@ -275,41 +275,30 @@
         }
    
    // nodelinks
-    # concept of sy&${k}tos|froms leading somewhere
-    
-    # < convert etos_6 to:
-    me.not_etos_6 = &acgtRr{
-        # ...
-        $c = {rows,k:'eto',mk:'etos'};
-        c.onel9 = &h{
-            hs&current = h;
-        };
-        $ing = me&either_6,R,r,c;
-        # ...
-    }
+    # concept of leading rows -> sy&${k}tos|froms -> somewhere
     # the (settle|etos)_(6|7|8) exchange
-    # rows leaving r, grouped by where to
+    
+    # rows leaving $from, grouped by $to
     #  eg sy&settletos/$h:to/$row
     me.either_6 = &acgtRrc{
         !isst(c.k) and throw "give c.k"
         !isar(c.rows) and throw "give c.rows"
-        $mk = c.mk || c.k+'tos';
+        c.tk ||= c.k+'tos';
         $s = rc&s;
         $fromt = me&tpath,R,r;
-        # k,mk = settle,settletos | eto,etos
-        $ing = s.y[mk] ||= Cye([fromt,1]);
+        # k,tk = settle,settletos | eto,etos
+        $ing = s.y[c.tk] ||= Cye([fromt,1]);
         $gone = (ings&z||[]).slice();
         each in c.rows {
             $to = n.sc[c.k];
             !to and throw ""
             # %%eto=1 means to the step
-            to == 1 and debugger
+            to == 1 and to = s.y.path[0]
             # select s given p/r/s
             $jo = toy&R;
             to = joc&s;
 
-            $tot = me&tpath,R,to;
-            $h = fio(ing,tot);
+            $h = fio(ing, me&tpath,R,to );
             $gi = gone.indexOf(h);
             if (gi >= 0) {
                 gone.splice(gi,1);
@@ -319,6 +308,7 @@
 
             hs&to = to;
             hs&from  = s;
+            hs&fromt = fromt;
             ac(h,'z',n);
         }
         # revoke
@@ -326,10 +316,32 @@
             !fio(ing,h.t,0) and throw "notnt"
             if (hc&el != 9) {
                 hc&el = 9;
-                c.onel9 and c.onel9(h);
+                c.on_el9 and c.on_el9(h);
             }
         });
-        return ing
+        c.each and me&ioty,ing .map(&h{ c.each(h,hs&from,hs&to) })
+    }
+    # Ying for something_8 takes $from->$to
+    me.either_8 = &acgtRc{
+        !isst(c.k) and throw "give c.k"
+        !isar(c.rows) and throw "give c.rows"
+        c.tk ||= c.k+'tos';
+        c.fk ||= c.k+'froms';
+        each in c.rows {
+            !ns&fromt and throw "!fromt"
+            $h = n.sc[c.k];
+            $to = hs&to;
+            $jo = toy&R;
+            to = joc&s;
+            # froms - for|on the to node path
+            $ef = to.y[c.fk] ||= Cye([h.t,1]);
+            ef.t != h.t and throw "misnodepath"
+            #  /$fromt - the from node path
+            $fo = fio(ef,ns&fromt);
+            fo.sc[c.tk] = h;
+            
+            c.each and c.each(h,hs&from,hs&to,ef,fo)
+        }
     }
   
   // 3 - Domes time connect items
@@ -539,48 +551,17 @@
         # < brackstill config/slep
         me.etos_6 = &acgtRprs{
             # all %%eto from this node
-            $eto = me&jaa,r,'eto' .filter (n => !ns&efrom);
-            !eto.length && !sy&etos and return
-            $fromt = me&tpath,R,r;
-            # C:from/C:to/row
-            # grouped by where they're going
-            # with c&el=9
-            $ing = sy&etos ||= Cye([fromt,1]);
-            $gone = (ings&z||[]).slice();
-            each in eto {
-                $to = ns&eto;
-                # %%eto=1 means to the step
-                to == 1 and to = p
-                # select s given p/r/s
-                $jo = toy&R;
-                to = joc&s;
-                
-                $tot = me&tpath,R,to;
-                $h = fio(ing,tot);
-                $gi = gone.indexOf(h);
-                if (gi >= 0) {
-                    gone.splice(gi,1);
-                    # new bunch of rows
-                    hs&z = [];
-                }
-                
-                hs&to = to;
-                hs&from  = s;
-                ac(h,'z',n);
-                
+            $rows = me&jaa,r,'eto' .filter (n => !ns&efrom);
+            !rows.length && !sy&etos and return
+            # loads up sy&etos
+            $c = {rows,k:'eto',tk:'etos'};
+            c.on_el9 = &h{
+                hs&current = h;
             }
-            # revoke
-            gone .map(&h{
-                !fio(ing,h.t,0) and throw "notnt"
-                if (hc&el != 9) {
-                    hs&current = h;
-                    hc&el = 9
-                }
-            });
-            # brackstill version off the previous
-            me&ioty,ing .map(&h{
+            c.each = &h{
+                $fromt = hs&fromt;
+                # brackstill version off the previous
                 hs&vers ||= [];
-                #!
                 if (hc&el != 9) {
                     $la = hs&vers.slice(-1)[0];
                     $cha = me&brackstill,r,h,la;
@@ -608,7 +589,8 @@
                     me&ha,R,{etos:h,s,fromt}
                     !cha and ~>3 oldnews: h.t, '<-', fromt
                 }
-            })
+            }
+            me&either_6,R,r,c;
         }
         # $to %%efrom marked as accepted
         #  relaxes $from sending it
@@ -628,26 +610,16 @@
         #   -> $to sy&efroms
         #   -> Ying%%waits:eto,wants:$to
         me.etos_8 = &acgtR{
-            $froms = me&jaa,R,'etos';
-            froms.map(&n{
-                # ho = to with s&current from &node_hoist
-                !ns&fromt and throw "!fromt"
-                $h = ns&etos;
-                $to = hs&to;
-                $jo = toy&R;
-                to = joc&s;
-                # efroms - for|on the to node path
-                $ef = toy&efroms ||= Cye([h.t,1]);
-                ef.t != h.t and throw "misnodepath"
-                #  /$fromt - the from node path
-                $fo = fio(ef,ns&fromt);
-                fos&etos = h;
-                # jo tidies efroms, once el=9 accepted
+            $rows = me&jaa,R,'etos';
+            $c = {rows,k:'etos',tk:'etos',fk:'efroms'};
+            c.each = &h,from,to,ef,fo{
+                # $to tidies efroms, once el=9 accepted
                 # send attention
                 me&ha,R,{waits:'eto',wants:to}
                 
                 ~>5 efroms hoisting: ef.t, '<-', fo.t
-            });
+            }
+            me&either_8,R,c;
         }
    
    // %%settle - still state
@@ -667,15 +639,15 @@
         !rows.length && !sy&settletos and return
         # $from:r emits these
         $c = {rows,k:'settle'};
+        c.each = &h{
+            # asking %Ying to transport
+            me&ha,R,{settles:h,s,fromt:hs&fromt}
+        }
         $ing = me&either_6,R,r,c;
         # nothing in the row matters,
         #  only the from-to direction,
         #   orders Ying wake towards settle
         #  and some kind of $to version to $from accept
-        me&ioty,ing .map(&h{
-            # asking %Ying to transport
-            me&ha,R,{settles:h,s,fromt:ing.t}
-        })
     }
     # resolve &settle at a nodes 7
     # gathering them to do all at once in reverse
@@ -811,29 +783,18 @@
             })
         }
     }
-    # Ying takes $from->$to
+    # Ying takes %%settles $from->$to
     me.settle_8 = &acgtR{
-        # < no independent list of them is needed?
-        #   since they always progress the settle when awake
-        #   see %%settle <-> %%waits
         $Y = Rs&Ying;
         $set = Ys&settles ||= Cye(['settles',1]);
         
-        me&jaa,R,'settles' .map(&n{
-            # ho = to with s&current from &node_hoist
-            !ns&fromt and throw "!fromt"
-            $h = ns&settles;
-            $to = hs&to;
-            $jo = toy&R;
-            to = joc&s;
-            # froms - for|on the to node path
-            $ef = toy&settlefroms ||= Cye([h.t,1]);
-            ef.t != h.t and throw "misnodepath"
-            #  /$fromt - the from node path
-            $fo = fio(ef,ns&fromt);
-            fos&settletos = h;
-            
+        $rows = me&jaa,R,'settles';
+        $c = {rows,k:'settles'};
+        c.each = &h,from,to,ef{
             # all tos and froms
+            # < no independent list of them is needed?
+            #   since they always progress the settle when awake
+            #   see %%settle <-> %%waits
             !(hs&to && hs&from) and throw "%%settles!s"
             #ac(set,'tos',hs&to);
             #ac(set,'froms',hs&from);
@@ -841,13 +802,14 @@
             if (hs&accepted && hs&current == hs&accepted) {
                 $neu = !hs&accepted_boring;
                 hs&accepted_boring = 1;
-                neu and ~>7 settled: hs&to.t, '<-', hs&from.t
+                neu and ~>7 settled: to.t, '<-', from.t
                 return
             }
             
             # attend $to, probably
             me&ha,R,{waits:'settle',wants:to,for:'to'}
-        });
+        }
+        me&either_8,R,c;
     }
    
    // %%settle <-> %%waits
