@@ -181,6 +181,43 @@
     }
   
    // nodes
+        # should we not Doming_7 due to %sleep*
+        me.node_issleeping = &acgtRr{
+            =elvis &node_issleeping if %sleepung-ish
+             potential to really stop mid-r:
+             < avoiding any more Ring r**,
+                < wants Rc&ip.contains()
+               as soon as ha ...waits
+                winding them past mind they cant reach,
+                 recycling domes of stuff
+             < alterior sleeping - when %%waits stops Ring
+               does it accept r as b? suppose, to display
+                r/** want winding past their whole lives if strange
+                 winds to 9...Display while %sleeping?
+            =elvis
+            # >0 if r is not able to commit (za)
+            # >1 if r is not able to display
+            R = Ry&R;
+            r = ry&R;
+            if (rs&sleepung) {
+                # displayable after sleepywind
+                ~>3 node pung: r.t
+                return 1
+            }
+            elsif (rs&sleeping) {
+                # reawakened + tunneled through (Know)
+                #~>3 node sleeping: r.t
+            } 
+            elsif (!Rc&N.includes(r)) {
+                # not awakened
+                #~>3 node avoid: r.t
+            }
+            else {
+                return 0
+            }
+            return 2
+        }
+
         # as r/** wake up & want nodesing
         me.inode = &acgtj{
             if (jy&R) {
@@ -371,10 +408,8 @@
        =pod todo
         < # Yingterms
         < %%dome and other %%tricks
-        < &settle, meaning a wants b to be settled,
-          quickly decided, else
-            comeback
-            as&sleepy til met?
+        &settle, meaning a wants b to be settled,
+          quickly decided, else comeback
         < catching that %Pave elvis async already @315
            coming back to complete bunches at a time
         < io making sense of eg %%tw, %ein,
@@ -396,7 +431,6 @@
          most behaviour decisions wait for &settle
           waiting for confidence
           eg selecting nodes eg S o ... or &nodeo
-            they/we should %bready
 
          most behaviour reflexes wait for &bready
           just needing a bit of resolution
@@ -442,8 +476,7 @@
         < go randomly visiting ($p/10s?)
           where further time plots emerge
        =elvis
-       
-        
+  
   // 5 < Domes
    # < %%dome
    # < nodeein
@@ -720,15 +753,7 @@
                 # < $s/$n awake at the same time is ok
                 # < that could be $n%onlyish (not $n/** again)
             }
-            $N = fromss&nodes_below;
-            !N and throw "missing &settle_71_halfsettle_down"
-            $non = [];
-            each in N {
-                # check if ready
-                $nse = ny&settled
-                nse && nses&halfsettled and continue
-                non.push(n)
-            }
+            $non = me&settle_halfsettle_down,s;
             if (non.length) {
                 ~>4 set7 half below: ki(non,4.23)
                 non.map(&n{
@@ -736,7 +761,10 @@
                 })
                 return;
             }
+            
+            ses&settled = 1;
             # ses&current -> hs&accepted
+            # < when hc&el=9
             me&ioty,froms .map(&fo,{
                 $h = fos&settletos;
                 !hs&from and throw "nofrom"
@@ -746,8 +774,26 @@
                     me&ha,R,{waits:'settle',wants:hs&from,for:'settled'}
                 }
             })
-            # each or does el=9
         }
+    }
+    # checks $to/* (nodes below) are %halfsettled, returning non
+    #  n may not immediately inform $to of losing it
+    #   eg if tunneled into, no s Doming_7
+    #    $from would think s still &settled,
+    #     until $to:s wakes for:nodesabove
+    me.settle_halfsettle_down = &acgts{
+        $froms = sy&settlefroms;
+        !froms and return []
+        $N = fromss&nodes_below;
+        !N and throw "missing &settle_71_halfsettle_down"
+        $non = [];
+        each in N {
+            # check if ready
+            $nse = ny&settled
+            nse && nses&halfsettled and continue
+            non.push(n)
+        }
+        return non
     }
     # ack $from<-$to
     me.settle_77_settletos_accepted = &acgtRprs{
@@ -758,7 +804,7 @@
             $tos = sy&settletos;
             !tos and return
             me&ioty,tos .map(&h{
-                ~>3 settle_7 to: r.t, '<-', hs&from.t
+                ~>3 settle_7 accepts: hs&to.t, '<-', hs&from.t
                 # $to sets current when settled (ish)
                 #  which we started using, and now:
                 hs&using and hs&accepted = hs&using
@@ -769,6 +815,7 @@
     me.settle_8 = &acgtR{
         # < no independent list of them is needed?
         #   since they always progress the settle when awake
+        #   see %%settle <-> %%waits
         $Y = Rs&Ying;
         $set = Ys&settles ||= Cye(['settles',1]);
         
@@ -802,6 +849,7 @@
             me&ha,R,{waits:'settle',wants:to,for:'to'}
         });
     }
+   
    // %%settle <-> %%waits
     # redundant orderer of orders
     =couldbe
@@ -908,41 +956,6 @@
   
    
   // 6 < frontends
-   // &node_issleeping - if %sleepung-ish
-    # potential to really stop mid-r:
-    # < avoiding any more Ring r**,
-    #    < wants Rc&ip.contains()
-    #   as soon as ha ...waits
-    #    winding them past mind they can't reach,
-    #     recycling domes of stuff
-    # < alterior sleeping - when %%waits stops Ring
-    #   does it accept r as b? suppose, to display
-    #    r/** want winding past their whole lives if strange
-    #     winds to 9...Display while %sleeping?
-
-    # should we not Doming_7 due to %sleep*
-    # >0 if r is not able to commit (za)
-    # >1 if r is not able to display
-    me.node_issleeping = &acgtRr{
-        if (rs&sleepung) {
-            # displayable after sleepywind
-            ~>3 node pung: r.t
-            return 1
-        }
-        elsif (rs&sleeping) {
-            # reawakened + tunneled through (Know)
-            #~>3 node sleeping: r.t
-        } 
-        elsif (!Rc&N.includes(r)) {
-            # not awakened
-            #~>3 node avoid: r.t
-        }
-        else {
-            return 0
-        }
-        return 2
-    }
-       
    // < &nodei|o|e - makes %%eto..., going somewhere
       // nodeio-doc 
        =elvis
@@ -1128,6 +1141,7 @@
        Know CBing per downstream,
         &nodei Ghost %%cha,
          which Ghost &nodei Travel %%cha
+       and in reverse: Know <- Ghost <- Travels
        
        Travel/$W,
          receives CBing &nodei %%cha,
@@ -1191,7 +1205,7 @@
         $from &nodei $to %%stuff
          put into $from%%eto:to,stuff
         %Ying hoists %%eto,stuff
-         brackstilling %%stuff
+         &brackstill-ing %%stuff
           attending $to
        # < Yingterms:
          then (once $to &settle or sooner or later)
@@ -1257,7 +1271,6 @@
        might be retry loop,
        do others first (moreso if %%waits:wants)
     =elvis
-
     me.bready = &acgtR{
         # got to via %%wants:R below
         !Rs&wou and throw "notbegun"
@@ -1292,34 +1305,40 @@
         return 1
     };
         
-   // < &settle
+   // &settle
     =elvis
-     &settle is a node that is:
-      often relative to a node that %%wants it,
-       if so it should be %sleeping,
-        not able to unsettle
+     &settle,z and return # waits for z to seem ready
+     
+     &settle sets/checks a node that is:
+      relative to this node, which wants it,
+      &node_issleeping, not able to unsettle
       < not pending elvising:
         as in %%wants:n,acty:1,settled,
          unless %%acty has transmit
-      &halfsettled:
-       @7:
-        < &bready
-        < brack seemingly stable: ja == za
+      &halfsettled @7:
+        &bready,
+        &brackstable: ja == za
       and:
        nodes below are at least &halfsettled
         eg: Settled/Unsettled/Chaos
-         where Chaos is not brackstable etc but Unsettled is
+         where Chaos is not &brackstable etc but Unsettled is
        < should be able to climb bunch of index then a node,
-         'nodes below' meaning the next layer of nodes inside
-    
-        
+         'nodes below' meaning the next layer of nodes beyond
     =elvis
     me.settle = &acgtRr{
-        $from = Ry&R.c.s;
-        $to = ry&R.c.s;
+        R = Ry&R;
+        r = ry&R;
+        $from = Rc&s;
+        $to = rc&s;
         # log it, so Ying_8 can transport-think
         !me&ja,R,{settle:to} and me&ha,R,{settle:to}
-        return 'not settled'
+        # is figured at Doming_7, once est.
+        $se = toy&settled;
+        $settled = se && ses&settled
+            # check these two loose-able aspects:
+            && me&node_issleeping,R,r
+            && !me&settle_halfsettle_down,to .length;
+        !settled and return 'not settled'
     }
     
    // < &acting, &acty
