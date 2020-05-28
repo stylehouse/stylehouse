@@ -177,7 +177,7 @@
         me.Domes_7 = &acgtRpr{
             $s = rc&s;
             # when not &bready, ask R%Ying to come back:
-            me&bready,r and me&ha,R,{waits:'wants',wants:r}
+            me&bready,r and me&ha,R,{waits:'wants',wants:s}
             else { rs&isbready = 1 }
             me&settle_6,R,p,r,s;
             me&settle_7,R,p,r,s;
@@ -818,7 +818,25 @@
             me&ha,R,{settles:h,s,fromt:ing.t}
         })
     }
+    # resolve &settle at a nodes 7
+    # < mostly depth first, except:
+    #    halfsettle_for must set up first
+    #     so our brackstabliser inc their %current
+    
     me.settle_7 = &acgtRprs{
+        # do all in Step_7 (one $p), after Domes_7 (many $s)
+        $cb = ps&aft_Domes_7 ||= &{
+            # each wave, all nodes ()
+            $rev = cb.N.slice().reverse();
+            each in cb.N {
+            
+            }
+        };
+        # attach awake-filtered nodes 
+        cb.N ||= [];
+        cb.N.push(s);
+        # the first downward bit can upward:
+        
         $froms = sy&settlefroms;
         if (froms) {
             # $to:r checks itself, makes version
@@ -863,10 +881,11 @@
             each in N {
                 # cause brackstabilising
                 $nf = ny&settlefroms ||= Cye([me&tpath,R,n ,1])
-                ac(nf,'halfsettle_for',s);
+                ac(nf,'halfsettle_for',s)
                 # check if ready
-                $nse = ny&settled;
-                !(nse && nses&halfsettled) and non.push(n)
+                $nse = ny&settled
+                nse && nses&halfsettled and continue
+                non.push(n)
             }
             if (non.length) {
                 ~>4 set7 half below: ki(non,4.23)
@@ -978,20 +997,25 @@
             me&ha,R,{waits:'settle',wants:to}
         });
     }
-    # general triaging nodes that might waits
-    # < for many with loop detection
+    # while s &settle z, wakers[] may have either
+    #   sy&settletos/$z
+    #   zy&settlefroms/$s
+    #  both mean wake z then s,
+    #   the s case may need to create the z trip
+    # < loop detect !sooner && !later
     #    go for least conflicted, earliest in Sy&N
-    #   currently would just space out
-    me.node_settles = &acgtRrs{
-        $Y = me&Rsc,'^^Ying';
-        $set = Ys&settles;
-        # < use for general %%waits triaging:
-        #   if froms.includes(%%wants) and any !accepted
-    }
+    # < guarantee the eventuality,
+    #    check every Y%settles %from?
+    # < instant Yingu innard, style of collapse into time
+    # < partition into several single-minded Yings,
+    #   for atomicity,
+    # < study errors
     me.settle_wakers = &acgtR,set,wakers{
         $later = [];
         $sooner = [];
         wakers.map(&s{
+            $j = sy&R;
+            !j || jc&s != s and debugger;
             $tos = sy&settletos;
             if (tos) {
                 # waiting for these
@@ -1027,7 +1051,7 @@
             $to = n.sc[c.k];
             !to and throw ""
             # %%eto=1 means to the step
-            to == 1 and to = p
+            to == 1 and debugger
             # select s given p/r/s
             $jo = toy&R;
             to = joc&s;
@@ -1068,6 +1092,8 @@
                 !me&node_issleeping,R,j &&
                     me&Domes_7,R,p,j
             }
+            $cb = delete ps&aft_Domes_7;
+            cb and cb(sy&N)
             stepsleeping and return
 
             $g = me&Domes_7,R,p,r,s;
