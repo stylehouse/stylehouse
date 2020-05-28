@@ -120,7 +120,7 @@
         sey&R = r;
         # takes brack
         $z = rs&wou;
-        ses&z = (zs&z||[]).slice();
+        ses&z = (zs&z||[]).filter(n => !nc&drop);
         # includes nodes %current below, for &halfsettled
         $froms = sey&settlefroms;
         if (froms) {
@@ -165,6 +165,7 @@
         zc&allks = [];
         zc&allvs = [];
         me&ioty,z .map(&n{
+            nc&drop and return
             each kv n.sc {
                 $ki = zc&allks.push(k)-1;
                 # < more/less important k
@@ -369,6 +370,8 @@
         # < deeper first?
         me.Domes_7 = &acgtRpr{
             $s = rc&s;
+            # %%dome replace if any new
+            me&dome_7,R,p,r,s;
             # when not &bready, ask R%Ying to come back:
             me&bready,r and me&ha,R,{waits:'wants',wants:s}
             else { rs&isbready = 1 }
@@ -378,8 +381,6 @@
             # %%eto|from
             me&etos_6,R,p,r,s;
             me&etos_7,R,p,r,s;
-            # %%dome replace if any new
-            me&dome_7,R,p,r,s;
             # display
             return me&stepbrack,r;
         }
@@ -422,7 +423,8 @@
     // < conclusion *Ying_8 -> waits_8)
        =pod todo
         < # Yingterms
-        < %%dome and other %%tricks
+        %%dome 
+         < and other %%tricks
         &settle, meaning a wants b to be settled,
           quickly decided, else comeback
         < catching that %Pave elvis async already @315
@@ -497,7 +499,7 @@
    # < nodeein
    # < nodee test
         
-   // < %%dome - residing state
+   // %%dome - residing state
        =pod
         %%dome:$t,... - a row that resurrects
          # not: another $z to seem in this one via bracko
@@ -508,23 +510,41 @@
            or commit log
            or %Paving sanity checking as we .5<->.1
          @7:
-           any ha %dome:$t,... replace them
-            or something configured
+           any ha %%dome:$t,... replace them
+            < or do some el=...
+              eg delete with where clause
+            < or something configured
            one ha %dome:$t - to drop it
            no ha %dome:$t* - to keep them all
             maybe for a ttl
+         for &bracko and similar (&brackgroupX|&brackstill|&brackstabliser)
+           nc&drop should appear gone,
+           in time for other Doming_7 to not get it
        =cut
-        # < += %%dome from last time
+        # += %%dome from last time
         me.dome_o3 = &acgtrs{
+            me&zaa,r,'dome' .map(&n{
+                nc&drop and return
+                nc&recycled and n = ny&up
+                n = me&ha,r,n;
+                nc&recycled = 1
+            })
         }
-        # < %%dome replace if any new
+        # %%dome replace if any new
         me.dome_7 = &acgtRprs{
-            $N = me&ja,r,'dome';
-            $synthz = {};
-            $keeps = [];
-            each in N {
-                
-            }
+            $neu = [];
+            $old = [];
+            # < ns&el specifica
+            me&jaa,r,'dome' .map(&n{
+                ns&el and 'where/what?'
+                (nc&recycled ? old : neu ).push(n)
+            })
+            $says_drop = neu.filter(n => hak(n.sc) == 1);
+            says_drop.length && neu.length > 1 and throw "drop + replace"
+            
+            !neu.length and 'keeps them all'
+            else
+            says_drop || neu.length and old.map(n => nc&drop = 1)
         }
         
    // %%eto - externalising state
@@ -919,7 +939,6 @@
         G&yl,del,yeah;
     }
   
-   
   // 6 < frontends
    // < &nodei|o|e - makes %%eto..., going somewhere
       // nodeio-doc 
