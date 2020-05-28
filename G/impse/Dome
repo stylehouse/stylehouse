@@ -25,7 +25,8 @@
     
     
     =elvis
-  // o1 sahazaja io
+  // 1 - physics
+   // sahazaja io
         # i - enterer
         # < to react in a Ring,r hang way,
         #   returning/jumping somewhere to think/reapproach
@@ -87,6 +88,7 @@
         me.node_accept = &acgtRrs{
             rs&wou_accepted = rs&wou
         }
+   // non io
   
   // o3 open
         # Ying|step|node all
@@ -144,6 +146,14 @@
             !N.length and throw "!tpath"
             return N.map(r => r.t).join('/')
         };
+        # < order of Sy&N
+        me.nodes_below = &acgts{
+            $j = sy&R;
+            !j || !sy&path and throw "nodenever"
+            $S = sy&path[0];
+            $N = Sy&N;
+            return N.filter(z => zy&up == s)
+        }
         
   // 37 < Domes
    # < %%dome
@@ -191,7 +201,7 @@
             return me&stepbrack,r;
         }
         
-    // < %%dome - residing state
+   // < %%dome - residing state
        =pod
         %%dome:$t,... - a row that resurrects
          # not: another $z to seem in this one via bracko
@@ -221,7 +231,7 @@
             }
         }
         
-    // %%eto - externalising state
+   // %%eto - externalising state
         # $to += %%efrom...
         me.etos_o3 = &acgtrs{
             $ef = sy&efroms;
@@ -359,6 +369,190 @@
             });
         }
    
+   // %%settle - still state
+    # $from sees a version of each &settled,$to
+    me.settle_o3 = &acgtrs{
+        $tos = sy&settletos;
+        !tos and return
+        me&ioty,tos .map(&h{
+            hs&current and hs&using = hs&current
+            hs&from != s and throw "from!=s"
+        })
+    }
+    # %settle emits|completes
+    me.settle_6 = &acgtRprs{
+        # all %%eto from this node
+        $rows = me&jaa,r,'settle';
+        !rows.length && !sy&settletos and return
+        # $from:r emits these
+        $c = {rows,k:'settle'};
+        $ing = me&either_6,R,r,c;
+        # nothing in the row matters,
+        #  only the from-to direction,
+        #   orders Ying wake towards settle
+        #  and some kind of $to version to $from accept
+        me&ioty,ing .map(&h{
+            # asking %Ying to transport
+            me&ha,R,{settles:h,s,fromt:ing.t}
+        })
+    }
+    # resolve &settle at a nodes 7
+    # gathering them to do all at once in reverse
+    me.settle_7 = &acgtRprs{
+        # do all in Step_7 (for $p), after Domes_7 (for $s)
+        $cb = ps&aft_Domes_7 ||= &{
+            each is cb.N {
+                $r = sy&R;
+                !r || r == s and debugger
+                me&settle_72_settled_up,R,p,r,s;
+            }
+        };
+        # awake-filtered depth-first Sy&N
+        cb.N ||= [];
+        cb.N.unshift(s);
+        # the first downward bit can upward:
+        me&settle_71_halfsettle_down,R,p,r,s;
+    }
+    # the settled to - having froms/**
+    #  push s/* a froms with %halfsettle_for
+    #   causing brackstabilising there
+    me.settle_71_halfsettle_down = &acgtRprs{
+        $froms = sy&settlefroms;
+        if (froms) {
+            $N = fromss&nodes_below = me&nodes_below,s;
+            !me&ioty,froms .length and return
+            each in N {
+                $nf = ny&settlefroms ||= Cye([me&tpath,R,n ,1])
+                ac(nf,'halfsettle_for',s)
+            }
+        }
+    }
+    # the $from<-$to
+    me.settle_72_settled_up = &acgtRprs{
+        $froms = sy&settlefroms;
+        if (froms) {
+            # $to:r checks itself, makes version
+            ~>3 settle_7 from: r.t
+            $se = sy&settled ||= Cye([s.t,1]);
+            sey&settlefroms = froms;
+            $washalf = ses&halfsettled;
+            ses&halfsettled = 0;
+            ses&settled = 0;
+            
+            # make a brack version
+            #  sees future R as the same
+            #  and includes nodes %current below, for &halfsettled
+            $cha = me&brackstabliser,r,se;
+            $brackstable = ses&accepted == ses&current;
+            ses&accepted = ses&current;
+            
+            if (!rs&isbready) {
+                # generates %%waits, will come back
+                ~>4 set7 isntbready: r.t
+                return
+            }
+            if (!brackstable) {
+                me&ha,R,{waits:'settle',wants:s,for:'onemore'}
+                ~>4 set7 onemore: cha, r.t
+                return
+            }
+            # < $r not pending elvising
+            #4s&intere = p;
+            
+            ses&halfsettled = 1;
+            
+            # nodes below are at least &halfsettled
+            # when we are them:
+            each in fromss&halfsettle_for {
+                # when we become &halfsettled
+                washalf and break
+                ~>4 set7 half aboving: n.t, '<-', s.t
+                me&ha,R,{waits:'settle',wants:n,for:'nodesabove'}
+                # < $s/$n awake at the same time is ok
+                # < that could be $n%onlyish (not $n/** again)
+            }
+            $N = fromss&nodes_below;
+            !N and throw "missing &settle_71_halfsettle_down"
+            $non = [];
+            each in N {
+                # check if ready
+                $nse = ny&settled
+                nse && nses&halfsettled and continue
+                non.push(n)
+            }
+            if (non.length) {
+                ~>4 set7 half below: ki(non,4.23)
+                non.map(&n{
+                    me&ha,R,{waits:'settle',wants:n,for:'nodesbelow'}
+                })
+                return;
+            }
+            # ses&current -> hs&accepted
+            me&ioty,froms .map(&fo,{
+                $h = fos&settletos;
+                !hs&from and throw "nofrom"
+                hs&current = ses&current;
+                if (hs&current != hs&accepted) {
+                    ~>4 set7 awaits: h.t, hs&from.t
+                    me&ha,R,{waits:'settle',wants:hs&from,for:'settled'}
+                }
+            })
+            # each or does el=9
+        }
+        if (sy&settletos) {
+            # $from:r accepts version of $to
+            # < wanting to have seen the &settle,$to again
+            #    or chase the dome that didnt do it
+            $tos = sy&settletos;
+            !tos and return
+            me&ioty,tos .map(&h{
+                ~>3 settle_7 to: r.t, '<-', hs&from.t
+                # $to sets current when settled (ish)
+                #  which we started using, and now:
+                hs&using and hs&accepted = hs&using
+            })
+        }
+    }
+    # Ying takes $from->$to
+    me.settle_8 = &acgtR{
+        # deals $from nodes awake now,
+        #  are probably the next $to,
+        #  subject to all other directions
+        $froms = me&jaa,R,'settles';
+        $Y = Rs&Ying;
+        $set = Ys&settles ||= Cye(['settles',1]);
+        
+        froms.map(&n{
+            # ho = to with s&current from &node_hoist
+            !ns&fromt and throw "!fromt"
+            $h = ns&settles;
+            $to = hs&to;
+            $jo = toy&R;
+            to = joc&s;
+            # froms - for|on the to node path
+            $ef = toy&settlefroms ||= Cye([h.t,1]);
+            ef.t != h.t and throw "misnodepath"
+            #  /$fromt - the from node path
+            $fo = fio(ef,ns&fromt);
+            fos&settletos = h;
+            
+            # all tos and froms
+            !(hs&to && hs&from) and throw "%%settles!s"
+            #ac(set,'tos',hs&to);
+            #ac(set,'froms',hs&from);
+            
+            if (hs&accepted && hs&current == hs&accepted) {
+                $neu = !hs&accepted_boring;
+                hs&accepted_boring = 1;
+                neu and ~>7 settled: hs&to.t, '<-', hs&from.t
+                return
+            }
+            
+            # attend $to, probably
+            me&ha,R,{waits:'settle',wants:to}
+        });
+    }
+    
   // 6 < frontends
    // &node_issleeping - if %sleepung-ish
     # potential to really stop mid-r:
@@ -750,7 +944,7 @@
       often relative to a node that %%wants it,
        if so it should be %sleeping,
         not able to unsettle
-      not pending elvising:
+      < not pending elvising:
         as in %%wants:n,acty:1,settled,
          unless %%acty has transmit
       &halfsettled:
@@ -765,8 +959,9 @@
          'nodes below' meaning the next layer of nodes inside
     
      Ying_8:
-       lifo of $froms awaiting &settle,
-        to catch up lost $from-$to-$from impulse:
+       not: a lifo of $froms awaiting &settle,
+        not even a $to-before-$from separator,
+        to catch up lost|tangled $from-$to-$from impulse:
        $from|$to generate 8%%waits:settle,wants:each other,
         to filter that by settle progress:
          eg that $to should &settle,
@@ -790,156 +985,6 @@
         return 'not settled'
     }
     
-    # $from sees a version of each &settled,$to
-    me.settle_o3 = &acgtrs{
-        $tos = sy&settletos;
-        !tos and return
-        me&ioty,tos .map(&h{
-            hs&current and hs&using = hs&current
-            hs&from != s and throw "from!=s"
-        })
-    }
-    # %settle emits|completes
-    me.settle_6 = &acgtRprs{
-        # all %%eto from this node
-        $rows = me&jaa,r,'settle';
-        !rows.length && !sy&settletos and return
-        # $from:r emits these
-        $c = {rows,k:'settle'};
-        $ing = me&either_6,R,r,c;
-        # nothing in the row matters,
-        #  only the from-to direction,
-        #   orders Ying wake towards settle
-        #  and some kind of $to version to $from accept
-        me&ioty,ing .map(&h{
-            # asking %Ying to transport
-            me&ha,R,{settles:h,s,fromt:ing.t}
-        })
-    }
-    # resolve &settle at a nodes 7
-    # gathering them to do all at once in reverse
-    me.settle_7 = &acgtRprs{
-        # do all in Step_7 (for $p), after Domes_7 (for $s)
-        $cb = ps&aft_Domes_7 ||= &{
-            each is cb.N {
-                $r = sy&R;
-                !r || r == s and debugger
-                me&settle_72_settled_up,R,p,r,s;
-            }
-        };
-        # awake-filtered depth-first Sy&N
-        cb.N ||= [];
-        cb.N.unshift(s);
-        # the first downward bit can upward:
-        me&settle_71_halfsettle_down,R,p,r,s;
-    }
-    # the settled to - having froms/**
-    #  push s/* a froms with %halfsettle_for
-    #   causing brackstabilising there
-    me.settle_71_halfsettle_down = &acgtRprs{
-        $froms = sy&settlefroms;
-        if (froms) {
-            $N = fromss&nodes_below = me&nodes_below,s;
-            !me&ioty,froms .length and return
-            each in N {
-                $nf = ny&settlefroms ||= Cye([me&tpath,R,n ,1])
-                ac(nf,'halfsettle_for',s)
-            }
-        }
-    }
-    me.settle_72_settled_up = &acgtRprs{
-        $froms = sy&settlefroms;
-        if (froms) {
-            # $to:r checks itself, makes version
-            ~>3 settle_7 from: r.t
-            $se = sy&settled ||= Cye([s.t,1]);
-            sey&settlefroms = froms;
-            $washalf = ses&halfsettled;
-            ses&halfsettled = 0;
-            ses&settled = 0;
-            
-            # make a brack version
-            #  sees future R as the same
-            #  and includes nodes %current below, for &halfsettled
-            $cha = me&brackstabliser,r,se;
-            $brackstable = ses&accepted == ses&current;
-            ses&accepted = ses&current;
-            
-            if (!rs&isbready) {
-                # generates %%waits, will come back
-                ~>4 set7 isntbready: r.t
-                return
-            }
-            if (!brackstable) {
-                me&ha,R,{waits:'settle',wants:s,for:'onemore'}
-                ~>4 set7 onemore: cha, r.t
-                return
-            }
-            # < $r not pending elvising
-            #4s&intere = p;
-            
-            ses&halfsettled = 1;
-            
-            # nodes below are at least &halfsettled
-            # when we are them:
-            each in fromss&halfsettle_for {
-                # when we become &halfsettled
-                washalf and break
-                ~>4 set7 half aboving: n.t, '<-', s.t
-                me&ha,R,{waits:'settle',wants:n,for:'nodesabove'}
-                # < $s/$n awake at the same time is ok
-                # < that could be $n%onlyish (not $n/** again)
-            }
-            $N = fromss&nodes_below;
-            !N and throw "missing &settle_71_halfsettle_down"
-            $non = [];
-            each in N {
-                # check if ready
-                $nse = ny&settled
-                nse && nses&halfsettled and continue
-                non.push(n)
-            }
-            if (non.length) {
-                ~>4 set7 half below: ki(non,4.23)
-                non.map(&n{
-                    me&ha,R,{waits:'settle',wants:n,for:'nodesbelow'}
-                })
-                return;
-            }
-            # ses&current -> hs&accepted
-            me&ioty,froms .map(&fo,{
-                $h = fos&settletos;
-                !hs&from and throw "nofrom"
-                hs&current = ses&current;
-                if (hs&current != hs&accepted) {
-                    ~>4 set7 awaits: h.t, hs&from.t
-                    me&ha,R,{waits:'settle',wants:hs&from,for:'settled'}
-                }
-            })
-            # each or does el=9
-        }
-        if (sy&settletos) {
-            # $from:r accepts version of $to
-            # < wanting to have seen the &settle,$to again
-            #    or chase the dome that didnt do it
-            $tos = sy&settletos;
-            !tos and return
-            me&ioty,tos .map(&h{
-                ~>3 settle_7 to: r.t, '<-', hs&from.t
-                # $to sets current when settled (ish)
-                #  which we started using, and now:
-                hs&using and hs&accepted = hs&using
-            })
-        }
-    }
-    # < order of Sy&N
-    me.nodes_below = &acgts{
-        $j = sy&R;
-        !j || !sy&path and throw "nodenever"
-        $S = sy&path[0];
-        $N = Sy&N;
-        return N.filter(z => zy&up == s)
-    }
     # 7ish brackstable determiniser
     #  sees future R as the same, cha=0
     #   otherwise be cha=1 for only objects changing
@@ -987,45 +1032,6 @@
         }
         ses&current = ses&vers.slice(-1)[0];
         return cha
-    }
-    # reemerge by...!
-    me.settle_8 = &acgtR{
-        # deals $from nodes awake now,
-        #  are probably the next $to,
-        #  subject to all other directions
-        $froms = me&jaa,R,'settles';
-        $Y = Rs&Ying;
-        $set = Ys&settles ||= Cye(['settles',1]);
-        
-        froms.map(&n{
-            # ho = to with s&current from &node_hoist
-            !ns&fromt and throw "!fromt"
-            $h = ns&settles;
-            $to = hs&to;
-            $jo = toy&R;
-            to = joc&s;
-            # froms - for|on the to node path
-            $ef = toy&settlefroms ||= Cye([h.t,1]);
-            ef.t != h.t and throw "misnodepath"
-            #  /$fromt - the from node path
-            $fo = fio(ef,ns&fromt);
-            fos&settletos = h;
-            
-            # all tos and froms
-            !(hs&to && hs&from) and throw "%%settles!s"
-            #ac(set,'tos',hs&to);
-            #ac(set,'froms',hs&from);
-            
-            if (hs&accepted && hs&current == hs&accepted) {
-                $neu = !hs&accepted_boring;
-                hs&accepted_boring = 1;
-                neu and ~>7 settled: hs&to.t, '<-', hs&from.t
-                return
-            }
-            
-            # attend $to, probably
-            me&ha,R,{waits:'settle',wants:to}
-        });
     }
     # while s &settle z, wakers[] may have either
     #   sy&settletos/$z
