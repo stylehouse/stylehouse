@@ -789,8 +789,6 @@
         !me&ja,R,{settle:to} and me&ha,R,{settle:to}
         return 'not settled'
     }
-    # < depth first &settle_7, may not see $from/$to
-    #   or %accepted can be out of date by &settle_8?
     
     # $from sees a version of each &settled,$to
     me.settle_o3 = &acgtrs{
@@ -819,34 +817,50 @@
         })
     }
     # resolve &settle at a nodes 7
-    # < mostly depth first, except:
-    #    halfsettle_for must set up first
-    #     so our brackstabliser inc their %current
-    
+    # gathering them to do all at once in reverse
     me.settle_7 = &acgtRprs{
-        # do all in Step_7 (one $p), after Domes_7 (many $s)
+        # do all in Step_7 (for $p), after Domes_7 (for $s)
         $cb = ps&aft_Domes_7 ||= &{
-            # each wave, all nodes ()
-            $rev = cb.N.slice().reverse();
-            each in cb.N {
-            
+            each is cb.N {
+                $r = sy&R;
+                !r || r == s and debugger
+                me&settle_72_settled_up,R,p,r,s;
             }
         };
-        # attach awake-filtered nodes 
+        # awake-filtered depth-first Sy&N
         cb.N ||= [];
-        cb.N.push(s);
+        cb.N.unshift(s);
         # the first downward bit can upward:
-        
+        me&settle_71_halfsettle_down,R,p,r,s;
+    }
+    # the settled to - having froms/**
+    #  push s/* a froms with %halfsettle_for
+    #   causing brackstabilising there
+    me.settle_71_halfsettle_down = &acgtRprs{
+        $froms = sy&settlefroms;
+        if (froms) {
+            $N = fromss&nodes_below = me&nodes_below,s;
+            !me&ioty,froms .length and return
+            each in N {
+                $nf = ny&settlefroms ||= Cye([me&tpath,R,n ,1])
+                ac(nf,'halfsettle_for',s)
+            }
+        }
+    }
+    me.settle_72_settled_up = &acgtRprs{
         $froms = sy&settlefroms;
         if (froms) {
             # $to:r checks itself, makes version
             ~>3 settle_7 from: r.t
             $se = sy&settled ||= Cye([s.t,1]);
+            sey&settlefroms = froms;
             $washalf = ses&halfsettled;
             ses&halfsettled = 0;
             ses&settled = 0;
+            
             # make a brack version
             #  sees future R as the same
+            #  and includes nodes %current below, for &halfsettled
             $cha = me&brackstabliser,r,se;
             $brackstable = ses&accepted == ses&current;
             ses&accepted = ses&current;
@@ -876,12 +890,10 @@
                 # < $s/$n awake at the same time is ok
                 # < that could be $n%onlyish (not $n/** again)
             }
-            $N = me&nodes_below,s;
+            $N = fromss&nodes_below;
+            !N and throw "missing &settle_71_halfsettle_down"
             $non = [];
             each in N {
-                # cause brackstabilising
-                $nf = ny&settlefroms ||= Cye([me&tpath,R,n ,1])
-                ac(nf,'halfsettle_for',s)
                 # check if ready
                 $nse = ny&settled
                 nse && nses&halfsettled and continue
@@ -901,7 +913,7 @@
                 hs&current = ses&current;
                 if (hs&current != hs&accepted) {
                     ~>4 set7 awaits: h.t, hs&from.t
-                    #me&ha,R,{waits:'settle',wants:hs&from}
+                    me&ha,R,{waits:'settle',wants:hs&from,for:'settled'}
                 }
             })
             # each or does el=9
@@ -920,6 +932,7 @@
             })
         }
     }
+    # < order of Sy&N
     me.nodes_below = &acgts{
         $j = sy&R;
         !j || !sy&path and throw "nodenever"
@@ -938,6 +951,21 @@
         # takes brack
         $z = rs&wou;
         ses&z = (zs&z||[]).slice();
+        # includes nodes %current below, for &halfsettled
+        $froms = sey&settlefroms;
+        if (froms) {
+            $N = fromss&nodes_below;
+            $nb = Cye(['nodes below',1]);
+            each in N {
+                $nse = ny&settled;
+                $la = nse && nses&current;
+                !la and debugger
+                # duplicatey
+                nb.sc[n.t] and nb.sc[n.t+' '+i] = la
+                else { nb.sc[n.t] = la }
+            }
+            ses&z.push(nb)
+        }
         # into a progression
         ses&vers ||= [];
         $la = ses&vers.slice(-1)[0];
@@ -985,11 +1013,13 @@
             
             # all tos and froms
             !(hs&to && hs&from) and throw "%%settles!s"
-            ac(set,'tos',hs&to);
-            ac(set,'froms',hs&from);
+            #ac(set,'tos',hs&to);
+            #ac(set,'froms',hs&from);
             
             if (hs&accepted && hs&current == hs&accepted) {
-                ~>7 settled: hs&to.t, '<-', hs&from.t
+                $neu = !hs&accepted_boring;
+                hs&accepted_boring = 1;
+                neu and ~>7 settled: hs&to.t, '<-', hs&from.t
                 return
             }
             
