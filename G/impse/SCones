@@ -194,41 +194,82 @@ me.Sch_Comm = &acgt{ return [
     ['SummerCat',0.297,&acgtRs{
         $S = me&inode,R;
         !S and return me&waits,'node'
+        $testmode = 0 ? '' : ',testmode'
         me&bal,'Inc','Aearch,eph'
-        me&bal,'Yusears','Yuse,eph'
-        me&bal,'Jpara','Jpara,eph'
+        me&bal,'Yusears','Yuse,eph'+testmode
+        me&bal,'Jpara','Jpara,eph'+testmode
+    },'ift,D'],
+    ['brackstable_aware',0.33,&acgtRs{
+        $is = me&ollbs,R,'brackstable';
+        is and me&tsc,'brackstable-lives','=='+is,'y'  .y.cv = 0.298
     },'ift,D'],
     ['Jpara',0.299,&acgtRs{
+        Rs&brackstable_aware = 1;
         me&reaw,R,'Jpara';
         $S = me&inode,R;
         # things to &settle before J thinks
         $N = Ry&up.sc.z.filter(r => r != R && rs&ball);
         #N.map(n => me&nu,nc&s )
+        Rs&brackstable_aware = 1;
         me&settle,R,N and return ~>3 unsettled!:
+        Rs&settled = N;
         ~>3 settled:
+    },'ift,D'],
+    ['Jpara',0.2999,&acgtRs{
+        me&jaa,R,'bumping' .map(&n{
+            ~>4 peraps: haks(n.sc).join(",")
+        })
+    },'ift,D'],
+   // testmode
+    ['testmode',0.2991,&acgtRs{
+        me&reaw,R,'testmode';
+    },'ift,D'],
+    ['Jpara+settled+testmode',0.2995,&acgtRs{
         $M = [];
+        $N = Rs&settled;
+        N.map(&r{
+            me&ioty,r .map(&r{
+                if (rs&bumping) {
+                    ~>4 seebumps: r.t, rs&bumping
+                    # < the %%viar is missing from &brackology display,
+                    #   but always present in &jaa selection below:
+                    me&ha,R,{viar:rc&s,bumping:rs&bumping,dome:'clings'}
+                }
+            })
+        })
         N.map(r => M.push( ... me&ioty,r,'Paving' ) )
         me&ha,R,{isalive:1};
         M.map(r => me&ha,R,{hasathing:r.t,dome:'things'} )
         me&nu,"Brzin",M
     },'ift,D'],
+    ['Yuaving+decoy',0.47,&acgtRs{
+        Rs&brackstable_aware = 1;
+        me&reaw,R,'Yuaving,decoy';
+        me&rollbs,R,'bumping',3;
+        if (me&rolltog,R,{k:'Trub',once:1}) {
+            me&ha,R,"bump";
+            Rs&bumping++
+        }
+        me&ha,R,{blumps:Rs&bumping}
+        return
+    },'ift,D'],
    
    // < W.5|Ghost prepares the ghost
     ['Yuse',0.299,&acgtRs{
+        Rs&brackstable_aware = 1;
         $S = me&inode,R;
         me&reaw,R,'Yuse';
         $Yuaving = 'Paving:W,fully,openey,Yuaving';
         me&bal,'Fields',Yuaving
         me&bal,'Delirium',Yuaving
-        me&bal,'Delfium','Yuaving,decoy'
+        Rs&testmode &&
+            me&bal,'Delfium','Yuaving,decoy'
     },'ift,D'],
+    
     ['Yuaving',0.46,&acgtRs{
         $S = me&inode,R;
-        me&reaw,R,'Yuaving,decoy';
-        if (Rs&decoy) {
-            me&rolltog,R,{k:'Trub',once:1} && me&ha,R,"bump"
-            return
-        }
+        me&reaw,R,'Yuaving';
+        Rs&decoy and return
         $Q;
         each tQ Rs&Zaving {
         }
@@ -251,8 +292,8 @@ me.Sch_Comm = &acgt{ return [
         !upting and throw "^^Inn!_ting", Search
 
         
-        $Ghost = me&bal,'Ghost','childy,eph' .c.s;
         me&introqua,[R,'Ghost'],{boost:-1},'@1';
+        $Ghost = me&bal,'Ghost','childy,eph' .c.s;
         
         # what are spaces for:
         # things we look up
