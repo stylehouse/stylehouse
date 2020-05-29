@@ -893,16 +893,28 @@
     =elvis
     me.settle_wakers = &acgtR,set,wakers{
         $later = [];
+        $freeze = [];
         $sooner = [];
+        $l = Rs&Outlog;
         wakers.map(&s{
             $j = sy&R;
             !j || jc&s != s and debugger;
+            
             $tos = sy&settletos;
             if (tos) {
                 # waiting for these
             }
+            
+            if (js&brackstable > 6) {
+                $few = l.slice(-10);
+                $many = few.filter(wake => wake.includes(s)).length;
+                if (many > 3) {
+                    ~>4 freeze: s.t
+                    freeze.push(s)
+                }
+            }
         })
-        return wakers
+        return wakers.filter(s => !freeze.includes(s))
     }
    
    // < %%waits - state around
@@ -917,8 +929,8 @@
         # regroup!!
         $Y = Rs&Ying;
         $set = Ys&settles;
-        set and wakers = me&settle_wakers,R,set,wakers;
-
+        me&settle_wakers,R,set,wakers,l;
+        
         l.push(wakers);
         !wakers.length and return
 

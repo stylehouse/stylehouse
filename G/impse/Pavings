@@ -446,7 +446,7 @@ me.Sch_Pavings = &acgt{ return [
         Rs&Pavings and return delete Rs&Paving
         Rs&Paving == 1 and Rs&Paving = 'W'
         $of = Rs&Paving;
-        me&reaw,R,'Paving,directory';
+        me&reaw,R,'Paving,title,directory,species,args,section';
         $S = me&inode,R;
         # %adhere resolves meanings
         # < generalise levels of engagement (%%may,acty)
@@ -487,7 +487,7 @@ me.Sch_Pavings = &acgt{ return [
         #   or our cache (dige/versiona) could go there
         
         $Q = me&rollbsc,R,'Q';
-        Q.t = s.t;
+        Q.t = ps&title || s.t;
         sy&tin and Q.t = sy&tin.t
         Qc&of = Rs&Pave;
         Qc&async = &{};
@@ -520,15 +520,15 @@ me.Sch_Pavings = &acgt{ return [
         # per most of this besides s, el + hooks
         #me&nu,Q.t,Q.c;
         Qs&waslooking = 1;
+        me&rolltog,R,{maydo:'Q'} &&
+            me&zu,'Q',Q;
+        
         
         !Qs&ready and return me&waits,'!ready','...'
         # $w may wander off, usu clones into %Gens%self
         # < following P into the future (%Differ)
         
         n el 13 $s:Qc&el %hs:348,fs:9
-        
-        me&rolltog,R,{maydo:'Q'} &&
-            me&zu,'Q',Q;
         
         Qc&s && me&rolltog,R,{maydo:'s'} &&
             n s  $s:Qc&s %R:ball

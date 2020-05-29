@@ -43,18 +43,24 @@ my $jstring = sub { my ($s) = @_;
 };
 my $hide = {};
 
+# leaf 4:
+my $twolt = '<<';
+$C->{c}->{s} =~ s/^(\w+)(?: (-?\w+))?:(?: ([$%].+))?$/n $1 $2 \$s:$twolt'' $3/smg;
 # blockquote til /^\s*$/g
 # multi line, always \n$
 # supposed to not babz anything in it...
 # < stylehouse (the editor) must know this too
 #     or it'll expand tabs to 4 spaces
 $C->{c}->{s} =~ s{^(\s*)($nlp)<<(''|"")($nlp?)\n((?:\1$nlp\n)+)[ \t]*\n}{
+# < allow empty lines with first line's indent
+#   would be easy if we were iterating lines
     my $babin = $3 eq '""';
     my $ind = $1 || '';
     my $fore = $2;
     my $line = $ind.$fore."BlockQuote$4\n";
     my $was = $5;
-    $was =~ s/^$ind//sgm;
+    my ($reind) = $was =~ /^(\s+)/;
+    $was =~ s/^$reind//sgm;
     if ($babin) {
         my $C = {c=>{s=>$was}};
         JaBabz($C);
@@ -65,8 +71,6 @@ $C->{c}->{s} =~ s{^(\s*)($nlp)<<(''|"")($nlp?)\n((?:\1$nlp\n)+)[ \t]*\n}{
     # not always?
     #die "not nl last: aft $line: $lines->[-1] ".wdump 3,[$was,$lines];
     $lines = join "+\n", map {
-        # HACK, tabs expanded by editor
-        s/ {8,}/\t\t\t/g;
         $ind.$jstring->("$_\n")
     } @$lines;
     $lines = $ind."var BlockQuote =\n$lines;";
@@ -456,6 +460,7 @@ $C->{c}->{s} =~ s{(^\s*(?!#)$nlp?)throw ($varbits)(, ?$nlp)?;?\s*$}{
 #   viz. this Babz decides when [t] means cW:t
 #   and sets a variable to the C created
 # also u:thing so that $thing becomes that object in the mind
+
 my $blankycsc = '"",{},{}';
 $C->{c}->{s} =~ s{(^\s*|return )(n|u|m|e) (\$)?("[^\n"]+"|\w+\S*)(?: (\$)?([-\w]*))?(?: ([^\n]*?))?(?: (%)?([^\n]*?))?$}{
     my $ope = $1;
