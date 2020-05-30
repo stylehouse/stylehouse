@@ -282,19 +282,40 @@ me.Sch_Comm = &acgt{ return [
                 me&ha,R,q
             })
         });
+        # click act
         $ro = &k{ return me&rolltog,R,{k,once:1} }
-        $four = !ro('4') && me&rollbsc,R,'four';
+        # t = $dome(,pe:el,e:d), c = {}|C
+        # < peel here to keep word order of this call
+        $ha = &tc{ me&ha,R,c,{},'dome:'+t }
+        
+        ro('4') and me&rolled,R,'four'
+        $four = me&rollbsc,R,'four';
         
         # < previous thinking as %term'd into runs
-        $ha = &c{ me&ha,R,c,'dome:plans' }
         me&zaa,R,'plan,to,C' .map(&n{
             # n may be forgot due to errors
-            
-        }) .length==0 && ha({plan:'1',to:four,C:Cye([client.t])})
+            ha('plans',n)
+        }) .length ||
+            ha('plans,plan:1',{to:four, C:Cye([client.t])})
         
         # < pull next bit of time
-        #$h = N.filter(h => h.t == 'Jhost')[0];
-        me&nu,four
+        # < Babz &ja:'plan to' &n{ # key order, implied map
+        me&jaa,R,'plan,to,C' .map(&n{
+            $c = ns&C;
+            !cy&A and ha('todo,plan:'+ns&plan)
+        });
+        
+        # < &stay, when ^ domes immute v
+        
+        # < io plan(?^@todo) to C
+        #   little joins not in the main plumb
+        #   and relating to brack
+        $D = me&jaa,R,'dome:todo,plan' [0]
+        D && me&jaa,R,{plan:Ds&plan,to:1,C:1}
+            .map(&t{ ha('now',t) })
+        
+        $E = me&jaa,R,'dome:todo,now'
+        me&nu,E
         
         me&Rsc,R,'^^Inn' .t != 'Inc' and throw "lost Inc"
     },'ift,D'],
