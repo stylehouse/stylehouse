@@ -191,6 +191,7 @@ me.Sch_Comm = &acgt{ return [
          me&ha,R,{dwitty:'vael',until:'seemingly',vap:3}
     },'ift,D'],
   // SummerCat
+   // SummerCat
    # < a process similar to Travel itself,
    #   acty:3 saving a W
     ['SummerCat',0.297,&acgtRs{
@@ -204,7 +205,7 @@ me.Sch_Comm = &acgt{ return [
             me&bal,'Jpara','Jpara,eph,testmode'
         }
         else {
-            me&bal,'Jhost','Jhost,eph'
+            #me&bal,'Jhost','Jhost,eph'
             me&bal,'Jproto','Jproto,eph'
             me&bal,'Jrunto','Jrunto,eph'
         }
@@ -255,13 +256,14 @@ me.Sch_Comm = &acgt{ return [
             $ri = N.indexOf(R);
             ri < 0 and throw "upz%ball"
             $prev = N.slice(0,ri);
-            !prev.length and throw "!prev"
+            !prev.length and return
             
             me&settle,R,prev and return 1
             Rs&settled = prev;
             Rs&brackstable_aware = 1;
         }
     },
+   // Jproto
     # W as planned by Matu
     ['Jproto',0.299,&acgtRs{
         me&reaw,R,'Jproto,eph';
@@ -271,7 +273,6 @@ me.Sch_Comm = &acgt{ return [
         
         # %Jhost prepares &t
         me&settle_prev,R and return
-        ~>4 Jproto:
         # of things going into it
         Rs&settled.map(&j{
             me&ioty,j,'Paving' .map(&r{
@@ -288,34 +289,51 @@ me.Sch_Comm = &acgt{ return [
         # < peel here to keep word order of this call
         $ha = &tc{ me&ha,R,c,{},'dome:'+t }
         
+        
+        
+        # dome tires, need push
+        #Rs&icount > 4 && !ro('~') and return
+        # J.4 forgets, redoing without
         ro('4') and me&rolled,R,'four'
         $four = me&rollbsc,R,'four';
         
+        
         # < previous thinking as %term'd into runs
-        me&zaa,R,'plan,to,C' .map(&n{
+        me&zaa,R,'dome:plans,plan,to,C' .map(&n{
             # n may be forgot due to errors
             ha('plans',n)
         }) .length ||
             ha('plans,plan:1',{to:four, C:Cye([client.t])})
         
+        # < S 1 @plans
+        me&dome_S,R,'plans','1';
+        
         # < pull next bit of time
-        # < Babz &ja:'plan to' &n{ # key order, implied map
-        me&jaa,R,'plan,to,C' .map(&n{
+        # < Babz &ja:'plan to' &n{
+        #   key order, implied map
+        me&jaa,R,'dome:plans,plan,to,C' .map(&n{
             $c = ns&C;
             !cy&A and ha('todo,plan:'+ns&plan)
         });
         
+        me&dome_S,R,'todo','2';
         # < &stay, when ^ domes immute v
         
         # < io plan(?^@todo) to C
         #   little joins not in the main plumb
         #   and relating to brack
         $D = me&jaa,R,'dome:todo,plan' [0]
-        D && me&jaa,R,{plan:Ds&plan,to:1,C:1}
+        D && me&jaa,R,{dome:'plans',plan:Ds&plan,to:1,C:1}
             .map(&t{ ha('now',t) })
         
-        $E = me&jaa,R,'dome:todo,now'
-        me&nu,E
+        $E = me&jaa,R,'dome:now'
+        #D && me&jaa,R,{plan:Ds&plan,to:1,C:1};
+        
+        me&nu,'E',E
+        $z = Rs&wou;
+        me&nu,'Ez',z
+        
+        zs&z.splice(100);
         
         me&Rsc,R,'^^Inn' .t != 'Inc' and throw "lost Inc"
     },'ift,D'],

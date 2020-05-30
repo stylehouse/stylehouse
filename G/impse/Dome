@@ -542,18 +542,48 @@
         # += %%dome from last time
         me.dome_o3 = &acgtrs{
             me&zaa,r,'dome' .map(&n{
-                nc&drop and return
+                nc&drop and throw "dropsnot"
+                $w = n;
                 nc&recycled and n = ny&up
-                n = me&ha,r,n;
-                nc&recycled = 1
+                $O = me&ha,r,n;
+                # stretch, through/from the same S
+                Oc&recycled = 1 + (wc&recycled||0)
+                wc&S and Oc&S = wc&S
+                
             })
         }
-        # %%dome replace if any new
-        me.dome_7 = &acgtRprs{
+        # remove old one if obvious!
+        me.dome_bracki = &acgtrn{
+            $p = ny&up;
+            p && pc&recycled and pc&drop = 1
+            else {
+                # < indexes enough to conclude that it's that
+                # if it's entirely that, intensity could increase
+            }
+        }
+        # named traction
+        me.dome_S = &acgtrkS{
+            $having = &n{
+                nc&S ||= S
+                return nc&S == S
+            }
+            me&dome_traction,r,k,{having}
+                .map(&n{
+                    #~>4 indoc: ki(n,4.23)
+                })
+        }
+        # commit new? dome
+        me.dome_traction = &acgtrkc{
+            k ||= 1;
+            c ||= {};
+            
+            $are = me&jaa,r,'dome:'+k
+            c.having and are = are.filter(n => c.having(n))
+            
             $neu = [];
             $old = [];
-            # < ns&el specifica
-            me&jaa,r,'dome' .map(&n{
+            are.map(&n{
+                #~>4 of: ki(n,4.23)
                 ns&el and 'where/what?'
                 (nc&recycled ? old : neu ).push(n)
             })
@@ -563,7 +593,15 @@
             !neu.length and 'keeps them all'
             else
             says_drop || neu.length and old.map(n => nc&drop = 1)
+            
+            return c.having ? neu : old
         }
+        # %%dome replace if any new
+        me.dome_7 = &acgtRprs{
+            me&dome_traction,r,1
+        }
+        
+        
         
    // %%eto - externalising state
         # $to += %%efrom...
