@@ -206,6 +206,7 @@ me.Sch_Comm = &acgt{ return [
         else {
             me&bal,'Jhost','Jhost,eph'
             me&bal,'Jproto','Jproto,eph'
+            me&bal,'Jrunto','Jrunto,eph'
         }
     },'ift,D'],
     ['sleeping+SummerCat',0.2971,&acgtRs{
@@ -233,8 +234,8 @@ me.Sch_Comm = &acgt{ return [
             js&args = a;
             return j
         }
-        balwjs('w','J,t')
-        balwjs('w2','J,t,wodges')
+        balwjs('w','J,s')
+        balwjs('w2','J,s,wodges')
         if (0) {
             # < Search of:w seems broken
             #   we can assume all wjs no way now?
@@ -244,10 +245,11 @@ me.Sch_Comm = &acgt{ return [
         }
     },'ift,D'],
     
-    # W as done by A:n
+    # W as planned by Matu
     ['Jproto',0.299,&acgtRs{
         me&reaw,R,'Jproto,eph';
         $S = me&inode,R;
+        
         # things to &settle before J thinks
         $N = Ry&up.sc.z.filter(r => r != R && rs&ball);
         N.map(&j{
@@ -260,17 +262,37 @@ me.Sch_Comm = &acgt{ return [
             })
         });
         
+        # < previous thinking as %term'd into runs
+        
         Rs&brackstable_aware = 1;
         me&settle,R,N and return ~>3 unsettled!:
         Rs&settled = 1;
         
+        # < pull next bit of time
         $h = N.filter(h => h.t == 'Jhost')[0];
         me&nu,h
         
         me&Rsc,R,'^^Inn' .t != 'Inc' and throw "lost Inc"
-        
-        
     },'ift,D'],
+    
+    # W as done by A:n (T loaded)
+    ['Jrunto',0.33,&acgtRs{
+        me&reaw,R,'Jrunto,eph';
+        $S = me&inode,R;
+        # < settle all previous siblings
+        #  < deeper: settle Jproto -> settle Jhost
+        $N = me&ioty,Ry&up,'ball','Jproto'
+        me&settle,R,N and return ~>3 runset!:
+        Rs&settled = 1;
+        
+        if (me&rolltog,R,{k:'T',once:1}) {
+            me&ha,R,"bump";
+        }
+        
+        me&nu,N
+    },'ift,D'],
+    
+    
    // testmode for SummerCat|brackstable 
     ['brackstable_aware',0.33,&acgtRs{
         me&reaw,R,'brackstable_aware';

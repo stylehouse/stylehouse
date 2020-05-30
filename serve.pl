@@ -45,7 +45,7 @@ my $hide = {};
 
 # leaf 4:
 my $twolt = '<<';
-$C->{c}->{s} =~ s/^(\w+)(?: (-?\w+))?:(?: ([$%].+))?$/n $1 $2 \$s:$twolt'' $3/smg;
+$C->{c}->{s} =~ s/^(\w+)(?: (-?\w+))?:(?: (%$nlp))?$/n $1 $2 \$s:$twolt'' $3/smg;
 # blockquote til /^\s*$/g
 # multi line, always \n$
 # supposed to not babz anything in it...
