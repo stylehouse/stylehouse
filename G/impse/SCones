@@ -228,31 +228,52 @@ me.Sch_Comm = &acgt{ return [
         # w%dige is always as /ghost/ is,
         #  yet wc&s is compiled + args
         $balwjs = &ta{
-            $j = me&bal,client.t+'-'+t,Yuaving;
-            js&title = client.t;
+            isar(t) and $ot = t.join('-'); t = t[0]
+            $j = me&bal,ot||t,Yuaving;
+            js&title = t;
             js&Paving = 'wjs';
             js&args = a;
             return j
         }
-        balwjs('w','J,s')
-        balwjs('w2','J,s,wodges')
+        balwjs('SCones','ar,me')
+        balwjs([client.t,'w'],'J,s')
+        balwjs([client.t,'w2'],'J,s,wodges')
         if (0) {
-            # < Search of:w seems broken
+            # < Search of:w el:9 seems loopy
             #   we can assume all wjs no way now?
             $j = balwjs('w3','J,t,wodges');
             js&Paving = 'w';
             js&brackstable_aware = 1;
         }
     },'ift,D'],
-    
+    &{
+        # settle all previous siblings
+        # for 3 &settle 2,1, for lack of:
+        # < settle deeply, 3 &settle 2 &settle 1
+        me.settle_prev = &acgtR{
+            $N = me&ioty,Ry&up,'ball';
+            $ri = N.indexOf(R);
+            ri < 0 and throw "upz%ball"
+            $prev = N.slice(0,ri);
+            !prev.length and throw "!prev"
+            
+            me&settle,R,prev and return 1
+            Rs&settled = prev;
+            Rs&brackstable_aware = 1;
+        }
+    },
     # W as planned by Matu
     ['Jproto',0.299,&acgtRs{
         me&reaw,R,'Jproto,eph';
         $S = me&inode,R;
+        $client = me.cbu(R,'SummerCat');
+        !client and throw "!client"
         
-        # things to &settle before J thinks
-        $N = Ry&up.sc.z.filter(r => r != R && rs&ball);
-        N.map(&j{
+        # %Jhost prepares &t
+        me&settle_prev,R and return
+        ~>4 Jproto:
+        # of things going into it
+        Rs&settled.map(&j{
             me&ioty,j,'Paving' .map(&r{
                 $Live = rs&Live;
                 $Q = rs&Question;
@@ -261,16 +282,19 @@ me.Sch_Comm = &acgt{ return [
                 me&ha,R,q
             })
         });
+        $ro = &k{ return me&rolltog,R,{k,once:1} }
+        $four = !ro('4') && me&rollbsc,R,'four';
         
         # < previous thinking as %term'd into runs
-        
-        Rs&brackstable_aware = 1;
-        me&settle,R,N and return ~>3 unsettled!:
-        Rs&settled = 1;
+        $ha = &c{ me&ha,R,c,'dome:plans' }
+        me&zaa,R,'plan,to,C' .map(&n{
+            # n may be forgot due to errors
+            
+        }) .length==0 && ha({plan:'1',to:four,C:Cye([client.t])})
         
         # < pull next bit of time
-        $h = N.filter(h => h.t == 'Jhost')[0];
-        me&nu,h
+        #$h = N.filter(h => h.t == 'Jhost')[0];
+        me&nu,four
         
         me&Rsc,R,'^^Inn' .t != 'Inc' and throw "lost Inc"
     },'ift,D'],
@@ -279,17 +303,13 @@ me.Sch_Comm = &acgt{ return [
     ['Jrunto',0.33,&acgtRs{
         me&reaw,R,'Jrunto,eph';
         $S = me&inode,R;
-        # < settle all previous siblings
-        #  < deeper: settle Jproto -> settle Jhost
-        $N = me&ioty,Ry&up,'ball','Jproto'
-        me&settle,R,N and return ~>3 runset!:
-        Rs&settled = 1;
+        
+        # %Jproto prepares run
+        me&settle_prev,R and return
         
         if (me&rolltog,R,{k:'T',once:1}) {
             me&ha,R,"bump";
         }
-        
-        me&nu,N
     },'ift,D'],
     
     
@@ -784,8 +804,8 @@ me.Sch_Comm = &acgt{ return [
         Rs&twmt_only = &jz{
             return zs&W || 1
         };
-        #return;
         me&ha,R,"Travels,to:Morrocco";
+        return;
         me&ha,R,"Travels,to:everywhere",{R};
         #!me&za,R,'fodder' ? me&ha,R,'fodder,lamp' : me&ha,R,'lamp'
         
