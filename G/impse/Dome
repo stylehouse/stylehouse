@@ -600,9 +600,7 @@
         me.dome_7 = &acgtRprs{
             me&dome_traction,r,1
         }
-        
-        
-        
+   
    // %%eto - externalising state
         # $to += %%efrom...
         me.etos_o3 = &acgtrs{
@@ -821,11 +819,12 @@
                 $h = fos&settletos;
                 !hs&from and throw "nofrom"
                 hs&current = ses&current;
-                if (hs&current != hs&accepted) {
+                if (hs&current != hs&accepted || ses&bump) {
                     ~>4 set7 awaits: h.t, hs&from.t
                     me&ha,R,{waits:'settle',wants:hs&from,for:'settled'}
                 }
             })
+            delete ses&bump
         }
     }
     # checks $to/* (nodes below) are %halfsettled, returning non
