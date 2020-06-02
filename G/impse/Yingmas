@@ -65,7 +65,7 @@
             # if we were placing a different object
             isob(t) && n != t and c.el = 1
             # remove the one we found
-            c.el == 1 || c.el == 9 and fio(s,t,9)
+            c.el == 1 || c.el == 9 and fio(s,n,9)
         }
         if (c.el == 1) {
             $n = fio(s,t);
@@ -192,7 +192,7 @@
             # usu so many at == cv all happen
             incv = ty&cv;
             # <=@o2 iterate themselves
-            $M = ty&cv > 0.02 && Yc&M || [s];
+            $M = ty&cv > 0.02 && !ts&self && Yc&M || [s];
             each in M {
                 # t act, n ground
                 
@@ -219,6 +219,8 @@
                     #  or $s if non-forking o1
                     re ||= Ys&returns || s;
                     !isC(re) and throw "o1ret!C"
+                    # 3 makes child
+                    rey&cv == 0.3 and rey&up = s
                     # < may switch to it?
                     rey&Y and rey&oldY = rey&Y
                     rey&Y = Y;
