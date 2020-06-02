@@ -335,7 +335,7 @@ me.Sch_Comm = &acgt{ return [
     
    // Jrunto
     # W as done by A:n (T loaded)
-    ['Jrunto',0.33,&acgtRs{
+    ['Jrunto',0.31,&acgtRs{
         me&reaw,R,'Jrunto,eph';
         $S = me&inode,R;
         
@@ -349,13 +349,15 @@ me.Sch_Comm = &acgt{ return [
         me&zaa,p,'dome:now' .map(&E{
             $c = Es&C;
             $to = Es&to;
-                me&Yong,R,c,'n',{to},9;
+            
+            $Y = me&Yong,R,c,'n',{to},9 .y.Y;
+            
             try {
             }
             catch (err) {
                 $er = err
             }
-            me&bal,C.t,c
+            me&bal,C.t,c,'Jworld,eph'
             me&nu,'C',c
             me&nu,'to',to
             er and me&nu,'er',er .sc.hue = 160;
@@ -366,12 +368,23 @@ me.Sch_Comm = &acgt{ return [
             me&ha,R,"bump";
         }
     },'ift,D'],
+    ['Jworld',0.33,&acgtRs{
+        me&reaw,R,'Jworld,eph';
+        $Y = sy&Y;
+        !Y and return me&tsc,"noY"
+        each tj Y.sc {
+            !(isC(j) && jy&up == s) and continue
+            me&bal,'%'+t,j,'eph'
+            me&zu,'z:'+t,j
+        }
+    },'ift,D'],
     
-   // Jruntimes
-   &{
+   // n
+    &{
     me.Yingmind.n = &acgt{ return [
         # C
         ['ground',0.01,&acgtRYs,SC{
+            sy&R = R;
             Ys&leamity = 3;
             if (sc&W) {
                 $to = Ys&to;
@@ -399,20 +412,28 @@ me.Sch_Comm = &acgt{ return [
             # A=Y must serve G&t for A.I, have 4s&globals
             Y.6 = Y.4 = A.4;
             Y.7 = A.5;
-            
-            1s&N = [];
-            $D = Ys&Doming = me&Yingdome,R,Y,C;
             A = Y;
+            1s&N = [];
+            
+            $D = Ys&Doming = me&Yingdome,R,Y,C;
             
             me&way,R,C.t,{J:A.1,s}
             
             Dy&ending()
             
+            # < magic
+            
+            # if this has a diff it can takeover a branch
+            $t = Ys&osc = me&Yingosc,R,C,D;
+            ts&top and 1s&top = t
+            
+            
+            
         },'ift,D'],
     ]};
-    # for an A+C
+   // &Yingdome
+    # for an A+C having S
     me.Yingdome = &acgtRYs{
-        $SC = me&rollbsc,R,'Ying';
         $D = me&Yong,R,s,'Doming',{},1;
         
         $current;
@@ -487,6 +508,36 @@ me.Sch_Comm = &acgt{ return [
             }
             Ys&light && !ss&z.length and me&fiu,sy&up,s,9
         },'ift,D'],
+    ]};
+   // &Yingosc
+    me.Yingosc = &acgtRsD{
+        return me&Yong,R,s,'osc',{D:D},7;
+    }
+    me.Yingmind.osc = &acgt{ return [
+        # C
+        ['osc',0.01,&acgtRYs,SC{
+            return Cye([s.t,3])
+        },'ift,D'],
+        ['ing',0.5,&acgtRYs,SC{
+            $Doming = Ys&D;
+            each i,Dome Domings&z {
+                each in Domes&z {
+                    $dup = me&fiu,s,n.t,8
+                    dup and ac(s,'dups',dup)
+                    $O = Cye(n);
+                    Oy&n = n;
+                    me&fiu,s,O
+                }
+            }
+            Yc&M = ss&z;
+        },'ift,D'],
+        ['sea',0.6,&acgtRYs,SC{
+            ~>4 sea: Y.t, s.t
+            sc&s and ss&strinoge = sc&s.split("\n").length
+        },'ift,D'],
+        ['selfs',0.7,&acgtRYs,SC{
+            ss&top = s
+        },'ift,D,self'],
     ]};
    },
     
