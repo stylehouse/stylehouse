@@ -374,6 +374,7 @@ me.Sch_Comm = &acgt{ return [
         !Y and return me&tsc,"noY"
         sy&R and return
         #$S = me&inode,R;
+        (Rs&boost || 0) > 0 and me&zu,sy&Y
     },'ift,D'],
     
    // n
@@ -593,7 +594,7 @@ me.Sch_Comm = &acgt{ return [
             each ik swims {
                 # < ha,Y,eto:W,t:s&of,W:of
                 #   W routing to Jproto,
-                C.sc[k] and ah(Y,['swims',k,C.sc[k],s])
+                C.sc[k] and ah(Y,['swims'],k,C.sc[k],s)
                 # many per J
                 $J = s&J;
                 if (J) {
@@ -631,7 +632,8 @@ me.Sch_Comm = &acgt{ return [
         
     ]};
    // &Yingvoy - osc elvis leaving!
-    me.Yingvoy = &acgtRst{
+    # < make a variant of Yingdome, for loading eg swim
+    me.Yingvoy = &acgtRstk{
         $s = me&Yong,R,s,'voy',{k},1;
         me&Yingbal,'Y:voy:'+t+':'+k,s
         return s
@@ -641,8 +643,10 @@ me.Sch_Comm = &acgt{ return [
         # < C.t == null should throw
         ['elvoy',0.01,&acgtRYs,SC{
             !Ys&k and throw "nok"
+            $U = sy&Y;
+            !U and throw "nestY"
             $z = Cye([Ys&k,3]);
-            ac(s,'swim',z)
+            ac(U,'swim',z)
             return z
         },'ift,D'],
         ['elvoy',0.13,&acgtRYs,SC{
@@ -651,6 +655,8 @@ me.Sch_Comm = &acgt{ return [
         },'ift,D'],
         ['elvoy',0.2,&acgtRYs,SC{
             sc&W = Ys&k;
+            sy&cv = 0.001;
+            me&Yong,R,s,{},7;
         },'ift,D'],
         ['elvoy',0.23,&acgtRYs,SC{
             # < slep, Copy Lines
@@ -661,12 +667,35 @@ me.Sch_Comm = &acgt{ return [
     ] };
     me.Yingmind.swim = &acgt{ return [
         ['elvoys',0.01,&acgtRYs,SC{
+            # < exp lang
             $t = Ys&t;
             !t and throw "!t"
             $z = me&fiu,s,t
+            $N = Ys&N;
+            !N and throw "!N"
+            Yc&M = N;
             return z
         },'ift,D'],
-        
+        ['elvoys',0.2,&acgtRYs,SC{
+            $p = Ys&returns;
+            !pc&W and throw "What"
+            # may have Lines already, see 'variant of Yingdome'
+            sc&W ? ss&z : [s]).map(&n{
+                $dup = me&fiu,s,n.t,8
+                #dup and ac(s,'dups',dup)
+                dup && dupy&cv != ny&cv and throw "cv"
+                
+                $K = Cye(n);
+                Ky&O = n;
+                # may mix from $W/*
+                s != n and Ky&W = s
+                
+                me&fiu,p,K
+            })
+        },'ift,D'],
+        ['elvoys',0.21,&acgtRYs,SC{
+            
+        },'ift,D,self'],
     ] };
     
    // notoph - previous %of
