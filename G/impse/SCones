@@ -342,7 +342,7 @@ me.Sch_Comm = &acgt{ return [
         # %Jproto prepares run
         me&settle_prev,R and return
         
-        $p = me&ioty,Rs&settled,'','Jproto' [0];
+        $p = Rs&Proto = me&ioty,Rs&settled,'','Jproto' [0];
         !p and return me&waits,"Nop"
         
         !ps&wou and me&tsc,"Nowou"
@@ -368,16 +368,19 @@ me.Sch_Comm = &acgt{ return [
             me&ha,R,"bump";
         }
     },'ift,D'],
-    ['Jbal',0.295,&acgtRs{
-        me&reaw,R,'Jbal,eph';
-        $Y = sy&Y;
-        !Y and return me&tsc,"noY"
-        sy&R and return
-        #$S = me&inode,R;
-        (Rs&boost || 0) > 0 and me&zu,sy&Y
-    },'ift,D'],
     
    // n
+    ['Jbal',0.32,&acgtRs{
+        me&reaw,R,'Jbal,adhere,eph';
+        ah(R,'adhere','Jbal',1);
+        (Rs&boost || 0) > 0 and me&nu,sy&Y
+        $Y = sy&Y;
+        !Y and return me&tsc,"!Y",'','p'
+        me&tsc,"Yt",Y.t,'p' .sc.fs = 7
+        
+        sy&R and return
+        #$S = me&inode,R;
+    },'ift,D'],
     &{
     # things to appear as ball
     # < uniquely bal anything Yong'd 01 return cv==3
@@ -410,7 +413,7 @@ me.Sch_Comm = &acgt{ return [
     }
     
    // n 1
-    me.Yingmind.n = &acgt{ return [
+        me.Yingmind.n = &acgt{ return [
         # s = C
         # < many C in one n, implied layer of doming
         ['ground',0.01,&acgtRYs,SC{
@@ -631,6 +634,7 @@ me.Sch_Comm = &acgt{ return [
         },'ift,D,self'],
         
     ]};
+   
    // &Yingvoy - osc elvis leaving!
     # < make a variant of Yingdome, for loading eg swim
     me.Yingvoy = &acgtRstk{
@@ -656,14 +660,22 @@ me.Sch_Comm = &acgt{ return [
         ['elvoy',0.2,&acgtRYs,SC{
             sc&W = Ys&k;
             sy&cv = 0.001;
+        },'ift,D'],
+        ['elvoy',0.21,&acgtRYs,SC{
             me&Yong,R,s,{},7;
         },'ift,D'],
         ['elvoy',0.23,&acgtRYs,SC{
-            # < slep, Copy Lines
-            # < make lv
-        },'ift,D'],
-        
-        
+            # they all %%string
+            sy&toLines and throw "hadLines"
+            sy&toLines = me&indo,s (&s,d{ return sy&toLines });
+            # this now a c&W to elvis, slept by %string
+            me&Zeve,R,s
+            # < incorporate that
+            # < brackstable refs if they have a %dige in the row?
+            #ss&string = s
+            
+            # < vague sharable slep, Copy Lines, lv
+        },'ift,D,self'],
     ] };
     me.Yingmind.swim = &acgt{ return [
         ['elvoys',0.01,&acgtRYs,SC{
@@ -680,13 +692,15 @@ me.Sch_Comm = &acgt{ return [
             $p = Ys&returns;
             !pc&W and throw "What"
             # may have Lines already, see 'variant of Yingdome'
-            sc&W ? ss&z : [s]).map(&n{
+            (sc&W ? ss&z : [s]).map(&n{
                 $dup = me&fiu,s,n.t,8
                 #dup and ac(s,'dups',dup)
                 dup && dupy&cv != ny&cv and throw "cv"
                 
+                # < clone deeply
                 $K = Cye(n);
                 Ky&O = n;
+                Ky&Y = Y;
                 # may mix from $W/*
                 s != n and Ky&W = s
                 
@@ -694,9 +708,65 @@ me.Sch_Comm = &acgt{ return [
             })
         },'ift,D'],
         ['elvoys',0.21,&acgtRYs,SC{
-            
+            tvsortz(ss&z);
+            Yc&M = [s,...ss&z];
+        },'ift,D,self'],
+        ['K',0.22,&acgtRYs,SC{
+            # encoding advice
+            $d = {jsony:1}
+            me&Lineso,s,d;
         },'ift,D,self'],
     ] };
+    me.Lineso = &acgtsd{
+        return me&indo,s,d (&s,d{
+            $Y = sy&Y;
+            $part;
+            try {
+                part = 'scan';
+                !isC(s) and throw "Not C"
+                sc&N and throw "mightbe R"
+                part = 'clone';
+                $D = Cye(s);
+                part = 'comp';
+                # comp && comp(R,D);
+                #R.c.not and return
+                part = 'Compress';
+                G&Compress,D;
+                Y && Ys&compLines and Ys&compLines(D,d)
+                Ds&M and Ds&M = []
+                part = 'toLines';
+                d.toLines = d.jsony ? enj(D) : G&toLines,D;
+                Ds&H && !d.toLines.match(/(H):(\w+)\b/) and throw "%H not so gc will see it"
+            }
+            catch (er) {
+                ~enLinesR: ki(d,2)+"   !"+part+"! "+er
+                me&Rec,R,'err';
+                d.toLines = "[error} "+ki(s);
+                #Rs&err = "enLinesR: "+part+": "+er;
+                #n err  $s:Rs&err
+                d.nofurther = 1
+            }
+            sy&toLines = d.toLines;
+            return d.toLines
+        })
+    }
+   // &Zeve Jproto
+    me.Zeve = &acgtRs{
+        $p = me&Rsc,R,'^^Proto';
+        # the question inc e=s
+        $q = {}
+        sy&timese ||= 0;
+        sy&timese++;
+        
+        sy&toLines and q.dige = dig(sy&toLines)
+        # < should turn into?
+        $a = {}
+        # {D:1};
+        # this Dome...
+        q.dome = "J:"+R.t
+        return me&nodee,R,p,s,a,q
+        # sy&toLines 
+    }
     
    // notoph - previous %of
     $notoph = &{ return [
