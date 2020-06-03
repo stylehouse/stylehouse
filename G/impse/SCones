@@ -357,32 +357,65 @@ me.Sch_Comm = &acgt{ return [
             catch (err) {
                 $er = err
             }
-            me&bal,C.t,c,'Jworld,eph'
             me&nu,'C',c
             me&nu,'to',to
             er and me&nu,'er',er .sc.hue = 160;
         })
         # < into Y:n
+        me&nu,R
         
         if (me&rolltog,R,{k:'T',once:1}) {
             me&ha,R,"bump";
         }
     },'ift,D'],
-    ['Jworld',0.33,&acgtRs{
-        me&reaw,R,'Jworld,eph';
+    ['Jbal',0.295,&acgtRs{
+        me&reaw,R,'Jbal,eph';
         $Y = sy&Y;
         !Y and return me&tsc,"noY"
-        each tj Y.sc {
-            !(isC(j) && jy&up == s) and continue
-            me&bal,'%'+t,j,'eph'
-            me&zu,'z:'+t,j
-        }
+        sy&R and return
+        $S = me&inode,R;
+    },'ift,D'],
+    ['Jbal',0.7,&acgtRs{
+        $p = Ry&up;
+        ac(p,'z',R)
     },'ift,D'],
     
    // n
     &{
+    # things to appear as ball
+    # < uniquely bal anything Yong'd 01 return cv==3
+    me.Yingbal = &acgttsc{
+        # s must have a Y
+        $Y = sy&Y;
+        !Y and throw "notinit"
+        # so we can climb up to an R
+        
+        $r = me.cby(s,&s{ return sy&R || sy&bal })[0]
+        # first sy&R over sy&bal(!&inode
+        ry&bal && ry&R and r = ry&R
+        # may be for an r = &bal since
+        ry&bal and r = ry&bal
+        r = me&yfuture,r; // ry&R
+        R = r;
+        $C = Rs&C;
+        Cy&R == R
+        
+        isst(c) and c = G&peel,c
+        c ||= {};
+        c = ex({eph:1,Jbal:1},c)
+        
+        #t[0] == 'J' and debugger
+        #~>4 The: R.t, t, s.t
+        $r = me&bal,t,s,c;
+        sy&bal = r
+        me&Ring,R,{und:r,ov:0.299};
+        return r
+    }
+    
+   // n 1
     me.Yingmind.n = &acgt{ return [
-        # C
+        # s = C
+        # < many C in one n, implied layer of doming
         ['ground',0.01,&acgtRYs,SC{
             sy&R = R;
             Ys&leamity = 3;
@@ -393,7 +426,6 @@ me.Sch_Comm = &acgt{ return [
             }
             if (sc&J) {
                 $J = Y.1 = sc&J;
-                # < Jy&Y
             }
             if (sc&e) {
                 $e = sc&e;
@@ -402,6 +434,16 @@ me.Sch_Comm = &acgt{ return [
                 
             }
         },'ift,D'],
+        # ghost suction
+        ['realise',0.2,&acgtRYs,SC{
+            if (sc&J) {
+                # < Jy&Y
+                me&Yingbal,'J:'+s.t,s
+            }
+        },'ift,D'],
+   
+   // n 5
+        # atom -> atoms
         ['tick',0.5,&acgtRYs,SC{
             ss&icountre ||= 0;
             ss&icountre ++;
@@ -412,12 +454,20 @@ me.Sch_Comm = &acgt{ return [
             # A=Y must serve G&t for A.I, have 4s&globals
             Y.6 = Y.4 = A.4;
             Y.7 = A.5;
-            A = Y;
-            1s&N = [];
             
             $D = Ys&Doming = me&Yingdome,R,Y,C;
             
-            me&way,R,C.t,{J:A.1,s}
+            $Aye = A;
+            A = Y;
+            1s&N = [];
+            
+            if (c&J) {
+                ~>4 intheway: C.t
+                
+                me&way,R,C.t,{J:A.1,s}
+            }
+            
+            A = Aye;
             
             Dy&ending()
             
@@ -426,16 +476,15 @@ me.Sch_Comm = &acgt{ return [
             # if this has a diff it can takeover a branch
             $t = Ys&osc = me&Yingosc,R,C,D;
             ts&top and 1s&top = t
-            
-            
-            
         },'ift,D'],
     ]};
    
    // &Yingdome
     # for an A+C having S
+    # ie the whole attention span
     me.Yingdome = &acgtRYs{
         $D = me&Yong,R,s,'Doming',{},1;
+        me&Yingbal,'%Doming',D
         
         $current;
         # for an S+ay
@@ -513,7 +562,9 @@ me.Sch_Comm = &acgt{ return [
    
    // &Yingosc
     me.Yingosc = &acgtRsD{
-        return me&Yong,R,s,'osc',{D:D},7;
+        $s = me&Yong,R,s,'osc',{D:D},7;
+        me&Yingbal,'%osc',s
+        return s
     }
     me.Yingmind.osc = &acgt{ return [
         # C
@@ -534,7 +585,7 @@ me.Sch_Comm = &acgt{ return [
             Yc&M = ss&z;
         },'ift,D'],
         ['sea',0.6,&acgtRYs,SC{
-            ~>4 sea: Y.t, s.t
+            #~>4 sea: Y.t, s.t
             sc&s and ss&strinoge = sc&s.split("\n").length
         },'ift,D'],
         ['selfs',0.7,&acgtRYs,SC{
