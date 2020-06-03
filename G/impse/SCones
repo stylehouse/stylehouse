@@ -373,11 +373,7 @@ me.Sch_Comm = &acgt{ return [
         $Y = sy&Y;
         !Y and return me&tsc,"noY"
         sy&R and return
-        $S = me&inode,R;
-    },'ift,D'],
-    ['Jbal',0.7,&acgtRs{
-        $p = Ry&up;
-        ac(p,'z',R)
+        #$S = me&inode,R;
     },'ift,D'],
     
    // n
@@ -426,6 +422,7 @@ me.Sch_Comm = &acgt{ return [
             }
             if (sc&J) {
                 $J = Y.1 = sc&J;
+                # < want Jhost t&w:J.t
             }
             if (sc&e) {
                 $e = sc&e;
@@ -571,6 +568,7 @@ me.Sch_Comm = &acgt{ return [
         ['osc',0.01,&acgtRYs,SC{
             return Cye([s.t,3])
         },'ift,D'],
+        
         ['ing',0.5,&acgtRYs,SC{
             $Doming = Ys&D;
             each i,Dome Domings&z {
@@ -584,14 +582,160 @@ me.Sch_Comm = &acgt{ return [
             }
             Yc&M = ss&z;
         },'ift,D'],
+        
         ['sea',0.6,&acgtRYs,SC{
             #~>4 sea: Y.t, s.t
-            sc&s and ss&strinoge = sc&s.split("\n").length
+            $C = s;
+            c&s and s&strinoge = c&s.split("\n").length
+            
+            # %of travel to W:of for encoding!
+            $swims = ['of']
+            each ik swims {
+                # < ha,Y,eto:W,t:s&of,W:of
+                #   W routing to Jproto,
+                C.sc[k] and ah(Y,['swims',k,C.sc[k],s])
+                # many per J
+                $J = s&J;
+                if (J) {
+                    $z = Js&top || Js&z || [];
+                    me&ioty,z .map(&n{
+                        nc&W == k and ah(Y,['swims',k,C.sc[k],n])
+                    })
+                }
+            }
+
         },'ift,D'],
+        
+        ['voyage',0.62,&acgtRYs,SC{
+            !Ys&swims and return
+            
+            # < making swum (via J) not travel for enlightenment
+            each ktN Ys&swims {
+                t == 1 and t = 'i'
+                # Y%of=Y:voy, whole bunch of elvising
+                $E = Y.sc[k] ||= me&Yingvoy,R,s,'swim',k
+                me&Yong,R,E,'swim',{t,N},1;
+                # to each thing
+            }}
+            
+            # < tug
+            each in Ys&swim {
+                me&Yong,R,n,{},7;
+            }
+            
+        },'ift,D,self'],
+        
         ['selfs',0.7,&acgtRYs,SC{
             ss&top = s
         },'ift,D,self'],
+        
     ]};
+   // &Yingvoy - osc elvis leaving!
+    me.Yingvoy = &acgtRst{
+        $s = me&Yong,R,s,'voy',{k},1;
+        me&Yingbal,'Y:voy:'+t+':'+k,s
+        return s
+    }
+    me.Yingmind.voy = &acgt{ return [
+        # elvis stilling out
+        # < C.t == null should throw
+        ['elvoy',0.01,&acgtRYs,SC{
+            !Ys&k and throw "nok"
+            $z = Cye([Ys&k,3]);
+            ac(s,'swim',z)
+            return z
+        },'ift,D'],
+        ['elvoy',0.13,&acgtRYs,SC{
+            # picture each t:Wof
+            Yc&M = ss&z;
+        },'ift,D'],
+        ['elvoy',0.2,&acgtRYs,SC{
+            sc&W = Ys&k;
+        },'ift,D'],
+        ['elvoy',0.23,&acgtRYs,SC{
+            # < slep, Copy Lines
+            # < make lv
+        },'ift,D'],
+        
+        
+    ] };
+    me.Yingmind.swim = &acgt{ return [
+        ['elvoys',0.01,&acgtRYs,SC{
+            $t = Ys&t;
+            !t and throw "!t"
+            $z = me&fiu,s,t
+            return z
+        },'ift,D'],
+        
+    ] };
+    
+   // notoph - previous %of
+    $notoph = &{ return [
+    ['selfer','2',&acgtRs{
+        $h = Rc&N[0];
+        $Swim = hs&Swim ||= {};
+        
+        s = Rs&selfer;
+        $I = Swim[ss&oph] ||= {};
+        $z = I[s.t] ||= [];
+        s.y.cv ||= 0.1;
+        # only cv sorts
+        me&sortin,z,s;
+        $zi = z.indexOf(s);
+        if (zi-1 >= 0) {
+            $ot = z[zi-1];
+            if (ot.y.cv == s.y.cv) {
+                Rs&overwrites = ot;
+                z.splice(zi-1,1);
+                me&tsc,'overwrites','<'+ot.t;
+            }
+        }
+        Rs&selfed = 1;
+        # there is also an %other for things coming via a J
+        # self would always overwrite 
+    },'ift,D'],
+    ['Swim','3',&acgtRs{
+        s&mb = 2;
+        $D = G&Cye,[R.t,''];
+        each fc Rs&Swim {
+            $F = G&Cye,[f,{cv:0.001},{W:R.t}];
+            ac(D,'z',F);
+            each tz c {
+                each in z {
+                    ac(F,'z',n);
+                }
+            }
+        }
+        Rs&Swimb = me&Copy,R,D,{Lines:3} .c.s;
+    },'ift,D'],
+    ['Swimb','4',&acgtRs{
+        $S = Rs&Swimb;
+        me&rollbs,R,'indige';
+        Rs&indige && Rs&indige == Ss&dige and me&rollbs,R,'Swum'
+        if (!Rs&Swum) {
+            Rs&indige = Ss&dige;
+            
+            # < send S to the server
+            # it will W=oph and encode all this stuff
+            $f = Ss&z[0].sc.z[0];
+            fc&s += "\nstamp";
+            
+            Rs&Swum = S;
+        }
+        # attach to the 9
+        $p = Ry&up;
+        ps&task != 'C' and throw "lst"
+        $s = pc&s;
+        each iF Ss&z {
+            $F = G&Cye,F;
+            $N = delete Fs&z;
+            each iD N {
+                i $s/$F/$D
+            }
+        }
+    },'ift,D'],
+    ]};
+    
    },
     
     
