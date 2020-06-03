@@ -350,167 +350,76 @@
     }
   
   // 3 - Domes time connect items
-        
-    // nodes at each end of time
-        # Ying|step|node all
-        me.Ying_o2 =
-        me.Steps_o3 =
-        me.Nodes_o3 = &acgtRs{
-            me&sahazaja,R;
-            me&Domes_o3,R;
-        }
-        # domes, transbrack init
-        me.Domes_o3 = &acgtr{
-            $s = rc&s;
-            me&etos_o3,r,s;
-            me&settle_o3,r,s;
-            me&dome_o3,r,s;
-        }
-        # domes, transbrack accept
-        # everyone &bready or -> conclusion
-        me.Domes_7 = &acgtRpr{
-            $s = rc&s;
-            # %%dome replace if any new
-            me&dome_7,R,p,r,s;
-            # when not &bready, ask R%Ying to come back:
-            me&bready,r and me&ha,R,{waits:'wants',wants:s}
-            else { rs&isbready = 1 }
-            me&settle_6,R,p,r,s;
-            me&settle_7,R,p,r,s;
-        }
-        # deeper first, depending on Sy&N (S = py&s)
-        me.Domes_7_upward = &acgtRpr{
-            $s = rc&s;
-            # still state
-            me&brackstable_7,R,p,r,s;
-            me&settle_7_upward,R,p,r,s;
-            
-            me&node_accept,R,r,s;
-            # < might sleepytime if brackstable
-            #   && no elvising into brackology, etc...
-            
-            # %%eto|from
-            me&etos_6,R,p,r,s;
-            me&etos_7,R,p,r,s;
-            # display
-            return me&stepbrack,r;
-        }
+    # nodes at each end of time
     
-    // ending &Steps_7, &Ying_8
-        # $p done: $p & $j+ Domes_7
-        #  depending on !node_issleeping
-        me.Steps_7 = &acgtRprs{
-            $stepsleeping = me&node_issleeping,R,r;
-            
-            $rev = [];
-            each iz sy&N {
-                $j = zy&R;
-                me&node_issleeping,R,j and continue
-                me&Domes_7,R,p,j
-                rev.unshift(z)
-            }
-            each iz rev {
-                $j = zy&R;
-                !j || j == z and debugger
-                me&Domes_7_upward,R,p,j
-            }
-            stepsleeping and return
-
-            me&Domes_7,R,p,r;
-            $g = me&Domes_7_upward,R,p,r;
-            me&walls,g,'b:3.3h9';
-        }
-        # Ying done, orgs comeback
-        #  R%Ying Domes_o3 but not _7
-        #   except to have za commit
-        me.Ying_8 = &acgtRs{
-            me&node_accept,R,R,s;
-            
-            me&etos_8,R;
-            me&settle_8,R;
-            me&waits_8,R;
-            
-            # < push stepbrack to the Outlog
-            if (!me&node_issleeping,R,R ) {
-                $g = me&stepbrack,R;
-                me&walls,g,'b:3.3h9';
-            }
-        };
+    # Ying|step|node all
+    me.Ying_o2 =
+    me.Steps_o3 =
+    me.Nodes_o3 = &acgtRs{
+        me&sahazaja,R;
+        me&Domes_o3,R;
+    }
+    # domes, transbrack init
+    me.Domes_o3 = &acgtr{
+        $s = rc&s;
+        me&etos_o3,r,s;
+        me&settle_o3,r,s;
+        me&dome_o3,r,s;
+    }
     
-    // < conclusion *Ying_8 -> waits_8)
-       =pod todo
-        < # Yingterms
-        %%dome 
-         < and other %%tricks
-        &settle, meaning a wants b to be settled,
-          quickly decided, else comeback
-        < catching that %Pave elvis async already @315
-           coming back to complete bunches at a time
-        < io making sense of eg %%tw, %ein,
-          but probably not &settle, too micro to wait
-           blocking reads only for Pinnings: S o Thing
-        < upper levels of %acty or R/r tugging lower
-          %Paving would become acty=2,
-           meaning something acty=1 (%%openey) succeeded
-          and produce a %%Live (Qc&s)
-        < %Paving basically top-down &settle,
-           and some kind of r%acty=R%acty-1 tugging spread
-          runs out of %acty=1->%openey far enough in
-          so $p/* should &settle,
-            but $p/*/*/* neednt be %openey (or settled?)
-          > becoming %Paving_good|in all the way down|up
-          might be up to r:Know to %%wants:r/*,acty:1,settled,
-       
-       // mostly
-         most behaviour decisions wait for &settle
-          waiting for confidence
-          eg selecting nodes eg S o ... or &nodeo
+    # $p and its nodes &Domes_7
+    #  depending on !node_issleeping
+    me.Steps_7 = &acgtRprs{
+        $stepsleeping = me&node_issleeping,R,r;
 
-         most behaviour reflexes wait for &bready
-          just needing a bit of resolution
-          eg begin reaction as txn on brack
-            as in %%may,... -> ...,%may, sorta
-        
-         and they form loops!
-         
-       // Yingterms - see nodeio-Yingu-scussion
-        messaging / nodes / time
-        find loops, pause/debug/trace
-       
-        %Yingu
-        < display for Ying, out of time
-        R%Ying @296 - repeatedly
-         may be planned, e with %term
-         or random e (click)
-        
-        arrange for next Ying to come back with
-         %terms - arrival protocol
-          eg visit only $to, not $to/**
-           for any %%eto upwards
-          otherwise figured by elvis %tunneling
-        
-        by sorting waves of wakers
-        < p%priority or nodes refd by another waker first
-        < deeper nodes first, all siblings at once
-          supposing their reason to be is compatible,
-           avoid re-%%waits when theres %%eto to deliver
-        
-        from now and before
-        < undropped e when sccb throttles
-        < come back in at least a little while
-        
-        noticing when we might
-        < interrupt busy system
-         < to refine eg &etos_6 &brackstill
-        < give up on
-         < &brackstill %%waits
-          < until what it %%wants re-&settle
-         < sheer change (lack of) in motion,
-           if all %Zif-able, spotting increases etc.
-        < go randomly visiting ($p/10s?)
-          where further time plots emerge
-       =elvis
-  
+        $rev = [];
+        each iz sy&N {
+            $j = zy&R;
+            me&node_issleeping,R,j and continue
+            me&Domes_7,R,p,j
+            rev.unshift(z)
+        }
+        each iz rev {
+            $j = zy&R;
+            !j || j == z and debugger
+            me&Domes_7_upward,R,p,j
+        }
+        stepsleeping and return
+
+        me&Domes_7,R,p,r;
+        $g = me&Domes_7_upward,R,p,r;
+        me&walls,g,'b:3.3h9';
+    }
+    # domes, transbrack accept
+    # everyone &bready or -> conclusion
+    me.Domes_7 = &acgtRpr{
+        $s = rc&s;
+        # %%dome replace if any new
+        me&dome_7,R,p,r,s;
+        # when not &bready, ask R%Ying to come back:
+        me&bready,r and me&ha,R,{waits:'wants',wants:s}
+        else { rs&isbready = 1 }
+        me&settle_6,R,p,r,s;
+        me&settle_7,R,p,r,s;
+    }
+    # deeper first, depending on Sy&N (S = py&s)
+    me.Domes_7_upward = &acgtRpr{
+        $s = rc&s;
+        # still state
+        me&brackstable_7,R,p,r,s;
+        me&settle_7_upward,R,p,r,s;
+
+        me&node_accept,R,r,s;
+        # < might sleepytime if brackstable
+        #   && no elvising into brackology, etc...
+
+        # %%eto|from
+        me&etos_6,R,p,r,s;
+        me&etos_7,R,p,r,s;
+        # display
+        return me&stepbrack,r;
+    }
+    
   // 5 < Domes
    # < %%dome
    # < nodeein
@@ -702,8 +611,12 @@
    // %brackstable - still state
     # puts sy&settled brack versioning, r%brackstable++
     #  sees future R as the same
-    #  and includes nodes %current below
+    #  may include %current of nodes below
     #   for &settle's &halfsettled
+    # &sort_wakers:
+    #  may freeze infinite loops
+    # %%settle:
+    #  wanting others to &brackstable
     me.brackstable_7 = &acgtRprs{
         $se = sy&settled ||= Cye([s.t,1]);
         
@@ -891,122 +804,6 @@
         me&either_8,R,c;
     }
    
-   // %%settle <-> %%waits
-    # > redundant orderer of orders
-    =couldbe
-     Ying waits_8, wakers order regarding &settle, etc
-     not: a lifo of $froms awaiting &settle,
-      not even a $to-before-$from separator,
-      to catch up lost|tangled $from-$to-$from impulse:
-     
-       $from|$to generate 8%%waits:settle,wants:each other,
-        to filter that by settle progress:
-         eg that $to should &settle,
-          then $from can have $to &settle
-        $from 
-         &settle_6 - wants $to to &settle
-        $to
-         &settle_7 - checks for &settle
-          pushing &halfsettled to children
-          versioning %wou for:
-        $from
-         &settle_7 - accept $to &settled
-    
-      while s &settle z, wakers[] may be:
-       sy&settletos/$z
-       zy&settlefroms/$s
-      both mean wake z then s,
-       which tends to happen anyway,
-       and &settle blocks anything not ready
-     
-     one day:  
-     < loop detect !sooner && !later
-        go for least conflicted, earliest in Sy&N
-     < guarantee the eventuality,
-        check every Y%settles %from?
-     < instant Yingu innard, style of collapse into time
-     < partition into several single-minded Yings,
-       for atomicity,
-     < study errors
-    =elvis
-    me.settle_wakers = &acgtR,set,wakers{
-        $later = [];
-        $freeze = [];
-        $sooner = [];
-        $l = Rs&Outlog;
-        wakers.map(&s{
-            $j = sy&R;
-            !j || jc&s != s and debugger;
-            
-            $tos = sy&settletos;
-            if (tos) {
-                # waiting for these
-            }
-            
-            if (js&brackstable > 6) {
-                $few = l.slice(-10);
-                $many = few.filter(wake => wake.includes(s)).length;
-                if (many > 3) {
-                    ~>4 freeze: s.t
-                    freeze.push(s)
-                }
-            }
-        })
-        return wakers.filter(s => !freeze.includes(s))
-    }
-   
-   // < %%waits - state around
-    # Ying%%waits,wants:$to
-    #  is the only way
-    #  to come back for $to etc
-    me.waits_8 = &acgtR{
-        $wakers = me&jaa,R,'waits','wants';
-        me&reaw,R,'Outlog';
-        $l = me&rollbs,R,'Outlog',[];
-
-        # regroup!!
-        $Y = Rs&Ying;
-        $set = Ys&settles;
-        me&settle_wakers,R,set,wakers,l;
-        
-        l.push(wakers);
-        !wakers.length and return
-
-        # Ying and each node has %terms,
-        #  they must accept the wave is done
-        wakers = wakers.map(&n{
-            return {wake:n,terms:{}}
-        });
-        me&Yinge,R,{wakers,terms:{}};
-    }
-    me.Yinge = &acgtRc{
-        me&rollbs,R,'Iinint',0;
-        $starting = Rs&Iinint++ < 5;
-
-        $elvising = &{
-            # visits those r**
-            $wakers = c.wakers.map(&c{
-                $r = c.wake;
-                r = ry&R;
-                !isR(r) and throw "notR"
-                c.wake = me&yfuture,r;
-                c.ret = 1;
-                return me&elvis,R,'reYn',c
-            });
-            # on a single trip to %Ying
-            # pack: es&z are e, simultaneously
-            c.pack = R;
-            me&elvis,R,"Yingvoids",c,wakers
-        };
-        # avoids usual timing of Elvoids:
-        # < should ec&when exactly
-        $del = starting ? 30 : 3000;
-        $Co = me&rollbsc,R,'Corresp';
-        # limit to one feedback loop
-        $yeah = me&sccb,Co,'Yingvoids',elvising;
-        G&yl,del,yeah;
-    }
-  
   // 6 < frontends
    // < &nodei|o|e - makes %%eto..., going somewhere
       // nodeio-doc 
@@ -1418,4 +1215,224 @@
             $ope = me&rolltog,R,{may:t,tsc:'l',acty:8};
             return ope
         };
+        
+  // 8 < rounds
+        
+   // < &sort_wakers - %%settle <-> %%waits
+    # > redundant orderer of orders
+    =couldbe
+     Ying waits_8, wakers order regarding &settle, etc
+     not: a lifo of $froms awaiting &settle,
+      not even a $to-before-$from separator,
+      to catch up lost|tangled $from-$to-$from impulse:
+     
+       $from|$to generate 8%%waits:settle,wants:each other,
+        to filter that by settle progress:
+         eg that $to should &settle,
+          then $from can have $to &settle
+        $from 
+         &settle_6 - wants $to to &settle
+        $to
+         &settle_7 - checks for &settle
+          pushing &halfsettled to children
+          versioning %wou for:
+        $from
+         &settle_7 - accept $to &settled
+    
+      while s &settle z, wakers[] may be:
+       sy&settletos/$z
+       zy&settlefroms/$s
+      both mean wake z then s,
+       which tends to happen anyway,
+       and &settle blocks anything not ready
+     
+     one day:  
+     < loop detect !sooner && !later
+        go for least conflicted, earliest in Sy&N
+     < guarantee the eventuality,
+        check every Y%settles %from?
+     < instant Yingu innard, style of collapse into time
+     < partition into several single-minded Yings,
+       for atomicity,
+     < study errors
+    =elvis
+    me.sort_wakers = &acgtR,set,wakers{
+        $later = [];
+        $freeze = [];
+        $sooner = [];
+        $l = Rs&Outlog;
+        wakers.map(&s{
+            $j = sy&R;
+            !j || jc&s != s and debugger;
+            
+            $tos = sy&settletos;
+            if (tos) {
+                # waiting for these
+            }
+            
+            if (js&brackstable > 6) {
+                $few = l.slice(-10);
+                $many = few.filter(wake => wake.includes(s)).length;
+                if (many > 3) {
+                    ~>4 freeze: s.t
+                    freeze.push(s)
+                }
+            }
+        })
+        return wakers.filter(s => !freeze.includes(s))
+    }
+   
+   // < %%waits - state around
+    # Ying%%waits,wants:$to
+    #  to come back for $to, dribbling awareness in groups to Ying
+    #  the only way, unless nodes &elvis themselves,
+    # packs ($to,$c:term?)+ for Ying,
+    #  which receives a bunch of things to do,
+    #  as tunneledness to those $to
+    #  < as abstract marks, devised into $to, tunnels itself
+    #    then it could do more weirdness,
+    #     eg J completing, starting again, completing is two versions,
+    #      which can fit into the oJ as one iteration
+    # < %terms from/via the waits row(s)?
+    me.waits_8 = &acgtR{
+        $wakers = me&jaa,R,'waits','wants';
+        me&reaw,R,'Outlog';
+        $l = me&rollbs,R,'Outlog',[];
+
+        # regroup!!
+        $Y = Rs&Ying;
+        $set = Ys&settles;
+        me&sort_wakers,R,set,wakers,l;
+        
+        l.push(wakers);
+        !wakers.length and return
+
+        # Ying and each node has %terms,
+        #  they must accept the wave is done
+        wakers = wakers.map(&n{
+            return {wake:n,terms:{}}
+        });
+        me&Yinge,R,{wakers,terms:{}};
+    }
+  
+   // &Ying_8
+        # Ying done, orgs comeback
+        #  R%Ying Domes_o3 but not _7
+        #   except to have za commit
+        me.Ying_8 = &acgtRs{
+            me&node_accept,R,R,s;
+            
+            me&etos_8,R;
+            me&settle_8,R;
+            me&waits_8,R;
+            
+            # < push stepbrack to the Outlog
+            if (!me&node_issleeping,R,R ) {
+                $g = me&stepbrack,R;
+                me&walls,g,'b:3.3h9';
+            }
+        };
+        # waits_8 gives:
+        me.Yinge = &acgtRc{
+            me&rollbs,R,'Iinint',0;
+            $starting = Rs&Iinint++ < 32;
+
+            $elvising = &{
+                # visits those r**
+                $wakers = c.wakers.map(&c{
+                    $r = c.wake;
+                    r = ry&R;
+                    !isR(r) and throw "notR"
+                    c.wake = me&yfuture,r;
+                    c.ret = 1;
+                    return me&elvis,R,'reYn',c
+                });
+                # on a single trip to %Ying
+                # pack: es&z are e, simultaneously
+                c.pack = R;
+                me&elvis,R,"Yingvoids",c,wakers
+            };
+            # avoids usual timing of Elvoids:
+            # < should ec&when exactly
+            $del = starting ? 30 : 3000;
+            $Co = me&rollbsc,R,'Corresp';
+            # limit to one feedback loop
+            $yeah = me&sccb,Co,'Yingvoids',elvising;
+            G&yl,del,yeah;
+        }
+    
+   // < conclusion *Ying_8 -> waits_8)
+       =pod todo
+        < # Yingterms
+        %%dome 
+         < and other %%tricks
+        &settle, meaning a wants b to be settled,
+          quickly decided, else comeback
+        < catching that %Pave elvis async already @315
+           coming back to complete bunches at a time
+        < io making sense of eg %%tw, %ein,
+          but probably not &settle, too micro to wait
+           blocking reads only for Pinnings: S o Thing
+        < upper levels of %acty or R/r tugging lower
+          %Paving would become acty=2,
+           meaning something acty=1 (%%openey) succeeded
+          and produce a %%Live (Qc&s)
+        < %Paving basically top-down &settle,
+           and some kind of r%acty=R%acty-1 tugging spread
+          runs out of %acty=1->%openey far enough in
+          so $p/* should &settle,
+            but $p/*/*/* neednt be %openey (or settled?)
+          > becoming %Paving_good|in all the way down|up
+          might be up to r:Know to %%wants:r/*,acty:1,settled,
+       
+       // mostly
+         most behaviour decisions wait for &settle
+          waiting for confidence
+          eg selecting nodes eg S o ... or &nodeo
+
+         most behaviour reflexes wait for &bready
+          just needing a bit of resolution
+          eg begin reaction as txn on brack
+            as in %%may,... -> ...,%may, sorta
+        
+         and they form loops!
+         
+       // Yingterms - see nodeio-Yingu-scussion
+        messaging / nodes / time
+        find loops, pause/debug/trace
+       
+        %Yingu
+        < display for Ying, out of time
+        R%Ying @296 - repeatedly
+         may be planned, e with %term
+         or random e (click)
+        
+        arrange for next Ying to come back with
+         %terms - arrival protocol
+          eg visit only $to, not $to/**
+           for any %%eto upwards
+          otherwise figured by elvis %tunneling
+        
+        by sorting waves of wakers
+        < p%priority or nodes refd by another waker first
+        < deeper nodes first, all siblings at once
+          supposing their reason to be is compatible,
+           avoid re-%%waits when theres %%eto to deliver
+        
+        from now and before
+        < undropped e when sccb throttles
+        < come back in at least a little while
+        
+        noticing when we might
+        < interrupt busy system
+         < to refine eg &etos_6 &brackstill
+        < give up on
+         < &brackstill %%waits
+          < until what it %%wants re-&settle
+         < sheer change (lack of) in motion,
+           if all %Zif-able, spotting increases etc.
+        < go randomly visiting ($p/10s?)
+          where further time plots emerge
+       =elvis
+  
     
