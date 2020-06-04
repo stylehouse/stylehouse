@@ -368,42 +368,50 @@ me.Sch_Comm = &acgt{ return [
             }
             catch (e) {
                 $async = (e.message || e).match(/^async/);
-                er = e;
-                if (async) {
-                    ha({err:e+''})
-                }
-                else {
-                    throw e, 'inJrunto'
-                }
+                $n = G&Cye,[plan,'',{er:e}];
+                ns&now = G&time;
+                ns&A = A;
+                ns&B = Gc&B;
+                ns&p = p;
+                ns&R = R;
+                # bunch of artifaces, < (t,$s)+
+                e.tc and nc&M = e.tc
+                er = n;
+                async and ha({async:e+''})
+                else { ha({err:e+''}) }
             }
             
             $Y = sy&Y;
             $bal = sy&bal;
-            !(Y && bal) and throw "Ybal"
-            $J = Y.1;
-            J != Dc&J and throw "!J"
-            
-            # Jproto <- 
-            # eg %%dome:$plan for the e:W:of:i (via &nodee)
-            #  and a 1s&N/n@7, the client waiting for ^
-            # < the externalising state should have many domes...
-            #   J:Dealap (inc non-single-track mindworld)
-            #   J:Dealap/swim%Doming
-            #   J:Dealap/swim%Doming/voy%W
-            #   kept/not when they are full deducted from above
-            #me&ha,R,{dome:plan,delta:Gtime(starts)}
-            ha({delta:2})
-            each in Js&N {
-                # give it the plan to make e dome
-                ha({attendo:n.t})
+            if (Y && bal) {
+                $J = Y.1;
+                J != Dc&J and throw "!J"
+                # Jproto <- 
+                # eg %%dome:$plan for the e:W:of:i (via &nodee)
+                #  and a 1s&N/n@7, the client waiting for ^
+                # < the externalising state should have many domes...
+                #   J:Dealap (inc non-single-track mindworld)
+                #   J:Dealap/swim%Doming
+                #   J:Dealap/swim%Doming/voy%W
+                #   kept/not when they are full deducted from above
+                #me&ha,R,{dome:plan,delta:Gtime(starts)}
+                ha({delta:2})
+                each in Js&N {
+                    # give it the plan to make e dome
+                    ha({attendo:n.t})
+                }
+                $hw = delete T.hwack;
+                hw and ha({Thwack:hw})
+                Js&N = [];
             }
-            Js&N = [];
+            else {
+                me&tsc,'!Ybal'
+            }
             
             me&nu,'C',D
             me&nu,'to',to
             er &&
-             n error  $s:er,R %Error
-            er and me&nu,'er',er+'' .sc.hue = 160;
+                n error  $s:er,R %Error
         })
         # < into Y:n
         me&nu,R
@@ -523,6 +531,7 @@ me.Sch_Comm = &acgt{ return [
             $D = Ys&Doming;
             $t = Ys&osc = me&Yingosc,R,s,D;
             # if this has a diff it can takeover a branch
+            A = Y;
             ts&top and 1s&top = t
             else {
                 1s&N.push(Y)
@@ -722,7 +731,7 @@ me.Sch_Comm = &acgt{ return [
             sy&toLines = me&indo,s (&s,d{ return sy&toLines });
             # this now a c&W to elvis, slept by %string
             $z = me&Zeve,R,s
-            !z and T.hwack = 1
+            !z and T.hwack = "Y:voy:"+s.t
             Ys&Zeved = s;
             Ys&Zevsaid = z;
             # < incorporate that
