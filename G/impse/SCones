@@ -304,11 +304,12 @@ me.Sch_Comm = &acgt{ return [
             # n may be forgot due to errors
             ha('plans',n)
         }) .length ||
-            ha('plans,plan:1',{to:four, C:Cye([client.t])})
+            ha('plans,plan:v1',{to:four, C:Cye([client.t])})
         
         # < S 1 @plans
         me&dome_S,R,'plans','1';
         
+        # < joined to haps
         # < pull next bit of time
         # < Babz &ja:'plan to' &n{
         #   key order, implied map
@@ -347,19 +348,62 @@ me.Sch_Comm = &acgt{ return [
         
         !ps&wou and me&tsc,"Nowou"
         me&zaa,p,'dome:now' .map(&E{
-            $c = Es&C;
+            $D = Es&C;
             $to = Es&to;
-            
-            $Y = me&Yong,R,c,'n',{to},9 .y.Y;
-            
+            $plan = Es&plan;
+            $b = Dy&Y;
+            $starts = Gtime();
+            # outputs of each $plan, uniquely named
+            #  so steps can reiterate,
+            #   until run through without async
+            # eg to swim e:W:of:i, &nodee with %%dome:$plan
+            # or anything else we unpack here
+            # eg %%attendo:1s&N/n@7 waiting for ^^
+            $ha = &c{ me&ha,R,{dome:plan},{},c }
+            $s;
+            $er;
             try {
+                s = me&Yong,R,D,'n',{to,plan},1;
+                s = me&Yong,R,s,{},9;
             }
-            catch (err) {
-                $er = err
+            catch (e) {
+                $async = (e.message || e).match(/^async/);
+                er = e;
+                if (async) {
+                    ha({err:e+''})
+                }
+                else {
+                    throw e, 'inJrunto'
+                }
             }
-            me&nu,'C',c
+            
+            $Y = sy&Y;
+            $bal = sy&bal;
+            !(Y && bal) and throw "Ybal"
+            $J = Y.1;
+            J != Dc&J and throw "!J"
+            
+            # Jproto <- 
+            # eg %%dome:$plan for the e:W:of:i (via &nodee)
+            #  and a 1s&N/n@7, the client waiting for ^
+            # < the externalising state should have many domes...
+            #   J:Dealap (inc non-single-track mindworld)
+            #   J:Dealap/swim%Doming
+            #   J:Dealap/swim%Doming/voy%W
+            #   kept/not when they are full deducted from above
+            #me&ha,R,{dome:plan,delta:Gtime(starts)}
+            ha({delta:2})
+            each in Js&N {
+                # give it the plan to make e dome
+                ha({attendo:n.t})
+            }
+            Js&N = [];
+            
+            me&nu,'C',D
             me&nu,'to',to
-            er and me&nu,'er',er .sc.hue = 160;
+            er &&
+             n error  $s:er,R %Error
+            er and me&nu,'er',er+'' .sc.hue = 160;
         })
         # < into Y:n
         me&nu,R
@@ -474,9 +518,15 @@ me.Sch_Comm = &acgt{ return [
             
             # < magic
             
+        },'ift,D'],
+        ['tock',0.7,&acgtRYs,SC{
+            $D = Ys&Doming;
+            $t = Ys&osc = me&Yingosc,R,s,D;
             # if this has a diff it can takeover a branch
-            $t = Ys&osc = me&Yingosc,R,C,D;
             ts&top and 1s&top = t
+            else {
+                1s&N.push(Y)
+            }
         },'ift,D'],
     ]};
    
@@ -505,7 +555,7 @@ me.Sch_Comm = &acgt{ return [
         }
         
         Yc&Srupto = &acgtst,talk,params{
-            ~Srupt: s, ':', t, '%', talk
+            #~Srupt: s, ':', t, '%', talk
             
             # whatever is over now:
             Dy&domed();
@@ -524,7 +574,7 @@ me.Sch_Comm = &acgt{ return [
             }
             l.done = 1;
             Dy&dome(t);
-            ~sttalk: ki([s,t,talk,params]);
+            #~sttalk: ki([s,t,talk,params]);
             return 1;
         };
         
@@ -573,10 +623,13 @@ me.Sch_Comm = &acgt{ return [
             return Cye([s.t,3])
         },'ift,D'],
         
-        ['ing',0.5,&acgtRYs,SC{
+        ['i Domings',0.5,&acgtRYs,SC{
             $Doming = Ys&D;
             each i,Dome Domings&z {
                 each in Domes&z {
+                    # < flatten later, when swims back
+                    #   to keep both zeal%of:i and zeal%of:J
+                    #   so such a thing can be considered by the encoder
                     $dup = me&fiu,s,n.t,8
                     dup and ac(s,'dups',dup)
                     $O = Cye(n);
@@ -587,7 +640,7 @@ me.Sch_Comm = &acgt{ return [
             Yc&M = ss&z;
         },'ift,D'],
         
-        ['sea',0.6,&acgtRYs,SC{
+        ['o swims',0.6,&acgtRYs,SC{
             #~>4 sea: Y.t, s.t
             $C = s;
             c&s and s&strinoge = c&s.split("\n").length
@@ -607,10 +660,9 @@ me.Sch_Comm = &acgt{ return [
                     })
                 }
             }
-
         },'ift,D'],
         
-        ['voyage',0.62,&acgtRYs,SC{
+        ['i swims',0.62,&acgtRYs,SC{
             !Ys&swims and return
             
             # < making swum (via J) not travel for enlightenment
@@ -669,9 +721,11 @@ me.Sch_Comm = &acgt{ return [
             sy&toLines and throw "hadLines"
             sy&toLines = me&indo,s (&s,d{ return sy&toLines });
             # this now a c&W to elvis, slept by %string
-            me&Zeve,R,s
+            $z = me&Zeve,R,s
+            !z and T.hwack = 1
+            Ys&Zeved = s;
+            Ys&Zevsaid = z;
             # < incorporate that
-            # < brackstable refs if they have a %dige in the row?
             #ss&string = s
             
             # < vague sharable slep, Copy Lines, lv
@@ -751,21 +805,30 @@ me.Sch_Comm = &acgt{ return [
         })
     }
    // &Zeve Jproto
-    me.Zeve = &acgtRs{
+    # supposing e=s and sc&W
+    me.Zeve = &acgtRsaq{
         $p = me&Rsc,R,'^^Proto';
-        # the question inc e=s
-        $q = {}
+        # < o $s^^y&Ys&plan
+        # be from Jrunto's plan to n, reoccurs after async
+        $sup = me.cby(s,&s{
+            $Y = sy&Y;
+            return Y && Ys&plan
+        });
+        $Cn = sup[0];
+        $Yn = Cn && Cny&Y;
+        $plan = Yn && Yns&plan;
+        !plan and throw "n!plan", sup
+        
+        # the question (gets .e=s in &nodee)
+        q ||= {};
+        q.dome ||= plan
+        # recycles e
+        sy&toLines and q.dige = dig(sy&toLines)
+        
         sy&timese ||= 0;
         sy&timese++;
         
-        sy&toLines and q.dige = dig(sy&toLines)
-        # < should turn into?
-        $a = {}
-        # {D:1};
-        # this Dome...
-        q.dome = "J:"+R.t
-        return me&nodee,R,p,s,a,q
-        # sy&toLines 
+        return me&nodee,R,p,s,{},q
     }
     
    // notoph - previous %of
