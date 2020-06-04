@@ -1206,6 +1206,20 @@
         }
         !settled and return 'not settled'
     }
+    # settle all previous siblings
+    # for 3 &settle 2,1, for lack of:
+    # < settle deeply, 3 &settle 2 &settle 1
+    me.settle_prev = &acgtR{
+        $N = me&ioty,Ry&up,'ball';
+        $ri = N.indexOf(R);
+        ri < 0 and throw "upz%ball"
+        $prev = N.slice(0,ri);
+        !prev.length and return
+
+        me&settle,R,prev and return 1
+        Rs&settled = prev;
+        Rs&brackstable_aware = 1;
+    }
     
    // < &acting, &acty
         # a heading for some %Part of it
