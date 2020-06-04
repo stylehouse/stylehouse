@@ -488,6 +488,8 @@
             
             $are = me&jaa,r,'dome:'+k
             c.having and are = are.filter(n => c.having(n))
+            # < one S many domes? (c.having > dome:1)
+            k == 1 && !c.having and throw "group by nothing"
             
             $neu = [];
             $old = [];
@@ -505,9 +507,10 @@
             
             return c.having ? neu : old
         }
-        # %%dome replace if any new
+        # each %%dome replaces if any new
         me.dome_7 = &acgtRprs{
-            me&dome_traction,r,1
+            uniq(me&jaa,r,'dome' .map(n => ns&dome))
+                .map(k => me&dome_traction,r,k );
         }
    
    // %%eto - externalising state
