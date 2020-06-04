@@ -301,10 +301,21 @@ me.Sch_Comm = &acgt{ return [
         
         # < previous thinking as %term'd into runs
         me&zaa,R,'dome:plans,plan,to,C' .map(&n{
+            # %%plan,e,C come from the %%eto again
+            ns&e and return
             # n may be forgot due to errors
             ha('plans',n)
         }) .length ||
             ha('plans,plan:v1',{to:four, C:Cye([client.t])})
+        
+        # %%plan,e,C come from the %%eto
+        me&zaa,R,{eto:s,dome:1,e:1} .map(&n{
+            $e = ns&e;
+            each iD es&z {
+                !Dc&W and throw "e/!W"
+                ha('plans',{e,plan:ns&dome+'-e',to:four,C:D})
+            }
+        })
         
         # < S 1 @plans
         me&dome_S,R,'plans','1';
@@ -324,7 +335,20 @@ me.Sch_Comm = &acgt{ return [
         # < io plan(?^@todo) to C
         #   little joins not in the main plumb
         #   and relating to brack
-        $D = me&jaa,R,'dome:todo,plan' [0]
+        $N = me&jaa,R,'dome:todo,plan';
+        $not = [];
+        each in N {
+            each il N {
+                ls&plan == ns&plan and continue
+                if (ls&plan.startsWith(ns&plan)) {
+                    ~>4 startsWith: ls&plan, ns&plan
+                    not.push(n);
+                    break
+                }
+            }
+        }
+        N = N.filter(n => !not.includes(n))
+        $D = N[0]
         D && me&jaa,R,{dome:'plans',plan:Ds&plan,to:1,C:1}
             .map(&t{ ha('now',t) })
         
@@ -420,6 +444,7 @@ me.Sch_Comm = &acgt{ return [
             me&ha,R,"bump";
         }
     },'ift,D'],
+        
     
    // Yingbal
     ['Yingbal',0.32,&acgtRs{
@@ -813,6 +838,7 @@ me.Sch_Comm = &acgt{ return [
             return d.toLines
         })
     }
+   
    // &Zeve Jproto
     # supposing e=s and sc&W
     me.Zeve = &acgtRsaq{
