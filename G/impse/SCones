@@ -362,6 +362,7 @@ me.Sch_Comm = &acgt{ return [
         
         # < tell brackope about dome - more tension
         #  < plan can be like dome
+        # < 
         $g = me&opeolo,R,'plans';
         uniq(me&jaa,R,'dome:plans','plan' ).map(&k{
             $bis = me&jaa,R,{dome:'plans',plan:k};
@@ -418,8 +419,9 @@ me.Sch_Comm = &acgt{ return [
                 s = me&Yong,R,s,{},9;
             }
             catch (e) {
-                $async = (e.message || e).match(/^async/);
                 $n = G&Cye,[plan,'',{er:e}];
+                nc&s = (e.message || e)+'';
+                $async = nc&s.match(/^async/);
                 ns&now = G&time;
                 ns&A = A;
                 ns&B = Gc&B;
@@ -491,26 +493,30 @@ me.Sch_Comm = &acgt{ return [
         $Y = sy&Y;
         !Y and throw "notinit"
         # so we can climb up to an R
+        $r;
+        me.cby(s,&s{
+            $bal = sy&bal;
+            bal && bals&Yingbal != t and return r = bal
+            sy&R and return r = sy&R
+        });
+        !r and throw "Rup"
         
-        $r = me.cby(s,&s{ return sy&R || sy&bal })[0]
-        # first sy&R over sy&bal(!&inode
-        ry&bal && ry&R and r = ry&R
-        # may be for an r = &bal since
-        ry&bal and r = ry&bal
-        r = me&yfuture,r; // ry&R
-        R = r;
+        $R = me&yfuture,r;
         $C = Rs&C;
         Cy&R == R
         
         isst(c) and c = G&peel,c
         c ||= {};
-        c = ex({eph:1,Yingbal:1},c)
+        c = ex({eph:1,Yingbal:t},c)
         
         #t[0] == 'J' and debugger
         #~>4 The: R.t, t, s.t
         $r = me&bal,t,s,c;
-        sy&bal = r
+        sy&bal = r;
         me&Ring,R,{und:r,ov:0.299};
+        $C = rs&C;
+        s&hue = 60;
+        t[0] == '%' && t[1] == t[1].toUpperCase() and s&bgh = '010';
         return r
     }
     
@@ -524,9 +530,10 @@ me.Sch_Comm = &acgt{ return [
             if (sc&W) {
                 $to = Ys&to;
                 !to and throw "!to"
-                sc&J = me&fiu,to,s.t;
+                sc&J ||= me&fiu,to,s.t;
             }
             if (sc&J) {
+                Y.1 and Y.2 = Y.1
                 $J = Y.1 = sc&J;
                 # < want Jhost t&w:J.t
             }
@@ -704,6 +711,7 @@ me.Sch_Comm = &acgt{ return [
         ['o swims',0.6,&acgtRYs,SC{
             #~>4 sea: Y.t, s.t
             $C = s;
+            $s = Ys&returns;
             c&s and s&strinoge = c&s.split("\n").length
             
             # %of travel to W:of for encoding!
@@ -711,8 +719,9 @@ me.Sch_Comm = &acgt{ return [
             each kt swims {
                 # < ha,Y,eto:W,t:s&of,W:of
                 #   W routing to Jproto,
+                k == sc&W and continue
                 C.sc[k] == 1 and C.sc[k] = t
-                C.sc[k] and ah(Y,['swims'],k,C.sc[k],s)
+                C.sc[k] && !C.c[k] and ah(Y,['swims'],k,C.sc[k],C)
                 # many per J
                 $J = s&J;
                 if (J) {
@@ -749,7 +758,7 @@ me.Sch_Comm = &acgt{ return [
         
     ]};
    
-   // &Yingvoy - osc elvis leaving!
+   // &Yingvoy - osc elvis leaving
     # < make a variant of Yingdome, for loading eg swim
     me.Yingvoy = &acgtRstk{
         $s = me&Yong,R,s,'voy',{k},1;
@@ -777,6 +786,12 @@ me.Sch_Comm = &acgt{ return [
         },'ift,D'],
         ['elvoy',0.21,&acgtRYs,SC{
             me&Yong,R,s,{},7;
+            # enclosing J namespace
+            # < also push Jproto a %%to?
+            me.cby(s,&s{
+                sy&Y && sy&Y.1 and return Y.1 = sy&Y.1
+            })
+            sc&J = me&fiu,Y.1,s.t;
         },'ift,D'],
         ['elvoy',0.23,&acgtRYs,SC{
             # they all %%string
@@ -856,11 +871,12 @@ me.Sch_Comm = &acgt{ return [
             }
             catch (er) {
                 ~enLinesR: ki(d,2)+"   !"+part+"! "+er
-                me&Rec,R,'err';
+                #me&Rec,R,'err';
                 d.toLines = "[error} "+ki(s);
                 #Rs&err = "enLinesR: "+part+": "+er;
                 #n err  $s:Rs&err
                 d.nofurther = 1
+                throw er, 'further'
             }
             sy&toLines = d.toLines;
             return d.toLines
