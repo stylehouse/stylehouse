@@ -296,6 +296,14 @@ me.Sch_Comm = &acgt{ return [
         #Rs&icount > 4 && !ro('~') and return
         # J.4 forgets, redoing without
         ro('4') and me&rolled,R,'four'
+        # < ability to reset history, inc sy&things
+        if (ro('!')) {
+            [R,me&ioty,Ry&up,'','Jrunto' [0]] .map(&r{
+                delete rs&wou_accepted;
+                rs&wou.sc = {}
+            })
+            return
+        }
         $four = me&rollbsc,R,'four';
         
         
@@ -437,8 +445,6 @@ me.Sch_Comm = &acgt{ return [
             er &&
                 n error  $s:er,R %Error
         })
-        # < into Y:n
-        me&nu,R
         
         if (me&rolltog,R,{k:'T',once:1}) {
             me&ha,R,"bump";
@@ -540,9 +546,11 @@ me.Sch_Comm = &acgt{ return [
             1s&N = [];
             
             if (c&J) {
-                ~>4 intheway: C.t
+                $pin = c&W;
+                !pin and throw "huh"
+                ~>4 intheway: C.t, pin
                 
-                me&way,R,C.t,{J:A.1,s}
+                me&way,R,pin,{J:A.1,s}
             }
             
             A = Aye;
@@ -680,10 +688,11 @@ me.Sch_Comm = &acgt{ return [
             c&s and s&strinoge = c&s.split("\n").length
             
             # %of travel to W:of for encoding!
-            $swims = ['of']
-            each ik swims {
+            $swims = {of:'i'}
+            each kt swims {
                 # < ha,Y,eto:W,t:s&of,W:of
                 #   W routing to Jproto,
+                C.sc[k] == 1 and C.sc[k] = t
                 C.sc[k] and ah(Y,['swims'],k,C.sc[k],s)
                 # many per J
                 $J = s&J;
