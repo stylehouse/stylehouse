@@ -121,7 +121,7 @@ poll.doing = &o{
         $t = poll.wayt.>$p ||= do { $t =~ s/\W/-/sg; $t };
         my $digway = "wormhole/digway/$t";
         my $dig = readlink $digway;
-        1 && sayre "no $digway" if !$dig;
+        #1 && sayre "no $digway" if !$dig;
         next if !$dig;
         my $was = poll.wayd.>$t;
         next if $was && $dig eq $was;
@@ -280,7 +280,7 @@ any '/ghost/*w' => &c{
     my ($cat) = $f =~ /^G\/([^\/]+)\//;
     # < avoid some disking if $have
     my $wig = "wormhole/digway/$st";
-    my $digway = readlink($wig);
+    my $digway = readlink($wig) || '';
     
     # returns json:
     my $re = {ok=>0};
@@ -381,10 +381,28 @@ any '/ghost/*w' => &c{
     $c->render(text=>sjson($re));
 };
 
-#c /way/ 4s&waythe way
-# < Accept headers to get the various translations
+#c /way/ 4s&waythe way!
+any '/JaBabz/*W' => &c{
+    my $t = $c->param('W');
+    my $w = $c->param('s');
+    
+    my $dige = dige($w);
+    my $cache = G.Babache ||= {};
+    $w = $cache.>$dige ||= do {
+        babz($w);
+        sjson($w)
+    };
+    
+    $c->render(text=>$w);
+};
+sub babz {
+    my $C = shift;
+    # this line is compiled to JaBabz($C):
+    Rw JaBabz $C;
+    c&s
+}
 sub away {
-    my $t = shift();
+    my $t = shift;
     my $ot = $t;
     $t =~ s/\W+/-/g;
     my $w;
@@ -406,12 +424,7 @@ sub away {
     a&wayjs = {} if !a&babv || a&babv ne $babv;
     a&babv = $babv;
     # swap s just read for s compiled against its t/dige
-    wc&s = a&wayjs.>w.t.>ws&dige ||= do {
-        $C = $w;
-        # this line is compiled to JaBabz($C):
-        Rw JaBabz $C;
-        wc&s
-    };
+    wc&s = a&wayjs.>w.t.>ws&dige ||= babz($w);
     return $w
 };
 get '/way/*way' => &c{
