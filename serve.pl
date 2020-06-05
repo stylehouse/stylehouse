@@ -1012,6 +1012,7 @@ any '/JaBabz/*W' => sub { my ($c) = @_;
     my $dige = dige($w);
     my $cache = $G->{Babache} ||= {};
     $w = $cache->{"$dige"} ||= do {
+        $w = djson($w);
         babz($w);
         sjson($w)
     };

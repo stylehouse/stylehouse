@@ -389,6 +389,7 @@ any '/JaBabz/*W' => &c{
     my $dige = dige($w);
     my $cache = G.Babache ||= {};
     $w = $cache.>$dige ||= do {
+        $w = djson($w);
         babz($w);
         sjson($w)
     };

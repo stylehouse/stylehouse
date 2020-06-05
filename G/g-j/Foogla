@@ -1,4 +1,4 @@
-# Domes prepare to A=A
+# Domes prepare to A=A!
 $me = 4c&me;
 !me and throw "no me";
 $io = me.io;
@@ -3655,7 +3655,8 @@ me.Tingingness = &acgtR{ return [
         
         #c _ting - a many arg'd entrypoint
         #  ting becomes the reduce for io's map
-        # 
+        #
+        $argsy = ['wjs','peek','JaBabz']
         Rs&_ting = &stz{
             # Question - may come with ...
             $C = isC(s) ? s : G&Cye,[t,1,{of:s}];
@@ -3668,9 +3669,9 @@ me.Tingingness = &acgtR{ return [
             $P = Pio.what('In',C);
             if (!P) {
                 P = G&Cye,[C.t,1,{of:c&of},{}];
-                if (c&of == 'wjs' || c&of == 'peek') {
+                if (argsy.includes(c&of)) {
                     Pc&args = Cc&args;
-                    !c&args and throw c&of+"wjs args required"
+                    !c&args and throw "of:"+c&of+" args required"
                 }
                 Pio.is('In',P);
                 Ps&Want_Check = 1;
@@ -4143,31 +4144,21 @@ me.Tingingness = &acgtR{ return [
             }
             return W
         }
-        #c JaBabz 
+        #c JaBabz
         Rs&Talks.JaBabz = &TCP{
             T.get.url = '/JaBabz/'+C.t;
             T.get.type = 'post';
             $d = T.get.data = {};
-            d.s = s&string;
-            d.s == null and throw "!%string"
+            d.s = s&ghost;
+            d.s == null and throw "of:JaBabz!%ghost"
+            d.dige = dig(s&ghost)
             
             T.got = &Psc{
-                $r = dej(s);
-                if (r.s && r.dige && dig(r.s) != r.dige) {
-                    !C.t.match(/^spot\//) and ~>6 Nodig: C.t, dig(r.s), r.dige
-                }
                 Pc&s = null;
-                Ps&dige = r.dige;
-                if (isst(r.s)) {
-                    Ps&string = r.s;
-                    Ps&Want_Decode = 'Lines';
-                }
-                else {
-                    # entire hash decoded
-                    Pc&s = r.s;
-                    # sanity and sy&P it
-                    Ps&Want_Decode = 'C';
-                }
+                Ps&dige = dig(s);
+                Pc&s = dej(s);
+                # sanity, y&P it
+                Ps&Want_Decode = 'C';
             }
         }
         Rs&Decode.C = &PCW{
