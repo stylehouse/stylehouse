@@ -472,11 +472,13 @@
         }
         # named traction
         me.dome_S = &acgtrkS{
-            $having = &n{
+            # everything must have been given
+            $c = {el:2}
+            c.having = &n{
                 nc&S ||= S
                 return nc&S == S
             }
-            me&dome_traction,r,k,{having}
+            me&dome_traction,r,k,c
                 .map(&n{
                     #~>4 indoc: ki(n,4.23)
                 })
@@ -498,15 +500,21 @@
                 ns&el and 'where/what?'
                 (nc&recycled ? old : neu ).push(n)
             })
-            $says_drop = neu.filter(n => hak(n.sc) == 1) .length;
-            says_drop && neu.length > 1 and throw "drop + replace"
+            # everything must have been given
+            $says_drop = c.el == 2 && "el2";
+            # WEIRD drop by single %%dome
+            $d = neu.filter(n => hak(n.sc) == 1);
+            if (d.length) {
+                d.length > 1 and throw "drop+"
+                neu.length > 1 and throw "drop + replace"
+                d = d[0];
+                $says_drop = dc&drop = 'singular';
+            }
+            says_drop ||= neu.length && "neu";
+            says_drop and old.map(n => nc&drop = says_drop)
             
-            !neu.length and 'keeps them all'
-            else
-            says_drop || neu.length and old.map(n => nc&drop = 'neu')
-            
-            $hmm = (says_drop || neu.length)
-                && old.filter(n => ns&eto && ns&dome == 'v1').length
+            $hmm = says_drop && old.filter(
+                n => ns&eto && ns&dome == 'v1').length
             #hmm and ~>3 v1etore: R.t
             
             return c.having ? neu : old
