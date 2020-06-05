@@ -464,7 +464,7 @@
         # remove old one if obvious!
         me.dome_bracki = &acgtrn{
             $p = ny&up;
-            p && pc&recycled and pc&drop = 1
+            p && ny&brack == py&brack && pc&recycled and pc&drop = 'i-rec'
             else {
                 # < indexes enough to conclude that it's that
                 # if it's entirely that, intensity could increase
@@ -498,12 +498,16 @@
                 ns&el and 'where/what?'
                 (nc&recycled ? old : neu ).push(n)
             })
-            $says_drop = neu.filter(n => hak(n.sc) == 1);
-            says_drop.length && neu.length > 1 and throw "drop + replace"
+            $says_drop = neu.filter(n => hak(n.sc) == 1) .length;
+            says_drop && neu.length > 1 and throw "drop + replace"
             
             !neu.length and 'keeps them all'
             else
-            says_drop || neu.length and old.map(n => nc&drop = 1)
+            says_drop || neu.length and old.map(n => nc&drop = 'neu')
+            
+            $hmm = (says_drop || neu.length)
+                && old.filter(n => ns&eto && ns&dome == 'v1').length
+            #hmm and ~>3 v1etore: R.t
             
             return c.having ? neu : old
         }
@@ -527,8 +531,8 @@
                 !hs&from and throw "!from"
                 hs&to != s and throw "to!"
                 me&ioty,h .map(&n{
-                    # each row is mixed in, +%%efrom
-                    n = me&ha,r,n,{efrom:hs&from}
+                    # each row is mixed in +%%efrom
+                    n = me&ha,r,n,{},{efrom:hs&from}
                     # < looking at s & n should notice this link:
                     ny&efrom = fo;
                 });
@@ -898,9 +902,13 @@
             # reuses e if %%dige 
             $e = ns&e;
             !isC(e) and throw "nodei!%%eto,e"
-            # the %efrom:to,e:C:question,...answers
-            $replying = me&ja,j,{e};
-            $an = me&ja,j,ex({e},a);
+            # answer could be:
+            # %%efrom somewhere answering %%e
+            $replying = me&ja,j,{e,efrom:1};
+            # anything( somehow)? answering %%e
+            # < except $n or its recycling, which may lurk
+            #    unless nodei 'slepish let'
+            $an = hak(a) ? me&ja,j,ex({e},a) : n;
             
             if (es&done) {
                 !an and me&ha,j,{fail:'done',e}
@@ -951,6 +959,8 @@
                     # < !e%done when slightly changing
                     c.e = ey&resurected = ns&e
                 }
+                # slepish let dome_bracki individuals
+                heq(c,n.sc) and c = n
             }
             # < %Ying relays progress via %%eto?
             #    maybe if we %%uniq this it would return the recycled one

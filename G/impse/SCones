@@ -284,7 +284,7 @@ me.Sch_Comm = &acgt{ return [
                 qs&dige = dig(qs&string)
                 return
             }
-            ~>5 Aearch: Q.t, Qc&of
+            #~>5 Aearch: Q.t, Qc&of
             $s = Rs&upting(Q,r);
             $P = Qs&P;
             !P and ~>5 upting!P: Q.t
@@ -369,7 +369,11 @@ me.Sch_Comm = &acgt{ return [
             })
         });
         # click act
-        $ro = &k{ return me&rolltog,R,{k,once:1} }
+        $ro = &kc{
+            c ||= {once:1};
+            c.k = k;
+            return me&rolltog,R,c
+        }
         # t = $dome(,pe:el,e:d), c = {}|C
         # < peel here to keep word order of this call
         $ha = &tc{ me&ha,R,c,{},'dome:'+t }
@@ -418,32 +422,40 @@ me.Sch_Comm = &acgt{ return [
         # < Babz &ja:'plan to' &n{
         #   key order, implied map
         me&jaa,R,'dome:plans,plan,to,C' .map(&n{
-            $c = ns&C;
-            !cy&A and ha('todo,plan:'+ns&plan)
+            me&Jproto_done,ns&C || ha('todo',{plan:ns&plan})
+        });
+        # deduce done e from !@todo
+        me&jaa,R,'dome:plans,e' .map(&n{
+            me&jaa,R,{dome:'todo',plan:ns&plan} .length and return
+            $e = ns&e;
+            !es&done and ~>4 edone: ns&plan, e.t
+            es&done = 1;
         });
         
         me&dome_S,R,'todo','2';
         # < &stay, when ^ domes immute v
         
-        # < io plan(?^@todo) to C
-        #   little joins not in the main plumb
-        #   and relating to brack
-        $N = me&jaa,R,'dome:todo,plan';
-        $not = [];
-        each in N {
-            each il N {
-                ls&plan == ns&plan and continue
-                if (ls&plan.startsWith(ns&plan)) {
-                    ~>4 startsWith: ls&plan, ns&plan
-                    not.push(n);
-                    break
+        if (!ro('pause',{})) {
+            # repoint @now
+            # < io plan(?^@todo) to C
+            #   little joins not in the main plumb
+            #   and relating to brack
+            $N = me&jaa,R,'dome:todo,plan';
+            $not = [];
+            each in N {
+                each il N {
+                    ls&plan == ns&plan and continue
+                    if (ls&plan.startsWith(ns&plan)) {
+                        not.push(n);
+                        break
+                    }
                 }
             }
+            N = N.filter(n => !not.includes(n))
+            $D = N[0]
+            D && me&jaa,R,{dome:'plans',plan:Ds&plan,to:1,C:1}
+                .map(&t{ ha('now',t) })
         }
-        N = N.filter(n => !not.includes(n))
-        $D = N[0]
-        D && me&jaa,R,{dome:'plans',plan:Ds&plan,to:1,C:1}
-            .map(&t{ ha('now',t) })
         
      // 4 picture
         # < tell brackope about dome - more tension
@@ -467,12 +479,14 @@ me.Sch_Comm = &acgt{ return [
             })
         })
         
-        $E = me&jaa,R,'dome:now'
-        #D && me&jaa,R,{plan:Ds&plan,to:1,C:1};
-        
         me&Rsc,R,'^^Inn' .t != 'Inc' and throw "lost Inc"
     },'ift,D'],
-    
+    &{
+    me.Jproto_done = &acgts{
+        !isC(s) and throw "notC"
+        return sy&A
+    }
+    },
    // Jrunto
     # W as done by A:n (T loaded)
     ['Jrunto',0.31,&acgtRs{
@@ -535,7 +549,7 @@ me.Sch_Comm = &acgt{ return [
                 #   J:Dealap/swim%Doming/voy%W
                 #   kept/not when they are full deducted from above
                 #me&ha,R,{dome:plan,delta:Gtime(starts)}
-                ha({delta:2})
+                #ha({delta:2})
                 each in Js&N {
                     # give it the plan to make e dome
                     ha({attendo:n.t})
@@ -546,6 +560,11 @@ me.Sch_Comm = &acgt{ return [
             }
             else {
                 me&tsc,'!Ybal'
+            }
+            
+            if (me&Jproto_done,D ) {
+                er and debugger
+                # < Jproto detects es&done
             }
             
             me&nu,'C',D
