@@ -297,7 +297,6 @@ me.Sch_Comm = &acgt{ return [
         }
     },
     
-    
    // Jhost
     # W prepares to happen
     ['Jhost',0.299,&acgtRs{
@@ -347,6 +346,7 @@ me.Sch_Comm = &acgt{ return [
         !w and return
         Rs&Live = w;
     },'ift,D'],
+   
    // Jproto
     # W as planned by Matu
     ['Jproto',0.299,&acgtRs{
@@ -425,8 +425,9 @@ me.Sch_Comm = &acgt{ return [
             me&Jproto_done,ns&C || ha('todo',{plan:ns&plan})
         });
         # deduce done e from !@todo
+        #  their plan stops preceeding that of its origin
         me&jaa,R,'dome:plans,e' .map(&n{
-            me&jaa,R,{dome:'todo',plan:ns&plan} .length and return
+            me&ja,R,{dome:'todo',plan:ns&plan} and return
             $e = ns&e;
             !es&done and ~>4 edone: ns&plan, e.t
             es&done = 1;
@@ -466,16 +467,19 @@ me.Sch_Comm = &acgt{ return [
         #   any differing/meta aggreg.
         $g = me&opeolo,R,'plans';
         uniq(me&jaa,R,'dome:plans','plan' ).map(&k{
-            $bis = me&jaa,R,{dome:'plans',plan:k};
             # tabular expression?
             $gr = gy&can('w');
             $se = gry&can('c');
             $lc = sey&can('i',k)
             $le = gry&can('c');
             me&jaa,R,{dome:'plans',plan:k} .map(&n{
+                lcs&ope and ha('now',n)
+                
                 $ro = ley&can('w');
                 ros&hue = 38;
-                me&jaa,R,{dome:'now',plan:k} .length and ros&bgh = '010'
+                $active = me&ja,R,{dome:'now',plan:k};
+                active and ros&bgh = '010'
+                
                 $t = ns&C ? ns&C.t : '?'
                 $rc = roy&can('i',t)
                 !me&Jproto_done,ns&C and rcy&can('i','...')
@@ -490,6 +494,7 @@ me.Sch_Comm = &acgt{ return [
         return sy&A
     }
     },
+   
    // Jrunto
     # W as done by A:n (T loaded)
     ['Jrunto',0.31,&acgtRs{
@@ -580,7 +585,6 @@ me.Sch_Comm = &acgt{ return [
             me&ha,R,"bump";
         }
     },'ift,D'],
-        
     
    // Yingbal
     ['Yingbal',0.32,&acgtRs{
@@ -630,7 +634,6 @@ me.Sch_Comm = &acgt{ return [
     }
     
    },
-    
     
    // testmode for SummerCat|brackstable 
     ['brackstable_aware',0.33,&acgtRs{
