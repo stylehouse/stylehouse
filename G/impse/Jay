@@ -271,7 +271,9 @@ me.Yingmind ||= {};
                 delete Dc&J
             }
             # W.1
-            ah(s,'store','',me&Lineso,t,d )
+            $one = me&Lineso,t,d;
+            ah(s,'store','',one);
+            d.dige = dig(one);
             
             # < W.5, dep for a single W:of inc. w:JaBabz.
             #  < backporting JaBabz,Wud for StyleAgent?
@@ -395,95 +397,75 @@ me.Yingmind ||= {};
     #  u: @Search Talks.js
     #   < without the lookup step (you know %dige)
     me.jsso = &acgttd{
-        $functions = me&indo,t,ex({},d) (&s,d{
-            $part;
-            try {
-                part = 'scan';
-                !isC(s) and throw "Not C"
-                sc&N and throw "mightbe R"
-                part = 'clone';
-                $D = Cye(s);
-                part = 'Compress';
-                G&Compress,D;
-                Y && Ys&compLines and Ys&compLines(D,d)
-                d.compLines and d.compLines(D,d)
-                part = 'tojsfunc';
-                
-                d.tuple = [enj(D.t),enj(Dy&cv),$function,enj(D.sc)]
-            }
-            catch (er) {
-                ~enLinesR: ki(d.path,2)+"   !"+part+"! "+er
-                #me&Rec,R,'err';
-                d.toLines = "[error} "+ki(s);
-                #Rs&err = "enLinesR: "+part+": "+er;
-                #n err  $s:Rs&err
-                d.nofurther = 1
-                throw er, 'further'
-            }
-            sy&toLines = d.toLines;
-            return d.toLines
-        });
+        # have just been Lineso'd
+        $W = me&ioty,t .filter(n => nc&W == 'of');
+        !d.dige and throw "W.1 !dige"
+        $clone = &s{
+            $D = Cye(s);
+            # < do anything now?
+            G&Compress,D;
+            d.compLines and d.compLines(D,d)
+            return D
+        }
+        $shush = &s{
+            return s.replace(/\W+/g,'_')
+        }
         
-        my @W = G&op,'cW:javascript';
         # first function, on the first line, should be a toc
         # one item per line of it, including line number ranges
-        my $zI = Ds&z = []; # Is
-        my $N = []; # flat list, to include toc
-        for my $I (@W) {
-            (my $Icv = I.y.cv) =~ s/^0\.//;
-            for my $i (@{Is&z}) {
-                (my $icv = i.y.cv) =~ s/^0\.//;
-                my $name = join'_',C.t,c&ver,I.t,$Icv,i.t,$icv;
-                $name =~ s/\W+/_/g;
-                is&name = $name;
-                ic&s =~ s/^function/function $name/
-                    || die "Doesn't ^function: ".ki $s;
-                push @$N, $i;
-            }
+        # flat list, to include toc
+        $N = [];
+        each iI W {
+            $z = me&ioty,I;
+            I = W[i] = clone(I)
+            Iy&cv ||= 0.1;
+            $Icv = cvf(Iy&cv)
+            z.map(&n{
+                n = clone(n);
+                ny&cv ||= 0.1;
+                ns&name = shush([t.t,d.dige,I.t,Icv,
+                    n.t,cvf(ny&cv)].join('_'));
+                !nc&s.match(/^function/,'function '+ns&name) and throw "doesnt ^function", n
+                ac(I,'z',n);
+                N.push(n)
+            })
         }
-
-        for my $i (@$N) {
-            ic&s =~ /\n$/ || die "No trailing \\n: ".ki $i;
-            my $lines = split "\n", ic&s;
-            is&lines = $lines; # also ^function...{\n and \n}\n$
+        each in N {
+            !nc&s.match(/\n$/) and throw "No trailing \\n", n
+            ns&lines = nc&s.split("\n").length
         }
-
-        my @toc; # [ind t y c sc]+
-        for my $I (@W) {
-            (my $Icv = I.y.cv) =~ s/^0\.//;
-            push @toc, ['',I.t,I.y.cv,I.c,I.sc];
-            for my $i (@{Is&z}) {
-                push @toc, ['  ',i.t,i.y.cv,i.c,i.sc];
-            }
+        
+        # [ind t y c sc]+
+        $toc = [];
+        each iI W {
+            toc.push(['',I.t,cvf(Iy&cv),I.c,I.sc]);
+            me&ioty,I .map(&n{
+                toc.push(['  ',I.t,cvf(Iy&cv),n.c,n.sc]);
+            })
             delete Is&z;
         }
-
-        my $toc_lines = @toc + 3; # also ^function...{\n and \n}\n$
-        my $code_lines = 0;
-        for my $i (@$N) {
-            is&line = $toc_lines + $code_lines;
-            $code_lines += is&lines;
+        # also ^function...{\n and \n}\n$
+        $toc_lines = toc.length + 3; 
+        $code_lines = 0;
+        each in N {
+            ns&line = toc_lines + code_lines;
+            code_lines += ns&lines;
         }
-
-        my @codes = map { delete _c&s } @$N;
-
-        my $name = join'_', C.t, c&ver ;
-        $name =~ s/\W+/_/g;
-
-        my $cur = join'_', C.t, 'current' ;
-        $cur =~ s/\W+/_/g;
-
-        my $s = join "",
-            "function $cur () { return $name() }\n",
-            "function $name () { return [\n",
+        $codes = [];
+        each in N {
+            codes.push(nc&s);
+            delete nc&s;
+        }
+        $name = shush([t.t,d.dige].join("_"))
+        $cur = shush([t.t,'current'].join("_"))
+        return [
+            "function "+cur+" () { return "+cur+"() }\n",
+            "function "+name+" () { return [\n",
             # data and code has indent
-            (map { $_->[0].sjson($_).",\n" } @toc),
+            ... toc.map(l => l[0]+enj(l)+",\n"),
             "]}\n",
-            @codes;
-
-        c&s = $s;
-
-        # toc function C them all together
+            ... codes
+        ].join('')
     }
     me.Lineso = &acgtsd{
         return me&indo,s,ex({},d) (&s,d{
