@@ -207,12 +207,97 @@ me.Sch_Comm = &acgt{ return [
         }
         else {
             #me&bal,'Jhost','Jhost,eph'
-            me&bal,'Jproto','Jproto,eph'
-            me&bal,'Jrunto','Jrunto,eph'
+            Ry&proto = me&bal,'Jproto','Jproto,eph'
+            Ry&runto = me&bal,'Jrunto','Jrunto,eph'
         }
     },'ift,D'],
     ['sleeping+SummerCat',0.2971,&acgtRs{
         me&rollbs,R,'Inn'
+    },'ift,D'],
+    ['SummerCat',0.33,&acgtRs{
+        $rd = sy&rundone;
+        !rd and return;
+        $to = Ry&runto;
+        $tw = {};
+        each in rd {
+            # plans from Jproto
+            $D = ns&C;
+            # info from Jrunto
+            me&zaa,to,{dome:ns&plan,C:D} .map(&t{
+                $d = Cye([D.t,1]);
+                dy&t = t;
+                $prev = tw[d.t];
+                prev and prevs&notfinal = 1
+                tw[d.t] = me&bal,d,'Runthing,eph'
+            })
+        }
+    },'ift,D'],
+    
+    ['Runthing',0.297,&acgtRs{
+        me&reaw,R,'Runthing,eph';
+        $S = me&inode,R;
+        
+        Rs&notfinal and return s&bri = 0.6
+        $t = sy&t;
+        
+        $k = ts&store;
+        $n =
+        n $k  R %Pave:W,directory:SummerCat
+        ns&title = s.t;
+        k != 'W' and ns&species = k
+        
+        ss&string = tc&s;
+        ss&dige = ts&dige;
+        
+    },'ift,D'],
+    ['Runthing',0.4,&acgtRs{
+        $g = me&opeology,"Runthing",{walls:1};
+        each t,Pave Rs&Zaving {
+            $Q = Paves&Q;
+            $pa = gy&can('m',t);
+            pas&dis = 1;
+            pas&mah = 30;
+            Qc&el == 9 and me&mtsc,pa,'New!'; continue
+            !pas&ope and continue
+
+            $c = {t:t,Zif:1};
+            c.got = s;
+            c.exp = Q;
+            $di = me&Ret,R,c;
+            me&zN,di;
+            me&Ring,di,{und:di,ov:314};
+            me&zuct,pa,di;
+            each in dis&waits {
+                ac(R,'waits',n)
+            }
+            Rs&summary = dis&summary;
+          // push
+            $go = me&rolltog,R,{maydo:'Push',once:1,tsc:'B'},0;
+            # sticks on while dige same
+            go ||= me&sa,R,{Pushable:ss&dige};
+            if (go) {
+                if (!me&rollbs,R,'sent_string' ) {
+                    # Q asks
+                    each t,De tw {
+                        ~>3 push: R.t
+                        Paves&commitstring(ss&string);
+                    }
+                    Rs&sent_string = 1;
+                }
+                if (Qs&string == ss&string) {
+                    me&tsc,'pushed';
+                    # it cancels the go
+                    go = 0
+                }
+                else {
+                    $pu = me&tsc,'pushing'
+                    me.nto(R,pu,&{ 
+                        ~>3 repush: R.t
+                        delete Rs&sent_string })
+                }
+            }
+            go and me&ha,R,{Pushable:ss&dige}
+        }
     },'ift,D'],
     
    // @Aearch
@@ -466,6 +551,7 @@ me.Sch_Comm = &acgt{ return [
         # < program cursor: goto time, inc clear run into
         #   any differing/meta aggreg.
         $g = me&opeolo,R,'plans';
+        $plans = [];
         uniq(me&jaa,R,'dome:plans','plan' ).map(&k{
             # tabular expression?
             $gr = gy&can('w');
@@ -473,18 +559,29 @@ me.Sch_Comm = &acgt{ return [
             $lc = sey&can('i',k)
             $le = gry&can('c');
             me&jaa,R,{dome:'plans',plan:k} .map(&n{
+                plans.push(n)
                 lcs&ope and ha('now',n)
                 
                 $ro = ley&can('w');
                 ros&hue = 38;
-                $active = me&ja,R,{dome:'now',plan:k};
-                active and ros&bgh = '010'
+                if (me&ja,R,{dome:'now',plan:k} ) {
+                    nc&active = 1
+                    ros&bgh = '010'
+                }
                 
                 $t = ns&C ? ns&C.t : '?'
                 $rc = roy&can('i',t)
-                !me&Jproto_done,ns&C and rcy&can('i','...')
+                if (!me&Jproto_done,ns&C ) {
+                    nc&ongoing = 1
+                }
             })
         })
+        $done = plans.filter(n => !(nc&active || nc&ongoing));
+        if (plans.length && plans.length == done.length) {
+            $cl = clientc&s;
+            done = cly&rundone = done.filter(n => !ns&e);
+            me&nu,'Dones',done
+        }
         
         me&Rsc,R,'^^Inn' .t != 'Inc' and throw "lost Inc"
     },'ift,D'],
@@ -520,7 +617,7 @@ me.Sch_Comm = &acgt{ return [
             # eg to swim e:W:of:i, &nodee with %%dome:$plan
             # or anything else we unpack here
             # eg %%attendo:1s&N/n@7 waiting for ^^
-            $ha = &c{ me&ha,R,{dome:plan},{},c }
+            $ha = &c{ return me&ha,R,{dome:plan,C:D},{},c }
             $s;
             $er;
             try {
@@ -545,6 +642,7 @@ me.Sch_Comm = &acgt{ return [
             
             $Y = sy&Y;
             $bal = sy&bal;
+            $An = s;
             if (Y && bal) {
                 $J = Y.1;
                 J != Dc&J and throw "!J"
@@ -562,9 +660,21 @@ me.Sch_Comm = &acgt{ return [
                     # give it the plan to make e dome
                     ha({attendo:n.t})
                 }
+                Js&N = [];
+                
                 $hw = delete T.hwack;
                 hw and ha({Thwack:hw})
-                Js&N = [];
+                
+                # < robusticles
+                $t = Js&top;
+                me&nu,t
+                $osc = t && ty&osc;
+                $store = osc && oscs&store;
+                each ks store {
+                    # species = k || 1
+                    $v = ha({store:k,dige:dig(s)})
+                    vc&s = s;
+                }
             }
             else {
                 me&tsc,'!Ybal'
