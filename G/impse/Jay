@@ -38,32 +38,23 @@ me.Yingmind ||= {};
         ['tick',0.5,&acgtRYs,SC{
             ss&icountre ||= 0;
             ss&icountre ++;
-            #throw "Les"
             $C = s;
             s = Cc&s;
             T.nN = [];
             # A=Y must serve G&t for A.I, have 4s&globals
             Y.6 = Y.4 = A.4;
             Y.7 = A.5;
-            
             $D = Ys&Doming = me&Yingdome,R,Y,C;
-            
             $Aye = A;
             A = Y;
             1s&N = [];
-            
             if (c&J) {
                 $pin = c&W;
                 !pin and throw "huh"
                 me&way,R,pin,{J:A.1,s}
             }
-            
             A = Aye;
-            
             Dy&ending()
-            
-            # < magic
-            
         },'ift,D'],
         ['tock',0.7,&acgtRYs,SC{
             $D = Ys&Doming;
@@ -170,8 +161,9 @@ me.Yingmind ||= {};
    
    // &Yingosc
     me.Yingosc = &acgtRsD{
-        $s = me&Yong,R,s,'osc',{D:D},7;
+        $s = me&Yong,R,s,'osc',{D:D}
         me&Yingbal,'%osc',s
+        me&Yong,R,s,{},9
         return s
     }
     # < C from dome or so
@@ -215,10 +207,10 @@ me.Yingmind ||= {};
             $Yp = py&Y;
             Ypc&t != 'n' and throw "!n"
             
-            Ys&root = me&OsC,s,p,{only:1};
-            Yc&M = [Ys&root,...ss&z];
+            Ys&top = me&OsC,s,p,{only:1};
+            Yc&M = [Ys&top,...ss&z];
         },'ift,D'],
-        
+      // 6 swims
         ['o swims',0.6,&acgtRYs,SC{
             #~>4 sea: Y.t, s.t
             $C = s;
@@ -265,12 +257,33 @@ me.Yingmind ||= {};
             }
         },'ift,D,self'],
         
+      // 7 out
+        # osc/* -> top/*
         ['selfs',0.7,&acgtRYs,SC{
             # < the main thing, osc may other
-            $t = Ys&root;
+            $t = Ys&top;
             me&ioty,s .map(n => me&OsC,t,n )
+        },'ift,D,self'],
+        ['selfs',0.77,&acgtRYs,SC{
+            $t = Ys&top;
+            $d = {};
+            d.compLines = &D{
+                delete Dc&J
+            }
+            # W.1
+            ah(s,'store','',me&Lineso,t,d )
+            
+            # < W.5, dep for a single W:of inc. w:JaBabz.
+            #  < backporting JaBabz,Wud for StyleAgent?
+            
+            # W.js
+            me&ioty,t .filter(n => nc&W == 'of') .length
+                && ah(s,'store','js',me&jsso,t,d )
+            
+        },'ift,D,self'],
+        ['selfs',0.9,&acgtRYs,SC{
             # where s is this view of it and more (rolling domes)
-            ss&top = t
+            ss&top = Ys&top
         },'ift,D,self'],
         
     ]};
@@ -304,8 +317,7 @@ me.Yingmind ||= {};
         },'ift,D'],
         ['elvoy',0.21,&acgtRYs,SC{
             me&Yong,R,s,{},7;
-            # enclosing J namespace
-            # < also push Jproto a %%to?
+            # < Y.1 already, enclosing J namespace
             me.cby(s,&s{
                 sy&Y && sy&Y.1 and return Y.1 = sy&Y.1
             })
@@ -377,8 +389,44 @@ me.Yingmind ||= {};
             me&Lineso,s,d;
         },'ift,D,self'],
     ] };
+   // Storable
+    # make W.js usable for:
+    #  boot: w:Twoism loadI, page includes Hunt.js (moved out of W/)
+    #  u: @Search Talks.js
+    #   < without the lookup step (you know %dige)
+    me.jsso = &acgttd{
+        $functions = me&indo,t,ex({},d) (&s,d{
+            $part;
+            try {
+                part = 'scan';
+                !isC(s) and throw "Not C"
+                sc&N and throw "mightbe R"
+                part = 'clone';
+                $D = Cye(s);
+                part = 'Compress';
+                G&Compress,D;
+                Y && Ys&compLines and Ys&compLines(D,d)
+                d.compLines and d.compLines(D,d)
+                part = 'tojsfunc';
+                
+                d.tuple = [enj(D.t),enj(Dy&cv),$function,enj(D.sc)]
+            }
+            catch (er) {
+                ~enLinesR: ki(d.path,2)+"   !"+part+"! "+er
+                #me&Rec,R,'err';
+                d.toLines = "[error} "+ki(s);
+                #Rs&err = "enLinesR: "+part+": "+er;
+                #n err  $s:Rs&err
+                d.nofurther = 1
+                throw er, 'further'
+            }
+            sy&toLines = d.toLines;
+            return d.toLines
+        });
+        # toc function C them all together
+    }
     me.Lineso = &acgtsd{
-        return me&indo,s,d (&s,d{
+        return me&indo,s,ex({},d) (&s,d{
             $Y = sy&Y;
             $part;
             try {
@@ -387,19 +435,16 @@ me.Yingmind ||= {};
                 sc&N and throw "mightbe R"
                 part = 'clone';
                 $D = Cye(s);
-                part = 'comp';
-                # comp && comp(R,D);
-                #R.c.not and return
                 part = 'Compress';
                 G&Compress,D;
                 Y && Ys&compLines and Ys&compLines(D,d)
-                Ds&M and Ds&M = []
+                d.compLines and d.compLines(D,d)
                 part = 'toLines';
                 d.toLines = d.jsony ? enj(D) : G&toLines,D;
                 Ds&H && !d.toLines.match(/(H):(\w+)\b/) and throw "%H not so gc will see it"
             }
             catch (er) {
-                ~enLinesR: ki(d,2)+"   !"+part+"! "+er
+                ~enLinesR: ki(d.path,2)+"   !"+part+"! "+er
                 #me&Rec,R,'err';
                 d.toLines = "[error} "+ki(s);
                 #Rs&err = "enLinesR: "+part+": "+er;
