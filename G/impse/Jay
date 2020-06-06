@@ -423,6 +423,66 @@ me.Yingmind ||= {};
             sy&toLines = d.toLines;
             return d.toLines
         });
+        
+        my @W = G&op,'cW:javascript';
+        # first function, on the first line, should be a toc
+        # one item per line of it, including line number ranges
+        my $zI = Ds&z = []; # Is
+        my $N = []; # flat list, to include toc
+        for my $I (@W) {
+            (my $Icv = I.y.cv) =~ s/^0\.//;
+            for my $i (@{Is&z}) {
+                (my $icv = i.y.cv) =~ s/^0\.//;
+                my $name = join'_',C.t,c&ver,I.t,$Icv,i.t,$icv;
+                $name =~ s/\W+/_/g;
+                is&name = $name;
+                ic&s =~ s/^function/function $name/
+                    || die "Doesn't ^function: ".ki $s;
+                push @$N, $i;
+            }
+        }
+
+        for my $i (@$N) {
+            ic&s =~ /\n$/ || die "No trailing \\n: ".ki $i;
+            my $lines = split "\n", ic&s;
+            is&lines = $lines; # also ^function...{\n and \n}\n$
+        }
+
+        my @toc; # [ind t y c sc]+
+        for my $I (@W) {
+            (my $Icv = I.y.cv) =~ s/^0\.//;
+            push @toc, ['',I.t,I.y.cv,I.c,I.sc];
+            for my $i (@{Is&z}) {
+                push @toc, ['  ',i.t,i.y.cv,i.c,i.sc];
+            }
+            delete Is&z;
+        }
+
+        my $toc_lines = @toc + 3; # also ^function...{\n and \n}\n$
+        my $code_lines = 0;
+        for my $i (@$N) {
+            is&line = $toc_lines + $code_lines;
+            $code_lines += is&lines;
+        }
+
+        my @codes = map { delete _c&s } @$N;
+
+        my $name = join'_', C.t, c&ver ;
+        $name =~ s/\W+/_/g;
+
+        my $cur = join'_', C.t, 'current' ;
+        $cur =~ s/\W+/_/g;
+
+        my $s = join "",
+            "function $cur () { return $name() }\n",
+            "function $name () { return [\n",
+            # data and code has indent
+            (map { $_->[0].sjson($_).",\n" } @toc),
+            "]}\n",
+            @codes;
+
+        c&s = $s;
+
         # toc function C them all together
     }
     me.Lineso = &acgtsd{
