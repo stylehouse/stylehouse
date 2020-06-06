@@ -697,63 +697,62 @@
     # the $from<-$to
     me.settle_72_settled_up = &acgtRprs{
         $froms = sy&settlefroms;
-        if (froms) {
-            # $to:r checks itself, makes version
-            #~>3 settle_7 from: r.t
-            # everyone gets a sy&settled from &brackstable_7
-            $se = sy&settled ||= Cye([s.t,1]);
-            !(se && sey&R == r) and throw "brack version"
-            sey&settlefroms = froms;
-            $washalf = ses&halfsettled;
-            ses&halfsettled = 0;
-            ses&settled = 0;
-            
-            if (!rs&isbready) {
-                # generates %%waits, will come back
-                ~>4 set7 isntbready: r.t
-                return
-            }
-            if (!ses&brackstable) {
-                me&ha,R,{waits:'settle',wants:s,for:'onemore'}
-                ~>4 set7 onemore: r.t
-                return
-            }
-            
-            ses&halfsettled = 1;
-            
-            # nodes below are at least &halfsettled
-            # when we are them:
-            each in fromss&halfsettle_for {
-                # when we become &halfsettled
-                washalf and break
-                ~>4 set7 half aboving: n.t, '<-', s.t
-                me&ha,R,{waits:'settle',wants:n,for:'nodesabove'}
-                # < $s/$n awake at the same time is ok
-                # < that could be $n%onlyish (not $n/** again)
-            }
-            $non = me&settle_halfsettle_down,s;
-            if (non.length) {
-                ~>4 set7 half below: ki(non,4.23)
-                non.map(&n{
-                    me&ha,R,{waits:'settle',wants:n,for:'nodesbelow'}
-                })
-                return;
-            }
-            
-            ses&settled = 1;
-            # ses&current -> hs&accepted
-            # < hc&el=9
-            me&ioty,froms .map(&fo,{
-                $h = fos&settletos;
-                !hs&from and throw "nofrom"
-                hs&current = ses&current;
-                if (hs&current != hs&accepted || ses&bump) {
-                    ~>4 set7 awaits: h.t, hs&from.t
-                    me&ha,R,{waits:'settle',wants:hs&from,for:'settled'}
-                }
-            })
-            delete ses&bump
+        !froms and return
+        # $to:r checks itself, makes version
+        #~>3 settle_7 from: r.t
+        # everyone gets a sy&settled from &brackstable_7
+        $se = sy&settled ||= Cye([s.t,1]);
+        !(se && sey&R == r) and throw "brack version"
+        sey&settlefroms = froms;
+        $washalf = ses&halfsettled;
+        ses&halfsettled = 0;
+        ses&settled = 0;
+
+        if (!rs&isbready) {
+            # generates %%waits, will come back
+            ~>4 set7 isntbready: r.t
+            return
         }
+        if (!ses&brackstable) {
+            me&ha,R,{waits:'settle',wants:s,for:'onemore'}
+            ~>4 set7 onemore: r.t
+            return
+        }
+
+        ses&halfsettled = 1;
+
+        # nodes below are at least &halfsettled
+        # when we are them:
+        each in fromss&halfsettle_for {
+            # when we become &halfsettled
+            washalf and break
+            ~>4 set7 half aboving: n.t, '<-', s.t
+            me&ha,R,{waits:'settle',wants:n,for:'nodesabove'}
+            # < $s/$n awake at the same time is ok
+            # < that could be $n%onlyish (not $n/** again)
+        }
+        $non = me&settle_halfsettle_down,s;
+        if (non.length) {
+            ~>4 set7 half below: ki(non,4.23)
+            non.map(&n{
+                me&ha,R,{waits:'settle',wants:n,for:'nodesbelow'}
+            })
+            return;
+        }
+
+        ses&settled = 1;
+        # ses&current -> hs&accepted
+        # < hc&el=9
+        me&ioty,froms .map(&fo,{
+            $h = fos&settletos;
+            !hs&from and throw "nofrom"
+            hs&current = ses&current;
+            if (hs&current != hs&accepted || ses&bump) {
+                ~>4 set7 awaits: h.t, hs&from.t
+                me&ha,R,{waits:'settle',wants:hs&from,for:'settled'}
+            }
+        })
+        delete ses&bump
     }
     # checks $to/* (nodes below) are %halfsettled, returning non
     #  n may not immediately inform $to of losing it
@@ -1207,22 +1206,26 @@
         r = ry&R;
         $from = Rc&s;
         $to = rc&s;
-        # log it, so Ying_8 can transport-think
+        # log it, via &settle_6|8 + Ying to transport
         !me&ja,R,{settle:to} and me&ha,R,{settle:to}
+        # < that and this still working if sleeping
+        $comeback = &t{
+            me&ha,R,{waits:'settle',wants:to,for:'settled-'+t}
+        }
         # is figured at Doming_7, once est.
         $se = toy&settled;
         $settled = se && ses&settled;
-            # check these two loose-able aspects:
-        if (settled && !me&node_issleeping,R,r) {
-            ~>7 settled!sleeping: r.t
-            return 1
-        }
-        if (settled && me&settle_halfsettle_down,to .length) {
-            ~>7 settled!down: r.t
-            return 1
         
-        }
         !settled and return 'not settled'
+        
+        # check these two loose-able aspects:
+        !me&node_issleeping,R,r and comeback('!sleeping')
+        else
+        me&settle_halfsettle_down,to .length and comeback('!down')
+        else {
+            return 0
+        }
+        return 'not settled'
     }
     # settle all previous siblings
     # for 3 &settle 2,1, for lack of:
@@ -1254,6 +1257,10 @@
         me.acting = &acgtRt{
             t ||= T.act.t;
             $ope = me&rolltog,R,{may:t,tsc:'l',acty:8};
+            
+            
+            
+            
             return ope
         };
         
