@@ -1,4 +1,4 @@
-# Flanges!!!
+# Flanges!
 
 me.SCones = &acgt{ return [
     # vast oldness, Peace
@@ -207,72 +207,70 @@ me.Sch_Comm = &acgt{ return [
         }
         else {
             #me&bal,'Jhost','Jhost,eph'
-            Ry&proto = me&bal,'Jproto','Jproto,eph'
-            Ry&runto = me&bal,'Jrunto','Jrunto,eph'
+            me&bal,'Jproto','Jproto,eph'
+            me&bal,'Jrunto','Jrunto,eph'
+            me&bal,'Jfin','Jfin,eph'
         }
     },'ift,D'],
     ['sleeping+SummerCat',0.2971,&acgtRs{
         me&rollbs,R,'Inn'
     },'ift,D'],
-    ['SummerCat',0.33,&acgtRs{
-        $rd = sy&rundone;
-        !rd and return;
-        $to = Ry&runto;
-        $tw = {};
-        each in rd {
-            # plans from Jproto
-            $D = ns&C;
-            # info from Jrunto
-            # < sort by plan
-            me&zaa,to,{dome:ns&plan,C:D,store:1} .map(&t{
-                $d = Cye([D.t,1]);
-                dy&t = t;
-                $name = D.t+'.'+ts&store;
-                $prev = tw[name];
-                prev and prevs&notfinal = 1
-                tw[name] = me&bal,name,d,'Runthing,eph'
-            })
-        }
+   // Jfin
+    ['Jfin',0.297,&acgtRs{
+        me&reaw,R,'Jfin,eph';
+        $S = me&inode,R;
+        ah(R,'inheritscif','ball','Runthing',1);
     },'ift,D'],
-    
     ['Runthing',0.297,&acgtRs{
         me&reaw,R,'Runthing,eph';
         $S = me&inode,R;
         
         Rs&notfinal and return s&bri = 0.6
         $t = sy&t;
-        
+        !t and return me&tsc,'!yt'
+        $D = ts&C;
         $k = ts&store;
         $n =
         n $k  R %Pave:W,directory:SummerCat
-        ns&title = s.t;
+        ns&title = D.t;
         k != 'W' and ns&species = k
         
-        ss&string = tc&s;
         ss&dige = ts&dige;
         
+        $D = ts&C;
+        $J = Dc&J;
+        $t = Js&top;
+        $osc = t && ty&osc;
+        $store = osc && oscs&store;
+        $string = store[k];
+        ss&string = store[k];
+        dig(ss&string) != ss&dige and me&tsc,"thestring",'','b'
+        
     },'ift,D'],
-    ['Runthing',0.4,&acgtRs{
-        $g = me&opeology,"Runthing",{walls:1};
+    ['Runthing',0.46,&acgtRs{
+        $g = me&opeolo,"Runthing",{walls:1};
         each t,Pave Rs&Zaving {
+            Paves&waits and return me&waits,'Pave...'
             $Q = Paves&Q;
             $pa = gy&can('m',t);
-            pas&dis = 1;
             pas&mah = 30;
-            Qc&el == 9 and me&mtsc,pa,'New!'; continue
-            !pas&ope and continue
-
-            $c = {t:t,Zif:1};
-            c.got = s;
-            c.exp = Q;
-            $di = me&Ret,R,c;
-            me&zN,di;
-            me&Ring,di,{und:di,ov:314};
-            me&zuct,pa,di;
-            each in dis&waits {
-                ac(R,'waits',n)
+            #!pas&ope and continue
+            
+            Qc&el == 9 and me&mtsc,pa,'New!'
+            else {
+                $c = {t:t,Zif:1};
+                c.got = s;
+                c.exp = Qs&P;
+                $di = me&Ret,R,c;
+                me&zN,di;
+                me&Ring,di,{und:di,ov:314};
+                me&zuct,pa,di;
+                pas&dis = 1;
+                each in dis&waits {
+                    ac(R,'waits',n)
+                }
+                Rs&summary = dis&summary;
             }
-            Rs&summary = dis&summary;
           // push
             $go = me&rolltog,R,{maydo:'Push',once:1,tsc:'B'},0;
             # sticks on while dige same
@@ -280,10 +278,8 @@ me.Sch_Comm = &acgt{ return [
             if (go) {
                 if (!me&rollbs,R,'sent_string' ) {
                     # Q asks
-                    each t,De tw {
-                        ~>3 push: R.t
-                        Paves&commitstring(ss&string);
-                    }
+                    ~>3 push: R.t
+                    Paves&commitstring(ss&string);
                     Rs&sent_string = 1;
                 }
                 if (Qs&string == ss&string) {
@@ -362,7 +358,7 @@ me.Sch_Comm = &acgt{ return [
         me.Aearch_ting = &acgtRQr{
             !isC(Q) and throw "ting !C"
             
-            if (Qc&of != 'JaBabz' && Qs&string) {
+            if (0 && Qc&of != 'JaBabz' && Qs&string) {
                 $q = Rs&Pio.what('Out',Q);
                 q ||= Cye(Q);
                 Rs&Pio.is('Out',q);
@@ -442,6 +438,8 @@ me.Sch_Comm = &acgt{ return [
         $S = me&inode,R;
         $client = me.cbu(R,'SummerCat');
         !client and throw "!client"
+        $runto = me&ioty,Ry&up,'','Jrunto' [0];
+        $fin = me&ioty,Ry&up,'','Jfin' [0];
         
         # %Jhost prepares &t
         me&settle_prev,R and return
@@ -473,7 +471,7 @@ me.Sch_Comm = &acgt{ return [
         ro('4') and me&rolled,R,'four'
         # < ability to reset history, inc sy&things
         if (ro('!')) {
-            [R,me&ioty,Ry&up,'','Jrunto' [0]] .map(&r{
+            [R,runto] .map(&r{
                 delete rs&wou_accepted;
                 rs&wou.sc = {}
             })
@@ -580,9 +578,20 @@ me.Sch_Comm = &acgt{ return [
         })
         $done = plans.filter(n => !(nc&active || nc&ongoing));
         if (plans.length && plans.length == done.length) {
-            $cl = clientc&s;
-            done = cly&rundone = done.filter(n => !ns&e);
-            me&nu,'Dones',done
+            each in done {
+                ns&e and continue
+                # plans from Jproto
+                $D = ns&C;
+                # info from Jrunto
+                # < sort by plan
+                me&zaa,runto,{dome:ns&plan,C:D,store:1} .map(&t{
+                    $name = D.t+'.'+ts&store;
+                    $r = me&input,fin,name;
+                    $z = rc&s;
+                    zy&t = t;
+                    me&nu,'Done:'+name,t
+                })
+            }
         }
         
         me&Rsc,R,'^^Inn' .t != 'Inc' and throw "lost Inc"
@@ -670,13 +679,13 @@ me.Sch_Comm = &acgt{ return [
                 
                 # < robusticles
                 $t = Js&top;
-                me&nu,t
                 $osc = t && ty&osc;
                 $store = osc && oscs&store;
                 each ks store {
                     # species = k || 1
                     $v = ha({store:k,dige:dig(s)})
-                    vc&s = s;
+                    # < recycle c?
+                    #vc&s = s;
                 }
             }
             else {
@@ -687,9 +696,6 @@ me.Sch_Comm = &acgt{ return [
                 er and me&tsc,'late-errors','','b'
                 # < Jproto detects es&done
             }
-            
-            me&nu,'C',D
-            me&nu,'to',to
             er &&
                 n error  $s:er,R %Error
         })

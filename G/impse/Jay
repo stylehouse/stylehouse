@@ -430,7 +430,8 @@ me.Yingmind ||= {};
                 ny&cv ||= 0.1;
                 ns&name = shush([t.t,d.dige,I.t,Icv,
                     n.t,cvf(ny&cv)].join('_'));
-                !nc&s.match(/^function/,'function '+ns&name) and throw "doesnt ^function", n
+                !nc&s.match(/^function/) and throw "doesnt ^function", n
+                nc&s = nc&s.replace(/^function/,'function '+ns&name)
                 ac(I,'z',n);
                 N.push(n)
             })
@@ -464,7 +465,7 @@ me.Yingmind ||= {};
         $name = shush([t.t,d.dige].join("_"))
         $cur = shush([t.t,'current'].join("_"))
         return [
-            "function "+cur+" () { return "+cur+"() }\n",
+            "function "+cur+" () { return "+name+"() }\n",
             "function "+name+" () { return [\n",
             # data and code has indent
             ... toc.map(l => l[0]+enj(l)+",\n"),
