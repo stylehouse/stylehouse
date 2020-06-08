@@ -873,7 +873,12 @@ any '/W/*W' => sub { my ($c) = @_;
             my $new = !-f $f;
             $s = "$s\n" if $s !~ /\n$/;
             
-            write_file("$f\.1",encode_utf8($s));
+            my $enc = encode_utf8($s);
+            write_file("$f\.1",$enc);
+            my $writ = -s "$f\.1";
+            return $error->($c,"failed to write $f\.1 (journal):"
+                ." length $writ != ".length($enc))
+                if $writ != length $enc;
             `mv $f\.1 $f`;
             
             # the .5 may be in the same request
