@@ -176,31 +176,34 @@ websocket '/digwaypoll' => &s{
 };
 
 #c /W/
-my $error = &s{
+# ~ get/put
+my $error = &cs{
     $c->render(text => sjson({er=>$s}), status => 500);
-}
-my $char_safety = &t{
-    return $error->("illegal t[".pos()."] char: $1 in '$t'")
-        if $t =~ /([^\w\/-]+)/
+};
+my $char_safety = &ct{
+    return $error->($c,"illegal t[".pos()."] char: $1 in '$t'")
+        if $t =~ /([^\w\/-]+)/;
     return 0
-}
+};
 # comes in /js/$t.$version.js, code separated from W
 any '/js/*W' => &c{
     my $t = $c->param('W');
     my $version = $1 if $t =~ s/\.(\w+)\.js$//;
-    return $error->("Know version") unless $version;
-    return if $char_safety->($t);
+    return $error->($c,"Know version") unless $version;
+    return if $char_safety->($c,$t);
     $t = "W/$t";
     # must match the .1 dige
     # < using the smaller .5, .2 to know that
     my $f = "$t/1";
+    my $cache = G.Wache ||= {};
     if ($cache->{$f} ne $version) {
-        return $error->("No 1: $f") unless -f $f;
+        return $error->($c,"No 1: $f") unless -f $f;
         my $is = $cache->{$f} = dige(decode_utf8(read_file($f)));
-        return $error->("dige mismatch: is $is") unless $is == $version;
+        return $error->($c,"dige mismatch: is $is")
+            unless $is eq $version;
     }
     $f = "$t/1.js";
-    return $error->("No js: $f") unless -f $f;
+    return $error->($c,"No js: $f") unless -f $f;
     $c->render(text => decode_utf8(read_file($f)) );
 };
 any '/W/*W' => &c{
@@ -212,7 +215,7 @@ any '/W/*W' => &c{
     # read t, write if s
     # all there
     $t = "W/$t";
-    return if $char_safety->($t);
+    return if $char_safety->($c,$t);
     
     # and you can't use the name 1 etc
     $t =~ s/\/(\d)$//;

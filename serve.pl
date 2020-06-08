@@ -799,6 +799,36 @@ websocket '/digwaypoll' => sub { my ($s) = @_;
 };
 
 #c /W/
+# ~ get/put
+my $error = sub { my ($c,$s) = @_;
+    $c->render(text => sjson({er=>$s}), status => 500);
+};
+my $char_safety = sub { my ($c,$t) = @_;
+    return $error->($c,"illegal t[".pos()."] char: $1 in '$t'")
+        if $t =~ /([^\w\/-]+)/;
+    return 0
+};
+# comes in /js/$t.$$version->{js}, code separated from W
+any '/js/*W' => sub { my ($c) = @_;
+    my $t = $c->param('W');
+    my $version = $1 if $t =~ s/\.(\w+)\.js$//;
+    return $error->($c,"Know version") unless $version;
+    return if $char_safety->($c,$t);
+    $t = "W/$t";
+    # must match the .1 dige
+    # < using the smaller .5, .2 to know that
+    my $f = "$t/1";
+    my $cache = $G->{Wache} ||= {};
+    if ($cache->{$f} ne $version) {
+        return $error->($c,"No 1: $f") unless -f $f;
+        my $is = $cache->{$f} = dige(decode_utf8(read_file($f)));
+        return $error->($c,"dige mismatch: is $is")
+            unless $is eq $version;
+    }
+    $f = "$t/1.js";
+    return $error->($c,"No js: $f") unless -f $f;
+    $c->render(text => decode_utf8(read_file($f)) );
+};
 any '/W/*W' => sub { my ($c) = @_;
     my $t = $c->param('W');
     my $s = $c->param('s');
@@ -808,14 +838,15 @@ any '/W/*W' => sub { my ($c) = @_;
     # read t, write if s
     # all there
     $t = "W/$t";
-    # char safety
-    $t =~ /([^\w\/-]+)/ && return
-        $c->render(text=>sjson(
-            {er=>"illegal t[".pos()."] char: $1 in '$t'"}
-        ));
+    return if $char_safety->($c,$t);
+    
     # and you can't use the name 1 etc
     $t =~ s/\/(\d)$//;
-    my $species = $1 || '1';
+    my $species = $1 || $c->param('species') || '1';
+    # may be in t for unique of+t amongst @Search
+    $t =~ s/\/$species$//;
+    
+    $species = "1.".$species if $species =~ /\D/;
     my $f = "$t/$species";
     
     # returns json:
