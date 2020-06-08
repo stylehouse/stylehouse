@@ -3673,6 +3673,11 @@ me.Tingingness = &acgtR{ return [
                     Pc&args = Cc&args;
                     !c&args and throw "of:"+c&of+" args required"
                 }
+                if (c&species) {
+                    # unique of/t must include species
+                    !C.t.endsWith('/'+c&species) and throw "t/!species"
+                    Pc&species = c&species
+                }
                 Pio.is('In',P);
                 Ps&Want_Check = 1;
             }
@@ -4161,6 +4166,8 @@ me.Tingingness = &acgtR{ return [
                 Ps&Want_Decode = 'C';
             }
         }
+        # < universal string -> C is Lines (esp if tabby),
+        #   Cye(dej( where ^[\{\[]
         Rs&Decode.C = &PCW{
             return W
         }
@@ -4184,6 +4191,10 @@ me.Tingingness = &acgtR{ return [
                 d.have = haks(haves).join("\t")
             
             c&gitmv and d.gitmv = c&gitmv
+            if (c&species) {
+                d.species = c&species;
+                T.Want_Decode = 'string'
+            }
             
             # the first "can you hold on to..."
             if (is_write) {

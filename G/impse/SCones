@@ -223,12 +223,14 @@ me.Sch_Comm = &acgt{ return [
             # plans from Jproto
             $D = ns&C;
             # info from Jrunto
-            me&zaa,to,{dome:ns&plan,C:D} .map(&t{
+            # < sort by plan
+            me&zaa,to,{dome:ns&plan,C:D,store:1} .map(&t{
                 $d = Cye([D.t,1]);
                 dy&t = t;
-                $prev = tw[d.t];
+                $name = D.t+'.'+ts&store;
+                $prev = tw[name];
                 prev and prevs&notfinal = 1
-                tw[d.t] = me&bal,d,'Runthing,eph'
+                tw[name] = me&bal,name,d,'Runthing,eph'
             })
         }
     },'ift,D'],
@@ -586,6 +588,7 @@ me.Sch_Comm = &acgt{ return [
         me&Rsc,R,'^^Inn' .t != 'Inc' and throw "lost Inc"
     },'ift,D'],
     &{
+    # only if n@7 && osc@9
     me.Jproto_done = &acgts{
         !isC(s) and throw "notC"
         return sy&A

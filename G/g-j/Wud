@@ -214,10 +214,13 @@ any '/W/*W' => &c{
     $t = "W/$t";
     return if $char_safety->($t);
     
-    return ;
     # and you can't use the name 1 etc
     $t =~ s/\/(\d)$//;
     my $species = $1 || $c->param('species') || '1';
+    # may be in t for unique of+t amongst @Search
+    $t =~ s/\/$species$//;
+    
+    $species = "1.".$species if $species =~ /\D/;
     my $f = "$t/$species";
     
     # returns json:
