@@ -480,6 +480,7 @@ me.Sch_Comm = &acgt{ return [
         
      // 2 plans
         $four = me&rollbsc,R,'four';
+        
         # < previous thinking as %term'd into runs
         me&zaa,R,'dome:plans,plan,to,C' .map(&n{
             # %%plan,e,C come from the %%eto again
@@ -490,10 +491,20 @@ me.Sch_Comm = &acgt{ return [
             ha('plans,plan:v1',{to:four, C:Cye([client.t])})
         
         # %%plan,e,C come from the %%eto
+        $washad = {};
         me&zaa,R,{eto:s,dome:1,e:1} .map(&n{
             $e = ns&e;
             each iD es&z {
                 !Dc&W and throw "e/!W"
+                
+                $name = e.t+'/'+D.t;
+                washad[name] ||= 0;
+                # < fix sometimes dupe %%eto (in Jrunto)
+                if (washad[name]++) {
+                    me&tsc,"Doubling:"+e.t+'/'+D.t .sc.dis = 1;
+                    continue
+                }
+                
                 ha('plans',{e,plan:ns&dome+'-e',to:four,C:D})
             }
         })
@@ -507,10 +518,10 @@ me.Sch_Comm = &acgt{ return [
         # < Babz &ja:'plan to' &n{
         #   key order, implied map
         me&jaa,R,'dome:plans,plan,to,C' .map(&n{
-            me&Jproto_done,ns&C || ha('todo',{plan:ns&plan})
+            me&Jproto_done,ns&C and return
+            ha('todo',{plan:ns&plan})
         });
         # deduce done e from !@todo
-        #  their plan stops preceeding that of its origin
         me&jaa,R,'dome:plans,e' .map(&n{
             me&ja,R,{dome:'todo',plan:ns&plan} and return
             $e = ns&e;
@@ -539,11 +550,18 @@ me.Sch_Comm = &acgt{ return [
             }
             N = N.filter(n => !not.includes(n))
             $D = N[0]
+            $tw = {};
             D && me&jaa,R,{dome:'plans',plan:Ds&plan,to:1,C:1}
-                .map(&t{ ha('now',t) })
-        }
+            .map(&t{ 
+                $uniquely = ts&plan+'/'+ts&C.t;
+                tw[uniquely] and throw "now_dup: "+uniquely
+                tw[uniquely] = 1
+                
+                ha('now',t)
+            })
         
-        me&dome_S,R,'now','3';
+            me&dome_S,R,'now','3';
+        }
         
      // 4 picture
         # < tell brackope about dome - more tension
@@ -606,10 +624,11 @@ me.Sch_Comm = &acgt{ return [
    
    // Jrunto
     # W as done by A:n (T loaded)
-    ['Jrunto',0.31,&acgtRs{
+    ['Jrunto',0.298,&acgtRs{
         me&reaw,R,'Jrunto,eph';
         $S = me&inode,R;
-        
+    },'ift,D'],
+    ['Jrunto',0.31,&acgtRs{
         # %Jproto prepares run
         me&settle_prev,R and return
         
@@ -617,10 +636,15 @@ me.Sch_Comm = &acgt{ return [
         !p and return me&waits,"Nop"
         
         !ps&wou and me&tsc,"Nowou"
+        $tw = {};
+        $plans = {};
         me&zaa,p,'dome:now' .map(&E{
             $D = Es&C;
+            tw[D.t] and throw "Already "+D.t
+            tw[D.t] = 1;
             $to = Es&to;
             $plan = Es&plan;
+            plans[plan] = 1;
             $b = Dy&Y;
             $starts = Gtime();
             # outputs of each $plan, uniquely named
@@ -631,7 +655,7 @@ me.Sch_Comm = &acgt{ return [
             # eg %%attendo:1s&N/n@7 waiting for ^^
             $ha = &c{ return me&ha,R,{dome:plan,C:D},{},c }
             $s;
-            $er;
+            $er = null;
             try {
                 s = me&Yong,R,D,'n',{to,plan},1;
                 s = me&Yong,R,s,{},9;
@@ -696,9 +720,15 @@ me.Sch_Comm = &acgt{ return [
                 er and me&tsc,'late-errors','','b'
                 # < Jproto detects es&done
             }
+            er and me&tsc,"ERor:"+erc&s,'','b' .sc.dis = 1;
             er &&
                 n error  $s:er,R %Error
+            
         })
+        each ti plans {
+            # for %%dome=$plan
+            me&dome_traction,R,t,{el:2};
+        }
         
         if (me&rolltog,R,{k:'T',once:1}) {
             me&ha,R,"bump";
