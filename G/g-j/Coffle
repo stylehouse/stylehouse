@@ -3522,7 +3522,7 @@ me.applyRbitX = &acgtR{
 # keeps history of unhad children
 #  and adds them to Rs&z
 # they may still arrive: unrecycle
-me.recycleRbitXz = &acgtR{
+me.recycleRbitXz = &acgtRc{
     $b = Rc&b;
     !b and throw "recycle !hist"
     Rc&X.recycled and return
@@ -3549,6 +3549,7 @@ me.recycleRbitXz = &acgtR{
         $ni = avoid.indexOf(n);
         ni >= 0 and ~>5 Ret-before-recycle: R.t, n.t
         ni >= 0 and continue
+        c && c.where && !c.where(n) and continue
         ac(R,'z',n);
     }
 };
