@@ -609,10 +609,15 @@ me.Sch_Comm = &acgt{ return [
             each in done {
                 ns&e and continue
                 # plans from Jproto
-                $D = ns&C;
-                # info from Jrunto
                 # < sort by plan
+                $D = ns&C;
                 $Ste = Cye([D.t,7]);
+                
+                # make n/u Ghosts, %Search comptible
+                
+                # n
+                # %%store,dige,string from %Jrunto
+                $Sten = me&fiu,Ste,'n'
                 me&zaa,xc&Jrunto,{dome:ns&plan,C:D,store:1} .map(&t{
                     !ts&dige and throw "store!dige"
                     
@@ -620,9 +625,9 @@ me.Sch_Comm = &acgt{ return [
                     # < link $is <-> $r
                     $is = ny&khas('o','store',t);
                     
+                    $name = D.t+'.'+ts&store;
                     if (xc&Jfin) {
                         # without Travel, each thing ~%Zave
-                        $name = D.t+'.'+ts&store;
                         $r = me&input,xc&Jfin,name;
                         $z = rc&s;
                         zy&t = t;
@@ -630,13 +635,22 @@ me.Sch_Comm = &acgt{ return [
                         !rc&b and me&Yingwant,R,xs&Jfin,{name,becomes:"done"}
                     }
                     else {
-                        $Sten = me&fiu,Ste,'n'
-                        ac(Sten,'z',t);
+                        ac(Sten,'digebits',name+':'+ts&dige)
+                        $SteW = me&fiu,Sten,'W';
+                        $title = D.t;
+                        # becomes like Qc&species in Pave 291
+                        ts&store != 'W' and title += "/"+ts&store
+                        # convert %%store to 5ish
+                        $W = me&fiu,SteW,title;
+                        Ws&dige = ts&dige;
+                        Ws&string = ts&string;
+                        # < Inc...W.js should be there
+                        # < Inc...$W/$js, $W dige covers it?
                     }
                 })
                 xc&Jfin and continue
                 
-                
+                # u
                 $Steu = me&fiu,Ste,'u';
                 $Inc = xc&Inc;
                 !Incs&Ghost and throw "!uR"
@@ -649,27 +663,28 @@ me.Sch_Comm = &acgt{ return [
                     # < P/**, fragments, point range
                     d < 4 || me&ioty,s .length and return
                     # of..t
-                    $N = me.cby(d,&d{ return d.d == 3 })
-                        .map(d => d.s);
-                    $u = Steu;
+                    # < put args under t, compres further?
+                    $N = me.cby(d,&d{ return d.d == 3 }).map(d => d.s)
+                    $eu = Steu;
                     each in N {
-                        
+                        eu = me&fiu,eu,n.t
                         i < N.length-1 and continue
+                        !ns&dige and throw "u!%dige"
+                        eus&dige = ns&dige;
                     }
-                    
-                    #me&zu,"D:"+s.t,d
-                    me&zu,"N:"+s.t,N
-                    me&tsc,"Ata:"+d.d+"_"+s.t .sc.dis = 1;
+                    # < when only args changey
+                    ac(Steu,'digebits',eu.t+':'+eus&dige)
+                    #me&zu,"eu:"+s.t,eu
+                    #me&tsc,"Ata:"+d.d+"_"+s.t .sc.dis = 1;
                 });
 
-                
                 $q = {};
                 q.dome = ns&plan+'-fin'
-                # e slepable by the rows of %%store
-                q.dige = dig( me&ioty,Ste
-                    .map(t => ts&store+':'+ts&dige)
-                    .join(',') );
-                me&nodee,R,xc&Travel,Ste,{},q
+                # e slepable by the rows of %%store + Inc..P%dige
+                q.dige = dig( me&ioty,Ste,'digebits'
+                    .map(n => ns&digebits.join(',') ).join(' ') )
+                me&nodee,R,xc&Travel,Ste,{},q;
+                #me&nu,"Sten",Sten
             }
         }
         
@@ -820,7 +835,7 @@ me.Sch_Comm = &acgt{ return [
                 $store = osc && oscs&store;
                 each ks store {
                     # species = k || 1
-                    $v = ha({store:k,dige:dig(s)})
+                    $v = ha({store:k,dige:dig(s),string:s})
                     # < recycle c?
                     #vc&s = s;
                 }
@@ -1353,6 +1368,12 @@ me.Sch_Comm = &acgt{ return [
         };
         me&ha,R,"Travels,to:Morrocco";
         
+        # forwards finisheds it to worriment device
+        # 
+        me&jaa,R,"e" .map(&n{
+            $e = ns&e;
+            me&bal,"Re:"+e.t,e,'MayGhost,eph'
+        })
         
         return;
         me&ha,R,"Travels,to:everywhere",{R};
@@ -1387,6 +1408,17 @@ me.Sch_Comm = &acgt{ return [
             q.raga = ns&pat.split('').join('_');
             me&nodei,R,ns&efrom,q
         })
+    },'ift,D'],
+    ['MayGhost','298',&acgtRs{
+        me&reaw,R,'MayGhost,eph';
+        $l = me.cby(R,'^^Travel').length;
+        if (0) {
+            # < Babz: //= # !null-or
+            Rs&boost == null and Rs&boost = -1
+        }
+        ac(R,'inheritsc','MayGhost')
+        l <3 and return
+        (Rs&boost||0) < 0 and Rs&thiding = me&ioty,s .map(z=>z.t)
     },'ift,D'],
 ]};
 me.Sch_Constel = &acgt{ return [
