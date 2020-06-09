@@ -306,10 +306,13 @@ me.Sch_Comm = &acgt{ return [
     ['AearchGhost','298',&acgtRs{
         me&reaw,R,'AearchGhost,eph';
         $l = me.cby(R,'^^Aearch').length;
-        l == 2 && Rs&icount < 2 and Rs&boost ||= -1
-        l == 4 && R.t == 'JaBabz' and Rs&boost ||= -1
-        #l == 2 and Rs&boost ||= -1
+        if (l == 2 && Rs&icount < 2 ||
+            l == 4 && R.t == 'JaBabz') {
+            # < Babz: //= # !null-or
+            Rs&boost == null and Rs&boost = -1
+        }
         ac(R,'inheritsc','AearchGhost')
+        (Rs&boost||0) < 0 and Rs&thiding = me&ioty,s .map(z=>z.t)
     },'ift,D'],
     ['Aearch','298',&acgtRs{
         me&reaw,R,'Aearch,_ting';
@@ -589,12 +592,15 @@ me.Sch_Comm = &acgt{ return [
                 plans.push(n)
                 lcs&ope and ha('now',n)
                 
-                $ro = ley&can('w');
+                $ro = ny&ro = ley&can('w');
                 ros&hue = 38;
                 if (me&ja,R,{dome:'now',plan:k} ) {
                     nc&active = 1
                     ros&bgh = '010'
                 }
+                
+                # looks like plan/$t%output%trips
+                # < table of trips through Jrunto
                 
                 $t = ns&C ? ns&C.t : '?'
                 $rc = roy&can('i',t)
@@ -612,11 +618,16 @@ me.Sch_Comm = &acgt{ return [
                 # info from Jrunto
                 # < sort by plan
                 me&zaa,runto,{dome:ns&plan,C:D,store:1} .map(&t{
+                    # plan/$t%output
+                    $ro = ny&ro;
+                    $st = roy&output ||= roy&can('m','o');
+                    #.sc.bri = 2;
+                    $is = sty&can('i',ts&store);
+                    # < link $is <-> $r
                     $name = D.t+'.'+ts&store;
                     $r = me&input,fin,name;
                     $z = rc&s;
                     zy&t = t;
-                    me&nu,'Done:'+name,t
                     # < never happens?
                     !rc&b and me&Yingwant,R,finc&s,{name,becomes:"done"}
                 })
@@ -810,7 +821,7 @@ me.Sch_Comm = &acgt{ return [
         sy&R and return
         #$S = me&inode,R;
     },'ift,D'],
-    ['Yingbal+thiding',0.33,&acgtRs{
+    ['ball+thiding',0.33,&acgtRs{
         $n = me&tsc,"more","<";
         me&mtsc,n,'count',Rs&thiding.length,'y' .sc.ma = 0.4
         me&mtsc,n,'titles',ki(Rs&thiding,2),'g' .sc.fs = 8;
