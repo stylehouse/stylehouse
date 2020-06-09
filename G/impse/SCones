@@ -642,6 +642,7 @@ me.Sch_Comm = &acgt{ return [
         $S = me&inode,R;
     },'ift,D'],
     ['Jrunto',0.31,&acgtRs{
+     // 1
         # %Jproto prepares run
         me&settle_prev,R and return
         
@@ -678,6 +679,7 @@ me.Sch_Comm = &acgt{ return [
                 er = me&Yingerr,R,e,plan;
             }
 
+     // 2 observe
             $Y = sy&Y;
             $bal = sy&bal;
             $An = s;
@@ -722,12 +724,15 @@ me.Sch_Comm = &acgt{ return [
                 me&tsc,'!Ybal'
             }
             
+     // 3 respond
+            # < Y:n<9 should keep trying
             if (me&Jproto_done,D ) {
                 er and me&tsc,'late-errors','','b'
                 ha('done');
                 !sa('done') and ~>6 Done jrun: plan
                 !sa('done') and me&Yingwant,R,pc&s,{becomes:"done"}
             }
+            # ofing code reliably throws async when not finished
             if (er) {
                 $msg = erc&s;
                 if (ers&async) {
@@ -737,8 +742,8 @@ me.Sch_Comm = &acgt{ return [
                     # < Jrunto 8, after Doming_7:
                     # R%brackstable isn't computed yet,
                     #  use b, check msg to be surer.
-                    !me&ollbs,R,'brackstable'
-                        && sa({async:msg})
+                    !(me&ollbs,R,'brackstable'
+                        && sa({async:msg}))
                         && ha('waits:async')
                 }
                 else {
@@ -795,6 +800,7 @@ me.Sch_Comm = &acgt{ return [
     ['Runthing',0.297,&acgtRs{
         me&reaw,R,'Runthing,eph';
         $S = me&inode,R;
+        me&settle_prev,R and return
         
         Rs&notfinal and return s&bri = 0.6
         $t = sy&t;
