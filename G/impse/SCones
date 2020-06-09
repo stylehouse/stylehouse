@@ -437,10 +437,7 @@ me.Sch_Comm = &acgt{ return [
      // 1
         me&reaw,R,'Jproto,eph';
         $S = me&inode,R;
-        $client = me.cbu(R,'SummerCat');
-        !client and throw "!client"
-        $runto = me&ioty,Ry&up,'','Jrunto' [0];
-        $fin = me&ioty,Ry&up,'','Jfin' [0];
+        $x = me&Jx,R;
         
         # %Jhost prepares &t
         me&settle_prev,R and return
@@ -473,7 +470,7 @@ me.Sch_Comm = &acgt{ return [
         ro('4') and me&rolled,R,'four'
         # < ability to reset history, inc sy&things
         if (ro('!')) {
-            [R,runto] .map(&r{
+            [R,xc&Jrunto] .map(&r{
                 delete rs&wou_accepted;
                 rs&wou.sc = {}
             })
@@ -482,6 +479,7 @@ me.Sch_Comm = &acgt{ return [
         
      // 2 plans
         $four = me&rollbsc,R,'four';
+        $the = xs&client;
         
         # < previous thinking as %term'd into runs
         me&zaa,R,'dome:plans,plan,to,C' .map(&n{
@@ -490,7 +488,7 @@ me.Sch_Comm = &acgt{ return [
             # n may be forgot due to errors
             ha('plans',n)
         }) .length ||
-            ha('plans,plan:v1',{to:four, C:Cye([client.t])})
+            ha('plans,plan:v1',{to:four, C:Cye([the.t])})
         
         # %%plan,e,C come from the %%eto
         $washad = {};
@@ -607,34 +605,82 @@ me.Sch_Comm = &acgt{ return [
                 $D = ns&C;
                 # info from Jrunto
                 # < sort by plan
-                me&zaa,runto,{dome:ns&plan,C:D,store:1} .map(&t{
+                me&zaa,xc&Jrunto,{dome:ns&plan,C:D,store:1} .map(&t{
                     # plan/$t%output
                     $ro = ny&ro;
                     $st = roy&output ||= roy&can('m','o');
                     #.sc.bri = 2;
                     $is = sty&can('i',ts&store);
                     # < link $is <-> $r
+                    
+                    # send output somewhere
                     $name = D.t+'.'+ts&store;
-                    $r = me&input,fin,name;
+                    $r = me&input,xc&Jfin,name;
                     $z = rc&s;
                     zy&t = t;
                     # < never happens?
-                    !rc&b and me&Yingwant,R,finc&s,{name,becomes:"done"}
+                    !rc&b and me&Yingwant,R,xs&Jfin,{name,becomes:"done"}
                 })
             }
         }
         
         me&Rsc,R,'^^Inn' .t != 'Inc' and throw "lost Inc"
     },'ift,D'],
+  
+   // &Jx etc - ->
     &{
+    # expressions for
+    me.Jx = &acgtRc{
+        $C = Rs&C;
+        # the local Js by name, c/sc R/s
+        $client = me.cbu(R,'SummerCat');
+        !client and throw "!client"
+        $x = {};
+        x.sc = {client:clientc&s};
+        x.c = {client};
+        me&ioty,client,'ball' .map(&n{
+            x.c[n.t] = n;
+            x.sc[n.t] = nc&s;
+        });
+        # < brackimply: sets x.zaa etc to dome:plans or etc
+        #   you: x.doming = 'plans' # etc per S
+        return x
+    }
     # only if n@7 && osc@9
     me.Jproto_done = &acgts{
         !isC(s) and throw "notC"
         return sy&A
     }
+    # send attention via Ying &waits_8
+    #  no trace left in r, not like &nodee
+    #   although most cases of this could be,
+    #   eg Jproto elvises %%now to Jrunto,
+    #    which process them and return an answer
+    me.Yingwant = &acgtrsc{
+        $R = me.cbu(r,'Ying');
+        c = ex({waits:r,wants:s},c||{})
+        me&ha,R,c
+    }
+    me.Yingerr = &acgtRetc{  
+        $n = G&Cye,[t||'error','',{er:e}];
+        nc&s = (e.message || e)+'';
+        ns&now = Gtime();
+        ns&A = A;
+        ns&B = Gc&B;
+        ns&R = R;
+        nc&s.match(/^async/) and ns&async = 1
+        else
+        # < fix this... not realising its not ready?
+        nc&s.match(/^no way:/) and ns&async = 1
+        # bunch of artifaces, < (t,$s)+
+        e.tc and nc&M = e.tc
+        return n
+    }
     },
    
-   # < as a point dispatcher
+   # < as a point dispatcher,
+   #  < futurised Y
+   #   < brackstable
    // Jrunto - now -> plan
     # W as done by A:n (T loaded)
     ['Jrunto',0.298,&acgtRs{
@@ -643,13 +689,12 @@ me.Sch_Comm = &acgt{ return [
     },'ift,D'],
     ['Jrunto',0.31,&acgtRs{
      // 1
-        # %Jproto prepares run
+        # %Jproto prepares run!
         me&settle_prev,R and return
-        
-        $p = Rs&Proto = me&ioty,Rs&settled,'','Jproto' [0];
-        !p and return me&waits,"Nop"
-        
-        !ps&wou and me&tsc,"Nowou"
+        $x = me&Jx,R;
+        # &Zeve %%eto,e sends to:
+        $p = Rs&Proto = xc&Jproto;
+        !ps&wou and me&tsc,"Jproto!wou"
         $tw = {};
         $plans = {};
         me&zaa,p,'dome:now' .map(&E{
@@ -762,34 +807,6 @@ me.Sch_Comm = &acgt{ return [
         }
     },'ift,D'],
     
-    &{
-    # send attention via Ying &waits_8
-    #  no trace left in r, not like &nodee
-    #   although most cases of this could be,
-    #   eg Jproto elvises %%now to Jrunto,
-    #    which process them and return an answer
-    me.Yingwant = &acgtrsc{
-        $R = me.cbu(r,'Ying');
-        c = ex({waits:r,wants:s},c||{})
-        me&ha,R,c
-    }
-    me.Yingerr = &acgtRetc{  
-        $n = G&Cye,[t||'error','',{er:e}];
-        nc&s = (e.message || e)+'';
-        ns&now = Gtime();
-        ns&A = A;
-        ns&B = Gc&B;
-        ns&R = R;
-        nc&s.match(/^async/) and ns&async = 1
-        else
-        # < fix this... not realising its not ready?
-        nc&s.match(/^no way:/) and ns&async = 1
-        # bunch of artifaces, < (t,$s)+
-        e.tc and nc&M = e.tc
-        return n
-    }
-    },
-   
    # < use %Zave
    // Jfin - !%Zave outputs
     ['Jfin',0.297,&acgtRs{
