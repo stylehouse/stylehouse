@@ -461,6 +461,7 @@ me.Sch_Comm = &acgt{ return [
                 me&ha,R,q
             })
         });
+        # < x. contextualised modulata/expressiona: x.ro, etc
         # click act
         $ro = &kc{
             c ||= {once:1};
@@ -616,6 +617,8 @@ me.Sch_Comm = &acgt{ return [
                     $z = rc&s;
                     zy&t = t;
                     me&nu,'Done:'+name,t
+                    # < never happens?
+                    !rc&b and me&Yingwant,R,finc&s,{name,becomes:"done"}
                 })
             }
         }
@@ -662,6 +665,7 @@ me.Sch_Comm = &acgt{ return [
             # or anything else we unpack here
             # eg %%attendo:1s&N/n@7 waiting for ^^
             $ha = &c{ return me&ha,R,{dome:plan,C:D},{},c }
+            $sa = &c{ return me&sa,R,ex({dome:plan,C:D},c||{}) }
             $s;
             $er = null;
             try {
@@ -669,21 +673,9 @@ me.Sch_Comm = &acgt{ return [
                 s = me&Yong,R,s,{},9;
             }
             catch (e) {
-                $n = G&Cye,[plan,'',{er:e}];
-                nc&s = (e.message || e)+'';
-                $async = nc&s.match(/^async/);
-                ns&now = G&time;
-                ns&A = A;
-                ns&B = Gc&B;
-                ns&p = p;
-                ns&R = R;
-                # bunch of artifaces, < (t,$s)+
-                e.tc and nc&M = e.tc
-                er = n;
-                async and ha({async:e+''})
-                else { ha({err:e+''}) }
+                er = me&Yingerr,R,e,plan;
             }
-            
+
             $Y = sy&Y;
             $bal = sy&bal;
             $An = s;
@@ -706,6 +698,10 @@ me.Sch_Comm = &acgt{ return [
                 }
                 Js&N = [];
                 
+                # drop out  A, Matu (rethink A.4), come back in due course
+                # < reusing the in-progress A: A:n merge
+                # < and subsequent wakes of it, must usu. casual
+                # < sleeping domes etc, causality
                 $hw = delete T.hwack;
                 hw and ha({Thwack:hw})
                 
@@ -726,12 +722,28 @@ me.Sch_Comm = &acgt{ return [
             
             if (me&Jproto_done,D ) {
                 er and me&tsc,'late-errors','','b'
-                # < Jproto detects es&done
+                ha('done');
+                !sa('done') and ~>6 Done jrun: plan
+                !sa('done') and me&Yingwant,R,pc&s,{becomes:"done"}
             }
-            er and me&tsc,"ERor:"+erc&s,'','b' .sc.dis = 1;
-            er &&
+            if (er) {
+                $msg = erc&s;
+                if (ers&async) {
+                    ha({async:msg})
+                    # keep trying without Matu while mess changey
+                    # < relating to @Aearch waiting
+                    # < Jrunto 8, after Doming_7:
+                    # R%brackstable isn't computed yet,
+                    #  use b, check msg to be surer.
+                    !me&ollbs,R,'brackstable'
+                        && sa({async:msg})
+                        && ha('waits:async')
+                }
+                else {
+                    ha({err:msg})
+                }
                 n error  $s:er,R %Error
-            
+            }
         })
         each ti plans {
             # for %%dome=$plan
@@ -742,6 +754,34 @@ me.Sch_Comm = &acgt{ return [
             me&ha,R,"bump";
         }
     },'ift,D'],
+    
+    &{
+    # send attention via Ying &waits_8
+    #  no trace left in r, not like &nodee
+    #   although most cases of this could be,
+    #   eg Jproto elvises %%now to Jrunto,
+    #    which process them and return an answer
+    me.Yingwant = &acgtrsc{
+        $R = me.cbu(r,'Ying');
+        c = ex({waits:r,wants:s},c||{})
+        me&ha,R,c
+    }
+    me.Yingerr = &acgtRetc{  
+        $n = G&Cye,[t||'error','',{er:e}];
+        nc&s = (e.message || e)+'';
+        ns&now = Gtime();
+        ns&A = A;
+        ns&B = Gc&B;
+        ns&R = R;
+        nc&s.match(/^async/) and ns&async = 1
+        else
+        # < fix this... not realising its not ready?
+        nc&s.match(/^no way:/) and ns&async = 1
+        # bunch of artifaces, < (t,$s)+
+        e.tc and nc&M = e.tc
+        return n
+    }
+    },
     
    // Yingbal
     # recycle the %eph, were &bal by something probably not awake
