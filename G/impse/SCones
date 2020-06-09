@@ -209,7 +209,7 @@ me.Sch_Comm = &acgt{ return [
             #me&bal,'Jhost','Jhost,eph'
             me&bal,'Jproto','Jproto,eph'
             me&bal,'Jrunto','Jrunto,eph'
-            me&bal,'Jfin','Jfin,eph'
+            #me&bal,'Jfin','Jfin,eph'
         }
     },'ift,D'],
     ['sleeping+SummerCat',0.2971,&acgtRs{
@@ -430,7 +430,6 @@ me.Sch_Comm = &acgt{ return [
         Rs&Live = w;
     },'ift,D'],
    
-   # < Travel when done
    // Jproto - plan -> now
     # W as planned by Matu
     ['Jproto',0.299,&acgtRs{
@@ -580,7 +579,7 @@ me.Sch_Comm = &acgt{ return [
                 plans.push(n)
                 lcs&ope and ha('now',n)
                 
-                $ro = ny&ro = ley&can('w');
+                $ro = ley&can('w');
                 ros&hue = 38;
                 if (me&ja,R,{dome:'now',plan:k} ) {
                     nc&active = 1
@@ -595,8 +594,16 @@ me.Sch_Comm = &acgt{ return [
                 if (!me&Jproto_done,ns&C ) {
                     nc&ongoing = 1
                 }
+                ny&khas = &tkn{
+                    $tk = 'the'+t;
+                    $st = roy&output ||= roy&can('m',t);
+                    $is = sty&can('i',n.sc[k]);
+                    return is
+                }
             })
         })
+     
+     // 5 Travel when done
         $done = plans.filter(n => !(nc&active || nc&ongoing));
         if (plans.length && plans.length == done.length) {
             each in done {
@@ -605,22 +612,38 @@ me.Sch_Comm = &acgt{ return [
                 $D = ns&C;
                 # info from Jrunto
                 # < sort by plan
+                $Ste = Cye([D.t,7]);
                 me&zaa,xc&Jrunto,{dome:ns&plan,C:D,store:1} .map(&t{
-                    # plan/$t%output
-                    $ro = ny&ro;
-                    $st = roy&output ||= roy&can('m','o');
-                    #.sc.bri = 2;
-                    $is = sty&can('i',ts&store);
-                    # < link $is <-> $r
+                    !ts&dige and throw "store!dige"
                     
-                    # send output somewhere
-                    $name = D.t+'.'+ts&store;
-                    $r = me&input,xc&Jfin,name;
-                    $z = rc&s;
-                    zy&t = t;
-                    # < never happens?
-                    !rc&b and me&Yingwant,R,xs&Jfin,{name,becomes:"done"}
+                    # plan/$t%output
+                    # < link $is <-> $r
+                    $is = ny&khas('o','store',t);
+                    
+                    if (xc&Jfin) {
+                        # without Travel, each thing ~%Zave
+                        $name = D.t+'.'+ts&store;
+                        $r = me&input,xc&Jfin,name;
+                        $z = rc&s;
+                        zy&t = t;
+                        # < never happens?
+                        !rc&b and me&Yingwant,R,xs&Jfin,{name,becomes:"done"}
+                    }
+                    else {
+                        $Sten = me&fiu,Ste,'n'
+                        ac(Sten,'z',t);
+                    }
                 })
+                xc&Jfin and continue
+                
+                $q = {};
+                q.dome = ns&plan+'-fin'
+                q.Inc = xc&Inc;
+                # e slepable by the rows of %%store
+                q.dige = dig( me&ioty,Ste
+                    .map(t => ts&store+':'+ts&dige)
+                    .join(',') );
+                me&nodee,R,xc&Travel,Ste,{},q
             }
         }
         
@@ -632,16 +655,25 @@ me.Sch_Comm = &acgt{ return [
     # expressions for
     me.Jx = &acgtRc{
         $C = Rs&C;
-        # the local Js by name, c/sc R/s
-        $client = me.cbu(R,'SummerCat');
-        !client and throw "!client"
-        $x = {};
-        x.sc = {client:clientc&s};
-        x.c = {client};
-        me&ioty,client,'ball' .map(&n{
-            x.c[n.t] = n;
-            x.sc[n.t] = nc&s;
-        });
+        $x = Cye(["x:"+R.t,22])
+        
+        # 2 degrees of local Js by name, c/sc R/s
+        # the 4
+        xc&Ying = me.cbu(R,'Ying')
+        !xc&Ying and throw "!Ying"
+        # the 3, aka 'client'
+        xc&client = me.cbu(R,'SummerCat');
+        !xc&client and throw "!client"
+        each tr x.c {
+            x.sc[t] = rc&s
+        }
+        [xc&Ying,xc&client] .map(&crux,{
+            me&ioty,crux,'ball' .map(&n{
+                x.c[n.t] = n;
+                x.sc[n.t] = nc&s;
+            });
+        })
+        
         # < brackimply: sets x.zaa etc to dome:plans or etc
         #   you: x.doming = 'plans' # etc per S
         return x
@@ -678,6 +710,8 @@ me.Sch_Comm = &acgt{ return [
     }
     },
    
+   # < Pring gateway, know u per C?
+   #    probably pile deps onto !e C, unless we can dep W:of?
    # < as a point dispatcher,
    #  < futurised Y
    #   < brackstable
@@ -1292,6 +1326,8 @@ me.Sch_Comm = &acgt{ return [
             return zs&W || 1
         };
         me&ha,R,"Travels,to:Morrocco";
+        
+        
         return;
         me&ha,R,"Travels,to:everywhere",{R};
         #!me&za,R,'fodder' ? me&ha,R,'fodder,lamp' : me&ha,R,'lamp'
