@@ -611,23 +611,16 @@ me.Sch_Comm = &acgt{ return [
                 # plans from Jproto
                 # < sort by plan
                 $D = ns&C;
-                $Ste = Cye([D.t,7]);
-                
-                # make Ste/n|u/$of/$t of things
-                #  index of %Search%Ghost
-                
-                # n
-                # %%store,dige,string from %Jrunto
-                $Sten = me&fiu,Ste,'n'
+                $Ste = me&Stenugra,D.t;
                 me&zaa,xc&Jrunto,{dome:ns&plan,C:D,store:1} .map(&t{
-                    !ts&dige and throw "store!dige"
+                    me&san_storerow,t
                     
                     # plan/$t%output
                     # < link $is <-> $r
                     $is = ny&khas('o','store',t);
                     
-                    $name = D.t+'.'+ts&store;
                     if (xc&Jfin) {
+                        $name = D.t+'.'+ts&store;
                         # without Travel, each thing ~%Zave
                         $r = me&input,xc&Jfin,name;
                         $z = rc&s;
@@ -636,56 +629,24 @@ me.Sch_Comm = &acgt{ return [
                         !rc&b and me&Yingwant,R,xs&Jfin,{name,becomes:"done"}
                     }
                     else {
-                        ac(Sten,'digebits',name+':'+ts&dige)
-                        $SteW = me&fiu,Sten,'W';
-                        $title = D.t;
-                        # becomes like Qc&species in Pave 291
-                        ts&store != 'W' and title += "/"+ts&store
-                        # convert %%store to 5ish
-                        $W = me&fiu,SteW,title;
-                        Ws&dige = ts&dige;
-                        Ws&string = ts&string;
-                        # < Inc...W.js should be there
-                        # < Inc...$W/$js, $W dige covers it?
+                        Stey&n_storerow(t)
                     }
                 })
                 xc&Jfin and continue
                 
-                # u
-                $Steu = me&fiu,Ste,'u';
                 $Inc = xc&Inc;
                 !Incs&Ghost and throw "!uR"
-                me&indo,Incs&Ghost (&sd{
-                    # Ghost/In:mode/of(/args)?/t
-                    $nope = d.nofurther =
-                        d.d == 2 && s.t == 'Out' ||
-                        d.d == 3 && s.t == 'JaBabz' ||
-                        d.d >= 4 && s.t == 'Peace';
-                    # < P/P, fragments, point range
-                    nope ||= d < 4 || me&ioty,s .length;
-                    nope and return
-                    # of..t
-                    # < put args under t, compres further?
-                    $N = me.cby(d,&d{ return d.d == 3 }).map(d => d.s)
-                    $eu = Steu;
-                    each in N {
-                        eu = me&fiu,eu,n.t
-                        i < N.length-1 and continue
-                        !ns&dige and throw "u!%dige"
-                        eus&dige = ns&dige;
-                    }
-                    # < when only args changey
-                    ac(Steu,'digebits',eu.t+':'+eus&dige)
-                    #me&zu,"eu:"+s.t,eu
-                    #me&tsc,"Ata:"+d.d+"_"+s.t .sc.dis = 1;
-                    
-                });
+                Stey&u_Ghost(Incs&Ghost);
 
                 $q = {};
                 q.dome = ns&plan+'-fin'
                 # e slepable by the rows of %%store + Inc..P%dige
-                q.dige = dig( me&ioty,Ste,'digebits'
-                    .map(n => ns&digebits.join(',') ).join(' ') )
+                # + random bumps
+                if (ro('+T')) {
+                    sy&Tbump ||= 0
+                    sy&Tbump++
+                }
+                q.dige = dig( Stey&total() + (sy&Tbump||'') )
                 
                 me&nodee,R,xc&Travel,Ste,{},q;
                 #me&nu,"Sten",Sten
@@ -697,6 +658,76 @@ me.Sch_Comm = &acgt{ return [
    
    // &Ste*
     &{
+    me.san_storerow = &acgtt{
+        !ts&dige and throw "store!dige"
+        !ts&string and throw "store!string"
+        !ts&store and throw "store!store"
+        !ts&C and throw "store!C"
+    }
+    # make Ste/n|u/$of/$t of things
+    #  index of %Search%Ghost
+    me.Stenugra = &acgtt{
+        $Ste = Cye([t,7]);
+        
+        # n
+        $Sten = me&fiu,Ste,'n'
+        
+        # %%store,dige,string from %Jrunto
+        Stey&n_storerow = &t{
+            me&san_storerow,t;
+            $D = ts&C;
+            $name = D.t+'.'+ts&store
+            ac(Sten,'digebits',name+':'+ts&dige)
+            $SteW = me&fiu,Sten,'W';
+            $title = D.t;
+            # $t augmented, see Pave 291 re Qc&species
+            ts&store != 'W' and title += "/"+ts&store
+            # convert %%store to 5ish
+            $W = me&fiu,SteW,title;
+            Ws&dige = ts&dige;
+            Ws&string = ts&string;
+            # < Inc...W.js should be there
+            # < Inc...$W/$js, $W dige covers it?
+        }
+        
+        # u
+        $Steu = me&fiu,Ste,'u';
+        
+        # the $Ghost from Aearch, same index as Ste/*
+        Stey&u_Ghost = &s{
+            !isC(s) and throw "!s (%Search%Ghost)"
+            me&indo,s (&sd{
+                # Ghost/In:mode/of(/args)?/t
+                $nope = d.nofurther =
+                    d.d == 2 && s.t != 'In' ||
+                    d.d == 3 && s.t == 'JaBabz' ||
+                    d.d >= 4 && s.t == 'Peace';
+                # < P/P, fragments, point range
+                nope ||= d < 4 || me&ioty,s .length;
+                nope and return
+                # of..t
+                # < put args under t, compres further?
+                $N = me.cby(d,&d{ return d.d == 3 }).map(d => d.s)
+                $eu = Steu;
+                each in N {
+                    eu = me&fiu,eu,n.t
+                    i < N.length-1 and continue
+                    !ns&dige and throw "u!%dige"
+                    eus&dige = ns&dige;
+                }
+                # < when only args changey
+                ac(Steu,'digebits',eu.t+':'+eus&dige)
+                #me&zu,"eu:"+s.t,eu
+                #me&tsc,"Ata:"+d.d+"_"+s.t .sc.dis = 1;
+            });
+        }
+        # and you:
+        Stey&total = &{
+            return me&ioty,Ste,'digebits'
+                .map(n => ns&digebits.join(',') ).join(' ')
+        }
+        return Ste
+    }
     me.diagetos = &acgtRs{
         $etos = sy&etos;
         etos && me&ioty,etos .map(&z{
@@ -1395,7 +1426,7 @@ me.Sch_Comm = &acgt{ return [
         # 
         me&jaa,R,"e" .map(&n{
             $e = ns&e;
-            me&bal,"Re:"+e.t,e,'MayGhost,eph'
+            me&bal,"Re:"+e.t,e,'Releasor,MayGhost,eph'
         })
         
         return;
@@ -1431,6 +1462,13 @@ me.Sch_Comm = &acgt{ return [
             q.raga = ns&pat.split('').join('_');
             me&nodei,R,ns&efrom,q
         })
+    },'ift,D'],
+  // Releasor - Travel agent
+    ['Releasor','298',&acgtRs{
+        me&reaw,R,'Releasor';
+        $S = me&inode,R;
+        # < make a 5 about this s, added to itself,
+        # < added to n, push via %twin
     },'ift,D'],
     ['MayGhost','298',&acgtRs{
         me&reaw,R,'MayGhost,eph';
