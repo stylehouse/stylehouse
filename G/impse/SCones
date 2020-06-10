@@ -746,16 +746,6 @@ me.Sch_Comm = &acgt{ return [
     }
     # ac args: $Steu/of(/args)?/t -> $f/of/t%args[]
     me.Stearchish_to_twin = &acgt,Steu,f{
-        # < only for of:wjs?
-        #   you might want the %twin|%Paving indexing to carry the args
-        #   eg for watching lists,
-        #    or anything but W|w which pool one big dige per thing
-        # so in the .5 we know individual args,
-        #  so reruns can more fully prepare eg of:wjs
-        # yet for overall versioning,
-        #  w:$t%dige is all Ghost/Know remembers
-        #  will cover wjs:$t%dige(same)%args
-        # < ghost/w/wjs have the same %dige?
         me&indo,Steu (&sd{
             # < io this easy
             d.d <3 and return 's/of'
@@ -1542,32 +1532,28 @@ me.Sch_Comm = &acgt{ return [
         # each W make W.5 re this u/n configuration
         # rebuild and replace $n/#$t
         me.Stereplace = &acgtFtr{
+            $almost = 0;
             r ||= t;
             $W = me&fiu,F,t;
             W = Wy&origin || W;
             $eg = Cye(W);
+            # ~t not replacing
+            r and eg.t = r
             egy&origin = W;
             return &y{
                 y (W,eg);
                 # places new thing
-                me&fiu,F,eg
+                F and me&fiu,F,eg
             }
         }
-        0 && me&Stereplace,Sten,'W' (&SteW,eg{
+        me&Stereplace,Sten,'W','Woo' (&SteW,eg{
+            # schematic of what Q to place where
+            #  in Sten/W at the end
             $Steg = Cye(['g',1])
-            
-            
-        })
         
-        $SteW = me&fiu,Sten,'W';
-        # gets replaced in the end
-        SteW = SteWy&origin || SteW;
         # sublate any species (share one $kt)
         #  $m:Dealap,$n:Dealap/js -> $m:Dealap/$n:js
         # < order by length of SteW/*.t, hier not fair
-        me&fiu,s,'g',9;
-        $Steg = me&fiu,s,'g';
-        
         me&ioty,SteW .map(&n{
             $g = Cye([n.t,2]);
             gy&Q = n;
@@ -1580,6 +1566,7 @@ me.Sch_Comm = &acgt{ return [
             }
             me&fiu,Steg,g
         })
+        
         # make W.5!
         me&ioty,Steg .map(&m{
             $f = Cye([m.t,9]);
@@ -1605,19 +1592,14 @@ me.Sch_Comm = &acgt{ return [
             $n = me&fiu,m,q.t;
             ny&Q = q;
         })
+        
         # Steg/n** replace W
         #  for something %%twin->Paving compatible re %species
         #  all other $of should just work?
-        me&fiu,Sten,'W',9;
-        me&fiu,Sten,'W',8 and throw "Not deleted..."
-        $W = me&fiu,Sten,'W';
-        # for recompiling
-        Wy&origin = SteW;
-        SteW = W;
         # < io resolving to y&Q, type checking
         me&indo,Steg (&sd{
             d.d <2 and return
-            $p = d.la || SteW;
+            $p = d.la || eg;
             $v = sy&Q;
             !vs&dige and throw "notdiged",s,v
             v = d.la = Cye(v);
@@ -1625,6 +1607,33 @@ me.Sch_Comm = &acgt{ return [
             v.t = s.t;
             me&fiu,p,d.la
         });
+        })
+        
+        # n/W is now folded like %twin of/t
+        #  with extra n/W/$species for Pave to realise exactly
+        # < check others dont args? %twin should learn that:
+        
+        # < only for of:wjs?
+        #   you might want the %twin|%Paving indexing to carry the args
+        #   eg for watching lists,
+        #    or anything but W|w which pool one big dige per thing
+        # so in the .5 we know individual args,
+        #  so reruns can more fully prepare eg of:wjs
+        # yet for overall versioning,
+        #  w:$t%dige is all Ghost/Know remembers
+        #  will cover wjs:$t%dige(same)%args
+        # W%dige covers W.js etc but not W.5,
+        #  but W.5%dige covers W+W.js
+        # < a ghost/w/wjs have the same %dige?
+        
+        # fold up all the u:
+        # < wjs->w?
+        #me&ioty,Steu .map(&u{
+        me&Stereplace,s,'u','uuu' (&u,eg{
+            me&Stearchish_to_twin,u,eg;
+            # < add callback to ^ to drop %args
+        });
+        
         
         
         #$five = me&Searchish_to_five
