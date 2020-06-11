@@ -1524,53 +1524,88 @@ me.Sch_Comm = &acgt{ return [
         
         # s was e, replaced on shunt
         # is the reality (Re:$t), beside the thing itself ($t)
-        $Sten = me&fiu,s,'n';
-        $Steu = me&fiu,s,'u';
+        
         
         #me&Stegroup_species,Sten,'W','W';
         
-        # each W make W.5 re this u/n configuration
-        # rebuild and replace $n/#$t
-        me.Stereplace = &acgtFtr{
-            $almost = 0;
-            r ||= t;
-            $W = me&fiu,F,t;
+        
+        
+       // func
+        # rebuild and replace? $n/#$t
+        me.Stereo = &acgtWt{
+            !isC(W) and throw "!C W"
             W = Wy&origin || W;
             $eg = Cye(W);
-            # ~t not replacing
-            r and eg.t = r
+            # to somewhere else
+            isC(t) and $F = r
+            else {
+                # replacing
+                $F = Wy&up;
+                !F and throw "W!up"
+                # ~t adding
+                isst(t) and eg.t = t
+                
+            }
             egy&origin = W;
             return &y{
                 y (W,eg);
                 # places new thing
+                !F and return
+                $f = me&fiu,F,eg,8
+                f != W && fy&origin != W and throw "knot sure", F, eg, f
                 F and me&fiu,F,eg
             }
         }
-        me&Stereplace,Sten,'W','Woo' (&SteW,eg{
-            # schematic of what Q to place where
-            #  in Sten/W at the end
-            $Steg = Cye(['g',1])
+        me.sublatile = &acgtWtc{
+            $Steg = t;
+            c.yorigin ||= 'origin';
+            me&ioty,W .map(&n{
+                $g = Cye([n.t,2]);
+                g.y [c.yorigin] = n;
+                each im Stegs&z {
+                    m == n || !c.match(m,n) and continue
+                    c.then(m,n,g);
+                    me&fiu,m,g
+                    return
+                }
+                me&fiu,Steg,g
+            })
+        }
         
-        # sublate any species (share one $kt)
-        #  $m:Dealap,$n:Dealap/js -> $m:Dealap/$n:js
-        # < order by length of SteW/*.t, hier not fair
-        me&ioty,SteW .map(&n{
-            $g = Cye([n.t,2]);
-            gy&Q = n;
-            each im Stegs&z {
-                m == n || !n.t.startsWith(m.t) and continue
-                g.t = gs&species = n.t.substr(m.t.length+1);
-                #!g.t || g.t.includes('/') and throw "species!grouping", m, n
-                me&fiu,m,g
-                return
-            }
-            me&fiu,Steg,g
-        })
+       // dunk
+        # have inputs
+        $Sten = me&fiu,s,'n';
+        $Steu = me&fiu,s,'u';
+        !me&fiu,Sten,'W' and return me&waits,"!W"
+        # to output, nego into %twin
+        $twine = me&fiu,s,'twine';
+        # z first, leading up
+        ss&z = arou(ss&z,z => z == twine,[]);
+        ss&z.unshift(twine);
+        # each W make W.5 re this u/n configuration
+        $twn = me&fiu,twine,'n';
+        me&ioty,Sten .map(&W{
+            me&Stereplace,W,twn (&W,eg{
+            # schematic of what Q to place where
+            $Steg = Cye(['g',1])
+            
+            if (W.t == 'W') {
+                # sublate any species (share one $kt)
+                #  $m:Dealap,$n:Dealap/js -> $m:Dealap/$n:js
+                # < order by length of SteW/*.t, hier not fair
+                $c = {yorigin:'Q',
+                match:&mn{ return n.t.startsWith(m.t) },
+                then:&mng{ 
+                    g.t = gs&species = n.t.substr(m.t.length+1);
+                    #!g.t || g.t.includes('/') and throw "species!grouping", m, n
+                }};
+                me&sublatile,W,Steg,c;
+        
         
         # make W.5!
         me&ioty,Steg .map(&m{
             $f = Cye([m.t,9]);
-            # the 5s&$species = dige, inc 1=Ws&dige
+            # the 5.sc[$species] = dige, inc 1=Ws&dige
             $spec = {1:m};
             me&ioty,m .map(n => spec[n.t] = n);
             each tn spec {
@@ -1607,6 +1642,8 @@ me.Sch_Comm = &acgt{ return [
             v.t = s.t;
             me&fiu,p,d.la
         });
+            }
+        
         })
         
         # n/W is now folded like %twin of/t
