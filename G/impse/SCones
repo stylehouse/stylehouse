@@ -1505,37 +1505,84 @@ me.Sch_Comm = &acgt{ return [
         
         
         #me&Stegroup_species,Sten,'W','W';
+        #!!
         
         
-        
-       // func
-        # ac args: $Steu/of(/args)?/t -> $f/of/t%args[]
-        me.Stearchish_to_twin = &acgt,Steu,f{
+     // func
+      # < io this easy
+      // y&Q leavers
+        # $Steu/of(/args)?/t -> callback
+        me.ofargsity = &acgt,Steu{
+            return &y{
             me&indo,Steu (&sd{
-                # < io this easy
                 d.d <3 and return 's/of'
                 $more = me&ioty,s .length
                 more and return 'is an /args/ layer'
                 $l = me.cby(d,&d{ return d.d <3 }).map(d => d.s);
-                l.pop() == s;
+                $t = l.pop();
+                t != s and throw "confu";
                 $of = l.shift();
-                $args = l.shift();
-                $oft = of.t;
-                $fo = me&fiu,f,of.t;
-                $to = me&fiu,fo,s.t;
-                tos&dige && tos&dige != ss&dige and throw "multiple diges ->"+to.t, s, toy&Q
-                toy&Q = s;
-                tos&dige = ss&dige;
-                args and ac(to,'args',args.t)
+                $args = l[0];
+                # may not have args
+                y (of,args,t)
             });
+            }
         }
+        # warn of args: $Steu/of(/args)?/t -> $f/of(/args)?/t
+        # < for stretching %twin to support anyindex
+        me.warn_argsity_of = &acgtWf{
+            # W is the of column, nest it
+            $cont = Cye(['eachofalone',1])
+            me&fiu,cont,W;
+            # warn of non of/t pushing (or whatever the %twin wants)
+            me&ofargsity,cont (&of,args,t{
+                $fo = me&fiu,f,of.t;
+                args and fo = me&fiu,fo,args.t; ah(fo,'warn',"args-layer")
+                $to = me&fiu,fo,t.t;
+                args and me&zu,"hasArgs:",to
+                toy&Q = t;
+            })
+        }
+        # ac args: $Steu/of(/args)?/t -> $f/of/t%args[]
+        # for writing as W.5
+        me.Stearchish_to_twin = &acgt,Steu,f{
+            $N = [];
+            me&ofargsity,Steu (&of,args,t{
+                $fo = me&fiu,f,of.t;
+                $to = me&fiu,fo,t.t;
+                tos&dige && tos&dige != ts&dige and throw "multiple diges ->"+to.t, t, toy&Q
+                toy&Q = t;
+                tos&dige = ts&dige;
+                args and ac(to,'args',args.t)
+                N.push(to)
+            });
+            return N
+        }
+        me.Stegroup_species = &acgtW,Steg{
+            # sublate any species (share one $kt)
+            #  $m:Dealap,$n:Dealap/js -> $m:Dealap/$n:js
+            # < order by length of SteW/*.t, hier not fair
+            $c = {yorigin:'Q',
+                match:&mn{ return n.t.startsWith(m.t) },
+                then:&mng{ 
+                    g.t = gs&species = n.t.substr(m.t.length+1);
+                    g.t && !g.t.includes('/') and 'ok'
+                    else {
+                        throw "species!grouping", m, n
+                    }
+                }
+            };
+            me&sublatile,W,Steg,c;
+        }
+      
+      // y&origin leavers
         # rebuild and replace? $n/#$t
         me.Stereo = &acgtWt{
             !isC(W) and throw "!C W"
             W = Wy&origin || W;
             $eg = Cye(W);
             # to somewhere else
-            isC(t) and $F = r
+            isC(t) and $F = t
             else {
                 # replacing
                 $F = Wy&up;
@@ -1550,7 +1597,7 @@ me.Sch_Comm = &acgt{ return [
                 # places new thing
                 !F and return
                 $f = me&fiu,F,eg,8
-                f != W && fy&origin != W and throw "knot sure", F, eg, f
+                f && f != W && fy&origin != W and throw "knot sure", F, eg, f
                 F and me&fiu,F,eg
             }
         }
@@ -1571,36 +1618,32 @@ me.Sch_Comm = &acgt{ return [
             })
         }
         
-       // dunk
+      // dunketha
         # have inputs
         $Sten = me&fiu,s,'n';
         $Steu = me&fiu,s,'u';
-        # < various use cases for a wait-for-ok
-        !me&fiu,Sten,'W' and return me&waits,"!W"
+        
         # to output, nego into %twin
         $twine = me&fiu,s,'twine';
         # z first, leading up
         ss&z = arou(ss&z,z => z == twine,[]);
         ss&z.unshift(twine);
-        # each W make W.5 re this u/n configuration
+        
+        # n
         $twn = me&fiu,twine,'n';
+        # < various use cases for a wait-for-ok
+        !me&fiu,Sten,'W' and return me&waits,"!W"
+        
         me&ioty,Sten .map(&W{
-            me&Stereplace,W,twn (&W,eg{
+            me&Stereo,W,twn (&W,eg{
             # schematic of what Q to place where
             $Steg = Cye(['g',1])
             
             if (W.t == 'W') {
-                # sublate any species (share one $kt)
-                #  $m:Dealap,$n:Dealap/js -> $m:Dealap/$n:js
-                # < order by length of SteW/*.t, hier not fair
-                $c = {yorigin:'Q',
-                match:&mn{ return n.t.startsWith(m.t) },
-                then:&mng{ 
-                    g.t = gs&species = n.t.substr(m.t.length+1);
-                    #!g.t || g.t.includes('/') and throw "species!grouping", m, n
-                }};
-                me&sublatile,W,Steg,c;
+                # make a pile of W%dige/[species%dige+]
+                me&Stegroup_species,W,Steg;
         
+                # each W make W.5 re this u/n configuration
                 # make W.5 for each W grouping
                 me&ioty,Steg .map(&m{
                     $f = Cye([m.t,9]);
@@ -1627,31 +1670,36 @@ me.Sch_Comm = &acgt{ return [
                     $n = me&fiu,m,q.t;
                     ny&Q = q;
                 })
-        
-                # replace W
-                #  for something %%twin->Paving compatible re %species
-                #  all other $of should just work?
-                # < io resolving to y&Q, type checking
-                me&indo,Steg (&sd{
-                    d.d <2 and return
-                    $p = d.la || eg;
-                    $v = sy&Q;
-                    !vs&dige and throw "notdiged",s,v
-                    v = d.la = Cye(v);
-                    # $W/js -> js
-                    v.t = s.t;
-                    me&fiu,p,d.la
-                });
             }
             else {
-                # warn of non of/t pushing (or whatever the %twin wants)
-                
+                # copy anyway!
+                me&warn_argsity_of,W,Steg;
             }
+            
+            # n... have %string etc from y&Q
+            #  Steg structure -> g
+            #  for something %%twin->Paving compatible re %species
+            #  all other $of should just work?
+            # < io resolving to y&Q, type checking
+            me&indo,Steg (&sd{
+                d.d <2 and return
+                $p = d.la || eg;
+                $v = sy&Q;
+                !vs&dige and throw "notdiged",s,v
+                v = d.la = Cye(v);
+                # < doesn't keep the 
+                vy&Steg = s;
+                # t=$W/js -> js
+                v.t = s.t;
+                me&fiu,p,d.la
+            });
+            })
         })
         
         # n/W is now folded like %twin of/t
         #  with extra n/W/$species for Pave to realise exactly
-        # < check others dont args? %twin should learn that:
+        # checks others dont /args/
+        # < %twin should learn anyindex:
         
         # < only for of:wjs?
         #   you might want the %twin|%Paving indexing to carry the args
@@ -1668,15 +1716,14 @@ me.Sch_Comm = &acgt{ return [
         
         # fold up all the u:
         # < wjs->w?
-        #me&ioty,Steu .map(&u{
-        me&Stereplace,s,'u','uuu' (&u,eg{
-            me&Stearchish_to_twin,u,eg;
-            # < add callback to ^ to drop %args
-        });
+        # u... only have %dige etc (not even %args?)
+        $twu = me&fiu,twine,'u';
+        me&Stearchish_to_twin,Steu,twu .map(&to,{
+            # drop deindexed info
+            delete tos&args;
+        })
         
         
-        
-        #$five = me&Searchish_to_five
         # looks for u/n stores behind/ahead of Travel
         # < complicated ideas
         
