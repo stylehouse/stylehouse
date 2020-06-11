@@ -744,28 +744,6 @@ me.Sch_Comm = &acgt{ return [
 
         })
     }
-    # ac args: $Steu/of(/args)?/t -> $f/of/t%args[]
-    me.Stearchish_to_twin = &acgt,Steu,f{
-        me&indo,Steu (&sd{
-            # < io this easy
-            d.d <3 and return 's/of'
-            $more = me&ioty,s .length
-            more and return 'is an /args/ layer'
-            $l = me.cby(d,&d{ return d.d <3 }).map(d => d.s);
-            l.pop() == s;
-            $of = l.shift();
-            $args = l.shift();
-            $oft = of.t;
-            $fo = me&fiu,f,of.t;
-            $to = me&fiu,fo,s.t;
-            tos&dige && tos&dige != ss&dige and throw "multiple diges ->"+to.t, s, toy&Q
-            toy&Q = s;
-            tos&dige = ss&dige;
-            args and ac(to,'args',args.t)
-        });
-    }
-    me.Stegroup_species = &acgt,Steu,f{
-    }
     },
    
    // &Jx etc - ->
@@ -1531,6 +1509,26 @@ me.Sch_Comm = &acgt{ return [
         
         
        // func
+        # ac args: $Steu/of(/args)?/t -> $f/of/t%args[]
+        me.Stearchish_to_twin = &acgt,Steu,f{
+            me&indo,Steu (&sd{
+                # < io this easy
+                d.d <3 and return 's/of'
+                $more = me&ioty,s .length
+                more and return 'is an /args/ layer'
+                $l = me.cby(d,&d{ return d.d <3 }).map(d => d.s);
+                l.pop() == s;
+                $of = l.shift();
+                $args = l.shift();
+                $oft = of.t;
+                $fo = me&fiu,f,of.t;
+                $to = me&fiu,fo,s.t;
+                tos&dige && tos&dige != ss&dige and throw "multiple diges ->"+to.t, s, toy&Q
+                toy&Q = s;
+                tos&dige = ss&dige;
+                args and ac(to,'args',args.t)
+            });
+        }
         # rebuild and replace? $n/#$t
         me.Stereo = &acgtWt{
             !isC(W) and throw "!C W"
@@ -1556,19 +1554,20 @@ me.Sch_Comm = &acgt{ return [
                 F and me&fiu,F,eg
             }
         }
+        # regroup into each other
         me.sublatile = &acgtWtc{
-            $Steg = t;
+            $into = t;
             c.yorigin ||= 'origin';
             me&ioty,W .map(&n{
                 $g = Cye([n.t,2]);
                 g.y [c.yorigin] = n;
-                each im Stegs&z {
+                each im intos&z {
                     m == n || !c.match(m,n) and continue
                     c.then(m,n,g);
                     me&fiu,m,g
                     return
                 }
-                me&fiu,Steg,g
+                me&fiu,into,g
             })
         }
         
@@ -1576,6 +1575,7 @@ me.Sch_Comm = &acgt{ return [
         # have inputs
         $Sten = me&fiu,s,'n';
         $Steu = me&fiu,s,'u';
+        # < various use cases for a wait-for-ok
         !me&fiu,Sten,'W' and return me&waits,"!W"
         # to output, nego into %twin
         $twine = me&fiu,s,'twine';
@@ -1601,49 +1601,52 @@ me.Sch_Comm = &acgt{ return [
                 }};
                 me&sublatile,W,Steg,c;
         
+                # make W.5 for each W grouping
+                me&ioty,Steg .map(&m{
+                    $f = Cye([m.t,9]);
+                    # the 5.sc[$species] = dige, inc 1=Ws&dige
+                    $spec = {1:m};
+                    me&ioty,m .map(n => spec[n.t] = n);
+                    each tn spec {
+                        # the SteW/* is Qish: Q%string%dige without %of%args
+                        #  which are implied by their placement in the Searchish
+                        $Q = ny&Q;
+                        f.sc[t] = Qs&dige
+                    }
+                    # re this u, flattening args
+                    # < of:wjs -> of:w through the join?
+                    #   see W|w: their species pool dige sensitivity
+                    me&Stearchish_to_twin,Steu,f;
+                    # f -> Qish q
+                    $q = Cye(['5',2]);
+                    qs&string = me&Lineso,f;
+                    qs&dige = dig(qs&string);
+                    # species thing fronting q as a writable of $W
+                    me&fiu,m,q.t,8 and throw "already had a W.5", m
+                    # into the Qish pile we began with
+                    $n = me&fiu,m,q.t;
+                    ny&Q = q;
+                })
         
-        # make W.5!
-        me&ioty,Steg .map(&m{
-            $f = Cye([m.t,9]);
-            # the 5.sc[$species] = dige, inc 1=Ws&dige
-            $spec = {1:m};
-            me&ioty,m .map(n => spec[n.t] = n);
-            each tn spec {
-                # the SteW/* is Qish: Q%string%dige without %of%args
-                #  which are implied by their placement in the Searchish
-                $Q = ny&Q;
-                f.sc[t] = Qs&dige
+                # replace W
+                #  for something %%twin->Paving compatible re %species
+                #  all other $of should just work?
+                # < io resolving to y&Q, type checking
+                me&indo,Steg (&sd{
+                    d.d <2 and return
+                    $p = d.la || eg;
+                    $v = sy&Q;
+                    !vs&dige and throw "notdiged",s,v
+                    v = d.la = Cye(v);
+                    # $W/js -> js
+                    v.t = s.t;
+                    me&fiu,p,d.la
+                });
             }
-            # re this u, flattening args
-            # < of:wjs -> of:w through the join?
-            #   see W|w: their species pool dige sensitivity
-            me&Stearchish_to_twin,Steu,f;
-            # f -> Qish
-            $q = Cye(['5',2]);
-            qs&string = me&Lineso,f;
-            qs&dige = dig(qs&string);
-            # species thing fronting q as a writable of $W
-            me&fiu,m,q.t,8 and throw "already had a W.5", m
-            $n = me&fiu,m,q.t;
-            ny&Q = q;
-        })
-        
-        # Steg/n** replace W
-        #  for something %%twin->Paving compatible re %species
-        #  all other $of should just work?
-        # < io resolving to y&Q, type checking
-        me&indo,Steg (&sd{
-            d.d <2 and return
-            $p = d.la || eg;
-            $v = sy&Q;
-            !vs&dige and throw "notdiged",s,v
-            v = d.la = Cye(v);
-            # $W/js -> js
-            v.t = s.t;
-            me&fiu,p,d.la
-        });
+            else {
+                # warn of non of/t pushing (or whatever the %twin wants)
+                
             }
-        
         })
         
         # n/W is now folded like %twin of/t
