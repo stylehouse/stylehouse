@@ -300,6 +300,7 @@
             $to = n.sc[c.k];
             !to and throw ""
             # %%eto=1 means to the step
+            # < clone out the n to change %%eto=name->$s
             to == 1 and to = s.y.path[0]
             # select s given p/r/s
             $jo = toy&R;
@@ -552,7 +553,16 @@
         # < brackstill config/slep
         me.etos_6 = &acgtRprs{
             # all %%eto from this node
-            $rows = me&jaa,r,'eto' .filter (n => !ns&efrom);
+            $rows = me&jaa,r,'eto' .filter(&n{
+                # demand %%eto=s is a node && not us
+                $s = ns&eto;
+                # to the step only if not us
+                s == 1 and return ry&up != R
+                isR(s) and throw "R fed eto"
+                !(sy&path||sy&p) and throw "!node",s
+                s == rc&s and return
+                return 1
+            })
             !rows.length && !sy&etos and return
             # loads up sy&etos
             $c = {rows,k:'eto',tk:'etos'};

@@ -24,7 +24,7 @@ me.Sch_Pavings = &acgt{ return [
         n Travel 3  %Travels
         n Duolish 4  %Duolish
         # in a puff of ghost
-        n To 5
+        n To 5 twin:Travel|That#of/t
         
         n That 7  %Pavings
 
@@ -107,9 +107,13 @@ me.Sch_Pavings = &acgt{ return [
         
         $host = Qy&host;
         $qe = {host};
+        # select Qish amongst host%%tw,of,s=efrom=Know..s
+        #  indexed by %twmt over there
         $N = me&nodeo,R,host,Q,qe;
         each in N {
-            me&ha,R,n,null,qe;
+            # to eg Ghost via Ghost..s
+            #  so s=Know..s,efrom=Ghost..s
+            me&ha,R,n,{eto:1},qe;
         }
     },'ift,D'],
     
