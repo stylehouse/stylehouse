@@ -1774,33 +1774,91 @@ me.Sch_Comm = &acgt{ return [
     ['MayGansp','298',&acgtRs{
         me&reaw,R,'MayGansp,eph';
         me&bin,'MayTwine';
+        $S = me&inode,R;
+        
         $g = me&case,34
         $twin = sy&twin;
         !twin and throw "!join to"
         gy&can('m','to').y.can('i',twin.t);
+        
         $rs = sy&release;
         !rs and throw "!t->u/n bunch"
+        # Ghost%%tw is mixed host=from|yonder
         $host = sy&host;
         !host and throw "!join from"
-        $re = sy&remote;
-        !twin and throw "!remote host yonder"
+        hosty&s != sy&path[0] and throw "join from!this step", host, s
         # < %twin-like anyindex to anywhere
-        !re and "index says where it goes?"
+        $re = sy&remote;
+        !re and throw "!remote host yonder"
         
-        $j = twiny&R;
+        $j = me&yfuture,twin;
         # < resolve our thing there...
-        $W = me&zaa,j,{host,tw:rs.t}
-        W.length > 1 and return me&waits,"many"
+        $W = me&jaa,j,{host,tw:rs.t};
+        W.map(&n{
+            # it found its Travel/**
+            ns&s == sy&client;
+            # Ghost/* thing
+            me&ha,R,{found:ns&efrom}
+        });
+        W.length > 1 and return me&waits,"many";
         
-        me&zu,"could",W
+        # auto input Ghost/*<=%MayGansp
+        #  **<=%MayTwine wait for ready
+        #  this e retracting when we finish updates Ghost
+        me&nodee,R,j,Cye([rs.t,1]),{},{el:2}
+        
         me&tsc,"mg",'','d'
         
         (Rs&boost||0) > 0 and me&zu,"MayGansp.s",s;
     },'ift,D'],
+    ['sleeping+wou_accepted','298',&acgtRs{
+        # %wou must be there to access _accepted
+        # < why w_a if no w when tunneling?
+        me&rollbs,R,'wou'
+    },'ift,D'],
     ['MayTwine','298',&acgtRs{
         me&reaw,R,'MayTwine,eph';
         me&bin,'MayTwine';
+        $S = me&inode,R;
         $mg = me.cbu(R,'MayGansp')
+        $p = Ry&up;
+        $zp = me&zaa,p,'found',1 [0];
+        # to be put in $zp/$z
+        $z = zp && me&fiu,zp,s.t,8;
+        if (z) {
+            me&ha,R,{found:z}
+            $he = heq(z.sc,s.sc);
+            me&nu,'he',he
+        }
+        else {
+            me&ha,R,{should:s}
+        }
+        
+        # nearly home
+        # < to be fairly %onlyish as we rattle toward ready
+        # < using %acty levels to move readiness around?
+        #   they must &settle at each one,
+        #   transmitting to neighbours
+        #    was an inspiration for nodei
+        # < &elnodes must visit any $p/$n we add,
+        #    to make sure it gives %twmt
+        #   Rsync not enough?
+        # < &nodeo not found should send attention there once?
+        #   Travel's tw making gets forgot:
+        # < %%eto dont land there reliably, is it:
+        #   < coinciding &Yinge not lost
+        # < each step should Ring 2-9, try/catch
+        
+        # and back to this,
+        # < Know..s%Paving must be set up in the remotes
+        #    or Ghost..s can be trusted to &nodei them?
+        # < Ghost..s grows/shrinks and downloads s.sc
+        #  < goners may gc Know..s if !ja,Ghost,{host:Know,s}
+        #  < keepers may drop sc evident in Know..s
+        #  < other Ghost..s may acquire sc, above in reverse
+        # ^ loosely around:
+        # < n must push to That..s
+        # < u must be as Know..s, or Ghost..s may acquire sc
         
         # tw
         me&tsc,"data++",'','d'

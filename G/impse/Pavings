@@ -90,6 +90,24 @@ me.Sch_Pavings = &acgt{ return [
             }
             return Q
         }
+        # %%el,e requets +|- $s/#$e
+        me.elnodes = &acgts{
+            $R = sy&R;
+            me&jaa,R,'el,e,efrom' .map(&n{
+                $e = ns&e;
+                es&done == 1 and return
+                ns&el == 2 and me&fiu,s,e.t
+                else
+                ns&el == 2 and me&fiu,s,e.t,9
+                else {
+                    # < waits takes params?
+                    return me&waits,"unknown-e"
+                }
+                me&Rsync,R;
+                # < returns attention to sender?
+                es&done = 1;
+            })
+        }
     },
     ['twin',0.3,&acgtRs{
         ah(R,'adhere','twin',2);
@@ -100,10 +118,13 @@ me.Sch_Pavings = &acgt{ return [
         $r = win.shift();
         $p = rc&s.y.p;
         
+        $S = me&inode,R;
+        # can give/take
+        me&elnodes,s;
+        
         $Q = me&Q_via_structure,p,win;
         # the py&R, non-last bits of index
         !Q and return
-        $S = me&inode,R;
         
         $host = Qy&host;
         $qe = {host};
