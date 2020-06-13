@@ -1819,10 +1819,12 @@ me.Sch_Comm = &acgt{ return [
         
         (Rs&boost||0) > 0 and me&zu,"MayGansp.s",s;
     },'ift,D'],
-    # nodeo but with a perspective
+    &{
+    # nodeo but with a perspective on a %twin
     me.twin_nodeo = &acgtjft{
         
     }
+    },
     ['sleeping+wou_accepted','298',&acgtRs{
         # %wou must be there to access _accepted
         # < why w_a if no w when tunneling?
@@ -1858,10 +1860,9 @@ me.Sch_Comm = &acgt{ return [
         # to be put in $zp/$z
         $z = zp && me&fiu,zp,s.t,8;
         if (z) {
+            me&settle,R,z and return
             me&ha,R,{found:z}
             $he = hakd(z.sc,s.sc).filter(k=>k!='z');
-            me&nu,'he',he
-            me&settle,R,z
         }
         else {
             me&ha,R,{should:s}
@@ -1878,7 +1879,7 @@ me.Sch_Comm = &acgt{ return [
                 !re and throw "!remote host yonder"
                 $zj = zy&R;
                 !zj and return me&waits,"theyR"
-                $N = me&ja,zj,'may'
+                $N = me&ja,zj,'may:input'
                 me&nu,"The",N
             }
         }
