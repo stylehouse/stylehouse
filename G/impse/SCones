@@ -450,13 +450,6 @@ me.Sch_Comm = &acgt{ return [
                 me&ha,R,q
             })
         });
-        # < x. contextualised modulata/expressiona: x.ro, etc
-        # click act
-        $ro = &kc{
-            c ||= {once:1};
-            c.k = k;
-            return me&rolltog,R,c
-        }
         # t = $dome(,pe:el,e:d), c = {}|C
         # < peel here to keep word order of this call
         $ha = &tc{ me&ha,R,c,{},'dome:'+t }
@@ -464,11 +457,11 @@ me.Sch_Comm = &acgt{ return [
         
         
         # dome tires, need push
-        #Rs&icount > 4 && !ro('~') and return
+        #Rs&icount > 4 && !x.ro('~') and return
         # J.4 forgets, redoing without
-        ro('4') and me&rolled,R,'four'
+        x.ro('4') and me&rolled,R,'four'
         # < ability to reset history, inc sy&things
-        if (ro('!')) {
+        if (x.ro('!')) {
             [R,xc&Jrunto] .map(&r{
                 delete rs&wou_accepted;
                 rs&wou.sc = {}
@@ -531,7 +524,7 @@ me.Sch_Comm = &acgt{ return [
         me&dome_S,R,'todo','2';
         # < &stay, when ^ domes immute v
         
-        if (!ro('pause',{})) {
+        if (!x.ro('pause',{})) {
             # repoint @now
             # < io plan(?^@todo) to C
             #   little joins not in the main plumb
@@ -642,7 +635,7 @@ me.Sch_Comm = &acgt{ return [
                 q.dome = ns&plan+'-fin'
                 # e slepable by the rows of %%store + Inc..P%dige
                 # + random bumps
-                if (ro('+T')) {
+                if (x.ro('+T')) {
                     sy&Tbump ||= 0
                     sy&Tbump++
                 }
@@ -759,16 +752,23 @@ me.Sch_Comm = &acgt{ return [
         !xc&Ying and throw "!Ying"
         # the 3, aka 'client'
         xc&client = me.cbu(R,'SummerCat');
-        !xc&client and throw "!client"
+        !xc&client and delete xc&client;
+        # throw "!client"
         each tr x.c {
             x.sc[t] = rc&s
-        }
-        [xc&Ying,xc&client] .map(&crux,{
-            me&ioty,crux,'ball' .map(&n{
+            me&ioty,r,'ball' .map(&n{
                 x.c[n.t] = n;
                 x.sc[n.t] = nc&s;
             });
-        })
+        }
+        
+        # < x. contextualised modulata/expressiona: x.ro, etc
+        # click act
+        x.ro = &kc{
+            c ||= {once:1};
+            c.k = k;
+            return me&rolltog,R,c
+        }
         
         # < brackimply: sets x.zaa etc to dome:plans or etc
         #   you: x.doming = 'plans' # etc per S
@@ -1798,6 +1798,7 @@ me.Sch_Comm = &acgt{ return [
             # Ghost/* found its Travel/*
             ns&s == sy&client;
             me&ha,R,{found:ns&efrom}
+            me&settle,R,ns&efrom;
         });
         W.length > 1 and return me&waits,"many";
         
@@ -1807,6 +1808,10 @@ me.Sch_Comm = &acgt{ return [
         me&nodee,R,j,Cye([rs.t,1]),{},{el:2}
         
         me&tsc,"mg",'','d'
+        # < p only as Schema meta, make twin = s, sy&structure
+        $tp = twiny&p;
+        sy&structure = tps&structure;
+        me&zu,'twin',twin
         
         (Rs&boost||0) > 0 and me&zu,"MayGansp.s",s;
     },'ift,D'],
@@ -1816,10 +1821,24 @@ me.Sch_Comm = &acgt{ return [
         me&rollbs,R,'wou'
     },'ift,D'],
     ['MayTwine','298',&acgtRs{
-        me&reaw,R,'MayTwine,eph';
+        me&reaw,R,'MayTwine,eph,activy';
         me&bin,'MayTwine';
         $S = me&inode,R;
-        $mg = me.cbu(R,'MayGansp')
+        $mg = me.cbu(R,'MayGansp');
+        $ms = mgc&s;
+        
+        $li = sy&path.indexOf(ms);
+        li < 0 and throw "!^^MayGansp"
+        $l = sy&path.slice(li);
+        li = l.length-1;
+        $h = msy&structure[li];
+        # t/of/t/species is pushed but not remembered
+        !h and me&ha,R,'extra'
+        else
+        # a t/of/t, or any complete leg of index
+        #  that we want to push a state to
+        !msy&structure[li+1] and me&ha,R,'thing'
+        
         $p = Ry&up;
         $zp = me&zaa,p,'found',1 [0];
         # to be put in $zp/$z
@@ -1832,6 +1851,8 @@ me.Sch_Comm = &acgt{ return [
         else {
             me&ha,R,{should:s}
         }
+        $ja = &c{ return me&ja,R,c };
+        ja('actey') && !ja('found') and me&nodei,R,Ry&up,{actey:3}
         
         # nearly home
         # &nodeo not found sends attention there:
@@ -1863,7 +1884,9 @@ me.Sch_Comm = &acgt{ return [
         # < u must be as Know..s, or Ghost..s may acquire sc
         
         # tw
-        me&tsc,"data++",'','d'
+        $x = me&Jx,R;
+        x.ro('d++') and me&ha,R,'actey:3,dome:May'
+        #me&tsc,"data++",'','d'
         
         (Rs&boost||0) > 0 and me&zu,"MayGansp.s",s;
     },'ift,D'],
