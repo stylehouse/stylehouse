@@ -1795,13 +1795,8 @@ me.Sch_Comm = &acgt{ return [
         $tp = twiny&p;
         sy&structure = tps&structure;
         
-        $j = me&yfuture,twin;
-        # listen to Ghost
-        me&settle,R,j
-        
         # resolve our thing there...
-        $W = me&zaa,j,{host:1,tw:rs.t}
-            .filter(n => ns&host.t == host.t);
+        $W = me&twin_nodeo,R,twin,host,{tw:rs.t}
         W.map(&n{
             # Ghost/* found its Travel/*
             ns&s == sy&client;
@@ -1813,7 +1808,7 @@ me.Sch_Comm = &acgt{ return [
         # auto input Ghost/*<=%MayGansp
         #  **<=%MayTwine wait for ready
         #  this e retracting when we finish updates Ghost
-        me&nodei,R,j,{tw:rs.t,el:2}
+        me&nodei,R,twin,{tw:rs.t,el:2}
         
         me&tsc,"mg",'','d'
         
@@ -1821,8 +1816,13 @@ me.Sch_Comm = &acgt{ return [
     },'ift,D'],
     &{
     # nodeo but with a perspective on a %twin
-    me.twin_nodeo = &acgtjft{
-        
+    me.twin_nodeo = &acgtR,twin,host,c{
+        $j = me&yfuture,twin;
+        # listen to Ghost
+        me&settle,R,j;
+        c.host ||= 1;
+        return me&zaa,j,c
+            .filter(n => ns&host.t == host.t);
     }
     },
     ['sleeping+wou_accepted','298',&acgtRs{
@@ -1857,6 +1857,7 @@ me.Sch_Comm = &acgt{ return [
         # find further found things in Ghost
         $p = Ry&up;
         $zp = me&zaa,p,'found',1 [0];
+        zp && me&settle,R,zp and return
         # to be put in $zp/$z
         $z = zp && me&fiu,zp,s.t,8;
         if (z) {
@@ -1875,12 +1876,13 @@ me.Sch_Comm = &acgt{ return [
                 zp and me&nodei,R,zp,{tw:s.t,el:2}
             }
             else {
-                $re = msy&remote;
-                !re and throw "!remote host yonder"
                 $zj = zy&R;
                 !zj and return me&waits,"theyR"
-                $N = me&ja,zj,'may:input'
-                me&nu,"The",N
+                # tell it to nodeo input a Know..%Pave
+                me&ja,zj,'may:input' and me&nodei,R,zj,{s,may:'input'}
+                # we should then see it in Ghost%%tw...
+                $W = me&twin_nodeo,R,msy&twin,msy&remote,{tw:s.t}
+                me&zu,"istw-d",W
             }
         }
         
