@@ -90,22 +90,25 @@ me.Sch_Pavings = &acgt{ return [
             }
             return Q
         }
-        # %%el,e requets +|- $s/#$e
+        # %%el,tw requets +|- $s/#$e
         me.elnodes = &acgts{
-            $R = sy&R;
-            me&jaa,R,'el,e,efrom' .map(&n{
-                $e = ns&e;
-                es&done == 1 and return
-                ns&el == 2 and me&fiu,s,e.t
+            $R = Cy&R;
+            me&jaa,R,'el,tw,efrom' .map(&n{
+                $t = ns&tw;
+                $was = me&fiu,s,t,8;
+                ns&el == 2 and me&fiu,s,t
                 else
-                ns&el == 2 and me&fiu,s,e.t,9
+                ns&el == 9 and me&fiu,s,t,9
                 else {
                     # < waits takes params?
                     return me&waits,"unknown-e"
                 }
-                me&Rsync,R;
-                # < returns attention to sender?
-                es&done = 1;
+                $cha = ns&el == 2 && !was
+                    || ns&el == 9 && was;
+                cha and me&ha,R,'waits:elnodes'
+                cha and me&Rsync,R;
+                # < %twin them immediately
+                # sender must &settle Ghost**
             })
         }
     },
@@ -116,13 +119,13 @@ me.Sch_Pavings = &acgt{ return [
         me&reaw,R,'twin';
         $win = me.cby(R,'^^^twin');
         $r = win.shift();
-        $p = rc&s.y.p;
+        $st = rc&s;
         
         $S = me&inode,R;
         # can give/take
         me&elnodes,s;
         
-        $Q = me&Q_via_structure,p,win;
+        $Q = me&Q_via_structure,sty&p,win;
         # the py&R, non-last bits of index
         !Q and return
         

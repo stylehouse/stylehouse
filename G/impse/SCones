@@ -1783,7 +1783,7 @@ me.Sch_Comm = &acgt{ return [
         
         $rs = sy&release;
         !rs and throw "!t->u/n bunch"
-        # Ghost%%tw is mixed host=from|yonder
+        # Ghost%%tw,host=from|yonder
         $host = sy&host;
         !host and throw "!join from"
         hosty&s != sy&path[0] and throw "join from!this step", host, s
@@ -1791,9 +1791,17 @@ me.Sch_Comm = &acgt{ return [
         $re = sy&remote;
         !re and throw "!remote host yonder"
         
+        # < p only as Schema meta, make twin = s, sy&structure
+        $tp = twiny&p;
+        sy&structure = tps&structure;
+        
         $j = me&yfuture,twin;
-        # < resolve our thing there...
-        $W = me&zaa,j,{host,tw:rs.t};
+        # listen to Ghost
+        me&settle,R,j
+        
+        # resolve our thing there...
+        $W = me&zaa,j,{host:1,tw:rs.t}
+            .filter(n => ns&host.t == host.t);
         W.map(&n{
             # Ghost/* found its Travel/*
             ns&s == sy&client;
@@ -1805,16 +1813,16 @@ me.Sch_Comm = &acgt{ return [
         # auto input Ghost/*<=%MayGansp
         #  **<=%MayTwine wait for ready
         #  this e retracting when we finish updates Ghost
-        me&nodee,R,j,Cye([rs.t,1]),{},{el:2}
+        me&nodei,R,j,{tw:rs.t,el:2}
         
         me&tsc,"mg",'','d'
-        # < p only as Schema meta, make twin = s, sy&structure
-        $tp = twiny&p;
-        sy&structure = tps&structure;
-        me&zu,'twin',twin
         
         (Rs&boost||0) > 0 and me&zu,"MayGansp.s",s;
     },'ift,D'],
+    # nodeo but with a perspective
+    me.twin_nodeo = &acgtjft{
+        
+    }
     ['sleeping+wou_accepted','298',&acgtRs{
         # %wou must be there to access _accepted
         # < why w_a if no w when tunneling?
@@ -1826,6 +1834,11 @@ me.Sch_Comm = &acgt{ return [
         $S = me&inode,R;
         $mg = me.cbu(R,'MayGansp');
         $ms = mgc&s;
+        
+        # tw
+        $x = me&Jx,R;
+        x.ro('d++') and me&ha,R,'actey:3,dome:May'
+        #me&tsc,"data++",'','d'
         
         $li = sy&path.indexOf(ms);
         li < 0 and throw "!^^MayGansp"
@@ -1839,20 +1852,36 @@ me.Sch_Comm = &acgt{ return [
         #  that we want to push a state to
         !msy&structure[li+1] and me&ha,R,'thing'
         
+        # find further found things in Ghost
         $p = Ry&up;
         $zp = me&zaa,p,'found',1 [0];
         # to be put in $zp/$z
         $z = zp && me&fiu,zp,s.t,8;
         if (z) {
             me&ha,R,{found:z}
-            $he = heq(z.sc,s.sc);
+            $he = hakd(z.sc,s.sc).filter(k=>k!='z');
             me&nu,'he',he
+            me&settle,R,z
         }
         else {
             me&ha,R,{should:s}
         }
         $ja = &c{ return me&ja,R,c };
-        ja('actey') && !ja('found') and me&nodei,R,Ry&up,{actey:3}
+        if (ja('actey')) {
+            if (!ja('found')) {
+                me&nodei,R,Ry&up,{actey:3}
+                me&zu,"nofound",p
+                zp and me&nodei,R,zp,{tw:s.t,el:2}
+            }
+            else {
+                $re = msy&remote;
+                !re and throw "!remote host yonder"
+                $zj = zy&R;
+                !zj and return me&waits,"theyR"
+                $N = me&ja,zj,'may'
+                me&nu,"The",N
+            }
+        }
         
         # nearly home
         # &nodeo not found sends attention there:
@@ -1882,11 +1911,6 @@ me.Sch_Comm = &acgt{ return [
         # ^ loosely around:
         # < n must push to That..s
         # < u must be as Know..s, or Ghost..s may acquire sc
-        
-        # tw
-        $x = me&Jx,R;
-        x.ro('d++') and me&ha,R,'actey:3,dome:May'
-        #me&tsc,"data++",'','d'
         
         (Rs&boost||0) > 0 and me&zu,"MayGansp.s",s;
     },'ift,D'],

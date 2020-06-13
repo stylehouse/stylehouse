@@ -21,10 +21,14 @@
     # q describes a possibility of an act
     # a what's needed to complete it
     # might solve immediately, bracking no %%may
+    # eg from %twin & &nodeo:
+    #  t=input, a=s, q=tw,Qc&* etc...
+    # ! doesnt put %%may somehow?
     me.may = &acgtRtaq,qe{
         isst(a) and a = G&peel,a
         isst(q) and q = G&peel,q
         a.may = t;
+        # may:t+q 
         # the question %%may,...
         q = ex({may:t},q);
         ex(q,qe);
@@ -37,6 +41,7 @@
             # < ha with %%indeed, which noops the may+waits
             return N
         }
+        q.may = t;
         me&ha,R,q;
         return []
     };
