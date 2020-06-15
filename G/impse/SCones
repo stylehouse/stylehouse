@@ -1796,19 +1796,16 @@ me.Sch_Comm = &acgt{ return [
         sy&structure = tps&structure;
         
         # resolve our thing there...
-        $W = me&twin_nodeo,R,twin,host,{tw:rs.t}
-        W.map(&n{
+        me&twin_nodeo,R,twin,host,{tw:rs.t} (&n{
             # Ghost/* found its Travel/*
             ns&s == sy&client;
             me&ha,R,{found:ns&efrom}
             me&settle,R,ns&efrom;
-        });
-        W.length > 1 and return me&waits,"many";
-        
-        # auto input Ghost/*<=%MayGansp
-        #  **<=%MayTwine wait for ready
-        #  this e retracting when we finish updates Ghost
-        me&nodei,R,twin,{tw:rs.t,el:2}
+        }) (&{
+            # auto input Ghost/*
+            #  this eto retracting when Ghost has it
+            me&nodei,R,twin,{tw:rs.t,el:2}
+        })
         
         me&tsc,"mg",'','d'
         
@@ -1821,8 +1818,41 @@ me.Sch_Comm = &acgt{ return [
         # listen to Ghost
         me&settle,R,j;
         c.host ||= 1;
-        return me&zaa,j,c
+        $N = me&zaa,j,c
             .filter(n => ns&host.t == host.t);
+        return &per_thing,{
+            N.length > 1 and return me&waits,"many:"+twin.t+"->"+host.t;
+            N.map(&n{
+                per_thing (n)
+            })
+            return &if_nothing,{
+                !N.length and if_nothing()
+            }
+        }
+    }
+    # 
+    # < tysc args: this is c||=t(c)
+    me.tw_nodeo = &acgtRpsc{
+        isst(c) and c = {t:c}
+        $p = Ry&up;
+        # p has %%found
+        $zp = me&zaa,p,c.q||c.t,1 [0];
+        if (zp) {
+            me&settle,R,zp;
+            !zpy&R and return
+            # to be put in $zp/$z
+            z = me&fiu,zp,s.t,8;
+            !z and me&ha,R,{almost:c.t,into:zp}
+        }
+        if (z) {
+            me&settle,R,z
+            !zy&R and return
+            $found = {};
+            found[c.t] = z;
+            me&ha,R,found
+            $he = hakd(z.sc,s.sc).filter(k=>k!='z');
+        }
+        return z
     }
     },
     ['sleeping+wou_accepted','297',&acgtRs{
@@ -1854,43 +1884,53 @@ me.Sch_Comm = &acgt{ return [
         #  that we want to push a state to
         !msy&structure[li+1] and me&ha,R,'thing'
         
+        # Travel/* <-> Ghost/$ms..$z <-> Know..$K
+        $K;
+        
         # find further found things in Ghost
-        $p = Ry&up;
-        $zp = me&zaa,p,'found',1 [0];
-        if (zp) {
-            !zpy&R and return me&settle,R,zp;
-            me&settle,R,zp;
-            # to be put in $zp/$z
-            $z = me&fiu,zp,s.t,8;
-        }
-        if (z) {
-            !zy&R and return me&settle,R,z;
-            me&settle,R,z
-            me&ha,R,{found:z}
-            $he = hakd(z.sc,s.sc).filter(k=>k!='z');
-        }
-        else {
-            me&ha,R,{should:s}
-        }
+        # creating/locating $ms..$z
+        $z = me&tw_nodeo,R,Ry&up,s,'found';
+        
         $ja = &c{ return me&ja,R,c };
         if (ja('actey')) {
             if (!ja('found')) {
                 me&nodei,R,Ry&up,{actey:3}
-                me&zu,"nofound",p
-                zp and me&nodei,R,zp,{tw:s.t,el:2}
+                me&jaa,R,'almost:found,into' .map(&n{
+                    me&nodei,R,ns&into,{tw:s.t,el:2}
+                })
             }
             else {
                 $zj = zy&R;
                 !zj and return me&waits,"theyR"
-                # tell it to nodeo input a Know..%Pave
-                $may = me&jaa,zj,'may:input' .filter(n => !ns&eto)
-                may.length and me&nodei,R,zj,{s,may:'input'}
                 # we should then see it in Ghost%%tw...
-                $W = me&twin_nodeo,R,msy&twin,msy&remote,{tw:s.t}
-                me&zu,"istw-d",W
+                me&twin_nodeo,R,msy&twin,msy&remote,{tw:s.t} (&n{
+                    # Ghost..z found its Know..K
+                    K = ns&s;
+                    me&ha,R,{yonder:K,via:ns&efrom}
+                    me&settle,R,K;
+                }) (&{
+                    # tell it to nodeo input a Know..%Pave
+                    $may = me&jaa,zj,'may:input' .filter(n => !ns&eto)
+                    may.length and me&nodei,R,zj,{s,may:'input'}
+                });
+                K && me&twin_nodeo,R,msy&twin,msy&remote,{s:K} (&n{
+                    # Know..K can find other Ghost..z
+                    ns&s == K and return
+                    me&ha,R,{otherz:ns&s,via:ns&efrom}
+                });
             }
         }
+        
+        $Z = me&ja,R,'otherz',1;
+        Z and me&zu,"Other-Ghost..z",Z
+        
+        me&zu,"Ghost..z",z
+        me&zu,"Know..K",K
+        
+        
+        
         # cm.getModeAt(pos
+        
         # nearly home
         # &nodeo not found sends attention there:
         #  extra %twin &settle host makes it go,
@@ -1916,6 +1956,7 @@ me.Sch_Comm = &acgt{ return [
         #  < goners may gc Know..s if !ja,Ghost,{host:Know,s}
         #  < keepers may drop sc evident in Know..s
         #  < other Ghost..s may acquire sc, above in reverse
+        #    
         # ^ loosely around:
         # < n must push to That..s
         # < u must be as Know..s, or Ghost..s may acquire sc
