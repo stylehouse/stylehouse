@@ -398,9 +398,25 @@
         $s = rc&s;
         # %%dome replace if any new
         me&dome_7,R,p,r,s;
-        # when not &bready, ask R%Ying to come back:
-        me&bready,r and me&ha,R,{waits:'wants',wants:s}
+        
+        # may %%waits,wants=z to visit other node
+        $wants = me&jaa,r,{waits:1,wants:1};
+        wants = wants.map(&n{
+            # from an earlier &bready
+            ns&notanode and return
+            if (isR(ns&wants)) {
+                ~>3 wantsR: s.t, ns&wants.t;
+            }
+            me&ha,R,n,{},{via:s}
+            return 1
+        })
+        
+        # &bready: %%waits usually revisit this node
+        $waits = (me&bready,r || [])
+            .filter(n => !wants.includes(n));
+        waits.length and me&ha,R,{waits:'wants',wants:s}
         else { rs&isbready = 1 }
+        
         me&settle_6,R,p,r,s;
         me&settle_7,R,p,r,s;
     }
@@ -1022,7 +1038,7 @@
                         ofs&Pavings = 1;
                         $t = me&fiu,of,qs.tw;
                         me&ha,j,'wiat:input'
-                        me&ha,R,{waits:'input',wants:to}
+                        me&ha,j,{waits:'input',wants:to}
                     }
                     else {
                         debugger;
@@ -1217,10 +1233,9 @@
             }
         })
 
-        !me&ja,R,'waits' and return
         # < %%waits -> pause|shy $R
         # avoiding the rest of the activity
-        return 1
+        return me&ja,R,'waits'
     };
         
    // &settle
