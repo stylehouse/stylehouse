@@ -1933,12 +1933,13 @@ me.Sch_Comm = &acgt{ return [
         # < &settle (no other) - for all so far
         # < &settle cv, EXPR - EXPR||Ying-wide wait
         #   if lower cv settles await
-        !K and return
-        me&settle,R,K and return me&tsc,'WaitforK'
         
         $difsc = &Ks{ return hakd(K.sc,s.sc).filter(k=>k!='z') }
         $twin = me&ja,mg,'twin',1 [0];
         if (ja('thing')) {
+            !K and return
+            me&settle,R,K and return me&tsc,'WaitforK'
+        
             # the Ghost..z may extend K
             ss&dige == Ks&dige and delete zs&dige
             else {
@@ -1953,8 +1954,7 @@ me.Sch_Comm = &acgt{ return [
                 ss&dige == Ks&dige and me&ha,R,'ready'
                 else {
                     # should be pushed
-                    $r = Ky&R;
-                    rs&fully = 1;
+                    me&nodei,R,K,{extra:s,species:1}
                     me&ha,R,'shouldpush'
                 }
             }
@@ -1963,7 +1963,10 @@ me.Sch_Comm = &acgt{ return [
             }
         }
         if (ja('extra')) {
-            
+            $pK = me&ja,Ry&up,'shouldpush'
+                && me&jaa,Ry&up,'yonder',1 [0];
+            pK and me&nodei,R,pK,{extra:s,species:s.t}
+            me&zu,"pK",pK
         }
         
         # cm.getModeAt(pos
