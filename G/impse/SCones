@@ -1807,9 +1807,15 @@ me.Sch_Comm = &acgt{ return [
             me&nodei,R,twin,{tw:rs.t,el:2}
         })
         
+        $st = me&ollbs,R,'brackstable';
+        me&zu,"olst",st
+        
+        me&ha,R,{twin}
+        # bump Ghost when s/** settle
+        me&ollbs,R,'brackstable' == 1 and me&ha,R,{waits:'heard',wants:twin}
         me&tsc,"mg",'','d'
         
-        (Rs&boost||0) > 0 and me&zu,"MayGansp.s",s;
+        #(Rs&boost||0) > 0 and me&zu,"MayGansp.s",s;
     },'ift,D'],
     &{
     # nodeo but with a perspective on a %twin
@@ -1841,7 +1847,7 @@ me.Sch_Comm = &acgt{ return [
             me&settle,R,zp;
             !zpy&R and return
             # to be put in $zp/$z
-            z = me&fiu,zp,s.t,8;
+            $z = me&fiu,zp,s.t,8;
             !z and me&ha,R,{almost:c.t,into:zp}
         }
         if (z) {
@@ -1850,7 +1856,6 @@ me.Sch_Comm = &acgt{ return [
             $found = {};
             found[c.t] = z;
             me&ha,R,found
-            $he = hakd(z.sc,s.sc).filter(k=>k!='z');
         }
         return z
     }
@@ -1907,7 +1912,6 @@ me.Sch_Comm = &acgt{ return [
                     # Ghost..z found its Know..K
                     K = ns&s;
                     me&ha,R,{yonder:K,via:ns&efrom}
-                    me&settle,R,K;
                 }) (&{
                     # tell it to nodeo input a Know..%Pave
                     $may = me&jaa,zj,'may:input' .filter(n => !ns&eto)
@@ -1924,10 +1928,43 @@ me.Sch_Comm = &acgt{ return [
         $Z = me&ja,R,'otherz',1;
         Z and me&zu,"Other-Ghost..z",Z
         
-        me&zu,"Ghost..z",z
-        me&zu,"Know..K",K
+        #me&zu,"Ghost..z",z
+        #me&zu,"Know..K",K
+        # < &settle (no other) - for all so far
+        # < &settle cv, EXPR - EXPR||Ying-wide wait
+        #   if lower cv settles await
+        !K and return
+        me&settle,R,K and return me&tsc,'WaitforK'
         
-        
+        $difsc = &Ks{ return hakd(K.sc,s.sc).filter(k=>k!='z') }
+        $twin = me&ja,mg,'twin',1 [0];
+        if (ja('thing')) {
+            # the Ghost..z may extend K
+            ss&dige == Ks&dige and delete zs&dige
+            else {
+                zs&dige = ss&dige
+            }
+            # can expect|%%actey-vate %Paving on things
+            if (twin.t == 'Ghost') {
+                # should be as we u, slight old if not
+                me&ha,R,'ready'
+            }
+            elsif (twin.t == 'To') {
+                ss&dige == Ks&dige and me&ha,R,'ready'
+                else {
+                    # should be pushed
+                    $r = Ky&R;
+                    rs&fully = 1;
+                    me&ha,R,'shouldpush'
+                }
+            }
+            else {
+                me&zu,"weird_twin",twin
+            }
+        }
+        if (ja('extra')) {
+            
+        }
         
         # cm.getModeAt(pos
         
@@ -1961,7 +1998,7 @@ me.Sch_Comm = &acgt{ return [
         # < n must push to That..s
         # < u must be as Know..s, or Ghost..s may acquire sc
         
-        (Rs&boost||0) > 0 and me&zu,"MayGansp.s",s;
+        #(Rs&boost||0) > 0 and me&zu,"MayGansp.s",s;
     },'ift,D'],
 ]};
 me.Sch_Constel = &acgt{ return [
