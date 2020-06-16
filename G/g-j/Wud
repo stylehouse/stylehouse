@@ -217,7 +217,7 @@ any '/W/*W' => &c{
     $t = "W/$t";
     return if $char_safety->($c,$t);
     
-    # and you can't use the name 1 etc
+    # and you can't use the name ^[1-5]
     $t =~ s/\/(\d)$//;
     my $species = $1 || $c->param('species') || '1';
     # may be in t for unique of+t amongst @Search
@@ -229,7 +229,6 @@ any '/W/*W' => &c{
     # returns json:
     my $re = {ok=>0};
     my $nos = 0;
-    
     
     if (defined $s) {
         # optional safety - must replace such dige

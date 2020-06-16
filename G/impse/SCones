@@ -1910,7 +1910,7 @@ me.Sch_Comm = &acgt{ return [
         
         # tw
         $x = me&Jx,R;
-        x.ro('d++') and me&ha,R,'actey:3,dome:May'
+        x.ro('d++') and me&ha,R,'actey:3,dome:tilpushed'
         #me&tsc,"data++",'','d'
         
         $li = sy&path.indexOf(ms);
@@ -1976,6 +1976,8 @@ me.Sch_Comm = &acgt{ return [
         
         $twin = me&ja,mg,'twin',1 [0];
         if (ja('thing')) {
+            # %MayGansp collects
+            me&nodei,R,mg,{thing:s}
             # wait for %twin climb
             !K and return
             # < flavours of waiting for something
@@ -1999,42 +2001,103 @@ me.Sch_Comm = &acgt{ return [
                 # should be as it was
                 # < to %parent, if ~ since we Travel to replace it?
                 #   esp if it was W load+save
-                ss&dige == Ks&dige and me&ha,R,'ready'
-                else {
-                    me&toPave,R,K;
-                    # should be pushed
-                    me&ha,R,'shouldpush';
-                    # < collect known species:Q,
-                    #   extras (below) add any more
-                    #  or the whole %Paving
-                }
+                me&toPave,R
             }
             else {
                 me&zu,"weird_twin",twin
             }
         }
-        if (ja('extra')) {
-            me&toPave,R;
-        }
-        #(Rs&boost||0) > 0 and me&zu,"MayGansp.s",s;
+        
+        ja('extra') and me&toPave,R
+        
+        # < something to settle all %%thing,
+        # < accept each then all %%wantpush
+        
+        #(Rs&boost||0) > 0 and me&zu,"MayTwine.s",s;
     },'ift,D'],
+   
+   // %MayGansp unit
+    ['MayGansp','299',&acgtRs{
+        $x = me&Jx,R;
+        me&jaa,R,'thing',1 .map(&z{
+            $j = zy&R;
+            # should lead back here after rattle
+            me&settle,R,z
+            
+            me&ja,j,'ready' and me&ha,R,{ready:z}
+            else 
+            me&ja,j,'wantpush' and me&ha,R,{wantpush:z}
+            else {
+                if (!me&ja,j,'yonder' ) {
+                    me&nodei,R,z,{actey:3,dome:'tilpushed'}
+                    if (me&ja,j,'eto,s,may:input' ) {
+                        # < numberclicked That?
+                        # jy&up
+                        #me&nodei,R,z,{actey:3,dome:'tilpushed'}
+                        me&tsc,z.t+"-may:"
+                    }
+                    # then waiting for:settle-!down
+                }
+                me&ha,R,{waiting:z}
+            }
+        })
+        # wait for all ready|wantpush
+        me&ja,R,'waiting' and return
+        # then for all ready after %%maypush -> wantpush
+        if (me&ja,R,'wantpush' ) {
+            x.ro("push*") &&
+            me&jaa,R,'thing',1 .map(&z{
+                me&nodei,R,z,{maypush:1,dome:'tilpushed'}
+                me&ha,R,{waits:'tilpushed',wants:z}
+            });
+            return
+        }
+        me&tsc,"Done!"
+    },'ift,D'],
+   // &toPave - Ghost|Know..n(.*)
         &{
         me.toPave = &acgtR{
             $s = Rc&s;
             # looking at the thing's W
-            $extra = me&ja,R,'extra'
+            $extra = me&ja,R,'extra';
             $Kr = extra ? Ry&up : R;
             $K = me&jaa,Kr,'yonder',1 [0];
-            !K and return
+            !K and return me&tsc,"!K"
             
             $Paving = Ky&R;
-            # load up any species that wants to be here
             $species = extra ? s.t : 1
-            $spQ = Pavings&species_Q
-            !spQ and me&waits,"Paving!species_Q"
-            $Pave = spQ[species];
-            me&zu,"Pavvo",Pave
-            # me&nodei,R,Paving,{extra:s,species}
+            $of = Pavings&Paving
+            if (of == 'W') {
+                # W have species
+                $spQ = Pavings&species_Q
+                !spQ and me&waits,"Paving!species_Q"
+                $Q = spQ[species];
+                # load a %Pave for any species that wants to be here
+                !Q &&
+                    me&nodei,R,Paving,{MayTwin:s,species,dome:'tilpushed'}
+            }
+            else {
+                extra and throw "extra for Paving:"+of, s
+                $Q = Pavings&Q
+            }
+            !Q and return me&tsc,"!Q"
+            if (ss&dige != Qs&dige) {
+                $q = {wantpush:1,Q,s};
+                # < W may include them all in one request?
+                #   ideally all these Qings would e W,
+                #   prove compat (eg consensus, auth, parent|patch),
+                #   and be merged, reversibly
+                extra and q.species = species;
+                # &nodei also puts %%wantpush in this R,
+                # < though you might ignore it because %%eto
+                # < conversely, pay more attention to %%efrom
+                R == Kr ? me&ha,R,q : me&nodei,R,Kr,q;
+            }
+            else {
+                me&ha,R,'ready'
+            }
+            me&nu,"Pavvo",Q
+            # 
         };
         },
         # cm.getModeAt(pos
@@ -2047,7 +2110,21 @@ me.Sch_Comm = &acgt{ return [
         #   < %%eto dont land there reliably, is it:
         #    < coinciding &Yinge not lost
         
-        # < to be fairly %onlyish as we rattle toward ready
+        # side tracks:
+        # < R%onlyish if R &settle,R/**,
+        #    would be awake when we visit R,
+        #    but can probably work for settling awaits:
+        #   so %MayGansp may &settle all %%thing
+        # < come back to %MayGansp,
+        # to:
+        # < get all %%thing to %%ready|%%wantpush,Q,s+
+        # < push remainders, til all %%ready
+        
+        
+        #   for coming back to %MayGansp
+        #    awaiting all 
+        #  
+        #    as we rattle toward ready
         # < using %acty levels to move readiness around?
         #   they must &settle at each one,
         #   transmitting to neighbours
