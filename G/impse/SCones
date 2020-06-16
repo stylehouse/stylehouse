@@ -1784,6 +1784,7 @@ me.Sch_Comm = &acgt{ return [
         l <2 and return
         (Rs&boost||0) < 0 and Rs&thiding = me&ioty,s .map(z=>z.t)
     },'ift,D'],
+   
    // %MayGansp %twin find
     # %twin climb beings, to its idea of us
     ['MayGansp','298',&acgtRs{
@@ -1835,6 +1836,7 @@ me.Sch_Comm = &acgt{ return [
         
         #(Rs&boost||0) > 0 and me&zu,"MayGansp.s",s;
     },'ift,D'],
+   
    // twin|tw nodeo
     &{
     # nodeo but with a perspective on a %twin
@@ -1978,11 +1980,6 @@ me.Sch_Comm = &acgt{ return [
         }
         
    // %twin->%Pave
-        $Z = me&ja,R,'otherz',1;
-        Z and me&zu,"Other-Ghost..z",Z
-        
-        #me&zu,"Ghost..z",z
-        #me&zu,"Know..K",K
         # < &settle (no other) - for all so far
         # < &settle cv, EXPR - EXPR||Ying-wide wait
         #   if lower cv settles await !
@@ -1999,7 +1996,7 @@ me.Sch_Comm = &acgt{ return [
                 return me&tsc,'WaitforK'
             }
         
-            # twin..z has the Travel'd version, K may ~
+            # Ghost..z has the Travel'd version, K may ~
             zs&dige = ss&dige;
             # < or perhaps only if it's not as K implies,
             #   requiring all changes of K%dige to offset all its twin..z
@@ -2072,6 +2069,8 @@ me.Sch_Comm = &acgt{ return [
         if (me&ja,R,'wantpush' ) {
             x.ro("push*") &&
             me&jaa,R,'thing',1 .map(&z{
+                $jo = me&yfuture,z;
+                # < slow dige-through only, user must see diffs
                 me&nodei,R,z,{maypush:1,dome:'tilpushed-push'}
                 me&ha,R,{waits:'tilpushed',wants:z}
             });
@@ -2079,6 +2078,7 @@ me.Sch_Comm = &acgt{ return [
         }
         me&tsc,"Done!"
     },'ift,D'],
+   
    // &toPave - Ghost|Know..n(.*)
         &{
         me.toPave = &acgtR{
@@ -2106,25 +2106,74 @@ me.Sch_Comm = &acgt{ return [
                 $Q = Pavings&Q
             }
             !Q and return me&tsc,"!Q"
-            if (ss&dige != Qs&dige) {
-                $q = {wantpush:1,Q,s};
-                # < W may include them all in one request?
-                #   ideally all these Qings would e W,
-                #   prove compat (eg consensus, auth, parent|patch),
-                #   and be merged, reversibly
-                extra and q.species = species;
-                # &nodei also puts %%wantpush in this R,
-                # < though you might ignore it because %%eto
-                # < conversely, pay more attention to %%efrom
-                R == Kr ? me&ha,R,q : me&nodei,R,Kr,q;
+            #me&nu,"Pavvo",Q
+            
+            ss&dige == Qs&dige and return me&ha,R,'ready'
+            
+          // diff
+            $q = {wantpush:1,Q,s};
+            # < W may include them all in one request?
+            #   ideally all these Qings would e W,
+            #   prove compat (eg consensus, auth, parent|patch),
+            #   and be merged, reversibly
+            extra and q.species = species;
+            # &nodei also puts %%wantpush in this R,
+            # < though you might ignore it because %%eto
+            # < conversely, pay more attention to %%efrom
+            R == Kr ? me&ha,R,q : me&nodei,R,Kr,q;
                 
-                # < differ
-            }
+            $g = me&opeolo,"Runthing",{walls:1};
+            $pa = gy&can('m',Q.t);
+            
+            pas&mah = 30;
+            #!pas&ope and continue
+
+            Qc&el == 9 and me&mtsc,pa,'New!'
             else {
-                me&ha,R,'ready'
+                $c = {t:t,Zif:1};
+                c.got = s;
+                c.exp = Qs&P;
+                $di = me&Ret,R,c;
+                me&zN,di;
+                me&Ring,di,{und:di,ov:314};
+                me&zuct,pa,di;
+                pas&dis = 1;
+                each in dis&waits {
+                    ac(R,'waits',n)
+                }
+                Rs&summary = dis&summary;
             }
-            me&nu,"Pavvo",Q
-            # 
+            
+          // push
+            $Pave = Qy&R;
+            !Pave && Paves&Pave and throw "pushQ!Pave"
+            
+            $go = me&rolltog,R,{maydo:'Push',once:1,tsc:'B'},0;
+            go ||= me&ja,Kr,{maypush:1};
+            # sticks while dige same
+            go ||= me&sa,R,{Pushable:ss&dige};
+            if (go) {
+                if (!me&rollbs,R,'sent_string' ) {
+                    # Q asks
+                    ~>3 push: R.t
+                    Paves&commitstring(ss&string);
+                    Rs&sent_string = 1;
+                }
+                if (Qs&string == ss&string) {
+                    me&tsc,'pushed';
+                    # it cancels the go
+                    go = 0
+                }
+                else {
+                    $pu = me&tsc,'pushing'
+                    # %Pave shall receive update?
+                    me&ha,R,{waits:"pushing",wake:K}
+                    me.nto(R,pu,&{ 
+                        ~>3 repush: R.t
+                        delete Rs&sent_string })
+                }
+            }
+            go and me&ha,R,{Pushable:ss&dige}
         };
         },
         # cm.getModeAt(pos
