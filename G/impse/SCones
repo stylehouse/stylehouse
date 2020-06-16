@@ -2047,7 +2047,7 @@ me.Sch_Comm = &acgt{ return [
                         && me&ja,foundy&R,'eto,s,may:input'
                         # without That%%tw, no To%%tw yet:
                         && !me&ja,foundy&R,'eto,tw,s' ) {
-                        # < numberclicked That?
+                        # < unfreezable numberclicked That
                         # jy&up
                         #me&nodei,R,z,{actey:3,dome:'tilpushed'}
                         me&tsc,z.t+"-may:"
@@ -2062,7 +2062,9 @@ me.Sch_Comm = &acgt{ return [
             }
         })
         # wait for all %%ready|wantpush
+        # < periodically poke the $of of any %%waiting
         me&ja,R,'waiting' and return
+        !(me&ja,R,'ready' || me&ja,R,'wantpush' ) and return
         # desend %%actey now they all must have succeeded
         me&za,R,'waiting' and me&dome_traction,R,'tilpushed-actey',{el:2}
         # wait for all %%ready after any %%maypush
@@ -2130,7 +2132,7 @@ me.Sch_Comm = &acgt{ return [
 
             Qc&el == 9 and me&mtsc,pa,'New!'
             else {
-                $c = {t:t,Zif:1};
+                $c = {t:Q.t,Zif:1};
                 c.got = s;
                 c.exp = Qs&P;
                 $di = me&Ret,R,c;
