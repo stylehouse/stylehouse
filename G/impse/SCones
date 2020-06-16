@@ -1770,6 +1770,7 @@ me.Sch_Comm = &acgt{ return [
         l <3 and return
         (Rs&boost||0) < 0 and Rs&thiding = me&ioty,s .map(z=>z.t)
     },'ift,D'],
+   // %twin find
     # %twin climb beings, to its idea of us
     ['MayGansp','298',&acgtRs{
         me&reaw,R,'MayGansp,eph';
@@ -1800,7 +1801,10 @@ me.Sch_Comm = &acgt{ return [
             # Ghost/* found its Travel/*
             ns&s == sy&client;
             me&ha,R,{found:ns&efrom}
-            me&settle,R,ns&efrom;
+            me&settle,R,ns&efrom
+            # < more intent to ^ ?
+            #   causes a waking here and there loop:
+            #and me&ha,R,{waits:'twinfrom',wants:ns&efrom}
         }) (&{
             # auto input Ghost/*
             #  this eto retracting when Ghost has it
@@ -1865,6 +1869,9 @@ me.Sch_Comm = &acgt{ return [
         # < why w_a if no w when tunneling?
         me&rollbs,R,'wou'
     },'ift,D'],
+    
+    
+   // %twin climb
     ['MayTwine','298',&acgtRs{
         me&reaw,R,'MayTwine,eph,activy';
         me&bin,'MayTwine';
@@ -1925,6 +1932,7 @@ me.Sch_Comm = &acgt{ return [
             }
         }
         
+   // %twin->%Pave
         $Z = me&ja,R,'otherz',1;
         Z and me&zu,"Other-Ghost..z",Z
         
@@ -1932,29 +1940,37 @@ me.Sch_Comm = &acgt{ return [
         #me&zu,"Know..K",K
         # < &settle (no other) - for all so far
         # < &settle cv, EXPR - EXPR||Ying-wide wait
-        #   if lower cv settles await
+        #   if lower cv settles await !
         
-        $difsc = &Ks{ return hakd(K.sc,s.sc).filter(k=>k!='z') }
         $twin = me&ja,mg,'twin',1 [0];
         if (ja('thing')) {
+            # wait for %twin climb
             !K and return
-            me&settle,R,K and return me&tsc,'WaitforK'
-        
-            # the Ghost..z may extend K
-            ss&dige == Ks&dige and delete zs&dige
-            else {
-                zs&dige = ss&dige
+            # < flavours of waiting for something
+            if (me&settle,R,K ) {
+                me&ha,R,{waits:'forK',wants:K};
+                return me&tsc,'WaitforK'
             }
+        
+            # twin..z has the Travel'd version, K may ~
+            zs&dige = ss&dige;
+            # < or perhaps only if it's not as K implies,
+            #   requiring all changes of K%dige to offset all its twin..z
+            #ss&dige == Ks&dige and delete zs&dige
+            
             # can expect|%%actey-vate %Paving on things
             if (twin.t == 'Ghost') {
-                # should be as we u, slight old if not
+                # should be as we u, or slightly old
                 me&ha,R,'ready'
             }
             elsif (twin.t == 'To') {
+                # should be as it was
+                # < to %parent, if ~ since we Travel to replace it?
+                #   esp if it was W load+save
                 ss&dige == Ks&dige and me&ha,R,'ready'
                 else {
+                    me&toPave,R,K;
                     # should be pushed
-                    me&nodei,R,K,{extra:s,species:1}
                     me&ha,R,'shouldpush';
                     # < collect known species:Q,
                     #   extras (below) add any more
@@ -1966,12 +1982,29 @@ me.Sch_Comm = &acgt{ return [
             }
         }
         if (ja('extra')) {
-            $pK = me&ja,Ry&up,'shouldpush'
-                && me&jaa,Ry&up,'yonder',1 [0];
-            pK and me&nodei,R,pK,{extra:s,species:s.t}
-            me&zu,"pK",pK
+            me&toPave,R;
         }
-        
+        #(Rs&boost||0) > 0 and me&zu,"MayGansp.s",s;
+    },'ift,D'],
+        &{
+        me.toPave = &acgtR{
+            $s = Rc&s;
+            # looking at the thing's W
+            $extra = me&ja,R,'extra'
+            $Kr = extra ? Ry&up : R;
+            $K = me&jaa,Kr,'yonder',1 [0];
+            !K and return
+            
+            $Paving = Ky&R;
+            # load up any species that wants to be here
+            $species = extra ? s.t : 1
+            $spQ = Pavings&species_Q
+            !spQ and me&waits,"Paving!species_Q"
+            $Pave = spQ[species];
+            me&zu,"Pavvo",Pave
+            # me&nodei,R,Paving,{extra:s,species}
+        };
+        },
         # cm.getModeAt(pos
         
         # nearly home
@@ -2004,8 +2037,6 @@ me.Sch_Comm = &acgt{ return [
         # < n must push to That..s
         # < u must be as Know..s, or Ghost..s may acquire sc
         
-        #(Rs&boost||0) > 0 and me&zu,"MayGansp.s",s;
-    },'ift,D'],
 ]};
 me.Sch_Constel = &acgt{ return [
     # hierarchise, do batches of updates 

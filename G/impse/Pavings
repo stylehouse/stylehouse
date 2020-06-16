@@ -238,11 +238,17 @@ me.Sch_Pavings = &acgt{ return [
         sy&f = R;
         
         $Q;
-        each ir Rs&Zaving {
+        each tr Rs&Zaving {
             me&ha,R,{wants:r}
             Q = rs&Q;
+            !Q and me&waits,t+"!Q"
+            !Qs&ready and me&waits,t+"!ready"
+            # for pushing W, several things at once
+            $species = rs&species || 1;
+            ah(R,'species_Q',species,Q)
         }
         !Rs&Zaving and me&waits,"!Zaving"
+        # may be W.5 until %fully, then W.1
         !Q and me&waits,"!Q"
         me&bready,R and return
         
@@ -491,6 +497,7 @@ me.Sch_Pavings = &acgt{ return [
             m W\.5 2  %species:5
             me&jaa,R,'extra','species' .map(&k{
                 k == '1' and return Rs&fully = 1
+                k == '5' and return
                 $n =
                 m W 2
                 n.t += "."+k
