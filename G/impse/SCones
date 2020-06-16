@@ -2028,8 +2028,9 @@ me.Sch_Comm = &acgt{ return [
             else 
             me&ja,j,'wantpush' and me&ha,R,{wantpush:z}
             else {
+                # match jam to lateral shunt
                 if (!me&ja,j,'yonder' ) {
-                    me&nodei,R,z,{actey:3,dome:'tilpushed'}
+                    me&nodei,R,z,{actey:3,dome:'tilpushed-actey'}
                     if (me&ja,j,'eto,s,may:input' ) {
                         # < numberclicked That?
                         # jy&up
@@ -2041,13 +2042,15 @@ me.Sch_Comm = &acgt{ return [
                 me&ha,R,{waiting:z}
             }
         })
-        # wait for all ready|wantpush
+        # wait for all %%ready|wantpush
         me&ja,R,'waiting' and return
-        # then for all ready after %%maypush -> wantpush
+        # desend %%actey now they all must have succeeded
+        me&za,R,'waiting' and me&dome_traction,R,'tilpushed-actey',{el:2}
+        # wait for all %%ready after any %%maypush
         if (me&ja,R,'wantpush' ) {
             x.ro("push*") &&
             me&jaa,R,'thing',1 .map(&z{
-                me&nodei,R,z,{maypush:1,dome:'tilpushed'}
+                me&nodei,R,z,{maypush:1,dome:'tilpushed-actey'}
                 me&ha,R,{waits:'tilpushed',wants:z}
             });
             return
