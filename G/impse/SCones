@@ -1614,7 +1614,7 @@ me.Sch_Comm = &acgt{ return [
             })
         }
         
-    // dunketha
+     // dunketha
       // outputs + 5 -> twin-form
         # have outputs
         $Sten = me&fiu,s,'n';
@@ -1761,6 +1761,11 @@ me.Sch_Comm = &acgt{ return [
         }
     }
     },
+    ['sleeping+wou_accepted','297',&acgtRs{
+        # %wou must be there to access _accepted
+        # < why w_a if no w when tunneling?
+        me&rollbs,R,'wou'
+    },'ift,D'],
     ['MayGhost','298',&acgtRs{
         me&reaw,R,'MayGhost,eph';
         me&bin,'MayGhost';
@@ -1821,6 +1826,7 @@ me.Sch_Comm = &acgt{ return [
         
         #(Rs&boost||0) > 0 and me&zu,"MayGansp.s",s;
     },'ift,D'],
+   // twin|tw nodeo
     &{
     # nodeo but with a perspective on a %twin
     me.twin_nodeo = &acgtR,twin,host,c{
@@ -1863,12 +1869,34 @@ me.Sch_Comm = &acgt{ return [
         }
         return z
     }
+    # %%el,tw requets +|- $s/#$e
+    me.elnodes = &acgts{
+        $R = Cy&R;
+        me&jaa,R,'el,tw,efrom' .map(&n{
+            $t = ns&tw;
+            $was = me&fiu,s,t,8;
+            ns&el == 2 and me&fiu,s,t
+            else
+            ns&el == 9 and me&fiu,s,t,9
+            else {
+                # < waits takes params?
+                return me&waits,"unknown-e"
+            }
+            $cha = ns&el == 2 && !was
+                || ns&el == 9 && was;
+            if (cha) {
+                # if we are a step, dont %onlyish
+                sy&p and Rs&numberclicked = 1;
+                # < wake s to init n, only, so adhere etc
+                #   wants a pointer to not yet node
+                me&ha,R,{elnode:ns&el,wake:s}
+                #me&Rsync,R;
+            } 
+            # < %twin them immediately
+            # sender must &settle Ghost**
+        })
+    }
     },
-    ['sleeping+wou_accepted','297',&acgtRs{
-        # %wou must be there to access _accepted
-        # < why w_a if no w when tunneling?
-        me&rollbs,R,'wou'
-    },'ift,D'],
     
     
    // %twin climb
