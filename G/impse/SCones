@@ -596,7 +596,7 @@ me.Sch_Comm = &acgt{ return [
             })
         })
      
-     // 5 Travel when done
+     // 5 Travel..%Jproto->Duolish when done
         $done = plans.filter(n => !(nc&active || nc&ongoing));
         if (plans.length && plans.length == done.length) {
             each in done {
@@ -641,7 +641,7 @@ me.Sch_Comm = &acgt{ return [
                 }
                 q.dige = dig( Stey&total() + (sy&Tbump||'') )
                 
-                me&nodee,R,xc&Travel,Ste,{},q;
+                me&nodee,R,xc&Duolish,Ste,{},q;
                 #me&nu,"Sten",Sten
             }
         }
@@ -1424,13 +1424,6 @@ me.Sch_Comm = &acgt{ return [
         };
         me&ha,R,"Travels,to:Morrocco";
         
-        # forwards finisheds it to worriment device
-        # 
-        me&jaa,R,"e" .map(&n{
-            $e = ns&e;
-            me&bal,"Re:"+e.t,e,'Releasor,MayGhost,eph'
-        })
-        
         return;
         me&ha,R,"Travels,to:everywhere",{R};
         #!me&za,R,'fodder' ? me&ha,R,'fodder,lamp' : me&ha,R,'lamp'
@@ -1456,12 +1449,23 @@ me.Sch_Comm = &acgt{ return [
     },'ift,D'],
     
     ['Duolish',0.303,&acgtRs{
+        # unrelated
         me&jaa,R,"efrom,pat" .map(&n{
             $q = {};
             q.raga = ns&pat.split('').join('_');
             me&nodei,R,ns&efrom,q
         })
+        # Travel/* forwards finisheds it to worriment device
+        me&jaa,R,"e" .map(&n{
+            $e = ns&e;
+            $f = ns&efrom;
+            $S = fy&path[0];
+            ey&participant = Sy&p
+            me&bal,"Re:"+e.t,e,'Releasor,MayGhost,eph'
+        })
+        
     },'ift,D'],
+  
   // Releasor - Travel agent
     =pod see %Compiling
       a %Compiling in its push-phase,
@@ -1484,7 +1488,8 @@ me.Sch_Comm = &acgt{ return [
        n towards That:
         
        
-     < other Ghost... joining Know..$kt etc,
+     < other Ghost..$z joining Know..$kt etc,
+       all have a %dige on Ghost..z, not:
        must have their truth shrunk onto the join,
        since we are replacing the shared record of something
        this is like getting pinned at a version, 
@@ -1495,11 +1500,14 @@ me.Sch_Comm = &acgt{ return [
         $S = me&inode,R;
         # to %ball/* from y&tw over s&z
         Rs&childy = 'tw';
-        $tr = Ry&up;
-        tr = trc&s;
+        # a step that is %twinned to other steps
+        $p = sy&participant
+        !p and throw "nop"
+        #$tr = Ry&up;
+        #tr = trc&s;
         # < stop using y&p
-        $p = try&p;
-        !p || tr.t != 'Travel' and throw "Travel?"
+        #$p = try&p;
+        #!p || tr.t != 'Duolish' and throw "Travel?"
         
         # s was e, replaced on shunt
         # is the reality (Re:$t), beside the thing itself ($t)
@@ -1740,12 +1748,13 @@ me.Sch_Comm = &acgt{ return [
             hy&remote = r
         }
         
-        # < make a 5 about this s, added to itself,
-        # < added to n, push via %twin
+        # made a 5 about this s, added to itself,
+        # added to n, to push via %twin
         #   W:Dealap will be a single yonder,
         #    though while this awake the 5 + js may update
         #   then Fingo should save asap
     },'ift,D'],
+   // Releasor/%MayGansp/%MayTwine**
     &{
     me.deboost = &acgt{
         $R = Cy&R;
@@ -1769,13 +1778,13 @@ me.Sch_Comm = &acgt{ return [
     ['MayGhost','298',&acgtRs{
         me&reaw,R,'MayGhost,eph';
         me&bin,'MayGhost';
-        $l = me.cby(R,'^^Travels').length;
-        l == 3 and s.t == 'twine' ? me&bin,'MayGansp' : me&deboost
+        $l = me.cby(R,'^^Releasor').length;
+        l == 2 and s.t == 'twine' ? me&bin,'MayGansp' : me&deboost
         
-        l <3 and return
+        l <2 and return
         (Rs&boost||0) < 0 and Rs&thiding = me&ioty,s .map(z=>z.t)
     },'ift,D'],
-   // %twin find
+   // %MayGansp %twin find
     # %twin climb beings, to its idea of us
     ['MayGansp','298',&acgtRs{
         me&reaw,R,'MayGansp,eph';
@@ -1792,7 +1801,7 @@ me.Sch_Comm = &acgt{ return [
         # Ghost%%tw,host=from|yonder
         $host = sy&host;
         !host and throw "!join from"
-        hosty&s != sy&path[0] and throw "join from!this step", host, s
+        #hosty&s != sy&path[0] and throw "join from!this step", host, s
         # < %twin-like anyindex to anywhere
         $re = sy&remote;
         !re and throw "!remote host yonder"
@@ -1948,12 +1957,16 @@ me.Sch_Comm = &acgt{ return [
                     # Ghost..z found its Know..K
                     K = ns&s;
                     me&ha,R,{yonder:K,via:ns&efrom}
+                    !me&za,R,'yonder,via'
+                        && me&ha,R,{waits:'foryondering',wants:ms}
                 }) (&{
                     # tell it to nodeo input a Know..%Pave
                     $may = me&jaa,zj,'may:input' .filter(n => !ns&eto)
                     if (may.length) {
                         me&nodei,R,zj,{s,may:'input'}
                         # < then making sure Know/ finishes 
+                        !me&za,R,'s,may:input'
+                            && me&ha,R,{waits:'forKnow',wants:ms}
                     }
                 });
                 K && me&twin_nodeo,R,msy&twin,msy&remote,{s:K} (&n{
@@ -2031,11 +2044,20 @@ me.Sch_Comm = &acgt{ return [
                 # match jam to lateral shunt
                 if (!me&ja,j,'yonder' ) {
                     me&nodei,R,z,{actey:3,dome:'tilpushed-actey'}
-                    if (me&ja,j,'eto,s,may:input' ) {
+                    $found = me&jaa,j,'found',1 [0]
+                    if (found && me&ja,j,'eto,s,may:input'
+                        # input done,
+                        && me&ja,foundy&R,'eto,s,may:input'
+                        # without That%%tw, no To%%tw yet:
+                        && !me&ja,foundy&R,'eto,tw,s' ) {
                         # < numberclicked That?
                         # jy&up
                         #me&nodei,R,z,{actey:3,dome:'tilpushed'}
                         me&tsc,z.t+"-may:"
+                        $rp = sy&remote;
+                        $r = me&yfuture,rp;
+                        rs&numberclicked = 1;
+                        me&ha,R,{waits:"may:input-shunt",wants:rc&s}
                     }
                     # then waiting for:settle-!down
                 }
@@ -2050,7 +2072,7 @@ me.Sch_Comm = &acgt{ return [
         if (me&ja,R,'wantpush' ) {
             x.ro("push*") &&
             me&jaa,R,'thing',1 .map(&z{
-                me&nodei,R,z,{maypush:1,dome:'tilpushed-actey'}
+                me&nodei,R,z,{maypush:1,dome:'tilpushed-push'}
                 me&ha,R,{waits:'tilpushed',wants:z}
             });
             return
@@ -2077,7 +2099,7 @@ me.Sch_Comm = &acgt{ return [
                 $Q = spQ[species];
                 # load a %Pave for any species that wants to be here
                 !Q &&
-                    me&nodei,R,Paving,{MayTwin:s,species,dome:'tilpushed'}
+                    me&nodei,R,Paving,{species,dome:'tilpushed'}
             }
             else {
                 extra and throw "extra for Paving:"+of, s
@@ -2095,6 +2117,8 @@ me.Sch_Comm = &acgt{ return [
                 # < though you might ignore it because %%eto
                 # < conversely, pay more attention to %%efrom
                 R == Kr ? me&ha,R,q : me&nodei,R,Kr,q;
+                
+                # < differ
             }
             else {
                 me&ha,R,'ready'
