@@ -1869,7 +1869,7 @@ me.Sch_Comm = &acgt{ return [
         }
         return z
     }
-    # %%el,tw requets +|- $s/#$e
+    # receive %%el,tw requets +|- $s/#$e
     me.elnodes = &acgts{
         $R = Cy&R;
         me&jaa,R,'el,tw,efrom' .map(&n{
@@ -1889,13 +1889,14 @@ me.Sch_Comm = &acgt{ return [
                 sy&p and Rs&numberclicked = 1;
                 # < wake s to init n, only, so adhere etc
                 #   wants a pointer to not yet node
-                me&ha,R,{elnode:ns&el,wake:s}
+                me&ha,R,{waits:'elnode',elnode:ns&el,wants:s}
                 #me&Rsync,R;
             } 
             # < %twin them immediately
             # sender must &settle Ghost**
         })
     }
+    
     },
     
     
@@ -1934,7 +1935,7 @@ me.Sch_Comm = &acgt{ return [
         $ja = &c{ return me&ja,R,c };
         if (ja('actey')) {
             if (!ja('found')) {
-                me&nodei,R,Ry&up,{actey:3}
+                !me&ja,Ry&up,'found' and me&nodei,R,Ry&up,{actey:3}
                 me&jaa,R,'almost:found,into' .map(&n{
                     me&nodei,R,ns&into,{tw:s.t,el:2}
                 })
@@ -1950,7 +1951,10 @@ me.Sch_Comm = &acgt{ return [
                 }) (&{
                     # tell it to nodeo input a Know..%Pave
                     $may = me&jaa,zj,'may:input' .filter(n => !ns&eto)
-                    may.length and me&nodei,R,zj,{s,may:'input'}
+                    if (may.length) {
+                        me&nodei,R,zj,{s,may:'input'}
+                        # < then making sure Know/ finishes 
+                    }
                 });
                 K && me&twin_nodeo,R,msy&twin,msy&remote,{s:K} (&n{
                     # Know..K can find other Ghost..z
