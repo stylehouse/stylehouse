@@ -1882,11 +1882,27 @@ me.Sch_Comm = &acgt{ return [
    // twin|tw etc
     # use a %twin join, given Know|Travel..s
     # finds Travel|Know..s
+    # < gives paths and takes directions like &jaa
     me.otwin = &acgts{
+        # Know..s, find Know%twinned = Ghost
         $S = sy&path[0];
         $p = Sy&p;
-        
-        return ps&twinned
+        $N = [];
+        each in ps&twinned {
+            $twin = ny&R
+            # Ghost eto the index:
+            #  %%s:Know..$s
+            #  %%inside:Ghost/$a
+            #  %%efrom=Ghost..$z that found Know%%tw,s
+            # < use with host:$p if tw, needs a direction to go
+            me&jaa,twin,{s} .map(&n{
+                # Ghost/$a <-> Ghost..$z%%inside
+                $q = ns&inside ? {efrom:ns&inside} : {inside:ns&efrom}
+                #N.push(q)
+                N.push( ... me&jaa,twin,q .map(n => ns&s) )
+            })
+        }
+        return N
     }
     
     # nodein %%el,tw requets +|- $s/#$e
@@ -1920,6 +1936,42 @@ me.Sch_Comm = &acgt{ return [
     
     },
     
+  // Gump - Know|That %%cha -> Travel
+    ['Gumptio',0.5,&acgtRs{
+        # < %%domes multiplying... decide if they're coming?
+        $seen = [];
+        $things = 1;
+        me&jaa,R,'chag' .map(&n{
+            # Know..$z
+            $z = ns&efrom;
+            me&zu,"Many"+(things++),n
+            seen.includes(z) and return
+            seen.push(z)
+            # Travel..$z
+            $N = me&otwin,z
+            
+            if (0) {
+            $c = {};
+            #z.t == 'Easiness' and me&zu,"from",z;
+            c.from = me&tpath,z;
+            c.to = [];
+            me&otwin,z .map(&z{
+                #me&zu,z;
+                $b = {to:me&tpath,z ,from:[]}
+                c.to.push(b);
+                me&otwin,z .map(&v{
+                    #v != z and me&zu,"diff",v
+                    $path = me&tpath,v
+                    b.from.push(path)
+                    v == ns&efrom and b.from.push("== from")
+                    ##path == 'That/W/Easiness' and me&zu,"^from",v
+                })
+            })
+            me&zu,"fro",c
+            }
+        })
+    },'ift,D'],
+  
     
    // %twin climb
     ['MayTwine','298',&acgtRs{
