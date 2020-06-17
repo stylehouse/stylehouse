@@ -21,15 +21,17 @@ me.Sch_Pavings = &acgt{ return [
         #  so does %Pavings, puts s%twmt
         n Ghost 2 twin:Travel|Know#of/t
         # awakening
-        n Travel 3  %Travels
-        n Duolish 4  %Duolish
+        n Gump 3  %Gumptio
+        n Travel 4  %Travels
+        n Duolish 5  %Duolish
         # in a puff of ghost
-        n To 5 twin:Travel|That#of/t
+        n To 6 twin:Travel|That#of/t
         
         n That 7  %Pavings
 
         hy&domed()
     },'ift,D'],
+  
   // communitic
    // twin - making Q
     # a join, C indexed, tw with multipliable specifics
@@ -208,6 +210,15 @@ me.Sch_Pavings = &acgt{ return [
         });
     },'ift,D'],
   
+  // Gump - Know|That %%cha -> Travel
+    ['Gumptio',0.5,&acgtRs{
+        # < %%domes multiplying... decide if they're coming?
+        uniq( me&jaa,R,'chag','n' ) .map(&s{
+            me&zu,"fro",s.sc
+        })
+    },'ift,D'],
+  
+  
   // Paving 5
     ['Paving+openey',0.5,&acgtRs{
       // waits for Pave
@@ -356,11 +367,16 @@ me.Sch_Pavings = &acgt{ return [
         $s = Qc&s;
         !s and throw "Q!s"
         $Thing = Cye([s.t,1]);
+        # 5s&$species = $dige.
+        #  ha means 1, historically.
+        # < 5%dige: dige the rest of 5? 5/* Lines\n
+        #   so we can peek the first line only
+        $Wha = &s{ return ss&ha || ss&dige || s.sc[1] }
         if (Qc&species == 5) {
-            Things&dige = ss&ha;
+            Things&dige = Wha(s)
             o $s/W/*:s
             each in ays&s {
-                ah(Thing,'Wind',n.t,ns&ha)
+                ah(Thing,'Wind',n.t,Wha(n))
             }
             # < some piles reway, others remix
             #   some are way leading to many
@@ -374,7 +390,7 @@ me.Sch_Pavings = &acgt{ return [
             # < pointings that adjust for its compression
             each in sy&N {
                 ns&W && !ns&z &&
-                    ah(Thing,'Wind',n.t,ns&ha)
+                    ah(Thing,'Wind',n.t,Wha(n))
             }
             $dige = Qs&dige;
             !dige and throw "nodige"
@@ -413,15 +429,20 @@ me.Sch_Pavings = &acgt{ return [
         me&jaa,R,{waits:'Goodish'},'wants'
             .map(r => ac(r,'trouble',R.t+" wants %%Goodish"))
         
+        $x = me&Jx,R;
+        me&jaa,R,'cha' .map(&n{ me&nodei,R,xs&Gump,{chag:1,n,dome:'means'} })
+
         # weakly supposing no signal means ok?
-        me&bready,R and return
+        $whatsup = me&bready,R;
+        whatsup and return me&tsc,"!:"+whatsup,'','y'
         #!me&waitzo,R,wa and return
 
         # children at least here
         #  Ring usu. children almost here
         Rs&Paving_goodin = 1;
         me&ha,R,"Good"
-
+        me&dome_traction,R,'means'
+        
         # which means all we need to compile is connected!
         !ps&Paving and me&ha,R,'stabilised','eto'
     },'ift,D'],
@@ -613,7 +634,7 @@ me.Sch_Pavings = &acgt{ return [
                 dy&R = R;
 
                 # sans %grype:
-                me&ha,R,{cha:d,grype:k}
+                me&ha,R,{cha:d,grype:k,lectical:'teev'}
             }
         }
         # modulat from the grype of late only

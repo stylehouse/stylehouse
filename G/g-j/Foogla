@@ -4184,6 +4184,8 @@ me.Tingingness = &acgtR{ return [
             N.length != 1 and throw "Weird tW lines", s
             return N[0]
         };
+        Rs&species_Decode ||= {};
+        Rs&species_Decode.js = 'string';
         Rs&Talks.W = &TCP{
             T.get.url = '/W/'+C.t;
             $d = T.get.data = {};
@@ -4198,7 +4200,8 @@ me.Tingingness = &acgtR{ return [
             c&gitmv and d.gitmv = c&gitmv
             if (c&species) {
                 d.species = c&species;
-                T.Want_Decode = 'string'
+                $dec = Rs&species_Decode[c&species]
+                dec and T.Want_Decode = dec
             }
             
             # the first "can you hold on to..."
