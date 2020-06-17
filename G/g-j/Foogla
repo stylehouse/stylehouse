@@ -644,6 +644,8 @@ me.bal = &acgttsc{
     # create s
     if (!r && !c.dropempty &&
         (!c.maydo || me&rolltog,R,{maydo:t},0 )) {
+        # if Acv < ball@3, no r%ball will be there yet
+        !c.eph && Rs&ball and s = (Rc&s.sc.z||[]).filter(n=>n.t == t)[0]
         # rolling s if !r the next time, eg c.eph unattached
         s ||= me&rollbsc,R,'bal_tw_s/'+t;
     }
