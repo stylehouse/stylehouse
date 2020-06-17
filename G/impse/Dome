@@ -494,7 +494,12 @@
                 nc&drop and throw "dropsnot"
                 $w = n;
                 nc&recycled and n = ny&up
-                $O = me&ha,r,n;
+                # shaded n.sc stay when dome recycling
+                #  usu any other recycling (&ha,$n) vanishes them
+                $shade = {}
+                nc&shade && haks(nc&shade)
+                    .map(k => shade[k] = n.sc[k])
+                $O = me&ha,r,n,shade;
                 # stretch, through/from the same S
                 Oc&recycled = 1 + (wc&recycled||0)
                 wc&S and Oc&S = wc&S
@@ -992,19 +997,22 @@
         # moving intention around
         #  row = c(identifying marks) + o(other stuff)
         #  so c finds the rolling %%eto,
-        #   and reuse $e when o changes
+        #   %%e may resurrect if %%dige
         # < require %%dome? as T.Mw?
-        me.nodei = &acgtj,to,c,o{
+        me.nodei = &acgtj,to,c,shade{
             # < bracko C.t == t
             $jo = toy&R;
             to = joc&s;
             c = ex({eto:to},c);
             # %%eto:to,e:C:question,...details
             $q = ex({},c);
+            # won't leave j, eg %%dome
+            shade and ex(q,shade)
+            
             # good details resurrect the same %%e
             q.dige && q.e and q.e = 1
             $sending = me&ja,j,q;
-            ex(c,o);
+            
             if (sending) {
                 sending.length > 1 and throw "cant tell %%eto apart"
                 $n = sending[0];
@@ -1021,7 +1029,7 @@
             # < %Ying relays progress via %%eto?
             #    maybe if we %%uniq this it would return the recycled one
             #   or just via e, how else?
-            $n = me&ha,j,c;
+            $n = me&ha,j,c,shade;
             
             return n
         };

@@ -1939,23 +1939,30 @@ me.Sch_Comm = &acgt{ return [
   // Gump - Know|That %%cha -> Travel
     ['Gumptio',0.5,&acgtRs{
         # < %%domes multiplying... decide if they're coming?
-        $seen = [];
-        $things = 1;
         me&jaa,R,'chag' .map(&n{
             # Know..$z
             $z = ns&efrom;
-            me&zu,"Many"+(things++),n
-            seen.includes(z) and return
-            seen.push(z)
+            # Travel..$n
+            $N = me&otwin,z
+            N.map(&n{
+                $t = me&tpath,z
+                me&zu,t,n
+            })
+        })
+        
+        
+      // testable
+        return;
+        uniq( me&jaa,R,'chag','efrom' ) .map(&Z{
+            # Know..$Z
             # Travel..$z
             $N = me&otwin,z
             
-            if (0) {
             $c = {};
             #z.t == 'Easiness' and me&zu,"from",z;
-            c.from = me&tpath,z;
+            c.from = me&tpath,Z;
             c.to = [];
-            me&otwin,z .map(&z{
+            me&otwin,Z .map(&z{
                 #me&zu,z;
                 $b = {to:me&tpath,z ,from:[]}
                 c.to.push(b);
@@ -1963,13 +1970,13 @@ me.Sch_Comm = &acgt{ return [
                     #v != z and me&zu,"diff",v
                     $path = me&tpath,v
                     b.from.push(path)
-                    v == ns&efrom and b.from.push("== from")
+                    v == Z and b.from.push("== from")
                     ##path == 'That/W/Easiness' and me&zu,"^from",v
                 })
             })
             me&zu,"fro",c
-            }
         })
+        
     },'ift,D'],
   
     
@@ -2102,7 +2109,7 @@ me.Sch_Comm = &acgt{ return [
             else {
                 # match jam to lateral shunt
                 if (!me&ja,j,'yonder' ) {
-                    me&nodei,R,z,{actey:3,dome:'tilpushed-actey'}
+                    me&nodei,R,z,{actey:3},{dome:'tilpushed-actey'}
                     $found = me&jaa,j,'found',1 [0]
                     if (found && me&ja,j,'eto,s,may:input'
                         # input done,
@@ -2111,7 +2118,7 @@ me.Sch_Comm = &acgt{ return [
                         && !me&ja,foundy&R,'eto,tw,s' ) {
                         # < unfreezable numberclicked That
                         # jy&up
-                        #me&nodei,R,z,{actey:3,dome:'tilpushed'}
+                        #me&nodei,R,z,{actey:3},{dome:'tilpushed'}
                         me&tsc,z.t+"-may:"
                         $rp = sy&remote;
                         $r = me&yfuture,rp;
@@ -2135,7 +2142,7 @@ me.Sch_Comm = &acgt{ return [
             me&jaa,R,'thing',1 .map(&z{
                 $jo = me&yfuture,z;
                 # < slow dige-through only, user must see diffs
-                me&nodei,R,z,{maypush:1,dome:'tilpushed-push'}
+                me&nodei,R,z,{maypush:1},{dome:'tilpushed-push'}
                 me&ha,R,{waits:'tilpushed',wants:z}
             });
             return
@@ -2163,7 +2170,7 @@ me.Sch_Comm = &acgt{ return [
                 $Q = spQ[species];
                 # load a %Pave for any species that wants to be here
                 !Q &&
-                    me&nodei,R,Paving,{species,dome:'tilpushed'}
+                    me&nodei,R,Paving,{species},{dome:'tilpushed'}
             }
             else {
                 extra and throw "extra for Paving:"+of, s

@@ -115,23 +115,23 @@
         # to get rows piped around, grown + washed
         me.brackshade = &acgtn,shade,os{
             # track non-essential k/v, still in n.sc
-            #  don't inherit through ha(n)
+            #  shaded n.sc don't inherit through ha(n)
             # < we could also put separate row linked to n
             #    {n,layer:'somesuch',...h}
             #   then bracko may include the somesuch layer
             #    of whatever it's asking about, if it wants to
+            if (os) {
+                # remove stuff that vanishes
+                each kv osc&shade {
+                    delete n.sc[k];
+                }
+            }
             if (shade) {
                 # add stuff that vanishes
                 nc&shade = ex({},os && osc&shade || {});
                 each kv shade {
                     nc&shade[k] = 1;
                     n.sc[k] = v;
-                }
-            }
-            elsif (os) {
-                # remove stuff that vanishes
-                each kv osc&shade {
-                    delete n.sc[k];
                 }
             }
         };
