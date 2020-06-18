@@ -106,6 +106,38 @@ me.Sch_Travel = &acgt{ return [
     },
    
 // Chap - Know|That %%cha -> Travel
+    =pod
+    < @Chap groups time, turns observe/respond corner
+      pretending to be Fingo S-ing, providing:
+        < log interesting acts
+         eg CBing|Travel|Duolish starts|ends
+        < log should be mergible with Yingu, Evelse, etc logs.
+        shuntographer
+        runs the game seq:
+        < %Paving nice, found%Pave
+        < @Chap: %Paving+twinned ready
+        < %Paving CB also from Ghost..$z
+         diff Know..$s/found%Pave with:
+          Know..$s%Paving itself
+            eg %cha:Thing-has:dige,src:s,from:Q
+          Ghost..$z%twin, as used by Travel..$t
+            eg %%cha:Thing-has:dige,src:s,from:Q,to:z,t:t
+        < %Gump gets Know..$s (+ Ghost/$t..$z)? out of date
+        < @Chap: %Paving+twinned+%Gump ready
+        < %Gump:
+         any Ghost/$t..$z -> Travel/$t
+         notices them vanish, knows why
+        < @Chap:
+          start Travel/* wanted,
+           pre-@Search the %Gump versions (%Jhost)
+            inc anything in a $W.5, with wjs %args
+          start Travel/$t
+          end Travel/$t
+          end Travel/*
+          start Duolish/*
+           $u should be as input to %Gump, or restart?
+          end Duolish/*, when all is commit
+    =cut
     &{
     },
     ['Chap',0.5,&acgtRs{
@@ -114,13 +146,21 @@ me.Sch_Travel = &acgt{ return [
         me&quiet_waker,s and me&tsc,"q"; sy&quue++
         !sy&quue and return
         $x = me&Jx,R;
-        'Know Ghost Travel To That'.split(' ')
-            .map(t => me&settle,R,x.c[t] )
+        
+        # < wait for &settle without subscribing to updates from everyone?
+        $them = 'Know Ghost Travel To That Duolish Gump'
+            .split(' ').map(t => x.c[t])
+        me&settle,R,them and return
+        
         me&tsc,'y','','y'
+        me&nodei,R,xs&Gump,{narrative:1},{dome:'nar'}
     },'ift,D'],
   
 // Gump - Know|That %%cha -> Travel
+    # < Ghost/$zt..$z &settle a lot
+    #   different varieties...
     ['Gumptio',0.5,&acgtRs{
+        
         me&jaa,R,'chag' .map(&n{
             # Know..$z
             $z = ns&efrom;
@@ -132,6 +172,18 @@ me.Sch_Travel = &acgt{ return [
             })
         })
         
+        # any new narrative is filled with the %%chag of now
+        me&jaa,R,'narrative',1 .map(&i{
+            $dome = 'v'+i
+            me&ja,R,{dome} and return
+            me&jaa,R,'chag' .map(&n{
+                $z = ns&efrom
+                n = ns&n
+                me&otwin,z .map(&t{
+                    me&ha,R,n,{dome},{cha:ns&cha||'?',t:t}
+                })
+            })
+        });
         
       // testable
         return;

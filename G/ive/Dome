@@ -1390,7 +1390,7 @@
             me&stepbrack,R;
         };
     
- // &waits_8 - state around
+ // &waits_8 - regroup around
     =couldbe
      Ying waits_8   wakers order re &settle
       dribbling awareness in waves to Ying
@@ -1436,11 +1436,11 @@
     me.waits_8 = &acgtR{
         me&reaw,R,'Outlog';
         $l = me&rollbs,R,'Outlog',[];
-        # regroup!!
         $Y = Rs&Ying;
         $set = Ys&settles;
         $l = Rs&Outlog || [];
         
+        # < brack all this, esp about tpath
         # getting more later:
         $sooner = [];
         $wakers = [];
@@ -1449,8 +1449,17 @@
         $freeze = [];
         
    //     !%%wants|!node
-        # < brack all this, esp about tpath
         $tpaths = {};
+        $tpath_s = [];
+        $tpath_ = [];
+        $tpath = &s{
+            $si = tpath_s.indexOf(s)
+            si >= 0 and return tpath_[si]
+            $tp = me&tpath,R,s
+            tpaths[tp] ||= s
+            $si = tpath_s.push(s)-1;
+            return tpath_[si] = tp
+        }
         me&jaa,R,{waits:1} .filter(&n{
             $s = ns&wants;
             if (!s) {
@@ -1469,9 +1478,8 @@
             $j = sy&R;
             !j || jc&s != s and debugger;
             
-            $tp = me&tpath,R,s;
-            tpaths[tp] && tpaths[tp] != s and throw "tpath confu"
-            tpaths[tp] = s
+            $tp = tpath(s)
+            tpaths[tp] != s and throw "tpath confu"
             
             return 1
         })
@@ -1479,7 +1487,6 @@
    //     %%wants:node
         .map(&n{
             $s = ns&wants;
-            $tpath = tpaths.indexOf(s)
             $j = sy&R;
             !j || jc&s != s and debugger;
             
@@ -1488,7 +1495,7 @@
                 # waiting for these
                 $arewakers = me&ioty,tos .filter(n => tpaths[n.t]);
                 if (arewakers.length) {
-                    ~>5 waitfor: tpath
+                    ~>5 waitfor: tpath(s)
                     later.push(s);
                     return
                 }
@@ -1498,7 +1505,7 @@
                 $few = l.slice(-10);
                 $many = few.filter(wake => wake.includes(s)).length;
                 if (many > 3) {
-                    ~>4 freeze: tpath
+                    ~>4 freeze: tpath(s)
                     freeze.push(s)
                     return
                     # < try to release laters to around it?
@@ -1509,7 +1516,7 @@
         });
         
    //   # or laters
-        # < then submit to another round of ^
+        # < then submit to another round of ^ (Jx doming)
         
         sooner.length and momentarily.push(...wakers); wakers = sooner
         
