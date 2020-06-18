@@ -215,237 +215,9 @@ me.Sch_Pavings = &acgt{ return [
         });
     },'ift,D'],
   
-  
-  // Paving 5
-    ['Paving+openey',0.5,&acgtRs{
-      // waits for Pave
-        $ope = me&acting,R,'Pave';
-        sy&R = R;
-        # < brack piping not f supring
-        sy&f = R;
-        
-        $Q;
-        each tr Rs&Zaving {
-            me&ha,R,{wants:r}
-            Q = rs&Q;
-            !Q and me&waits,t+"!Q"
-            !Qs&ready and me&waits,t+"!ready"
-            # for pushing W, several things at once
-            $species = rs&species || 1;
-            ah(R,'species_Q',species,Q)
-        }
-        !Rs&Zaving and me&waits,"!Zaving"
-        # may be W.5 until %fully, then W.1
-        !Q and me&waits,"!Q"
-        me&bready,R and return
-        
-        $notready = !Q || !Qs&ready;
-        notready and me&waits,"!ready"
-        $w = Qc&s;
-        if (!w) {
-            if (!notready && Qc&el == '9') {
-                Rs&creatine = 1
-                me&tsc,'el:9',0,'b'
-            }
-            else {
-                me&waits,"!live"
-            }
-        }
-        Rs&Q = Q;
-        
-        me&bready,R || !w and return
-        
-        Rs&Live = w;
-        
-        # roll/sleepatch inner processes
-        me&rolls,'grype',{s:Q.t+"@"+Qs&dige}
-            && me&rollbs,'changey';
-        
-      // looking
-       // at Thing
-        # < sleep by Q%dige?
-        $Thing = Rs&Glean = me&lookaQ,Q;
-        # sync ss&dige and Thing's dige (however it appears)
-        #  and whatever other Things project knowledge around
-
-        # key behaviours, to stare at problems for longer:
-        # hold changes to s that it has already
-        # < we don't need to compile simple connections?
-        #   trusted sources etc
-        # ! if grype causes f%changey but applies the change
-        #   (liesnotok=1 not to)
-        #   grype rolled forgets it made the change
-        #   f%changey can be forgot if R%tracting is interrupted
-        # don't apply change from the Thing until Compiling wants to
-        Rs&liesnotok = 1;
-        me&rollbs,'commiting' and Rs&liesnotok = 0; Rs&commiting++
-        # hold waking Thing changes are projected into:
-        # < without hiding the change
-        #Rs&noprojcha = 1;
-
-        # %ting attr were auto upload/download by A:f
-        # < configure it here sometimes
-        me&CB_fixing,R,'ting';
-
-        # %dige-ish group - change makes fs&changey
-        # < particularly if it changes when we game look->get,
-        #    would mean a 4 is not pointing to the 1 proper
-        me&CB_fixing,R,'W',{w:Thing};
-        
-       // < filtering s%el=9
-        # %el etc bring meanings
-        $inc = me&CB_fixing,R,'inc';
-        if (inc) {
-            if (ss&el == 9) {
-                Ds&bri = 0.6;
-                me&mtsc,inc,'ig',0,'B'
-                # < also ignored by the compiler
-                Rs&ignore = 1;
-                me&ha,R,'ignore';
-                return
-            }
-            ss&el == 7 and me&mtsc,inc,'hmm',0,'B'
-        }
-        if (0) {
-            # < applying the sort-out-code scheme
-            # wanting a decision on each one
-            # (1 keep, 7 transfiguration, 9 death)
-            if (!ss&el) {
-                me&tsc,'('
-                me&rolltog,R,'9',0 and ss&el = 9
-                me&rolltog,R,'7',0 and ss&el = 7
-                me&tsc,')'
-            }
-        }
-        # eg which children to ignore
-        Rs&zget = &Ry{
-            me&ioty,R,'Paving' .map(&r{
-                rs&ignore and return
-                y(r)
-            })
-        };
-        
-       // etc
-        # project info to children
-        Things&Wind and me&CB_proji,R,'Wind','t,dige',Things&Wind
-        # receive those projections
-        me&CB_projo,R;
-        
-        # tally grypes about info here
-        # < it's their %%cha if their projections are wrong
-        me&CB_conclude,R;
-        
-        
-        if (ope) {
-            me&zu,'Thingstract',Thing
-            Rs&changey and me&zu,'changey',Rs&changey;
-            Rs&trouble and me&zu,"Rtrub",Rs&trouble;
-            #me&zu,'Loadism',load
-        }
-        
-        # various leads to %changey -> /*%openey
-        #  so all **%changey/*!%changey
-        if (Rs&changey) {
-            # dige here or inside solving
-            me&tsc,"R%changey","cha",'G';
-            s&bgh = 111;
-            # 2 them
-            me&ioty,R,'ball'
-                .map(n => ns&openey ||= 1)
-        }
-        Rs&trouble and me&tsc,'trouble','trou','G'
-
-        Rs&Paving_good = 1;
-        me&ha,R,'Goodish';
-    },'ift,D'],
-    &{
-    # know about the Thing independent of the species
-    me.lookaQ = &acgtQ{
-        $s = Qc&s;
-        !s and throw "Q!s"
-        $Thing = Cye([s.t,1]);
-        # 5s&$species = $dige.
-        #  ha means 1, historically.
-        # < 5%dige: dige the rest of 5? 5/* Lines\n
-        #   so we can peek the first line only
-        $Wha = &s{ return ss&ha || ss&dige || s.sc[1] }
-        if (Qc&species == 5) {
-            Things&dige = Wha(s)
-            o $s/W/*:s
-            each in ays&s {
-                ah(Thing,'Wind',n.t,Wha(n))
-            }
-            # < some piles reway, others remix
-            #   some are way leading to many
-            o $s/w/*:s
-            each in ays&s {
-                ah(Thing,'wind',n.t,ns&dige)
-            }
-        }
-        elsif (Qc&species == 1 || !Qc&species) {
-            # < can do similar for .4
-            # < pointings that adjust for its compression
-            each in sy&N {
-                ns&W && !ns&z &&
-                    ah(Thing,'Wind',n.t,Wha(n))
-            }
-            $dige = Qs&dige;
-            !dige and throw "nodige"
-            # W:spot/* %ha are 9 (see AWriter), %dige are 12
-            if (Q.t.indexOf('spot/') == 0 &&
-                dige.length == 12) {
-                dige = dige.substr(0,9)
-            }
-            Things&dige = dige;
-        }
-        return Thing
-    }
-    },
-    # R%Paving_good waits for R/*%tracting_good, etc
-    #  when we can rely on our children to complain,
-    #  know if they're changey/trouble
-    ['ball+Paving_good','52',&acgtRs{
-        T.Mw = 'trac';
-        $p = Ry&up;
-        Rs&zget(R,&r{
-            # into this pool of what we're looking for from who
-            # < display their stuff up against them
-            #   dividing the ball in two
-            
-            # completed 51
-            !me&ja,r,'Goodish' and me&ha,R,{waits:'Goodish',wants:r}
-
-            # completed 52
-            #  which they haven't this future
-            !me&za,r,'Good' and me&ha,R,{waits:'Good',wants:r}
-
-        });
-        
-        # autothink:
-        # < sending %trouble to solve %%waits,Good
-        me&jaa,R,{waits:'Goodish'},'wants'
-            .map(r => ac(r,'trouble',R.t+" wants %%Goodish"))
-        
-        $x = me&Jx,R;
-        me&jaa,R,'cha' .map(&n{ me&nodei,R,xs&Gump,{chag:1,n},{dome:'means'} })
-
-        # weakly supposing no signal means ok?
-        $whatsup = me&bready,R;
-        whatsup and return me&tsc,"!:"+whatsup,'','y'
-        #!me&waitzo,R,wa and return
-
-        # children at least here
-        #  Ring usu. children almost here
-        Rs&Paving_goodin = 1;
-        me&ha,R,"Good"
-        me&dome_traction,R,'means'
-        
-        # which means all we need to compile is connected!
-        !ps&Paving and me&ha,R,'stabilised','eto'
-    },'ift,D'],
-
-  // Paving 3
-    # %Pavings contain %Paves, but aren't %tw themselves
+  // %Paving 1
+   // %Pavings
+    # contain %Paves, but aren't %tw themselves
     ['Pavings',0.301,&acgtRs{
         me&reaw,R,'Pavings';
         # borrow %Paving params
@@ -466,16 +238,26 @@ me.Sch_Pavings = &acgt{ return [
                 # < engage the top level if we pc&ov>=2,
                 #   some kind of energy to complete itself
                 # or we will just %adhere without /%Pave+G&ting
+                #me&tsc,"adrop:"+(rs&Paving&&"Pav"||".")
+                # < show how they haven't got %Paving until they %adhere
+                #   and have some way to capTure that A-moment
                 rs&openey = 1;
             }
         })
     },'ift,D'],
+   
+   // %Paving Know..$s
     # %Paving splits into species
-    #  no /%Pave (G&t) unless %openey
-    #  no download/decode unless %fully
-    # may be a %Pavings this-hereiting eg %Paving=ghost
+    #  no /%Pave (G&t) unless %openey (%Pavings/%Paving will)
+    #  avoid download/decode unless %fully
     ['Paving',0.36,&acgtRs{
+        # may be a %Pavings this-hereiting eg %Paving=ghost
         Rs&Pavings and return delete Rs&Paving
+        # < %Paving/%Paving modes, created by %Releasor
+        #    in directory of W
+        #    dependency of W: I pile pile
+        #    dependency of wjs
+        #    chunk|extent of ghost|peek
         Rs&Paving == 1 and Rs&Paving = 'W'
         $of = Rs&Paving;
         me&reaw,R,'Paving,title,directory,species,args,section';
@@ -488,6 +270,7 @@ me.Sch_Pavings = &acgt{ return [
         !me&rollbs,R,'openey' and return
         # %fully gets %Pave's item
         me&rollbs,R,'fully';
+        
         $M = [];
         # see if there's a HEAD-type method for this Qc&of
         if (of == 'W') {
@@ -513,6 +296,8 @@ me.Sch_Pavings = &acgt{ return [
             n $n
         }
     },'ift,D'],
+  
+   // %Pave
     # %Pave has a Q, could be a species
     ['Pave','291',&acgtRs{
         $p = Ry&up;
@@ -531,6 +316,7 @@ me.Sch_Pavings = &acgt{ return [
         sy&tin and me&tsc,"<tin>"
         sy&tin and Q.t = sy&tin.t
         Qc&of = Rs&Pave;
+        # < about getting back here with updates
         Qc&async = &{};
         Qc&ready = &CP{};
         ['directory','species','args','section'].map(&k{
@@ -587,6 +373,285 @@ me.Sch_Pavings = &acgt{ return [
             me&t,R,Q;
         };
     },'ift,D'],
+  
+  // Paving 5
+   // %Pave-centricism
+    &{
+    # the main %Paving/%Pave's Q
+    # may be W.5 until %fully, then W.1
+    me.Paving_Q = &acgtR{
+        !Rs&Zaving and throw "!always %Zaving"
+        $Q;
+        # last one is the main thing, see Paving 36
+        each tr Rs&Zaving {
+            me&ha,R,{wants:r}
+            Q = rs&Q;
+            # never happens
+            !Q and me&waits,t+"!Q"
+            !Qs&ready and me&waits,t+"!ready"
+            # for pushing W, several things at once
+            $species = rs&species || 1;
+            ah(R,'species_Q',species,Q)
+        }
+        !Q and throw "!always has a Q"
+        # has $w if found
+        $w = Qc&s;
+        if (Qc&el == '9') {
+            w and throw "!always !w if el=9"
+            # < GOING
+            Rs&creatine = 1
+            me&tsc,'el:9',0,'b'
+        }
+        else {
+            # < compile errors?
+            !w and me&waits,"!compile"
+        }
+        return Q
+    }
+    # know about the Thing independent of the species
+    me.lookaQ = &acgtQ{
+        $s = Qc&s;
+        !s and throw "Q!s"
+        $Thing = Cye([s.t,1]);
+        # 5s&$species = $dige.
+        #  ha means 1, historically.
+        # < 5%dige: dige the rest of 5? 5/* Lines\n
+        #   so we can peek the first line only
+        $Wha = &s{ return ss&ha || ss&dige || s.sc[1] }
+        if (Qc&species == 5) {
+            Things&dige = Wha(s)
+            o $s/W/*:s
+            each in ays&s {
+                ah(Thing,'Wind',n.t,Wha(n))
+            }
+            # < some piles reway, others remix
+            #   some are way leading to many
+            o $s/w/*:s
+            each in ays&s {
+                ah(Thing,'wind',n.t,ns&dige)
+            }
+        }
+        elsif (Qc&species == 1 || !Qc&species) {
+            # < can do similar for .4
+            # < pointings that adjust for its compression
+            each in sy&N {
+                ns&W && !ns&z &&
+                    ah(Thing,'Wind',n.t,Wha(n))
+            }
+            $dige = Qs&dige;
+            !dige and throw "nodige"
+            # W:spot/* %ha are 9 (see AWriter), %dige are 12
+            if (Q.t.indexOf('spot/') == 0 &&
+                dige.length == 12) {
+                dige = dige.substr(0,9)
+            }
+            Things&dige = dige;
+        }
+        return Thing
+    }
+    },
+    # waits for Pave
+    ['Paving+openey',0.5,&acgtRs{
+        $ope = me&acting,R,'Pave';
+        # < GOING: %supr etc
+        sy&f = R;
+        
+        $Q = me&Paving_Q,R
+        !Qs&ready and me&waits,"!ready"
+        # %Paving has a few things even if !ready
+        Rs&Q = Q
+        $w = Qc&s;
+        w and Rs&Live = w
+        # waits for settling before CB compute
+        #  which could be handled remotely
+        me&bready,R and return
+        
+   // look
+        $Thing = Rs&Thing = me&lookaQ,Q;
+        
+        # it is all about %dige
+        $commit;
+        me&jaa,R,"eto,efrom","commit" .map(&dige,{
+            commit and throw "multi %%commit"
+            commit = dige
+        })
+        if (commit) {
+            if (commit != Things&dige) {
+                # immediately after Qsend?
+                # or wandering before %%commit retracted
+                me&waits,"pushing..."
+            }
+            else {
+                # is as we indended it to be
+                # %%commit sender acks & retracts
+                ss&dige = Things&dige
+            }
+        }
+        if (ss&dige != Things&dige) {
+            me&ha,R,{cha:'dige',src:s,from:Q},{dome:'feels'}
+        }
+        
+        # skip two complications:
+       // < CBing, more-structured Thing change
+       
+        # roll/sleepatch inner processes
+        # < sleep by Q%dige?
+        me&rolls,'grype',{s:Q.t+"@"+Qs&dige}
+            && me&rollbs,'changey';
+        # sync ss&dige and Thing's dige (however it appears)
+        #  and whatever other Things project knowledge around
+
+        # key behaviours, to stare at problems for longer:
+        # hold changes to s that it has already
+        # < we don't need to compile simple connections?
+        #   trusted sources etc
+        # ! if grype causes f%changey but applies the change
+        #   (liesnotok=1 not to)
+        #   grype rolled forgets it made the change
+        #   f%changey can be forgot if R%tracting is interrupted
+        # don't apply change from the Thing until Compiling wants to
+        #Rs&liesnotok = 1;
+        # hold waking Thing changes are projected into:
+        # < without hiding the change
+        #Rs&noprojcha = 1;
+        # < GOING, see CBing
+        if (me&rollbs,'commiting') {
+            Rs&commiting++;
+            # CBing may schema this
+            #Rs&liesok = 1;
+        }
+
+        # %ting attr were auto upload/download by A:f
+        # < configure it here sometimes
+        me&CB_fixing,R,'ting';
+
+        # %dige-ish group - change makes fs&changey
+        # < particularly if it changes when we game look->get,
+        #    would mean a 4 is not pointing to the 1 proper
+        me&CB_fixing,R,'W',{w:Thing};
+        
+        # project info to children
+        Things&Wind and me&CB_proji,R,'Wind','t,dige',Things&Wind
+        # receive those projections
+        me&CB_projo,R;
+        
+        # tally grypes about info here
+        # < it's their %%cha if their projections are wrong
+        me&CB_conclude,R;
+        
+        # GOING
+        if (ope) {
+            Rs&changey and me&zu,'changey',Rs&changey;
+            Rs&trouble and me&zu,"Rtrub",Rs&trouble;
+            #me&zu,'Loadism',load
+        }
+        # various leads to %changey -> /*%openey
+        #  so all **%changey/*!%changey
+        if (Rs&changey) {
+            # dige here or inside solving
+            me&tsc,"R%changey","cha",'G';
+            s&bgh = 111;
+            # 2 them
+            me&ioty,R,'ball'
+                .map(n => ns&openey ||= 1)
+        }
+        Rs&trouble and me&tsc,'trouble','trou','G'
+        
+       // < filtering s**
+        # %el etc bring meanings, see %Paving/%Paving modes
+        # eg which children to ignore
+        # < bring back Compiling: for I-mixing
+        #    without a specific W:way source for the new unity
+        # < W/W:Protocations could be testrun data,
+        #   supporting evidence, breakdowns etc macro-species
+        $inc = me&CB_fixing,R,'inc';
+        if (inc) {
+            if (ss&el == 9) {
+                Ds&bri = 0.6;
+                me&mtsc,inc,'ig',0,'B'
+                # < also ignored by the compiler
+                Rs&ignore = 1;
+                me&ha,R,'ignore';
+                return
+            }
+            ss&el == 7 and me&mtsc,inc,'hmm',0,'B'
+        }
+        if (0) {
+            # < applying the sort-out-code scheme
+            # wanting a decision on each one
+            # (1 keep, 7 transfiguration, 9 death)
+            if (!ss&el) {
+                me&tsc,'('
+                me&rolltog,R,'9',0 and ss&el = 9
+                me&rolltog,R,'7',0 and ss&el = 7
+                me&tsc,')'
+            }
+        }
+        
+       
+       // etc
+        # specialised sense of which s/* matter
+        Rs&zget = &Ry{
+            me&ioty,R,'Paving' .map(&r{
+                # see filtering
+                rs&ignore and return
+                y(r)
+            })
+        };
+        ope and me&zu,'Thingstract',Thing
+        
+        # feels -> means when the Know.. is ready
+        me&dome_traction,R,'feels'
+        Rs&Paving_good = 1;
+        me&ha,R,'Goodish';
+    },'ift,D'],
+   
+   // repose
+    # R%Paving_good waits for R/*%Paving_good, etc
+    #  when we can rely on our children to complain,
+    #  know if they're changey/trouble
+    ['ball+Paving_good','52',&acgtRs{
+        T.Mw = 'trac';
+        $p = Ry&up;
+        Rs&zget(R,&r{
+            # into this pool of what we're looking for from who
+            # < display their stuff up against them
+            #   dividing the ball in two
+            
+            # completed 51
+            !me&ja,r,'Goodish' and me&ha,R,{waits:'Goodish',wants:r}
+
+            # completed 52
+            #  which they haven't this future
+            !me&za,r,'Good' and me&ha,R,{waits:'Good',wants:r}
+
+        });
+        
+        # autothink:
+        # < sending %trouble to solve %%waits,Good
+        me&jaa,R,{waits:'Goodish'},'wants'
+            .map(r => ac(r,'trouble',R.t+" wants %%Goodish"))
+        
+        # weakly supposing no signal means ok?
+        $whatsup = me&bready,R;
+        whatsup and return me&tsc,"!:"+whatsup,'','y'
+        
+        $x = me&Jx,R;
+        # %%cha -> Gump
+        me&jaa,R,'cha,src,from,dome:feels' .map(&n{
+            me&nodei,R,xs&Gump,{chag:1,n},{dome:'means'}
+        })
+
+        # children at least here
+        #  Ring usu. children almost here
+        Rs&Paving_goodin = 1;
+        me&ha,R,"Good"
+        me&dome_traction,R,'means'
+        # < which means all we need to %Compile is connected!
+        # see %Paving/%Paving modes
+        #!ps&Paving and me&ha,R,'stabilised','eto'
+    },'ift,D'],
+
     
 ]}
   // CB
@@ -633,7 +698,7 @@ me.Sch_Pavings = &acgt{ return [
                 dy&R = R;
 
                 # sans %grype:
-                me&ha,R,{cha:d,grype:k,lectical:'teev'}
+                #me&ha,R,{cha:d,grype:k}
             }
         }
         # modulat from the grype of late only
@@ -718,7 +783,7 @@ me.Sch_Pavings = &acgt{ return [
             # R is auto-changey ghost, reflecting dige
             #  liesok=0 probably doesn't make a change,
             #  when we want to react to the difference
-            $load = {type:c.type,auto:1,liesok:!Rs&liesnotok};
+            $load = {type:c.type,auto:1,liesok:Rs&liesok};
             me&CB_load,load,R,null,c.w;
             each ik load.differs {
                 $was = load.was[k];
