@@ -1,5 +1,48 @@
 # pile movie
 me.Sch_Travel = &acgt{ return [
+    =pod todo
+    cm.getModeAt(pos
+     < each step should Ring 2-9, try/catch
+
+     nearly home
+     &nodeo not found sends attention there:
+      extra %twin &settle host makes it go,
+      obscuring the probably still open:
+       Travel%%tw making gets forgot:
+       < %%eto dont land there reliably, is it:
+        < coinciding &Yinge not lost
+            # side tracks:
+     < R%onlyish if R &settle,R/**,
+        would be awake when we visit R,
+        but can probably work for settling awaits:
+       so %MayGansp may &settle all %%thing
+     < come back to %MayGansp,
+     to:
+     < get all %%thing to %%ready|%%wantpush,Q,s+
+     < push remainders, til all %%ready
+
+     for coming back to %MayGansp
+      awaiting all, until push ready
+     < using %acty levels to move readiness around?
+       they must &settle at each one,
+       transmitting to neighbours
+        was an inspiration for nodei
+     < &elnodes must visit any $p/$n we add,
+        to make sure it gives %twmt
+       Rsync not enough?
+
+     and back to this,
+     < Know..s%Paving must be set up in the remotes
+        or Ghost..s can be trusted to &nodei them?
+     < Ghost..s grows/shrinks and downloads s.sc
+      < goners may gc Know..s if !ja,Ghost,{host:Know,s}
+      < keepers may drop sc evident in Know..s
+      < other Ghost..s may acquire sc, above in reverse
+
+     ^ loosely around:
+     < n must push to That..s
+     < u must be as Know..s, or Ghost..s may acquire sc
+    =cut
    // &Jx etc - ->
     &{
     # expressions for
@@ -62,7 +105,50 @@ me.Sch_Travel = &acgt{ return [
     }
     },
    
-  // Releasor - Travel agent
+// Gump - Know|That %%cha -> Travel
+    ['Gumptio',0.5,&acgtRs{
+        me&jaa,R,'chag' .map(&n{
+            # Know..$z
+            $z = ns&efrom;
+            # Travel..$n
+            $N = me&otwin,z
+            N.map(&n{
+                $t = me&tpath,z
+                me&zu,t,n
+            })
+        })
+        
+        
+      // testable
+        return;
+        uniq( me&jaa,R,'chag','efrom' ) .map(&Z{
+            # Know..$Z
+            # Travel..$z
+            $N = me&otwin,z
+            
+            $c = {};
+            #z.t == 'Easiness' and me&zu,"from",z;
+            c.from = me&tpath,Z;
+            c.to = [];
+            me&otwin,Z .map(&z{
+                #me&zu,z;
+                $b = {to:me&tpath,z ,from:[]}
+                c.to.push(b);
+                me&otwin,z .map(&v{
+                    #v != z and me&zu,"diff",v
+                    $path = me&tpath,v
+                    b.from.push(path)
+                    v == Z and b.from.push("== from")
+                    ##path == 'That/W/Easiness' and me&zu,"^from",v
+                })
+            })
+            me&zu,"fro",c
+        })
+        
+    },'ift,D'],
+  
+// Duolish/%Releasor <- Travel
+ # < de y&p
     =pod see %Compiling
       a %Compiling in its push-phase,
        can decide to redo, because CBing, already
@@ -476,7 +562,7 @@ me.Sch_Travel = &acgt{ return [
         }
         return z
     }
-   // twin|tw etc
+   // &otwin, &elnodes
     # use a %twin join, given Know|Travel..s
     # finds Travel|Know..s
     # < gives paths and takes directions like &jaa
@@ -533,49 +619,6 @@ me.Sch_Travel = &acgt{ return [
     
     },
     
-  // Gump - Know|That %%cha -> Travel
-    ['Gumptio',0.5,&acgtRs{
-        # < %%domes multiplying... decide if they're coming?
-        me&jaa,R,'chag' .map(&n{
-            # Know..$z
-            $z = ns&efrom;
-            # Travel..$n
-            $N = me&otwin,z
-            N.map(&n{
-                $t = me&tpath,z
-                me&zu,t,n
-            })
-        })
-        
-        
-      // testable
-        return;
-        uniq( me&jaa,R,'chag','efrom' ) .map(&Z{
-            # Know..$Z
-            # Travel..$z
-            $N = me&otwin,z
-            
-            $c = {};
-            #z.t == 'Easiness' and me&zu,"from",z;
-            c.from = me&tpath,Z;
-            c.to = [];
-            me&otwin,Z .map(&z{
-                #me&zu,z;
-                $b = {to:me&tpath,z ,from:[]}
-                c.to.push(b);
-                me&otwin,z .map(&v{
-                    #v != z and me&zu,"diff",v
-                    $path = me&tpath,v
-                    b.from.push(path)
-                    v == Z and b.from.push("== from")
-                    ##path == 'That/W/Easiness' and me&zu,"^from",v
-                })
-            })
-            me&zu,"fro",c
-        })
-        
-    },'ift,D'],
-  
     
    // %twin climb
     ['MayTwine','298',&acgtRs{
@@ -834,8 +877,8 @@ me.Sch_Travel = &acgt{ return [
                 }
                 else {
                     $pu = me&tsc,'pushing'
-                    # %Pave shall receive update?
-                    me&ha,R,{waits:"pushing",wake:K}
+                    # %Paving may update ss&dige = %%commit
+                    me&nodei,R,K,{commit:ss&dige},{dome:'tilpushed'}
                     me.nto(R,pu,&{ 
                         ~>3 repush: R.t
                         delete Rs&sent_string })
@@ -844,51 +887,6 @@ me.Sch_Travel = &acgt{ return [
             go and me&ha,R,{Pushable:ss&dige}
         };
         },
-        # cm.getModeAt(pos
-        
-        # nearly home
-        # &nodeo not found sends attention there:
-        #  extra %twin &settle host makes it go,
-        #  obscuring the probably still open:
-        #   Travel's tw making gets forgot:
-        #   < %%eto dont land there reliably, is it:
-        #    < coinciding &Yinge not lost
-        
-        # side tracks:
-        # < R%onlyish if R &settle,R/**,
-        #    would be awake when we visit R,
-        #    but can probably work for settling awaits:
-        #   so %MayGansp may &settle all %%thing
-        # < come back to %MayGansp,
-        # to:
-        # < get all %%thing to %%ready|%%wantpush,Q,s+
-        # < push remainders, til all %%ready
-        
-        
-        #   for coming back to %MayGansp
-        #    awaiting all 
-        #  
-        #    as we rattle toward ready
-        # < using %acty levels to move readiness around?
-        #   they must &settle at each one,
-        #   transmitting to neighbours
-        #    was an inspiration for nodei
-        # < &elnodes must visit any $p/$n we add,
-        #    to make sure it gives %twmt
-        #   Rsync not enough?
-        # < each step should Ring 2-9, try/catch
-        
-        # and back to this,
-        # < Know..s%Paving must be set up in the remotes
-        #    or Ghost..s can be trusted to &nodei them?
-        # < Ghost..s grows/shrinks and downloads s.sc
-        #  < goners may gc Know..s if !ja,Ghost,{host:Know,s}
-        #  < keepers may drop sc evident in Know..s
-        #  < other Ghost..s may acquire sc, above in reverse
-        #    
-        # ^ loosely around:
-        # < n must push to That..s
-        # < u must be as Know..s, or Ghost..s may acquire sc
         
 
 ]}
