@@ -1,4 +1,4 @@
-  // brack time
+# brack time
    =alphabet layercake
      join our decisions of how
       into an over-realm, a computed individuals unity
@@ -37,7 +37,7 @@
       < Babz R&za -> me&za,R (single character == self)
     
     =elvis
-  // 1 - physics
+// 1 - physics
    // sahazaja io
         # i - enterer
         # < to react in a Ring,r hang way,
@@ -373,7 +373,7 @@
         }
     }
   
-  // 3 - Domes time connect items
+// 3 - Domes time connect items
     # nodes at each end of time
     
     # Ying|step|node all
@@ -420,25 +420,7 @@
         $s = rc&s;
         # %%dome replace if any new
         me&dome_7,R,p,r,s;
-        
-        # may %%waits,wants=z to visit other node
-        $wants = me&jaa,r,{waits:1,wants:1};
-        wants = wants.map(&n{
-            # from an earlier &bready
-            ns&notanode and return
-            if (isR(ns&wants)) {
-                ~>3 wantsR: s.t, ns&wants.t;
-            }
-            me&ha,R,n,{},{via:s}
-            return 1
-        })
-        
-        # &bready: %%waits usually revisit this node
-        $waits = (me&bready,r || [])
-            .filter(n => !wants.includes(n));
-        waits.length and me&ha,R,{waits:'wants',wants:s}
-        else { rs&isbready = 1 }
-        
+        me&waits_7,R,r;
         me&settle_6,R,p,r,s;
         me&settle_7,R,p,r,s;
     }
@@ -460,7 +442,7 @@
         return me&stepbrack,r;
     }
     
-  // 5 < Domes
+// 5 < Domes
    # < %%dome
    # < nodeein
    # < nodee test
@@ -872,7 +854,7 @@
         me&either_8,R,c;
     }
    
-  // 6 < frontends
+// 6 < frontends
    // < &nodei|o|e - makes %%eto..., going somewhere
       // nodeio-doc 
        =elvis
@@ -1245,23 +1227,29 @@
             me&ja,R,{waits:n} and continue
             me&ha,R,{waits:n}
         }
-        # %%wants:$n%%waits -> %%waits:wants,...
+        # %%wants:$n && n%%waits -> %%waits:wants,wants:$n
+        #  $n may be a non-node R
         me&jaa,R,'wants' .map(&n{
-            # < %%waits bracktrick out the rest of the values,
-            #   unless viewed from the right angle, through waits?
-            ns&waits and return
             $z = ns&wants;
-            !isC(z) and return
+            ns&waits || !isC(z) and return
+            # once
+            nc&breadied and return
+            nc&breadied = 1
             # could be p/r/s
             $j = zy&R;
+            $q = {waits:'wants'};
+            # R:Pave passes through as %%wants
+            isR(z) && zs&ball and z = jc&s;
+            !z || !zy&R and debugger;
+            # decide if %%wants should %%waits
             if (!js&wou) {
-                # not a node
-                js&waits and me&ha,R,{waits:'wants',wants:z,notanode:1}
+                q.notanode = 1
+                js&waits and me&ha,R,n,{},q
             }
             else {
                 # < unpossiblate infinite recursion
                 #   with me&ind bit on the T?
-                me&bready,j and me&ha,R,{waits:'wants',wants:z}
+                me&bready,j and me&ha,R,n,{},q
             }
         })
 
@@ -1360,85 +1348,30 @@
             return ope
         };
         
-  // 8 < rounds
-        
-   // < &sort_wakers - %%settle <-> %%waits
-    # > redundant orderer of orders
-    =couldbe
-     Ying waits_8, wakers order regarding &settle, etc
-     not: a lifo of $froms awaiting &settle,
-      not even a $to-before-$from separator,
-      to catch up lost|tangled $from-$to-$from impulse:
-     
-       $from|$to generate 8%%waits:settle,wants:each other,
-        to filter that by settle progress:
-         eg that $to should &settle,
-          then $from can have $to &settle
-        $from 
-         &settle_6 - wants $to to &settle
-        $to
-         &settle_7 - checks for &settle
-          pushing &halfsettled to children
-          versioning %wou for:
-        $from
-         &settle_7 - accept $to &settled
-    
-      while s &settle z, wakers[] may be:
-       sy&settletos/$z
-       zy&settlefroms/$s
-      both mean wake z then s,
-       which tends to happen anyway,
-       and &settle blocks anything not ready
-     
-     one day:  
-     < loop detect !sooner && !later
-        go for least conflicted, earliest in Sy&N
-     < guarantee the eventuality,
-        check every Y%settles %from?
-     < instant Yingu innard, style of collapse into time
-     < partition into several single-minded Yings,
-       for atomicity,
-     < study errors
-    =elvis
-    me.sort_wakers = &acgtR,set,wakers{
-        $later = [];
-        $freeze = [];
-        $sooner = [];
-        $l = Rs&Outlog;
-        $waketpath = wakers.map(to => me&tpath,R,to );
-        each is wakers {
-            $j = sy&R;
-            !j || jc&s != s and debugger;
-            $tpath = waketpath[i]
-            
-            $tos = sy&settletos;
-            if (tos) {
-                # waiting for these
-                $arewakers = me&ioty,tos
-                    .filter(n => waketpath.includes(n.t));
-                if (arewakers.length) {
-                    ~>5 waitfor: tpath
-                    later.push(s);
-                    continue
-                }
-            }
-            
-            if (js&brackstable > 6) {
-                $few = l.slice(-10);
-                $many = few.filter(wake => wake.includes(s)).length;
-                if (many > 3) {
-                    ~>4 freeze: tpath
-                    freeze.push(s)
-                }
-            }
-        }
-        # later probably going to revisit after &settle
-        return wakers
-            .filter(s => !freeze.includes(s))
-            .filter(s => !later.includes(s))
-    }
+// 8 < rounds
    
-   // < %%waits - state around
+   // %%waits 7 - visit other nodes
+    # r%%waits,wants=z,... -> R &waits_8
+    #  from &settle, &bready, or you
+    me.waits_7 = &acgtRr{
+        $s = rc&s
+        # &bready finalises and returns the %%waits
+        $waits = me&bready,r || []
+        waits .map(&n{
+            $z = ns&wants
+            $q = {via:s}
+            # %%waits momentarily (after %%..wants)
+            !z and q.desires = s
+            ns&notanode and ~>3 notanode: s.t, z.t
+            else {
+                isR(z) and ~>3 wantsR: s.t, z.t
+            }
+            # -> Ying waits_8
+            me&ha,R,n,{},q
+        })
+        !waits.length and rs&isbready = 1
+    }
+   // &waits_8 - state around
     # Ying%%waits,wants:$to
     #  to come back for $to, dribbling awareness in groups to Ying
     #  the only way, unless nodes &elvis themselves,
@@ -1451,14 +1384,105 @@
     #      which can fit into the oJ as one iteration
     # < %terms from/via the waits row(s)?
     me.waits_8 = &acgtR{
-        $wakers = me&jaa,R,'waits','wants';
         me&reaw,R,'Outlog';
         $l = me&rollbs,R,'Outlog',[];
-
         # regroup!!
         $Y = Rs&Ying;
         $set = Ys&settles;
-        wakers = me&sort_wakers,R,set,wakers,l;
+        $l = Rs&Outlog || [];
+        
+        # getting more later:
+        $sooner = [];
+        $wakers = [];
+        $momentarily = [];
+        $later = [];
+        $freeze = [];
+        
+        $tpaths = {};
+        me&jaa,R,{waits:1} .filter(&n{
+            $s = ns&wants;
+            # not pointing to anything it wants
+            if (!s) {
+                s = ns&desires;
+                s and momentarily.push(s); return
+                !s and throw "waits!wants"
+            }
+            # just R we should tunnel
+            # eg R%Paving/r%Pave, happens to only tunnel to R
+            # < ns&via probably -> later
+            ns&notanode and sooner.push(s); return
+            # < others may have %Q waiting for %ready
+            #   this could later an entire set of wakers for 300ms
+            
+            $j = sy&R;
+            !j || jc&s != s and debugger;
+            
+            $tp = me&tpath,R,s;
+            tpaths[tp] && tpaths[tp] != s and throw "tpath confu"
+            tpaths[tp] = s
+            
+            return 1
+        })
+        .map(&n{
+            $s = ns&wants;
+            $j = sy&R;
+            !j || jc&s != s and debugger;
+            
+            $tos = sy&settletos;
+            if (tos) {
+                # waiting for these
+                $arewakers = me&ioty,tos
+                    .filter(n => tpaths[n.t]);
+                if (arewakers.length) {
+                    #~>5 waitfor: tpath
+                    later.push(s);
+                    return
+                }
+            }
+            
+            if (js&brackstable > 6) {
+                $few = l.slice(-10);
+                $many = few.filter(wake => wake.includes(s)).length;
+                if (many > 3) {
+                    ~>4 freeze: tpath
+                    freeze.push(s)
+                    return
+                    # < try to release laters to around it?
+                }
+            }
+            
+            !wakers.includes(s) and wakers.push(s)
+        });
+        
+        # or laters
+        # < submit to another round of ^
+        
+        sooner.length and momentarily.push(...wakers); wakers = sooner
+        
+        !wakers.length and wakers = momentarily; momentarily = []
+        !wakers.length and wakers = (Ys&momentarilys||[]).pop() || []
+        
+        !wakers.length and wakers = later; later = []
+        if (!wakers.length) {
+            wakers = (Ys&laters||[]).pop() || [];
+            wakers.length and ~>4 lately: ki(wakers,4.23)
+        }
+        
+        # for later
+        later.length and ac(Y,'laters',later)
+        momentarily.length and ac(Y,'momentarilys',momentarily)
+        # they may happen before planned
+        each is wakers {
+            ['laters','momentarilys'].map(&k{
+                $wake = Y.sc[k]
+                !wake and return
+                wake = wake.filter(z => z != s)
+                !wake.length and delete Y.sc[k]
+            })
+        }
+        
+        !wakers.length and ~>4 quiet:
+        #'notice quiet in 300ms'
         
         l.push(wakers);
         !wakers.length and return
@@ -1470,6 +1494,51 @@
         });
         me&Yinge,R,{wakers,terms:{}};
     }
+   
+   // < &sort_wakers - %%settle <-> %%waits
+    =couldbe
+     Ying waits_8, wakers order regarding &settle, etc
+     
+     a $to-before-$from separator,
+      as long as theyre both in $wakers[]
+      !&settle $to doesnt block $from,
+        you must &settle,$to and return to do that
+     
+     < a lifo of $froms awaiting &settle,
+     
+     < something to do when !wakers
+     
+     < study errors
+     
+    one day:
+     < &settled, or just &settle with no $to
+       true if $from is waiting for any $to
+       would cause an extra 'onemore' (after %brackstable)
+        to experience being %settled
+     
+     < guarantee the eventuality,
+        check every Y%settles %from?
+       to catch up lost|tangled impulse:
+       $from|$to generate 8%%waits:settle,wants:each other,
+        $from 
+         &settle_6 - wants $to to &settle
+        $to
+         &settle_7 - checks for &settle
+          pushing &halfsettled to children
+          versioning %wou for:
+        $from
+         &settle_7 - accept $to &settled
+       can get distracted with settle-stacking, unless lifo?
+     
+     < loop detect !sooner && !later
+        go for least conflicted, earliest in Sy&N
+     < instant Yingu innard, style of collapse into time
+     < partition into several single-minded Yings,
+       for atomicity,
+    =elvis
+    me.sort_wakers = &acgtR,set,wakers{
+    }
+   
   
    // &Ying_8
         # Ying done, orgs comeback
