@@ -556,19 +556,20 @@ me.Sch_Pavings = &acgt{ return [
         
         
         # Q refinds P each G&t
-        #!Qs&ready and debugger;
         $w = me&t,R,Q;
         # per most of this besides s, el + hooks
-        #me&nu,Q.t,Q.c;
-        Qs&waslooking = 1;
         me&rolltog,R,{maydo:'Q'} &&
             me&zu,'Q',Q;
         
-        
-        !Qs&ready and return me&waits,'!ready','...'
+        # usu !s,!el,!ready -> s,el,ready 
+        #  a not found will -> !s,el=9,ready
+        # !ready while hitting a ttl, thing probably still
+        # < @Search shouldn't let any P reach the ttl
+        !Qs&ready and me&waits,'!ready','...'
         # $w may wander off, usu clones into %Gens%self
         # < following P into the future (%Differ)
         
+        Qc&el &&
         n el 13 $s:Qc&el %hs:348,fs:9
         
         Qc&s && me&rolltog,R,{maydo:'s'} &&
@@ -578,6 +579,7 @@ me.Sch_Pavings = &acgt{ return [
         # < Q can Qs&Want_Decode for itself
         Qc&s and Rc&s = Qc&s
         
+        !(Qc&s || Qc&el == 9) and return
         # then something posits string to follow:
         Rs&commitstring = &s{
             # < require they know parent==Ps&dige
