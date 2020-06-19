@@ -1449,6 +1449,7 @@
         $freeze = [];
         
    //     !%%wants|!node
+        $ignore = [];
         $tpaths = {};
         $tpath_s = [];
         $tpath_ = [];
@@ -1479,7 +1480,24 @@
             !j || jc&s != s and debugger;
             
             $tp = tpath(s)
-            tpaths[tp] != s and throw "tpath confu"
+            $z = tpaths[tp];
+            if (z && s) {
+                z == s and "s dup %%wants,..."
+                else
+                zy&up == sy&up and throw "s dup same up (tv|tw?)"
+                else {
+                    if (sy&R && zy&R && zy&R != sy&R) {
+                        ~>5 tpath res: tp
+                        zy&R == me&yfuture,sy&R and return
+                        me&yfuture,sy&R != me&yfuture,zy&R and debugger
+                        ignore.push(z);
+                        tpaths[tp] = s
+                    }
+                    else {
+                        throw "tpath confu"
+                    }
+                }
+            }
             
             return 1
         })
@@ -1518,6 +1536,8 @@
    //   # or laters
         # < then submit to another round of ^ (Jx doming)
         
+        sooner.length and ~>3 sooner:
+        
         sooner.length and momentarily.push(...wakers); wakers = sooner
         
         !wakers.length and wakers = momentarily; momentarily = []
@@ -1527,6 +1547,33 @@
         if (!wakers.length) {
             wakers = (Ys&laters||[]).pop() || [];
             wakers.length and ~>4 lately: ki(wakers,4.23)
+        }
+        wakers = uniq(wakers);
+        
+        if (wakers.length) {
+            $via = {};
+            uniq(wakers) .map(&s{
+                $got = me&jaa,R,{waits:1,wants:s} .map(&n{
+                    isR(s) and ~>7 GoR: s.t
+                    isR(s) and return
+                    $tp = me&tpath,s;
+                    via[tp] ||= [];
+                    via[tp].push(
+                        haks(n.sc).join('-')
+                        +(ns&via ? me&tpath,ns&via : "?")
+                        +": "+ns&waits)
+                });
+                if (!got.length) {
+                    ~>7 unk: s.t
+                }
+            })
+            each tm via {
+                ~>7 Go: t
+                each is m {
+                    ~>7 <-: s
+                }
+            }
+            
         }
         
         # for later

@@ -151,7 +151,7 @@ me.Sch_Travel = &acgt{ return [
         # < Ghost/$zt..$z &settle are too busy
         $them = 'Know Ghost Travel To That Duolish Gump'
             .split(' ').map(t => x.c[t])
-        me&settle,R,them and return
+        #me&settle,R,them and return
         
         me&tsc,'y','','y'
         me&nodei,R,xs&Gump,{narrative:1},{dome:'nar'}
@@ -213,7 +213,8 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
   
 // Duolish/%Releasor <- Travel
- # < de y&p
+ # < de y&p %twin
+   // %Releasor
     =pod see %Compiling
       a %Compiling in its push-phase,
        can decide to redo, because CBing, already
@@ -247,8 +248,10 @@ me.Sch_Travel = &acgt{ return [
         $S = me&inode,R;
         # to %ball/* from y&tw over s&z
         Rs&childy = 'tw';
-        # a step that is %twinned to other steps
+        # Travel is %twinned to other steps
         $p = sy&participant
+        # Travel/$t == sy&client (the experience)
+        py&s != sy&client.y.up and throw "parts!client"
         !p and throw "nop"
         #$tr = Ry&up;
         #tr = trc&s;
@@ -478,6 +481,12 @@ me.Sch_Travel = &acgt{ return [
         # looks for u/n stores behind/ahead of Travel
         # < complicated ideas
         
+        # made a 5 about this s, added to itself,
+        # added to n, to push via %twin
+        #   W:Dealap will be a single yonder,
+        #    though while this awake the 5 + js may update
+        #   then Fingo should save asap
+        
         each in ps&twinned {
             # < find t there, make &acty=3
             ns&remotes[0] != p and throw "aban"
@@ -494,14 +503,9 @@ me.Sch_Travel = &acgt{ return [
             # Knowy&p
             hy&remote = r
         }
-        
-        # made a 5 about this s, added to itself,
-        # added to n, to push via %twin
-        #   W:Dealap will be a single yonder,
-        #    though while this awake the 5 + js may update
-        #   then Fingo should save asap
     },'ift,D'],
-   // Releasor/%MayGansp/%MayTwine**
+   
+   // Releasor/%MayGansp/%MayTwine+
     &{
     me.deboost = &acgt{
         $R = Cy&R;
@@ -532,7 +536,7 @@ me.Sch_Travel = &acgt{ return [
         (Rs&boost||0) < 0 and Rs&thiding = me&ioty,s .map(z=>z.t)
     },'ift,D'],
    
-   // %MayGansp %twin find
+   // %MayGansp - %twin find
     # %twin climb beings, to its idea of us
     ['MayGansp','298',&acgtRs{
         me&reaw,R,'MayGansp,eph';
@@ -546,6 +550,7 @@ me.Sch_Travel = &acgt{ return [
         
         $rs = sy&release;
         !rs and throw "!t->u/n bunch"
+        !rsy&client and throw "release!client"
         # Ghost%%tw,host=from|yonder
         $host = sy&host;
         !host and throw "!join from"
@@ -558,17 +563,17 @@ me.Sch_Travel = &acgt{ return [
         $tp = twiny&p;
         sy&structure = tps&structure;
         
-        # resolve our thing there...
+        # Ghost%%tw=t.t,host=Travel
         me&twin_nodeo,R,twin,host,{tw:rs.t} (&n{
-            # Ghost/* found its Travel/*
-            ns&s == sy&client;
-            me&ha,R,{found:ns&efrom}
-            me&settle,R,ns&efrom
-            # < more intent to ^ ?
-            #   causes a waking here and there loop:
-            #and me&ha,R,{waits:'twinfrom',wants:ns&efrom}
+            # Ghost/$zt found its Travel/$t
+            $zt = ns&efrom;
+            # which we remember from running it
+            ns&s != rsy&client and throw "whose"
+            me&ha,R,{found:zt}
+            # < $zt &settle $zt/*, so $zt/*/* changes notice
+            me&settle,R,zt
         }) (&{
-            # auto input Ghost/*
+            # auto input Ghost/$zt
             #  this eto retracting when Ghost has it
             me&nodei,R,twin,{tw:rs.t,el:2}
         })
@@ -589,8 +594,7 @@ me.Sch_Travel = &acgt{ return [
     # nodeo but with a perspective on a %twin
     me.twin_nodeo = &acgtR,twin,host,c{
         $j = me&yfuture,twin;
-        # listen to Ghost
-        me&settle,R,j;
+        # %MayGansp &settles j/$zt once found
         c.host ||= 1;
         $N = me&zaa,j,c
             .filter(n => ns&host.t == host.t);
@@ -612,14 +616,14 @@ me.Sch_Travel = &acgt{ return [
         # p has %%found
         $zp = me&zaa,p,c.q||c.t,1 [0];
         if (zp) {
-            me&settle,R,zp;
+            #me&settle,R,zp;
             !zpy&R and return
             # to be put in $zp/$z
             $z = me&fiu,zp,s.t,8;
             !z and me&ha,R,{almost:c.t,into:zp}
         }
         if (z) {
-            me&settle,R,z
+            #me&settle,R,z
             !zy&R and return
             $found = {};
             found[c.t] = z;
@@ -627,6 +631,7 @@ me.Sch_Travel = &acgt{ return [
         }
         return z
     }
+   
    // &otwin, &elnodes
     # use a %twin join, given Know|Travel..s
     # finds Travel|Know..s
@@ -693,10 +698,8 @@ me.Sch_Travel = &acgt{ return [
         $mg = me.cbu(R,'MayGansp');
         $ms = mgc&s;
         
-        # tw
         $x = me&Jx,R;
-        x.ro('d++') and me&ha,R,'actey:3,dome:tilpushed'
-        #me&tsc,"data++",'','d'
+        $ja = &c{ return me&ja,R,c };
         
         $li = sy&path.indexOf(ms);
         li < 0 and throw "!^^MayGansp"
@@ -713,44 +716,47 @@ me.Sch_Travel = &acgt{ return [
         # Travel/* <-> Ghost/$ms..$z <-> Know..$K
         $K;
         
+        # the twin|tw_nodeo above may %%found=$zt|$z
+        # $z = R%%found = from ^
         # find further found things in Ghost
         # creating/locating $ms..$z
         $z = me&tw_nodeo,R,Ry&up,s,'found';
-        
-        $ja = &c{ return me&ja,R,c };
-        if (ja('actey')) {
-            if (!ja('found')) {
-                !me&ja,Ry&up,'found' and me&nodei,R,Ry&up,{actey:3}
-                me&jaa,R,'almost:found,into' .map(&n{
-                    me&nodei,R,ns&into,{tw:s.t,el:2}
-                })
-            }
-            else {
-                $zj = zy&R;
-                !zj and return me&waits,"theyR"
-                # we should then see it in Ghost%%tw...
-                me&twin_nodeo,R,msy&twin,msy&remote,{tw:s.t} (&n{
-                    # Ghost..z found its Know..K
-                    K = ns&s;
-                    me&ha,R,{yonder:K,via:ns&efrom}
-                    !me&za,R,'yonder,via'
-                        && me&ha,R,{waits:'foryondering',wants:ms}
-                }) (&{
-                    # tell it to nodeo input a Know..%Pave
-                    $may = me&jaa,zj,'may:input' .filter(n => !ns&eto)
-                    if (may.length) {
-                        me&nodei,R,zj,{s,may:'input'}
-                        # < then making sure Know/ finishes 
-                        !me&za,R,'s,may:input'
-                            && me&ha,R,{waits:'forKnow',wants:ms}
-                    }
-                });
-                K && me&twin_nodeo,R,msy&twin,msy&remote,{s:K} (&n{
-                    # Know..K can find other Ghost..z
-                    ns&s == K and return
-                    me&ha,R,{otherz:ns&s,via:ns&efrom}
-                });
-            }
+        ja('found') != z and debugger;
+        if (!ja('found')) {
+            (!me&ja,R,'extra'
+                && me&ja,R,'almost:found,into' || []) .map(&n{
+                ~>6 el2: msy&remote+'..'+s.t
+                me&nodei,R,ns&into,{tw:s.t,el:2},{dome:'awakes'}
+            })
+        }
+        else {
+            $zj = zy&R;
+            !zj and return me&waits,"theyR"
+            # we should then see it in Ghost%%tw...
+            me&twin_nodeo,R,msy&twin,msy&remote,{tw:s.t} (&n{
+                # Ghost..z found its Know..K
+                K = ns&s;
+                me&ha,R,{yonder:K,via:ns&efrom}
+                !me&za,R,'yonder,via'
+                    && me&ha,R,{waits:'foryondering',wants:ms}
+            }) (&{
+                # tell it to nodeo input a Know..%Pave
+                $tp = me&tpath,s
+                ~>5 nottwin: tp
+                $may = me&jaa,zj,'may:input' .filter(n => !ns&eto)
+                if (may.length) {
+                    me&nodei,R,zj,{s,may:'input'}
+                    # < then making sure Know/ finishes 
+                    !me&za,R,'s,may:input'
+                        && me&ha,R,{waits:'forKnow',wants:ms}
+                }
+            });
+            K && me&twin_nodeo,R,msy&twin,msy&remote,{s:K} (&n{
+                # Know..K can find other Ghost..z
+                ns&s == K and return
+                me&ha,R,{otherz:ns&s,via:ns&efrom}
+
+            });
         }
         
    // %twin->%Pave
@@ -813,7 +819,7 @@ me.Sch_Travel = &acgt{ return [
             me&ja,j,'wantpush' and me&ha,R,{wantpush:z}
             else {
                 # match jam to lateral shunt
-                if (!me&ja,j,'yonder' ) {
+                if (0 && !me&ja,j,'yonder' ) {
                     me&nodei,R,z,{actey:3},{dome:'tilpushed-actey'}
                     $found = me&jaa,j,'found',1 [0]
                     if (found && me&ja,j,'eto,s,may:input'
@@ -858,6 +864,7 @@ me.Sch_Travel = &acgt{ return [
    // &toPave - Ghost|Know..n(.*)
         &{
         me.toPave = &acgtR{
+            
             $s = Rc&s;
             # looking at the thing's W
             $extra = me&ja,R,'extra';

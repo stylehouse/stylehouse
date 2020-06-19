@@ -72,6 +72,7 @@ me.Sch_Pavings = &acgt{ return [
             i < 0 and return
             $m = ps&structure;
             $here = m[i];
+            !here and me&tsc,"beyond:",'','T'; return
             $host = herec&host;
             !host and return
             # N (C stack) maps onto the structure
@@ -114,7 +115,6 @@ me.Sch_Pavings = &acgt{ return [
         
         $host = Qy&host;
         sy&host = host;
-        me&settle,R,hosty&R;
         $qe = {host};
         $la = sy&up && me.cbu(sy&up,s => sy&host);
         # %%inside:Ghost/$a (Travel/*) is Ghost..$z (Know/*)
@@ -127,6 +127,8 @@ me.Sch_Pavings = &acgt{ return [
             #  so s=Know..s,efrom=Ghost..s
             me&ha,R,n,{eto:1},qe;
         }
+        # wait for them until we find this thing
+        !me&ja,R,qe and me&settle,R,hosty&R
     },'ift,D'],
     
    // twmt - matching Q
