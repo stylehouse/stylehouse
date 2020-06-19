@@ -741,7 +741,8 @@ me.Sch_Travel = &acgt{ return [
             # we are %%found=z
             $zj = zy&R;
             !zj and return me&waits,"theyR"
-            # we should then see it in Ghost%%tw...
+            !ja('thing') and return
+            # Ghost%%tw... again for the other side
             me&twin_nodeo,R,msy&twin,msy&remote,{tw:s.t},'yonder' (&n{
                 # we are %%yonder=K
                 # wake %MayGansp on Know..K connection
@@ -750,7 +751,8 @@ me.Sch_Travel = &acgt{ return [
             }) (&{
                 # tell it to nodeo input a Know..%Pave
                 $tp = me&tpath,s
-                ~>5 nottwin: tp
+                $tpz = me&tpath,z
+                ~>5 nottwin: tpz, tp
                 $may = me&jaa,zj,'may:input' .filter(n => !ns&eto)
                 if (may.length) {
                     me&nodei,R,zj,{s,may:'input'}
@@ -888,8 +890,6 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
    
    // &toPave - Ghost|Know..n(.*)
-        # < give|take|note %%(Wasdige|Pushable|Parent):$dige from Gansp,
-        #   %%Parent,n=some row we can resume Pave with
         &{
         me.toPave = &acgtR{
             
@@ -917,7 +917,17 @@ me.Sch_Travel = &acgt{ return [
                 $Q = Pavings&Q
             }
             !Q and return me&tsc,"!Q"
-            #me&nu,"Pavvo",Q
+            
+            # < excercise for determiniteness:
+            # < give|take|note %%(Is|Pushable|Parent):$dige from Gansp,
+            #   so Gansp<->Chap knows if any u changed while running
+            # < to wy&D = copy of Q%string,dige - enough to resume
+            # Q+w|Live is the parent considered
+            #  R %%Pushable %%ready are pushed
+            #  R %%Parent !%%ready want push
+            $w = Qc&s;
+            me&ja,R,'Pushable' ? 'should still match:'
+                : me&ha,R,{Is:Qs&dige,w};
             
             ss&dige == Qs&dige and return me&ha,R,'ready'
             
