@@ -708,7 +708,7 @@ me.Sch_Travel = &acgt{ return [
     },
     
     
-   // %twin climb
+   // %MayTwine - %twin climber
     ['MayTwine','298',&acgtRs{
         me&reaw,R,'MayTwine,eph,activy';
         me&bin,'MayTwine';
@@ -759,12 +759,6 @@ me.Sch_Travel = &acgt{ return [
                         && me&ha,R,{waits:'forKnow',wants:ms}
                 }
             });
-            $K = me&jaa,R,'yonder',1 [0]
-            K && me&twin_nodeo,R,msy&twin,msy&remote,{s:K} (&n{
-                # Know..K can find other Ghost..z
-                ns&s == K and return
-                me&ha,R,{otherz:ns&s,via:ns&efrom}
-            });
         })
         (&into,{
             # we are %%almost=found,into:zabove
@@ -778,48 +772,62 @@ me.Sch_Travel = &acgt{ return [
         })
         
    // %twin->%Pave
+        # < check %%extra are ready...
+        # < Gansp's %%thing collection should become stable
         # < &settle (no other) - for all so far
         # < &settle cv, EXPR - EXPR||Ying-wide wait
         #   if lower cv settles await !
+        # < x&ja,c,1 for:
+        $K = me&jaa,R,'yonder',1 [0]
+        $z = me&jaa,R,'found',1 [0]
+        
+        K && me&twin_nodeo,R,msy&twin,msy&remote,{s:K} (&n{
+            # Know..K can find other Ghost..z
+            ns&s == K and return
+            me&ha,R,{otherz:ns&s,via:ns&efrom}
+        });
         
         $twin = me&ja,mg,'twin',1 [0];
         if (ja('thing')) {
-            # %MayGansp collects
-            me&nodei,R,mg,{thing:s}
-            # wait for %twin climb
-            !K and return
-            # < flavours of waiting for something
-            if (me&settle,R,K ) {
+            !K and 'wait-for-climbing'
+            elsif (me&settle,R,K ) {
                 me&ha,R,{waits:'forK',wants:K};
-                return me&tsc,'WaitforK'
-            }
-        
-            # Ghost..z has the Travel'd version, K may ~
-            zs&dige = ss&dige;
-            # < or perhaps only if it's not as K implies,
-            #   requiring all changes of K%dige to offset all its twin..z
-            #ss&dige == Ks&dige and delete zs&dige
-            
-            # can expect|%%actey-vate %Paving on things
-            if (twin.t == 'Ghost') {
-                # should be as we u, or slightly old
-                me&ha,R,'ready'
-            }
-            elsif (twin.t == 'To') {
-                # should be as it was
-                # < to %parent, if ~ since we Travel to replace it?
-                #   esp if it was W load+save
-                me&toPave,R
+                me&tsc,'..K'
             }
             else {
-                me&zu,"weird_twin",twin
+                # < flavours of waiting for something
+        
+                # Ghost..z has the Travel'd version, K may ~
+                zs&dige = ss&dige;
+                # < or perhaps only if it's not as K implies,
+                #   requiring all changes of K%dige to offset all its twin..z
+                #ss&dige == Ks&dige and delete zs&dige
+
+                # can expect|%%actey-vate %Paving on things
+                if (twin.t == 'Ghost') {
+                    # should be as we u, or slightly old
+                    me&ha,R,'ready'
+                }
+                elsif (twin.t == 'To') {
+                    # should be as it was
+                    # < to %parent, if ~ since we Travel to replace it?
+                    #   esp if it was W load+save
+                    me&toPave,R
+                }
+                else {
+                    me&zu,"weird_twin",twin
+                }
             }
+            # %MayGansp collects %%thing,ready?
+            $q = {thing:s}
+            ja('ready') and q.ready = 1
+            me&nodei,R,mg,q
         }
         
         ja('extra') and me&toPave,R
         
         # < something to settle all %%thing,
-        # < accept each then all %%wantpush
+        # < mark each then all %%wantpush
         
         #(Rs&boost||0) > 0 and me&zu,"MayTwine.s",s;
     },'ift,D'],
@@ -836,7 +844,7 @@ me.Sch_Travel = &acgt{ return [
             else 
             me&ja,j,'wantpush' and me&ha,R,{wantpush:z}
             else {
-                # match jam to lateral shunt
+                # < curio: match jam to lateral shunt
                 if (0 && !me&ja,j,'yonder' ) {
                     me&nodei,R,z,{actey:3},{dome:'tilpushed-actey'}
                     $found = me&jaa,j,'found',1 [0]
@@ -880,6 +888,8 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
    
    // &toPave - Ghost|Know..n(.*)
+        # < give|take|note %%(Wasdige|Pushable|Parent):$dige from Gansp,
+        #   %%Parent,n=some row we can resume Pave with
         &{
         me.toPave = &acgtR{
             
