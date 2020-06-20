@@ -84,12 +84,14 @@
         .filter(n => n.__isreFold && n.otherend || n.__isFold)
         .map(&n{
             $pos = n.find();
+            # they get lost on big copy+paste
+            !(pos.to && pos.from) and return 
             n.otherend and pos = {from:pos,to:n.otherend.find()}
             return Cye(['fold',1,{},{mark:n,
                 line: pos.from.line,
                 toline: pos.to.line
             }])
-        });
+        }).filter(f=>f);
         $ope = {};
         each if M {
             ope[fs&line] = f
