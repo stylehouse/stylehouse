@@ -624,24 +624,23 @@ me.Sch_Travel = &acgt{ return [
             }
         }
     }
-    # tw %%found or %%almost,into
+    # tw ^%%found -> %%found or %%almost,into
+    # < &settle zp,z you might?
     # < tysc args: this is c||=t(c)
     me.tw_nodeo = &acgtRpsc{
         isst(c) and c = {t:c}
         # p has %%found
         $zp = me&zaa,p,c.q||c.t,1 [0];
+        zp && !zpy&R and zp = 0
         if (zp) {
-            #me&settle,R,zp;
-            !zpy&R and return
             # to be put in $zp/$z
             $z = me&fiu,zp,s.t,8;
             !z and me&ha,R,{almost:c.t,into:zp}
         }
-        if (z) {
-            #me&settle,R,z
-            !zy&R and return
-            me&nodeo_foundha,R,c,{s:z}
-        }
+        # they must node init
+        # < occasion to force %%wants?
+        z && !zy&R and z = 0
+        z and me&nodeo_foundha,R,c,{s:z}
         return &per_thing,{
             z and per_thing(z)
             return &if_nearly,{
@@ -808,6 +807,7 @@ me.Sch_Travel = &acgt{ return [
                 # can expect|%%actey-vate %Paving on things
                 if (twin.t == 'Ghost') {
                     # should be as we u, or slightly old
+                    !Ks&dige and me&ha,R,{waits:'Kdige',wants:K}
                     me&ha,R,'ready'
                 }
                 elsif (twin.t == 'To') {
@@ -973,28 +973,28 @@ me.Sch_Travel = &acgt{ return [
             go ||= me&ja,Kr,{maypush:1};
             # sticks while dige same
             go ||= me&sa,R,{Pushable:ss&dige};
-            if (go) {
-                if (!me&rollbs,R,'sent_string' ) {
-                    # Q asks
-                    ~>3 push: R.t
-                    Paves&commitstring(ss&string);
-                    Rs&sent_string = 1;
-                }
-                if (Qs&string == ss&string) {
-                    me&tsc,'pushed';
-                    # it cancels the go
-                    go = 0
-                }
-                else {
-                    $pu = me&tsc,'pushing'
-                    # %Paving may update ss&dige = %%commit
-                    me&nodei,R,K,{commit:ss&dige},{dome:'tilpushed'}
-                    me.nto(R,pu,&{ 
-                        ~>3 repush: R.t
-                        delete Rs&sent_string })
-                }
+            !go and return
+            if (!me&rollbs,R,'sent_string' ) {
+                # Q asks
+                ~>3 push: R.t
+                Paves&commitstring(ss&string);
+                Rs&sent_string = 1;
             }
-            go and me&ha,R,{Pushable:ss&dige}
+            if (Qs&string == ss&string) {
+                me&tsc,'pushed';
+                # it cancels the go
+                go = 0
+            }
+            else {
+                $pu = me&tsc,'pushing'
+                # %Paving may update ss&dige = %%commit
+                # < check extras have commit
+                !extra and me&nodei,R,K,{commit:ss&dige},{dome:'tilpushed'}
+                me.nto(R,pu,&{ 
+                    ~>3 repush: R.t
+                    delete Rs&sent_string })
+            }
+            me&ha,R,{Pushable:ss&dige}
         };
         },
         
