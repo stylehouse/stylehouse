@@ -736,6 +736,7 @@
    // middle &Doming_7
     # the $from<-$to
     me.settle_72_settled_up = &acgtRprs{
+        
         $froms = sy&settlefroms;
         !froms and return
         # $to:r checks itself, makes version
@@ -747,6 +748,10 @@
         $washalf = ses&halfsettled;
         ses&halfsettled = 0;
         ses&settled = 0;
+        
+        $want = &sf{
+            me&wants,R,'settle',s,{for:f}
+        }
 
         if (!rs&isbready) {
             # generates %%waits, will come back
@@ -754,7 +759,7 @@
             return
         }
         if (!ses&brackstable) {
-            me&ha,R,{waits:'settle',wants:s,for:'onemore'}
+            want(s,'onemore')
             ~>4 set7 onemore: r.t
             return
         }
@@ -767,21 +772,20 @@
             # when we become &halfsettled
             washalf and break
             ~>4 set7 half aboving: n.t, '<-', s.t
-            me&ha,R,{waits:'settle',wants:n,for:'nodesabove'}
+            want(n,'nodesabove')
             # < $s/$n awake at the same time is ok
             # < that could be $n%onlyish (not $n/** again)
         }
+        # < ^v mutex?
         $non = me&settle_halfsettle_down,s;
         if (non.length) {
             ~>4 set7 half below: ki(non,4.23)
-            non.map(&n{
-                me&ha,R,{waits:'settle',wants:n,for:'nodesbelow'}
-            })
+            non.map(n => want(n,'nodesbelow'))
             return;
         }
 
         ses&settled = 1;
-        # ses&current -> hs&accepted
+        # ses&current -> hs&current, then they hs&accepted
         # < hc&el=9
         me&ioty,froms .map(&fo,{
             $h = fos&settletos;
@@ -789,7 +793,7 @@
             hs&current = ses&current;
             if (hs&current != hs&accepted || ses&bump) {
                 ~>4 set7 awaits: h.t, hs&from.t
-                me&ha,R,{waits:'settle',wants:hs&from,for:'settled'}
+                want(hs&from,'settled')
             }
         })
         delete ses&bump
@@ -1210,6 +1214,18 @@
        
        =elvis
   
+   // &wants
+    # $from &wants,'msg'||c,$to -> %%waits:$msg,wants:$to
+    # < $from -> $later? test the effects
+    me.wants = &acgtRtsc{
+        !isst(t) and throw "ct"
+        c ||= {}
+        isst(c) and c = G&peel,c
+        c.waits = t
+        c.wants = s
+        me&ha,R,c
+    }
+   
    // &bready - if no %%waits
     =elvis
      &waits,... -> R%waits
@@ -1353,7 +1369,7 @@
             
             return ope
         };
-    
+   
 
 // 8 < rounds
    

@@ -105,9 +105,9 @@ me.Sch_Travel = &acgt{ return [
     }
     },
    
-// Chap - Know|That %%cha -> Travel
+// Story - Know|That %%cha -> Travel
     =pod
-    < @Chap groups time, turns observe/respond corner
+    < @Story groups time, turns observe/respond corner
       pretending to be Fingo S-ing, providing:
         < log interesting acts
          eg CBing|Travel|Duolish starts|ends
@@ -115,7 +115,7 @@ me.Sch_Travel = &acgt{ return [
         shuntographer
         runs the game seq:
         < %Paving nice, found%Pave
-        < @Chap: %Paving+twinned ready
+        < @Story: %Paving+twinned ready
         < %Paving CB also from Ghost..$z
          diff Know..$s/found%Pave with:
           Know..$s%Paving itself
@@ -123,11 +123,11 @@ me.Sch_Travel = &acgt{ return [
           Ghost..$z%twin, as used by Travel..$t
             eg %%cha:Thing-has:dige,src:s,from:Q,to:z,t:t
         < %Gump gets Know..$s (+ Ghost/$t..$z)? out of date
-        < @Chap: %Paving+twinned+%Gump ready
-        < %Gump:
+        < @Story: %Paving+twinned+%Gump ready
+        < %Story:
          any Ghost/$t..$z -> Travel/$t
          notices them vanish, knows why
-        < @Chap:
+        < @Story:
           start Travel/* wanted,
            pre-@Search the %Gump versions (%Jhost)
             inc anything in a $W.5, with wjs %args
@@ -140,8 +140,9 @@ me.Sch_Travel = &acgt{ return [
     =cut
     &{
     },
-    ['Chap',0.5,&acgtRs{
-        me&tsc,"COmse-back"
+    ['Story',0.5,&acgtRs{
+        me&reaw,R,'Story'
+        
         sy&quue ||= 0;
         me&quiet_waker,s and me&tsc,"q"; sy&quue++
         !sy&quue and return
@@ -159,6 +160,7 @@ me.Sch_Travel = &acgt{ return [
   
 // Gump - Know|That %%cha -> Travel
     ['Gumptio',0.5,&acgtRs{
+        me&reaw,R,'Gumptio'
         
         me&jaa,R,'chag' .map(&n{
             # Know..$z
@@ -539,6 +541,7 @@ me.Sch_Travel = &acgt{ return [
    // %MayGansp - %twin find
     # %twin climb beings, to its idea of us
     ['MayGansp','298',&acgtRs{
+    
         me&reaw,R,'MayGansp,eph';
         me&bin,'MayTwine';
         $S = me&inode,R;
@@ -709,6 +712,7 @@ me.Sch_Travel = &acgt{ return [
     
    // %MayTwine - %twin climber
     ['MayTwine','298',&acgtRs{
+        
         me&reaw,R,'MayTwine,eph,activy';
         me&bin,'MayTwine';
         $S = me&inode,R;
@@ -836,6 +840,7 @@ me.Sch_Travel = &acgt{ return [
    
    // %MayGansp unit
     ['MayGansp','299',&acgtRs{
+        
         $x = me&Jx,R;
         me&jaa,R,'thing',1 .map(&z{
             $j = zy&R;
@@ -920,7 +925,7 @@ me.Sch_Travel = &acgt{ return [
             
             # < excercise for determiniteness:
             # < give|take|note %%(Is|Pushable|Parent):$dige from Gansp,
-            #   so Gansp<->Chap knows if any u changed while running
+            #   so Gansp<->Story knows if any u changed while running
             # < to wy&D = copy of Q%string,dige - enough to resume
             # Q+w|Live is the parent considered
             #  R %%Pushable %%ready are pushed
