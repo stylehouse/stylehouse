@@ -1,7 +1,7 @@
 # fangs
 me.Yingmind ||= {};
 
-   // n 1
+// n 1
         me.Yingmind.n = &acgt{ return [
         # s = C
         # < many C in one n, implied layer of doming
@@ -33,7 +33,7 @@ me.Yingmind ||= {};
             }
         },'ift,D'],
    
-   // n 5
+// n 5
         # atom -> atoms
         ['tick',0.5,&acgtRYs,SC{
             $C = s;
@@ -76,30 +76,80 @@ me.Yingmind ||= {};
         },'ift,D'],
     ]};
    
-   // &Yingdome
-    # for an A+C having S
-    # ie the whole attention span
-    me.Yingdome = &acgtRYs{
-        $D = me&Yong,R,s,'Doming',{},1;
-        me&Yingbal,'%Doming',D
-        
-        $current;
-        # for an S+ay
+// &Yingdome
+    # (Travis)
+    me.Yome = &acgtRs{
+        $D = me&Yong,R,s,'Doming',{},1
+        # for a S+ay
         Dy&dome = &tc{
             isst(c) and c = G&peel,c
             c ||= {};
             c.t = t;
-            return current = me&Yong,R,D,'Dome',c,1
+            return Dy&current = me&Yong,R,D,'Dome',c,1
         }
         # or on either end of them,
         # before the first S:
         Dy&dome('beginning','light');
-        # after the last: %light vanishes if empty
+        # after them. %light vanishes if empty
         Dy&ending = &{
-            Dy&domed(Dy&dome('ending','light'))
+            Dy&dome('ending','light')
+            Dy&domed()
             me&Yong,R,D,{},2;
         }
+        # commit current
+        Dy&domed = &{
+            !Dy&current and return
+            Dy&download and $N = Dy&download()
+            else {
+                throw "Yome!y&download"
+            }
+            N and me&Yong,R,Dy&current,{N},2
+            Dy&current = null
+        };
+        return D
+    }
+  // Y:Doming|Dome
+    me.Yingmind.Doming = &acgt{ return [
+        # C
+        ['ground',0.01,&acgtRYs,SC{
+            return Cye([s.t,3])
+        },'ift,D'],
+    ]};
+    # piece of things
+    me.Yingmind.Dome = &acgt{ return [
+        # C
+        ['ground',0.01,&acgtRYs,SC{
+            $t = Ys&t;
+            !t and throw "!t"
+            $z = me&fiu,s,t
+            return z
+        },'ift,D'],
+        ['ground',0.13,&acgtRYs,SC{
+            each in Ys&N {
+                ac(s,'z',n)
+            }
+            Ys&light && !ss&z.length and me&fiu,sy&up,s,9
+        },'ift,D'],
+    ]};
+    
+  // frontends
+    # N = %Ying%Outlog tracking
+    me.logdome = &acgtRsN{
+        $D = me&Yome,R,s
+        # < feedread ^^%Ying%Outlog
+        Dy&download = &{ return me&ydome }
+        return D
+    }
+    # A:n having S
+    # ie the whole attention span
+    me.Yingdome = &acgtRYs{
+        $D = me&Yome,R,s
+        me&Yingbal,'%Doming',D
         
+        # grounds adopted from recent: n ...
+        Dy&download = &{ return me&ydome }
+        
+        # Section deciver
         Yc&Srupto = &acgtst,talk,params{
             #~Srupt: s, ':', t, '%', talk
             
@@ -124,38 +174,9 @@ me.Yingmind ||= {};
             return 1;
         };
         
-        # grounds adopted from recent: n ...
-        Dy&domed = &{
-            !current and return
-            $N = me&ydome;
-            me&Yong,R,current,{N},2;
-            current = null
-        };
         return D
     };
-    # Section deciver
-    me.Yingmind.Doming = &acgt{ return [
-        # C
-        ['ground',0.01,&acgtRYs,SC{
-            return Cye([s.t,3])
-        },'ift,D'],
-    ]};
-    # piece of things
-    me.Yingmind.Dome = &acgt{ return [
-        # C
-        ['ground',0.01,&acgtRYs,SC{
-            $t = Ys&t;
-            !t and throw "!t"
-            $z = me&fiu,s,t
-            return z
-        },'ift,D'],
-        ['ground',0.13,&acgtRYs,SC{
-            each in Ys&N {
-                ac(s,'z',n)
-            }
-            Ys&light && !ss&z.length and me&fiu,sy&up,s,9
-        },'ift,D'],
-    ]};
+    
    
    // &Yingosc
     me.Yingosc = &acgtRsD{
