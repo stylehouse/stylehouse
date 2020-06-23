@@ -1370,7 +1370,7 @@
         };
    
 
-// 8 < rounds
+// 8 < round
  // %%waits 7 - visit other nodes
     # r%%waits,wants=z,... -> R &waits_8
     #  from &settle, &bready, or you
@@ -1456,7 +1456,14 @@
     =elvis
     me.waits_8 = &acgtR{
         me&reaw,R,'Outlog';
-        $l = me&rollbs,R,'Outlog',[];
+        $Outlog = me&rollbs,R,'Outlog',[];
+        $D = Cye(['Yinging',1])
+        Outlog.push(D);
+        me&bracki,R,D,{time:2}
+        $wokerecently = &sd{
+            return Outlog.slice((d||10) * -1)
+                .filter(D => me&bracki,R,D,{wake:s||1})
+        }
         $Y = Rs&Ying;
         $set = Ys&settles;
         
@@ -1539,9 +1546,7 @@
             }
             
             if (js&brackstable > 6) {
-                $few = l.slice(-10);
-                $many = few.filter(wake => wake.includes(s)).length;
-                if (many > 3) {
+                if (wokerecently(s) > 3) {
                     ~>4 freeze: tpath(s)
                     freeze.push(s)
                     return
@@ -1607,11 +1612,13 @@
                 !wake.length and delete Y.sc[k]
             })
         }
-        
+   
+   // and finally ish
+        # do something when nothing
         $would = Ys&quiet_wakers;
         !wakers.length && would
             # weren't the last wakers
-            && hakd(would,l.slice(-1)[0]).length
+            && hakd(would, wokerecently(1,1)).length
             # weren't all here this time
             && would.filter(s => !Rc&N.includes(sy&R)).length
             && would.map(&s{
@@ -1621,9 +1628,11 @@
             })
         !wakers.length and ~>4 .:
         
-        l.push(wakers);
         !wakers.length and return
 
+        # < multiply by Ying rows wanting it, vie for %terms
+        wakers.map(s => me&bracki,R,D,{wake:s} )
+        
         # Ying and each node has %terms,
         #  they must accept the wave is done
         wakers = wakers.map(&n{
