@@ -766,7 +766,7 @@ $poll->{doing} = sub { my ($o) = @_;
         }
     }
     
-    Mojo::IOLoop->timer(0.3,sub { $poll->{doing}($poll->{one} = rand()) });
+    Mojo::IOLoop->timer(33,sub { $poll->{doing}($poll->{one} = rand()) });
 };
 websocket '/digwaypoll' => sub { my ($s) = @_;
     my $tx = $s->tx;
@@ -840,7 +840,7 @@ any '/W/*W' => sub { my ($c) = @_;
     $t = "W/$t";
     return if $char_safety->($c,$t);
     
-    # and you can't use the name 1 etc
+    # and you can't use the name ^[1-5]
     $t =~ s/\/(\d)$//;
     my $species = $1 || $c->param('species') || '1';
     # may be in t for unique of+t amongst @Search
@@ -852,7 +852,6 @@ any '/W/*W' => sub { my ($c) = @_;
     # returns json:
     my $re = {ok=>0};
     my $nos = 0;
-    
     
     if (defined $s) {
         # optional safety - must replace such dige
