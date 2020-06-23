@@ -148,10 +148,11 @@
             # drop small chunks
             ss&z.filter(c => 1+cs&toline-cs&line < 20)
                 .map(c => me&fiu,s,c,9 );
+            
             # and any one chunk same as the parent chunk
             ss&z.length == 1 && ss&z
             .filter(c => cs&line == ss&line).map(&c{
-                cs&toline != ss&toline and throw "was shorter"
+                cs&toline != ss&toline and throw "was shorter!!"
                 me&fiu,s,c,9
             });
             return s
@@ -251,6 +252,7 @@
 
             # level this chunk is based at
             $cind = c && cs&indent || 0;
+            
             # remaining at s's indent is not c-worthy
             !c && ss&line && indent == ss&indent and i++; continue
             else
@@ -261,6 +263,7 @@
             # not minding empty lines
             !stuff and indent = laindent; 'grow'
             else
+            # < python-ish indent-implied blocks. would ignore:
             stuff[0] == '#' && indent == cind and 'grow'
             else
             # (1,2),(1) or (2,3),(1)
@@ -278,7 +281,19 @@
                 if (ps&line != ss&line && laindent != ss&indent) {
                     # borrow the 1, or start indent from here
                     cs&indent = laindent;
-                    ps&toline--; cs&line--;
+                    ps&toline--;
+                    cs&line--;
+                    if (!/\S/.test(lines[cs&line])) {
+                        # no plant-in-the-lobby trick, open
+                        # consume the skipped over !stuff
+                        cs&spacedopen = 1;
+                        while (1) {
+                            cs&spacedopen++ >4 and throw "big cs&spacedopen"
+                            /\S/.test(lines[cs&line]) and break
+                            cs&line--;
+                        }
+                    }
+                    
                 }
             }
             else
@@ -286,6 +301,8 @@
             #  unless they're /^#/, no prob
             # ie only the (1,2) of (1,1,1),(1,2)
             indent > cind and cs&proper = 1
+            # various reasons un-proper, eg (2, ,3)
+            cs&spacedopen and delete cs&proper
             
             if (p != c) {
                 $lindo = ltoindent[cs&line];
