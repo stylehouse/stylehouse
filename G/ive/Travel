@@ -170,25 +170,49 @@ me.Sch_Travel = &acgt{ return [
         me&reaw,R,'Story'
         $x = me&Jx,R;
         
-        sy&quue ||= 0;
-        $q = me&quiet_waker,s
-        q and me&tsc,"q"; sy&quue++
-        !sy&quue and return
-        
+        # on init
+        # < uses Yingu to hide most of the steps
+        #  when to unfold because why
+        # < 300ms impatience for getting past:
+        # always:
         # < wait for &settle without subscribing to updates from everyone?
         # < Ghost/$zt..$z &settle are too busy
         $them = 'Know Ghost Travel To That Duolish Gump'
             .split(' ').map(t => x.c[t])
         #me&settle,R,them and return
 
+        # sometimes here because quiet (out of wakers[])
+        # < not before a slow wakers[], for async
+        #    may finish waiting early
+        sy&quue ||= 0;
+        $q = me&quiet_waker,s
+        q and me&tsc,"q"; sy&quue++
+        !sy&quue and return
+        
         $D =
         sy&Nar ||= me&logdome,R,s
         Dc&thing = me.cbu(R,'Ying').sc.Outlog;
-        q and Dy&domed();
+        q and Dy&domed(); Dy&dome("le "+sy&quue,'light')
         
         me&tsc,'y','','y'
         me&nodei,R,xs&Gump,{narrative:1},{dome:'nar'}
         
+        $g = me&opeolo,R,'plans';
+        each im Ds&z {
+            # tabular expression?
+            $gr = gy&can('w');
+            $se = gry&can('c');
+            $lc = sey&can('i',m.t)
+            $le = gry&can('c');
+            each in ms&z {
+                #lcs&ope and ha('now',n)
+                $ro = ley&can('w');
+                ros&hue = 38;
+                $rc = roy&can('i',ki(n,4.23))
+                lcs&ope and roy&can('nu',"zip")
+                
+            }
+        }
         me&nu,"Nar",D
     },'ift,D'],
   
