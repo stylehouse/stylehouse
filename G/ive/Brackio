@@ -311,7 +311,7 @@
         me&zN,nu;
         me&zuct,g,nu;
     };
-  // brackXology - draw openable
+  // brackXology - draw openable!
     # draw openable X.k/ref/z
     me.brackXology = &acgtgXc{
         c ||= {}
@@ -320,10 +320,12 @@
             $Km = me&opeKm,g,k;
             Kmc&k = k;
             Kmc&x = x;
+            #
+            Kms&pow = 1
             $con = c.kc && c.kc[k]
             con and ex(Km.sc,con)
             gs&ope and Kms&ope = 1
-            Kms&ope and gs&pow = 2
+            Kms&ope and Kms&pow = gs&pow = 2
             gs&pow ||= 0
             Kms.push(Km)
         }
@@ -332,7 +334,7 @@
         each i,Km Kms {
             $k = Kmc&k;
             $x = Kmc&x;
-            if (gs&pow < 1) {
+            if (Kms&pow < 1) {
                 Kms&ma = 0.1
                 continue
             }
