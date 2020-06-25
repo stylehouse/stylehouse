@@ -95,6 +95,7 @@
     #  $mind on est. might return forked Y/Y:$mind
     me.Yong = &acgtRst,sc,ov{
         isob(t) and ov = sc; sc = t; t = null
+        ov < 0 and $rewind = ov = ov *-1
         ov = scaf(ov) || 0.9;
         
         # s may be inside SC
@@ -103,7 +104,8 @@
         $dive = me.cby(s);
         $SC = dive[0];
         $Y = sy&Y;
-        
+      
+      // begin if c.t || !sy&R
         $began = Y && Yc&cv || 0;
         $rem = "";
         if (t) {
@@ -134,6 +136,7 @@
             sc = {};
             rem += " ~R"
         }
+      // continue if ->?ov
         # what to do
         $c = {ov};
         if (!Y) {
@@ -143,6 +146,10 @@
         }
         else {
             c.Y = Y
+        }
+        if (rewind && Y && Yc&cv >= ov) {
+            c.incv = c.cv = ov;
+            Y = null
         }
         !Y || Yc&cv < ov and Y = me&Ying,R,s,c,sc,SC
         
