@@ -1428,7 +1428,7 @@
      
      < packs ($to,$c:term?)+ for Ying, pass nuance per $to
      
-    one day:
+     one day:
      < &settled, or just &settle with no $to
        true if $from is waiting for any $to
        would cause an extra 'onemore' (after %brackstable)
@@ -1457,7 +1457,7 @@
     me.waits_8 = &acgtR{
         me&reaw,R,'Outlog';
         $Outlog = me&rollbs,R,'Outlog',[];
-        $D = Cye(['Yinging',1])
+        $D = Cye(['Yingate',1])
         Outlog.push(D);
         me&bracki,R,D,{time:2}
         $wokerecently = &sd{
@@ -1630,8 +1630,15 @@
         
         !wakers.length and return
 
-        # < multiply by Ying rows wanting it, vie for %terms
-        wakers.map(s => me&bracki,R,D,{wake:s} )
+        # multiply by Ying rows wanting it, vie for %terms
+        # < know %%desires and laters,
+        #    dome:laters? explicit el:9
+        #    then they would y&up their source
+        wakers.map(&s{
+            $l = me&jaa,R,{wants:s} .map(n => {Yingrow:n})
+            !l[0] and l = [{}]
+            l.map(c => me&bracki,R,D,ex(c,{wake:s}) ) 
+        })
         
         # Ying and each node has %terms,
         #  they must accept the wave is done
