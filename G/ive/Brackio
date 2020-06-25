@@ -198,26 +198,16 @@
     # < brackology with styles
     
     # find openness asap, ology upwards
-    me.brackope = &acgtjk,forreal{
+    me.brackope = &acgtjkc{
         $C = js&C;
         $bk = 'brack'+k+'ology';
+        $g = j.sc[bk] ||= me&opeology,k,{label:{walls:'bg'}};
+        # < may have already been, shade difference?
+        !c and return
         
-        if (!forreal || !j.sc[bk]) {
-            me&reaw,j,bk,1;
-            $g = j.sc[bk] =
-                me&opeology,k,{label:{walls:'bg'}};
-            !forreal and return g
-        }
-        $g = j.sc[bk];
-        !forreal and return
-        
-        $p = me.cbu(jy&up,bk);
-        p and $pp = me.cbu(py&up,bk)
-        p and p = p.sc[bk]
-        
-        gs&pow = gs&ope ? 2
-            : p && ps&ope || !pp ? 1
-            : 0;
+        c.sc and ex(g.sc,c.sc)
+        gs&ope and gs&pow = 2
+        gs&pow ||= 0
         
         gs&ws = 0;
         if (gs&pow > 1) {
@@ -235,7 +225,7 @@
         isst(z) and z = j.sc[z]
         !isC(z) and throw "!z"
         $k = z.t;
-        $g = me&brackope,j,k,1
+        $g = me&brackope,j,k,config||{}
         !z and return g;
         
         $X = zs&X ||= me&brackX,zs&z;
@@ -250,10 +240,9 @@
             #me&nu,'waigh',z;
             #me&nu,"X",X;
         }
-        #j.t == 'Travel' and me&nu,"j",j;
         
-        # 0 - 1 changes
-        # 1 - t-only, grouped
+        # 0 - t-only, grouped
+        # 1 - with amounts
         # 2 - t:v, for 1 v only (as now)
         # < t-only, of at the toplevel
         if (gs&pow < 0) {
@@ -322,6 +311,7 @@
         me&zN,nu;
         me&zuct,g,nu;
     };
+  // brackXology - draw openable
     # draw openable X.k/ref/z
     me.brackXology = &acgtgXc{
         c ||= {}
@@ -332,15 +322,17 @@
             Kmc&x = x;
             $con = c.kc && c.kc[k]
             con and ex(Km.sc,con)
-            gs&ope and Kms&ope =  1
+            gs&ope and Kms&ope = 1
             Kms&ope and gs&pow = 2
+            gs&pow ||= 0
             Kms.push(Km)
         }
+        
         gs&pow < 2 and gs&ma = 0.2
         each i,Km Kms {
             $k = Kmc&k;
             $x = Kmc&x;
-            if (gs&pow < 2) {
+            if (gs&pow < 1) {
                 Kms&ma = 0.1
                 continue
             }
