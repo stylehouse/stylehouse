@@ -1861,12 +1861,25 @@
         
         
         # D - Yingate, a bit of runtime:
+        # !!!!!!!!!
         
         # %%vistep - steps of anything awake this time
         me&jaa,R,'vistep' .map(n => me&bracki,R,D,n )
         $N = Ys&steps .filter(p=>ps&sleeping).map(p => py&s)
         
-        ~>3 on: ki(N,4.23)
+        # < tunneling upwards should get somewhere
+        #  where $tune/$e is the source 
+        $poin = me.cby(R,&r{
+            $tune = Rs&tunneling;
+            return tune && me&ioty,tune .length
+        })
+        each ir poin {
+            $tune = rs&tunneling
+            me&ioty,tune .map(&e{
+                me&bracki,R,D,{tune,r,e}
+            }) .length ||
+                me&bracki,R,D,{tune,r}
+        }
         
         !wakers.length and return
 
@@ -1884,9 +1897,9 @@
         # Ying and each node has %terms,
         #  they must accept the wave is done
         wakers = wakers.map(&n{
-            return {wake:n,terms:{}}
+            return {wake:n,terms:{anode:1}}
         });
-        me&Yinge,R,{wakers,terms:{}};
+        me&Yinge,R,{wakers,terms:{bunch:1}};
     }
     # management nodes wake up when all is quiet
     me.quiet_waker = &acgts{
