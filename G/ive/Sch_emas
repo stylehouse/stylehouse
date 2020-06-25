@@ -20,39 +20,6 @@ Yingwhen
  < relate to e%term, 
 
 =cut
-# see what's tunneled
-me.Yingwhen = &acgtRY{
-    $N = me&ioty,R;
-    if (!Rs&tunneling) {
-        # nothing
-        # < a loose wave of attention,
-        #   do 100ms work, etc.
-        #   casually refreshing around:
-        #   $R/*/(*/*), $R/(*/*), ($R/*)
-        # ($R/*)
-    }
-    $tunneling = N.filter(n => ns&tunneling && Rc&N.includes(n));
-    if(0) {
-        $blab = tunneling.map(&n{
-            return n.t + (ns&sleeping ? "%sleeping" : "")
-                + (!ns&tunneling ? "!tun" : "")
-                + " P="+ns&Peace
-        }).join(',');
-        ~>3 tunneling: blab
-    }
-    $b = Rc&b;
-    $est = b && bs&Ying;
-    
-    # the main things, $p%ball
-    $two = tunneling.filter(n => ns&Peace == 2);
-    # $p only, eg delivering %%eto:$p
-    est && two.filter(n => !ns&sleeping).map(n => ns&onlyish = 1)
-    # $R/$p only, all of them
-    !tunneling.length and est && ah(R,'inheritscif','ball','onlyish',1)
-    else
-    # no &Ying for $R/$nonp (Yingu)
-    !two.length and return 1
-};
 me.Sch_ema = &acgt{ return [
   
   // %SCinto # schemas employable from s/s%SC
@@ -63,10 +30,11 @@ me.Sch_ema = &acgt{ return [
         # look for R/r(%SC=ForThee
         #  becomes R%ForThee%SupplyChai
         $g = me&opeolo,'SCinto';
+        $autoad = Rs&icount != 1
         me&ioty,s,'SC','' .map(&z{
             $t = zs&SC;
             # .1 starts it, can be switched off
-            Rs&icount == 1 and R.sc['maydo_label_SCinto_SC-able_KnowThee'] = 1
+            !autoad and autoad = R.sc['maydo_label_SCinto_SC-able_'+t] = 1
             $c = gy&can('m','SC-able');
             $n = cy&can('n',t,{label:1});
             # %Ying is persisted early by %nextlifesc
@@ -109,7 +77,42 @@ me.Sch_ema = &acgt{ return [
 
         s&boc = 588;
     },'ift,D'],
-   
+   // &Yingwhen - assign R/*%onlyish
+    &{
+    # see what's tunneled
+    me.Yingwhen = &acgtRY{
+        $N = me&ioty,R;
+        if (!Rs&tunneling) {
+            # nothing
+            # < a loose wave of attention,
+            #   do 100ms work, etc.
+            #   casually refreshing around:
+            #   $R/*/(*/*), $R/(*/*), ($R/*)
+            # ($R/*)
+        }
+        $tunneling = N.filter(n => ns&tunneling && Rc&N.includes(n));
+        if(1) {
+            $blab = tunneling.map(&n{
+                return n.t + (ns&sleeping ? "%sleeping" : "")
+                    + (!ns&tunneling ? "!tun" : "")
+                    + " P="+ns&Peace
+            }).join(',');
+            ~>3 tunneling: blab
+        }
+        $b = Rc&b;
+        $est = b && bs&Ying;
+
+        # the main things, $p%ball
+        $two = tunneling.filter(n => ns&Peace == 2);
+        # $p only, eg delivering %%eto:$p
+        est && two.filter(n => !ns&sleeping).map(n => ns&onlyish = 1)
+        # $R/$p only, all of them
+        !tunneling.length and est && ah(R,'inheritscif','ball','onlyish',1)
+        else
+        # no &Ying for $R/$nonp (Yingu)
+        !two.length and return 1
+    };
+    },
    // %onlyish
     # me&tunnel a cul de sac, to $p/*%sleeping
     ['Peace+onlyish','294',&acgtRs{
@@ -118,6 +121,7 @@ me.Sch_ema = &acgt{ return [
         $N = bs&z;
         each ib N {
             !bs&Peace and continue
+            bs&wakeful and continue
             $c = me&tunnel,R,{b};
             c.aleeping = 'aleep';
             c.JRom and throw "%onlyish/%JRom"
