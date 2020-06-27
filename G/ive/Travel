@@ -173,7 +173,7 @@ me.Sch_Travel = &acgt{ return [
         Rs&Det = D;
     }
     
-    # Ying/** happen,
+    # Ying/** happens
     # < take extra pictures 
     # < become RbitXarrive
     # < further tunneling, counts as landing the pointer in R
@@ -212,9 +212,6 @@ me.Sch_Travel = &acgt{ return [
         
         # %e here
         me&Dtunneling,D,R
-        
-        me&jaa,R,'Det,step' .map(n => me&bracki,R,D,n )
-        me&jaa,R,'Det,node' .map(n => me&bracki,R,D,n )
     }
     # detects looping wakers
     me.Yingate_wokerecently = &acgtRsd{
@@ -224,7 +221,7 @@ me.Sch_Travel = &acgt{ return [
     }
     
     },
-
+  
 
 // Travelty
     ['Travels',0.39,&acgtRs{
@@ -244,15 +241,18 @@ me.Sch_Travel = &acgt{ return [
         me&ha,R,"Travels,to:everywhere",{R};
         $le = me&zaa,R,"Travels",'to';
         
-        $p = sy&p;
+        # sends %pat as %%pat
         $pat = ss&pat ||= 'ology';
-        $D = xs&Duolish;
-        !D and throw "Duo"
-        me&nodei,R,D,{pat};
-        me&nodei,R,D,{pat:'ex'};
-        me&jaa,R,{efrom:D,raga:1} .map(&n{
+        me&nodei,R,xs&Duolish,{pat};
+        me&nodei,R,xs&Duolish,{pat:'ex'};
+        # returns %%raga
+        me&jaa,R,{efrom:xs&Duolish,raga:1} .map(&n{
             le.push(ns&raga)
         })
+        
+        # sends
+        me&ioty,s .map(z => me&nodei,R,s,{terspesia:"^"} )
+        me&nodei,R,xs&Ligno,{terspesia:"^"}
         
         each in le {
             n = me&tsc,"land",n,'G';
@@ -335,56 +335,110 @@ me.Sch_Travel = &acgt{ return [
     &{
     },
     ['Story',0.5,&acgtRs{
-        me&reaw,R,'Story'
+        me&reaw,R,'Story,Storystream,Plot'
         $x = me&Jx,R;
         
+        # sources of and tests
         $r = me&bal,'Stories','Stories,eph';
         
-        # on init
-        # < uses Yingu to hide most of the steps
-        #  when to unfold because why
-        # < 300ms impatience for getting past:
-        # always:
-        # < wait for &settle without subscribing to updates from everyone?
-        # < Ghost/$zt..$z &settle are too busy
-        $them = 'Know Ghost Travel To That Duolish Gump'
-            .split(' ').map(t => x.c[t])
-        #me&settle,R,them and return
-
-        # sometimes here because quiet (out of wakers[])
+        # acquired after the beginning
+        $D = me&rollbs,R,'Storystream'
+        # quiet Story once out of wakers[]
         # < not before a slow wakers[], for async
         #    may finish waiting early
-        sy&quue ||= 0;
         $q = me&quiet_waker,s
-        q and me&tsc,"q"; sy&quue++
-        !sy&quue and return
+        !D && q and D = Rs&Storystream = me&logdome,R,s
+        !D and return
         
-        $D =
-        sy&Nar ||= me&logdome,R,s
         Dc&thing = me.cbu(R,'Ying').sc.Outlog;
-        Dy&stream();
-        q and Dy&domed(); Dy&dome("le "+sy&quue,'light')
         
-        me&tsc,'y','','y'
-        me&nodei,R,xs&Gump,{narrative:1},{dome:'nar'}
-        
-        $la
-        each im Ds&z {
-            # tabular expression?
-            $r = me&bal,m.t,m,'Yingates,eph'
-            #$r = me&Ret,R,{t:m.t,s:m,Yingates:1}
+        # regularly return to Story, page turning?
+        # < turn fractions of a page|plot
+        if (q) {
+            me&tsc,"q";
+            sy&quue ||= 0
+            sy&quue++
+            Dy&domed()
+            Dy&dome("le "+sy&quue,'light')
         }
-        r and rs&wakeful = 1
         
-        me&zu,"La",4s&mainthing
+        $L = me&rollbs,R,'Plot'
+        L ||= Rs&Plot = Cye(['Look',1,{plin:'acty'}])
+        Ls&ok and 'done here unless serving'
     },'ift,D'],
+    
+    ['Storystream',0.5,&acgtRs{
+        $x = me&Jx,R;
+        $D = Rs&Storystream;
+        Dy&stream();
+        Rs&sleeping and return
+        
+        # draw the story
+        each im Ds&z {
+            $r = me&bal,m.t,m,'Yingates,eph'
+        }
+        rs&notfinished = 1
+    },'ift,D,sleeping'],
+    
+    ['Story+Plot',0.5,&acgtRs{
+        $L = Rs&Plot;
+        if (Lc&plin == 'acty') {
+            # on init thing to do
+            # < uses Yingu to hide most of the steps
+            #  when to unfold because why
+            # < 300ms impatience for getting past:
+            # always:
+            # < wait for &settle without subscribing to updates from everyone?
+            # < Ghost/$zt..$z &settle are too busy
+            $them = 'Know Ghost Travel To That Duolish Gump'
+                .split(' ').map(t => x.c[t])
+            #me&settle,R,them and return
+
+            me&nodei,R,xs&Gump,{narrative:1},{dome:'nar'}
+            # < do what it wants, eventually returning to acty again
+            #   in such a way to antiloop
+            #    defined tolerance, fps
+            #   commit Ying?
+        }
+        else {
+            !Lc&pling
+        }
+    },'ift,D,sleeping'],
+    
   // Yingates sort details
+    # Dome - has many things, many become complete
     ['Yingates',0.299,&acgtRs{
         me&reaw,R,'Yingates'
         Rs&rowish = 1
+        # s/* not made %ball
         Rs&nokids = 1
+        $z = sy&up;
         
-        #Rc&b && !Rs&tunneling and return Rs&sleeping = 1
+        
+        # < unify all %z.indexOf code
+        $non_last = zs&z.slice(-1)[0] != s
+        
+        # < could all be replaced with slep D/*/* if not for:
+        # extra step for Yingate only begun (the quiet)
+        non_last and Rs&non_last = 1
+        non_last = me&ollbs,R,'non_last'
+        $Fin = me&rollbs,R,'Fin'
+        if (non_last && !Fin) {
+            # try to %Finish once z/s-2
+            # creating an overall quantography from the many brackologies
+            #  may merge with z/-3 if similar,
+            #   eg a sequence of e:clicks each return to Story
+            #    whereas a bunch all happen, then return to Story
+            # and oking
+            Fin = Rs&Fin = 1
+        }
+        if (Fin) {
+            me&tsc,"Fin"
+        }
+        else {
+            # defy %onlyish to wake when $p only
+            !Fin and Rs&wakeful = 1
+        }
         
         s&hue = 138;
         each in ss&z {
@@ -392,6 +446,7 @@ me.Sch_Travel = &acgt{ return [
             $r = me&Ret,R,{t:"n:"+i,s:n,Yingate:1}
         }
     },'ift,D'],
+    
     ['Yingate',0.299,&acgtRs{
         me&reaw,R,'Yingate'
         Rs&rowish = 1
