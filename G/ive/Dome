@@ -602,15 +602,18 @@
     # nodes at each end of time
     
     # Ying|step|node all
-    me.Ying_o2 =
+    me.Ying_o2 = &acgtRs{
+        me&Yingate_2,R
+        me&Domes_o3,R
+    }
     me.Steps_o3 =
     me.Nodes_o3 = &acgtRs{
-        me&sahazaja,R;
-        me&Domes_o3,R;
+        me&Domes_o3,R
     }
     # domes, transbrack init
     me.Domes_o3 = &acgtr{
         $s = rc&s;
+        me&sahazaja,r;
         me&etos_o3,r,s;
         me&settle_o3,r,s;
         me&dome_o3,r,s;
@@ -621,13 +624,10 @@
     me.Steps_7 = &acgtRprs{
         $stepsleeping = me&node_issleeping,R,r;
         
-        me&ha,R,{vistep:s}
-
         $rev = [];
         each iz sy&N {
             $j = zy&R;
             me&node_issleeping,R,j and continue
-            me&ha,R,{vistep:s}
             me&Domes_7,R,p,j
             rev.unshift(z)
         }
@@ -636,7 +636,10 @@
             !j || j == z and debugger
             me&Domes_7_upward,R,p,j
         }
-        stepsleeping and return
+        if (stepsleeping) {
+            me&Detection_7,R,p,r
+            return
+        }
 
         me&Domes_7,R,p,r;
         $g = me&Domes_7_upward,R,p,r;
@@ -651,6 +654,8 @@
         me&waits_7,R,r;
         me&settle_6,R,p,r,s;
         me&settle_7,R,p,r,s;
+        me&Detection_7,R,p,r,s;
+        
     }
     # deeper first, depending on Sy&N (S = py&s)
     me.Domes_7_upward = &acgtRpr{
@@ -1684,16 +1689,6 @@
        for atomicity,
     =elvis
     me.waits_8 = &acgtR{
-        me&reaw,R,'Outlog';
-        $Outlog = me&rollbs,R,'Outlog',[];
-        $D = Cye(['Yingate',1])
-        Outlog.push(D)
-        D.t += '-'+Outlog.length
-        me&bracki,R,D,{time:2}
-        $wokerecently = &sd{
-            return Outlog.slice((d||10) * -1)
-                .filter(D => me&bracko,R,D,{wake:s||1})
-        }
         $Y = Rs&Ying;
         $set = Ys&settles;
         
@@ -1777,7 +1772,7 @@
             }
             
             if (js&brackstable > 6) {
-                if (wokerecently(s) > 3) {
+                if (me&Yingate_wokerecently,R,s > 3) {
                     ~>4 freeze: tpath(s)
                     freeze.push(s)
                     return
@@ -1849,7 +1844,7 @@
         $would = Ys&quiet_wakers;
         !wakers.length && would
             # weren't the last wakers
-            && hakd(would, wokerecently(1,1)).length
+            && hakd(would, me&Yingate_wokerecently,R,1,1 ).length
             # weren't all here this time
             && would.filter(s => !Rc&N.includes(sy&R)).length
             && would.map(&s{
@@ -1859,47 +1854,10 @@
             })
         !wakers.length and ~>4 .:
         
-        
-        
-        # D - Yingate, a bit of runtime:
-        # !!!!!!!!!!!!!!!!!!!!!!!
-        
-        # %%vistep - steps of anything awake this time
-        #  doesnt mean the step itself is awake
-        me&jaa,R,'vistep' .map(n => me&bracki,R,D,n )
-        
-        # there's no way in without tunneling
-        # $e = ^^%tunneling, and maybe ey&up
-        #  which would es&divawz = [e+] if tunnel diverges
-        $poin = me.cby(R) .filter(r => rs&tunneling) .reverse()
-        each ir poin {
-            rs&tunneling == e and continue
-            $e = rs&tunneling
-            $c = {e}
-            # < -pi-ish on the one e, to many row per %%e
-            r != R and c.r = r
-            es&tunnelout and c.on = es&tunnelout
-            # e:Qup|elQups update generally or:
-            #  e/*.c ={ wake=aJRom, Intere=Qupe.c{Q,R=G&t-er} }
-            each iQ ec&Qz {
-                me&bracki,R,D,{Q}
-            }
-            me&bracki,R,D,c
-        }
+        me&Yingate_8,R,{wakers}
         
         !wakers.length and return
 
-        # %%wake - for the next round
-        # multiply by Ying rows wanting it, vie for %terms
-        # < know %%desires and laters,
-        #    dome:laters? explicit el:9
-        #    then they would y&up their source
-        wakers.map(&s{
-            $l = me&jaa,R,{wants:s} .map(n => {Yingrow:n})
-            !l[0] and l = [{}]
-            l.map(c => me&bracki,R,D,ex(c,{wake:s}) ) 
-        })
-        
         # Ying and each node has %terms,
         #  they must accept the wave is done
         wakers = wakers.map(&n{
