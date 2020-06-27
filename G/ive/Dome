@@ -1687,7 +1687,8 @@
         me&reaw,R,'Outlog';
         $Outlog = me&rollbs,R,'Outlog',[];
         $D = Cye(['Yingate',1])
-        Outlog.push(D);
+        Outlog.push(D)
+        D.t += '-'+Outlog.length
         me&bracki,R,D,{time:2}
         $wokerecently = &sd{
             return Outlog.slice((d||10) * -1)
@@ -1861,24 +1862,29 @@
         
         
         # D - Yingate, a bit of runtime:
-        # !!!!!!!!!
+        # !!!!!!!!!!!!!!!!!!!!!!!
         
         # %%vistep - steps of anything awake this time
+        #  doesnt mean the step itself is awake
         me&jaa,R,'vistep' .map(n => me&bracki,R,D,n )
-        $N = Ys&steps .filter(p=>ps&sleeping).map(p => py&s)
         
-        # < tunneling upwards should get somewhere
-        #  where $tune/$e is the source 
-        $poin = me.cby(R,&r{
-            $tune = Rs&tunneling;
-            return tune && me&ioty,tune .length
-        })
+        # there's no way in without tunneling
+        # $e = ^^%tunneling, and maybe ey&up
+        #  which would es&divawz = [e+] if tunnel diverges
+        $poin = me.cby(R) .filter(r => rs&tunneling) .reverse()
         each ir poin {
-            $tune = rs&tunneling
-            me&ioty,tune .map(&e{
-                me&bracki,R,D,{tune,r,e}
-            }) .length ||
-                me&bracki,R,D,{tune,r}
+            rs&tunneling == e and continue
+            $e = rs&tunneling
+            $c = {e}
+            # < -pi-ish on the one e, to many row per %%e
+            r != R and c.r = r
+            es&tunnelout and c.on = es&tunnelout
+            # e:Qup|elQups update generally or:
+            #  e/*.c ={ wake=aJRom, Intere=Qupe.c{Q,R=G&t-er} }
+            each iQ ec&Qz {
+                me&bracki,R,D,{Q}
+            }
+            me&bracki,R,D,c
         }
         
         !wakers.length and return
