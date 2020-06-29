@@ -283,7 +283,7 @@ me.Sch_Travel = &acgt{ return [
   
 // Story - intents <-> extents
    =pod
-    < %Story runtime difference, on %%waker
+    < %Story runtime difference, on %%wake
      < %Stories select which/what
      %Yingates[-1] awake for streaming,
       < %onlylish awaking only new %Yingate
@@ -375,9 +375,8 @@ me.Sch_Travel = &acgt{ return [
         
         # draw the story
         each im Ds&z {
-            $r = me&bal,m.t,m,'Yingates,eph'
+            me&bal,m.t,m,'Yingates,eph'
         }
-        rs&notfinished = 1
     },'ift,D,sleeping'],
     
     ['Story+Plot',0.5,&acgtRs{
@@ -404,12 +403,12 @@ me.Sch_Travel = &acgt{ return [
         else {
             !Lc&pling
         }
-    },'ift,D,sleeping'],
+    },'ift,D'],
     
   // Yingates sort details
     # Dome - has many things, many become complete
     ['Yingates',0.299,&acgtRs{
-        me&reaw,R,'Yingates'
+        me&reaw,R,'Yingates,Fin'
         Rs&rowish = 1
         # s/* not made %ball
         Rs&nokids = 1
@@ -420,7 +419,7 @@ me.Sch_Travel = &acgt{ return [
         $non_last = zs&z.slice(-1)[0] != s
         
         # < could all be replaced with slep D/*/* if not for:
-        # extra step for Yingate only begun (the quiet)
+        # extra step for Yingate only begun (the quiet Story)
         non_last and Rs&non_last = 1
         non_last = me&ollbs,R,'non_last'
         $Fin = me&rollbs,R,'Fin'
@@ -462,11 +461,26 @@ me.Sch_Travel = &acgt{ return [
         me&walls,g,'b:2.2';
         ac(R,'M',g);
         
+        
+        
         (Rs&boost||0) < 1 and return
         $n = (me&bracko,R,s,{wake:1} || [])
             .filter(n => isC(ns&wake) && ns&wake.t == 'Easiness')
-        #me&nu,"Nung",n
+        
+        o $g/:Km/:Kn
+        $t = io.nz();
+        while (t.more()) {
+            $Km = ts&Km
+            !Kms&groupthing and continue
+            $Kn = ts&Kn
+            !Kns&grouping and continue
+            !Kns&pow and continue
+        me&nu,"Nung",Kn
+            
+        }
+        
     },'ift,D'],
+  
   // Stories compare
     ['Stories',0.299,&acgtRs{
         me&reaw,R,'Stories'
@@ -475,7 +489,7 @@ me.Sch_Travel = &acgt{ return [
         
         #Rc&b && !Rs&tunneling and return Rs&sleeping = 1
         
-        s&hue = 138;
+        s&hue = 66;
         each in ss&z {
             #me&bal,'n:'+i,n,'Yingate,eph,tightly'
             #$r = me&Ret,R,{t:"n:"+i,s:n,Yingate:1}
