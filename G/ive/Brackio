@@ -69,6 +69,7 @@
             # row pipelined around
             os and ny&up = os
             ny&brack = z;
+            ny&R = j
             T.act and ny&act = T.act;
 
             # mix mix -> n.sc
@@ -262,6 +263,7 @@
                 ugs&bgh = 581;
                 ugs&dis = 2;
             }
+            ugc&rows = cs&z;
             ugs&pow = gs&pow;
             ugs&ope = gs&ope;
             #j.t == 'Travel' and me&nu,"rowish"+i,c
@@ -347,16 +349,13 @@
             $vii = 0;
             each vi,fx x.ref {
                 $v = x.refs[vi];
-                $tee = isC(v) ? v.t :
-                    v == null ? '*null' :
-                    isst(v) ? v :
-                    isob(v) ? ki(k,2) : ""+v;
-                $Kn = me&opeKn,Km,tee,{label:{tsc:'y'}};
+                $lc = me&labeline,v
+                $Kn = me&opeKn,Km,lc.t,{label:{tsc:'y'}};
                 
                 $lab = Kny&label;
                 Knc&sortcv = 1;
-                isC(v) &&
-                    fio(Kn,['sym'+vi,112,{s:'C'},
+                lc.C &&
+                    fio(Kn,['sym'+vi,112,{s:lc.sym},
                     'label,fs:13,lh:0.8,hs:757']);
 
                 # total rows for this value with this key
@@ -387,4 +386,17 @@
         }
         return g
     };
+    # a title for $s, data if weird
+    me.labeline = &acgts{
+        $c = {}
+        if (isC(s)) {
+            c.C = 1
+            c.sym = isR(s) ? 'R' : 'C'
+        }
+        c.t = c.C ? s.t :
+            s == null ? '*null' :
+            isst(s) ? s :
+            isob(s) ? ki(s,2) : ""+s;
+        return c
+    }
     
