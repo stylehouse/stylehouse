@@ -134,7 +134,7 @@ me.Sch_Travel = &acgt{ return [
     
 // Detection - whats going on
   &{
-  // $D += R%tunneling
+  // $D += R%tunneling anywhere
     # < merge in &Yingwhen, early sense e, how to %onlyish
     #  < how to gradually work when fed A leash
     me.Yingtunneling = &acgt{
@@ -161,6 +161,7 @@ me.Sch_Travel = &acgt{ return [
             me&bracki,R,D,c
         }
     }
+  
   // Ying%OutLog += $D per bit of runtime
     # Ying happens
     me.Yingate_2 = &acgtRc{
@@ -200,15 +201,22 @@ me.Sch_Travel = &acgt{ return [
     me.Yingate_8 = &acgtRc{
         $D = Rs&Det;
         # %%wake - for the next round
-        # multiply by Ying rows wanting it, vie for %terms
-        # < know %%desires and laters,
-        #    dome:laters? explicit el:9
-        #    then they would y&up their source
+        # multiply by Ying rows wanting it
+        # < vie for %terms or have to spread out processes
+        # < group by %%wake in the refactored &waits_8
+        #    ignore those in %%dome:later,
+        #     el:9 when n input again with(out| different) %%dome
+        #   then they would y&up their source
+        $quiet = []
         c.wakers.map(&s{
             $l = me&jaa,R,{wants:s} .map(n => {Yingrow:n})
             !l[0] and l = [{}]
-            l.map(c => me&bracki,R,D,ex(c,{wake:s}) ) 
+            $c = {}
+            sy&quiet_wake and c.quiet = 1
+            c.wake = s
+            l.map(q => me&bracki,R,D,c,{},q ) 
         })
+        quiet.length && c.wakers.length == quiet.length and throw "all!q"
         
         # %e here
         me&Dtunneling,D,R

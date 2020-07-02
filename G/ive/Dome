@@ -1842,13 +1842,15 @@
    // and finally ish
         # do something when nothing
         $would = Ys&quiet_wakers;
+        $quiet_wake = 0
         !wakers.length && would
             # weren't the last wakers
             && hakd(would, me&Yingate_wokerecently,R,1,1 ).length
             # weren't all here this time
             && would.filter(s => !Rc&N.includes(sy&R)).length
             && would.map(&s{
-                # < Yinge terms
+                # < Yinge terms:
+                # is consumed:
                 sy&quiet_wake ||= 1
                 wakers.push(s);
             })
