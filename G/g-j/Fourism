@@ -2046,10 +2046,12 @@ me.Fourismness = &acgt{ return [
         return {
             self: &y{
                 $c = initc(y);
+                # rc&s=s? preferred .t to sync up
+                #  see out|in .t, r.t may dedupe|repurpose s.t
                 c.y = &rds{
                     # i Loc/...
                     d.O ||= topO;
-                    O = d.O = me&syncup,d.O,s;
+                    O = d.O = me&syncup,d.O,s||r;
 
                     # Oc&R=r, rs&Org=O
                     me&futlink,O,c,r
@@ -2277,6 +2279,7 @@ me.Fourismness = &acgt{ return [
                     d.sc = {};
                     # for those inside s
                     c.beyond && d.d <= c.beyond and return
+                    c.within && d.d > c.within and return
                     if (c.sch && d.d > 1) {
                         r = c.schableto(r,d);
                         !r and return d.not = 1
@@ -2288,7 +2291,7 @@ me.Fourismness = &acgt{ return [
                         # flat list, depth first
                         N.push(d);
                         # each ds&z = [d+]
-                        ac(d.up,'z',d);
+                        d.up and ac(d.up,'z',d);
                     }
                     return re
                 };
