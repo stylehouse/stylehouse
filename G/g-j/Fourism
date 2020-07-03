@@ -1855,9 +1855,10 @@ me.Fourismness = &acgt{ return [
             # < handle being for the %Codoor until let in
             schifat:{Codoor:{scto:'Codinner'}},
             # links each Oc&R=r, Rs&Org=O
-            O:'Org',
+            S:'cR',
+            O:'sOrg',
         };
-        $Org = me&indother,Abodo,Loc,sch;
+        $Org = me&indot,Abodo,Loc,sch;
         
         # map drawn
         # ! d.d > 3 (Code/Code) causes e loop
@@ -2034,7 +2035,7 @@ me.Fourismness = &acgt{ return [
     
     # surf into S, not S itself
     #  
-    me.indother = &acgtSOd{
+    me.indot = &acgtSOd{
         $initc = &y{
             $c = ex({},d);
             isha(y) and ex(c,y); c.yy = delete c.y
@@ -2051,7 +2052,7 @@ me.Fourismness = &acgt{ return [
                     O = d.O = me&syncup,d.O,s;
 
                     # Oc&R=r, rs&Org=O
-                    c.O and me&futlink,O,c.O,r
+                    me&futlink,O,c,r
                     
                     # middle
                     $re = c.yy ? c.yy(r,O,d,s) : r;
@@ -2068,7 +2069,7 @@ me.Fourismness = &acgt{ return [
                 c.schexcuse = 1;
                 c.y = &Od{
                     # Oc&R=r yfutures, rs&Org=O
-                    $r = d.S = me&futlink,O,c.O
+                    $r = d.S = me&futlink,O,c
                     r && isC(r) and $s = rc&s
                     
                     # middle
@@ -2088,7 +2089,8 @@ me.Fourismness = &acgt{ return [
                     $neu = me&syncdown,Z,(ds&z||[]).map(d=>d.S),'noop';
                     
                     # O/* not in r/*
-                    $gone = me&syncdown,O,(rs&z||[]).map(r=>r.sc[c.O]),'noop';
+                    $N = (rs&z||[]).map(r => me&setngk,r,c.O )
+                    $gone = me&syncdown,O,N,'noop';
                     
                     $cha = [...neu,...gone];
                     !cha.length and return
@@ -2155,16 +2157,34 @@ me.Fourismness = &acgt{ return [
         };
     };
     
-    # make/keep Oc&R=r, rs&Org=sy&Org=O
-    me.futlink = &acgtOtr{
-        r and Oc&R = r
-        !Oc&R and return
-        r = Oc&R = me&yfuture,Oc&R;
-        r.sc[t] = O;
+    # make/keep eg Oc&R=r, rs&Org=sy&Org=O
+    #  r may not be supplied if indother
+    me.futlink = &acgtOcr{
+        c.O ||= 'yOrg'
+        c.S ||= 'yD'
+        r and me&setngk,O,c.S,r
+        r ||= me&setngk,O,c.S
+        !r and return
+        # always use the latest R
+        #  yfuture moves yR-wards from a node s
+        isR(r) and r = me&yfuture,r
+        # other links yD to 
+        me&setngk,O,c.S,r
+        # self|source links to other
+        me&setngk,r,c.O,O
+        # r%ball also sy&Org
         $s = rc&s;
         s && rs&ball and s.y [t] = O
         return r
     };
+    # O,'yD',v [sg]ets O.y.D = v
+    me.setngk = &acgtOks{
+        isst(k) and k = [k.substr(0,1),k.substr(1)]
+        k[0] == 's' and k[0] = 'sc'
+        $gv = O[k[0]]
+        s and gv[k[1]] = s
+        return gv[k[1]]
+    }
     
     # replication
     # i going in
