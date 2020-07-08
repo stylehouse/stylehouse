@@ -458,6 +458,7 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
   
   // Yingates sort details
+   // 
     # Dome - has many things, many become complete
     ['Yingates',0.299,&acgtRs{
         me&reaw,R,'Yingates,Fin'
@@ -578,6 +579,7 @@ me.Sch_Travel = &acgt{ return [
         #   or beyond, eg to pile of nodes, is complicated:
         #    changes in assignments of a c.ip would need rolling out
         #     as some kind of change to auto-accept (%Zif)
+        #      rename wants this
         #   or if large, split some|all -rows and/or -row out
         #    store as %rows, if ~ compile to -rows (and Lines it),
         #     or diffing split+not will compare different formats
@@ -595,37 +597,59 @@ me.Sch_Travel = &acgt{ return [
       // muck
         $No = xs&Nodar
         $X = Noy&X
+        $Gump
         $d = {compLines:&DdC{
             $s = c&s
             if (c&pi == 'vat') {
-                !isC(s) and return Dc&s = ki(s)
+                # starts s=object|data|value, becomes stringified
+                !isC(s) and Dc&s = ki(s); Ds&ki = 1; return
                 Dc&s = s.t
-                
-                isR(s) and return s&R = 1
+                s.t == 'Gump' and Gump = s
+                # avoid talking of R
+                isR(s) and return Ds&R = 1
+                Dc&pi = 'n'
+                # usually as a C we can find
                 # as a flower amongst|beyond the body of nodes
                 $neck = []
-                me.cby(s,&sd{
-                    neck.unshift(s)
-                    $si = X.ss.indexOf(s)
-                    si < 0 and return
-                    return 1
+                $beyond
+                $foundnode = me.cby(s,&zd{
+                    $la = neck[0]
+                    la && (!zs&z || !zs&z.includes(la))
+                        && ac(D,'ephs','-'+neck.length+'@'+z.t)
+                    neck.unshift(z)
+                    if (X.ss.includes(z)) {
+                        !zy&path and throw "node!zy&path"
+                        # finish?!
+                        return 1
+                    }
+                    else {
+                        #sy&path and throw "!node sy&path"
+                        beyond = 1
+                        return
+                    }
                 })
-                Ds&neck = neck.map(s => s.t).join('/')
-                #s.t == 'Tangluey' and me&nu,"Tan",s
+                !neck.length and throw "noneck C"
+                Dc&s = neck.map(s => s.t).join('/')
+                !foundnode and Dc&pi = 'C'
+                else
+                beyond and Ds&beyond = 1
+                Ds&ephs and Ds&ephs = Ds&ephs.join(';')
             }
+            # normal -vat -> -n, talk of ground things
+            Dc&pi == 'n' and delete Dc&pi
         }}
+        # < the Lineso top D on ss&string.D
+        #   showing the string with chunks inteligised
         ss&string = me&Lineso,sy&eight,d
         me&nu,xs&Nodar
+        me&nu,"Xss",X.ss
+        me&nu,"Gump",Gump
     },'ift,D'],
   
   // %Nodar views
    // doc
     ['Nodar',0.299,&acgtRs{
         
-        me&reaw,R,'Nodar'
-        $x = me&Jx,R
-        # these, we can tunnel/sleep
-        Rs&Nodaring = 1;
         =experiencing a:
         
         self,other are building,styling modes
@@ -718,6 +742,11 @@ me.Sch_Travel = &acgt{ return [
         =cut
    
    // selfs
+        me&reaw,R,'Nodar'
+        $x = me&Jx,R
+        # these, we can tunnel/sleep
+        Rs&Nodaring = 1;
+        
         # < cloning spacers: i $s y- o xs&Ying/#*/#*
         # giving O=s makes this %ball the other
         $c = {beyond:0,within:3}
