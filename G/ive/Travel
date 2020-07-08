@@ -378,16 +378,17 @@ me.Sch_Travel = &acgt{ return [
    =cut
     &{
     },
-  // %Story
+ // %Story
     ['Story',0.5,&acgtRs{
+        
         me&reaw,R,'Story,Storystream,Plot'
-        $x = me&Jx,R;
+        $x = me&Jx,R
         
         # sources of and tests
-        $r = me&bal,'Stories','Stories,eph';
+        $r = me&bal,'Stories','Stories,eph'
         
         # pile of nodes
-        $r = me&bal,'Nodar','Nodar,eph';
+        $r = me&bal,'Nodar','Nodar,eph'
         
         # acquired after the beginning
         $D = me&rollbs,R,'Storystream'
@@ -398,6 +399,19 @@ me.Sch_Travel = &acgt{ return [
         !D && q and D = Rs&Storystream = me&logdome,R,s
         !D and return
         
+        $L = me&rollbs,R,'Plot'
+        L = Rs&Plot = L || Cye(['Look',1,{plin:'acty'}])
+        Ls&ok and me&tsc,"DONE"
+    },'ift,D'],
+   // %Storystream
+    ['sleeping+Storystream',0.53,&acgtRs{
+        $D = Rs&Storystream
+        Dy&stream()
+    },'ift,D'],
+    ['Storystream',0.53,&acgtRs{
+        $x = me&Jx,R;
+        $D = Rs&Storystream;
+        
         Dc&thing = me.cbu(R,'Ying').sc.Outlog;
         Dc&ignoring = x.ro('pause',{})
         
@@ -405,7 +419,7 @@ me.Sch_Travel = &acgt{ return [
         #  regularly returns to %%quiet,wake:Story
         #  may be unturned, see merge similar previous
         # < turn fractions of a page|plot, when|why
-        if (q) {
+        if (sy&is_quiet_wake) {
             me&tsc,"q";
             sy&quue ||= 0
             sy&quue++
@@ -413,24 +427,17 @@ me.Sch_Travel = &acgt{ return [
             Dy&dome("le "+sy&quue,'light')
         }
         
-        $L = me&rollbs,R,'Plot'
-        L = Rs&Plot = L || Cye(['Look',1,{plin:'acty'}])
-        Ls&ok and 'done here unless serving'
-    },'ift,D'],
-    
-    ['Storystream',0.5,&acgtRs{
-        $x = me&Jx,R;
-        $D = Rs&Storystream;
-        Dy&stream();
-        Rs&sleeping and return
+        Dy&stream()
         
         # draw the story
+        # < selfing it to -seven and -eight already,
+        #    realising novelty asap
         each im Ds&z {
             me&bal,m.t,m,'Yingates,eph'
         }
-    },'ift,D,sleeping'],
+    },'ift,D'],
     
-  // %Plot - drive %%may
+ // %Plot drive %%may
     ['Story+Plot',0.5,&acgtRs{
         $L = Rs&Plot;
         $x = me&Jx,R;
@@ -457,16 +464,16 @@ me.Sch_Travel = &acgt{ return [
         }
     },'ift,D'],
   
-  // Yingates sort details
-   // 
-    # Dome - has many things, many become complete
+  # < is Y:-eight/-seven
+ // Yingates sort details
+   
+   // Dome:$eight complete -> %Yingate
     ['Yingates',0.299,&acgtRs{
         me&reaw,R,'Yingates,Fin'
         Rs&rowish = 1
         # s/* not made %ball
         Rs&nokids = 1
         $z = sy&up;
-        
         
         # < unify all %z.indexOf code
         $non_last = zs&z.slice(-1)[0] != s
@@ -499,7 +506,9 @@ me.Sch_Travel = &acgt{ return [
             $r = me&Ret,R,{t:"n:"+i,s:n,Yingate:1}
         }
     },'ift,D'],
-    
+   
+   // %Yingate -> -seven &brackology
+    # < self a -seven
     # < brackology rearranging so node:Gilramp=wake
     # < saying when node:Travel..Gilramp
     ['Yingate',0.299,&acgtRs{
@@ -520,22 +529,24 @@ me.Sch_Travel = &acgt{ return [
         ac(R,'M',g);
     },'ift,D'],
     
-    # is now a -seven
+    # othering as %ball for verbosity
+    # < othering back into &brackology any novelty
     ['Yingate',0.44,&acgtRs{
         
         (Rs&boost||0) < 1 and return
         !sy&seven and return me&tsc,"!seven"
-        # !
+        # 
         me&bal,'beal',sy&seven,'eph'
+        return
         $str = me&indo,sy&seven (&sd{
             return ki(s,2)
         })
         me&tsc,'string',str
     },'ift,D'],
     
+   // -eight/-seven <- &brackology
     # %Yingates%Fin/* -> -gate !
     ['Yingates+Fin',0.31,&acgtRs{
-      // -eight/-seven <- brackology
         $x = me&Jx,R;
         # chapter of story: -eight a %Yingates
         $b = sy&eight;
@@ -570,7 +581,8 @@ me.Sch_Travel = &acgt{ return [
                 }
             })
         }
-      // todo
+   
+   // todo
         # -gate..-vat are Yingate's rows' properties
         # < er diag, jam the Y:-seven until sorted,
         #   adjust ology|pointing or encoding after,
@@ -594,29 +606,28 @@ me.Sch_Travel = &acgt{ return [
         # < a brack row (anywhere) may include interesting by&up,
         #    bc&shade, or the R/node/C via by&brack for it
         // etc
-      // muck
+   
+   // muck out
         $No = xs&Nodar
         $X = Noy&X
-        $Gump
         $d = {compLines:&DdC{
             $s = c&s
             if (c&pi == 'vat') {
                 # starts s=object|data|value, becomes stringified
-                !isC(s) and Dc&s = ki(s); Ds&ki = 1; return
+                !isC(s) and Dc&s = ki(s); return
                 Dc&s = s.t
-                s.t == 'Gump' and Gump = s
                 # avoid talking of R
                 isR(s) and return Ds&R = 1
                 Dc&pi = 'n'
-                # usually as a C we can find
+                # usually -n: a C we can find
                 # as a flower amongst|beyond the body of nodes
-                $neck = []
+                $stem = []
                 $beyond
                 $foundnode = me.cby(s,&zd{
-                    $la = neck[0]
+                    $la = stem[0]
                     la && (!zs&z || !zs&z.includes(la))
-                        && ac(D,'ephs','-'+neck.length+'@'+z.t)
-                    neck.unshift(z)
+                        && ac(D,'ephs','-'+stem.length+'@'+z.t)
+                    stem.unshift(z)
                     if (X.ss.includes(z)) {
                         !zy&path and throw "node!zy&path"
                         # finish?!
@@ -628,8 +639,8 @@ me.Sch_Travel = &acgt{ return [
                         return
                     }
                 })
-                !neck.length and throw "noneck C"
-                Dc&s = neck.map(s => s.t).join('/')
+                !stem.length and throw "nostem C"
+                Dc&s = stem.map(s => s.t).join('/')
                 !foundnode and Dc&pi = 'C'
                 else
                 beyond and Ds&beyond = 1
@@ -641,15 +652,13 @@ me.Sch_Travel = &acgt{ return [
         # < the Lineso top D on ss&string.D
         #   showing the string with chunks inteligised
         ss&string = me&Lineso,sy&eight,d
+        ss&dige = dig(ss&string)
+        
         me&nu,xs&Nodar
-        me&nu,"Xss",X.ss
-        me&nu,"Gump",Gump
     },'ift,D'],
   
-  // %Nodar views
-   // doc
-    ['Nodar',0.299,&acgtRs{
-        
+ // %Nodar views
+  // doc
         =experiencing a:
         
         self,other are building,styling modes
@@ -741,7 +750,8 @@ me.Sch_Travel = &acgt{ return [
           
         =cut
    
-   // selfs
+  // selfs
+    ['Nodar',0.299,&acgtRs{
         me&reaw,R,'Nodar'
         $x = me&Jx,R
         # these, we can tunnel/sleep
@@ -775,6 +785,10 @@ me.Sch_Travel = &acgt{ return [
             #$r = me&Ret,R,{t:"n:"+i,s:n,Yingate:1}
         }
     },'ift,D'],
+  
+  // others
+  
+   // to nodepile%ball
     ['Nodaring',0.299,&acgtRs{
         ah(R,'inheritscif','ball','Nodaring',2)
         Rs&Nodaring < 2 and return
@@ -787,11 +801,10 @@ me.Sch_Travel = &acgt{ return [
         (Rs&boost||0) < 1 and return
         me&nu,s
     },'ift,D'],
+    
+   // nodepile given -seven+
    
-   // others
-     # the first -seven
-      
-  // %Stories compare
+ // %Stories compare
     ['Stories',0.299,&acgtRs{
         me&reaw,R,'Stories'
         
@@ -803,7 +816,6 @@ me.Sch_Travel = &acgt{ return [
             #$r = me&Ret,R,{t:"n:"+i,s:n,Yingate:1}
         }
     },'ift,D'],
-      
   
 // Gump - Know|That %%cha -> Travel
     ['Gumptio',0.5,&acgtRs{

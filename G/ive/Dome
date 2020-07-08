@@ -1098,7 +1098,7 @@
     }
    
 // 6 < frontends
-   // < &nodei|o|e - makes %%eto..., going somewhere
+  // < &nodei|o|e - makes %%eto..., going somewhere
       // nodeio-doc 
        =elvis
        focused on:
@@ -1446,20 +1446,8 @@
               by brackstill == that $e that left
        
        =elvis
-  
-   // &wants
-    # $from &wants,'msg'||c,$to -> %%waits:$msg,wants:$to
-    # < $from -> $later? test the effects
-    me.wants = &acgtRtsc{
-        !isst(t) and throw "ct"
-        c ||= {}
-        isst(c) and c = G&peel,c
-        c.waits = t
-        c.wants = s
-        me&ha,R,c
-    }
    
-   // &bready - if no %%waits
+  // &bready - if no %%waits
     =elvis
      &waits,... -> R%waits
      &bready and return # implements a waitsology
@@ -1513,7 +1501,7 @@
         return me&ja,R,'waits'
     };
         
-   // &settle
+  // &settle
     =elvis
      &settle,z and return # waitsology for z to seem ready
      
@@ -1581,27 +1569,51 @@
         Rs&brackstable_aware = 1;
     }
     
-   // < &acting, &acty
-        # a heading for some %Part of it
-        # < swallowing brack
-        #  < knowing T.act here and when ha
-        # acty:8 meaning dialectical,
-        # acty:1 would be openey,
-        #   buttons for the first layers of mind atop
-        # they are cv-ish, yet individual doables...
-        #   %%may:ha,openey:1,acty:1 - advertise route
-        # then just increase %%acty to wander in to things
-        #  eg when depending on something being awake
-        #  eg acty=5 might be enough to know expected Wup affects
-        me.acting = &acgtRt{
-            t ||= T.act.t;
-            $ope = me&rolltog,R,{may:t,tsc:'l',acty:8};
-            
-            
-            
-            
-            return ope
-        };
+  // < &acting, &acty
+    # a heading for some %Part of it
+    # < swallowing brack
+    #  < knowing T.act here and when ha
+    # acty:8 meaning dialectical,
+    # acty:1 would be openey,
+    #   buttons for the first layers of mind atop
+    # they are cv-ish, yet individual doables...
+    #   %%may:ha,openey:1,acty:1 - advertise route
+    # then just increase %%acty to wander in to things
+    #  eg when depending on something being awake
+    #  eg acty=5 might be enough to know expected Wup affects
+    me.acting = &acgtRt{
+        t ||= T.act.t;
+        $ope = me&rolltog,R,{may:t,tsc:'l',acty:8};
+
+
+
+
+        return ope
+    };
+  
+  // &quiet_waker, &wants
+   // &quiet_waker
+    # management nodes wake up when all is quiet
+    me.quiet_waker = &acgts{
+        $Y = me.cbu(sy&R,'Ying').sc.Ying
+        ac(Y,'quiet_wakers',s)
+        $is = delete sy&quiet_wake
+        delete sy&is_quiet_wake
+        is and sy&is_quiet_wake = 1
+        return is
+    }
+   
+   // &wants
+    # $from &wants,'msg'||c,$to -> %%waits:$msg,wants:$to
+    # < $from -> $later? test the effects
+    me.wants = &acgtRtsc{
+        !isst(t) and throw "ct"
+        c ||= {}
+        isst(c) and c = G&peel,c
+        c.waits = t
+        c.wants = s
+        me&ha,R,c
+    }
    
 
 // 8 < round
@@ -1866,13 +1878,6 @@
             return {wake:n,terms:{anode:1}}
         });
         me&Yinge,R,{wakers,terms:{bunch:1}};
-    }
-    # management nodes wake up when all is quiet
-    me.quiet_waker = &acgts{
-        $Y = me.cbu(sy&R,'Ying').sc.Ying
-        ac(Y,'quiet_wakers',s)
-        $is = delete sy&quiet_wake
-        return is
     }
    
    // &Yinge - &waits_8 gives:
