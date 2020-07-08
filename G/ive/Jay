@@ -633,6 +633,10 @@ me.Yingmind ||= {};
                 #Rs&err = "enLinesR: "+part+": "+er;
                 #n err  $s:Rs&err
                 d.nofurther = 1
+                # in case we dont throw new Error(...)
+                # < generalise handling, fix up toLines: throw "Leaky...
+                isst(er) and throw "Lineso: "+er, d.path
+                # this Babz into er.catches+={stack,tc=[further]}; throw er
                 throw er, 'further'
             }
             sy&toLines = d.toLines;
