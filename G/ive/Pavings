@@ -157,10 +157,23 @@ me.Sch_Pavings = &acgt{ return [
         # inherit environment
         zs&directory and zs&directory = zs&directory.replace(/\/$/,'')
         ['args','directory','Paving','section'].map(&k{
-            # r%dir = s%dir || R%dir
+            # r%dir = s%dir ||| R%dir
             # < omit s%dir when == R%dir
+            # and eg %directory='' leaves
             $is = hak(z.sc,k) ? z.sc[k] : R.sc[k];
-            # and eg. %directory='' leaves
+            # < s%dir=1 meaning it no %Pave
+            if (k == 'directory' && Rs&director && is != '') {
+                # %directory increases into t
+                # < %dir=2: %director+%Pavings - container, !%Pave-ing
+                # < %dir=1: %director - with %Pave-ing
+                # %dir += R.t(/s%dir)
+                $was = is
+                $dir = Rs&directory
+                is = dir ? dir+'/' : '';
+                is += Rs&title || s.t;
+                # any s%dir goes under this director
+                dir && was != dir and is += '/'+was
+            }
             is and r.sc[k] = is
         })
     };
@@ -231,7 +244,7 @@ me.Sch_Pavings = &acgt{ return [
         #    chunk|extent of ghost|peek
         Rs&Paving == 1 and Rs&Paving = 'W'
         $of = Rs&Paving;
-        me&reaw,R,'Paving,title,directory,species,args,section';
+        me&reaw,R,'Paving,title,directory,director,species,args,section';
         $S = me&inode,R;
         # %adhere resolves meanings
         # < generalise levels of engagement (%%may,acty)
