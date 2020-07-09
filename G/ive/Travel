@@ -82,8 +82,9 @@ me.Sch_Travel = &acgt{ return [
     #  could be found before it happens (!tunnelout yet)
     # $e = ^^%tunneling, and maybe ey&up
     #  which would es&divawz = [e+] if tunnel diverges
-    me.Dtunneling = &acgtDR{
+    me.Dtunneling = &acgtRD{
         $poin = me.cby(R) .filter(r => rs&tunneling) .reverse()
+        D ||= Cye(["Dtunneling",1])
         each ir poin {
             rs&tunneling == e and continue
             $e = rs&tunneling
@@ -98,6 +99,14 @@ me.Sch_Travel = &acgt{ return [
             }
             me&bracki,R,D,c
         }
+        # ^ climbs e:divawz, goes y&up-only to:
+        # top e may /* about R
+        $one
+        e && ec&pack && me&ioty,e .map(&e{
+            $r = ec&wake;
+            r && rc&s == Rc&s and one = e
+        })
+        return one || e
     }
   
   // Ying%OutLog += $D per bit of runtime
@@ -157,7 +166,7 @@ me.Sch_Travel = &acgt{ return [
         quiet.length && c.wakers.length == quiet.length and throw "all!q"
         
         # %e here
-        me&Dtunneling,D,R
+        me&Dtunneling,R,D
     }
     # detects looping wakers
     me.Yingate_wokerecently = &acgtRsd{
@@ -849,6 +858,7 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
   
  // %The -nine imposed
+  // The Test Nine
     ['The',0.292,&acgtRs{
         me&reaw,R,'The'
         me&inode,R
@@ -891,8 +901,11 @@ me.Sch_Travel = &acgt{ return [
             return
         }
         
+  // with %Stori %Live||el9
+        me&dome_traction,R,'lifecodes',{el:2}
+        $Le = me&jaa,R,'dome:lifecodes'
+        me&nu,"Nu",Le
         $L = me&Rsc,that,'Live'
-        # commit if 9
         !L and me&tsc,"Nn"
         
         # posit -eights as conforming or not
@@ -915,7 +928,29 @@ me.Sch_Travel = &acgt{ return [
         $N = me&ioty,R,'TheEighi'
         # -nine settles the -eights, see &sleepic
         me&settle,R,N and return
-        
+        $g = me&case,45
+        $note = &sy{
+            return me&mtsc,g,s,'',y||'y'
+        }
+        !N.length and return me&waits,"no-Eighi"
+        $unready = []
+        $ready = arou(N,&r{ return !me&za,r,'ready' },unready)
+        if (unready.length) {
+            # should just be one open %Yingates at the end
+            !unready[0] and debugger
+            unready.length > 1 and note("Lots-unready")
+        }
+        $unok = arou(ready,&r{ return !me&za,r,'ok' })
+        if (unok.length) {
+            $ro = note("Accept*?")
+            me.nto(R,ro,&sT{
+                me&elpack,R,"Accept*","Accept",unok
+                T.wake = 'not'
+            })
+        }
+        else {
+            note("OK",'g')
+        }
     },'ift,D'],
  
     ['TheEighi',0.33,&acgtRs{
@@ -923,10 +958,28 @@ me.Sch_Travel = &acgt{ return [
         me&inode,R
         # without !sleeping loop
         me&sleepic,R and return
+        $t = Rs&exp
+        $z = Rs&got
+        me&zu,"Exp",t
+        me&zu,"Got",z
+        $e = me&Dtunneling,R
+        if (e && e.t == 'Accept') {
+            me&tsc,"Accepting"
+        }
+        # has -eight happened
+        !z || !zs&dige || !zs&string and return me&ha,R,'unready'
+        me&ha,R,'ready'
+        t && ts&dige != zs&dige and me&ha,R,'ok'
+        else {
+            $ro = me&tsc,"Accept?",'','y'
+            me.nto(R,ro,&sT{
+                me&elpack,R,"Accept*","Accept",unok
+                T.wake = 'not'
+            })
+        }
         
-        me&zu,"Exp",Rs&exp
-        me&zu,"Got",Rs&got
-        Rs&boost and me&zu,R
+        z && !t and me&ha,R,'isnew'
+        
     },'ift,D'],
     &{
         me.sleepic = &acgtR{
