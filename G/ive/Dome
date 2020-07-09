@@ -1176,7 +1176,7 @@
        
        =elvis
       
-      // < &node[eio]
+      // &nodee
         # %%e:action, expects reply re the same %%e
         # see &nodei re c+o
         me.nodee = &acgt,j,to,t,a,c,o{
@@ -1213,12 +1213,14 @@
                 # %%eto hoisting should gently hurry up etc
             }
         }
+      // < &nodein
         # %%e:handler, sync response
         #  %Ying will otherwise attend $to
         me.nodeein = &acgt,j,t,cb{
             # for e:t into j
             # cb = &from,q{produce %%a-ish}
         }
+      // &nodei
         # moving intention around
         #  row = c(identifying marks) + o(other stuff)
         #  so c finds the rolling %%eto,
@@ -1258,6 +1260,7 @@
             
             return n
         };
+      // &nodeo
         # S o $remote/$Q using|returning %%tw,...
         # < persistent query, knowing io it pipes into,
         me.nodeo = &acgtj,to,Q,qe{
@@ -1287,15 +1290,23 @@
                     ~>3 CREATE: ki(n.sc,4.23)
                     # < use %Pavings%ein to input
                     if (jos&Pavings) {
-                        # look for an island
-                        $of = me&ioty,to,'Pavings'
-                            .filter(of => ofs&Paving == qs.of) [0];
-                        of ||= me&fiu,to,qs.of;
-                        ofs&Paving = qs.of;
-                        ofs&Pavings = 1;
+                        if (qs.of) {
+                            # look for an of island (even if of=W)
+                            $of = me&ioty,to,'Pavings'
+                                .filter(of => ofs&Paving == qs.of) [0];
+                            of ||= me&fiu,to,qs.of;
+                            ofs&Paving = qs.of;
+                            ofs&Pavings = 1;
+                        }
+                        else {
+                            # $to/$W direct
+                            of = to
+                        }
                         $t = me&fiu,of,qs.tw;
-                        me&ha,j,'wiat:input'
+                        # info
                         me&ha,j,{waits:'input',wants:to}
+                        # listen to to
+                        me&settle,R,to
                         # < pointers at not yet nodes
                         toy&p and jos&numberclicked = 1;
                     }
@@ -1304,7 +1315,7 @@
                         #me&fiu,
                     }
                 });
-                me&tsc,'non';
+                me&tsc,'nodeo:'+qs.tw+':el9','non';
                 return []
             }
             if (N.legnth > 1) {

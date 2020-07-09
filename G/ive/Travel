@@ -436,6 +436,7 @@ me.Sch_Travel = &acgt{ return [
    
    // Dome:$eight complete -> %Yingate
     ['Yingates',0.299,&acgtRs{
+        
         me&reaw,R,'Yingates,Fin'
         Rs&rowish = 1
         # s/* not made %ball
@@ -514,6 +515,7 @@ me.Sch_Travel = &acgt{ return [
    // -eight/-seven <- &brackology
     # %Yingates%Fin/* -> -gate !
     ['Yingates+Fin',0.31,&acgtRs{
+        
         $x = me&Jx,R;
         # chapter of story: -eight a %Yingates
         $b = sy&eight;
@@ -550,7 +552,8 @@ me.Sch_Travel = &acgt{ return [
             })
         }
    
-   =todo
+   // todo
+    =todo
      -seven..-vat are Yingate's rows' properties
      
      < er diag, jam the Y:-seven until sorted,
@@ -597,7 +600,7 @@ me.Sch_Travel = &acgt{ return [
            novelty depiles back to -row/-vat
             to find &brackology to lay into
              and in general... diff long form, diag short form
-   =todo
+    =todo
    
    // muck out
         $No = xs&Nodar
@@ -799,18 +802,22 @@ me.Sch_Travel = &acgt{ return [
  // %Stories compare
     # Stories/Stori/Eighi
     ['Stories',0.299,&acgtRs{
-        me&reaw,R,'Stories'
-        $S = me&inode,R;
+        me&reaw,R,'Stories,eph'
+        me&inode,R;
         $x = me&Jx,R;
         Rs&Pavings = 1
         Rs&directory = "Stories"
         ah(R,'inheritscif','ball','Stori',1)
         ah(R,'adhere','twmt',s)
-        me&bal,"Around","Around"
+        $r = me&bal,"Around","Around"
         
         #Rc&b && !Rs&tunneling and return Rs&sleeping = 1
         
         s&hue = 66;
+    },'ift,D'],
+    ['Stories+Pavings',0.2999,&acgtRs{
+        me&bewind,R and return
+        me&tsc,"SP"
     },'ift,D'],
     
    // the %Paving
@@ -845,7 +852,7 @@ me.Sch_Travel = &acgt{ return [
     ['The',0.292,&acgtRs{
         me&reaw,R,'The'
         me&inode,R
-        ah(R,'inheritscif','ball','TheNine',1)
+        ah(R,'inheritscif','ball','TheTest',1)
         me&tsc,"Isit?"
         
         $n = me&quainto,'add-test';
@@ -853,11 +860,18 @@ me.Sch_Travel = &acgt{ return [
         $say = me&Tie,R,'add-test',1;
         say and me&input,R,say .sc.initCode = 1; me&elvis,R,"add-test"
     },'ift,D'],
-    # -nine, drawn up
-    ['TheNine',0.33,&acgtRs{
+    # -nine, drawing up
+    ['TheTest',0.3,&acgtRs{
+        me&reaw,R,'TheTest'
+        me&inode,R
+        me&bal,s.t,'TheNine'
+    },'ift,D'],
+    # Story <-> Stori
+    ['TheNine',0.3,&acgtRs{
         me&reaw,R,'TheNine'
         me&inode,R
         $x = me&Jx,R;
+        sc&pi = 'nine'
         me&tsc,"Isnit?"
         # wants to get Stories/$t
         #  commit to i Stories/Around/$t
@@ -868,9 +882,17 @@ me.Sch_Travel = &acgt{ return [
             that and me&tsc,"MULTI"
             that = z
         })
+        if (!that) {
+            # < opening advert from Around
+            # want to enter it, see if el:9
+            !me&ja,R,'may:input' and throw "nonodeo"
+            # < question ^ answer v brackism
+            me&ha,R,'may:input,s,dome:lifecodes'
+            return
+        }
         
         $L = me&Rsc,that,'Live'
-        # commit if 9 
+        # commit if 9
         !L and me&tsc,"Nn"
         
         # posit -eights as conforming or not
@@ -879,16 +901,39 @@ me.Sch_Travel = &acgt{ return [
         $N = me&ioty,xc&Story,'Yingates'
         me&twlic,N,L (&zlc{
             $t = delete c.t
-            $r = me&bal,t,'eph,TheEighi'
+            $r = me&bal,t,'eph'
+            rs&TheEighi = 1
             # may +%now_missing when found things after
             ex(r.sc,c)
             l and rs&exp = l
-            z and rs&got = zy&eight
+            z and rs&got = z
         })
         
     },'ift,D'],
-    ['TheEighi',0.33,&acgtRs{
+    #  see &sleepic
+    ['TheNine',0.67,&acgtRs{
+        $N = me&ioty,R,'TheEighi'
+        # -nine settles the -eights, see &sleepic
+        me&settle,R,N and return
+        
     },'ift,D'],
+ 
+    ['TheEighi',0.33,&acgtRs{
+        me&reaw,R,'TheEighi,exp,got,now_missing'
+        me&inode,R
+        # without !sleeping loop
+        me&sleepic,R and return
+        
+        me&zu,"Exp",Rs&exp
+        me&zu,"Got",Rs&got
+        Rs&boost and me&zu,R
+    },'ift,D'],
+    &{
+        me.sleepic = &acgtR{
+            me&ollbs,Ry&up,'numberclicked' and return
+            Rc&b && !Rs&tunneling and return Rs&sleeping = 1
+        }
+    },
  
  // %Plot drive %%may
     ['Plot',0.5,&acgtRs{
