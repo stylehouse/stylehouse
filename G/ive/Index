@@ -65,4 +65,47 @@
             return x
         }
     
-    
+ // jobs
+    // &twlic, &twlim - tw matchup
+        # as twlim but with one r?,l? callback
+        me.twlic = &acgtNL{
+            return &y{
+                $M = []
+                # returns list of y returns
+                $ya = &tlc{
+                    c ||= {}
+                    c.t ||= l && l.t || t.t
+                    M.push(y(t,l,c))
+                }
+                $con = me&twlim,L (&lc{ ya(null,l,c) })
+
+                N.map(&t{
+                    $z = isR(t) && ts&ball ? tc&s : t
+                    $l = con(z)
+                    ya(z,l)
+                })
+                con()
+                
+                return M
+            }
+        }
+        # consume L/* by t one at a time in order
+        #  y(L) for missing
+        me.twlim = &acgtL{
+            $used = L ? me&ioty,L : []
+            $for_missing
+            return &y{
+                for_missing = y;
+                return &s{
+                    !s and used.map(l => for_missing(l)); return
+                    $l = L && me&fiu,L,s,8
+                    if (l) {
+                        $li = used.indexOf(l)
+                        # before found now missing
+                        li > 0 && used.splice(0,li)
+                            .map(l=> for_missing(l,{now_missing:1}));
+                    }
+                    return l
+                }
+            }
+        }
