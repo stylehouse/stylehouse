@@ -1261,7 +1261,9 @@
         # S o $remote/$Q using|returning %%tw,...
         # < persistent query, knowing io it pipes into,
         me.nodeo = &acgtj,to,Q,qe{
-            $qs = ex({tw:Q.t},Q.c);
+            $qs = isst(Q) ? {tw:Q}
+                : isC(Q) ? ex({tw:Q.t},Q.c)
+                : Q
             $jo = toy&R;
             if (jos&Pavings) {
                 qs.of == 'wjs' and qs.of = 'w'
@@ -1303,7 +1305,7 @@
                     }
                 });
                 me&tsc,'non';
-                return
+                return []
             }
             if (N.legnth > 1) {
                 # in the web you would want many answers,
