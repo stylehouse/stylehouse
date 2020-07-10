@@ -860,33 +860,22 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
   
  // %The -nine imposed
-  // The Test Nine
+  // TheTest as storable
     ['The',0.292,&acgtRs{
         me&reaw,R,'The'
         me&inode,R
         ah(R,'inheritscif','ball','TheTest',1)
-        me&tsc,"Isit?"
-        
-        $n = me&quainto,'add-test';
-        ns&fs = 12;
-        $say = me&Tie,R,'add-test',1;
-        say and me&input,R,say .sc.initCode = 1; me&elvis,R,"add-test"
     },'ift,D'],
-    # -nine, drawing up
-    ['TheTest',0.3,&acgtRs{
+    # -nine, drawing up Zavable
+    ['TheTest',0.294,&acgtRs{
         me&reaw,R,'TheTest'
         me&inode,R
-        me&bal,s.t,'TheNine'
-    },'ift,D'],
-    # Story <-> Stori
-    ['TheNine',0.3,&acgtRs{
-        me&reaw,R,'TheNine'
-        me&inode,R
         $x = me&Jx,R;
-        sc&pi = 'nine'
-        me&tsc,"Isnit?"
-        # wants to get Stories/$t
-        #  commit to i Stories/Around/$t
+        
+        
+        # wants to get Stories/$t(/$bits)
+        #  and commit them all at once, with history
+        #  and commit $t -> Stories/Around
         $that
         me&nodeo,R,xs&Stories,s.t .map(&n{
             $z = ns&s
@@ -904,17 +893,31 @@ me.Sch_Travel = &acgt{ return [
             me&ha,R,'may:input,s,dome:lifecodes'
             return
         }
-        
-  // with %Stori %Live||el9
         me&dome_traction,R,'lifecodes',{el:2}
         $L = me&Rsc,that,'Live'
         !L and me&tsc,"Nn"
         
+  // with %Stori %Live||el9
+        me&rollbs,R,'self'
+        Rs&self ||= L && me&Copy,R,L || Cye([s.t,1])
+        me&nu,"self",Rs&self
+        me&bal,s.t,Rs&self,'TheNine'
+    },'ift,D'],
+    # Story <-> Stori
+    ['TheNine',0.295,&acgtRs{
+        me&reaw,R,'TheNine'
+        me&inode,R
+        $x = me&Jx,R;
+        sc&pi = 'nine'
+        me&tsc,"Isnit?"
+        
+        
+        
         # posit -eights as conforming or not
-        #  listing Stories/$t/$eight
+        #  <-> Stories/$t/$eight
         # these R%eph iterate $z=Rc&s
         $N = me&ioty,xc&Story,'Yingates'
-        me&twlic,N,L (&zlc{
+        me&twlic,N,s (&zlc{
             $t = delete c.t
             $r = me&bal,t,'eph'
             rs&TheEighi = 1
@@ -946,7 +949,6 @@ me.Sch_Travel = &acgt{ return [
         }
         $unok = arou(ready,&r{ return !me&za,r,'ok' })
         if (unok.length) {
-            note("!"+unok.length,'b','fail')
             $ro = note("Accept*?")
             me.nto(R,ro,&sT{
                 me&elpack,R,"Accept*","Accept",unok
@@ -954,23 +956,28 @@ me.Sch_Travel = &acgt{ return [
             })
         }
         
+        g = note('prog','l')
+        gs&ma = gs&lh = 2
         note(ready.length,'','ready')
         note('/','6','of')
         note(N.length,'','total')
-        ready.length == N.legnth and note("OK",'g')
-        Rs&eph and me&tsc,'%eph','','p'
+        unok.length and note("!"+unok.length,'b','fail')
+        else
+        ready.length == N.length and note("OK",'g')
     },'ift,D'],
  
     ['TheEighi',0.33,&acgtRs{
-        me&reaw,R,'TheEighi,eph,exp,got,now_missing'
+        me&reaw,R,'TheEighi,exp,got,now_missing'
         me&inode,R
         # without !sleeping loop
         me&sleepic,R and return
-        Rs&eph and me&tsc,'%eph','','p'
+        
         $t = Rs&exp
         $z = Rs&got
         me&zu,"Exp",t
         me&zu,"Got",z
+        
+        
         $e = me&Dtunneling,R
         if (e && e.t == 'Accept') {
             me&tsc,"Accepting"
@@ -978,7 +985,7 @@ me.Sch_Travel = &acgt{ return [
         # has -eight happened
         !z || !zs&dige || !zs&string and return me&ha,R,'unready'
         me&ha,R,'ready'
-        t && ts&dige != zs&dige and me&ha,R,'ok'
+        t && ts&dige == zs&dige and me&ha,R,'ok'
         else {
             $ro = me&tsc,"Accept?",'','y'
             me.nto(R,ro,&sT{
