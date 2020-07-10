@@ -876,6 +876,9 @@ me.Sch_Travel = &acgt{ return [
         # wants to get Stories/$t(/$bits)
         #  and commit them all at once, with history
         #  and commit $t -> Stories/Around
+        
+        # want to enter it, see if el:9
+        me&ha,R,'may:input,s'
         $that
         me&nodeo,R,xs&Stories,s.t .map(&n{
             $z = ns&s
@@ -886,14 +889,8 @@ me.Sch_Travel = &acgt{ return [
             that and me&tsc,"MULTI"
             that = z
         })
-        if (!that) {
-            # want to enter it, see if el:9
-            !me&ja,R,'may:input' and throw "nonodeo"
-            # < question ^ answer v brackism
-            me&ha,R,'may:input,s,dome:lifecodes'
-            return
-        }
-        me&dome_traction,R,'lifecodes',{el:2}
+        !that and return
+        
         $L = me&Rsc,that,'Live'
         !L and me&tsc,"Nn"
         
