@@ -890,12 +890,14 @@ me.Sch_Travel = &acgt{ return [
         $that
         me&nodeo,R,xs&Stories,s.t .map(&n{
             $z = ns&s
+            # < input Stories/$t, advert from Around/$t
+            ns&ad and throw "advert"
+            # species:1 to download
             me&ha,R,{eto:z,species:1,hasThe:s}
             that and me&tsc,"MULTI"
             that = z
         })
         if (!that) {
-            # < opening advert from Around
             # want to enter it, see if el:9
             !me&ja,R,'may:input' and throw "nonodeo"
             # < question ^ answer v brackism
@@ -905,8 +907,6 @@ me.Sch_Travel = &acgt{ return [
         
   // with %Stori %Live||el9
         me&dome_traction,R,'lifecodes',{el:2}
-        $Le = me&jaa,R,'dome:lifecodes'
-        me&nu,"Nu",Le
         $L = me&Rsc,that,'Live'
         !L and me&tsc,"Nn"
         
@@ -925,16 +925,18 @@ me.Sch_Travel = &acgt{ return [
         })
         
     },'ift,D'],
-    #  see &sleepic
+    
+    # many acceptables
     ['TheNine',0.67,&acgtRs{
         $N = me&ioty,R,'TheEighi'
         # -nine settles the -eights, see &sleepic
         me&settle,R,N and return
-        $g = me&case,45
-        $note = &sy{
-            return me&mtsc,g,s,'',y||'y'
+        $g = me&case,5
+        $note = &sct{
+            return me&mtsc,g,(t||s),s,c||'y'
         }
         !N.length and return me&waits,"no-Eighi"
+        
         $unready = []
         $ready = arou(N,&r{ return !me&za,r,'ready' },unready)
         if (unready.length) {
@@ -944,22 +946,27 @@ me.Sch_Travel = &acgt{ return [
         }
         $unok = arou(ready,&r{ return !me&za,r,'ok' })
         if (unok.length) {
+            note("!"+unok.length,'b','fail')
             $ro = note("Accept*?")
             me.nto(R,ro,&sT{
                 me&elpack,R,"Accept*","Accept",unok
                 T.wake = 'not'
             })
         }
-        else {
-            note("OK",'g')
-        }
+        
+        note(ready.length,'','ready')
+        note('/','6','of')
+        note(N.length,'','total')
+        ready.length == N.legnth and note("OK",'g')
+        Rs&eph and me&tsc,'%eph','','p'
     },'ift,D'],
  
     ['TheEighi',0.33,&acgtRs{
-        me&reaw,R,'TheEighi,exp,got,now_missing'
+        me&reaw,R,'TheEighi,eph,exp,got,now_missing'
         me&inode,R
         # without !sleeping loop
         me&sleepic,R and return
+        Rs&eph and me&tsc,'%eph','','p'
         $t = Rs&exp
         $z = Rs&got
         me&zu,"Exp",t
@@ -975,7 +982,7 @@ me.Sch_Travel = &acgt{ return [
         else {
             $ro = me&tsc,"Accept?",'','y'
             me.nto(R,ro,&sT{
-                me&elpack,R,"Accept*","Accept",unok
+                me&elvis,R,"Accept"
                 T.wake = 'not'
             })
         }
