@@ -905,7 +905,7 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
     # Story <-> Stori
     ['TheNine',0.295,&acgtRs{
-        me&reaw,R,'TheNine'
+        me&reaw,R,'TheNine,reself'
         me&inode,R
         $x = me&Jx,R;
         sc&pi = 'nine'
@@ -937,17 +937,60 @@ me.Sch_Travel = &acgt{ return [
         me&settle,R,N and return
         me&acceptables,R,N
         # sending us what to push
-        $a = me&ja,R,'acception'
-        !a and return
-        # < tw liesing Lineso
-        # rebuild Nine/* with %%acceptia
+        !me&ja,R,'acception' and return
+        
+        # liesing Lineso
+        # rebuild Nine+/* into %%acceptia
         $Ni = Cye(s)
-        me&ioty,s .map(&n{
+        $fiunly = &s{
+            $was = me&fiu,Ni,s,'8'
+            was and throw "already", was
+            return me&fiu,Ni,s
+        }
+        # $Eighi+
+        me&ioty,R,'TheEighi' .map(&r{
+            $z = rc&s
+            $many
+            me&jaa,R,{acception:1,efrom:z},1 .map(&t{
+                many and throw "many acceptions",z
+                many = 1
+                # t may ~%string while same ref
+                $dige = me&storable,t
+                # Stories/$t/$eight <- got%dige%string
+                # < use y&eight, ** y&toLines chunk through %string
+                #   and before now, eg for pulling $exp
+                me&ha,R,{acceptia:t,dige,inside:Ni}
+                # Stories/$t links /$eight
+                $link = fiunly(t.t)
+                links&dige = dige
+            })
+            many and return
+            $t = rs&exp
+            !t and return
+            me&ioty,t .length and throw "has z",t
+            # Stories/$t links /$eight
+            # < should be as it was, skip encode?
+            fiunly(Cye(t))
         })
-        me&nu,"Zac",a
-        # ends up %%acceptia Q=[$Nine,$Eighi+] to TheTest,
+        # $Nine
+        me&rollbs,R,'reself'
+        $t = Rs&reself ||= Cye([s.t,1])
+        ty&D = Ni
+        ts&string = me&Lineso,Ni
+        ts&dige = dig(ts&string)
+        me&ha,R,{acceptia:t,dige:ts&dige}
+        
+        # end up %%acceptia Q=[$Nine,$Eighi+] to TheTest
+        me&jaa,R,'acceptia' .map(n => me&nodei,R,Ry&up,n )
     },'ift,D'],
     &{
+        me.storable = &acgts{
+            # the t%dige%string
+            $dige = ss&dige
+            !dige and throw "storable s!%dige"
+            !dige and throw "storable s!%string"
+            return dige
+        }
         # Nine tallies Eighi,
         #  may e:Accept many Eighi%%ready!ok
         me.acceptables = &acgtRN{
@@ -985,8 +1028,7 @@ me.Sch_Travel = &acgt{ return [
         # when cha, Eighi $got may -> Nine
         me.acceptable = &acgtRs{
             # the t%dige%string
-            $dige = ss&dige
-            !dige and throw "accept s!%dige"
+            $dige = me&storable,s
             
             # while it is not commit
             
@@ -999,7 +1041,7 @@ me.Sch_Travel = &acgt{ return [
 
             if (me&ja,R,{accepted:dige} ) {
                 # staging %%acception up to Nine
-                me&nodei,R,Ry&up,{acception:s}
+                me&nodei,R,Ry&up,{acception:s,dige}
             }
             else {
                 # while it is not staged
