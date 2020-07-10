@@ -911,11 +911,12 @@ me.Sch_Travel = &acgt{ return [
         sc&pi = 'nine'
         me&tsc,"Isnit?"
         
-        
-        
-        # posit -eights as conforming or not
-        #  <-> Stories/$t/$eight
-        # these R%eph iterate $z=Rc&s
+        # Nine/$exp - an expected -eight
+        #  passed to an Eighi%exp instead of appearing
+        Rs&nokids = 1
+        # Nine/Eighi - conforming -eight
+        #  %exp = Stories/$t/$eight, or $t's link to it
+        #  %got = Yingates, having a %dige%string
         $N = me&ioty,xc&Story,'Yingates'
         me&twlic,N,s (&zlc{
             $t = delete c.t
@@ -934,37 +935,84 @@ me.Sch_Travel = &acgt{ return [
         $N = me&ioty,R,'TheEighi'
         # -nine settles the -eights, see &sleepic
         me&settle,R,N and return
-        $g = me&case,5
-        $note = &sct{
-            return me&mtsc,g,(t||s),s,c||'y'
-        }
-        !N.length and return me&waits,"no-Eighi"
-        
-        $unready = []
-        $ready = arou(N,&r{ return !me&za,r,'ready' },unready)
-        if (unready.length) {
-            # should just be one open %Yingates at the end
-            !unready[0] and debugger
-            unready.length > 1 and note("Lots-unready")
-        }
-        $unok = arou(ready,&r{ return !me&za,r,'ok' })
-        if (unok.length) {
-            $ro = note("Accept*?")
-            me.nto(R,ro,&sT{
-                me&elpack,R,"Accept*","Accept",unok
-                T.wake = 'not'
-            })
-        }
-        
-        g = note('prog','l')
-        gs&ma = gs&lh = 2
-        note(ready.length,'','ready')
-        note('/','6','of')
-        note(N.length,'','total')
-        unok.length and note("!"+unok.length,'b','fail')
-        else
-        ready.length == N.length and note("OK",'g')
+        me&acceptables,R,N
+        # sending us what to push
+        $a = me&ja,R,'acception'
+        !a and return
+        # < tw liesing Lineso
+        # rebuild Nine/* with %%acceptia
+        $Ni = Cye(s)
+        me&ioty,s .map(&n{
+        })
+        me&nu,"Zac",a
+        # ends up %%acceptia Q=[$Nine,$Eighi+] to TheTest,
     },'ift,D'],
+    &{
+        # Nine tallies Eighi,
+        #  may e:Accept many Eighi%%ready!ok
+        me.acceptables = &acgtRN{
+            $g = me&case,5
+            $note = &sct{
+                return me&mtsc,g,(t||s),s,c||'y'
+            }
+            !N.length and return me&waits,"no-*"
+
+            $unready = []
+            $ready = arou(N,&r{ return !me&za,r,'ready' },unready)
+            if (unready.length) {
+                # should just be one open %Yingates at the end
+                !unready[0] and debugger
+                unready.length > 1 and note("Lots-unready")
+            }
+            $unok = arou(ready,&r{ return !me&za,r,'ok' })
+            if (unok.length) {
+                $ro = note("Accept*?")
+                me.nto(R,ro,&sT{
+                    me&elpack,R,"Accept*","Accept",unok
+                    T.wake = 'not'
+                })
+            }
+
+            g = note('prog','l')
+            gs&ma = gs&lh = 2
+            note(ready.length,'','ready')
+            note('/','6','of')
+            note(N.length,'','total')
+            unok.length and note("!"+unok.length,'b','fail')
+            else
+            ready.length == N.length and note("OK",'g')
+        }
+        # when cha, Eighi $got may -> Nine
+        me.acceptable = &acgtRs{
+            # the t%dige%string
+            $dige = ss&dige
+            !dige and throw "accept s!%dige"
+            
+            # while it is not commit
+            
+            $e = me&Dtunneling,R
+            if (e && e.t == 'Accept') {
+                # click to stage
+                me&tsc,"Accepting"
+                me&ha,R,{accepted:dige,dome:'accepting'}
+            }
+
+            if (me&ja,R,{accepted:dige} ) {
+                # staging %%acception up to Nine
+                me&nodei,R,Ry&up,{acception:s}
+            }
+            else {
+                # while it is not staged
+                $ro = me&tsc,"Accept?",'','y'
+                me.nto(R,ro,&sT{
+                    me&elvis,R,"Accept"
+                    T.wake = 'not'
+                })
+            }
+            # < deeply?
+            me&ja,R,{eto:Rc&s,acception:1} and me&tsc,"acception++"
+        }
+    },
  
     ['TheEighi',0.33,&acgtRs{
         me&reaw,R,'TheEighi,exp,got,now_missing'
@@ -977,21 +1025,13 @@ me.Sch_Travel = &acgt{ return [
         me&zu,"Exp",t
         me&zu,"Got",z
         
-        
-        $e = me&Dtunneling,R
-        if (e && e.t == 'Accept') {
-            me&tsc,"Accepting"
-        }
-        # has -eight happened
+        # has -eight happened (got got)
         !z || !zs&dige || !zs&string and return me&ha,R,'unready'
+        
         me&ha,R,'ready'
         t && ts&dige == zs&dige and me&ha,R,'ok'
         else {
-            $ro = me&tsc,"Accept?",'','y'
-            me.nto(R,ro,&sT{
-                me&elvis,R,"Accept"
-                T.wake = 'not'
-            })
+            me&acceptable,R,z
         }
         
         z && !t and me&ha,R,'isnew'
