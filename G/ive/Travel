@@ -899,14 +899,18 @@ me.Sch_Travel = &acgt{ return [
         Rs&self ||= L && me&Copy,R,L || Cye([s.t,1])
         me&nu,"self",Rs&self
         me&bal,s.t,Rs&self,'TheNine'
+        
     },'ift,D'],
     # Story <-> Stori
     ['TheNine',0.295,&acgtRs{
         me&reaw,R,'TheNine,reself'
+        me&rollbs,R,'reself'
         me&inode,R
         $x = me&Jx,R;
         sc&pi = 'nine'
         me&tsc,"Isnit?"
+        # without !sleeping loop
+        me&sleepic,R and return
         
         # Nine/$exp - an expected -eight
         #  passed to an Eighi%exp instead of appearing
@@ -931,11 +935,26 @@ me.Sch_Travel = &acgt{ return [
     ['TheNine',0.67,&acgtRs{
         $N = me&ioty,R,'TheEighi'
         # -nine settles the -eights, see &sleepic
-        me&settle,R,N and return
+        # < create new &settles and go to sleep
+        #me&settle,R,N && me&sleepic,R,2 and return
         me&acceptables,R,N
-        # sending us what to push
-        !me&ja,R,'acception' and return
+        me&zu,"thjis",s
+        me&zu,"that",N[0].c.s
+        me&settle,R,N and return
+        me&tsc,"SETTLED"
+        # -eights send us what to push
+        !me&ja,R,'acception' and return me&dome_traction,R,'acceptia',{el:2}
+        # end up %%acceptia Q=[$Nine,$Eighi+] to TheTest
+        $acceptia = &sq{
+            q.acceptia = s
+            q.dome = 'acceptia'
+            me&nodei,R,Ry&up,q
+        }
         
+        
+        
+        ~>5 ninea6e:
+      // Nine Lineso
         # liesing Lineso
         # rebuild Nine+/* into %%acceptia
         $Ni = Cye(s)
@@ -956,7 +975,7 @@ me.Sch_Travel = &acgt{ return [
                 # Stories/$t/$eight <- got%dige%string
                 # < use y&eight, ** y&toLines chunk through %string
                 #   and before now, eg for pulling $exp
-                me&ha,R,{acceptia:t,dige,inside:Ni}
+                acceptia(t,{dige,inside:Ni})
                 # Stories/$t links /$eight
                 $link = fiunly(t.t)
                 links&dige = dige
@@ -970,15 +989,12 @@ me.Sch_Travel = &acgt{ return [
             fiunly(Cye(t))
         })
         # $Nine
-        me&rollbs,R,'reself'
         $t = Rs&reself ||= Cye([s.t,1])
         ty&D = Ni
         ts&string = me&Lineso,Ni
         ts&dige = dig(ts&string)
-        me&ha,R,{acceptia:t,dige:ts&dige}
+        acceptia(t,{dige:ts&dige})
         
-        # end up %%acceptia Q=[$Nine,$Eighi+] to TheTest
-        me&jaa,R,'acceptia' .map(n => me&nodei,R,Ry&up,n )
     },'ift,D'],
     &{
         me.storable = &acgts{
@@ -1063,6 +1079,8 @@ me.Sch_Travel = &acgt{ return [
         $z = Rs&got
         me&zu,"Exp",t
         me&zu,"Got",z
+        ss&coun ||= 0
+        ss&coun++
         
         # has -eight happened (got got)
         !z || !zs&dige || !zs&string and return me&ha,R,'unready'
@@ -1077,9 +1095,14 @@ me.Sch_Travel = &acgt{ return [
         
     },'ift,D'],
     &{
-        me.sleepic = &acgtR{
+        me.sleepic = &acgtRn{
             me&ollbs,Ry&up,'numberclicked' and return
-            Rc&b && !Rs&tunneling and return Rs&sleeping = 1
+            !Rc&b and return
+            !n && Rs&tunneling and return
+            Rs&sleeping = 1
+            me&recycleRbitXz,R
+            ~>5 sleepic: R.t
+            return 1
         }
     },
  
