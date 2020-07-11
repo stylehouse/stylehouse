@@ -455,7 +455,6 @@ me.Sch_Pavings = &acgt{ return [
         # waits for settling before CB compute
         #  which could be handled remotely
         !w || me&bready,R and return
-        
    // look
         $Thing = Rs&Thing = me&lookaQ,Q;
         
@@ -603,27 +602,26 @@ me.Sch_Pavings = &acgt{ return [
         T.Mw = 'trac';
         $p = Ry&up;
         Rs&zget(R,&r{
-            # into this pool of what we're looking for from who
-            # < display their stuff up against them
-            #   dividing the ball in two
+            # don't mind el:9
+            rs&creatine && !Rs&serious and return
             
             # completed 51
-            !me&ja,r,'Goodish' and me&ha,R,{waits:'Goodish',wants:r}
+            !me&ja,r,'Goodish' and me&wants,R,'Goodish',rc&s
 
             # completed 52
             #  which they haven't this future
-            !me&za,r,'Good' and me&ha,R,{waits:'Good',wants:r}
+            !me&za,r,'Good' and me&wants,R,'Good',rc&s
 
         });
-        
         # autothink:
         # < sending %trouble to solve %%waits,Good
         me&jaa,R,{waits:'Goodish'},'wants'
-            .map(r => ac(r,'trouble',R.t+" wants %%Goodish"))
+            .map(z => zy&R && ac(zy&R,'trouble',R.t+" wants %%Goodish"))
         
         # weakly supposing no signal means ok?
         $whatsup = me&bready,R;
-        whatsup and return me&tsc,"!:"+whatsup,'','y'
+        whatsup and whatsup = whatsup.map(n => ns&waits || "?")
+        whatsup and return me&tsc,"!bready:"+whatsup.join(','),'','y'
         
         $x = me&Jx,R;
         # %%cha -> Gump
