@@ -948,10 +948,14 @@ me.Sch_Travel = &acgt{ return [
     ['ReNine',0.292,&acgtRs{
         me&reaw,R,'ReNine'
         me&inode,R
-        $x = me&Jx,R;
         ah(R,'inheritscif','ball','ReNine',1)
+    },'ift,D'],
+        
+    ['ReNine',0.33,&acgtRs{
+        $x = me&Jx,R;
         # the got, being pushed
         $tia = sy&tia
+        
         # into the enclosing Stories or Stori**
         $p = Ry&up
         p = pc&s.y.R
@@ -964,7 +968,10 @@ me.Sch_Travel = &acgt{ return [
         me&ha,R,{Stori}
         
         # difference and flock apply
+        # < ReNine species
         $r = Storiy&R
+        me&toPave,R,R,Stori,tia
+        # < %%ready to style brackology
         me&nu,"toa",r
         me&nu,"Ren",tia
         
@@ -1021,9 +1028,9 @@ me.Sch_Travel = &acgt{ return [
         
       // &Lineso Nine/Eight+ into %%acceptia
         # $Nine cloned from TheNine
-        $s = Cye(s)
-        $Ni = Rs&reself ||= Cye([s.t,1])
+        $Ni = Cye(s)
         Niy&D = s
+        $s = Rs&reself ||= Cye([s.t,1])
         # $Eighi+
         me&ioty,R,'TheEighi' .map(&r{
             $z = rc&s
@@ -1037,9 +1044,10 @@ me.Sch_Travel = &acgt{ return [
                 # < use y&eight, ** y&toLines chunk through %string
                 #    leading the diff to each brackology
                 #   and before now, eg for pulling $exp
-                acceptia(t,{dige,inside:Ni})
+                acceptia(t,{dige,inside:s})
                 # Stories/$t links /$eight
-                $link = me&fiu,s,t.t,2
+                $link = me&fiu,Ni,t.t,2
+                linkc&pi = 'eight'
                 links&dige = dige
             })
             many and return
@@ -1048,11 +1056,11 @@ me.Sch_Travel = &acgt{ return [
             me&ioty,t .length and throw "has z",t
             # Stories/$t links /$eight
             # < should be as it was, skip encode?
-            me&fiu,s,Cye(t),2
+            me&fiu,Ni,Cye(t),2
         })
         ss&string = me&Lineso,Ni
         ss&dige = dig(ss&string)
-        acceptia(Ni,{dige:ss&dige})
+        acceptia(s,{dige:ss&dige})
     },'ift,D'],
   
   //   &acceptables? etc
@@ -1864,7 +1872,7 @@ me.Sch_Travel = &acgt{ return [
                     # should be as it was
                     # < to %parent, if ~ since we Travel to replace it?
                     #   esp if it was W load+save
-                    me&toPave,R
+                    me&toPave,R,R,K,s
                 }
                 else {
                     me&zu,"weird_twin",twin
@@ -1876,7 +1884,12 @@ me.Sch_Travel = &acgt{ return [
             me&nodei,R,mg,q
         }
         
-        ja('extra') and me&toPave,R
+        if (ja('extra')) {
+            # &toPave (uses %Paving of
+            #     |may %%wantpush,Q,s,eto=) the non-extra thing
+            $K = me&jaa,Ry&up,'yonder',1 [0]
+            me&toPave,R,Ry&up,K,s,{species:s.t}
+        }
         
         # < something to settle all %%thing,
         # < mark each then all %%wantpush
@@ -1940,24 +1953,25 @@ me.Sch_Travel = &acgt{ return [
         me&tsc,"Done!"
     },'ift,D'],
    
-   // &toPave - Ghost|Know..n(.*)
+   // &toPave - pushing Paving
         &{
-        me.toPave = &acgtR{
-            
-            $s = Rc&s;
-            # looking at the thing's W
-            $extra = me&ja,R,'extra';
-            $Kr = extra ? Ry&up : R;
-            $K = me&jaa,Kr,'yonder',1 [0];
+        # R the thing (possibly a species under j)
+        # j atomic thing, mediates pushes (all species at once)
+        #   %%wantpush,Q,s? %%maypush! (via MayGansp)
+        # Know..K where to push (finds Q, c.species)
+        # s what to push (usu Rc&s? only if ...)
+        me.toPave = &acgtRjKsc{
+            c ||= {}
+            me&storable,s
             !K and return me&tsc,"!K"
             
             $Paving = Ky&R;
-            $species = extra ? s.t : 1
             $of = Pavings&Paving
             if (of == 'W') {
                 # W have species
                 $spQ = Pavings&species_Q
-                !spQ and me&waits,"Paving!species_Q"
+                !spQ and return me&waits,"Paving!species_Q"
+                $species = c.species || 1
                 $Q = spQ[species];
                 # load a %Pave for any species that wants to be here
                 !Q &&
@@ -1976,28 +1990,29 @@ me.Sch_Travel = &acgt{ return [
             # Q+w|Live is the parent considered
             #  R %%Pushable %%ready are pushed
             #  R %%Parent !%%ready want push
-            $w = Qc&s;
+            $w = Qc&s
             me&ja,R,'Pushable' ? 'should still match:'
-                : me&ha,R,{Is:Qs&dige,w};
+                : me&ha,R,{Is:Qs&dige,w}
             
             ss&dige == Qs&dige and return me&ha,R,'ready'
             
           // diff
-            $q = {wantpush:1,Q,s};
+            $q = {wantpush:1,Q,s}
             # < W may include them all in one request?
             #   ideally all these Qings would e W,
             #   prove compat (eg consensus, auth, parent|patch),
             #   and be merged, reversibly
-            extra and q.species = species;
+            # particulars like species come with:
+            ex(q,c)
             # &nodei also puts %%wantpush in this R,
             # < though you might ignore it because %%eto
             # < conversely, pay more attention to %%efrom
-            R == Kr ? me&ha,R,q : me&nodei,R,Kr,q;
+            R == j ? me&ha,R,q : me&nodei,R,j,q
                 
-            $g = me&opeolo,"Runthing",{walls:1};
-            $pa = gy&can('m',Q.t);
+            $g = me&opeolo,"Runthing",{walls:1}
+            $pa = gy&can('m',Q.t)
             
-            pas&mah = 30;
+            pas&mah = 30
             #!pas&ope and continue
 
             Qc&el == 9 and me&mtsc,pa,'New!'
@@ -2021,7 +2036,7 @@ me.Sch_Travel = &acgt{ return [
             !Pave && Paves&Pave and throw "pushQ!Pave"
             
             $go = me&rolltog,R,{maydo:'Push',once:1,tsc:'B'},0;
-            go ||= me&ja,Kr,{maypush:1};
+            go ||= me&ja,j,{maypush:1};
             # sticks while dige same
             go ||= me&sa,R,{Pushable:ss&dige};
             !go and return
@@ -2040,7 +2055,7 @@ me.Sch_Travel = &acgt{ return [
                 $pu = me&tsc,'pushing'
                 # %Paving may update ss&dige = %%commit
                 # < check extras have commit
-                !extra and me&nodei,R,K,{commit:ss&dige},{dome:'tilpushed'}
+                !c.species and me&nodei,R,K,{commit:ss&dige},{dome:'tilpushed'}
                 me.nto(R,pu,&{ 
                     ~>3 repush: R.t
                     delete Rs&sent_string })
