@@ -203,7 +203,7 @@ window.bac = &Rkr{
     ni >= 0 and return N[ni] = r
     N.push(r)
 };
-
+#c fio|fiu
 # read spacey t, or insert C = y()
 window.fio = &qty{
     !isC(q) and throw "NotC"
@@ -238,16 +238,19 @@ window.fio = &qty{
 };
 # fio() setting y&up, saying c.el
 # < more than one level
-# < io pipes A to A
+# < io pipes A to A!
 # making ny&up=s on el=1
-# < replace Yingio with fiu
 me.fiu = &acgtstc{
+    !isC(s) and throw "fiu!C"
     c ||= {};
     isnu(c) and c = {el:c}
     # many
     t == '' and return me&ioty,s,[''],['']
     # read only
     $n = fio(s,t,0);
+    # 2 must be new (see lv el:2 == only such t)
+    c.el == 2 && n and throw "already i", n
+    c.el == 2 and c.el = 1
     # 7 must be there, 8 read only
     c.el == 7 && !n and throw "No "+s.t+"/"+t
     c.el == 8 || c.el == 7 and return n
@@ -256,7 +259,7 @@ me.fiu = &acgtstc{
         # if we were placing a different object
         isob(t) && n != t and c.el = 1
         # remove the one we found
-        c.el == 1 || c.el == 9 and fio(s,t,9)
+        c.el == 1 || c.el == 9 and fio(s,n,9)
     }
     if (c.el == 1) {
         $n = fio(s,t);

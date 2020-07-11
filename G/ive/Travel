@@ -872,7 +872,6 @@ me.Sch_Travel = &acgt{ return [
         me&inode,R
         $x = me&Jx,R;
         
-        
         # wants to get Stories/$t(/$bits)
         #  and commit them all at once, with history
         #  and commit $t -> Stories/Around
@@ -894,7 +893,13 @@ me.Sch_Travel = &acgt{ return [
         $L = me&Rsc,that,'Live'
         !L and me&tsc,"Nn"
         
-  // with %Stori %Live||el9
+  // %TheNine reselfs
+        me&jaa,R,'acceptia' .map(&n{
+            me&tsc,"Az"
+            me&nu,"Az",n.sc
+        })
+        
+  // %TheNine with %Stori %Live||el9
         me&rollbs,R,'self'
         Rs&self ||= L && me&Copy,R,L || Cye([s.t,1])
         me&nu,"self",Rs&self
@@ -909,7 +914,6 @@ me.Sch_Travel = &acgt{ return [
         $x = me&Jx,R;
         sc&pi = 'nine'
         me&tsc,"Isnit?"
-        # without !sleeping loop
         #  and roll the invention of Eighi s
         me&sleepic,R and me&rollbs,R,'bal_tw_s'; return
         
@@ -929,7 +933,6 @@ me.Sch_Travel = &acgt{ return [
             l and rs&exp = l
             z and rs&got = z
         })
-        
     },'ift,D'],
     
     # many acceptables
@@ -948,22 +951,12 @@ me.Sch_Travel = &acgt{ return [
         # end up %%acceptia Q=[$Nine,$Eighi+] to TheTest
         $acceptia = &sq{
             q.acceptia = s
-            q.dome = 'acceptia'
-            me&nodei,R,Ry&up,q
+            #q.dome = 'acceptia'
+            me&nodei,R,Ry&up,q,{dome:'acceptia'}
         }
         
-        
-        
-        ~>5 ninea6e:
-      // Nine Lineso
-        # liesing Lineso
-        # rebuild Nine+/* into %%acceptia
+      // &Lineso Nine/Eight+ into %%acceptia
         $Ni = Cye(s)
-        $fiunly = &s{
-            $was = me&fiu,Ni,s,'8'
-            was and throw "already", was
-            return me&fiu,Ni,s
-        }
         # $Eighi+
         me&ioty,R,'TheEighi' .map(&r{
             $z = rc&s
@@ -975,10 +968,11 @@ me.Sch_Travel = &acgt{ return [
                 $dige = me&storable,t
                 # Stories/$t/$eight <- got%dige%string
                 # < use y&eight, ** y&toLines chunk through %string
+                #    leading the diff to each brackology
                 #   and before now, eg for pulling $exp
                 acceptia(t,{dige,inside:Ni})
                 # Stories/$t links /$eight
-                $link = fiunly(t.t)
+                $link = me&fiu,Ni,t.t,2
                 links&dige = dige
             })
             many and return
@@ -987,7 +981,7 @@ me.Sch_Travel = &acgt{ return [
             me&ioty,t .length and throw "has z",t
             # Stories/$t links /$eight
             # < should be as it was, skip encode?
-            fiunly(Cye(t))
+            me&fiu,Ni,Cye(t),2
         })
         # $Nine
         $t = Rs&reself ||= Cye([s.t,1])
@@ -995,8 +989,8 @@ me.Sch_Travel = &acgt{ return [
         ts&string = me&Lineso,Ni
         ts&dige = dig(ts&string)
         acceptia(t,{dige:ts&dige})
-        
     },'ift,D'],
+  // &acceptables? etc
     &{
         # sanity Quanta: the t%dige%string
         #  as opposed to Qish, of its names (of/t etc)
@@ -1005,6 +999,15 @@ me.Sch_Travel = &acgt{ return [
             !dige and throw "storable s!%dige"
             !ss&string and throw "storable s!%string"
             return dige
+        }
+        me.sleepic = &acgtRn{
+            me&ollbs,Ry&up,'numberclicked' and return
+            !Rc&b and return
+            !n && Rs&tunneling and return
+            Rs&sleeping = 1
+            me&recycleRbitXz,R
+            ~>5 sleepic: R.t
+            return 1
         }
         # Nine tallies Eighi,
         #  may e:Accept many Eighi%%ready!ok
@@ -1071,6 +1074,7 @@ me.Sch_Travel = &acgt{ return [
         }
     },
  
+  // %TheEighi
     ['TheEighi',0.33,&acgtRs{
         me&reaw,R,'TheEighi,exp,got,now_missing'
         me&inode,R
@@ -1096,17 +1100,6 @@ me.Sch_Travel = &acgt{ return [
         z && !t and me&ha,R,'isnew'
         
     },'ift,D'],
-    &{
-        me.sleepic = &acgtRn{
-            me&ollbs,Ry&up,'numberclicked' and return
-            !Rc&b and return
-            !n && Rs&tunneling and return
-            Rs&sleeping = 1
-            me&recycleRbitXz,R
-            ~>5 sleepic: R.t
-            return 1
-        }
-    },
  
  // %Plot drive %%may
     ['Plot',0.5,&acgtRs{
