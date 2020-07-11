@@ -839,6 +839,9 @@ me.Sch_Travel = &acgt{ return [
     ['Stori',0.299,&acgtRs{
         me&reaw,R,'Stori'
         me&tsc,"Stori"
+        # has Eighi inside
+        Rs&director = 1
+        ah(R,'inheritscif','ball','Eighi',1)
     },'ift,D'],
     # loads if Stori wants
     # download details to difference an -eight
@@ -861,7 +864,7 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
   
  // %The -nine imposed
-  // TheTest o storable
+  // TheTest o Stories
     ['The',0.292,&acgtRs{
         me&reaw,R,'The'
         me&inode,R
@@ -876,19 +879,7 @@ me.Sch_Travel = &acgt{ return [
         # wants to get Stories/$t(/$bits)
         #  and commit them all at once, with history
         #  and commit $t -> Stories/Around
-        
-        # want to enter it, see if el:9
-        me&ha,R,'may:input,s'
-        $that
-        me&nodeo,R,xs&Stories,s.t .map(&n{
-            $z = ns&s
-            # < input Stories/$t, advert from Around/$t
-            ns&ad and throw "advert"
-            # species:1 to download
-            me&ha,R,{eto:z,species:1,hasThe:s}
-            that and me&tsc,"MULTI"
-            that = z
-        })
+        $that = me&getThat,R,xs&Stories,s.t,{hasThe:s}
         !that and return
         
         $L = me&Rsc,that,'Live'
@@ -896,10 +887,28 @@ me.Sch_Travel = &acgt{ return [
         me&rollbs,R,'self'
         Rs&self ||= L && me&Copy,R,L || Cye([s.t,1])
     },'ift,D'],
+    &{
+        # use &nodeo %twmt, fully downloading W
+        me.getThat = &acgtRrQc{
+            # to %%eto,species:1,...$c
+            c ||= {}
+            $that
+            me&nodeo,R,r,Q,'el' .map(&n{
+                $z = ns&s
+                # < input Stories/$t, advert from Around/$t
+                ns&ad and throw "advert"
+                # species:1 to download
+                me&ha,R,{eto:z,species:1},{},c
+                that and me&tsc,"MULTI"
+                that = z
+            })
+            return that
+        }
+    },
         
   //  %TheNine reselfs
+    # < i $t... ytia o %%acceptia:t
     ['TheTest',0.294,&acgtRs{
-        # < i $t... ytia o %%acceptia:t
         $N = me&jaa,R,'acceptia'
         if (N.length) {
             $insides = []
@@ -917,7 +926,8 @@ me.Sch_Travel = &acgt{ return [
                 })
                 zy&tia = t
             });
-            insides.length and me&zu,"unclaimed",insides
+            insides.length &&
+                me&zu,"unclaimed",insides
         }
     },'ift,D'],
   
@@ -925,8 +935,20 @@ me.Sch_Travel = &acgt{ return [
     ['ReNine',0.292,&acgtRs{
         me&reaw,R,'ReNine'
         me&inode,R
+        $x = me&Jx,R;
         ah(R,'inheritscif','ball','ReNine',1)
+        # the got, being pushed
         $tia = sy&tia
+        # into the enclosing Stories or Stori**
+        $p = Ry&up
+        p = pc&s.y.R
+        $Storin = ps&ReNine ? me&zaa,p,'Stori',1 [0] : xs&Stories
+        !Storin and return me&waits,"No-^Stori"
+        
+        $Stori = me&getThat,R,Storin,tia.t,{pushy:s}
+        !Stori and return
+        me&ha,R,{Stori}
+        me&nu,"toa",Stori
         me&nu,"Ren",tia
         
     },'ift,D'],

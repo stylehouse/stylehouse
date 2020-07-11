@@ -1281,6 +1281,8 @@
             $qs = isst(Q) ? {tw:Q}
                 : isC(Q) ? ex({tw:Q.t},Q.c)
                 : Q
+            qe ||= {}
+            isst(qe) and qe = G&peel,qe
             $jo = toy&R;
             if (jos&Pavings) {
                 qs.of == 'wjs' and qs.of = 'w'
@@ -1288,10 +1290,17 @@
             to = joc&s;
             $N = me&za,jo,qs;
             if (!N) {
-                # permission is nodei'd in (by now)
-                $N = me&jaa,j,'may:input,s';
-                # once an other sees that we:
-                me&ha,j,'may:input,s';
+                $N = []
+                if (qe.el == 1) {
+                    # will create it
+                    N = [Cye(["nodeo:el:1",1,{},qe])]
+                }
+                else {
+                    # permission is nodei'd in (by now)
+                    N = me&jaa,j,'may:input,s';
+                    # once an other sees that we:
+                    me&ha,j,'may:input,s';
+                }
                 # we have Qish to tw
                 # < input s, clone if sy&path not ours
                 # < &may -> %%may,answerlike,question
@@ -1303,7 +1312,7 @@
                 N.map(&n{
                     ~>3 CREATE: ki(n.sc,4.23)
                     # < use %Pavings%ein to input
-                    if (jos&Pavings) {
+                    if (jos&Pavings || jos&Paving) {
                         if (qs.of) {
                             # look for an of island (even if of=W)
                             $of = me&ioty,to,'Pavings'
@@ -1329,7 +1338,8 @@
                         #me&fiu,
                     }
                 });
-                me&tsc,'nodeo:'+qs.tw+':el9','non';
+                !N.length and me&tsc,'nodeo:'+qs.tw+':el9','non';
+                # for %%waits:input first
                 return []
             }
             if (N.legnth > 1) {
