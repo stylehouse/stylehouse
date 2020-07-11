@@ -619,6 +619,7 @@ me.Sch_Travel = &acgt{ return [
         $d = {compLines:&DdC{
             $s = c&s
             if (c&pi == 'vat') {
+                
                 # starts s=object|data|value, becomes stringified
                 !isC(s) and Dc&s = ki(s); return
                 Dc&s = s.t
@@ -860,7 +861,7 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
   
  // %The -nine imposed
-  // TheTest as storable
+  // TheTest o storable
     ['The',0.292,&acgtRs{
         me&reaw,R,'The'
         me&inode,R
@@ -892,19 +893,47 @@ me.Sch_Travel = &acgt{ return [
         
         $L = me&Rsc,that,'Live'
         !L and me&tsc,"Nn"
-        
-  // %TheNine reselfs
-        me&jaa,R,'acceptia' .map(&n{
-            me&tsc,"Az"
-            me&nu,"Az",n.sc
-        })
-        
-  // %TheNine with %Stori %Live||el9
         me&rollbs,R,'self'
         Rs&self ||= L && me&Copy,R,L || Cye([s.t,1])
-        me&nu,"self",Rs&self
-        me&bal,s.t,Rs&self,'TheNine'
+    },'ift,D'],
         
+  //  %TheNine reselfs
+    ['TheTest',0.294,&acgtRs{
+        # < i $t... ytia o %%acceptia:t
+        $N = me&jaa,R,'acceptia'
+        if (N.length) {
+            $insides = []
+            N = arou(N,n => ns&inside,insides)
+            N.map(&n{
+                $t = ns&acceptia
+                $r = me&bal,"Re:"+t.t,'ReNine'
+                $z = rc&s
+                $inside = []
+                insides = arou(insides,n => ns&inside == t,inside)
+                inside.map(&m{
+                    $mt = ms&acceptia
+                    $mz = me&fiu,z,mt.t
+                    mzy&tia = mt
+                })
+                zy&tia = t
+            });
+            insides.length and me&zu,"unclaimed",insides
+        }
+    },'ift,D'],
+  
+  //   ReNine i storable
+    ['ReNine',0.292,&acgtRs{
+        me&reaw,R,'ReNine'
+        me&inode,R
+        ah(R,'inheritscif','ball','ReNine',1)
+        $tia = sy&tia
+        me&nu,"Ren",tia
+        
+    },'ift,D'],
+  
+  //  %TheNine with %Stori %Live||el9
+    ['TheTest+self',0.294,&acgtRs{
+        me&bal,s.t,Rs&self,'TheNine'
     },'ift,D'],
     # Story <-> Stori
     ['TheNine',0.295,&acgtRs{
@@ -942,21 +971,20 @@ me.Sch_Travel = &acgt{ return [
         # < create new &settles and go to sleep
         #me&settle,R,N && me&sleepic,R,2 and return
         me&acceptables,R,N
-        me&zu,"thjis",s
-        me&zu,"that",N[0].c.s
         me&settle,R,N and return
-        me&tsc,"SETTLED"
         # -eights send us what to push
         !me&ja,R,'acception' and return me&dome_traction,R,'acceptia',{el:2}
         # end up %%acceptia Q=[$Nine,$Eighi+] to TheTest
         $acceptia = &sq{
             q.acceptia = s
-            #q.dome = 'acceptia'
             me&nodei,R,Ry&up,q,{dome:'acceptia'}
         }
         
       // &Lineso Nine/Eight+ into %%acceptia
-        $Ni = Cye(s)
+        # $Nine cloned from TheNine
+        $s = Cye(s)
+        $Ni = Rs&reself ||= Cye([s.t,1])
+        Niy&D = s
         # $Eighi+
         me&ioty,R,'TheEighi' .map(&r{
             $z = rc&s
@@ -972,7 +1000,7 @@ me.Sch_Travel = &acgt{ return [
                 #   and before now, eg for pulling $exp
                 acceptia(t,{dige,inside:Ni})
                 # Stories/$t links /$eight
-                $link = me&fiu,Ni,t.t,2
+                $link = me&fiu,s,t.t,2
                 links&dige = dige
             })
             many and return
@@ -981,16 +1009,14 @@ me.Sch_Travel = &acgt{ return [
             me&ioty,t .length and throw "has z",t
             # Stories/$t links /$eight
             # < should be as it was, skip encode?
-            me&fiu,Ni,Cye(t),2
+            me&fiu,s,Cye(t),2
         })
-        # $Nine
-        $t = Rs&reself ||= Cye([s.t,1])
-        ty&D = Ni
-        ts&string = me&Lineso,Ni
-        ts&dige = dig(ts&string)
-        acceptia(t,{dige:ts&dige})
+        ss&string = me&Lineso,Ni
+        ss&dige = dig(ss&string)
+        acceptia(Ni,{dige:ss&dige})
     },'ift,D'],
-  // &acceptables? etc
+  
+  //   &acceptables? etc
     &{
         # sanity Quanta: the t%dige%string
         #  as opposed to Qish, of its names (of/t etc)
@@ -1074,7 +1100,7 @@ me.Sch_Travel = &acgt{ return [
         }
     },
  
-  // %TheEighi
+  //   %TheEighi
     ['TheEighi',0.33,&acgtRs{
         me&reaw,R,'TheEighi,exp,got,now_missing'
         me&inode,R
