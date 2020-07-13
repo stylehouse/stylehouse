@@ -203,8 +203,7 @@ me.Sch_Pavings = &acgt{ return [
         });
     },'ift,D'],
   
-  // %Paving 1
-   // %Pavings
+  // %Pavings
     # contain %Paves, but aren't %tw themselves
     ['Pavings',0.301,&acgtRs{
         me&reaw,R,'Pavings';
@@ -331,6 +330,8 @@ me.Sch_Pavings = &acgt{ return [
         
         # Q refinds P each G&t
         $w = me&t,R,Q;
+        $P = Qs&P
+        !P and debugger
         # per most of this besides s, el + hooks
         me&rolltog,R,{maydo:'Q'} &&
             me&zu,'Q',Q;
@@ -349,10 +350,17 @@ me.Sch_Pavings = &acgt{ return [
         Qc&s && me&rolltog,R,{maydo:'s'} &&
             n s  $s:Qc&s %R:ball
         
+        # < GOING, hoist %%Live?
         # have the thing, readyonly, copied from Pc&s
         # < Q can Qs&Want_Decode for itself
         Qc&s and Rc&s = Qc&s
         
+        if (Ps&suggest_species) {
+            # eg species=5 undef, yet has a 1
+            #  requires us to %Paving%fully
+            !ps&fully and me&waits,"suggest_species:1"
+            ps&fully = 1
+        }
         !(Qc&s || Qc&el == 9) and return
         # then something posits string to follow:
         Rs&commitstring = &s{
@@ -362,8 +370,7 @@ me.Sch_Pavings = &acgt{ return [
         };
     },'ift,D'],
   
-  // %Paving 5
-   // %Pave-centricism
+   // %Paving 5 <- %Pave-centricism
     &{
     # the main %Paving/%Pave's Q
     # may be W.5 until %fully, then W.1
@@ -457,6 +464,7 @@ me.Sch_Pavings = &acgt{ return [
         # waits for settling before CB compute
         #  which could be handled remotely
         !w || me&bready,R and return
+   
    // look
         $Thing = Rs&Thing = me&lookaQ,Q;
         

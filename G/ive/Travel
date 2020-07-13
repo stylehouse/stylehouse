@@ -913,18 +913,18 @@ me.Sch_Travel = &acgt{ return [
         !L and me&tsc,"el:2"
         
         # see 'self = Copy... y&Pfrom=P' Zave 68
-        #  has pull|push linearity, diff sense
+        #  has pull|push, diff sense
         # < harness self (TheNine<->...) <-> other (Paving)
         $self = me&rollbs,R,'self'
-        self && selfy&Live != L and $pully = 1
+        self && selfy&Live != L || go and $pully = 1
         pully && x.ro('pull?') and self = 0
         if (!self) {
-            debugger
             if (L) {
-                self = me&Copy,R,L
+                self = me&Copy,R,L .c.s
                 selfy&Live = L
             }
             else {
+            debugger
                 self = Cye([s.t,1])
             }
         }

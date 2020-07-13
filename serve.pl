@@ -848,6 +848,7 @@ any '/W/*W' => sub { my ($c) = @_;
     
     $species = "1.".$species if $species =~ /\D/;
     my $f = "$t/$species";
+    my $fone = "$t/1";
     
     # returns json:
     my $re = {ok=>0};
@@ -900,7 +901,8 @@ any '/W/*W' => sub { my ($c) = @_;
             $re->{ok} = 'found';
         }
         else {
-            $re->{er} = 'not found'
+            $re->{er} = 'not found';
+            $re->{suggest_species} = 1 if $fone ne $f && -f $fone
         }
     }
     if (length $s) {
