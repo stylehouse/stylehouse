@@ -910,13 +910,29 @@ me.Sch_Travel = &acgt{ return [
         #  < &zu etc should slep now-later,
         #    drawing A time of interesting bits
         L && !rs&Live and me&tsc,"goestoshow:%Live-vs-%%Live"
+        !L and me&tsc,"el:2"
         
-        !L and me&tsc,"Nn"
-        me&rollbs,R,'self'
-        Rs&self ||= L && me&Copy,R,L || Cye([s.t,1])
+        # see 'self = Copy... y&Pfrom=P' Zave 68
+        #  has pull|push linearity, diff sense
+        # < harness self (TheNine<->...) <-> other (Paving)
+        $self = me&rollbs,R,'self'
+        self && selfy&Live != L and $pully = 1
+        pully && x.ro('pull?') and self = 0
+        if (!self) {
+            debugger
+            if (L) {
+                self = me&Copy,R,L
+                selfy&Live = L
+            }
+            else {
+                self = Cye([s.t,1])
+            }
+        }
+        Rs&self = self
+        
         me&nu,"Live",L
-        me&nu,"self",Rs&self
-        me&bal,s.t,Rs&self,'TheNine'
+        me&nu,"self",self
+        me&bal,s.t,self,'TheNine'
     },'ift,D'],
     &{
         # use &nodeo %twmt, fully downloading W
