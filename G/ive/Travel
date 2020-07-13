@@ -971,7 +971,7 @@ me.Sch_Travel = &acgt{ return [
        
   // 2  Stori <-> %TheNine <-> Yingates
     ['TheNine',0.295,&acgtRs{
-        me&reaw,R,'TheNine,reself'
+        me&reaw,R,'TheNine,reself,bal_tw_s'
         me&rollbs,R,'reself'
         $go = me&acting,R,'Nine'
         go and me&nu,"Nine",s
@@ -1000,7 +1000,9 @@ me.Sch_Travel = &acgt{ return [
     
     # many acceptables
     ['TheNine',0.67,&acgtRs{
+        $go = me&acting,R,'Lineso'
         $N = me&ioty,R,'TheEigh'
+        go and me&nu,'inc',N
         # -nine settles the -eights, see &sleepic
         # < create new &settles and go to sleep
         #me&settle,R,N && me&sleepic,R,2 and return
@@ -1019,7 +1021,15 @@ me.Sch_Travel = &acgt{ return [
         Niy&D = s
         $s = Rs&reself ||= Cye([s.t,1])
         # $Eigh+
-        me&ioty,R,'TheEigh' .map(&r{
+        # &twlic ish, jaa vs N
+        me&jaa,R,'acception,efrom' .map(&n{
+            $z = ns&efrom
+            $is = N.filter(r => rc&s.t == z.t)[0]
+            is = is && isc&s
+            z != is and me&nu,"Notis",z
+            z != is and me&nu,"NotIS",is
+        })
+        N .map(&r{
             $z = rc&s
             $many
             me&jaa,R,{acception:1,efrom:z},1 .map(&t{
@@ -1147,8 +1157,11 @@ me.Sch_Travel = &acgt{ return [
         Dige and me&ha,R,{Dige}
         !cha && me&sleepic,R and return
         
-        me&zu,"Exp",t
-        me&zu,"Got",z
+        if (go) {
+            me&zu,"TheEigh",s
+            me&zu,"Exp",t
+            me&zu,"Got",z
+        }
         ss&coun ||= 0
         ss&coun++
         
@@ -1194,11 +1207,11 @@ me.Sch_Travel = &acgt{ return [
   // 7  %ReNine i Stori
     ['ReNine',0.295,&acgtRs{
         me&reaw,R,'ReNine'
-        me&inode,R
         ah(R,'inheritscif','ball','ReNine',1)
     },'ift,D'],
         
     ['ReNine',0.33,&acgtRs{
+        $go = me&acting,R,'Re'
         $x = me&Jx,R;
         # the got, being pushed
         $tia = sy&tia
@@ -1208,20 +1221,28 @@ me.Sch_Travel = &acgt{ return [
         p = pc&s.y.R
         $Storin = ps&ReNine ? me&zaa,p,'Stori',1 [0] : xs&Stories
         !Storin and return me&waits,"No-^Stori"
+        me&settle,R,Storin and return me&tsc,'..Storin'
+        
         # nodeo to Stories|Stori, each having a %%tw pool
         # < deeper nodeo (%%tw,inside), from Stories, with Stori%%tws
         $Stori = me&getThat,R,Storin,tia.t,{pushy:s}
         !Stori and return
         me&ha,R,{Stori}
+        # see %twin->%Pave. won't adhere properly if el:2 now.
+        # < not yet node? %%waits,tillater
+        $r = Storiy&R
+        !r and debugger; me&tsc,"not-yet-node"
+        me&settle,R,Stori and return me&tsc,'..Stori'
         
         # difference and flock apply
         # < ReNine species
-        $r = Storiy&R
         me&toPave,R,R,Stori,tia
         # < %%ready to style brackology
-        me&nu,"toa",r
-        me&nu,"Ren",tia
-        
+        $Q = rs&Q;
+        if (go) {
+            me&nu,"toa",Q
+            me&nu,"Ren",tia
+        }
     },'ift,D'],
   
  // %Plot drive %%may
