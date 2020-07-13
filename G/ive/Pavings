@@ -451,7 +451,9 @@ me.Sch_Pavings = &acgt{ return [
         # %Paving has a few things even if !ready
         Rs&Q = Q
         $w = Qc&s;
-        w and Rs&Live = w
+        # others grab &za,Live
+        #  distant nodes cannot rely on R timing
+        w and Rs&Live = w; me&ha,R,{Live:w,dome:'ready'}
         # waits for settling before CB compute
         #  which could be handled remotely
         !w || me&bready,R and return
