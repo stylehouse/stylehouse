@@ -355,13 +355,14 @@ me.Sch_Pavings = &acgt{ return [
         # < Q can Qs&Want_Decode for itself
         Qc&s and Rc&s = Qc&s
         
+        !(Qc&s || Qc&el == 9) and return
+        
         if (Ps&suggest_species) {
             # eg species=5 undef, yet has a 1
             #  requires us to %Paving%fully
             !ps&fully and me&waits,"suggest_species:1"
             ps&fully = 1
         }
-        !(Qc&s || Qc&el == 9) and return
         # then something posits string to follow:
         Rs&commitstring = &s{
             # < require they know parent==Ps&dige
@@ -609,6 +610,7 @@ me.Sch_Pavings = &acgt{ return [
     #  when we can rely on our children to complain,
     #  know if they're changey/trouble
     ['ball+Paving_good','52',&acgtRs{
+        
         T.Mw = 'trac';
         $p = Ry&up;
         Rs&zget(R,&r{

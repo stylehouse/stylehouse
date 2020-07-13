@@ -879,7 +879,7 @@ me.Sch_Travel = &acgt{ return [
         Rs&fully = 1
     },'ift,D'],
  
- // %The/TheTest/TheNine/TheEigh impose
+ // %The/TheTest/TheNine/TheEigh pos
   // 1 %TheTest o Stori
     ['The',0.292,&acgtRs{
         me&reaw,R,'The'
@@ -891,48 +891,22 @@ me.Sch_Travel = &acgt{ return [
     # -nine being Zavable
     ['TheTest',0.294,&acgtRs{
         me&reaw,R,'TheTest'
-        $go = me&acting,R,'Test'
+        $go = me&acting,R,'That'
         $x = me&Jx,R;
-        
         # wants to get Stories/$t(/$bits)
         #  and commit them all at once, with history
         #  and commit $t -> Stories/Around
         $that = me&getThat,R,xs&Stories,s.t,{hasThe:s}
         !that and return
-        $r = thaty&R
-        # read %%Live from a complete r%Paving
-        $L = me&zaa,r,'Live',1 [0]
-        # r%Paving 5 may be yet to happen,
-        #  ie distant nodes cannot rely on R timing
-        #   unless any %Paving (%priority) grabs R-time
-        #   ie J completing before returning from &n
-        #  shows up by the time &zu,r draws it
-        #  < &zu etc should slep now-later,
-        #    drawing A time of interesting bits
-        L && !rs&Live and me&tsc,"goestoshow:%Live-vs-%%Live"
-        !L and me&tsc,"el:2"
-        
-        # see 'self = Copy... y&Pfrom=P' Zave 68
-        #  has pull|push, diff sense
+        # then harness %Live into TheNine
         # < harness self (TheNine<->...) <-> other (Paving)
-        $self = me&rollbs,R,'self'
-        self && selfy&Live != L || go and $pully = 1
-        pully && x.ro('pull?') and self = 0
-        if (!self) {
-            if (L) {
-                self = me&Copy,R,L .c.s
-                selfy&Live = L
-            }
-            else {
-                self = Cye([s.t,1])
-                sely&autoviv = 1
-            }
-        }
-        Rs&self = self
-        go and me&nu,"Live",L
-        go and me&nu,"self",self
+        $self = me&selfThat,R,that
         # < a Stori could compose many Stori,
-        #    main = plot - subplots
+        #    a Stori = plot - subplots
+        #     subplots pointed to, recipised to solo:
+        #      being vague about -nodes,
+        #      templating the test data for inputs from Stori,
+        #      from Zif noticing only $t, $begin|end_dige change
         $r = me&bal,s.t,self,'TheNine,eph'
         rc&s != self and me&nu,"Craze",rc&s
     },'ift,D'],
@@ -953,10 +927,49 @@ me.Sch_Travel = &acgt{ return [
             })
             return that
         }
+        # see Zave 68, has pull|push, diff sense
+        me.selfThat = &acgtRst{
+            $that = s
+            t ||= ''
+            $k = 'self'+t
+            me&reaw,R,k
+            $go = me&acting,R,'Self'
+            $x = me&Jx,R;
+            $r = thaty&R
+            !rs&Paving and throw "that!%Paving"
+            # read %%Live from a complete r%Paving
+            $L = me&zaa,r,'Live',1 [0]
+            # r%Paving 5 may be yet to happen,
+            #  ie distant nodes cannot rely on R timing
+            #   unless any %Paving (%priority) grabs R-time
+            #   ie J completing before returning from &n
+            #  shows up by the time &zu,r draws it
+            #  < &zu etc should slep now-later,
+            #    drawing A time of interesting bits
+            L && !rs&Live and me&tsc,"goestoshow:%Live-vs-%%Live"
+            !L and me&tsc,"el:2"
+
+            $self = me&rollbs,R,k
+            self && selfy&Live != L || go and $pully = 1
+            pully && x.ro('pull?') and self = 0
+            if (!self) {
+                if (L) {
+                    self = me&Copy,R,L .c.s
+                    selfy&Live = L
+                }
+                else {
+                    self = Cye([s.t,1])
+                    sely&autoviv = 1
+                }
+            }
+            R.sc[k] = self
+            go and me&nu,k+"%Live",L
+            go and me&nu,k,self
+            return self
+        }
     },
        
-  // 2  %TheNine with Stori %Live||el9
-    # Story <-> Stori
+  // 2  Stori <-> %TheNine <-> Yingates
     ['TheNine',0.295,&acgtRs{
         me&reaw,R,'TheNine,reself'
         me&rollbs,R,'reself'
@@ -1123,6 +1136,7 @@ me.Sch_Travel = &acgt{ return [
  
   // 3  %TheEigh
     ['TheEigh',0.33,&acgtRs{
+        
         me&reaw,R,'TheEigh,exp,got,now_missing'
         $go = me&acting,R,'Eigh'
         $t = Rs&exp
@@ -1145,6 +1159,7 @@ me.Sch_Travel = &acgt{ return [
         t && ts&dige == zs&dige and me&ha,R,'ok'
         else {
             me&acceptable,R,z
+            # mergible
         }
         
         z && !t and me&ha,R,'isnew'
