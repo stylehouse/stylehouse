@@ -799,11 +799,11 @@ me.Sch_Pavings = &acgt{ return [
             }
         }
         # Nine routes %%acceptable + Nine -> Test
-        me.acceptables_reself = &acgtRNc{
+        me.acceptables_reself = &acgtRNh{
             # Nine is as %%acceptable router
             !Rs&acceptables and throw "R!%acceptables"
             $Test = me&find_Racceptables,R
-            !c and throw "configure"
+            !h and throw "configure"
             
             # each Eigh may send an %%acceptable
             # < &twlic ish, all jaa or N, to check they mesh:
@@ -811,7 +811,7 @@ me.Sch_Pavings = &acgt{ return [
             !todo.length and return
             # < put them in dome:acceptable? when none:
             #   me&dome_traction,R,'acceptable',{el:2}
-            $go = me&acting,R,'Lineso'
+            $go = me&acting,R,'reself'
             go and me&nu,'inc',N
             
             # end up %%acceptable Q=[$Nine,$Eigh+] to TheTest
@@ -821,7 +821,7 @@ me.Sch_Pavings = &acgt{ return [
             #   and before now, eg for pulling $exp
             
             # &Lineso Nine/Eight+ into %%acceptia
-            # $Nine cloned from TheNine
+            # $Nine cloned from TheNine!
             $O = Cye(Rc&s)
             Oy&D = Rc&s
             $s = Rs&reself ||= Cye([O.t,1])
@@ -834,15 +834,43 @@ me.Sch_Pavings = &acgt{ return [
                     many = 1
                     todo = arou(todo,s=>s==t,[])
                     
+                    go and me&nu,'todon',n
                     T.acceptmix = {inside:s}
-                    c&accept,s,O,r,z,n,t
+                    h&accept,s,O,r,z,n,t
                 })
                 delete T.acceptmix
                 many and return
-                c&sleep,s,O,r,z
+                h&sleep,s,O,r,z
             })
             todo.length and debugger
-            c&self,s,O
+            h&self,s,O
+        }
+        # Test lays out %%acceptable for push (staging)
+        me.acceptables_reother = &acgtRNc{
+            # Nine is as %%acceptable router
+            !Rs&acceptables and throw "R!%acceptables"
+            return &y{
+                $N = me&jaa,R,'acceptable'
+                !N.length and return
+
+                $insides = []
+                N = arou(N,n => ns&inside,insides)
+                !N.length and throw "all %%inside"
+                N.map(&n{
+                    $t = ns&acceptable
+                    $a = &y{
+                        $inside = []
+                        insides = arou(insides,n => ns&inside == t,inside)
+                        inside.map(&m{
+                            $l = ms&acceptable
+                            y(l,m)
+                        })
+                    }
+                    y(t,n,a)
+                });
+                insides.length &&
+                    me&zu,"unclaimed",insides
+            }
         }
      
      // func
