@@ -11,18 +11,13 @@ me.Sch_Travel = &acgt{ return [
        Travel%%tw making gets forgot:
        < %%eto dont land there reliably, is it:
         < coinciding &Yinge not lost
-            # side tracks:
-     < R%onlyish if R &settle,R/**,
-        would be awake when we visit R,
-        but can probably work for settling awaits:
-       so %MayGansp may &settle all %%thing
      < come back to %MayGansp,
      to:
-     < get all %%thing to %%ready|%%wantpush,Q,s+
-     < push remainders, til all %%ready
+     < &sleepic so %MayGansp may &settle all %%thing
+     < sip: get node** %%thing to %%ok|%%wantpush,Q,s+
+     < push remainders, til all %%ok
 
      for coming back to %MayGansp
-      awaiting all, until push ready
      < using %acty levels to move readiness around?
        they must &settle at each one,
        transmitting to neighbours
@@ -1733,7 +1728,7 @@ me.Sch_Travel = &acgt{ return [
         })
         
    // %twin->%Pave
-        # < check %%extra are ready...
+        # < check %%extra are %%ok...
         # < Gansp's %%thing collection should become stable
         # < &settle (no other) - for all so far
         # < &settle cv, EXPR - EXPR||Ying-wide wait
@@ -1768,7 +1763,7 @@ me.Sch_Travel = &acgt{ return [
                 if (twin.t == 'Ghost') {
                     # should be as we u, or slightly old
                     !Ks&dige and me&ha,R,{waits:'Kdige',wants:K}
-                    me&ha,R,'ready'
+                    me&ha,R,'ok'
                 }
                 elsif (twin.t == 'To') {
                     # should be as it was
@@ -1780,9 +1775,9 @@ me.Sch_Travel = &acgt{ return [
                     me&zu,"weird_twin",twin
                 }
             }
-            # %MayGansp collects %%thing,ready?
+            # %MayGansp collects %%thing,ok?
             $q = {thing:s}
-            ja('ready') and q.ready = 1
+            ja('ok') and q.ok = 1
             me&nodei,R,mg,q
         }
         
@@ -1803,13 +1798,13 @@ me.Sch_Travel = &acgt{ return [
     ['MayGansp','299',&acgtRs{
         
         $x = me&Jx,R;
+        
         me&jaa,R,'thing',1 .map(&z{
             $j = zy&R;
             # should lead back here after rattle
             me&settle,R,z
             
-            me&ja,j,'ready' and me&ha,R,{ready:z}
-            else 
+            me&ja,j,'ok' and return me&ha,R,{ok:z}
             me&ja,j,'wantpush' and me&ha,R,{wantpush:z}
             else {
                 # < curio: match jam to lateral shunt
@@ -1835,13 +1830,13 @@ me.Sch_Travel = &acgt{ return [
                 me&ha,R,{waiting:z}
             }
         })
-        # wait for all %%ready|wantpush
+        # wait for all %%ok|wantpush
         # < periodically poke the $of of any %%waiting
         me&ja,R,'waiting' and return
-        !(me&ja,R,'ready' || me&ja,R,'wantpush' ) and return
+        !(me&ja,R,'ok' || me&ja,R,'wantpush' ) and return
         # desend %%actey now they all must have succeeded
         me&za,R,'waiting' and me&dome_traction,R,'tilpushed-actey',{el:2}
-        # wait for all %%ready after any %%maypush
+        # wait for all %%ok after any %%maypush
         if (me&ja,R,'wantpush' ) {
             x.ro("push*") &&
             me&jaa,R,'thing',1 .map(&z{

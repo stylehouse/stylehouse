@@ -890,6 +890,15 @@ me.Sch_Pavings = &acgt{ return [
         #   %%wantpush,Q,s? %%maypush! (via MayGansp)
         # Know..K where to push (finds Q, c.species)
         # s what to push (usu Rc&s? only if ...)
+            # < W may include them all in one request?
+            #   ideally all these Qings would e W,
+            #   prove compat (eg consensus, auth, parent|patch),
+            #   and be merged, reversibly
+            # &nodei also puts %%wantpush in this R,
+            # < though you might ignore it because %%eto
+            # < conversely, pay more attention to %%efrom
+        # once R%ready (connected)
+        #  do this until R%ok
         me.toPave = &acgtRjKsc{
             c ||= {}
             me&storable,s
@@ -908,7 +917,7 @@ me.Sch_Pavings = &acgt{ return [
                     me&nodei,R,Paving,{species},{dome:'tilpushed'}
             }
             else {
-                extra and throw "extra for Paving:"+of, s
+                hak(c) and throw "extra for Paving:"+of, s
                 $Q = Pavings&Q
             }
             !Q and return me&tsc,"!Q"
@@ -918,38 +927,39 @@ me.Sch_Pavings = &acgt{ return [
             #   so Gansp<->Story knows if any u changed while running
             # < to wy&D = copy of Q%string,dige - enough to resume
             # Q+w|Live is the parent considered
-            #  R %%Pushable %%ready are pushed
-            #  R %%Parent !%%ready want push
+            #  R %%Pushable %%ok are pushed
+            #  R %%Parent !%%ok want push
             $w = Qc&s
             me&ja,R,'Pushable' ? 'should still match:'
                 : me&ha,R,{Is:Qs&dige,w}
             
-            ss&dige == Qs&dige and return me&ha,R,'ready'
+            ss&dige == Qs&dige and return me&ha,R,'ok'
             
-          // diff
-            $q = {wantpush:1,Q,s}
-            # < W may include them all in one request?
-            #   ideally all these Qings would e W,
-            #   prove compat (eg consensus, auth, parent|patch),
-            #   and be merged, reversibly
-            # particulars like species come with:
-            ex(q,c)
-            # &nodei also puts %%wantpush in this R,
-            # < though you might ignore it because %%eto
-            # < conversely, pay more attention to %%efrom
+            # permission: R+Nine have %%wantpush,species?
+            $q = ex({wantpush:1,Q,s},c)
             R == j ? me&ha,R,q : me&nodei,R,j,q
-                
-            $g = me&opeolo,"Runthing",{walls:1}
-            $pa = gy&can('m',Q.t)
+            me&ja,j,{maypush:1} and me&ha,R,{Pushable:ss&dige}
             
+            # compares to the P%dige%string
+            $z = Qs&P
+            Qc&el == 9 and z = null
+            me&diffPave,R,s,z
+            
+            # pushes to r%Pave%commitstring(ss&string)
+            $Pave = Qy&R
+            !Pave && Paves&Pave and throw "pushQ!Pave"
+            me&pushPave,R,s,Pave
+        }
+        me.diffPave = &acgtRsz{
+            $g = me&opeolo,"Runthing",{walls:1}
+            $pa = gy&can('m',z.t)
             pas&mah = 30
-            #!pas&ope and continue
 
-            Qc&el == 9 and me&mtsc,pa,'New!'
+            !z and me&mtsc,pa,'New!'
             else {
-                $c = {t:Q.t,Zif:1};
+                $c = {t:z.t,Zif:1};
                 c.got = s;
-                c.exp = Qs&P;
+                c.exp = z;
                 $di = me&Ret,R,c;
                 me&zN,di;
                 me&Ring,di,{und:di,ov:314};
@@ -960,15 +970,18 @@ me.Sch_Pavings = &acgt{ return [
                 }
                 Rs&summary = dis&summary;
             }
-            
-          // push
-            $Pave = Qy&R;
+            return di
+        }
+        # commit string
+        # < %Parent careful
+        me.pushPave = &acgtRsr{
+            $Pave = r;
             !Pave && Paves&Pave and throw "pushQ!Pave"
             
             $go = me&rolltog,R,{maydo:'Push',once:1,tsc:'B'},0;
-            go ||= me&ja,j,{maypush:1};
             # sticks while dige same
-            go ||= me&sa,R,{Pushable:ss&dige};
+            $perm = {Pushable:ss&dige}
+            go ||= me&sa,R,perm || me&ja,R,perm;
             !go and return
             if (!me&rollbs,R,'sent_string' ) {
                 # Q asks
@@ -978,8 +991,6 @@ me.Sch_Pavings = &acgt{ return [
             }
             if (Qs&string == ss&string) {
                 me&tsc,'pushed';
-                # it cancels the go
-                go = 0
             }
             else {
                 $pu = me&tsc,'pushing'
@@ -991,7 +1002,7 @@ me.Sch_Pavings = &acgt{ return [
                     delete Rs&sent_string })
             }
             me&ha,R,{Pushable:ss&dige}
-        };
+        }
    
   },
    
