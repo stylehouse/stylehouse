@@ -15,7 +15,7 @@
    // cm side
     # all at once
     #   no memo, usu rarely happens via s&valuecha()
-    me.cm_chunksfold = &acgt,cm,z{
+    me.cm_chunksfold = &acgt,cm,z,ch{
         z ||= Cye([C.t,1,{s:cm.getValue()}]);
         $lines = zc&s.split("\n");
         # not the osc C?
@@ -25,7 +25,7 @@
         # the existing marks
         $ope = me&cm_foldmap,cm
         # adjust to C
-        me&cm_foldCode,z,ope,cm;
+        me&cm_foldCode,z,ope,cm,ch;
         return z
     }
     # our chunks match|make a fold
@@ -33,7 +33,7 @@
     # < top-down lazily, %open/%closed/* to instantly:
     #   pop open, yet close more chunks within that
     #    (closing a then a/b opens a)
-    me.cm_foldCode = &acgtz,ope,cm{
+    me.cm_foldCode = &acgtz,ope,cm,ch{
         $found = [];
         if (zs&commentsey) {
             cm.options.foldOptions ||= {};
@@ -62,6 +62,13 @@
         #$topdown = zs&chunks.slice().reverse();
         each is zs&chunks {
             $f = ope[ss&line];
+            ss&line *= 1
+            if (ch) {
+                debugger
+                ch.from && ss&line+2 < ch.from.line and continue
+                ch.to && ss&line-2 > ch.to.line and continue
+            }
+            # for Glimpes
             f and fy&chunk = s
             elsif (ss&proper) {
                 # this checks again that fold makes sense
