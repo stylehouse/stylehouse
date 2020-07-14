@@ -910,64 +910,6 @@ me.Sch_Travel = &acgt{ return [
         $r = me&bal,s.t,self,'TheNine,eph'
         rc&s != self and me&nu,"Craze",rc&s
     },'ift,D'],
-    &{
-        # use &nodeo %twmt, fully downloading W
-        me.getThat = &acgtRrQc{
-            # to %%eto,species:1,...$c
-            c ||= {}
-            $that
-            me&nodeo,R,r,Q,'el' .map(&n{
-                $z = ns&s
-                # < input Stories/$t, advert from Around/$t
-                ns&ad and throw "advert"
-                # species:1 to download
-                me&ha,R,{eto:z,species:1},{},c
-                that and me&tsc,"MULTI"
-                that = z
-            })
-            return that
-        }
-        # see Zave 68, has pull|push, diff sense
-        me.selfThat = &acgtRst{
-            $that = s
-            t ||= ''
-            $k = 'self'+t
-            me&reaw,R,k
-            $go = me&acting,R,'Self'
-            $x = me&Jx,R;
-            $r = thaty&R
-            !rs&Paving and throw "that!%Paving"
-            # read %%Live from a complete r%Paving
-            $L = me&zaa,r,'Live',1 [0]
-            # r%Paving 5 may be yet to happen,
-            #  ie distant nodes cannot rely on R timing
-            #   unless any %Paving (%priority) grabs R-time
-            #   ie J completing before returning from &n
-            #  shows up by the time &zu,r draws it
-            #  < &zu etc should slep now-later,
-            #    drawing A time of interesting bits
-            L && !rs&Live and me&tsc,"goestoshow:%Live-vs-%%Live"
-            !L and me&tsc,"el:2"
-
-            $self = me&rollbs,R,k
-            self && selfy&Live != L || go and $pully = 1
-            pully && x.ro('pull?') and self = 0
-            if (!self) {
-                if (L) {
-                    self = me&Copy,R,L .c.s
-                    selfy&Live = L
-                }
-                else {
-                    self = Cye([s.t,1])
-                    sely&autoviv = 1
-                }
-            }
-            R.sc[k] = self
-            go and me&nu,k+"%Live",L
-            go and me&nu,k,self
-            return self
-        }
-    },
        
   // 2  Stori <-> %TheNine <-> Yingates
     ['TheNine',0.295,&acgtRs{
@@ -1056,89 +998,6 @@ me.Sch_Travel = &acgt{ return [
         acceptia(s,{dige:ss&dige})
     },'ift,D'],
   
-  //    &acceptables? etc
-        &{
-        # sanity Quanta: the t%dige%string
-        #  as opposed to Qish, of its names (of/t etc)
-        me.storable = &acgts{
-            $dige = ss&dige
-            !dige and throw "storable s!%dige"
-            !ss&string and throw "storable s!%string"
-            return dige
-        }
-        me.sleepic = &acgtRn{
-            me&ollbs,Ry&up,'numberclicked' and return
-            !Rc&b and return
-            !n && Rs&tunneling and return
-            Rs&sleeping = 1
-            me&recycleRbitXz,R
-            ~>5 sleepic: R.t
-            return 1
-        }
-        # Nine tallies Eigh,
-        #  may e:Accept many Eigh%%ready,ok?
-        me.acceptables = &acgtRN{
-            $g = me&case,5
-            $note = &sct{
-                return me&mtsc,g,(t||s),s,c||'y'
-            }
-            !N.length and return me&tsc,"no-*"
-
-            $unready = []
-            $ready = arou(N,&r{ return !me&za,r,'ready' },unready)
-            if (unready.length) {
-                # should just be one open %Yingates at the end
-                !unready[0] and debugger
-                unready.length > 1 and note("Lots-unready")
-            }
-            $unok = arou(ready,&r{ return !me&za,r,'ok' })
-            if (unok.length) {
-                $ro = note("Accept*?")
-                me.nto(R,ro,&sT{
-                    me&elpack,R,"Accept*","Accept",unok
-                    T.wake = 'not'
-                })
-            }
-
-            g = note('prog','l')
-            gs&ma = gs&lh = 2
-            note(ready.length,'','ready')
-            note('/','6','of')
-            note(N.length,'','total')
-            unok.length and note("!"+unok.length,'b','fail')
-            else
-            ready.length == N.length and note("OK",'g')
-        }
-        # when cha, Eigh $got may %%acception -> Nine
-        me.acceptable = &acgtRs{
-            # the t%dige%string
-            $dige = me&storable,s
-            
-            # while it is not commit
-            
-            $e = me&Dtunneling,R
-            if (e && e.t == 'Accept') {
-                # click to stage
-                me&tsc,"Accepting"
-                me&ha,R,{accepted:dige,dome:'accepting'}
-            }
-
-            if (me&ja,R,{accepted:dige} ) {
-                # staging %%acception up to Nine
-                me&nodei,R,Ry&up,{acception:s,dige}
-            }
-            else {
-                # while it is not staged
-                $ro = me&tsc,"Accept?",'','y'
-                me.nto(R,ro,&sT{
-                    me&elvis,R,"Accept"
-                    T.wake = 'not'
-                })
-            }
-            # < deeply?
-            me&ja,R,{eto:Rc&s,acception:1} and me&tsc,"acception++"
-        }
-        },
  
   // 3  %TheEigh
     ['TheEigh',0.33,&acgtRs{
@@ -1172,7 +1031,6 @@ me.Sch_Travel = &acgt{ return [
         }
         
         z && !t and me&ha,R,'isnew'
-        
     },'ift,D'],
   
   // 6 %TheTest reselfs %ReNine <- %TheNine
@@ -1969,7 +1827,7 @@ me.Sch_Travel = &acgt{ return [
         #(Rs&boost||0) > 0 and me&zu,"MayTwine.s",s;
     },'ift,D'],
    
-   // %MayGansp unit
+   // %MayGansp unit of push
     ['MayGansp','299',&acgtRs{
         
         $x = me&Jx,R;
@@ -2025,116 +1883,5 @@ me.Sch_Travel = &acgt{ return [
         me&tsc,"Done!"
     },'ift,D'],
    
-   // &toPave - pushing Paving
-        &{
-        # R the thing (possibly a species under j)
-        # j atomic thing, mediates pushes (all species at once)
-        #   %%wantpush,Q,s? %%maypush! (via MayGansp)
-        # Know..K where to push (finds Q, c.species)
-        # s what to push (usu Rc&s? only if ...)
-        me.toPave = &acgtRjKsc{
-            c ||= {}
-            me&storable,s
-            !K and return me&tsc,"!K"
-            
-            $Paving = Ky&R;
-            $of = Pavings&Paving
-            if (of == 'W') {
-                # W have species
-                $spQ = Pavings&species_Q
-                !spQ and return me&waits,"Paving!species_Q"
-                $species = c.species || 1
-                $Q = spQ[species];
-                # load a %Pave for any species that wants to be here
-                !Q &&
-                    me&nodei,R,Paving,{species},{dome:'tilpushed'}
-            }
-            else {
-                extra and throw "extra for Paving:"+of, s
-                $Q = Pavings&Q
-            }
-            !Q and return me&tsc,"!Q"
-            
-            # < excercise for determiniteness:
-            # < give|take|note %%(Is|Pushable|Parent):$dige from Gansp,
-            #   so Gansp<->Story knows if any u changed while running
-            # < to wy&D = copy of Q%string,dige - enough to resume
-            # Q+w|Live is the parent considered
-            #  R %%Pushable %%ready are pushed
-            #  R %%Parent !%%ready want push
-            $w = Qc&s
-            me&ja,R,'Pushable' ? 'should still match:'
-                : me&ha,R,{Is:Qs&dige,w}
-            
-            ss&dige == Qs&dige and return me&ha,R,'ready'
-            
-          // diff
-            $q = {wantpush:1,Q,s}
-            # < W may include them all in one request?
-            #   ideally all these Qings would e W,
-            #   prove compat (eg consensus, auth, parent|patch),
-            #   and be merged, reversibly
-            # particulars like species come with:
-            ex(q,c)
-            # &nodei also puts %%wantpush in this R,
-            # < though you might ignore it because %%eto
-            # < conversely, pay more attention to %%efrom
-            R == j ? me&ha,R,q : me&nodei,R,j,q
-                
-            $g = me&opeolo,"Runthing",{walls:1}
-            $pa = gy&can('m',Q.t)
-            
-            pas&mah = 30
-            #!pas&ope and continue
-
-            Qc&el == 9 and me&mtsc,pa,'New!'
-            else {
-                $c = {t:Q.t,Zif:1};
-                c.got = s;
-                c.exp = Qs&P;
-                $di = me&Ret,R,c;
-                me&zN,di;
-                me&Ring,di,{und:di,ov:314};
-                me&zuct,pa,di;
-                pas&dis = 1;
-                each in dis&waits {
-                    ac(R,'waits',n)
-                }
-                Rs&summary = dis&summary;
-            }
-            
-          // push
-            $Pave = Qy&R;
-            !Pave && Paves&Pave and throw "pushQ!Pave"
-            
-            $go = me&rolltog,R,{maydo:'Push',once:1,tsc:'B'},0;
-            go ||= me&ja,j,{maypush:1};
-            # sticks while dige same
-            go ||= me&sa,R,{Pushable:ss&dige};
-            !go and return
-            if (!me&rollbs,R,'sent_string' ) {
-                # Q asks
-                ~>3 push: R.t
-                Paves&commitstring(ss&string);
-                Rs&sent_string = 1;
-            }
-            if (Qs&string == ss&string) {
-                me&tsc,'pushed';
-                # it cancels the go
-                go = 0
-            }
-            else {
-                $pu = me&tsc,'pushing'
-                # %Paving may update ss&dige = %%commit
-                # < check extras have commit
-                !c.species and me&nodei,R,K,{commit:ss&dige},{dome:'tilpushed'}
-                me.nto(R,pu,&{ 
-                    ~>3 repush: R.t
-                    delete Rs&sent_string })
-            }
-            me&ha,R,{Pushable:ss&dige}
-        };
-        },
-        
 
 ]}
