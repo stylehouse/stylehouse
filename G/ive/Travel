@@ -1020,21 +1020,16 @@ me.Sch_Travel = &acgt{ return [
         $Ni = Cye(s)
         Niy&D = s
         $s = Rs&reself ||= Cye([s.t,1])
-        # $Eigh+
-        # &twlic ish, jaa vs N
-        me&jaa,R,'acception,efrom' .map(&n{
-            $z = ns&efrom
-            $is = N.filter(r => rc&s.t == z.t)[0]
-            is = is && isc&s
-            z != is and me&nu,"Notis",z
-            z != is and me&nu,"NotIS",is
-        })
+        # each Eigh may send an %%acception
+        # < &twlic ish, jaa vs N, to check they mesh:
+        $todo = me&jaa,R,'acception',1
         N .map(&r{
             $z = rc&s
             $many
             me&jaa,R,{acception:1,efrom:z},1 .map(&t{
-                many and throw "many acceptions",z
+                many and throw "many acceptions per z",z
                 many = 1
+                todo = arou(todo,s=>s==t,[])
                 # t may ~%string while same ref
                 $dige = me&storable,t
                 # Stories/$t/$eight <- got%dige%string
@@ -1055,6 +1050,7 @@ me.Sch_Travel = &acgt{ return [
             # < should be as it was, skip encode?
             me&fiu,Ni,Cye(t),2
         })
+        todo.length and debugger
         ss&string = me&Lineso,Ni
         ss&dige = dig(ss&string)
         acceptia(s,{dige:ss&dige})
@@ -1080,7 +1076,7 @@ me.Sch_Travel = &acgt{ return [
             return 1
         }
         # Nine tallies Eigh,
-        #  may e:Accept many Eigh%%ready!ok
+        #  may e:Accept many Eigh%%ready,ok?
         me.acceptables = &acgtRN{
             $g = me&case,5
             $note = &sct{
@@ -1113,7 +1109,7 @@ me.Sch_Travel = &acgt{ return [
             else
             ready.length == N.length and note("OK",'g')
         }
-        # when cha, Eigh $got may -> Nine
+        # when cha, Eigh $got may %%acception -> Nine
         me.acceptable = &acgtRs{
             # the t%dige%string
             $dige = me&storable,s
@@ -1186,6 +1182,7 @@ me.Sch_Travel = &acgt{ return [
         if (N.length) {
             $insides = []
             N = arou(N,n => ns&inside,insides)
+            !N.length and throw "all %%inside"
             N.map(&n{
                 $t = ns&acceptia
                 $r = me&bal,"Re:"+t.t,'ReNine'
