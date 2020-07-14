@@ -891,6 +891,7 @@ me.Sch_Travel = &acgt{ return [
     # -nine being Zavable
     ['TheTest',0.294,&acgtRs{
         me&reaw,R,'TheTest'
+        Rs&acceptables = 1
         $go = me&acting,R,'That'
         $x = me&Jx,R;
         # wants to get Stories/$t(/$bits)
@@ -913,8 +914,8 @@ me.Sch_Travel = &acgt{ return [
        
   // 2  Stori <-> %TheNine <-> Yingates
     ['TheNine',0.295,&acgtRs{
-        me&reaw,R,'TheNine,reself,bal_tw_s'
-        me&rollbs,R,'reself'
+        me&reaw,R,'TheNine,bal_tw_s'
+        Rs&acceptables = 1
         $go = me&acting,R,'Nine'
         go and me&nu,"Nine",s
         $x = me&Jx,R;
@@ -941,61 +942,44 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
     
     # many acceptables
+    ['acceptables',0.295,&acgtRs{
+        me&reaw,R,'acceptables,reself'
+        me&rollbs,R,'reself'
+    },'ift,D'],
     ['TheNine',0.67,&acgtRs{
-        $go = me&acting,R,'Lineso'
         $N = me&ioty,R,'TheEigh'
-        go and me&nu,'inc',N
         # -nine settles the -eights, see &sleepic
         # < create new &settles and go to sleep
         #me&settle,R,N && me&sleepic,R,2 and return
         me&acceptables,R,N
-        # -eights send us what to push
-        !me&ja,R,'acception' and return me&dome_traction,R,'acceptia',{el:2}
-        # end up %%acceptia Q=[$Nine,$Eigh+] to TheTest
-        $acceptia = &sq{
-            q.acceptia = s
-            me&nodei,R,Ry&up,q,{dome:'acceptia'}
-        }
-        
-      // &Lineso Nine/Eight+ into %%acceptia
-        # $Nine cloned from TheNine
-        $Ni = Cye(s)
-        Niy&D = s
-        $s = Rs&reself ||= Cye([s.t,1])
-        # each Eigh may send an %%acception
-        # < &twlic ish, jaa vs N, to check they mesh:
-        $todo = me&jaa,R,'acception',1
-        N .map(&r{
-            $z = rc&s
-            $many
-            me&jaa,R,{acception:1,efrom:z},1 .map(&t{
-                many and throw "many acceptions per z",z
-                many = 1
-                todo = arou(todo,s=>s==t,[])
+        $c = {
+            # an Eigh accepted
+            accept: &acgtsOrznt{
+                me&accept,R,t
                 # t may ~%string while same ref
                 $dige = me&storable,t
-                # Stories/$t/$eight <- got%dige%string
-                # < use y&eight, ** y&toLines chunk through %string
-                #    leading the diff to each brackology
-                #   and before now, eg for pulling $exp
-                acceptia(t,{dige,inside:s})
                 # Stories/$t links /$eight
-                $link = me&fiu,Ni,t.t,2
+                $link = me&fiu,O,t.t,2
                 linkc&pi = 'eight'
                 links&dige = dige
-            })
-            many and return
-            $t = rs&exp
-            !t and return
-            me&ioty,t .length and throw "has z",t
-            # Stories/$t links /$eight
-            # < should be as it was, skip encode?
-            me&fiu,Ni,Cye(t),2
-        })
-        todo.length and debugger
-        ss&string = me&Lineso,Ni
-        ss&dige = dig(ss&string)
-        acceptia(s,{dige:ss&dige})
+            },
+            # an Eigh still
+            sleep: &acgtsOrz{
+                $t = rs&exp
+                !t and return
+                # Stories/$t links /$eight
+                # < should be as it was, skip encode?
+                me&fiu,O,Cye(t),2
+            },
+            # the Nine itself
+            self: &acgtsO{
+                ss&string = me&Lineso,Ni
+                ss&dige = dig(ss&string)
+                me&accept,R,s
+            }
+        }
+        me&acceptables_reself,R,N,c
+        
     },'ift,D'],
   
  

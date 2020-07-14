@@ -717,7 +717,7 @@ me.Sch_Pavings = &acgt{ return [
         }
      
      // roles
-        # Nine tallies Eigh,
+        # Nine tallies Eigh+,
         #  may e:Accept many Eigh%%ready,ok?
         me.acceptables = &acgtRN{
             $g = me&case,5
@@ -751,7 +751,27 @@ me.Sch_Pavings = &acgt{ return [
             else
             ready.length == N.length and note("OK",'g')
         }
-        # when cha, Eigh $got may %%acception -> Nine
+        # find R^%acceptables host
+        me.find_Racceptables = &acgtR{
+            $f
+            me.cbu(R,&r{
+                r == R and return
+                $s = rc&s
+                r = s && sy&R
+                r && rs&acceptables and f = r; return 1
+            })
+            !f and throw "R!^%acceptables"
+            return f
+        }
+        me.accept = &acgtRsc{
+            $Nine = me&find_Racceptables,R
+            $dige = me&storable,s
+            $q = ex({dige},c||{})
+            q.acceptable = s
+            ex(q,T.acceptmix||{})
+            me&nodei,R,Nine,q
+        }
+        # when cha, Eigh $got may %%acceptable -> Nine
         me.acceptable = &acgtRs{
             # the t%dige%string
             $dige = me&storable,s
@@ -764,21 +784,65 @@ me.Sch_Pavings = &acgt{ return [
                 me&tsc,"Accepting"
                 me&ha,R,{accepted:dige,dome:'accepting'}
             }
-
+            
             if (me&ja,R,{accepted:dige} ) {
-                # staging %%acception up to Nine
-                me&nodei,R,Ry&up,{acception:s,dige}
+                # staged
+                me&accept,R,s
             }
             else {
-                # while it is not staged
+                # not staged
                 $ro = me&tsc,"Accept?",'','y'
                 me.nto(R,ro,&sT{
                     me&elvis,R,"Accept"
                     T.wake = 'not'
                 })
             }
-            # < deeply?
-            me&ja,R,{eto:Rc&s,acception:1} and me&tsc,"acception++"
+        }
+        # Nine routes %%acceptable + Nine -> Test
+        me.acceptables_reself = &acgtRNc{
+            # Nine is as %%acceptable router
+            !Rs&acceptables and throw "R!%acceptables"
+            $Test = me&find_Racceptables,R
+            !c and throw "configure"
+            
+            # each Eigh may send an %%acceptable
+            # < &twlic ish, all jaa or N, to check they mesh:
+            $todo = me&jaa,R,'acceptable',1
+            !todo.length and return
+            # < put them in dome:acceptable? when none:
+            #   me&dome_traction,R,'acceptable',{el:2}
+            $go = me&acting,R,'Lineso'
+            go and me&nu,'inc',N
+            
+            # end up %%acceptable Q=[$Nine,$Eigh+] to TheTest
+            # Stories/$t/$eight <- got%dige%string
+            # < use y&eight, ** y&toLines chunk through %string
+            #    leading the diff to each brackology
+            #   and before now, eg for pulling $exp
+            
+            # &Lineso Nine/Eight+ into %%acceptia
+            # $Nine cloned from TheNine
+            $O = Cye(Rc&s)
+            Oy&D = Rc&s
+            $s = Rs&reself ||= Cye([O.t,1])
+            N .map(&r{
+                $z = rc&s
+                $many
+                me&jaa,R,{acceptable:1,efrom:z} .map(&n{
+                    $t = ns&acceptable
+                    many and throw "many acceptions per z",z
+                    many = 1
+                    todo = arou(todo,s=>s==t,[])
+                    
+                    T.acceptmix = {inside:s}
+                    c&accept,s,O,r,z,n,t
+                })
+                delete T.acceptmix
+                many and return
+                c&sleep,s,O,r,z
+            })
+            todo.length and debugger
+            c&self,s,O
         }
      
      // func
