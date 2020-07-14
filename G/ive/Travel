@@ -1172,7 +1172,7 @@ me.Sch_Travel = &acgt{ return [
         t && ts&dige == zs&dige and me&ha,R,'ok'
         else {
             me&acceptable,R,z
-            # mergible
+            # < mergible
         }
         
         z && !t and me&ha,R,'isnew'
@@ -1219,28 +1219,33 @@ me.Sch_Travel = &acgt{ return [
         # into the enclosing Stories or /Stori**
         $p = Ry&up
         $Storin = ps&ReNine ? me&zaa,p,'Stori',1 [0] : xs&Stories
-        !Storin and return me&waits,"No-^Stori"
-        me&settle,R,Storin and return me&tsc,'..Storin'
+        !Storin and return me&waits,"!^Stori"
+        # < why+not: loopy settling if:
+        #me&settle,R,Storin and return me&tsc,'..Storin'
         
         # nodeo to Stories|Stori, each having a %%tw pool
-        # < deeper nodeo (%%tw,inside), from Stories, with Stori%%tws
+        # < deeper nodeo (%%tw,inside), on /Stori, see %twmt=there
         $Stori = me&getThat,R,Storin,tia.t,{pushy:s}
-        !Stori and return
+        !Stori and return me&waits,"!Stori"
         me&ha,R,{Stori}
         # see %twin->%Pave. won't adhere properly if el:2 now.
         # < not yet node? %%waits,tillater
         $r = Storiy&R
         !r and debugger; me&tsc,"not-yet-node"
-        me&settle,R,Stori and return me&tsc,'..Stori'
+        me&settle,R,Stori and me&tsc,'..Stori'
         
-        # difference and flock apply
+        # difference and flock apply again
         # < ReNine species
         me&toPave,R,R,Stori,tia
+        
         # < %%ready to style brackology
+        $r = Storiy&R
+        !r and debugger
         $Q = rs&Q;
         if (go) {
             me&nu,"toa",Q
             me&nu,"Ren",tia
+            me&nu,"P",Qs&P
         }
     },'ift,D'],
   
