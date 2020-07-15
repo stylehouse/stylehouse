@@ -658,7 +658,7 @@ me.Sch_Pavings = &acgt{ return [
    
    // accept* - flock moves
      
-     // *That - harness %%Live
+     // &get|selfThat - harness %%Live
         # use &nodeo %twmt, fully downloading W
         me.getThat = &acgtRrQc{
             # to %%eto,species:1,...$c
@@ -702,8 +702,10 @@ me.Sch_Pavings = &acgt{ return [
             pully && x.ro('pull?') and self = 0
             if (!self) {
                 if (L) {
-                    self = me&Copy,R,L .c.s
+                    # all y&Clone=L**
+                    self = me&Clone,L
                     selfy&Live = L
+                    selfy&That = that
                 }
                 else {
                     self = Cye([s.t,1])
@@ -713,6 +715,20 @@ me.Sch_Pavings = &acgt{ return [
             R.sc[k] = self
             go and me&nu,k+"%Live",L
             go and me&nu,k,self
+            return self
+        }
+        # relative &selfThat - i ^that%Paving/#$z
+        me.moreThat = &acgtRtzc{
+            !ty&Clone and throw "climbing R etc"
+            $s = me.cby(t,s=>sy&That) [0]
+            # to find something %That%Live
+            $that = sy&That
+            !that and debugger
+            # i ^that%Paving/#$z
+            $more = me&getThat,R,that,z.t,c
+            !more and return me&waits,"!more"
+            $self = me&selfThat,R,more
+            selfy&Thence = more
             return self
         }
      
