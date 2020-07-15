@@ -1,4 +1,5 @@
 # lines of characters, etc
+ // chunkology
     # follows the universal plant-in-the-lobby pattern:
     #   headings followed by empty lines do not a chunk make
     # < all known limitations involve io-happy regroup:
@@ -326,3 +327,166 @@
         }
     }
 
+  
+ // Storables
+    # see Jay Y:osc 7
+    # make W.js usable for:
+    #  boot: w:Twoism loadI, page includes Hunt.js (moved out of W/)
+    #  u: @Search Talks.js
+    #   < without the lookup step (you know %dige)
+    me.jsso = &acgttd{
+        # have just been Lineso'd
+        $W = me&ioty,t .filter(n => nc&W == 'of');
+        !d.dige and throw "W.1 !dige"
+        $clone = &s{
+            $D = Cye(s);
+            # < do anything now?
+            G&Compress,D;
+            d.compLines and d.compLines(D,d)
+            return D
+        }
+        $shush = &s{
+            return s.replace(/\W+/g,'_')
+        }
+        
+        # first function, on the first line, should be a toc
+        # one item per line of it, including line number ranges
+        # flat list, to include toc
+        $N = [];
+        each iI W {
+            $z = me&ioty,I;
+            I = W[i] = clone(I)
+            Iy&cv ||= 0.1;
+            $Icv = cvf(Iy&cv)
+            z.map(&n{
+                n = clone(n);
+                ny&cv ||= 0.1;
+                ns&name = shush([t.t,d.dige,I.t,Icv,
+                    n.t,cvf(ny&cv)].join('_'));
+                !nc&s.match(/^function/) and throw "doesnt ^function", n
+                nc&s = nc&s.replace(/^function/,'function '+ns&name)
+                ac(I,'z',n);
+                N.push(n)
+            })
+        }
+        each in N {
+            !nc&s.match(/\n$/) and throw "No trailing \\n", n
+            ns&lines = nc&s.split("\n").length
+        }
+        
+        # [ind t y c sc]+
+        $toc = [];
+        each iI W {
+            toc.push(['',I.t,cvf(Iy&cv),I.c,I.sc]);
+            me&ioty,I .map(&n{
+                toc.push(['  ',I.t,cvf(Iy&cv),n.c,n.sc]);
+            })
+            delete Is&z;
+        }
+        # also ^function...{\n and \n}\n$
+        $toc_lines = toc.length + 3; 
+        $code_lines = 0;
+        each in N {
+            ns&line = toc_lines + code_lines;
+            code_lines += ns&lines;
+        }
+        $codes = [];
+        each in N {
+            codes.push(nc&s);
+            delete nc&s;
+        }
+        $name = shush([t.t,d.dige].join("_"))
+        $cur = shush([t.t,'current'].join("_"))
+        return [
+            "function "+cur+" () { return "+name+"() }\n",
+            "function "+name+" () { return [\n",
+            # data and code has indent
+            ... toc.map(l => l[0]+enj(l)+",\n"),
+            "]}\n",
+            ... codes
+        ].join('')
+    }
+    # returns %string, &toLines,s**
+    me.Lineso = &acgtsd{
+        return me&indo,s,ex({},d) (&s,d{
+            $Y = sy&Y;
+            d.where && !d.where(s,d) and d.not = 1; return
+            $part;
+            try {
+                part = 'scan';
+                !isC(s) and throw "Not C"
+                sc&N and throw "mightbe R"
+                part = 'clone';
+                $D = Cye(s);
+                part = 'Compress';
+                G&Compress,D;
+                Y && Ys&compLines and Ys&compLines(D,d,s)
+                d.compLines and d.compLines(D,d,s)
+                part = 'toLines';
+                d.toLines = d.jsony ? enj(D) : G&toLines,D;
+                Ds&H && !d.toLines.match(/(H):(\w+)\b/) and throw "%H not so gc will see it"
+            }
+            catch (er) {
+                ~enLinesR: ki(d.path,2)+"   !"+part+"! "+er
+                #me&Rec,R,'err';
+                d.toLines = "[error} "+ki(s);
+                #Rs&err = "enLinesR: "+part+": "+er;
+                #n err  $s:Rs&err
+                d.nofurther = 1
+                # in case we dont throw new Error(...)
+                # < generalise handling, fix up toLines: throw "Leaky...
+                isst(er) and throw "Lineso: "+er, d.path
+                # this Babz into er.catches+={stack,tc=[further]}; throw er
+                throw er, 'further', d.path
+            }
+            sy&toLines = d.toLines;
+            return d.toLines
+        })
+        + "\n"
+    }
+    # o y $s**
+    me.Clone = &acgtsd{
+        return me&indo,s,d (&sd{
+            $z = d.O = Cye(s)
+            z.y [d.ytag||'Clone'] = s
+            $du = d.up
+            $pz = du && du.O
+            # rebuilding y&tw and s&z, dup fatal
+            pz and me&fiu,pz,z,2
+            return z
+        }) [0]
+    }
+    # &ballLines climbing s, knowing R
+    #  replaces: Describing via awaking everything with %Lines
+    # < wants errors, compression pointers:
+    # < n Leaps -code ballLines:Yingr # doing:
+    #   .c resolving &ballLines, figuring R+Rc&s
+    me.ballLines = &acgtRs{
+        $d = {};
+        d.R = R;
+        d.where = &sd{
+            $r = d.R;
+            !r and return 1
+            rc&s == s and return 1
+            # RbitX follow it down, using last time
+            #  which should have all the nodes
+            # < resyncing by sy&R? wants visual clue, ioland
+            # 
+            $found = [];
+            $x = rc&V && rc&V.x || {};
+            each tX x {
+                each ir X.z {
+                    rs&ball && rc&s == s and d.R = r; return 1
+                }
+            }
+            delete d.R
+            return 1
+        }
+        d.compLines = &Dd{
+            $r = d.R;
+            !r and return
+            rs&eph and debugger;
+            rs&compLines and rs&compLines(D,d)
+        }
+        return me&Lineso,s,d
+    }
