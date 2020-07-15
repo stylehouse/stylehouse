@@ -495,15 +495,14 @@
     }
  
  // *Lines (from j/27)
-  // compress
-    # various things shouldn't be let out
-    # something else (G&toLines) makes y.* disappears, wormholing only cv
+  // &Compress
+    # string avoids various things
     # < an embryonic composited sub, like thro, 
     # < the opposite, collected from n and something else...
     # < use the d (state from G&ind) to make links for duplicated objects
     # see j/7 K: used to mute any ref not gk =~ /x$/
     me.Compress = &acgtsd{
-        # the other things are around, also via y.{tw,tv,in} etc
+        # will be gone if we $s = Cye(...)
         delete ss&z;
         
         # especially if pi
@@ -512,6 +511,7 @@
         typeof ss&J == 'object' and delete ss&J
         
         $mute = {c:['code'],sc:[]};
+        $sep = ' '
         $unmuted_objects = [Object,Array];
         # this just does:
         #   sc&code and delete sc&code; sc&mc = 'code';
@@ -531,20 +531,16 @@
             each gk,reason muted {
                 delete he[gk]
             }
+            !haks(muted) and continue
             # say that it is muted, eg c&mc = 'muted Cc keys'
             #  in a thing that could pretend to be a hash for simplicity...
-            if (Object.keys(muted).length) {
-                $ou = 'm' + nk.slice(0,1);
-                $was = s.c[ou];
-                if (was) {
-                    was = G&peel:was,{sep:' '};
-                    $.extend(muted, was);
-                }
-                s.c[ou] = G&depeel:muted,{sep:' '};
-            }
+            $ou = 'm' + nk[0]
+            $was = s.c[ou]
+            was and ex(muted,G&peel,was,{sep} )
+            s.c[ou] = G&depeel,muted,{sep}
         }
     }
-  // enL
+  // &enL
    
-  // deL
+  // &deL
    
