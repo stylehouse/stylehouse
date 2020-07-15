@@ -726,7 +726,9 @@ me.Sch_Pavings = &acgt{ return [
             !that and debugger
             # i ^that%Paving/#$z
             $more = me&getThat,R,that,z.t,c
-            !more and return me&waits,"!more"
+            !more and me&waits,"!more"; return
+            $Q = me&PaveQ,R,more
+            ts&dige && ts&dige != Qs&dige and me&tsc,"^~%dige"
             $self = me&selfThat,R,more
             selfy&Thence = more
             return self
@@ -904,7 +906,7 @@ me.Sch_Pavings = &acgt{ return [
         # R the thing (possibly a species under j)
         # j atomic thing, mediates pushes (all species at once)
         #   %%wantpush,Q,s? %%maypush! (via MayGansp)
-        # Know..K where to push (finds Q, c.species)
+        # Know..K (that) where to push (finds Q, c.species)
         # s what to push (usu Rc&s? only if ...)
             # < W may include them all in one request?
             #   ideally all these Qings would e W,
@@ -919,23 +921,7 @@ me.Sch_Pavings = &acgt{ return [
             c ||= {}
             me&storable,s
             !K and return me&tsc,"!K"
-            
-            $Paving = Ky&R;
-            $of = Pavings&Paving
-            if (of == 'W') {
-                # W have species
-                $spQ = Pavings&species_Q
-                !spQ and return me&waits,"Paving!species_Q"
-                $species = c.species || 1
-                $Q = spQ[species];
-                # load a %Pave for any species that wants to be here
-                !Q &&
-                    me&nodei,R,Paving,{species},{dome:'tilpushed'}
-            }
-            else {
-                hak(c) and throw "extra for Paving:"+of, s
-                $Q = Pavings&Q
-            }
+            $Q = me&PaveQ,R,K,c
             !Q and return me&tsc,"!Q"
             
             # < excercise for determiniteness:
@@ -957,16 +943,42 @@ me.Sch_Pavings = &acgt{ return [
             me&ja,j,{maypush:1} and me&ha,R,{Pushable:ss&dige}
             
             # compares to the P%dige%string
-            $z = Qs&P
-            Qc&el == 9 and z = null
-            me&diffPave,R,s,z
+            me&Qdiff,R,s,Q
             
             # pushes to r%Pave%commitstring(ss&string)
             $Pave = Qy&R
             !Pave && Paves&Pave and throw "pushQ!Pave"
             me&pushPave,R,s,Pave
         }
-        me.diffPave = &acgtRsz{
+        # Know..K%Q, for a species
+        # < read %%Q,species for reliable
+        me.PaveQ = &acgtRKc{
+            c ||= {}
+            $Paving = Ky&R;
+            $of = Pavings&Paving
+            !of and throw "!Paving"
+            if (of == 'W') {
+                # W have species
+                $spQ = Pavings&species_Q
+                !spQ and me&waits,"Paving!species_Q"; return
+                $species = c.species || 1
+                $Q = spQ[species];
+                # load a %Pave for any species that wants to be here
+                !Q &&
+                    me&nodei,R,Paving,{species},{dome:'tilpushed'}
+            }
+            else {
+                hak(c) and throw "extra for Paving:"+of, s
+                $Q = Pavings&Q
+            }
+            return Q
+        }
+        me.Qdiff = &acgtRsQ{
+            $z = Qs&P
+            Qc&el == 9 and z = null
+            me&diffany,R,s,z
+        }
+        me.diffany = &acgtRsz{
             $g = me&opeolo,"Runthing",{walls:1}
             $pa = gy&can('m',z.t)
             pas&mah = 30
