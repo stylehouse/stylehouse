@@ -407,6 +407,7 @@
         ].join('')
     }
     # returns %string, &toLines,s**
+    #  was &Serialise
     me.Lineso = &acgtsd{
         return me&indo,s,ex({},d) (&s,d{
             $Y = sy&Y;
@@ -445,6 +446,8 @@
         + "\n"
     }
     # o y $s**
+    #  was &Copy (made R:Copy)
+    # < more like &acceptables_reself, %string -> lv sense etc
     me.Clone = &acgtsd{
         return me&indo,s,d (&sd{
             $z = d.O = Cye(s)
@@ -490,3 +493,58 @@
         }
         return me&Lineso,s,d
     }
+ 
+ // *Lines (from j/27)
+  // compress
+    # various things shouldn't be let out
+    # something else (G&toLines) makes y.* disappears, wormholing only cv
+    # < an embryonic composited sub, like thro, 
+    # < the opposite, collected from n and something else...
+    # < use the d (state from G&ind) to make links for duplicated objects
+    # see j/7 K: used to mute any ref not gk =~ /x$/
+    me.Compress = &acgtsd{
+        # the other things are around, also via y.{tw,tv,in} etc
+        delete ss&z;
+        
+        # especially if pi
+        ss&J and delete sc&s;
+        typeof sc&s == 'object' and delete sc&s
+        typeof ss&J == 'object' and delete ss&J
+        
+        $mute = {c:['code'],sc:[]};
+        $unmuted_objects = [Object,Array];
+        # this just does:
+        #   sc&code and delete sc&code; sc&mc = 'code';
+        # < Be properties
+        each nk,gks mute {
+            $he = s[nk];
+            $muted = {};
+            each gk,v he {
+                gks[gk] and muted[gk] = 1; continue
+                # data should be limited somehow...
+                typeof v != 'object' and continue
+                unmuted_objects.indexOf(v.constructor) >= 0 and continue
+                # name of v.constructor
+                muted[gk] = G&arfgunc,v || 1;
+                
+            }
+            each gk,reason muted {
+                delete he[gk]
+            }
+            # say that it is muted, eg c&mc = 'muted Cc keys'
+            #  in a thing that could pretend to be a hash for simplicity...
+            if (Object.keys(muted).length) {
+                $ou = 'm' + nk.slice(0,1);
+                $was = s.c[ou];
+                if (was) {
+                    was = G&peel:was,{sep:' '};
+                    $.extend(muted, was);
+                }
+                s.c[ou] = G&depeel:muted,{sep:' '};
+            }
+        }
+    }
+  // enL
+   
+  // deL
+   
