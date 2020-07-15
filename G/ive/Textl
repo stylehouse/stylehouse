@@ -494,8 +494,29 @@
         return me&Lineso,s,d
     }
  
- // *Lines (from j/27)
-  // &Compress
+ // string<->thing - *Lines (from j/27)
+  // &Compress, &oleak
+    # check data depth or (yaml encoded) length
+    #  bails encode as soon as depth > $d*3
+    #  has to finish to figure length
+    me.oleak = &acgtsdl{
+        $fail = 0;
+        $was = window.maxyamling;
+        window.maxyamling = d * 3;
+        $code;
+        try { code = jsyaml.safeDump(s) }
+        catch (er) {
+            window.maxyamling = was;
+            er.message != "Too much to yaml" and throw er
+            fail = 1;
+        }
+        if (l && code && code.length > l) {
+            fail = 'large-ish'
+        }
+        window.maxyamling = was;
+        return fail
+    }
+    
     # string avoids various things
     # < an embryonic composited sub, like thro, 
     # < the opposite, collected from n and something else...
@@ -540,7 +561,340 @@
             s.c[ou] = G&depeel,muted,{sep}
         }
     }
-  // &enL
+  // &enL toLines - C to string
+    # one C, one or more lines
+    # < use from o that can conjoin the many C
+    # aims for simplicity of notation for G&readLines, G&C, G&peel
+    # block quotes (BQ) big strings or data after the  line
+    # uses json for anything complicated
+    # z insides done by the process around this one Line
+    #  - they have the same indent as BQs
+    #    but their t should json or not look like BQ
+    me.enL = &acgts{
+        s and C = s;
+        $t = C.t;
+        $y = C.y.cv;
+        # hath
+        $h = {};
+        h.c  = $.extend({},C.c||{});
+        h.sc = $.extend({},C.sc||{});
+        delete hs&z;
+        # needs json
+        $n = {};
+        # needs blockquote
+        $q = {};
+      
+      // sayability
+        # check out how sayable the values on the line are
+        # for c/sc as peelable, 
+        # < we can know thing:thing:thing
+        #   means thing = 'thing:thing'
+        $peelok = /^[\w\.\-%\/:]+$/;
+        $nameok = /^\w[\w\.\-%\/]*$/;
+        $simp = &s{
+            s = ''+s;
+            return s.match(nameok) && s.length < 24
+        };
+        # inject 2sphere
+        $lod = &n,nk,gk,v{
+            n[nk] ||= {};
+            n[nk][gk] = v;
+        };
+        each nk,gk,v h {
+            if (!simp(gk)) {
+                lod(n,nk,gk,v);
+                continue
+            }
+            if (typeof v != 'string' && typeof v != 'number') {
+                # is > 4*3 nodes or encodes to > 42 chars
+                if (G&oleak,v,4,42 ) {
+                    G&oleak,v,24 and throw "Leaky "+nk+"."+gk+": "+ki(v);
+                    # big enough to quote, simplifies remainder
+                    lod(q,nk,gk,v);
+                }
+                else {
+                    # ref too small to quote, json hemisphere
+                    lod(n,nk,gk,v);
+                }
+            }
+            else {
+                if (v.length > 42 && v.match(/\n/)) {
+                    # long enough to quote
+                    lod(q,nk,gk,v);
+                }
+                else if ((v+'').match(peelok)) {
+                    # decipherable to G&peel
+                }
+                else {
+                    # midway to unwieldy
+                    lod(n,nk,gk,v);
+                }
+            }
+        }}
+
+      // sayableparts
+        # quote freaks, if just a few break the peelability of many
+        each nk,g n { 
+            $v = h[nk];
+            !Object.keys(v).length and continue;
+            $complex_keys;
+            each ik g {
+                !simp(k) and complex_keys = 1;
+            }
+            complex_keys and continue;
+            
+            if (Object.keys(g).length / Object.keys(v).length < 0.3) {
+                each ik g {
+                    lod(q,nk,k,h[nk][k]);
+                }
+            }
+        }
+        
+        # remove quoted things and their need of json from the line
+        each nk,gk,v q {
+            h[nk] && delete h[nk][gk];
+            n[nk] && delete n[nk][gk];
+        }}
+        each nk,gks n {
+            # all freaks got quoted:
+            !Object.keys(gks).length and delete n[nk]
+        }
+      
+      // encoded bits
+        # may pass a T.enj_catch, so functions can warn/show up as 'CODE'
+        $enj = &s{ return window.enj(s,T) };
+
+        # t can be messy
+        $l = simp(t) ? t : enj(t);
+
+        # y.cv = 1 is implied
+        !y and y = 1
+        y = (y+'').replace(/^0\./,'');
+        l += "\t"+(y == "1" ? '' : y);
+
+        # one way or another
+        $hem = ['c','sc'];
+        each i,nk hem {
+            $v = h[nk];
+            if (nk == 'c' && 0 == Object.keys(v).length) {
+                # blank
+                l += "\t";
+            }
+            else if (nk == 'c' && 1 == Object.keys(v).length && v.s) {
+                # t y "the s" sc
+                l += "\t"+enj(v.s);
+            }
+            else if (n[nk]) {
+                # json bits: t y {W:"At"} {et:3,se:"te",ra:1}
+                l += "\t"+enj(v);
+            }
+            else if (Object.keys(v).length) {
+                # G&peel bits: t y W:At et:3,se:te,ra
+                l += "\t"+G&depeel,v;
+            }
+        }
+
+      // indented bits
+        $L = [];
+        # < quoting with Line other N/C looking vals
+        each nk,gk,v q {
+            $k = "  "+nk+" "+gk+":";
+            if (typeof v != 'string') {
+                # BQ yaml data
+                T.eny_nkgk = [nk,gk];
+                $v = eny(v,T);
+                delete T.eny_nkgk;
+                $vs = [];
+                v = v.split("\n");
+                each is v {
+                    vs.push("    "+s);
+                }
+                k += "\n"+vs.join("\n");
+            }
+            else if (simp(v)) {
+                # simple strings
+                # not confusible into 'Thing 2'
+                k += " "+v;
+            }
+            else if (!v.match(/\n$/)) {
+                # BQ implies trailing \n
+                k += " "+enj(v);
+            }
+            else {
+                # BQ string
+                $vs = [];
+                v = v.split("\n");
+                each is v {
+                    vs.push("    "+s);
+                }
+                k += " |\n"+vs.join("\n");
+            }
+            k = k.replace(/\n\s*$/,'');
+            L.push(k);
+        }}
+        
+        # extra lines (L) sorted, larger bits after smaller
+        L = L.sort();
+        $tidy = [];
+        $large = [];
+        each is L {
+            s.length > 300 ? large.push(s) : tidy.push(s)
+        }
+        l = [l];
+        tidy.length and l.push(tidy.join("\n"))
+        large.length and l.push(large.join("\n"))
+        l = l.join("\n");
+        
+        return l
+    }
    
-  // &deL
+  // &deL readLines - string to [C+]
+    me.deL = &acgtRs,opt{
+        opt ||= {};
+        $L = s.split("\n");
+        $oL = [];
+        $tot = L.length;
+        $N = [];
+        $stack = [];
+        $paniconce = 0;
+        while (L.length) {
+        
+      // rowing
+        $l = L.shift();
+        oL.push(l);
+        !l.length and continue
+        $lin = l.match(/^(\s*)(.*)$/);
+        $ind = lin[1];
+        $d = ind.length / 2;
+        l = lin[2];
+        $li = l.split("\t");
+        $t = li[0];
+        $y = li[1];
+        $c = li[2];
+        $sc = li[3];
+        # sc can kick in early, still one \t
+        y && y[0] == '%' and sc = y.slice(1); y = '';
+        c && c[0] == '%' and sc = c.slice(1); c = '';
+        y && opt.y1 && opt.y1[0] == '%' and (opt.tosc ||= {})[opt.y1.slice(1)] = y; y = '';
+        $s = li[4];
+        
+        t.match(/^\W/) and t = $.parseJSON(t);
+        
+        y ||= 1
+        y = 1*('0.'+y);
+        
+        if (s && s.match(/^\W/)) {
+            s = $.parseJSON(s);
+        }
+        if (c && c.match('^"')) {
+            s = $.parseJSON(c);
+            c = {};
+        }
+        else if (c && c.match(/^\W/)) {
+            c = $.parseJSON(c)
+        }
+        else if (c) {
+            c = G&peel,c
+        }
+        else { c = {} }
+        
+        s and c.s = s;
+        
+        if (sc && sc.match(/^\W/)) {
+            sc = $.parseJSON(sc)
+        }
+        else if (sc) {
+            sc = G&peel,sc
+        }
+        else { sc = {} }
+        
+        $C = {t:t,y:{cv:y},c:c,sc:sc};
+        
+      // indented bits
+        
+        $k
+        $v
+        $indenting = &{
+            !L.length and return;
+            $m = L[0].match("^"+ind+"  (\\w[\\w ]+):(?: (\\||.+))?$");
+            !m and return;
+            k = m[1];
+            v = m[2];
+            return 1;
+        };
+        while (indenting()) {
+            $string
+            if (v === '|') {
+                string = 1;
+                v = undefined;
+            }
+            v && v.match(/^\W/) and v = $.parseJSON(v)
+            L.shift();
+            k = k.split(' ');
+            $nk = k.shift();
+            $gk = k.join(' ');
+            if (!v) {
+                $s = [];
+                $one;
+                $blockquoting = &{
+                    !L.length and return;
+                    $m = L[0].match("^"+ind+"    (.*)$");
+                    !m and return;
+                    one = m[1];
+                    return 1;
+                }
+                while (blockquoting()) {
+                    s.push(one);
+                    L.shift();
+                }
+                v = s.join("\n");
+                # console.log("Loaded "+nk+gk+": "+v+'  Next: '+L[0]);
+                if (!string) {
+                    v = jsyaml.safeLoad(v);
+                }
+                else {
+                    !v.match(/\n$/) and v = v+"\n"
+                }
+            }
+            C[nk][gk] = v;
+        }
+      
+      // attach
+        d.toFixed() != d and ~fractionalind: d, C, T.readinglv
+        d = 1 * d.toFixed();
+        if (d > 0) {
+            $p
+            $dl = d;
+            while (dl--) {
+                p = stack[dl];
+                p and break
+            }
+            if (dl < d - 1) {
+                $few = oL.slice(-3);
+                if (! paniconce++)
+                    ~toomuchind: d, dl, T.readinglv, few
+                d = dl+1;
+            }
+            # use io?
+            ps&z ||= [];
+            ps&z.push(C);
+            # tv/tw/in/next?
+            $tv =
+            p.y.tv ||= {};
+            tv[C.t] ||= {};
+            tv[C.t][C.y.cv] = C;
+            # a mass inCing, dialecting
+        }
+        else {
+            N.push(C);
+        }
+        stack[d] = C;
+        while (stack[d+1])
+            stack.pop();
+        opt.tosc and ex(C.sc,opt.tosc);
+        
+        }
+        return N
+    }
+        
    
