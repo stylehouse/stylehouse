@@ -938,7 +938,7 @@ me.Sch_Pavings = &acgt{ return [
             # pushes to r%Pave%commitstring(ss&string)
             $Pave = Qy&R
             !Pave && Paves&Pave and throw "pushQ!Pave"
-            me&pushPave,R,s,Pave
+            me&pushPave,R,s,Pave,c,K
         }
         # Know..K%Q, for a species
         # < read %%Q,species for reliable
@@ -992,9 +992,12 @@ me.Sch_Pavings = &acgt{ return [
         }
         # commit string
         # < %Parent careful
-        me.pushPave = &acgtRsr{
+        # < reliable Q%ready, fatal by now?
+        #   or push button stays down until..?
+        me.pushPave = &acgtRsrcK{
             $Pave = r;
             !Pave && Paves&Pave and throw "pushQ!Pave"
+            $Q = Paves&Q
             
             $go = me&rolltog,R,{maydo:'Push',once:1,tsc:'B'},0;
             # sticks while dige same
@@ -1014,7 +1017,10 @@ me.Sch_Pavings = &acgt{ return [
                 $pu = me&tsc,'pushing'
                 # %Paving may update ss&dige = %%commit
                 # < check extras have commit
-                !c.species and me&nodei,R,K,{commit:ss&dige},{dome:'tilpushed'}
+                # < let other users block updates, negotiate, pub
+                if (c && K && !c.species) {
+                    me&nodei,R,K,{commit:ss&dige},{dome:'tilpushed'}
+                }
                 me.nto(R,pu,&{ 
                     ~>3 repush: R.t
                     delete Rs&sent_string })

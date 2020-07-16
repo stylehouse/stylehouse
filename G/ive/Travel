@@ -381,6 +381,15 @@ me.Sch_Travel = &acgt{ return [
         
         me&reaw,R,'Story,Storystream,Plot'
         $x = me&Jx,R
+
+        # until after the beginning
+        $D = me&rollbs,R,'Storystream'
+        # quiet Story once out of wakers[]
+        # < not before a slow wakers[], for async
+        #    may finish waiting early
+        $q = me&quiet_waker,s
+        !D && q and D = Rs&Storystream = me&logdome,R,s
+        !D and return
         
         # sources of and tests
         me&bal,'Stories','Stories,eph'
@@ -388,18 +397,9 @@ me.Sch_Travel = &acgt{ return [
         # expectation
         me&bal,'The','The,eph'
         
-            # pile of nodes
-            me&bal,'Nodar','Nodar,eph'
-
-            # acquired after the beginning
-            $D = me&rollbs,R,'Storystream'
-            # quiet Story once out of wakers[]
-            # < not before a slow wakers[], for async
-            #    may finish waiting early
-            $q = me&quiet_waker,s
-            !D && q and D = Rs&Storystream = me&logdome,R,s
-            !D and return
-        
+        # pile of nodes
+        me&bal,'Nodar','Nodar,eph'
+            
         # experience
         me&bal,'Plot','Plot,eph'
     },'ift,D'],
@@ -1122,6 +1122,9 @@ me.Sch_Travel = &acgt{ return [
             #me&settle,R,them and return
 
             me&nodei,R,xs&Gump,{narrative:1},{dome:'nar'}
+            $i = Ls&coun = (Ls&coun||0) + 1
+            me&tsc,"Actyvate:"+i
+            ~>7 actyvate:
             # < do what it wants, eventually returning to acty again
             #   in such a way to antiloop
             #    defined tolerance, fps
