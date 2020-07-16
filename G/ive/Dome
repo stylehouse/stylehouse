@@ -1714,7 +1714,7 @@
             #me&stepbrack,R;
         };
     
- // &waits_8 - regroup around
+// &waits_8 - regroup around
    // &waits_8
     =couldbe
      Ying waits_8   wakers order re &settle
@@ -1912,20 +1912,23 @@
         }
    
    // and finally ish
-        # do something when nothing
+        # do something when nothing,
+        #  until quiet wakers satisfy in one -gate
         $would = Ys&quiet_wakers;
-        $quiet_wake = 0
-        !wakers.length && would
-            # weren't the last wakers
-            && hakd(would, me&Yingate_wokerecently,R,1,1 ).length
-            # weren't all here this time
-            && would.filter(s => !Rc&N.includes(sy&R)).length
-            && would.map(&s{
+        if (!wakers.length && would
+            # !had sy&quiet_wake this time:
+            && would.filter(s => !sy&is_quiet_wake).length) {
+            # !the last wakers:
+            #&& hakd(would, me&Yingate_wokerecently,R,1,1 ).length
+            # !all here this time:
+            #&& would.filter(s => !Rc&N.includes(sy&R)).length
+            would.map(&s{
                 # < Yinge terms:
                 # is consumed:
                 sy&quiet_wake ||= 1
                 wakers.push(s);
             })
+        }
         !wakers.length and ~>4 .:
         
         me&Yingate_8,R,{wakers}
