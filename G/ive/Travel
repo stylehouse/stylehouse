@@ -415,6 +415,7 @@ me.Sch_Travel = &acgt{ return [
         
         Dc&thing = me.cbu(R,'Ying').sc.Outlog;
         Dc&ignoring = x.ro('pause',{})
+        Dc&tailwag = 1
         
         # page turning
         #  regularly returns to %%quiet,wake:Story
@@ -422,10 +423,9 @@ me.Sch_Travel = &acgt{ return [
         # < turn fractions of a page|plot, when|why
         if (sy&is_quiet_wake) {
             me&tsc,"q";
-            sy&quue ||= 0
-            sy&quue++
+            $i = sy&quue = (sy&quue||0) + 1
             Dy&domed()
-            Dy&dome("le "+sy&quue,'light')
+            Dy&dome("le "+i,'light')
         }
         
         Dy&stream()
