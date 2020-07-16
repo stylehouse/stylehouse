@@ -676,9 +676,9 @@ me.Sch_Pavings = &acgt{ return [
             return K
         }
         # see Zave 68, has pull|push, diff sense
-        me.selfThat = &acgtRKt{
-            t ||= ''
-            $k = 'self'+t
+        me.selfThat = &acgtRKc{
+            c ||= {}
+            $k = 'self'+(c.t||'')
             me&reaw,R,k
             $go = me&acting,R,'Self'
             $x = me&Jx,R;
@@ -693,9 +693,11 @@ me.Sch_Pavings = &acgt{ return [
             self && selfy&Live != L || go and $pully = 1
             if (pully && me&ja,R,{acceptable:1,dige:Qs&dige} ) {
                 # %%acceptable has become %%Live
+                me&ha,R,{digepushed:Qs&dige,dome:'digepushed'}
                 me&tsc,"Pushed!"
                 selfy&Live = L
                 pully = 0
+                selfy&reselfy and self = 0
             }
             pully && x.ro('pull?') and self = 0
             if (!self) {
@@ -840,8 +842,10 @@ me.Sch_Pavings = &acgt{ return [
             
             # &Lineso Nine/Eight+ into %%acceptia
             # $Nine cloned from TheNine!
-            $O = Cye(Rc&s)
-            Oy&D = Rc&s
+            $self = Rc&s
+            $O = Cye(self)
+            Oy&D = self
+            selfy&reselfy = O
             $s = Rs&reself ||= Cye([O.t,1])
             N .map(&r{
                 $z = rc&s
