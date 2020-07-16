@@ -1100,13 +1100,15 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
   
  // %Plot drive %%may
-    ['Plot',0.5,&acgtRs{
+    ['Plot',0.55,&acgtRs{
         me&reaw,R,'Plot'
         $S = me&inode,R;
         $x = me&Jx,R;
         $L = me&rollbs,R,"Point"
         !L and L = me&fiu,s,'Look'; Lc&pi = 'actyvate'
         Ls&ok and me&tsc,"DONE"
+        $Story = Ry&up
+        $D = Storys&Storystream
         
         
         if (Lc&pi == 'actyvate') {
@@ -1120,11 +1122,19 @@ me.Sch_Travel = &acgt{ return [
             $them = 'Know Ghost Travel To That Duolish Gump'
                 .split(' ').map(t => x.c[t])
             #me&settle,R,them and return
-
-            me&nodei,R,xs&Gump,{narrative:1},{dome:'nar'}
+            
+            # get Gump, protoJ for Ying
+            #me&nodei,R,xs&Gump,{narrative:1},{dome:'nar'}
+            
             $i = Ls&coun = (Ls&coun||0) + 1
             me&tsc,"Actyvate:"+i
-            ~>7 actyvate:
+            if (1 == i) {
+                $Begin = me&ioty,D [0]
+                !Begin and throw "wei"
+                me&wants,R,'begindone',Begin
+            }
+                me&nu,"Begin",D
+            ~>7 actyvate: i
             # < do what it wants, eventually returning to acty again
             #   in such a way to antiloop
             #    defined tolerance, fps
