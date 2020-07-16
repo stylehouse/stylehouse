@@ -658,54 +658,52 @@ me.Sch_Pavings = &acgt{ return [
    
    // accept* - flock moves
      
-     // &get|selfThat - harness %%Live
+     // &get|selfThat - harness K)%Paving%%Live
         # use &nodeo %twmt, fully downloading W
         me.getThat = &acgtRrQc{
             # to %%eto,species:1,...$c
             c ||= {}
-            $that
+            $K
             me&nodeo,R,r,Q,'el' .map(&n{
                 $z = ns&s
                 # < input Stories/$t, advert from Around/$t
                 ns&ad and throw "advert"
                 # species:1 to download
                 me&ha,R,{eto:z,species:1},{},c
-                that and me&tsc,"MULTI"
-                that = z
+                K and me&tsc,"MULTI"
+                K = z
             })
-            return that
+            return K
         }
         # see Zave 68, has pull|push, diff sense
-        me.selfThat = &acgtRst{
-            $that = s
+        me.selfThat = &acgtRKt{
             t ||= ''
             $k = 'self'+t
             me&reaw,R,k
             $go = me&acting,R,'Self'
             $x = me&Jx,R;
-            $r = thaty&R
-            !rs&Paving and throw "that!%Paving"
-            # read %%Live from a complete r%Paving
-            $L = me&zaa,r,'Live',1 [0]
-            # r%Paving 5 may be yet to happen,
-            #  ie distant nodes cannot rely on R timing
-            #   unless any %Paving (%priority) grabs R-time
-            #   ie J completing before returning from &n
-            #  shows up by the time &zu,r draws it
-            #  < &zu etc should slep now-later,
-            #    drawing A time of interesting bits
-            L && !rs&Live and me&tsc,"goestoshow:%Live-vs-%%Live"
+            $Q = me&PaveQ,R,K
+            $L = me&PaveLive,R,K
+            # Paving must attend to Qc&s <- Pc&s,
+            #  almost reliably it will %%Live that time
+            Qc&s != L and debugger
             !L and me&tsc,"el:2"
 
             $self = me&rollbs,R,k
             self && selfy&Live != L || go and $pully = 1
+            if (pully && me&ja,R,{acceptable:1,dige:Qs&dige} ) {
+                # %%acceptable has become %%Live
+                me&tsc,"Pushed!"
+                selfy&Live = L
+                pully = 0
+            }
             pully && x.ro('pull?') and self = 0
             if (!self) {
                 if (L) {
                     # all y&Clone=L**
                     self = me&Clone,L
                     selfy&Live = L
-                    selfy&That = that
+                    selfy&That = K
                 }
                 else {
                     self = Cye([s.t,1])
@@ -727,8 +725,10 @@ me.Sch_Pavings = &acgt{ return [
             # i ^that%Paving/#$z
             $more = me&getThat,R,that,z.t,c
             !more and me&waits,"!more"; return
+            
             $Q = me&PaveQ,R,more
             ts&dige && ts&dige != Qs&dige and me&tsc,"^~%dige"
+            
             $self = me&selfThat,R,more
             selfy&Thence = more
             return self
@@ -944,24 +944,41 @@ me.Sch_Pavings = &acgt{ return [
         # < read %%Q,species for reliable
         me.PaveQ = &acgtRKc{
             c ||= {}
-            $Paving = Ky&R;
-            $of = Pavings&Paving
+            $r = Ky&R;
+            $of = rs&Paving
             !of and throw "!Paving"
             if (of == 'W') {
                 # W have species
-                $spQ = Pavings&species_Q
+                $spQ = rs&species_Q
                 !spQ and me&waits,"Paving!species_Q"; return
                 $species = c.species || 1
                 $Q = spQ[species];
                 # load a %Pave for any species that wants to be here
                 !Q &&
-                    me&nodei,R,Paving,{species},{dome:'tilpushed'}
+                    me&nodei,R,r,{species},{dome:'tilpushed'}
             }
             else {
                 hak(c) and throw "extra for Paving:"+of, s
-                $Q = Pavings&Q
+                $Q = rs&Q
             }
             return Q
+        }
+        # read %%Live from a complete r%Paving
+        me.PaveLive = &acgtRKc{
+            c ||= {}
+            $r = Ky&R;
+            $of = rs&Paving
+            !of and throw "!Paving"
+            $L = me&zaa,r,'Live',1 [0]
+            # r%Paving 5 may be yet to happen,
+            #  ie distant nodes cannot rely on R timing
+            #   unless any %Paving (%priority) grabs R-time
+            #   ie J completing before returning from &n
+            #  shows up by the time &zu,r draws it
+            #  < &zu etc should slep now-later,
+            #    drawing A time of interesting bits
+            L && !rs&Live and me&tsc,"goestoshow:%Live-vs-%%Live"
+            return L
         }
         me.Qdiff = &acgtRsQ{
             $z = Qs&P
