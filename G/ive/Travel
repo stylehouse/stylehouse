@@ -164,6 +164,7 @@ me.Sch_Travel = &acgt{ return [
     #    may finish waiting early
     me.quiet_wakers = &acgtR{
         $Y = Rs&Ying
+        $D = Rs&Det;
         $would = Ys&quiet_wakers;
         !would and return []
         $wakers = []
@@ -182,6 +183,7 @@ me.Sch_Travel = &acgt{ return [
         else {
             $y = Ys&quiet_wakers_too_recently
             y && y ()
+            me&bracki,R,D,{quiet_recently:1}
         }
         return wakers
     }
@@ -445,10 +447,11 @@ me.Sch_Travel = &acgt{ return [
         # is visited to draw them into %Yingates/%Yingate
         # < lighter drawing into -eight/-seven
     },'ift,D'],
- // This
+ // This streams
     ['theThis',0.296,&acgtRs{
         
         me&reaw,R,'theThis,wakeful,onlyish,Storystream'
+        me&inode,R
         $x = me&Jx,R
         $p = Ry&up
         # wake R when p%onlyish/R%wakeful
@@ -472,14 +475,13 @@ me.Sch_Travel = &acgt{ return [
         
         Dc&thing = me.cbu(R,'Ying').sc.Outlog
         Dc&ignoring = x.ro('pause',{})
-        Dc&tailwag = 1
         
         # page turning
         # may be unturned, see merge similar previous
         # < turn fractions of a page|plot, when|why
-        $page_turning = &{
+        $page_turning = &c{
             $i = sy&quue = (sy&quue||0) + 1
-            Dy&domed()
+            Dy&domed(c)
             Dy&dome("le "+i,'light')
         }
         # This takes over from Story
@@ -488,7 +490,8 @@ me.Sch_Travel = &acgt{ return [
         if (q) {
             me&tsc,"q";
             ~>4 quiet,wake: s.t
-            page_turning()
+            # tailwag so -eights end in %%quiet(_recently,wake)
+            page_turning({tailwag:1})
         }
         # even if too close to the last quiet,wake to self
         $Y = me.cbu(R,'Ying').sc.Ying
@@ -520,7 +523,7 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
  
   # < is Y:-eight/-seven
- // %Yingates sort details
+ // %Yingates details
    
    // todo
     =todo
@@ -604,7 +607,6 @@ me.Sch_Travel = &acgt{ return [
             !Fin and Rs&wakeful = 1
         }
         
-        s&hue = 138;
         each in ss&z {
             #me&bal,'n:'+i,n,'Yingate,eph,tightly'
             $r = me&Ret,R,{t:"n:"+i,s:n,Yingate:1}
@@ -627,6 +629,8 @@ me.Sch_Travel = &acgt{ return [
         #   everything will -vat
         c.kc.wake = {ope:1}
         c.kc.step = {ope:1}
+        c.kc.node = {ope:1}
+        s&hue = 138;
         $g = me&brackology,R,s,c
         me&walls,g,'b:2.2';
         ac(R,'M',g);

@@ -170,7 +170,8 @@ me.Yingmind ||= {};
         $D = me&Yome,R,s
         # < doing something about chathing
         #   probably mean reset
-        Dy&download = &{
+        Dy&download = &c{
+            c ||= {}
             $N = Dc&thing
             !N and throw "!thing"
             $sc = {}
@@ -179,7 +180,7 @@ me.Yingmind ||= {};
             N.length > Dc&i+1 and sc.N = N.slice(Dc&i+1)
             Dc&i = N.length - 1;
             # avoid current -gate
-            N.length && Dc&tailwag and Dc&i--; sc.N.pop()
+            N.length && c.tailwag and Dc&i--; sc.N.pop()
             return sc
         }
         return D
@@ -240,24 +241,24 @@ me.Yingmind ||= {};
         return Dy&current = me&Yong,R,D,'Dome',c,1
     }
     # or after them:
-    me.Yome.ending = &acgtD{
+    me.Yome.ending = &acgtDc{
         Dy&dome('ending','light')
-        Dy&domed()
+        Dy&domed(c)
         me&Yong,R,D,{},2;
     }
     # Dome@13 loads continuously
-    me.Yome.stream = &acgtD{
+    me.Yome.stream = &acgtDc{
         !Dy&current and Dy&dome('middling','light')
         !Dy&download and throw "Yome!y&download"
-        $sc = Dy&download()
+        $sc = Dy&download(c)
         isar(sc) and sc = {N:sc}
         Dc&ignoring || !hak(sc) and ~>6 skipout: D.t
         Dc&ignoring || !hak(sc) and return 
         sc and me&Yong,R,Dy&current,sc,-13
     }
     # commit current
-    me.Yome.domed = &acgtD{
-        Dy&stream()
+    me.Yome.domed = &acgtDc{
+        Dy&stream(c)
         me&Yong,R,Dy&current,{},2
         Dy&current = null
     }
