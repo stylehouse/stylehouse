@@ -1055,10 +1055,9 @@ me.Sch_Travel = &acgt{ return [
         #me&settle,R,N && me&sleepic,R,2 and return
         me&acceptables,R,N
         $c = {
-            # an Eigh accepted
+            # an Eigh accepted again
             accept: &acgtsOrznt{
                 me&accept,R,t
-                # t may ~%string while same ref
                 $dige = me&storable,t
                 # Stories/$t links /$eight
                 $link = me&fiu,O,t.t,2
@@ -1108,7 +1107,7 @@ me.Sch_Travel = &acgt{ return [
         !z || !zs&dige || !zs&string and return me&ha,R,'unready'
         
         me&ha,R,'ready'
-        t && ts&dige == zs&dige and return me&ha,R,'ok'
+        #t && ts&dige == zs&dige and return me&ha,R,'ok'
         
         me&acceptable,R,z
         z && !t and me&ha,R,'isnew'
@@ -1132,15 +1131,18 @@ me.Sch_Travel = &acgt{ return [
   // 6 %TheTest reselfs %ReNine <- %TheNine
     # < i $t... ytia o %%acceptia:t
     ['TheTest',0.294,&acgtRs{
-        me&acceptables_reother,R (&tna{
-            $r = me&bal,"Re:"+t.t,'ReNine'
-            $z = rc&s
-            zy&tia = t
-            a(&lm{
-                $mz = me&fiu,z,l.t
-                mzy&tia = l
-            })
-        })
+        $h = {
+            ytag: 'tia',
+            self: &acgtnt{
+                $r = me&bal,"Re:"+t.t,'ReNine'
+                $z = rc&s
+                return z
+            },
+            other: &acgtntzlm{
+                return me&fiu,z,l.t
+            },
+        }
+        me&acceptables_reother,R,h
     },'ift,D'],
   
   // 7  %ReNine i Stori
@@ -1166,11 +1168,10 @@ me.Sch_Travel = &acgt{ return [
         # < deeper nodeo (%%tw,inside), on /Stori, see %twmt=there
         $Stori = me&getThat,R,Storin,tia.t,{pushy:s}
         !Stori and return me&waits,"!Stori"
+        !Storiy&R and debugger
         me&ha,R,{Stori}
         # see %twin->%Pave. won't adhere properly if el:2 now.
         # < not yet node? %%waits,tillater
-        $r = Storiy&R
-        !r and debugger; me&tsc,"not-yet-node"
         me&settle,R,Stori and me&tsc,'..Stori'
         
         # difference and flock apply again

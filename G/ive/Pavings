@@ -818,41 +818,49 @@ me.Sch_Pavings = &acgt{ return [
                 })
             }
         }
-        # Nine routes %%acceptable + Nine -> Test
+     // reself|other
+        # Nine makes toc, forwards %%acceptable=it,Eigh+
         me.acceptables_reself = &acgtRNh{
             # Nine is as %%acceptable router
             !Rs&acceptables and throw "R!%acceptables"
             $Test = me&find_Racceptables,R
             !h and throw "configure"
-            
+            me&reself,R,N,h,{acceptable:1}
+        }
+        # Test lays out %%acceptable for push (staging)
+        me.acceptables_reother = &acgtRh{
+            # Nine is as %%acceptable router
+            !Rs&acceptables and throw "R!%acceptables"
+            me&reother,R,h,{acceptable:1}
+        }
+        
+        # regards self, constructs an other
+        #  &accept will %%inside
+        me.reself = &acgtRNhq{
+            !q and throw "no q"
+            $k = haks(q)[0]
             # each Eigh may send an %%acceptable
             # < &twlic ish, all jaa or N, to check they mesh:
-            $todo = me&jaa,R,'acceptable',1
+            $todo = me&jaa,R,q,1
             !todo.length and return
             # < put them in dome:acceptable? when none:
             #   me&dome_traction,R,'acceptable',{el:2}
             $go = me&acting,R,'reself'
             go and me&nu,'inc',N
             
-            # end up %%acceptable Q=[$Nine,$Eigh+] to TheTest
-            # Stories/$t/$eight <- got%dige%string
-            # < use y&eight, ** y&toLines chunk through %string
-            #    leading the diff to each brackology
-            #   and before now, eg for pulling $exp
-            
-            # &Lineso Nine/Eight+ into %%acceptia
-            # $Nine cloned from TheNine!
             $self = Rc&s
             $O = Cye(self)
             Oy&D = self
             selfy&reselfy = O
             $s = Rs&reself ||= Cye([O.t,1])
+            h.sleep ||= h.other
+            h.accept ||= h.other
             N .map(&r{
                 $z = rc&s
                 $many
-                me&jaa,R,{acceptable:1,efrom:z} .map(&n{
-                    $t = ns&acceptable
-                    many and throw "many acceptions per z",z
+                me&jaa,R,ex({efrom:z},q) .map(&n{
+                    $t = n.sc[k]
+                    many and throw "many "+k+" per z",z
                     many = 1
                     todo = arou(todo,s=>s==t,[])
                     
@@ -867,32 +875,30 @@ me.Sch_Pavings = &acgt{ return [
             todo.length and debugger
             h&self,s,O
         }
-        # Test lays out %%acceptable for push (staging)
-        me.acceptables_reother = &acgtRNc{
-            # Nine is as %%acceptable router
-            !Rs&acceptables and throw "R!%acceptables"
-            return &y{
-                $N = me&jaa,R,'acceptable'
-                !N.length and return
+        me.reother = &acgtRhq{
+            !q and throw "no q"
+            $k = haks(q)[0]
+            $N = me&jaa,R,q
+            !N.length and return
 
-                $insides = []
-                N = arou(N,n => ns&inside,insides)
-                !N.length and throw "all %%inside"
-                N.map(&n{
-                    $t = ns&acceptable
-                    $a = &y{
-                        $inside = []
-                        insides = arou(insides,n => ns&inside == t,inside)
-                        inside.map(&m{
-                            $l = ms&acceptable
-                            y(l,m)
-                        })
-                    }
-                    y(t,n,a)
-                });
-                insides.length &&
-                    me&zu,"unclaimed",insides
-            }
+            $insides = []
+            N = arou(N,n => ns&inside,insides)
+            !N.length and throw "all %%inside"
+            N.map(&n{
+                $t = n.sc[k]
+                $z = h&self,n,t
+                h.ytag && z and z.y [h.ytag] = t
+                
+                $inside = []
+                insides = arou(insides,n => ns&inside == t,inside)
+                inside.map(&m{
+                    $l = ms&acceptable
+                    $zz = h&other,n,t,z,l,m
+                    h.ytag && zz and zz.y [h.ytag] = l
+                })
+            });
+            insides.length &&
+                me&zu,"unclaimed",insides
         }
    
    // &toPave - pushing Paving
