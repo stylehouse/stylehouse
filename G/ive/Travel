@@ -104,7 +104,7 @@ me.Sch_Travel = &acgt{ return [
         return one || e
     }
   
-  // Ying%OutLog += $D per bit of runtime
+  // Yingate: %OutLog += $D per bit of runtime
     # Ying happens
     me.Yingate_2 = &acgtRc{
         me&reaw,R,'Outlog';
@@ -134,7 +134,9 @@ me.Sch_Travel = &acgt{ return [
         rs&Det and c.Det = rs&Det
         
         $k = ry&up == R ? "step" : "node"
-        c[k] = rc&s
+        $s = rc&s
+        !s and throw "nos"
+        c[k] = s
         
         me&bracki,R,D,c
     }
@@ -379,17 +381,18 @@ me.Sch_Travel = &acgt{ return [
  // %Story itself
     ['Story',0.5,&acgtRs{
         
-        me&reaw,R,'Story,Storystream,Plot'
+        me&reaw,R,'Story'
         $x = me&Jx,R
 
         # until after the beginning
-        $D = me&rollbs,R,'Storystream'
+        
         # quiet Story once out of wakers[]
         # < not before a slow wakers[], for async
         #    may finish waiting early
         $q = me&quiet_waker,s
-        !D && q and D = Rs&Storystream = me&logdome,R,s
-        !D and return
+        q and Rs&quiet_now = Rs&ever_quiet = 1
+        q and ~>4 QUIETWAKE: s.t
+        !me&rollbs,R,'ever_quiet' and return
         
         # sources of and tests
         me&bal,'Stories','Stories,eph'
@@ -400,34 +403,54 @@ me.Sch_Travel = &acgt{ return [
         # pile of nodes
         me&bal,'Nodar','Nodar,eph'
             
-        # experience
+        # navigator
         me&bal,'Plot','Plot,eph'
+            
+        # experience
+        $r = me&bal,'This','theThis,eph'
+        # is visited to draw them into %Yingates/%Yingate
+        # < lighter drawing into -eight/-seven
     },'ift,D'],
- 
- //   %Storystream
-    ['sleeping+Storystream',0.53,&acgtRs{
-        $D = Rs&Storystream
-        Dy&stream()
-    },'ift,D'],
-    ['Storystream',0.53,&acgtRs{
-        $x = me&Jx,R;
-        $D = Rs&Storystream;
+ // theThis
+    ['theThis',0.296,&acgtRs{
         
-        Dc&thing = me.cbu(R,'Ying').sc.Outlog;
+        me&reaw,R,'theThis,wakeful,onlyish,Storystream'
+        $x = me&Jx,R
+        $p = Ry&up
+        # wake R when p%onlyish/R%wakeful
+        Rs&wakeful = 1
+        # sleep r when R%onlyish/r!%wakeful
+        Rs&onlyish = 1
+        if (0) {
+            # shows sleep|wake pattern
+            ah(R,'inheritscif','ball','theThis',1)
+            $i = ss&quue = (ss&quue||0) + 1
+            !ps&theThis and me&input,R,"le_"+i
+            else {
+                ps&z.slice(-2).includes(R) and Rs&wakeful = 1
+            }
+            return
+        }
+        
+        me&rollbs,R,'Storystream'
+        $D =
+        Rs&Storystream ||= me&logdome,R,s
+        
+        Dc&thing = me.cbu(R,'Ying').sc.Outlog
         Dc&ignoring = x.ro('pause',{})
         Dc&tailwag = 1
         
         # page turning
-        #  regularly returns to %%quiet,wake:Story
-        #  may be unturned, see merge similar previous
+        # may be unturned, see merge similar previous
         # < turn fractions of a page|plot, when|why
-        if (sy&is_quiet_wake) {
+        if (ps&quiet_now) {
             me&tsc,"q";
             $i = sy&quue = (sy&quue||0) + 1
             Dy&domed()
             Dy&dome("le "+i,'light')
         }
         
+        # then inhaling nothing if the page was just turned ^
         Dy&stream()
         
         # draw the story
@@ -436,6 +459,19 @@ me.Sch_Travel = &acgt{ return [
         each im Ds&z {
             me&bal,m.t,m,'Yingates,eph'
         }
+        
+    },'ift,D'],
+ 
+    # when e,on:m%Yingates, it keeps filling up
+    ['sleeping+Storystream',0.53,&acgtRs{
+        $D = Rs&Storystream
+        Dy&stream()
+    },'ift,D'],
+    ['Storystream',0.83,&acgtRs{
+        # this still being set
+        #delete sy&is_quiet_wake
+        #  until Story!%now_quiet,
+        #   as if e,on:Story made the page turn
     },'ift,D'],
  
   # < is Y:-eight/-seven
@@ -504,11 +540,7 @@ me.Sch_Travel = &acgt{ return [
         
         # < unify all %z.indexOf code
         $non_last = zs&z.slice(-1)[0] != s
-        
-        # < could all be replaced with slep D/*/* if not for:
-        # extra step for Yingate only begun (the quiet Story)
-        non_last and Rs&non_last = 1
-        non_last = me&ollbs,R,'non_last'
+        # < could all be replaced with slep D/*/*
         $Fin = me&rollbs,R,'Fin'
         if (non_last && !Fin) {
             # try to %Finish once z/s-2
@@ -952,7 +984,7 @@ me.Sch_Travel = &acgt{ return [
         Rs&nokids = 1
         #  %exp = Stories/$t/$eight, or $t's link to it
         #  %got = Yingates, having a %dige%string
-        $N = me&ioty,xc&Story,'Yingates'
+        $N = me&ioty,xc&This,'Yingates'
         me&twlic,N,s (&zlct{
             $r = me&bal,t,'eph'
             rs&TheEigh = 1
@@ -1116,8 +1148,9 @@ me.Sch_Travel = &acgt{ return [
         $L = me&rollbs,R,"Point"
         !L and L = me&fiu,s,'Look'; Lc&pi = 'actyvate'
         Ls&ok and me&tsc,"DONE"
-        $Story = Ry&up
-        $D = Storys&Storystream
+        $This = xc&This
+        $D = Thiss&Storystream
+        !D and throw "Plot!This"
         
         
         if (Lc&pi == 'actyvate') {

@@ -81,8 +81,9 @@ me.Sch_ema = &acgt{ return [
    
   // &Yingwhen - assign R/*%onlyish
     &{
-    # see what's tunneled
-    me.Yingwhen = &acgtRY{
+    # since tunneling 18 you can see what's tunneled
+    #   what's recycled will also be there
+    me.whotun = &acgtR{
         $N = me&ioty,R;
         if (!Rs&tunneling) {
             # nothing
@@ -92,7 +93,11 @@ me.Sch_ema = &acgt{ return [
             #   $R/*/(*/*), $R/(*/*), ($R/*)
             # ($R/*)
         }
-        $tunneling = N.filter(n => ns&tunneling && Rc&N.includes(n));
+        return N.filter(n => ns&tunneling && Rc&N.includes(n))
+    }
+    # see what's tunneled
+    me.Yingwhen = &acgtRY{
+        $tunneling = me&whotun,R
         if(0) {
             $blab = tunneling.map(&n{
                 return n.t + (ns&sleeping ? "%sleeping" : "")
@@ -120,11 +125,15 @@ me.Sch_ema = &acgt{ return [
     # me&tunnel a cul de sac, to $p/*%sleeping
     ['Peace+onlyish','294',&acgtRs{
         $b = Rc&b;
-        !b and throw "%onlyish !b"
+        !b and return
+        #throw "%onlyish !b"
         $N = bs&z;
         each ib N {
             !bs&Peace and continue
             bs&wakeful and continue
+            $was = (Rs&z||[]).filter(r => r.t == b.t)[0]
+            was and ~>4 %onlyish-already: R.t, b.t
+            was and continue
             $c = me&tunnel,R,{b};
             c.aleeping = 'aleep';
             c.JRom and throw "%onlyish/%JRom"
