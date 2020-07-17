@@ -115,6 +115,13 @@ me.Sch_Travel = &acgt{ return [
         me&bracki,R,D,{time:2}
         Rs&Det = D;
     }
+    # detects looping wakers
+    me.Yingate_wokerecently = &acgtRsdq{
+        $Outlog = Rs&Outlog;
+        q = ex({}||q, {wake:s||1})
+        return Outlog.slice((d||10) * -1)
+            .filter(D => me&bracko,R,D,q )
+    }
     # Ying/** happens
     # < take extra pictures 
     # < become RbitXarrive
@@ -141,6 +148,43 @@ me.Sch_Travel = &acgt{ return [
     }
     
   // Yingate: $D completes, &quiet_wakers?
+    
+    # management nodes wake up when all is quiet
+    me.quiet_waker = &acgtR{
+        $Y = me.cbu(R,'Ying').sc.Ying
+        $s = Rc&s
+        Ys&quiet_wakers = [s]
+        #ac(Y,'quiet_wakers',s)
+        $is = delete sy&quiet_wake
+        is and Rs&quiet_now = 1
+        return is
+    }
+    # do something when nothing
+    # < not before a slow wakers[], for async
+    #    may finish waiting early
+    me.quiet_wakers = &acgtR{
+        $Y = Rs&Ying
+        $would = Ys&quiet_wakers;
+        !would and return []
+        $wakers = []
+        $quiet_recently = &s{
+            return me&Yingate_wokerecently,R,s,5,{quiet:1} .length
+        }
+        # quiet,wake when not recently
+        if (would.filter(s => !quiet_recently(s)).length) {
+            would.map(&s{
+                # < Yinge terms:
+                # is consumed:
+                sy&quiet_wake ||= 1
+                wakers.push(s);
+            })
+        }
+        else {
+            $y = Ys&quiet_wakers_too_recently
+            y && y ()
+        }
+        return wakers
+    }
     # receive what Ying wants to do
     me.Yingate_8 = &acgtRc{
         $D = Rs&Det;
@@ -164,54 +208,6 @@ me.Sch_Travel = &acgt{ return [
         
         # %e here
         me&Dtunneling,R,D
-    }
-    
-    # management nodes wake up when all is quiet
-    me.quiet_waker = &acgtR{
-        $Y = me.cbu(R,'Ying').sc.Ying
-        $s = Rc&s
-        ac(Y,'quiet_wakers',s)
-        $is = delete sy&quiet_wake
-        delete sy&is_quiet_wake
-        is and sy&is_quiet_wake = 1
-        return is
-    }
-    # do something when nothing
-    me.quiet_wakers = &acgtR{
-        $Y = Rs&Ying
-        $would = Ys&quiet_wakers;
-        !would and return []
-        $wakers = []
-        $quiet_recently = &s{
-            return me&Yingate_wokerecently,R,s,5,{quiet:1} .length
-        }
-        # quiet,wake when not recently so
-        if (would.filter(s => !quiet_recently(s)).length) {
-            # !had sy&quiet_wake this time:
-            #&& would.filter(s => !sy&is_quiet_wake).length
-            # !the last wakers:
-            #&& hakd(would, me&Yingate_wokerecently,R,1,1 ).length
-            # !all here this time:
-            #&& would.filter(s => !Rc&N.includes(sy&R)).length
-            would.map(&s{
-                # < Yinge terms:
-                # is consumed:
-                sy&quiet_wake ||= 1
-                wakers.push(s);
-            })
-        }
-        else {
-            $y = Ys&quiet_wakers_too_recently
-            y && y ()
-        }
-        return wakers
-    }
-    # detects looping wakers
-    me.Yingate_wokerecently = &acgtRsdq{
-        $Outlog = Rs&Outlog;
-        q = ex({}||q, {wake:s||1})
-        return Outlog.slice((d||10) * -1)
-            .filter(D => me&bracko,R,D,q )
     }
     
     },
@@ -426,15 +422,11 @@ me.Sch_Travel = &acgt{ return [
         me&reaw,R,'Story'
         $x = me&Jx,R
 
-        # until after the beginning
-        
-        # quiet Story once out of wakers[]
-        # < not before a slow wakers[], for async
-        #    may finish waiting early
-        $q = me&quiet_waker,R
-        q and Rs&quiet_now = Rs&ever_quiet = 1
-        q and ~>4 QUIETWAKE: s.t
-        !me&rollbs,R,'ever_quiet' and return
+        # quiet,wake:Story then Story/This
+        if (!me&rollbs,R,'ever_quiet' ) {
+            me&quiet_waker,R and Rs&ever_quiet = 1
+            !Rs&ever_quiet and return
+        }
         
         # sources of and tests
         me&bal,'Stories','Stories,eph'
@@ -453,7 +445,7 @@ me.Sch_Travel = &acgt{ return [
         # is visited to draw them into %Yingates/%Yingate
         # < lighter drawing into -eight/-seven
     },'ift,D'],
- // theThis
+ // This
     ['theThis',0.296,&acgtRs{
         
         me&reaw,R,'theThis,wakeful,onlyish,Storystream'
@@ -490,8 +482,12 @@ me.Sch_Travel = &acgt{ return [
             Dy&domed()
             Dy&dome("le "+i,'light')
         }
-        if (ps&quiet_now) {
+        # This takes over from Story
+        $q = me&quiet_waker,R
+        q ||= ps&quiet_now
+        if (q) {
             me&tsc,"q";
+            ~>4 quiet,wake: s.t
             page_turning()
         }
         # even if too close to the last quiet,wake to self
