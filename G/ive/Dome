@@ -1628,7 +1628,7 @@
         Rs&brackstable_aware = 1;
     }
     
-  // < &acting, &acty
+  // < &acting, &acty, &wants
     # a heading for some %Part of it
     # < swallowing brack
     #  < knowing T.act here and when ha
@@ -1648,20 +1648,6 @@
 
         return ope
     };
-  
-  // &quiet_waker, &wants
-   // &quiet_waker
-    # management nodes wake up when all is quiet
-    me.quiet_waker = &acgts{
-        $Y = me.cbu(sy&R,'Ying').sc.Ying
-        ac(Y,'quiet_wakers',s)
-        $is = delete sy&quiet_wake
-        delete sy&is_quiet_wake
-        is and sy&is_quiet_wake = 1
-        return is
-    }
-   
-   // &wants
     # $from &wants,'msg'||c,$to -> %%waits:$msg,wants:$to
     # < $from -> $later? test the effects
     me.wants = &acgtRtsc{
@@ -1912,23 +1898,7 @@
         }
    
    // and finally ish
-        # do something when nothing,
-        #  until quiet wakers satisfy in one -gate
-        $would = Ys&quiet_wakers;
-        if (!wakers.length && would
-            # !had sy&quiet_wake this time:
-            && would.filter(s => !sy&is_quiet_wake).length) {
-            # !the last wakers:
-            #&& hakd(would, me&Yingate_wokerecently,R,1,1 ).length
-            # !all here this time:
-            #&& would.filter(s => !Rc&N.includes(sy&R)).length
-            would.map(&s{
-                # < Yinge terms:
-                # is consumed:
-                sy&quiet_wake ||= 1
-                wakers.push(s);
-            })
-        }
+        !wakers.length and wakers.push(... me&quiet_wakers,R )
         !wakers.length and ~>4 .:
         
         me&Yingate_8,R,{wakers}

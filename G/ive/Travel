@@ -115,7 +115,6 @@ me.Sch_Travel = &acgt{ return [
         me&bracki,R,D,{time:2}
         Rs&Det = D;
     }
-    
     # Ying/** happens
     # < take extra pictures 
     # < become RbitXarrive
@@ -141,6 +140,7 @@ me.Sch_Travel = &acgt{ return [
         me&bracki,R,D,c
     }
     
+  // Yingate: $D completes, &quiet_wakers?
     # receive what Ying wants to do
     me.Yingate_8 = &acgtRc{
         $D = Rs&Det;
@@ -165,11 +165,53 @@ me.Sch_Travel = &acgt{ return [
         # %e here
         me&Dtunneling,R,D
     }
+    
+    # management nodes wake up when all is quiet
+    me.quiet_waker = &acgtR{
+        $Y = me.cbu(R,'Ying').sc.Ying
+        $s = Rc&s
+        ac(Y,'quiet_wakers',s)
+        $is = delete sy&quiet_wake
+        delete sy&is_quiet_wake
+        is and sy&is_quiet_wake = 1
+        return is
+    }
+    # do something when nothing
+    me.quiet_wakers = &acgtR{
+        $Y = Rs&Ying
+        $would = Ys&quiet_wakers;
+        !would and return []
+        $wakers = []
+        $quiet_recently = &s{
+            return me&Yingate_wokerecently,R,s,5,{quiet:1} .length
+        }
+        # quiet,wake when not recently so
+        if (would.filter(s => !quiet_recently(s)).length) {
+            # !had sy&quiet_wake this time:
+            #&& would.filter(s => !sy&is_quiet_wake).length
+            # !the last wakers:
+            #&& hakd(would, me&Yingate_wokerecently,R,1,1 ).length
+            # !all here this time:
+            #&& would.filter(s => !Rc&N.includes(sy&R)).length
+            would.map(&s{
+                # < Yinge terms:
+                # is consumed:
+                sy&quiet_wake ||= 1
+                wakers.push(s);
+            })
+        }
+        else {
+            $y = Ys&quiet_wakers_too_recently
+            y && y ()
+        }
+        return wakers
+    }
     # detects looping wakers
-    me.Yingate_wokerecently = &acgtRsd{
+    me.Yingate_wokerecently = &acgtRsdq{
         $Outlog = Rs&Outlog;
+        q = ex({}||q, {wake:s||1})
         return Outlog.slice((d||10) * -1)
-            .filter(D => me&bracko,R,D,{wake:s||1})
+            .filter(D => me&bracko,R,D,q )
     }
     
     },
@@ -389,7 +431,7 @@ me.Sch_Travel = &acgt{ return [
         # quiet Story once out of wakers[]
         # < not before a slow wakers[], for async
         #    may finish waiting early
-        $q = me&quiet_waker,s
+        $q = me&quiet_waker,R
         q and Rs&quiet_now = Rs&ever_quiet = 1
         q and ~>4 QUIETWAKE: s.t
         !me&rollbs,R,'ever_quiet' and return
@@ -443,13 +485,20 @@ me.Sch_Travel = &acgt{ return [
         # page turning
         # may be unturned, see merge similar previous
         # < turn fractions of a page|plot, when|why
-        if (ps&quiet_now) {
-            me&tsc,"q";
+        $page_turning = &{
             $i = sy&quue = (sy&quue||0) + 1
             Dy&domed()
             Dy&dome("le "+i,'light')
         }
-        
+        if (ps&quiet_now) {
+            me&tsc,"q";
+            page_turning()
+        }
+        # even if too close to the last quiet,wake to self
+        $Y = me.cbu(R,'Ying').sc.Ying
+        Ys&quiet_wakers_too_recently = &{
+            page_turning()
+        }
         # then inhaling nothing if the page was just turned ^
         Dy&stream()
         
