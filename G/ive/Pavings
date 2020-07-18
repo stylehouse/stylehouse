@@ -699,87 +699,7 @@ me.Sch_Pavings = &acgt{ return [
             return L
         }
    
-   // accept* - flock moves
-     
-     // &get|selfThat - harness K)%Paving%%Live
-        # use &nodeo %twmt, fully downloading W
-        me.getThat = &acgtRrQc{
-            # to %%eto,species:1,...$c
-            c ||= {}
-            $K
-            me&nodeo,R,r,Q,'el' .map(&n{
-                $z = ns&s
-                # < input Stories/$t, advert from Around/$t
-                ns&ad and throw "advert"
-                # species:1 to download
-                me&ha,R,{eto:z,species:1},{},c
-                K and me&tsc,"MULTI"
-                K = z
-            })
-            return K
-        }
-        # see Zave 68, has pull|push, diff sense
-        me.selfThat = &acgtRKc{
-            c ||= {}
-            $k = 'self'+(c.t||'')
-            me&reaw,R,k
-            $go = me&acting,R,'Self'
-            $x = me&Jx,R;
-            $Q = me&PaveQ,R,K
-            $L = me&PaveLive,R,K
-            # Paving must attend to Qc&s <- Pc&s,
-            #  almost reliably it will %%Live that time
-            Qc&s != L and debugger
-            !L and me&tsc,"el:2"
-
-            $self = me&rollbs,R,k
-            self && selfy&Live != L || go and $pully = 1
-            if (pully && me&ja,R,{acceptable:1,dige:Qs&dige} ) {
-                # %%acceptable has become %%Live
-                me&ha,R,{digepushed:Qs&dige,dome:'digepushed'}
-                me&tsc,"Pushed!"
-                selfy&Live = L
-                pully = 0
-                selfy&reselfy and self = 0
-            }
-            pully && x.ro('pull?') and self = 0
-            if (!self) {
-                if (L) {
-                    # all y&Clone=L**
-                    self = me&Clone,L
-                    selfy&Live = L
-                    selfy&That = K
-                }
-                else {
-                    self = Cye([s.t,1])
-                    sely&autoviv = 1
-                }
-            }
-            R.sc[k] = self
-            go and me&nu,k+"%Live",L
-            go and me&nu,k,self
-            return self
-        }
-        # relative &selfThat - i ^that%Paving/#$z
-        me.moreThat = &acgtRtzc{
-            !ty&Clone and throw "climbing R etc"
-            $s = me.cby(t,s=>sy&That) [0]
-            # to find something %That%Live
-            $that = sy&That
-            !that and debugger
-            # i ^that%Paving/#$z
-            $more = me&getThat,R,that,z.t,c
-            !more and me&waits,"!more"; return
-            
-            $Q = me&PaveQ,R,more
-            ts&dige && ts&dige != Qs&dige and me&tsc,"^~%dige"
-            
-            $self = me&selfThat,R,more
-            selfy&Thence = more
-            return self
-        }
-     
-     // roles
+   // accept* - flock roles
         # Nine tallies Eigh+,
         #  may e:Accept many Eigh%%ready,ok?
         me.acceptables = &acgtRN{
@@ -818,6 +738,7 @@ me.Sch_Pavings = &acgt{ return [
             !f and throw "R!^%acceptables"
             return f
         }
+   
    // &readyok, &Accepting(|s) permit|tally
         # &readyok || &Accepting (&{ act })
         
@@ -930,7 +851,122 @@ me.Sch_Pavings = &acgt{ return [
             return &{}
         }
      
-   // reself|other
+   // *That, re* - connect, replicate
+     // &get|selfThat - harness K)%Paving%%Live
+        # use &nodeo %twmt, fully downloading W
+        me.getThat = &acgtRrQq{
+            # to %%eto,species:1,...q
+            q ||= {}
+            q.species ||= 1
+            $K
+            me&nodeo,R,r,Q,'el' .map(&n{
+                $z = ns&s
+                # < input Stories/$t, advert from Around/$t
+                ns&ad and throw "advert"
+                # species:1 to download
+                me&ha,R,ex({eto:z},q)
+                K and me&tsc,"MULTI"
+                K = z
+            })
+            return K
+        }
+        # see Zave 68, has pull|push, diff sense
+        me.selfThat = &acgtRKc{
+            c ||= {}
+            $k = 'self'+(c.t||'')
+            me&reaw,R,k
+            $go = me&acting,R,'Self'
+            $x = me&Jx,R;
+            $Q = me&PaveQ,R,K
+            $L = me&PaveLive,R,K
+            # Paving must attend to Qc&s <- Pc&s,
+            #  almost reliably it will %%Live that time
+            Qc&s != L and debugger
+            !L and me&tsc,"el:2"
+
+            $self = me&rollbs,R,k
+            self && selfy&Live != L || go and $pully = 1
+            if (pully && me&ja,R,{acceptable:1,dige:Qs&dige} ) {
+                # %%acceptable has become %%Live
+                me&ha,R,{digepushed:Qs&dige,dome:'digepushed'}
+                me&tsc,"Pushed!"
+                selfy&Live = L
+                pully = 0
+                selfy&reselfy and self = 0
+            }
+            pully && x.ro('pull?') and self = 0
+            if (!self) {
+                if (L) {
+                    # all y&Clone=L**
+                    self = me&Clone,L
+                    selfy&Live = L
+                    selfy&That = K
+                }
+                else {
+                    self = Cye([s.t,1])
+                    sely&autoviv = 1
+                }
+            }
+            R.sc[k] = self
+            go and me&nu,k+"%Live",L
+            go and me&nu,k,self
+            return self
+        }
+     // &more|twineThat - harness K** across here
+        # relative &selfThat - i ^that%Paving/#$z
+        me.moreThat = &acgtRtzc{
+            !ty&Clone and throw "climbing R etc"
+            $s = me.cby(t,s=>sy&That) [0]
+            # to find something %That%Live
+            $that = sy&That
+            !that and debugger
+            # i ^that%Paving/#$z
+            $more = me&getThat,R,that,z.t,c
+            !more and me&waits,"!more"; return
+            
+            $Q = me&PaveQ,R,more
+            ts&dige && ts&dige != Qs&dige and me&tsc,"^~%dige"
+            
+            $self = me&selfThat,R,more
+            selfy&Thence = more
+            return self
+        }
+        # relative &getThat - o ^%%eto,...q/$s
+        # for recursive ReNine, MayTwine?
+        # nodeo to Stories|Stori, each having a %%tw pool
+        # < deeper nodeo (%%tw,inside), on /Stori, see %twmt=there
+        # < make A=&...{} that tries to apply to ...
+        me.twineThat = &acgtRsh{
+            h.upsc ||= T.act.t
+            h.word ||= 'Stori'
+            !s and throw "somewhere"
+            # p will have &getThat q
+            $q = {}
+            q[h.word] = s
+            $a = {eto:1}
+            a[h.word] = 1
+            $p = me.cbu(Ry&up,h.upsc)
+            
+            # from last thing along twine
+            # p &getThat leaves %%$word,eto:K==from
+            h.from ||= p ? me&zaa,p,a,1 [0]
+                : h.origin
+            !h.from and me&waits,"!^%%"+h.word; return
+            # < why+not: loopy settling if:
+            #me&settle,R,h.from and return me&tsc,'..^'
+            
+            # name looked up from from
+            $t = me&getThat,R,h.from,s,q
+            !t and me&waits,"!%%"+h.word; return
+            !ty&R and debugger
+            # see %twin->%Pave. won't adhere properly if el:2 now.
+            # < not yet node? %%waits,tillater
+            # < maybe just &bready?
+            me&settle,R,t and me&tsc,'..'+h.word
+            return t
+        }
+     
+     // onwards
         # Nine makes toc, forwards %%acceptable=it,Eigh+
         me.acceptables_reself = &acgtRNh{
             # Nine is as %%acceptable router
@@ -1065,7 +1101,6 @@ me.Sch_Pavings = &acgt{ return [
                 me&pushPave,R,K,s,c
             })
         }
-        
         # commit s%string, already permit
         # < %Parent careful, as it cycles (through Eigh)
         # < reliable Q%ready, fatal by now?

@@ -973,7 +973,8 @@ me.Sch_Travel = &acgt{ return [
     #  since Stories%eph we must store our list
     ['Stori+Around',0.298,&acgtRs{
         me&reaw,R,'Around'
-        s&mah = 3;
+        s&mh = 10;
+        s&over = 1
         me&tsc,"Arou"
         ah(R,'noadhere','director',1)
         # does its own %eto,tw
@@ -1000,7 +1001,7 @@ me.Sch_Travel = &acgt{ return [
         # wants to get Stories/$t(/$bits)
         #  and commit them all at once, with history
         #  and commit $t -> Stories/Around
-        $that = me&getThat,R,xs&Stories,s.t,{hasThe:s}
+        $that = me&getThat,R,xs&Stories,s.t,{Stori:s}
         !that and return
         # then harness %Live into TheNine
         # < harness self (TheNine<->...) <-> other (Paving)
@@ -1114,18 +1115,19 @@ me.Sch_Travel = &acgt{ return [
         #    or t could be this step's part of another &Linets
         #     and need to other it there and then commit that,
         #      staging chunk regroup for commit essential
+        #     lots of slightly different %%$word...,
+        #      iterating commissions on 
         me&ja,R,'ok' and return
-        
         !t and return
-        
         !(tc&pi && ts&dige) and return me&tsc,"Nine/!-eight"
         
-        $self = me&moreThat,R,t,t,{pully:s}
+        $self = me&moreThat,R,t,t,{Stori:z}
         !self and return me&waits,"Nine/.."
         
         $Q = me&PaveQ,R,selfy&That
         
         me&Qdiff,R,z,Q
+        # < to &brackology
         
         go and me&zu,"self-Exp",self
         # < mergible
@@ -1149,8 +1151,6 @@ me.Sch_Travel = &acgt{ return [
         }
         me&acceptables_reother,R,h
     },'ift,D'],
-  
-  // 7  %ReNine i Stori
     ['ReNine',0.295,&acgtRs{
         me&reaw,R,'ReNine,unity'
         ah(R,'inheritscif','ball','ReNine',1)
@@ -1165,35 +1165,18 @@ me.Sch_Travel = &acgt{ return [
         $x = me&Jx,R;
         # the got, being pushed
         $tia = sy&tia
-        
         # into the enclosing Stories or /Stori**
-        $p = Ry&up
-        $Storin = ps&ReNine ? me&zaa,p,'Stori',1 [0] : xs&Stories
-        !Storin and return me&waits,"!^Stori"
-        # < why+not: loopy settling if:
-        #me&settle,R,Storin and return me&tsc,'..Storin'
-        
-        # nodeo to Stories|Stori, each having a %%tw pool
-        # < deeper nodeo (%%tw,inside), on /Stori, see %twmt=there
-        $Stori = me&getThat,R,Storin,tia.t,{pushy:s}
-        !Stori and return me&waits,"!Stori"
-        !Storiy&R and debugger
-        me&ha,R,{Stori}
-        # see %twin->%Pave. won't adhere properly if el:2 now.
-        # < not yet node? %%waits,tillater
-        me&settle,R,Stori and me&tsc,'..Stori'
-        
+        $t = me&twineThat,R,tia,{origin:xs&Stories}
         # difference and flock apply again
         # < ReNine species
-        me&toPave,R,R,Stori,tia
-        
-        # < %%ready to style brackology
-        $r = Storiy&R
-        !r and debugger
+        t and me&toPave,R,R,t,tia
+
+        go and me&nu,"tia",tia
+        !t and return
+        $r = ty&R
         $Q = rs&Q;
         if (go) {
             me&nu,"Q",Q
-            me&nu,"tia",tia
             me&nu,"P",Qs&P
         }
     },'ift,D'],
