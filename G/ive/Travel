@@ -1105,11 +1105,17 @@ me.Sch_Travel = &acgt{ return [
         # has -eight happened (got got)
         !z || !zs&dige || !zs&string and return me&ha,R,'unready'
         
-        me&ha,R,'ready'
-        #t && ts&dige == zs&dige and return me&ha,R,'ok'
+        # from here, it's a &toPave that doesn't pushPave at the end,
+        #  instead sending the flock of storables onward
+        me&acceptable,R,z,t
         
-        me&acceptable,R,z
-        z && !t and me&ha,R,'isnew'
+        # < probably want Qdiff,z,t=null
+        #    or know t is a link, do &moreThat
+        #    or t could be this step's part of another &Linets
+        #     and need to other it there and then commit that,
+        #      staging chunk regroup for commit essential
+        me&ja,R,'ok' and return
+        
         !t and return
         
         !(tc&pi && ts&dige) and return me&tsc,"Nine/!-eight"
@@ -1182,8 +1188,8 @@ me.Sch_Travel = &acgt{ return [
         !r and debugger
         $Q = rs&Q;
         if (go) {
-            me&nu,"toa",Q
-            me&nu,"Ren",tia
+            me&nu,"Q",Q
+            me&nu,"tia",tia
             me&nu,"P",Qs&P
         }
     },'ift,D'],
@@ -1913,7 +1919,7 @@ me.Sch_Travel = &acgt{ return [
         }
         
         if (ja('extra')) {
-            # &toPave (uses %Paving of
+            # &toPave (uses %MayTwine of
             #     |may %%wantpush,Q,s,eto=) the non-extra thing
             $K = me&jaa,Ry&up,'yonder',1 [0]
             me&toPave,R,Ry&up,K,s,{species:s.t}

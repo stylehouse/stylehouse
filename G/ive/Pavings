@@ -656,6 +656,49 @@ me.Sch_Pavings = &acgt{ return [
   &{
   // use
    
+   
+   // &Pave(Q|Live) - K%Paving lowlevel
+        # Know..K%Q, for a species
+        # < read %%Q,species for reliable
+        me.PaveQ = &acgtRKc{
+            c ||= {}
+            $r = Ky&R;
+            $of = rs&Paving
+            !of and throw "!Paving"
+            if (of == 'W') {
+                # W have species
+                $spQ = rs&species_Q
+                !spQ and me&waits,"Paving!species_Q"; return
+                $species = c.species || 1
+                $Q = spQ[species];
+                # load a %Pave for any species that wants to be here
+                !Q &&
+                    me&nodei,R,r,{species},{dome:'tilpushed'}
+            }
+            else {
+                hak(c) and throw "extra for Paving:"+of, s
+                $Q = rs&Q
+            }
+            return Q
+        }
+        # read %%Live from a complete r%Paving
+        me.PaveLive = &acgtRKc{
+            c ||= {}
+            $r = Ky&R;
+            $of = rs&Paving
+            !of and throw "!Paving"
+            $L = me&zaa,r,'Live',1 [0]
+            # r%Paving 5 may be yet to happen,
+            #  ie distant nodes cannot rely on R timing
+            #   unless any %Paving (%priority) grabs R-time
+            #   ie J completing before returning from &n
+            #  shows up by the time &zu,r draws it
+            #  < &zu etc should slep now-later,
+            #    drawing A time of interesting bits
+            L && !rs&Live and me&tsc,"goestoshow:%Live-vs-%%Live"
+            return L
+        }
+   
    // accept* - flock moves
      
      // &get|selfThat - harness K)%Paving%%Live
@@ -792,32 +835,75 @@ me.Sch_Pavings = &acgt{ return [
             me&nodei,R,Nine,q
         }
         # when cha, Eigh $got may %%acceptable -> Nine
-        me.acceptable = &acgtRs{
-            # the t%dige%string
+        me.acceptable = &acgtRst{
+            # the z%dige%string
             $dige = me&storable,s
-            
-            # while it is not commit
-            
-            $e = me&Dtunneling,R
-            if (e && e.t == 'Accept') {
-                # click to stage
-                me&tsc,"Accepting"
-                me&ha,R,{accepted:dige,dome:'accepting'}
+            # you make it here when you're ready
+            me&ha,R,'ready'
+            if (t) {
+                # Stori/t%dige avoids &moreThat. see %Eigh
+                $alink = tc&pi && ts&dige && !me&ioty,t .length
+                ts&dige == dige and return me&ha,R,'ok'
             }
-            
-            if (me&ja,R,{accepted:dige} ) {
+            else {
+                me&ha,R,'isnew'
+            }
+            # while it is not commit
+            $q = {s,t}
+            # click to stage
+            me&Accepting,R,q (&{
                 # staged
                 me&accept,R,s
+            })
+            
+        }
+        # while s!=t, posit a %%Accepting=dige,...q
+        #  q starts with a storable, room for push coms
+        # < &nodei up to unity, returns permits per %dige
+        me.Accepting = &acgtRq,word,wording{
+            word ||= 'Accept'
+            wording ||= word+'ing'
+            $k = haks(q)[0]
+            $s = q [k]
+            $dige = me&storable,s
+            
+            # the answer, a subset of q
+            # < inc s?
+            $a = {}
+            a[wording] = q[wording] = dige
+            a.go = 1
+            
+            # the unity (eg (Re)?Nine) of pushy flock
+            #  may get q, as well as it leaving from R
+            # it may receive %%Acceptable or see *:R
+            #  and e:Accept us
+            $j = delete q.eto
+            j ||= R
+            R == j ? me&ha,R,q : me&nodei,R,j,q
+            
+            $e = me&Dtunneling,R
+            if (e && e.t == word) {
+                # click to stage
+                me&tsc,wording
+                # sticks on until this process shakes it off?
+                me&ha,R,a,{dome:wording}
+            }
+            
+            if (me&ja,R,a ) {
+                # staged
+                return &y{ y () }
             }
             else {
                 # not staged
-                $ro = me&tsc,"Accept?",'','y'
+                $ro = me&tsc,word+"?",'','y'
                 me.nto(R,ro,&sT{
-                    me&elvis,R,"Accept"
+                    me&elvis,R,word
                     T.wake = 'not'
                 })
             }
+            return &{}
         }
+     
      // reself|other
         # Nine makes toc, forwards %%acceptable=it,Eigh+
         me.acceptables_reself = &acgtRNh{
@@ -901,15 +987,15 @@ me.Sch_Pavings = &acgt{ return [
                 me&zu,"unclaimed",insides
         }
    
-   // &toPave - pushing Paving
+   // &toPave - pushing %Paving
         # grew from %MayGansp, reused for %ReNine
         # R the thing (possibly a species under j)
-        # j atomic thing, mediates pushes (all species at once)
-        #   %%wantpush,Q,s? %%maypush! (via MayGansp)
+        # j atomic thing, mediates pushes for all species|W** at once
+        #   %%wantpush,Q,s? %%maypush! (for %MayGansp) GOING
+        #   %%Pushable,Q,s,dige (for %ReNine)
         # Know..K (that) where to push (finds Q, c.species)
         # s what to push (usu Rc&s? only if ...)
-            # < W may include them all in one request?
-            #   ideally all these Qings would e W,
+            # < ideally all these Qings would quest e:W,
             #   prove compat (eg consensus, auth, parent|patch),
             #   and be merged, reversibly
             # &nodei also puts %%wantpush in this R,
@@ -937,58 +1023,23 @@ me.Sch_Pavings = &acgt{ return [
             
             ss&dige == Qs&dige and return me&ha,R,'ok'
             
-            # permission: R+Nine have %%wantpush,species?
-            $q = ex({wantpush:1,Q,s},c)
-            R == j ? me&ha,R,q : me&nodei,R,j,q
-            me&ja,j,{maypush:1} and me&ha,R,{Pushable:ss&dige}
+            if ('old permit') {
+                # sent to ^%MayGansp unity
+                $q = ex({wantpush:1,Q,s},c)
+                R == j ? me&ha,R,q : me&nodei,R,j,q
+                # converted to permit &Acceptable
+                me&ja,j,{maypush:1} and me&ha,R,{go:1,Pushable:ss&dige}
+            }
             
             # compares to the P%dige%string
             me&Qdiff,R,s,Q
             
-            # pushes to r%Pave%commitstring(ss&string)
-            $Pave = Qy&R
-            !Pave && Paves&Pave and throw "pushQ!Pave"
-            me&pushPave,R,s,Pave,c,K
-        }
-        # Know..K%Q, for a species
-        # < read %%Q,species for reliable
-        me.PaveQ = &acgtRKc{
-            c ||= {}
-            $r = Ky&R;
-            $of = rs&Paving
-            !of and throw "!Paving"
-            if (of == 'W') {
-                # W have species
-                $spQ = rs&species_Q
-                !spQ and me&waits,"Paving!species_Q"; return
-                $species = c.species || 1
-                $Q = spQ[species];
-                # load a %Pave for any species that wants to be here
-                !Q &&
-                    me&nodei,R,r,{species},{dome:'tilpushed'}
-            }
-            else {
-                hak(c) and throw "extra for Paving:"+of, s
-                $Q = rs&Q
-            }
-            return Q
-        }
-        # read %%Live from a complete r%Paving
-        me.PaveLive = &acgtRKc{
-            c ||= {}
-            $r = Ky&R;
-            $of = rs&Paving
-            !of and throw "!Paving"
-            $L = me&zaa,r,'Live',1 [0]
-            # r%Paving 5 may be yet to happen,
-            #  ie distant nodes cannot rely on R timing
-            #   unless any %Paving (%priority) grabs R-time
-            #   ie J completing before returning from &n
-            #  shows up by the time &zu,r draws it
-            #  < &zu etc should slep now-later,
-            #    drawing A time of interesting bits
-            L && !rs&Live and me&tsc,"goestoshow:%Live-vs-%%Live"
-            return L
+            # until commit, note %%Pushable,...,species
+            $q = ex({s,Q},c)
+            # click to commit there
+            me&Accepting,R,q,'Push','Pushable' (&{
+                me&pushPave,R,K,s,c
+            })
         }
         me.Qdiff = &acgtRsQ{
             $z = Qs&P
@@ -996,7 +1047,7 @@ me.Sch_Pavings = &acgt{ return [
             me&diffany,R,s,z
         }
         me.diffany = &acgtRsz{
-            $g = me&opeolo,"Runthing",{walls:1}
+            $g = me&opeolo,"diffany",{walls:1}
             $pa = gy&can('m',z.t)
             pas&mah = 30
 
@@ -1017,42 +1068,41 @@ me.Sch_Pavings = &acgt{ return [
             }
             return di
         }
-        # commit string
+        # commit s%string, already permit
         # < %Parent careful
         # < reliable Q%ready, fatal by now?
         #   or push button stays down until..?
-        me.pushPave = &acgtRsrcK{
-            $Pave = r;
-            !Pave && Paves&Pave and throw "pushQ!Pave"
-            $Q = Paves&Q
+        me.pushPave = &acgtRKsc{
+            $Q = me&PaveQ,R,K,c
+            $r = Ky&R
             
-            $go = me&rolltog,R,{maydo:'Push',once:1,tsc:'B'},0;
+            #$go = me&rolltog,R,{maydo:'Push',once:1,tsc:'B'},0;
             # sticks while dige same
-            $perm = {Pushable:ss&dige}
-            go ||= me&sa,R,perm || me&ja,R,perm;
-            !go and return
+            #$perm = {go:1,Pushable:ss&dige}
+            #go ||= me&sa,R,perm || me&ja,R,perm;
+            #!go and return
             if (!me&rollbs,R,'sent_string' ) {
                 # Q asks
                 ~>3 push: R.t
-                Paves&commitstring(ss&string);
+                rs&commitstring(ss&string);
                 Rs&sent_string = 1;
+                # leave a note:
+                # < to get there exactly when Q ready
+                c && K && !c.species &&
+                    me&nodei,R,K,{commit:ss&dige},{dome:'someone'}
+                # < check extras have commit
+                # < let other users block updates, negotiate, pub
             }
             if (Qs&string == ss&string) {
                 me&tsc,'pushed';
+                debugger
             }
             else {
                 $pu = me&tsc,'pushing'
-                # %Paving may update ss&dige = %%commit
-                # < check extras have commit
-                # < let other users block updates, negotiate, pub
-                if (c && K && !c.species) {
-                    me&nodei,R,K,{commit:ss&dige},{dome:'tilpushed'}
-                }
                 me.nto(R,pu,&{ 
                     ~>3 repush: R.t
                     delete Rs&sent_string })
             }
-            me&ha,R,{Pushable:ss&dige}
         }
    
   },
