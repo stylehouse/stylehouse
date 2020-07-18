@@ -668,7 +668,7 @@ me.Sch_Pavings = &acgt{ return [
             if (of == 'W') {
                 # W have species
                 $spQ = rs&species_Q
-                !spQ and me&waits,"Paving!species_Q"; return
+                !spQ and throw "Paving!species_Q"
                 $species = c.species || 1
                 $Q = spQ[species];
                 # load a %Pave for any species that wants to be here
@@ -787,29 +787,22 @@ me.Sch_Pavings = &acgt{ return [
         }
         # when ready+cha, Eigh $got may %%acceptable -> Nine
         me.acceptable = &acgtRst{
-            $dige = me&storable,s
-            me&ha,R,'ready'
-            if (t) {
-                # Stori/t%dige avoids &moreThat. see %Eigh
-                $alink = tc&pi && ts&dige && !me&ioty,t .length
-                ts&dige == dige and return me&ha,R,'ok'
-            }
-            else {
-                me&ha,R,'isnew'
-            }
-            # while it is not commit
             $q = {s,t}
-            # click to stage
+            me&readyok,R,s,t,q and return
+            # while ready!ok, click to stage
             me&Accepting,R,q (&{
                 # staged
                 me&accept,R,s
             })
         }
+        # anyone can hoist %%acceptable=s,dige,...c somewhere
+        #  see also %%Accepting=dige,...q
         me.accept = &acgtRsc{
             $Nine = me&find_Racceptables,R
             $dige = me&storable,s
             $q = ex({dige},c||{})
             q.acceptable = s
+            # you might be inside a callback that mutates q
             ex(q,T.acceptmix||{})
             me&nodei,R,Nine,q
         }
@@ -825,8 +818,29 @@ me.Sch_Pavings = &acgt{ return [
             !f and throw "R!^%acceptables"
             return f
         }
-   // permit|tally
+   // &readyok, &Accepting(|s) permit|tally
+        # &readyok || &Accepting (&{ act })
+        
+        # give %ready, the s==t for %ok
+        #  may mutate q, which mixes into eg %%Pushable
+        me.readyok = &acgtRstq{
+            $dige = me&storable,s
+            me&ha,R,'ready'
+            if (t) {
+                # Stori/t%dige avoids &moreThat. see %Eigh
+                $alink = tc&pi && ts&dige && !me&ioty,t .length
+                if (ts&dige == dige) {
+                    me&ha,R,'ok'
+                    return 1
+                }
+            }
+            else {
+                # is new
+                q.el = 2
+            }
+        }
         # tally things that e:word and %%ready|ok
+        # < transactionism, history
         me.Acceptings = &acgtRN,word,wording{
             word ||= 'Accept'
             wording ||= word+'ing'
@@ -1023,45 +1037,75 @@ me.Sch_Pavings = &acgt{ return [
             c ||= {}
             me&storable,s
             !K and return me&tsc,"!K"
+            # may have c.species for a specific Paving/Pave:
             $Q = me&PaveQ,R,K,c
             !Q and return me&tsc,"!Q"
             
-            # < excercise for determiniteness:
-            # < give|take|note %%(Is|Pushable|Parent):$dige from Gansp,
-            #   so Gansp<->Story knows if any u changed while running
-            # < to wy&D = copy of Q%string,dige - enough to resume
-            # Q+w|Live is the parent considered
-            #  R %%Pushable %%ok are pushed
-            #  R %%Parent !%%ok want push
-            $w = Qc&s
-            me&ja,R,'Pushable' ? 'should still match:'
-                : me&ha,R,{Is:Qs&dige,w}
+            # storable counterpoint to s
+            # < getting %string from t=P may not have Q readied
+            $t = me&Qdiffthing,R,Q
             
-            me&ha,R,'ready'
-            ss&dige == Qs&dige and return me&ha,R,'ok'
+            # until commit, note %%Pushable,...c,species
+            $q = ex({s,t,Q},c)
+            me&readyok,R,s,t,q and return
             
             if ('old permit') {
                 # sent to ^%MayGansp unity
-                $q = ex({wantpush:1,Q,s},c)
-                R == j ? me&ha,R,q : me&nodei,R,j,q
+                $qe = ex({wantpush:1,Q,s},c)
+                R == j ? me&ha,R,qe : me&nodei,R,j,qe
                 # converted to permit &Acceptable
                 me&ja,j,{maypush:1} and me&ha,R,{go:1,Pushable:ss&dige}
             }
             
             # compares to the P%dige%string
-            me&Qdiff,R,s,Q
+            me&diffany,R,s,t
             
-            # until commit, note %%Pushable,...,species
-            $q = ex({s,Q},c)
             # click to commit there
             me&Accepting,R,q,'Push','Pushable' (&{
                 me&pushPave,R,K,s,c
             })
         }
+        
+        # commit s%string, already permit
+        # < %Parent careful, as it cycles (through Eigh)
+        # < reliable Q%ready, fatal by now?
+        #   or push button stays down until..?
+        me.pushPave = &acgtRKsc{
+            $Q = me&PaveQ,R,K,c
+            $r = Qy&R
+            if (!me&rollbs,R,'sent_string' ) {
+                # Q asks
+                ~>3 push: R.t, r.t, Q.t
+                rs&commitstring(ss&string);
+                Rs&sent_string = 1;
+                # leave a note
+                # < to get there exactly when Q ready
+                c && K && !c.species &&
+                    me&nodei,R,K,{commit:ss&dige},{dome:'someone'}
+                # < check extras have commit
+                # < let other users block updates, negotiate, pub
+            }
+            if (Qs&string == ss&string) {
+                me&tsc,'pushed';
+                debugger
+            }
+            else {
+                $pu = me&tsc,'pushing'
+                me.nto(R,pu,&{ 
+                    ~>3 repush: R.t
+                    delete Rs&sent_string })
+            }
+        }
+        # choose storable instance of the thing to diff
+        #  it might be mapped on a recent pusher nearby
+        me.Qdiffthing = &acgtRQ{
+            $t = Qs&P
+            Qc&el == 9 and t = null
+            return t
+        }
         me.Qdiff = &acgtRsQ{
-            $z = Qs&P
-            Qc&el == 9 and z = null
-            me&diffany,R,s,z
+            $t = me&Qdiffthing,R,Q
+            me&diffany,R,s,t
         }
         me.diffany = &acgtRsz{
             $g = me&opeolo,"diffany",{walls:1}
@@ -1085,43 +1129,6 @@ me.Sch_Pavings = &acgt{ return [
             }
             return di
         }
-        # commit s%string, already permit
-        # < %Parent careful
-        # < reliable Q%ready, fatal by now?
-        #   or push button stays down until..?
-        me.pushPave = &acgtRKsc{
-            $Q = me&PaveQ,R,K,c
-            $r = Qy&R
-            
-            #$go = me&rolltog,R,{maydo:'Push',once:1,tsc:'B'},0;
-            # sticks while dige same
-            #$perm = {go:1,Pushable:ss&dige}
-            #go ||= me&sa,R,perm || me&ja,R,perm;
-            #!go and return
-            if (!me&rollbs,R,'sent_string' ) {
-                # Q asks
-                ~>3 push: R.t, r.t, Q.t
-                rs&commitstring(ss&string);
-                Rs&sent_string = 1;
-                # leave a note:
-                # < to get there exactly when Q ready
-                c && K && !c.species &&
-                    me&nodei,R,K,{commit:ss&dige},{dome:'someone'}
-                # < check extras have commit
-                # < let other users block updates, negotiate, pub
-            }
-            if (Qs&string == ss&string) {
-                me&tsc,'pushed';
-                debugger
-            }
-            else {
-                $pu = me&tsc,'pushing'
-                me.nto(R,pu,&{ 
-                    ~>3 repush: R.t
-                    delete Rs&sent_string })
-            }
-        }
-   
   },
    
 ]}
