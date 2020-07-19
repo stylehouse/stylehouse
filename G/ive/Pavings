@@ -860,19 +860,46 @@ me.Sch_Pavings = &acgt{ return [
             return &{}
         }
      
-   // *That, re* - connect, replicate
+   // *That, re* - connect, replicate!
+     // &ipipe - harness
+        # control between *That
+        me.ipipe = &acgtRq{
+            $s = Rc&s
+            q ||= {}
+            # < selfThat should y&up to ipiper
+            #   < could wander sy&R as well
+            # < boundary %Peace=4
+            $pp = me.cbu(sy&up,s => sy&pipe)
+            pp and pp = ppy&pipe
+            $pipe
+            isst(q.pipe) and pipe = me&fiu,pp,s.t
+            isC(q.pipe) and pipe = q.pipe
+            pipe and throw "replace sy&pipe?"
+            else {
+                if (!sy&pipe) {
+                    sy&pipe = pp ? me&fiu,pp,s.t
+                        : Cye([s.t,1])
+                }
+                pipe = sy&pipe
+            }
+            sy&pipe = pipe
+            pipey&s = s
+            $top = pipey&top = pp ? ppy&top : s
+            return topy&s
+        }
      // &get|selfThat - harness K)%Paving%%Live
-        # use &nodeo %twmt, fully downloading W
+        # use &nodeo %twmt
         me.getThat = &acgtRrQq{
-            # to %%eto,species:1,...q
+            # to %%eto:K,...q,species:1,pipe=Test
             q ||= {}
             q.species ||= 1
+            q.pipe ||= me&ipipe,R
             $K
             me&nodeo,R,r,Q,'el' .map(&n{
                 $z = ns&s
                 # < input Stories/$t, advert from Around/$t
                 ns&ad and throw "advert"
-                # species:1 to download
+                # species:1 to fully download
                 me&ha,R,ex({eto:z},q)
                 K and me&tsc,"MULTI"
                 K = z
@@ -921,15 +948,23 @@ me.Sch_Pavings = &acgt{ return [
             go and me&nu,k,self
             return self
         }
+        # return K = sy&That, s is|above t
+        # < nearest pipe thing, not specific to
+        #    but may be looking for a &selfThat
+        me.last_selfThat = &acgtRt{
+            $s = me.cby(t,s=>sy&That) [0]
+            $that = sy&That
+            !that and debugger
+            return that
+        }
      // &more|twineThat - harness K** across here
         # relative &selfThat - i ^that%Paving/#$z
         me.moreThat = &acgtRtzc{
             !ty&Clone and throw "climbing R etc"
-            $s = me.cby(t,s=>sy&That) [0]
-            # to find something %That%Live
-            $that = sy&That
-            !that and debugger
-            # i ^that%Paving/#$z
+            # i t^^y&That/#$z
+            # < between sy&That..t (one level toc)
+            #   would spacerise (non-%%eto,species:1) K in between?
+            $that = me&last_selfThat,R,t
             $more = me&getThat,R,that,z.t,c
             !more and me&waits,"!more"; return
             
@@ -947,20 +982,25 @@ me.Sch_Pavings = &acgt{ return [
         # < make A=&...{} that tries to apply to ...
         me.twineThat = &acgtRsh{
             h.upsc ||= T.act.t
-            h.word ||= 'Stori'
+            #h.word ||= 'Stori'
             !s and throw "somewhere"
-            # p will have &getThat q
-            $q = {}
-            q[h.word] = s
-            $a = {eto:1}
-            a[h.word] = 1
+            # ^%ReNine:p will have &getThat %%...q
             $p = me.cbu(Ry&up,h.upsc)
+            $q = {}
+            # < argument pipe here, beyond getThat
+            # < pipe returns the pipey&3, they slope
+            #   3 the one bunch of commits being merged,
+            #    on the Story or /Test branch,
+            #    which should historialise all %Paving action,
+            #     as reversible lv potential
+            q.pipe = me&ipipe,R
             
             # from last thing along twine
-            # p &getThat leaves %%$word,eto:K==from
-            h.from ||= p ? me&zaa,p,a,1 [0]
+            # p &getThat leaves %%...q,eto:K==from
+            h.from ||= p ? me&zaa,p,ex({eto:1},q),1 [0]
+            # < pipe's:
                 : h.origin
-            !h.from and me&waits,"!^%%"+h.word; return
+            !h.from and me&waits,"!^%%pipe"; return
             # < why+not: loopy settling if:
             #me&settle,R,h.from and return me&tsc,'..^'
             
@@ -971,7 +1011,7 @@ me.Sch_Pavings = &acgt{ return [
             # see %twin->%Pave. won't adhere properly if el:2 now.
             # < not yet node? %%waits,tillater
             # < maybe just &bready?
-            me&settle,R,t and me&tsc,'..'+h.word
+            me&settle,R,t and me&tsc,'..pipe'
             return t
         }
      
