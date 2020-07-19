@@ -3888,13 +3888,18 @@ me.Tingingness = &acgtR{ return [
                 T.waited = Gtime(T.waits);
                 delete T.waits;
                 tcp.set('l1',G&thime,T.waited );
-                r.status != '200' and return T.status = r.status
+                r.status != '200' and debugger; return T.status = r.status
                 T.cb(s,c);
             };
             
             $r = T.r = $.ajax(T.get)
             r.done(done);
             r.error(&csm{
+                # when $error makes 400
+                c.responseText and m = c.responseText
+                m.startsWith('{') and m = dej(m)
+                m.er and m = m.er
+                m = c.status+": "+m
                 Ps&errors = m;
                 Cs&errors = m;
             });

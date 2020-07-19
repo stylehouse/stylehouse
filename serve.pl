@@ -801,11 +801,11 @@ websocket '/digwaypoll' => sub { my ($s) = @_;
 #c /W/
 # ~ get/put
 my $error = sub { my ($c,$s) = @_;
-    $c->render(text => sjson({er=>$s}), status => 500);
+    $c->render(text => sjson({er=>$s}), status => 400);
 };
 my $char_safety = sub { my ($c,$t) = @_;
-    return $error->($c,"illegal t[".pos()."] char: $1 in '$t'")
-        if $t =~ /([^\w\/-]+)/;
+    return $error->($c,"illegal char: '$1' in '$t'")
+        if $t =~ /([^\w\/-]+)/g;
     return 0
 };
 # comes in /js/$t.$$version->{js}, code separated from W

@@ -336,6 +336,15 @@ me.Sch_Pavings = &acgt{ return [
         me&rolltog,R,{maydo:'Q'} &&
             me&zu,'Q',Q;
         
+        if (Qs&errors) {
+            # < slow %%waits or pause everything
+            $er = me&tsc,'error'
+            delete erc&s
+            ers&dis = 1
+            ers&wb = 1
+            me&mtsc,er,"skull",'☠','D'
+            me&mtsc,er,"message",Qs&errors,'y'
+        }
         # usu !s,!el,!ready -> s,el,ready 
         #  a not found will -> !s,el=9,ready
         # !ready while hitting a ttl, thing probably still
