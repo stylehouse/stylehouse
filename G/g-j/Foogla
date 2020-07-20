@@ -925,10 +925,11 @@ me.vlabinto = &acgtgc{
     c ||= {};
     # qualify up g
     $name = me.cby(g) .map(n => n.t) .join("_");
-    $q = {may:'label_'+name,s:c.s||g.t};
+    $q = {name,may:'label_'+name,s:c.s||g.t};
     c.tsc and q.tsc = delete c.tsc
-    $ope = me&rolltog,R,q;
-    q = me&modopt,R,g,q.n;
+    $ope = c.tog ? c.tog(q) : me&rolltog,R,q
+    q = q.n
+    me&modopt,R,g,q
     qy&cv = 0.12;
     qs&ope = ope;
     if (c.opeg) {

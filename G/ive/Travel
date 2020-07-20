@@ -1214,15 +1214,18 @@ me.Sch_Travel = &acgt{ return [
             # get Gump, protoJ for Ying
             #me&nodei,R,xs&Gump,{narrative:1},{dome:'nar'}
             
+            # wake heres, good only for init
             $i = Ls&coun = (Ls&coun||0) + 1
-            me&tsc,"Actyvate:"+i
             if (1 == i) {
                 $Begin = me&ioty,D [0]
                 !Begin and throw "wei"
                 me&wants,R,'begindone',Begin
             }
-                me&nu,"Begin",D
-            ~>7 actyvate: i
+            else {
+                # then some Story**, finishes, may ok or wild
+                $Storied = me&ioty,D [2]
+                Storied and me&tsc,"Storied" .sc.fs = 40
+            }
             # < do what it wants, eventually returning to acty again
             #   in such a way to antiloop
             #    defined tolerance, fps
