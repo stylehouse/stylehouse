@@ -104,15 +104,16 @@ me.Sch_Travel = &acgt{ return [
         return one || e
     }
   
-  // Yingate: %OutLog += $D per bit of runtime
+  // Yingate_2: %OutLog += $D-gate
     # Ying happens
     me.Yingate_2 = &acgtRc{
         me&reaw,R,'Outlog';
         $Outlog = me&rollbs,R,'Outlog',[];
-        $D = Cye(['Yingate',1])
+        $D = Cye(['gate',1])
         Outlog.push(D)
         D.t += '-'+Outlog.length
-        me&bracki,R,D,{time:2}
+        Dc&pi = 'gate'
+        Dc&fe_time = Gtime()
         Rs&Det = D;
     }
     # detects looping wakers
@@ -147,7 +148,7 @@ me.Sch_Travel = &acgt{ return [
         me&bracki,R,D,c
     }
     
-  // Yingate: $D completes, &quiet_wakers?
+  // -gate: $D completes, &quiet_wakers?
     
     # management nodes wake up when all is quiet
     me.quiet_waker = &acgtR{
@@ -190,6 +191,8 @@ me.Sch_Travel = &acgt{ return [
     # receive what Ying wants to do
     me.Yingate_8 = &acgtRc{
         $D = Rs&Det;
+        Dc&be_time = Gtime()
+        
         # %%wake - for the next round
         # multiply by Ying rows wanting it
         # < vie for %terms or have to spread out processes
@@ -452,15 +455,14 @@ me.Sch_Travel = &acgt{ return [
  // This streams %Yingates
     ['theThis',0.293,&acgtRs{
         
-        me&reaw,R,'theThis,wakeful,onlyish,Storystream'
+        me&reaw,R,'theThis,wakeful,onlyish'
         me&inode,R
-        $x = me&Jx,R
-        $p = Ry&up
         # wake R when p%onlyish/R%wakeful
         Rs&wakeful = 1
         # sleep r when R%onlyish/r!%wakeful
         Rs&onlyish = 1
         if (0) {
+            $p = Ry&up
             # shows sleep|wake pattern
             ah(R,'inheritscif','ball','theThis',1)
             $i = ss&quue = (ss&quue||0) + 1
@@ -471,6 +473,34 @@ me.Sch_Travel = &acgt{ return [
             return
         }
         
+        me&Storystream,R,s
+    },'ift,D'],
+    ['theThis',0.296,&acgtRs{
+        $D = Rs&Storystream
+        
+        # draw the story
+        # < selfing it to -seven and -eight already,
+        #    realising novelty asap
+        each im Ds&z {
+            # %onlyish 294 has made these if sleeping them
+            $r = me&bal,m.t,m,'Yingates,Fin,eph'
+            rc&s != m and throw 'crae'
+        }
+        r and rs&wakeful = delete rs&Fin
+    },'ift,D'],
+  // Storystream 
+    # when e,on:m%Yingates, it keeps filling up
+    ['sleeping+Storystream',0.53,&acgtRs{
+        $D = Rs&Storystream
+        # < want to have a sleeping This just for this
+        #    more often than waiting til quiet
+        #   moment to picture things before they ~ again
+        Dy&stream()
+    },'ift,D'],
+    &{
+    me.Storystream = &acgtRs{
+        $x = me&Jx,R
+        me&reaw,R,'Storystream'
         me&rollbs,R,'Storystream'
         $D =
         Rs&Storystream ||= me&logdome,R,s
@@ -489,11 +519,12 @@ me.Sch_Travel = &acgt{ return [
             i == 2 and Rs&pause = 1
         }
         # This takes over from Story
+        $p = xs&Story
         $q = me&quiet_waker,R
         q ||= ps&quiet_now
         if (q) {
             me&tsc,"q";
-            ~>4 quiet,wake: s.t
+            #~>4 quiet,wake: s.t
             # tailwag so -eights end in %%quiet(_recently,wake)
             page_turning({tailwag:1})
         }
@@ -504,32 +535,8 @@ me.Sch_Travel = &acgt{ return [
         }
         # then inhaling nothing if the page was just turned ^
         Dy&stream()
-    },'ift,D'],
-    ['theThis',0.296,&acgtRs{
-        $D = Rs&Storystream
-        
-        # draw the story
-        # < selfing it to -seven and -eight already,
-        #    realising novelty asap
-        each im Ds&z {
-            # %onlyish 294 has made these if sleeping them
-            $r = me&bal,m.t,m,'Yingates,eph'
-            rc&s != m and throw 'crae'
-        }
-        
-    },'ift,D'],
- 
-    # when e,on:m%Yingates, it keeps filling up
-    ['sleeping+Storystream',0.53,&acgtRs{
-        $D = Rs&Storystream
-        Dy&stream()
-    },'ift,D'],
-    ['Storystream',0.83,&acgtRs{
-        # this still being set
-        #delete sy&is_quiet_wake
-        #  until Story!%now_quiet,
-        #   as if e,on:Story made the page turn
-    },'ift,D'],
+    }
+    },
  
   # < is Y:-eight/-seven
  //   %Yingates details
@@ -587,34 +594,16 @@ me.Sch_Travel = &acgt{ return [
    
    // Dome:$eight complete -> %Yingate+
     ['Yingates',0.299,&acgtRs{
-        
-        me&reaw,R,'Yingates,Fin'
+        me&reaw,R,'Yingates,wakeful,Fin'
         me&inode,R
         Rs&rowish = 1
         # * become %Yingate!%ball
         Rs&noRsync = 1
-        $z = sy&up;
-        
-        # < unify all %z.indexOf code
-        $non_last = zs&z.slice(-1)[0] != s
-        # < could all be replaced with slep D/*/*
-        $Fin = me&rollbs,R,'Fin'
-        if (non_last && !Fin) {
-            # try to %Finish once z/s-2
-            # creating an overall quantography from the many brackologies
-            #  may merge with z/-3 if similar,
-            #   eg a sequence of e:clicks each return to Story
-            #    whereas a bunch all happen, then return to Story
-            # and oking
-            Fin = Rs&Fin = 1
-        }
-        if (Fin) {
-            me&tsc,"Fin"
-        }
-        else {
-            # defy %onlyish to wake when $p only
-            !Fin and Rs&wakeful = 1
-        }
+        # unify control of them:
+        $g = me&brackology,R,Cye(['nothing',1]),{t:'gate'}
+        ac(R,'M',g);
+        #me&zu,"gato",g
+        #me&zu,"Gates",R
         
         each in ss&z {
             #me&bal,'n:'+i,n,'Yingate,eph,tightly'
@@ -633,13 +622,14 @@ me.Sch_Travel = &acgt{ return [
         #   see 'capture any adjusted ology for replay'
         #   specifics for the process its going into,
         #    want tuning in the brackology
-        $c = {kc:{}};
+        $c = {t:'gate',kc:{}};
         # < magnify matterings
         #   everything will -vat
         c.kc.wake = {ope:1}
         c.kc.step = {ope:1}
         c.kc.node = {ope:1}
         s&hue = 138;
+        sy&R = R
         $g = me&brackology,R,s,c
         me&walls,g,'b:2.2';
         ac(R,'M',g);
@@ -668,12 +658,18 @@ me.Sch_Travel = &acgt{ return [
         $ei = sy&eight = Cye([s.t,1,{pi:'eight'}])
         $go = me&acting,R,'-eight',0
         
+        $ii = 0
         each iz ss&z {
             # page of story: -seven a %Yingate
             $se = zy&seven = me&fiu,ei,''+i
             sec&pi = 'seven'
             me&sebrack,R,z
+            ii += hak(ss&z)
         }
+        # through -tll (thing looks like) to -act
+        
+        #ss&z.length > 5 and me&scroll,27
+        
    
         $No = xs&Nodar
         $X = Noy&X
@@ -687,11 +683,22 @@ me.Sch_Travel = &acgt{ return [
         #   showing the string with chunks inteligised
         me&Linets,s,sy&eight,d
         
+        # < creating an overall quantography from the many brackologies
+        #  may merge with z/-3 if similar,
+        #   eg a sequence of e:clicks each return to Story
+        #    whereas a bunch all happen, then return to Story
+        # and oking, via:
+            
         # &acceptables_reself
         me&nodei,R,xs&The,{Fin:s,dige:ss&dige}
     },'ift,D'],
-    
+  // func
+   // pi
     &{
+    me.scroll = &acgts{
+        s&mh = s;
+        s&over = 1
+    }
     # %Yingate -seven <- y&brackology
     me.sebrack = &acgtRs{
         $se = sy&seven
@@ -939,6 +946,7 @@ me.Sch_Travel = &acgt{ return [
         #   eg remotes listen to the peak
         #  as views all named in the same space
         ah(R,'adhere','director',1)
+        
         $r = me&bal,"Around","Around"
         s&hue = 66;
     },'ift,D'],
@@ -976,8 +984,7 @@ me.Sch_Travel = &acgt{ return [
     #  since Stories%eph we must store our list
     ['Stori+Around',0.298,&acgtRs{
         me&reaw,R,'Around'
-        s&mh = 10;
-        s&over = 1
+        me&scroll,10
         me&tsc,"Arou"
         ah(R,'noadhere','director',1)
         # does its own %eto,tw
@@ -1198,6 +1205,7 @@ me.Sch_Travel = &acgt{ return [
         $D = Thiss&Storystream
         !D and throw "Plot!This"
         
+        # < pipe how the little %Fin/gate -> %Finish
         
         if (Lc&pi == 'actyvate') {
             # on init thing to do
