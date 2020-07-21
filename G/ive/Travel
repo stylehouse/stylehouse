@@ -507,6 +507,7 @@ me.Sch_Travel = &acgt{ return [
     ['theThis',0.293,&acgtRs{
         
         me&reaw,R,'theThis,wakeful,onlyish'
+        $x = me&Jx,R
         me&inode,R
         # wake R when p%onlyish/R%wakeful
         Rs&wakeful = 1
@@ -523,8 +524,9 @@ me.Sch_Travel = &acgt{ return [
             }
             return
         }
-        
-        me&Storystream,R,s
+        $Ying = me.cbu(R,'Ying')
+        $c = {s:Yings&Outlog}
+        me&Storystream,R,s,c
     },'ift,D'],
     ['theThis',0.296,&acgtRs{
         $D = Rs&Storystream
@@ -550,14 +552,14 @@ me.Sch_Travel = &acgt{ return [
         Dy&stream()
     },'ift,D'],
     &{
-    me.Storystream = &acgtRs{
+    me.Storystream = &acgtRsc{
         $x = me&Jx,R
         me&reaw,R,'Storystream'
         me&rollbs,R,'Storystream'
         $D =
         Rs&Storystream ||= me&logdome,R,s
-        
-        Dc&thing = me.cbu(R,'Ying').sc.Outlog
+        !c.s and throw "thing to follow"
+        Dc&thing = c.s
         Dc&ignoring = x.ro('pause',{})
         
         # page turning
@@ -566,7 +568,7 @@ me.Sch_Travel = &acgt{ return [
         $page_turning = &c{
             $i = sy&quue = (sy&quue||0) + 1
             Dy&domed(c)
-            Dy&dome("le."+i,'light')
+            Dy&dome("le-"+i,'light')
             # < Plot leaves tightenable hooks
             i == 2 and Rs&pause = 1
         }
