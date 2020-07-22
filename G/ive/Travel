@@ -697,8 +697,12 @@ me.Sch_Travel = &acgt{ return [
                 if (Kn.t != 'gate') {
                     $x = Knc&x
                     $ii = 0
-                    each vi,fx x.ref {
-                        # ology modulat compresses same v.t along N
+                    # ology modulat compresses same v.t along N
+                    #  to simplify order of every ref
+                    each in N {
+                        !ns&vis and continue
+                    each i,vi ns&vis {
+                        $fx = x.ref[vi]
                         $v = x.refs[vi];
                         # how many times it was used
                         $gv = me&fiu,gr,''+(ii++)
@@ -712,6 +716,7 @@ me.Sch_Travel = &acgt{ return [
                             zs&groupthing and debugger
                             # size,sym,label
                         }
+                    }
                     }
                 }
                 else {
