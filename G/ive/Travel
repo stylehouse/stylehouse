@@ -533,24 +533,18 @@ me.Sch_Travel = &acgt{ return [
         # draw the story
         # < selfing it to -seven and -eight already,
         #    realising novelty asap
-        $who = Rs&who = me&jaa,xc&The,'listening',1 [0]
-        
+        $who = Rs&who = me&jaa,R,'listening',1 [0]
         each im Ds&z {
             mc&pi ||= 'eight'
             # %onlyish 294 has made these if sleeping them
             $r = me&bal,m.t,m,'Yingates,eph'
             rc&s != m and throw 'crae'
-            who and rs&who = who
             who and rs&Fin = 1
+            who and me&nodei,R,who,{Having:rc&s}
             
         }
         # leaves current -gate
         r and rs&wakeful = delete rs&Fin
-    },'ift,D'],
-    # forward This%%who=Nine 
-    ['theThis+who',0.46,&acgtRs{
-        $who = Rs&who
-        me&ioty,R,'Yingates' .map(r => me&nodei,R,r,{who})
     },'ift,D'],
   // Storystream 
     # when e,on:m%Yingates, it keeps filling up
@@ -611,17 +605,6 @@ me.Sch_Travel = &acgt{ return [
         Rs&rowish = 1
         # * become %Yingate!%ball
         Rs&noRsync = 1
-        $ps = Ry&up.c.s
-        $who = me&jaa,R,'who',1 [0]
-        who != Rs&who and me&tsc,"~who" .sc.fs = 30
-        if (Rs&who) {
-            # < start of a &haveThat?
-            me&nodei,R,Rs&who,{Having:1}
-            
-            $exp = me&fiu,Rs&who,s.t,8
-            # it is Nine/$exp
-            exp and Rs&exp = exp
-        }
         each in ss&z {
             $r = me&Ret,R,{t:"n:"+i,s:n,Yingate:1}
         }
@@ -673,8 +656,11 @@ me.Sch_Travel = &acgt{ return [
         $b = sy&eight;
         $ei = sy&eight = Cye([s.t,1,{pi:'eight'}])
         $go = me&acting,R,'-eight',0
-        go and me&zu,"exp",Rs&exp
+        $Eig = me&jaa,R,'Eigh,efrom' [0]
         
+        go and me&zu,"exp",Rs&exp
+      
+      // four
         # 4
         # make overall quantography from the many -gate
         # < may merge with z/-3 if similar,
@@ -752,9 +738,11 @@ me.Sch_Travel = &acgt{ return [
             })
         })
         me&fiu,ei,fo
+      
+      // skipout
+        !Eig and return me&tsc,"..Eig"
         
-        
-        
+      // five
         # 5
         $ii = 0
         each iz ss&z {
@@ -783,7 +771,8 @@ me.Sch_Travel = &acgt{ return [
         
             
         # &acceptables_reself
-        me&nodei,R,xs&The,{Fin:s,dige:ss&dige}
+        $Eigh = Eigs&efrom
+        me&nodei,R,Eigh,{Fin:s,dige:ss&dige}
     },'ift,D'],
   // func
    // pi
@@ -1100,13 +1089,13 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
     ['The',0.46,&acgtRs{
         $x = me&Jx,R;
-        # the Test
-        $z = me&fiu,s,'vv'
-        # the Test/Nine active
-        $liz = me&jaa,R,'listening',1 [0]
+        # The/Test
+        $z = me&fiu,s,'vv',8
+        # This%%listening=Test/Nine active
+        $liz = me&zaa,xs&This,'listening',1 [0]
+        !liz and me&tsc,'Noliz',0,'B'
+        #!liz and me&settle,R,z
         !liz and me&wants,R,'Theing',z
-        else
-        liz != me&saa,R,'listening',1 [0] and me&wants,R,"~who",xs&This
         else { me&tsc,"OK" }
     },'ift,D'],
     # -nine being Zavable
@@ -1146,7 +1135,7 @@ me.Sch_Travel = &acgt{ return [
         me&sleepic,R and me&rollbs,R,'bal_tw_s'; return
         
         # < Plot adjust
-        me&nodei,R,xc&The,{listening:s}
+        me&nodei,R,xc&This,{listening:s}
         
         # * become Eigh%exp
         Rs&noRsync = 1
@@ -1215,6 +1204,13 @@ me.Sch_Travel = &acgt{ return [
         Dige and me&ha,R,{Dige}
         !cha && me&sleepic,R and return
         
+        #z and me&settle,R,z and return
+        z and me&nodei,R,z,{Eigh:1,expect:t}
+        if (z) {
+            $r = zy&R
+            !rs&Fin and me&ha,R,'NoFin'
+        }
+        
         if (go) {
             me&zu,"TheEigh",s
             me&zu,"Exp",t
@@ -1225,6 +1221,7 @@ me.Sch_Travel = &acgt{ return [
         
         # has -eight happened (got got)
         !z || !zs&dige || !zs&string and return me&ha,R,'unready'
+        # < exp ||= surprise?
         
         # from here, it's a &toPave that doesn't pushPave at the end,
         #  instead sending the flock of storables onward
