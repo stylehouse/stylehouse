@@ -533,7 +533,8 @@ me.Sch_Travel = &acgt{ return [
         # draw the story
         # < selfing it to -seven and -eight already,
         #    realising novelty asap
-        $who = me&jaa,xc&The,'listening',1 [0]
+        $who = Rs&who = me&jaa,xc&The,'listening',1 [0]
+        
         each im Ds&z {
             mc&pi ||= 'eight'
             # %onlyish 294 has made these if sleeping them
@@ -541,9 +542,15 @@ me.Sch_Travel = &acgt{ return [
             rc&s != m and throw 'crae'
             who and rs&who = who
             who and rs&Fin = 1
+            
         }
         # leaves current -gate
         r and rs&wakeful = delete rs&Fin
+    },'ift,D'],
+    # forward This%%who=Nine 
+    ['theThis+who',0.46,&acgtRs{
+        $who = Rs&who
+        me&ioty,R,'Yingates' .map(r => me&nodei,R,r,{who})
     },'ift,D'],
   // Storystream 
     # when e,on:m%Yingates, it keeps filling up
@@ -604,7 +611,13 @@ me.Sch_Travel = &acgt{ return [
         Rs&rowish = 1
         # * become %Yingate!%ball
         Rs&noRsync = 1
+        $ps = Ry&up.c.s
+        $who = me&jaa,R,'who',1 [0]
+        who != Rs&who and me&tsc,"~who" .sc.fs = 30
         if (Rs&who) {
+            # < start of a &haveThat?
+            me&nodei,R,Rs&who,{Having:1}
+            
             $exp = me&fiu,Rs&who,s.t,8
             # it is Nine/$exp
             exp and Rs&exp = exp
