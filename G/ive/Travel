@@ -694,31 +694,34 @@ me.Sch_Travel = &acgt{ return [
                 grc&pi = 'leg'
                 Knc&size and grs&size = Knc&size
                 gry&leg = Kn
-                $x = Knc&x
-                $ii = 0
-                each in N {
-                    Kn.t == 'gate' and continue
-                    !ns&groupthing and continue
-                    $gv = me&fiu,gr,''+(ii++)
-                    gvc&pi = 'vat'
-                    gvc&s = ny&v
-                    gvy&diala = n
-                    nc&size and gvs&size = nc&size
-                    
-                    $nN = me&ioty,n
-                    each iz nN {
-                        zs&groupthing and debugger
-                        # size,sym,label
+                if (Kn.t != 'gate') {
+                    $x = Knc&x
+                    $ii = 0
+                    each vi,fx x.ref {
+                        # ology modulat compresses same v.t along N
+                        $v = x.refs[vi];
+                        # how many times it was used
+                        $gv = me&fiu,gr,''+(ii++)
+                        gvc&pi = 'vat'
+                        gvc&s = v
+                        gvs&size = fx.z.length
+                        gvs&size == 1 and delete gvs&size
+
+                        $nN = me&ioty,n
+                        each iz nN {
+                            zs&groupthing and debugger
+                            # size,sym,label
+                        }
                     }
                 }
-                
-                # mute %%gate after size
-                Kn.t != 'gate' and return
-                # < in such a way that Te|diff can inflate it
-                $aft_size = 0
-                each in N {
-                    aft_size and ns&dis = 0
-                    n.t == 'size' and aft_size = 1
+                else {
+                    # mute %%gate after size
+                    # < in such a way that Te|diff can inflate it
+                    $aft_size = 0
+                    each in N {
+                        aft_size and ns&dis = 0
+                        n.t == 'size' and aft_size = 1
+                    }
                 }
             })
         })
