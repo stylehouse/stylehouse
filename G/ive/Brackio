@@ -358,8 +358,10 @@
                 $v = x.refs[vi];
                 $lc = me&labeline,v
                 $Kn = me&opeKn,Km,lc.t,{label:{tsc:'y'}};
+                Kny&v = v
                 
                 $lab = Kny&label;
+                $bsize = Knc&size || Knc&sortcv && 1 || 0
                 Knc&sortcv = 1;
                 lc.C &&
                     fio(Kn,['sym'+vi,112,{s:lc.sym},
@@ -367,7 +369,15 @@
 
                 # total rows for this value with this key
                 # < light up other k/v/rows this k/v/row has
+                Knc&size = 0
                 me&sizo,Kn,{len:fx.z.length};
+                # many same lc.t pile up many sym, add sizo
+                # < fix in -ology
+                Knc&size ||= 1
+                Knc&size *= 1
+                bsize and Knc&size = (Knc&size||1)*1 + bsize*1
+                Knc&size == 1 and delete Knc&size
+                Knc&size > 2000 and debugger
                 Kns&ma = 0.2;
                 if (Kns&ope) {
                     each in fx.z {
@@ -394,6 +404,7 @@
         return g
     };
     # a title for $s, data if weird
+    # < -vat compat, fliop
     me.labeline = &acgts{
         $c = {}
         if (isC(s)) {
