@@ -505,17 +505,15 @@ me.Sch_Travel = &acgt{ return [
  
  // This streams %Yingates
     ['theThis',0.293,&acgtRs{
-        
         me&reaw,R,'theThis,wakeful,onlyish'
-        $x = me&Jx,R
         me&inode,R
         # wake R when p%onlyish/R%wakeful
         Rs&wakeful = 1
         # sleep r when R%onlyish/r!%wakeful
         Rs&onlyish = 1
         if (0) {
-            $p = Ry&up
             # shows sleep|wake pattern
+            $p = Ry&up
             ah(R,'inheritscif','ball','theThis',1)
             $i = ss&quue = (ss&quue||0) + 1
             !ps&theThis and me&input,R,"le_"+i
@@ -530,16 +528,21 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
     ['theThis',0.296,&acgtRs{
         $D = Rs&Storystream
+        $x = me&Jx,R
         
         # draw the story
         # < selfing it to -seven and -eight already,
         #    realising novelty asap
+        $who = me&jaa,xc&The,'listening',1 [0]
         each im Ds&z {
             mc&pi ||= 'eight'
             # %onlyish 294 has made these if sleeping them
-            $r = me&bal,m.t,m,'Yingates,Fin,eph'
+            $r = me&bal,m.t,m,'Yingates,eph'
             rc&s != m and throw 'crae'
+            who and rs&who = who
+            who and rs&Fin = 1
         }
+        # leaves current -gate
         r and rs&wakeful = delete rs&Fin
     },'ift,D'],
   // Storystream 
@@ -594,14 +597,18 @@ me.Sch_Travel = &acgt{ return [
   # < is Y:-eight/-seven
  //   %Yingates details
    
-   // Dome:$eight complete -> %Yingate+
-    ['Yingates',0.299,&acgtRs{
-        me&reaw,R,'Yingates,wakeful,Fin'
+   // This/$eight/*%Yingate
+    ['Yingates',0.298,&acgtRs{
+        me&reaw,R,'Yingates,wakeful,who,Fin'
         me&inode,R
         Rs&rowish = 1
         # * become %Yingate!%ball
         Rs&noRsync = 1
-        
+        if (Rs&who) {
+            $exp = me&fiu,Rs&who,s.t,8
+            # it is Nine/$exp
+            exp and Rs&exp = exp
+        }
         each in ss&z {
             $r = me&Ret,R,{t:"n:"+i,s:n,Yingate:1}
         }
@@ -653,6 +660,7 @@ me.Sch_Travel = &acgt{ return [
         $b = sy&eight;
         $ei = sy&eight = Cye([s.t,1,{pi:'eight'}])
         $go = me&acting,R,'-eight',0
+        go and me&zu,"exp",Rs&exp
         
         # 4
         # make overall quantography from the many -gate
@@ -1072,8 +1080,15 @@ me.Sch_Travel = &acgt{ return [
         me&reaw,R,'The'
         me&inode,R
         ah(R,'inheritscif','ball','TheTest',1)
-        # init The/$t when <- -eight%%Fin,dige
-        me&ja,R,'Fin' and me&fiu,s,'vv'
+        # init The/$t then <-> -eight%%Fin,dige
+        #me&ja,R,'Fin' and 
+        $z = me&fiu,s,'vv'
+        !me&ja,R,'listening' and me&settle,R,z
+        else { me&tsc,"OK" }
+    },'ift,D'],
+    ['The',0.46,&acgtRs{
+        $z = me&fiu,s,'vv'
+        #!me&ja,R,'listening' and me&waits,'Theing'
     },'ift,D'],
     # -nine being Zavable
     ['TheTest',0.294,&acgtRs{
@@ -1110,6 +1125,9 @@ me.Sch_Travel = &acgt{ return [
         sc&pi = 'nine'
         # roll the invention of Eigh s
         me&sleepic,R and me&rollbs,R,'bal_tw_s'; return
+        
+        # < Plot adjust
+        me&nodei,R,xc&The,{listening:s}
         
         # * become Eigh%exp
         Rs&noRsync = 1
