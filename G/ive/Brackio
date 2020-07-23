@@ -183,10 +183,15 @@
         $tog = &q{
             # q.name qualifies up g to R
             $n = q.n = me&tsc,q.may,q.s,'y'
+            $issetor = &z,is{
+                z.y [ok] == null && is != null and z.y [ok] = is
+                return z.y [ok]
+            }
             # 0..2 adjustable
             me.nto(j,q.n,&sTe{
                 $add = e.t.startsWith('C') ? -1 : 1
-                $is = z.y [ok] || 0
+                # may start from an ope we inherit
+                $is = issetor(z,ope) || 0
                 is += add
                 is > 2 and is = 2
                 is < -1 and is = -1
@@ -196,8 +201,16 @@
             $ope = 1
             zy&R && me.cbu(zy&R,&r{
                 $z = rc&s
-                $is = z && z.y [ok]
-                is != null and ope = is; return 1
+                if (z) {
+                    $te = rs&Te
+                    # may remember over null
+                    te and issetor(z,te.sc[ok])
+                    $is = z.y [ok]
+                    if (is != null) {
+                        te.sc[ok] = is
+                        ope = is; return 1
+                    }
+                }
                 rs&Peace == 4 and return 1
             })
             ns&fs = 9+(ope*2)
