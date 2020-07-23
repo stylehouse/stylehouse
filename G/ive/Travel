@@ -67,7 +67,7 @@ me.Sch_Travel = &acgt{ return [
     
 // Detection - whats going on
   &{
-  // $D += R%tunneling anywhere
+  // $D about %tunneling anywhere
     # < merge in &Yingwhen, early sense e, how to %onlyish
     #  < how to gradually work when fed A leash
     me.Yingtunneling = &acgt{
@@ -173,7 +173,10 @@ me.Sch_Travel = &acgt{ return [
             return me&Yingate_wokerecently,R,s,5,{quiet:1} .length
         }
         # quiet,wake when not recently
-        if (would.filter(s => !quiet_recently(s)).length) {
+        #  or if next page == Plot%wants_upto, must self to act
+        $y = Ys&quiet_wakers_too_recently
+        if (would.filter(s => !quiet_recently(s)).length
+            || y && y ()) {
             would.map(&s{
                 # < Yinge terms:
                 # is consumed:
@@ -182,8 +185,6 @@ me.Sch_Travel = &acgt{ return [
             })
         }
         else {
-            $y = Ys&quiet_wakers_too_recently
-            y && y ()
             me&bracki,R,D,{quiet_recently:1}
         }
         return wakers
@@ -537,9 +538,8 @@ me.Sch_Travel = &acgt{ return [
         each im Ds&z {
             mc&pi ||= 'eight'
             # %onlyish 294 has made these if sleeping them
-            $r = me&bal,m.t,m,'Yingates,eph'
+            $r = me&bal,m.t,m,'Yingates,Fin,eph'
             rc&s != m and throw 'crae'
-            1 and rs&Fin = 1
             who and me&nodei,R,who,{Having:rc&s}
             
         }
@@ -569,12 +569,21 @@ me.Sch_Travel = &acgt{ return [
         # page turning
         # may be unturned, see merge similar previous
         # < turn fractions of a page|plot, when|why
+        $Plot = xs&Plot
         $page_turning = &c{
             $i = sy&quue = (sy&quue||0) + 1
             Dy&domed(c)
-            Dy&dome("le-"+i,'light')
+            
+            $d = Ds&z.slice(-1)[0]
+            $cb = Ploty&pageturn
+            cb and cb(R,d)
+            else {
+                i > 1 and Rs&pause = 1
+            }
             # < Plot leaves tightenable hooks
-            i == 2 and Rs&pause = 1
+            #   for Yingate_2 -> Outlog -> next:
+            
+            Dy&dome("le-"+i,'light')
         }
         # takes over from Story
         $q = me&quiet_waker,R
@@ -588,6 +597,10 @@ me.Sch_Travel = &acgt{ return [
         # even if too close to the last quiet,wake to self
         $Y = me.cbu(R,'Ying').sc.Ying
         Ys&quiet_wakers_too_recently = &{
+            # if next page == Plot%wants_upto, must self to act
+            $to = Plots&want_upto
+            ~>4 pagequiet: to, sy&quue
+            sy&quue == to and return 1
             page_turning()
         }
         # then inhaling nothing if the page was just turned ^
@@ -1148,6 +1161,16 @@ me.Sch_Travel = &acgt{ return [
             z and rs&got = z
         })
     },'ift,D'],
+    ['TheNine',0.45,&acgtRs{
+        $i = 0
+        $upto = me&jaa,R,'upto,efrom',1 [0] || 0
+        me&ioty,R,'TheEigh' .map(&r{
+            $z = rc&s
+            i < upto and me&nodei,R,z,{Checkable:1}
+            i++
+        })
+        
+    },'ift,D'],
     
     # many acceptables
     ['acceptables',0.295,&acgtRs{
@@ -1192,6 +1215,7 @@ me.Sch_Travel = &acgt{ return [
     ['TheEigh',0.33,&acgtRs{
         
         me&reaw,R,'TheEigh,exp,got,now_missing'
+        $x = me&Jx,R;
         $go = me&acting,R,'Eigh'
         $t = Rs&exp
         $z = Rs&got
@@ -1204,8 +1228,11 @@ me.Sch_Travel = &acgt{ return [
         if (z) {
             # have an -eight, waiting for %%Eigh
             $r = zy&R
-            me&nodei,R,z,{Eigh:1,expect:t}
             !rs&Fin and me&ha,R,'NoFin'
+            else
+            (me&jaa,R,'Checkable,efrom',1 [0]
+                || x.ro("check",{}))
+                && me&nodei,R,z,{Eigh:1,expect:t}
         }
         
         if (go) {
@@ -1300,7 +1327,7 @@ me.Sch_Travel = &acgt{ return [
   
  // %Plot drive %%may
     ['Plot',0.55,&acgtRs{
-        me&reaw,R,'Plot'
+        me&reaw,R,'Plot,Point'
         $S = me&inode,R;
         $x = me&Jx,R;
         $L = me&rollbs,R,"Point"
@@ -1310,8 +1337,27 @@ me.Sch_Travel = &acgt{ return [
         $D = Thiss&Storystream
         !D and throw "Plot!This"
         
-        # < pipe how the little %Fin/gate -> %Finish
+        $who = me&jaa,This,'listening',1 [0]
+        # from This on behalf of Plot, when pageturn
+        $upto = me&jaa,R,'upto,efrom',1 [0] || 0
+        upto and me&nodei,R,who,{upto},{dome:'upto'}
         
+        
+        # < pipe how the little %Fin/gate -> %Finish
+        if (Lc&pi == 'actyvate') {
+            ss&want_upto = 2
+            sy&pageturn = &rd{
+                rc&s != xs&This and throw "pageturn",r
+                
+                $i = Ls&pages = (Ls&pages||0) + 1
+                ~>4 Pageturn: i
+                
+                2 == i and me&nodei,r,R,{upto:i},{dome:'upto'}
+                else
+                    1 < i and rs&pause = 1
+            }
+        }
+        else
         if (Lc&pi == 'actyvate') {
             # on init thing to do
             # < 300ms impatience for getting here
