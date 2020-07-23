@@ -2376,7 +2376,7 @@ me.Rom = &acgtptc{
     
     $cancelation = &{
         # reset X, failed R don't become b!
-        me&resetRbitX,R,r;
+        rc&b and me&resetRbitX,R,r;
         
         # < packdowns for whatever can't continue,
         #   doming marked through as async?
@@ -2527,6 +2527,9 @@ me.JRomingness = &acgtR{ return [
         D.t = ''+Ds&count;
         
         # 3 what doing
+        if (c.Peace) {
+            me&rolltog,R,{k:'reset',once:1} and Rs&boost = -2
+        }
         if ((Rs&boost||0) < -1) {
             delete Rs&Te.sc.boost;
             me&tsc,'JRom-reset','reset','6';
@@ -2536,6 +2539,7 @@ me.JRomingness = &acgtR{ return [
             c.igV = 1;
             # < starting tunneled
             G&yl:3,&{ me&elvis,R,'resetya',{wake:Ry&up} };
+            return
         }
         elsif (!c.impausible &&
             ((Rs&boost||0) < 0 || c.pause)) {
