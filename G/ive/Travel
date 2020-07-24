@@ -279,6 +279,7 @@ me.Sch_Travel = &acgt{ return [
 
 // Story ext
  // %Nodar views
+  
   // doc
         =experiencing a:
         
@@ -443,6 +444,11 @@ me.Sch_Travel = &acgt{ return [
         $upto = me&jaa,R,'upto,efrom',1 [0] || 0
         upto and me&nodei,R,who,{upto},{dome:'upto'}
         
+        # on init thing to do
+        # < 300ms impatience for getting here
+
+        # get Gump, protoJ for Ying
+        #me&nodei,R,xs&Gump,{narrative:1},{dome:'nar'}
         
         # < pipe how the little %Fin/gate -> %Finish
         if (Lc&pi == 'actyvate') {
@@ -457,39 +463,6 @@ me.Sch_Travel = &acgt{ return [
                 else
                     1 < i and rs&pause = 1
             }
-        }
-        else
-        if (Lc&pi == 'actyvate') {
-            # on init thing to do
-            # < 300ms impatience for getting here
-            
-            # is_quiet_waker should coincide with:
-            # always:
-            # < wait for &settle without subscribing to updates from everyone?
-            # < Ghost/$zt..$z &settle are too busy
-            $them = 'Know Ghost Travel To That Duolish Gump'
-                .split(' ').map(t => x.c[t])
-            #me&settle,R,them and return
-            
-            # get Gump, protoJ for Ying
-            #me&nodei,R,xs&Gump,{narrative:1},{dome:'nar'}
-            
-            # wake heres, good only for init
-            $i = Ls&coun = (Ls&coun||0) + 1
-            if (1 == i) {
-                $Begin = me&ioty,D [0]
-                !Begin and throw "wei"
-                me&wants,R,'begindone',Begin
-            }
-            else {
-                # then some Story**, finishes, may ok or wild
-                $Storied = me&ioty,D [2]
-                Storied and me&tsc,"Storied" .sc.fs = 40
-            }
-            # < do what it wants, eventually returning to acty again
-            #   in such a way to antiloop
-            #    defined tolerance, fps
-            #   commit Ying?
         }
         else {
             throw "L!pi", Lc&pi
