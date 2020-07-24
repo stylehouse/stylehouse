@@ -73,6 +73,8 @@ me.Sch_Travel = &acgt{ return [
         me&reaw,R,'Outlog';
         $D = me&Outlog,R,'gate'
         Rs&Det = D;
+        # Story signals
+        me&YingelQup_2,R
     }
     # Ying/** happens
     # < take extra pictures 
@@ -106,6 +108,17 @@ me.Sch_Travel = &acgt{ return [
         me&Dtunneling,R,D
     }
   // %Outlog/$D
+    # D -log
+    me.log = &acgtRtc{
+        $D = me&Outlog,R,'log'
+        Dc&s = t
+        $q = {}
+        t and q.says = t
+        c and ex(q,c)
+        isnode(Rc&s) and q.node ||= Rc&s
+        hak(q) and me&bracki,R,D,q
+        return D
+    }
     # accessor
     me.theOutlog = &acgtR{
         $Ying = me.cbu(R,'Ying')
@@ -119,11 +132,6 @@ me.Sch_Travel = &acgt{ return [
         D.t += '-'+(Dc&i = Outlog.length)
         Dc&pi = t
         Dc&fe_time = Gtime()
-        
-        
-        
-        
-        
         return D
     }
   // &Dwakers, &wokerecently
@@ -159,7 +167,6 @@ me.Sch_Travel = &acgt{ return [
     #  < how to gradually work when fed A leash
     me.Yingtunneling = &acgt{
     }
-    # e
     # there's no way in without tunneling
     #  could be found before it happens (!tunnelout yet)
     # $e = ^^%tunneling, and maybe ey&up
@@ -170,16 +177,10 @@ me.Sch_Travel = &acgt{ return [
         each ir poin {
             rs&tunneling == e and continue
             $e = rs&tunneling
-            $c = {e}
+            $c = {}
             # < -pi-ish on the one e, to many row per %%e
             r != R and c.r = r
-            es&tunnelout and c.on = es&tunnelout
-            # e:Qup|elQups update generally or:
-            #  e/*.c ={ wake=aJRom, Intere=Qupe.c{Q,R=G&t-er} }
-            each iQ ec&Qz {
-                me&bracki,R,D,{Q}
-            }
-            me&bracki,R,D,c
+            me&Delvis,R,D,e,c
         }
         # ^ climbs e:divawz, goes y&up-only to:
         # top e may /* about R
@@ -189,6 +190,17 @@ me.Sch_Travel = &acgt{ return [
             r && rc&s == Rc&s and one = e
         })
         return one || e
+    }
+    me.Delvis = &acgtRDeq{
+        $c = {e}
+        q and ex(c,q)
+        es&tunnelout and c.on = es&tunnelout
+        # e:Qup|elQups update generally or:
+        #  e/*.c ={ wake=aJRom, Intere=Qupe.c{Q,R=G&t-er} }
+        each iQ ec&Qz {
+            me&bracki,R,D,{Q}
+        }
+        me&bracki,R,D,c
     }
     
     },
@@ -430,12 +442,17 @@ me.Sch_Travel = &acgt{ return [
         if (Lc&pi == 'actyvate') {
             ss&want_upto = 2
             sy&pageturn = &rd{
-                rc&s != xs&This and throw "pageturn",r
+                rc&s != xs&This and me&log,R,'Thisreplace',{i}
                 
                 $i = Ls&pages = (Ls&pages||0) + 1
                 ~>4 Pageturn: i
+                me&log,R,'Pageturn',{i}
                 
-                2 == i and me&nodei,r,R,{upto:i},{dome:'upto'}
+                if (2 == i) {
+                    $l = me&log,R,'upto',{i}
+                    me&ha,R,{gotupto:l}
+                    me&nodei,r,R,{upto:i},{dome:'upto'}
+                }
                 else
                     1 < i and rs&pause = 1
             }
@@ -443,6 +460,10 @@ me.Sch_Travel = &acgt{ return [
         else {
             throw "L!pi", Lc&pi
         }
+        
+        me&jaa,R,'gotupto',1 .map(&l{
+            me&nu,"log",l
+        })
     },'ift,D'],
   
 // Gump - Know|That %%cha -> Travel

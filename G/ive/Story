@@ -354,18 +354,21 @@ me.Sch_Story = &acgt{ return [
     ['Yingate',0.32,&acgtRs{
         # how to brackology:Yingate !
         #sc&i == 1 and debugger;
-        n Dci 02 $s:sc&i %fs:8
+        n Dci 01 $s:sc&i %fs:8
         # < maybe how to -gate..-vat,
         #   see 'capture any adjusted ology for replay'
         #   specifics for the process its going into,
         #    want tuning in the brackology
-        $c = {t:'gate',kc:{}};
+        sc&pi ||= 'ugh'
+        $c = {t:sc&pi}
         # < magnify matterings
         #   everything will -vat
+        c.kc = {}
         c.kc.wake = {ope:1}
         c.kc.step = {ope:1}
         c.kc.node = {ope:1}
         s&hue = 138;
+        sc&pi != 'gate' and s&ml = -2; s&hue = 100
         sy&R = R
         $g = me&brackology,R,s,c
         me&walls,g,'b:2.2';
@@ -907,5 +910,34 @@ me.Sch_Story = &acgt{ return [
             me&nu,"P",Qs&P
         }
     },'ift,D'],
-  
+ 
+ // signals
+  // about Qup
+    &{
+    # log but dont e:elQups
+    me.YingelQup_2 = &acgtR{
+        4s&noelQups = &e{
+             $D = me&log,R,'elQups'
+             me&Delvis,R,D,e
+        }
+    }
+    # catch e that wake:Ying
+    me.Yingwhen_e = &acgtRe{
+         if (e.t == 'elQups') {
+             $D = me&log,R,'e:elQups',{e}
+             me&Dtunneling,R,D
+             return 1
+         }
+    }
+    },
+    ['noGump+Paving',0.55,&acgtRs{
+        $Q = Rs&Q
+        $was = me&jaa,R,'isready',1 [0]
+        $also = me&ja,R,'isready',0
+        also != was and throw "wasi"
+        $is = Qs&ready ? 1 : 0
+        !(was == null || was != is) and return
+        me&ha,R,{isready:is,dome:'isready'}
+        me&log,R,'Q~'+is,{Q,node:s}
+    },'ift,D'],
 ]}
