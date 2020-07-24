@@ -247,13 +247,15 @@ me.Sch_Pavings = &acgt{ return [
         #    chunk|extent of ghost|peek
         Rs&Paving == 1 and Rs&Paving = 'W'
         $of = Rs&Paving;
-        me&reaw,R,'Paving,title,directory,director,species,args,section';
+        me&reaw,R,'Paving,noGump,title,directory,director,species,args,section';
         $S = me&inode,R;
         # %adhere resolves meanings
         # < generalise levels of engagement (%%may,acty)
         # %openey Searches with /%Pave (G&t)
         me&ollbs,R,'trouble' and Rs&openey = 1
         Rs&boost > 0 and Rs&openey ||= 'boost'
+        # only going to organise *%Q
+        Rs&noGump and Rs&openey ||= 'noGump'
         !me&rollbs,R,'openey' and return
         # %fully gets %Pave's item
         me&rollbs,R,'fully';
@@ -475,6 +477,8 @@ me.Sch_Pavings = &acgt{ return [
         # waits for settling before CB compute
         #  which could be handled remotely
         !w || me&bready,R and return
+        # avoid all @Gump, %%Paving_goodin
+        Rs&noGump and return
    
    // look
         $Thing = Rs&Thing = me&lookaQ,Q;
