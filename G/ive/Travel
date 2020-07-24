@@ -102,7 +102,7 @@ me.Sch_Travel = &acgt{ return [
     }
     # receive what Ying wants to do
     me.Yingate_8 = &acgtRc{
-        $D = Rs&Det;
+        $D = delete Rs&Det
         Dc&be_time = Gtime()
         me&Dwakers,R,D,c
         me&Dtunneling,R,D
@@ -132,6 +132,12 @@ me.Sch_Travel = &acgt{ return [
         D.t += '-'+(Dc&i = Outlog.length)
         Dc&pi = t
         Dc&fe_time = Gtime()
+        # knows Ying and the -gate its in
+        $Ying = me.cbu(R,'Ying')
+        $Det = Yings&Det
+        Det and Dy&inside = Det
+        Dy&Ying = Ying
+        Ying != R and Dy&R = R
         return D
     }
   // &Dwakers, &wokerecently
