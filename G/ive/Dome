@@ -698,7 +698,6 @@
    # < nodeein
    # < nodee test
    
-   
   // %%dome - residing state
       
       // intro
@@ -1676,8 +1675,48 @@
         c.wants = s
         me&ha,R,c
     }
-   
-
+  
+  // &quiet_waker*
+    # management nodes wake up when all is quiet
+    me.quiet_waker = &acgtR{
+        $Y = me.cbu(R,'Ying').sc.Ying
+        $s = Rc&s
+        Ys&quiet_wakers = [s]
+        #ac(Y,'quiet_wakers',s)
+        $is = delete sy&quiet_wake
+        is and Rs&quiet_now = 1
+        return is
+    }
+    # do something when nothing
+    # < not before a slow wakers[], for async
+    #    may finish waiting early
+    me.quiet_wakers = &acgtR{
+        $Y = Rs&Ying
+        $D = Rs&Det;
+        $would = Ys&quiet_wakers;
+        !would and return []
+        $wakers = []
+        $quiet_recently = &s{
+            return me&wokerecently,R,s,5,{quiet:1} .length
+        }
+        # quiet,wake when not recently
+        #  or if next page == Plot%wants_upto, must self to act
+        $y = Ys&quiet_wakers_too_recently
+        if (would.filter(s => !quiet_recently(s)).length
+            || y && y ()) {
+            would.map(&s{
+                # < Yinge terms:
+                # is consumed:
+                sy&quiet_wake ||= 1
+                wakers.push(s);
+            })
+        }
+        else {
+            me&bracki,R,D,{quiet_recently:1}
+        }
+        return wakers
+    }
+  
 // 8 < round
  // %%waits 7 - visit other nodes
     # r%%waits,wants=z,... -> R &waits_8
@@ -1848,7 +1887,7 @@
             }
             
             if (js&brackstable > 6) {
-                if (me&Yingate_wokerecently,R,s > 3) {
+                if (me&wokerecently,R,s > 3) {
                     ~>4 freeze: tpath(s)
                     freeze.push(s)
                     return
