@@ -608,6 +608,7 @@ me.Sch_Story = &acgt{ return [
     },
  
  # < is Y:-eight/-seven
+ #   through -tll (thing looks like) to -act
  // This/$eight %Yingates details
    
    // This/$eight/*%Yingate
@@ -665,13 +666,12 @@ me.Sch_Story = &acgt{ return [
         $x = me&Jx,R;
         # chapter of story: -eight a %Yingates
         $b = sy&eight;
-        $ei = sy&eight = Cye([s.t,1,{pi:'eight'}])
+        $E = sy&eight = Cye([s.t,1,{pi:'eight'}])
         $go = me&acting,R,'-eight',0
         
         go and me&zu,"exp",Rs&exp
       
-        $fo = me&pifour,R,s
-        me&fiu,ei,fo
+        me&pifour,R,E,s
       
       // skipout
         $Ch = me&jaa,R,'Checkable,efrom' [0]
@@ -679,13 +679,9 @@ me.Sch_Story = &acgt{ return [
         
       // five
         # 5
-        $ii = 0
         each iz ss&z {
-            # page of story: -seven a %Yingate
-            $se = zy&seven = me&fiu,ei,''+i
-            sec&pi = 'seven'
-            me&sebrack,R,z
-            ii += hak(ss&z)
+            # paragraph of story: -seven a %Yingate
+            me&piseven,R,E,s,i
         }
         # through -tll (thing looks like) to -act
         
@@ -702,7 +698,7 @@ me.Sch_Story = &acgt{ return [
         }
         # < the Lineso top D on ss&string.D
         #   showing the string with chunks inteligised
-        me&Linets,s,sy&eight,d
+        me&Linets,s,E,d
         
         # &acceptables_reself
         me&nodei,R,Chs&efrom,{Fin:s,dige:ss&dige}
@@ -710,8 +706,12 @@ me.Sch_Story = &acgt{ return [
   // func
    // pi
     &{
-    me.pifour = &acgtRs{
-       // make overall quantography from the many -gate
+    me.scroll = &acgts{
+        s&mh = s;
+        s&over = 1
+    }
+    me.pifour = &acgtREs{
+       // make overall quantology from the many -gate
         # < may merge with z/-3 if similar,
         #   eg a sequence of e:clicks each return to Story
         #    whereas a bunch all happen, then return to Story
@@ -730,8 +730,9 @@ me.Sch_Story = &acgt{ return [
         me&walls,g,'b:2.2';
         gs&hue = 200
         ac(R,'M',g);
-       // into -four
+       // into el:2-four..-vat
         $fo = sy&four = Cye([s.t,1,{pi:'four'}])
+        me&fiu,E,fo
         $gof = me&acting,R,'-four',0
         me&ioty,g .map(&Km,{
             !Kms&groupthing and return
@@ -788,15 +789,11 @@ me.Sch_Story = &acgt{ return [
         })
         return fo
     }
-    me.scroll = &acgts{
-        s&mh = s;
-        s&over = 1
-    }
-    # %Yingate -seven <- y&brackology
-    me.sebrack = &acgtRs{
-        $se = sy&seven
+    me.piseven = &acgtREsi{
+        $se = sy&seven = me&fiu,E,''+i
+        sec&pi = 'seven'
         $g = sy&brackology
-        me&ioty,g .map(&Km,{
+        gs&z.map(&Km,{
             !Kms&groupthing and return
             # -gate: bunch of rows
             #  each row allowed one oddness, see &brackgroupX
