@@ -272,6 +272,8 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
 
 // Story ext
+    
+    
  // %Nodar views
   // doc
         =experiencing a:
@@ -447,7 +449,7 @@ me.Sch_Travel = &acgt{ return [
         if (Lc&pi == 'actyvate') {
             ss&want_upto = 2
             sy&pageturn = &rd{
-                rc&s != xs&This and me&log,R,'Thisreplace',{i}
+                rc&s != xs&This and me&log,R,'Thisreplace',{i}; return
                 
                 $i = Ls&pages = (Ls&pages||0) + 1
                 ~>4 Pageturn: i
@@ -455,7 +457,6 @@ me.Sch_Travel = &acgt{ return [
                 
                 if (2 == i) {
                     $l = me&log,R,'upto',{i}
-                    me&ha,R,{gotupto:l}
                     me&nodei,r,R,{upto:i},{dome:'upto'}
                 }
                 else
@@ -465,10 +466,6 @@ me.Sch_Travel = &acgt{ return [
         else {
             throw "L!pi", Lc&pi
         }
-        
-        me&jaa,R,'gotupto',1 .map(&l{
-            me&nu,"log",l
-        })
     },'ift,D'],
   
 // Gump - Know|That %%cha -> Travel
