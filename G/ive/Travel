@@ -427,16 +427,57 @@ me.Sch_Travel = &acgt{ return [
         me&reaw,R,'Plot,Point'
         $S = me&inode,R;
         $x = me&Jx,R;
-        $L = me&rollbs,R,"Point"
-        !L and L = me&fiu,s,'Look'; Lc&pi = 'actyvate'
-        Ls&ok and me&tsc,"DONE"
+      
+      // L-Page
         $This = xc&This
         $D = Thiss&Storystream
-        !D and throw "Plot!This"
+        # Plot/Point** groups D/*
+        $L = sy&Point
+        # they usually want to Checkable stuff til now,
+        #  then do some act with-into the next plot point
+        $vite = &tc{
+            c ||= {}
+            c.upto ||= ss&Page
+            $L = sy&Point = me&fiu,s,[t,'-vite',c]
+            return L
+        }
+        if (!L) {
+            $i = ss&Page = Ds&z.length
+            # check:1,2
+            vite('Look',{then: &{
+                # wait for quiet
+                me&log,R,'waitforquiet'
+                sy&atPage = &{
+                    # 2-3 are Look oking
+                    me&log,R,'OkOk'
+                    vite('okoking')
+                    otherable(L)
+                }
+            }})
+        }
+        # hooks for others
+        # This turns page
+        sy&pageturn = &rd{
+            rc&s != xs&This and me&log,R,'Thisreplace',{i}; return
+            
+            $i = ss&Page = (ss&Page||0) + 1
+            ~>4 Pageturn: i
+            me&log,R,'Pageturn',{i}
+            sy&atPage && sy&atPage(i)
+
+            if (ss&want_upto <= i) {
+                $l = me&log,R,'upto',{i}
+                me&nodei,r,R,{upto:i},{dome:'upto'}
+            }
+            else
+                1 < i and rs&pause = 1
+        }
         
+      // upto-gotupto
         $who = me&ja,This,'listening',0
         # from This on behalf of Plot, when pageturn
         $upto = me&ja,R,'upto,efrom',0 || 0
+        # to select which Nine to ready
         upto and me&nodei,R,who,{upto},{dome:'upto'}
         
         $gotupto = me&ja,R,'gotupto,efrom',0 || 0
@@ -452,26 +493,41 @@ me.Sch_Travel = &acgt{ return [
         #me&nodei,R,xs&Gump,{narrative:1},{dome:'nar'}
         
         # < pipe how the little %Fin/gate -> %Finish
-        if (Lc&pi == 'actyvate') {
-            ss&want_upto = 2
-            sy&pageturn = &rd{
-                rc&s != xs&This and me&log,R,'Thisreplace',{i}; return
-                
-                $i = Ls&pages = (Ls&pages||0) + 1
-                ~>4 Pageturn: i
-                me&log,R,'Pageturn',{i}
-                
-                if (2 == i) {
-                    $l = me&log,R,'upto',{i}
-                    me&nodei,r,R,{upto:i},{dome:'upto'}
+        L = sy&Point
+        $otherable = &{
+            L = sy&Point
+            if (Lc&pi == 'vite') {
+                ss&want_upto = Lc&upto
+            }
+        }
+        otherable(L)
+        if (Lc&pi == 'vite') {
+            ss&got_upto >= ss&want_upto and Ls&ready = 1
+            if (Ls&ready) {
+                $ok = me&ja,R,'allok,gotupto,efrom',0
+                if (Ls&ok == null) {
+                    Ls&ok = ok
+                    if (ok) {
+                        $say = Lc&then ? "..." : "!"
+                        me&log,R,"L++"+say,{L,ok}
+                        Lc&then and Lc&then()
+                        else {
+                            ss&alldone = 1
+                        }
+                    }
+                    else {
+                        me&tsc,"Error?"
+                        Thiss&pause = 1
+                    }
                 }
-                else
-                    1 < i and rs&pause = 1
             }
         }
         else {
             throw "L!pi", Lc&pi
         }
+        L != sy&Point and me&waits,"L++"
+        ss&alldone and me&tsc,"DONE"
+        ss&alldone and Thiss&pause = 1
     },'ift,D'],
   
 // Gump - Know|That %%cha -> Travel
