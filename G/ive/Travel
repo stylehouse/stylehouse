@@ -434,11 +434,17 @@ me.Sch_Travel = &acgt{ return [
         $D = Thiss&Storystream
         !D and throw "Plot!This"
         
-        $who = me&jaa,This,'listening',1 [0]
+        $who = me&ja,This,'listening',0
         # from This on behalf of Plot, when pageturn
-        $upto = me&jaa,R,'upto,efrom',1 [0] || 0
+        $upto = me&ja,R,'upto,efrom',0 || 0
         upto and me&nodei,R,who,{upto},{dome:'upto'}
         
+        $gotupto = me&ja,R,'gotupto,efrom',0 || 0
+        if (gotupto) {
+            ss&got_upto != gotupto and me&log,R,"Plot++",{gotupto}
+            ss&got_upto = gotupto
+        }
+
         # on init thing to do
         # < 300ms impatience for getting here
 
