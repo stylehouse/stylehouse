@@ -538,37 +538,156 @@ me.Sch_Travel = &acgt{ return [
         $S = me&inode,R;
         $x = me&Jx,R;
         ah(R,'inheritscif','ball','Point',1)
-        !hak(ss&z) and me&fiu,'startStory'
+       // otherses
         # This turns page
         sy&pageturn = &rd{
             rc&s != xs&This and me&log,R,'Thisreplace',{i}; return
+            $L = sy&Point
             
             $i = ss&Page = (ss&Page||0) + 1
             ~>4 Pageturn: i
-            me&log,R,'Pageturn',{i}
+            me&log,R,'Pageturn',{i,L}
             sy&atPage && sy&atPage(i)
 
-            if (ss&want_upto <= i) {
+            if (Ls&Page_out < i) {
                 $l = me&log,R,'upto',{i}
                 me&nodei,r,R,{upto:i},{dome:'upto'}
             }
         }
+       // Plot/Point**
+        # enters Plot/Point**
+        # < based on Stori rhythms
+        $con = &tyc{
+            c ||= {}
+            y and c.then = y
+            # c.Pages ||= 1 later
+            me&iPoint,R,t,c
+        }
+        !hak(ss&z) && con('startStory',&{
+            # wait for quiet
+            # < default?
+            me&log,R,'waitforquiet'
+            sy&atPage = &{
+                # 2-3 are Look oking
+                me&log,R,'OkOk'
+                con('okoking')
+                # < 300ms impatience for getting here
+                # < get Gump, protoJ for Ying
+                #me&nodei,R,xs&Gump,{narrative:1},{dome:'nar'}
+            }
+            # < else?
+        })
     },'ift,D'],
     ['Point',0.32,&acgtRs{
         me&reaw,R,'Point'
-        $S = me&inode,R;
-        me.neigh(s,&lr{ sy&l = l; sy&r = r })
-        if (!sy&r) {
-            # first step
-        }
-        # going to have:
-        $L = sy&Point
-        $Po = me&ioty,s .filter(z => !zs&ok) [0]
-        if (Po != L) {
-            sy&Point = Po
-            me&log,R,'Point++',{Po,L}
-        }
+        $S = me&inode,R
+        me&OPoint,R,s
     },'ift,D'],
+    ['Plot',0.33,&acgtRs{
+        $x = me&Jx,R;
+       // signals
+        # async select which Nine/* to get ready
+        $who = me&ja,xc&This,'listening',0
+        # %%upto <- This &pageturn past Ls&Page_out
+        $upto = me&ja,R,'upto,efrom',0 || 0
+        upto and me&nodei,R,who,{upto},{dome:'upto'}
+        # %%gotupto,allready,allok? <- Nine
+        $gotupto = me&ja,R,'allready,gotupto,efrom',0 || 0
+        if (gotupto) {
+            ss&got_upto != gotupto and me&log,R,"Plot++",{gotupto}
+            ss&got_upto = gotupto
+        }
+        # %%ready -> Point
+        me&ioty,s .filter(L => Lc&Page_out <= gotupto)
+            .map(L => me&nodei,R,L,gotupto,,'ready' )
+    },'ift,D'],
+    ['Point',0.34,&acgtRs{
+        # ...
+        $re = me&ja,R,'allready' [0]
+        !re and return
+        $wasready = me&sa,R,'allready'
+        if (Lc&pi == 'vite') {
+            $ok = res&allok
+            
+            if (Ls&ok == null) {
+                Ls&ok = ok
+                if (ok) {
+                    $say = Lc&then ? "..." : "!"
+                    me&log,R,"L++"+say,{L,ok}
+                    Lc&then and Lc&then()
+                    else {
+                        ss&alldone = 1
+                        delete sy&Point
+                    }
+                }
+                else {
+                    me&tsc,"Error?"
+                    Thiss&pause = 1
+                }
+            }
+        }
+        else {
+            throw "L!pi", Lc&pi
+        }
+        L != sy&Point and me&waits,"L++"
+        ss&alldone and me&tsc,"DONE"
+        ss&alldone and Thiss&pause = 1
+    },'ift,D'],
+        
+    &{ // &iPoint, &Opoint
+        me.iPoint = &acgtRtc{
+            $Plot = xs&Plot
+            c ||= {}
+            $L = me&fiu,Plot,[t,'-Point',c]
+            me&OPoint,R,L
+            return L
+        }
+        # for s=L=Plot/Point** just input,
+        #  self: R:Plot/Point**
+        #  other: R:This via sy&pageturn
+        # either causing immediate:
+        #  Ploty&Point = L, having:
+        #   Lc&Page_out for &pageturn to complete it
+        me.OPoint = &acgtRs{
+            $x = me&Jx,R
+            $p = sy&up
+            $This = xc&This
+            $D = Thiss&Storystream
+            me.neigh(s,&lr{ sy&l = l; sy&r = r })
+            $l = sy&l
+            # never later before?
+            l && !ls&ok and return
+            # creation, relation to now
+            if (sc&Page_in == null) {
+                # from|to the current dome or so
+                sc&Page_in = l && lc&Page_in || 1
+                ps&Page ||= Ds&z.length
+                sc&Page_out = ps&Page + (sc&Pages||1) -1
+                # silently become Ploty&Point
+                py&Point != s and me&log,R,'Point++',{oL:py&Point,L:s}
+                py&Point = s
+            }
+            ss&ready and return
+            # starting
+            if (sc&acts) {
+                # either may set up
+                
+                # < elvis to set off when quiet
+                #   instead of &pageturn
+            }
+            if (sc&self_acts) {
+                # as R:Point itself
+                # < s not node yet? should work, try sy&up
+                !Rs&Point and return me&wants,R,'self',s
+                
+                # < &nodei electrodes in, adjust things etc
+            }
+            ss&ready = 1
+            # either will get to R:Point when &pageturn %upto satisfied
+        }
+    },
+    
+    
     ['oldPlot',0.33,&acgtRs{
         $x = me&Jx,R;
       // L-Page
