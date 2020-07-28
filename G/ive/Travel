@@ -533,11 +533,44 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
  
  // %Plot drive Story
-    ['Plot',0.55,&acgtRs{
-        me&reaw,R,'Plot,Point'
+    ['Plot',0.298,&acgtRs{
+        me&reaw,R,'Plot'
         $S = me&inode,R;
         $x = me&Jx,R;
-      
+        ah(R,'inheritscif','ball','Point',1)
+        !hak(ss&z) and me&fiu,'startStory'
+        # This turns page
+        sy&pageturn = &rd{
+            rc&s != xs&This and me&log,R,'Thisreplace',{i}; return
+            
+            $i = ss&Page = (ss&Page||0) + 1
+            ~>4 Pageturn: i
+            me&log,R,'Pageturn',{i}
+            sy&atPage && sy&atPage(i)
+
+            if (ss&want_upto <= i) {
+                $l = me&log,R,'upto',{i}
+                me&nodei,r,R,{upto:i},{dome:'upto'}
+            }
+        }
+    },'ift,D'],
+    ['Point',0.32,&acgtRs{
+        me&reaw,R,'Point'
+        $S = me&inode,R;
+        me.neigh(s,&lr{ sy&l = l; sy&r = r })
+        if (!sy&r) {
+            # first step
+        }
+        # going to have:
+        $L = sy&Point
+        $Po = me&ioty,s .filter(z => !zs&ok) [0]
+        if (Po != L) {
+            sy&Point = Po
+            me&log,R,'Point++',{Po,L}
+        }
+    },'ift,D'],
+    ['oldPlot',0.33,&acgtRs{
+        $x = me&Jx,R;
       // L-Page
         $This = xc&This
         $D = Thiss&Storystream
