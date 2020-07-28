@@ -569,37 +569,44 @@ me.Sch_Story = &acgt{ return [
         # < turn fractions of a page|plot, when|why
         $Plot = xs&Plot
         $page_turning = &c{
-            $i = sy&quue = (sy&quue||0) + 1
+            Plots&Page ||= Ds&z.length
+            $i = Plots&Page + 1
+            # close
             Dy&domed(c)
-            
+            # open
+            Dy&dome("le-"+i,'light')
+            Plots&Page = i
+            # so $d will start with this -gate
             $d = Ds&z.slice(-1)[0]
+            $p = Ds&z.slice(-2)[0]
             $cb = Ploty&pageturn
-            cb and cb(R,d)
+            cb and cb(R,d,p)
             else {
                 i > 1 and Rs&pause = 1
             }
+            i > 5 and Rs&pause = 1
             # < Plot leaves tightenable hooks
             #   for Yingate_2 -> Outlog -> next:
-            
-            Dy&dome("le-"+i,'light')
         }
+        # even if too close to the last quiet,wake to self
+        $Y = me.cbu(R,'Ying').sc.Ying
+        Ys&quiet_wakers_too_recently = &{
+            ~>4 pagequiet: Plots&Page
+            $y = Ploty&pageturnable
+            # would like to happen: must self to act
+            y && y () and return 1
+            page_turning()
+        }
+        
         # takes over from Story
         $q = me&quiet_waker,R
         q ||= !sy&quue
+        sy&quue = 1
         if (q) {
             me&tsc,"q";
             #~>4 quiet,wake: s.t
             # tailwag so -eights end in %%quiet(_recently,wake)
             page_turning({tailwag:1})
-        }
-        # even if too close to the last quiet,wake to self
-        $Y = me.cbu(R,'Ying').sc.Ying
-        Ys&quiet_wakers_too_recently = &{
-            # if next page == Plot%wants_upto, must self to act
-            $to = Plots&want_upto
-            ~>4 pagequiet: to, sy&quue
-            sy&quue == to and return 1
-            page_turning()
         }
         # then inhaling nothing if the page was just turned ^
         Dy&stream()

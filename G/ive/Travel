@@ -534,6 +534,8 @@ me.Sch_Travel = &acgt{ return [
  
  // %Plot drive Story
     ['Plot',0.298,&acgtRs{
+        # < TEST see &OPoint Plot 298 init too early
+        #me&bewind,R,Ry&up.sc.z and return
         me&reaw,R,'Plot'
         $S = me&inode,R;
         $x = me&Jx,R;
@@ -543,16 +545,22 @@ me.Sch_Travel = &acgt{ return [
         sy&pageturn = &rd{
             rc&s != xs&This and me&log,R,'Thisreplace',{i}; return
             $L = sy&Point
-            
-            $i = ss&Page = (ss&Page||0) + 1
+            $i = ss&Page
             ~>4 Pageturn: i
             me&log,R,'Pageturn',{i,L}
             sy&atPage && sy&atPage(i)
-
+            !L and return
             if (Ls&Page_out < i) {
                 $l = me&log,R,'upto',{i}
                 me&nodei,r,R,{upto:i},{dome:'upto'}
             }
+        }
+        # sense wanting quiet,wake before Page++
+        # < to asap an -eight**
+        sy&pageturnable = &rd{
+            $L = sy&Point
+            $i = ss&Page + 1
+            return L && i && Ls&Page_out < i
         }
        // Plot/Point**
         # enters Plot/Point**
@@ -584,58 +592,61 @@ me.Sch_Travel = &acgt{ return [
         me&OPoint,R,s
     },'ift,D'],
     ['Plot',0.33,&acgtRs{
-        $x = me&Jx,R;
+        $x = me&Jx,R
        // signals
         # async select which Nine/* to get ready
         $who = me&ja,xc&This,'listening',0
         # %%upto <- This &pageturn past Ls&Page_out
         $upto = me&ja,R,'upto,efrom',0 || 0
         upto and me&nodei,R,who,{upto},{dome:'upto'}
+        
         # %%gotupto,allready,allok? <- Nine
-        $gotupto = me&ja,R,'allready,gotupto,efrom',0 || 0
-        if (gotupto) {
-            ss&got_upto != gotupto and me&log,R,"Plot++",{gotupto}
-            ss&got_upto = gotupto
-        }
-        # %%ready -> Point
-        me&ioty,s .filter(L => Lc&Page_out <= gotupto)
-            .map(L => me&nodei,R,L,gotupto,,'ready' )
+        me&jaa,R,'allready,gotupto,efrom' .map(&ai{
+            i > 0 and throw "one"
+            # -> Point
+            me&ioty,s .filter(L => Lc&Page_out <= as&gotupto)
+                .map(L => me&nodei,R,L,a )
+        })
     },'ift,D'],
-    ['Point',0.34,&acgtRs{
+    ['Point',0.36,&acgtRs{
+        $x = me&Jx,R
+        $Plot = xs&Plot
+        $This = xs&This
         # ...
-        $re = me&ja,R,'allready' [0]
-        !re and return
+        $a = me&jaa,R,'allready' [0]
+        !a and return
         $wasready = me&sa,R,'allready'
-        if (Lc&pi == 'vite') {
-            $ok = res&allok
-            
-            if (Ls&ok == null) {
-                Ls&ok = ok
-                if (ok) {
-                    $say = Lc&then ? "..." : "!"
-                    me&log,R,"L++"+say,{L,ok}
-                    Lc&then and Lc&then()
-                    else {
-                        ss&alldone = 1
-                        delete sy&Point
-                    }
-                }
+        $L = s
+        if (Lc&pi == 'Point') {
+            $ok = as&allok || 0
+            $wasok = Ls&ok
+            Ls&ok = ok
+            if (ok && !(wasready && wasok)) {
+                !wasok and Ls&became_ok = 1
+                # act onwards
+                $say = Lc&then ? "..." : "!"
+                me&log,R,"L++"+say,{L,ok}
+                Lc&then and Lc&then()
                 else {
-                    me&tsc,"Error?"
-                    Thiss&pause = 1
+                    Plots&alldone = 1
+                    me&nodei,R,Plot,'alldone',{dome:'forever'}
+                    delete Ploty&Point
                 }
+            }
+            else {
+                # throw merging
+                me&tsc,"Error?" .sc.fs = 40
+                Thiss&pause = 1
             }
         }
         else {
             throw "L!pi", Lc&pi
         }
-        L != sy&Point and me&waits,"L++"
-        ss&alldone and me&tsc,"DONE"
-        ss&alldone and Thiss&pause = 1
     },'ift,D'],
         
     &{ // &iPoint, &Opoint
         me.iPoint = &acgtRtc{
+            $x = me&Jx,R
             $Plot = xs&Plot
             c ||= {}
             $L = me&fiu,Plot,[t,'-Point',c]
@@ -650,22 +661,25 @@ me.Sch_Travel = &acgt{ return [
         #   Lc&Page_out for &pageturn to complete it
         me.OPoint = &acgtRs{
             $x = me&Jx,R
-            $p = sy&up
+            $Plot = xs&Plot
             $This = xc&This
             $D = Thiss&Storystream
+            # Plot 298 init too early yet appears this time
+            !D && !Rc&b && Rs&Plot and return
+            !D and throw "!D"
             me.neigh(s,&lr{ sy&l = l; sy&r = r })
             $l = sy&l
             # never later before?
             l && !ls&ok and return
             # creation, relation to now
             if (sc&Page_in == null) {
+                !Plots&Page and throw "!Page"
                 # from|to the current dome or so
                 sc&Page_in = l && lc&Page_in || 1
-                ps&Page ||= Ds&z.length
-                sc&Page_out = ps&Page + (sc&Pages||1) -1
+                sc&Page_out = Plots&Page + (sc&Pages||1) -1
                 # silently become Ploty&Point
-                py&Point != s and me&log,R,'Point++',{oL:py&Point,L:s}
-                py&Point = s
+                me&log,R,'Point++',{oL:Ploty&Point,L:s}
+                Ploty&Point = s
             }
             ss&ready and return
             # starting
