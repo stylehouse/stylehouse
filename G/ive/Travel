@@ -540,17 +540,18 @@ me.Sch_Travel = &acgt{ return [
         $S = me&inode,R;
         $x = me&Jx,R;
         ah(R,'inheritscif','ball','Point',1)
-       // otherses
+   // otherses
         # This turns page
         sy&pageturn = &rd{
-            rc&s != xs&This and me&log,R,'Thisreplace',{i}; return
+            rc&s != xs&This and debugger
             $L = sy&Point
             $i = ss&Page
             ~>4 Pageturn: i
             me&log,R,'Pageturn',{i,L}
+            # GOING
             sy&atPage && sy&atPage(i)
             !L and return
-            if (Ls&Page_out < i) {
+            if (Lc&Page_out < i) {
                 $l = me&log,R,'upto',{i}
                 me&nodei,r,R,{upto:i},{dome:'upto'}
             }
@@ -560,11 +561,11 @@ me.Sch_Travel = &acgt{ return [
         sy&pageturnable = &rd{
             $L = sy&Point
             $i = ss&Page + 1
-            return L && i && Ls&Page_out < i
+            return L && i && Lc&Page_out < i
         }
-       // Plot/Point**
+   // Plot/Point**
         # enters Plot/Point**
-        # < based on Stori rhythms
+        # < based on Stori/* rhythms
         $con = &tyc{
             c ||= {}
             y and c.then = y
@@ -593,10 +594,10 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
     ['Plot',0.33,&acgtRs{
         $x = me&Jx,R
-       // signals
+   // signals
         # async select which Nine/* to get ready
         $who = me&ja,xc&This,'listening',0
-        # %%upto <- This &pageturn past Ls&Page_out
+        # %%upto <- This &pageturn past Lc&Page_out
         $upto = me&ja,R,'upto,efrom',0 || 0
         upto and me&nodei,R,who,{upto},{dome:'upto'}
         
@@ -629,7 +630,8 @@ me.Sch_Travel = &acgt{ return [
                 Lc&then and Lc&then()
                 else {
                     Plots&alldone = 1
-                    me&nodei,R,Plot,'alldone',{dome:'forever'}
+                    me&wants,R,"alldone",Plot
+                    #me&nodei,R,Plot,'alldone',{dome:'forever'}
                     delete Ploty&Point
                 }
             }
