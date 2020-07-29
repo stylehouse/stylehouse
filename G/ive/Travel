@@ -422,7 +422,7 @@ me.Sch_Travel = &acgt{ return [
     
    // nodepile given -seven+
  
- // signals 
+ // signals
   // The<->This %%listening <- %%Having
     # The/Test/Nine is wanted
     ['The',0.46,&acgtRs{
@@ -460,9 +460,9 @@ me.Sch_Travel = &acgt{ return [
         $allready = 1
         $allok = 1
         able.map(&r{
-            me&nodei,R,rc&s,{Checkable:1}
-            !me&ha,r,'ok' and allok = 0
             !me&ha,r,'ready' and allready = 0
+            allready and me&nodei,R,rc&s,'Checkable'
+            !me&ha,r,'ok' and allok = 0
         })
         $q = {allready,allok,gotupto:upto}
         !allready and return
