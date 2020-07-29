@@ -54,8 +54,12 @@
             isst(s) and s = G&peel,s
             shade && isst(shade) and shade = G&peel,shade
             mix && isst(mix) and mix = G&peel,mix
-            # we may be given an $n
-            isC(s) and $os = s; s = ex({},s.sc)
+            # s can be a row, pipelined
+            if (isC(s)) {
+                $os = s
+                s = ex({},s.sc)
+                mix && mix.nodeial and delete mix.nodeial; delete s.efrom; delete s.eto
+            }
             isar(s) and throw "many of these"
 
             # listed
