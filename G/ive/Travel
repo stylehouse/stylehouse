@@ -459,7 +459,7 @@ me.Sch_Travel = &acgt{ return [
             ns&Eigh and throw "Eigh in"
             # L has Eigh+ to get to
             $L = ns&L
-            $LN = N.slice(Lc&Page_in-1,1+Lc&Page_out-Lc&Page_in)
+            $LN = N.slice(Lc&Page_in-1,Lc&Page_out)
             $ready = !hak(LN.filter(r => !me&za,r,'ready'))
             $ok = !hak(LN.filter(r => !me&za,r,'ok'))
             
@@ -474,7 +474,7 @@ me.Sch_Travel = &acgt{ return [
                 a.ok = me&za,r,'ok',0 == 1 ? 1 : 0
                 me&nodei,R,L,n,{},a
             })
-            me&nu,"Group:"+L.t,LN
+            #me&nu,"Group:"+L.t,LN
         })
         # < detecting limbs of %%Checkable pipe with eg %%expect
         # < retracting %%Checkable (from L?)
@@ -494,9 +494,8 @@ me.Sch_Travel = &acgt{ return [
         hak(Ch) > 1 and me&tsc,"multiChin",0,'G' .sc.fs = 30
         hak(Ch) > 1 and Ch.map(n => me&nu,n)
         
-        $check = Ch [0]
-        check ||= x.ro("check",{}) && 'Checkable'
-        check and me&nodei,R,z,check,{},{expect:t}
+        !hak(Ch) && x.ro("check",{}) and Ch[0] = 'Checkable'
+        Ch.map(check => me&nodei,R,z,check,{},{expect:t} )
     },'ift,D'],
     # Eigh%%ready -> Nine
     ['TheEigh',0.37,&acgtRs{
@@ -742,11 +741,12 @@ me.Sch_Travel = &acgt{ return [
             l && !ls&ok and debugger; return
             
             # creation
-            sc&Page_in and return
+            sc&Page_in != null and return
             
             !Plots&Page and throw "!Page"
-            # from|to the current dome or so
-            sc&Page_in = l && lc&Page_in || 1
+            # usu after the last L's Pages
+            sc&Page_in = l && lc&Page_out+1 || 1
+            # usu Point%ok at the end of this Page
             sc&Page_out = Plots&Page + (sc&Pages||1) -1
             # silently become Ploty&Point
             me&log,R,'Point++',{oL:Ploty&Point,L:s}
