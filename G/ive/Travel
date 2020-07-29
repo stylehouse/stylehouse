@@ -592,9 +592,9 @@ me.Sch_Travel = &acgt{ return [
         $S = me&inode,R
         me&OPoint,R,s
     },'ift,D'],
+   // signals
     ['Plot',0.33,&acgtRs{
         $x = me&Jx,R
-   // signals
         # async select which Nine/* to get ready
         $who = me&ja,xc&This,'listening',0
         # %%upto <- This &pageturn past Lc&Page_out
@@ -608,7 +608,14 @@ me.Sch_Travel = &acgt{ return [
             me&ioty,s .filter(L => Lc&Page_out <= as&gotupto)
                 .map(L => me&nodei,R,L,a )
         })
+        # and finally
+        !ss&alldone and return
+        me&tsc,"Done",0,'G'
+        $This = xc&This
+        Thiss&pause = 1
     },'ift,D'],
+   
+   // Point 6
     # they usually want to Checkable stuff til now,
     #  (via the other seeing Lc&Page_out)
     # then come here to say:
@@ -652,7 +659,8 @@ me.Sch_Travel = &acgt{ return [
             throw "L!pi", Lc&pi
         }
     },'ift,D'],
-        
+    
+   // Point 8
     &{ // &iPoint, &Opoint
         me.iPoint = &acgtRtc{
             $x = me&Jx,R
