@@ -1,18 +1,19 @@
-le-2		pi:eight
-  le-2		pi:four
+le-3		pi:eight
+  le-3		pi:four
     node-says		pi:legs
-      node		pi:leg	size:11
+      node		pi:leg	size:12
         0		"Story/The!%eph/vv"	beyond
         1		"Story/The!%eph/vv/vv!%eph"	beyond,size:2
         2		"Story/This!%eph"	beyond
-        3		"Story/This!%eph/This!%eph/le-1"	beyond,size:2
-        4		"Story/The!%eph/vv/vv!%eph/le-1!%eph"	beyond,size:3
-        5		"Story/This!%eph/This!%eph/le-2"	beyond,size:2
-        6		"Story/The!%eph/vv/vv!%eph/le-2!%eph"	beyond,size:3
+        3		"Story/This!%eph/This!%eph/le-2"	beyond,size:2
+        4		"Story/The!%eph/vv/vv!%eph/le-2!%eph"	beyond,size:3
+        5		"Story/This!%eph/This!%eph/le-3"	beyond,size:2
+        6		"Story/The!%eph/vv/vv!%eph/le-3!%eph"	beyond,size:3
         7		"Story/Plot!%eph"	beyond,size:3
-        8		"Story/The!%eph/vv/vv!%eph/beginning!%eph"	beyond,size:3
-        9		"Story/This!%eph/This!%eph/beginning"	beyond
-        10		"Story/The!%eph/vv/vv!%eph/le-3!%eph"	beyond,size:2
+        8		"Story/Plot!%eph/startStory"	beyond,size:3
+        9		"Story/The!%eph/vv/vv!%eph/beginning!%eph"	beyond,size:3
+        10		"Story/This!%eph/This!%eph/beginning"	beyond
+        11		"Story/The!%eph/vv/vv!%eph/le-4!%eph"	beyond,size:2
       gate		pi:leg	size:7
       says		pi:leg
         0		pi:vat,s:waitforquiet
@@ -23,16 +24,17 @@ le-2		pi:eight
     quiet-wake		pi:legs
       quiet		pi:leg
         0		pi:vat,s
-      wake		pi:leg	size:9
+      wake		pi:leg	size:10
         0		"Story/This!%eph"	beyond
         1		"Story/The!%eph/vv/vv!%eph"	beyond,size:2
         2		"Story/Plot!%eph"	beyond,size:2
         3		"Story/The!%eph/vv/vv!%eph/beginning!%eph"	beyond,size:2
         4		"Story/This!%eph/This!%eph/beginning"	beyond
-        5		"Story/The!%eph/vv/vv!%eph/le-1!%eph"	beyond,size:2
-        6		"Story/This!%eph/This!%eph/le-1"	beyond
-        7		"Story/The!%eph/vv/vv!%eph/le-2!%eph"	beyond
-        8		"Story/This!%eph/This!%eph/le-2"	beyond
+        5		"Story/The!%eph/vv/vv!%eph/le-2!%eph"	beyond,size:2
+        6		"Story/This!%eph/This!%eph/le-2"	beyond
+        7		"Story/The!%eph/vv/vv!%eph/le-3!%eph"	beyond
+        8		"Story/This!%eph/This!%eph/le-3"	beyond
+        9		"Story/Plot!%eph/startStory"	beyond
       gate		pi:leg	size:6
     e-on		pi:legs
       e		pi:leg	size:6
@@ -47,32 +49,26 @@ le-2		pi:eight
         1		pi:vat,s:vv	R
         2		pi:vat,s:This	R
       gate		pi:leg	size:6
-    says-i-node		pi:legs
+    says-i-L-node		pi:legs
       says		pi:leg	size:2
         0		pi:vat,s:Pageturn
         1		pi:vat,s:upto
       i		pi:leg
         0		pi:vat,s:3	size:2
+      L		pi:leg
+        0		"Story/Plot!%eph/startStory"	beyond
       node		pi:leg
         0		"Story/Plot!%eph"	beyond,size:2
       gate		pi:leg	size:2
-    says-gotupto-node		pi:legs
-      says		pi:leg
-        0		{"pi":"vat","s":"Plot++"}
-      gotupto		pi:leg
-        0		pi:vat,s:3
-      node		pi:leg
-        0		"Story/Plot!%eph"	beyond
-      gate		pi:leg
     says-L-ok-node		pi:legs
       says		pi:leg
         0		{"pi":"vat","s":"'L++...'"}
       L		pi:leg
-        0		"Story/Plot!%eph/Look"	beyond
+        0		"Story/Plot!%eph/startStory"	beyond
       ok		pi:leg
         0		pi:vat,s
       node		pi:leg
-        0		"Story/Plot!%eph"	beyond
+        0		"Story/Plot!%eph/startStory"	beyond
       gate		pi:leg
   0		pi:seven
     node		
@@ -90,10 +86,11 @@ le-2		pi:eight
         e		pi:C,s:Yingvoids
         on		pi:vat,s:vv	R
   1		pi:seven
-    says-i-node		
+    says-i-L-node		
       0		
         says		pi:vat,s:Pageturn
         i		pi:vat,s:3
+        L		"Story/Plot!%eph/startStory"	beyond
         node		"Story/Plot!%eph"	beyond
   2		pi:seven
     says-i-node		
@@ -106,9 +103,9 @@ le-2		pi:eight
       0		
         node		"Story/This!%eph"	beyond
       1		
-        node		"Story/This!%eph/This!%eph/le-1"	beyond
-      2		
         node		"Story/This!%eph/This!%eph/le-2"	beyond
+      2		
+        node		"Story/This!%eph/This!%eph/le-3"	beyond
     step		
       0		
         step		"Story"
@@ -126,15 +123,17 @@ le-2		pi:eight
       0		
         node		"Story/Plot!%eph"	beyond
       1		
-        node		"Story/The!%eph/vv/vv!%eph"	beyond
+        node		"Story/Plot!%eph/startStory"	beyond
       2		
-        node		"Story/The!%eph/vv/vv!%eph/beginning!%eph"	beyond
+        node		"Story/The!%eph/vv/vv!%eph"	beyond
       3		
-        node		"Story/The!%eph/vv/vv!%eph/le-1!%eph"	beyond
+        node		"Story/The!%eph/vv/vv!%eph/beginning!%eph"	beyond
       4		
         node		"Story/The!%eph/vv/vv!%eph/le-2!%eph"	beyond
       5		
         node		"Story/The!%eph/vv/vv!%eph/le-3!%eph"	beyond
+      6		
+        node		"Story/The!%eph/vv/vv!%eph/le-4!%eph"	beyond
     step		
       0		
         step		"Story"
@@ -151,11 +150,11 @@ le-2		pi:eight
       1		
         node		"Story/The!%eph/vv/vv!%eph/beginning!%eph"	beyond
       2		
-        node		"Story/The!%eph/vv/vv!%eph/le-1!%eph"	beyond
-      3		
         node		"Story/The!%eph/vv/vv!%eph/le-2!%eph"	beyond
-      4		
+      3		
         node		"Story/The!%eph/vv/vv!%eph/le-3!%eph"	beyond
+      4		
+        node		"Story/The!%eph/vv/vv!%eph/le-4!%eph"	beyond
     step		
       0		
         step		"Story"
@@ -163,9 +162,9 @@ le-2		pi:eight
       0		
         wake		"Story/The!%eph/vv/vv!%eph/beginning!%eph"	beyond
       1		
-        wake		"Story/The!%eph/vv/vv!%eph/le-1!%eph"	beyond
-      2		
         wake		"Story/The!%eph/vv/vv!%eph/le-2!%eph"	beyond
+      2		
+        wake		"Story/The!%eph/vv/vv!%eph/le-3!%eph"	beyond
       3		
         wake		"Story/Plot!%eph"	beyond
     e-on		
@@ -177,58 +176,58 @@ le-2		pi:eight
       0		
         node		"Story/Plot!%eph"	beyond
       1		
-        node		"Story/The!%eph/vv/vv!%eph/beginning!%eph"	beyond
+        node		"Story/Plot!%eph/startStory"	beyond
       2		
-        node		"Story/The!%eph/vv/vv!%eph/le-1!%eph"	beyond
+        node		"Story/The!%eph/vv/vv!%eph/beginning!%eph"	beyond
       3		
         node		"Story/The!%eph/vv/vv!%eph/le-2!%eph"	beyond
+      4		
+        node		"Story/The!%eph/vv/vv!%eph/le-3!%eph"	beyond
     step		
       0		
         step		"Story"
     wake		
       0		
-        wake		"Story/This!%eph/This!%eph/le-2"	beyond
+        wake		"Story/This!%eph/This!%eph/le-3"	beyond
       1		
-        wake		"Story/This!%eph/This!%eph/le-1"	beyond
+        wake		"Story/This!%eph/This!%eph/le-2"	beyond
       2		
         wake		"Story/This!%eph/This!%eph/beginning"	beyond
+      3		
+        wake		"Story/Plot!%eph/startStory"	beyond
     e		
       0		
         e		pi:C,s:Yingvoids
   7		pi:seven
-    says-gotupto-node		
-      0		
-        says		{"s":"Plot++","pi":"vat"}
-        gotupto		pi:vat,s:3
-        node		"Story/Plot!%eph"	beyond
-  8		pi:seven
-    says-L-ok-node		
-      0		
-        says		{"s":"'L++...'","pi":"vat"}
-        L		"Story/Plot!%eph/Look"	beyond
-        ok		pi:vat,s
-        node		"Story/Plot!%eph"	beyond
-  9		pi:seven
-    says-node		
-      0		
-        says		pi:vat,s:waitforquiet
-        node		"Story/Plot!%eph"	beyond
-  10		pi:seven
     node		
       0		
         node		"Story/This!%eph/This!%eph/beginning"	beyond
       1		
-        node		"Story/This!%eph/This!%eph/le-1"	beyond
-      2		
         node		"Story/This!%eph/This!%eph/le-2"	beyond
+      2		
+        node		"Story/Plot!%eph/startStory"	beyond
+      3		
+        node		"Story/This!%eph/This!%eph/le-3"	beyond
     step		
       0		
         step		"Story"
     wake		
       0		
-        wake		"Story/The!%eph/vv/vv!%eph/le-1!%eph"	beyond
+        wake		"Story/The!%eph/vv/vv!%eph/le-2!%eph"	beyond
       1		
         wake		"Story/The!%eph/vv/vv!%eph/beginning!%eph"	beyond
     e		
       0		
         e		pi:C,s:Yingvoids
+  8		pi:seven
+    says-L-ok-node		
+      0		
+        says		{"s":"'L++...'","pi":"vat"}
+        L		"Story/Plot!%eph/startStory"	beyond
+        ok		pi:vat,s
+        node		"Story/Plot!%eph/startStory"	beyond
+  9		pi:seven
+    says-node		
+      0		
+        says		pi:vat,s:waitforquiet
+        node		"Story/Plot!%eph"	beyond

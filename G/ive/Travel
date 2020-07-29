@@ -609,6 +609,13 @@ me.Sch_Travel = &acgt{ return [
                 .map(L => me&nodei,R,L,a )
         })
     },'ift,D'],
+    # they usually want to Checkable stuff til now,
+    #  (via the other seeing Lc&Page_out)
+    # then come here to say:
+    #  ok:
+    #    then do some act with-into the next plot point
+    #  not:
+    #    become Story/** hacking session, resume?
     ['Point',0.36,&acgtRs{
         $x = me&Jx,R
         $Plot = xs&Plot
@@ -635,7 +642,7 @@ me.Sch_Travel = &acgt{ return [
                     delete Ploty&Point
                 }
             }
-            else {
+            elsif (!ok) {
                 # throw merging
                 me&tsc,"Error?" .sc.fs = 40
                 Thiss&pause = 1
@@ -703,109 +710,6 @@ me.Sch_Travel = &acgt{ return [
         }
     },
     
-    
-    ['oldPlot',0.33,&acgtRs{
-        $x = me&Jx,R;
-      // L-Page
-        $This = xc&This
-        $D = Thiss&Storystream
-        # Plot/Point** groups D/*
-        $L = sy&Point
-        # they usually want to Checkable stuff til now,
-        #  then do some act with-into the next plot point
-        $vite = &tc{
-            c ||= {}
-            c.upto ||= ss&Page
-            $L = sy&Point = me&fiu,s,[t,'-vite',c]
-            return L
-        }
-        if (!L) {
-            $i = ss&Page = Ds&z.length
-            # check:1,2
-            vite('Look',{then: &{
-                # wait for quiet
-                me&log,R,'waitforquiet'
-                sy&atPage = &{
-                    # 2-3 are Look oking
-                    me&log,R,'OkOk'
-                    vite('okoking')
-                    otherable(L)
-                }
-            }})
-        }
-        # hooks for others
-        # This turns page
-        sy&pageturn = &rd{
-            rc&s != xs&This and me&log,R,'Thisreplace',{i}; return
-            
-            $i = ss&Page = (ss&Page||0) + 1
-            ~>4 Pageturn: i
-            me&log,R,'Pageturn',{i}
-            sy&atPage && sy&atPage(i)
-
-            if (ss&want_upto <= i) {
-                $l = me&log,R,'upto',{i}
-                me&nodei,r,R,{upto:i},{dome:'upto'}
-            }
-        }
-        
-      // upto-gotupto
-        $who = me&ja,This,'listening',0
-        # from This on behalf of Plot, when pageturn
-        $upto = me&ja,R,'upto,efrom',0 || 0
-        # to select which Nine to ready
-        upto and me&nodei,R,who,{upto},{dome:'upto'}
-        
-        $gotupto = me&ja,R,'gotupto,efrom',0 || 0
-        if (gotupto) {
-            ss&got_upto != gotupto and me&log,R,"Plot++",{gotupto}
-            ss&got_upto = gotupto
-        }
-
-        # on init thing to do
-        # < 300ms impatience for getting here
-
-        # get Gump, protoJ for Ying
-        #me&nodei,R,xs&Gump,{narrative:1},{dome:'nar'}
-        
-        # < pipe how the little %Fin/gate -> %Finish
-        L = sy&Point
-        $otherable = &{
-            L = sy&Point
-            if (Lc&pi == 'vite') {
-                ss&want_upto = Lc&upto
-            }
-        }
-        otherable(L)
-        if (Lc&pi == 'vite') {
-            ss&got_upto >= ss&want_upto and Ls&ready = 1
-            if (Ls&ready) {
-                $ok = me&ja,R,'allok,gotupto,efrom',0
-                if (Ls&ok == null) {
-                    Ls&ok = ok
-                    if (ok) {
-                        $say = Lc&then ? "..." : "!"
-                        me&log,R,"L++"+say,{L,ok}
-                        Lc&then and Lc&then()
-                        else {
-                            ss&alldone = 1
-                            delete sy&Point
-                        }
-                    }
-                    else {
-                        me&tsc,"Error?"
-                        Thiss&pause = 1
-                    }
-                }
-            }
-        }
-        else {
-            throw "L!pi", Lc&pi
-        }
-        L != sy&Point and me&waits,"L++"
-        ss&alldone and me&tsc,"DONE"
-        ss&alldone and Thiss&pause = 1
-    },'ift,D'],
   
 // Gump - Know|That %%cha -> Travel
     ['Gumptio',0.5,&acgtRs{
