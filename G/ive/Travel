@@ -447,29 +447,40 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
   // The<->Plot %%Checkable
     # < This%pause as auto %%Checkable + minimise
-    # Eigh%%Checkable <- Plot
+    # Eigh%%Checkable <-> Plot/Point
     ['TheNine',0.45,&acgtRs{
         # upto is a length
         $x = me&Jx,R;
-        $upto = me&ja,R,'upto,efrom',0 || 0
-        !upto and return
-        $able = me&ioty,R,'TheEigh' .slice(0,upto)
-        hak(able) < upto and return
-        # all complete -eight
-        # < some kind of %all,Checkable,ready,ok?
-        $allready = 1
-        $allok = 1
-        able.map(&r{
-            !me&ha,r,'ready' and allready = 0
-            allready and me&nodei,R,rc&s,'Checkable'
-            !me&ha,r,'ok' and allok = 0
+        # L subscribe to results
+        $N = me&ioty,R,'TheEigh'
+        me&jaa,R,'Checkable,L,efrom' .map(&ni{
+            # < returns through Nine?
+            ns&Eigh and debugger
+            ns&Eigh and throw "Eigh in"
+            # L has Eigh+ to get to
+            $L = ns&L
+            $LN = N.slice(Lc&Page_in-1,1+Lc&Page_out-Lc&Page_in)
+            $ready = !hak(LN.filter(r => !me&za,r,'ready'))
+            $ok = !hak(LN.filter(r => !me&za,r,'ok'))
+            
+            LN.map(&r{
+                $Eigh = rc&s
+                # %%Checkable -> Eigh -> -eight
+                me&nodei,R,Eigh,n
+                # all Eigh%%ready
+                !ready and return
+                # L <- %%Checkable,Eigh
+                $a = {Eigh}
+                a.ok = me&za,r,'ok',0 == 1 ? 1 : 0
+                me&nodei,R,L,n,{},a
+            })
+            me&nu,"Group:"+L.t,LN
         })
-        $q = {allready,allok,gotupto:upto}
-        !allready and return
-        # notify Plot once per ~upto of the allready
-        me&nodei,R,xs&Plot,q,{dome:'gotupto'}
+        # < detecting limbs of %%Checkable pipe with eg %%expect
+        # < retracting %%Checkable (from L?)
+        #   fading out Eigh|-eight
     },'ift,D'],
-    # Eigh -> This/$eight%%Checkable
+    # Eigh %%Checkable,+expect=Nine/$t -> -eight
     #  $eight Yingates+Fin:
     #   half happens without it,
     #   -> Eigh%%Fin:$eight,dige checks it ...
@@ -478,12 +489,14 @@ me.Sch_Travel = &acgt{ return [
         $t = Rs&exp
         $z = Rs&got
         !z and return
-        # have an -eight, waiting for %%Eigh
         $r = zy&R
+        $Ch = me&jaa,R,'Checkable,efrom' .filter(n => !ns&Eigh)
+        hak(Ch) > 1 and me&tsc,"multiChin",0,'G' .sc.fs = 30
+        hak(Ch) > 1 and Ch.map(n => me&nu,n)
         
-        $check = me&jaa,R,'Checkable,efrom',1 [0]
-        check ||= x.ro("check",{})
-        check and me&nodei,R,z,{Checkable:1,expect:t}
+        $check = Ch [0]
+        check ||= x.ro("check",{}) && 'Checkable'
+        check and me&nodei,R,z,check,{},{expect:t}
     },'ift,D'],
     # Eigh%%ready -> Nine
     ['TheEigh',0.37,&acgtRs{
@@ -492,7 +505,7 @@ me.Sch_Travel = &acgt{ return [
         $Nine = me&jaa,R,{Checkable:1,eto:s},'efrom' [0]
         !Nine and return
         # then once got storable
-        me&ha,R,'ready' && !me&sa,R,'ready'
+        me&ja,R,'ready' && !me&sa,R,'ready'
             && me&wants,R,'gotready',Nine
     },'ift,D'],
   
@@ -539,6 +552,7 @@ me.Sch_Travel = &acgt{ return [
         me&reaw,R,'Plot'
         $S = me&inode,R;
         $x = me&Jx,R;
+        $go = me&acting,R,'Plot'
         ah(R,'inheritscif','ball','Point',1)
    // otherses
         # This turns page
@@ -548,18 +562,35 @@ me.Sch_Travel = &acgt{ return [
             $i = ss&Page
             ~>4 Pageturn: i
             me&log,R,'Pageturn',{i,L}
-            # GOING
-            sy&atPage && sy&atPage(i)
             !L and return
-            if (Lc&Page_out < i) {
-                $l = me&log,R,'upto',{i}
-                me&nodei,r,R,{upto:i},{dome:'upto'}
+            
+            # spring act, may &iPoint
+            Ly&atPage and Ly&atPage(i); delete Ly&atPage
+            
+            # go through L+ considering new %Page
+            each iL ss&z {
+                # %%Checkable -> Point -> Nine
+                $q = {Checkable:1,L}
+                if (!me&ja,r,q ) {
+                    !Lc&Page_out and throw "!L"
+                    if (Lc&Page_out) {
+                        Lc&Page_out >= ss&Page and break
+                    }
+                    else {
+                        throw "L!howhen"
+                    }
+                }
+                # < ideally %%eto=L will work already
+                me&nodei,r,R,q,{dome:'pageturn'}
             }
+            # < allow it to empty?
+            me&dome_traction,r,'pageturn',{el:2}
         }
-        # sense wanting quiet,wake before Page++
+        # sense wanting quiet,wake
         # < to asap an -eight**
         sy&pageturnable = &rd{
             $L = sy&Point
+            # before Page++
             $i = ss&Page + 1
             return L && i && Lc&Page_out < i
         }
@@ -572,12 +603,13 @@ me.Sch_Travel = &acgt{ return [
             # c.Pages ||= 1 later
             me&iPoint,R,t,c
         }
-        !hak(ss&z) && con('startStory',&{
+        !hak(ss&z) && con('startStory',&L{
             # wait for quiet
             # < default?
             me&log,R,'waitforquiet'
-            sy&atPage = &{
-                # 2-3 are Look oking
+            Ly&atPage = &{
+                # 3,4 are Look oking
+                ~>4 OkOking:
                 me&log,R,'OkOk'
                 con('okoking')
                 # < 300ms impatience for getting here
@@ -587,27 +619,16 @@ me.Sch_Travel = &acgt{ return [
             # < else?
         })
     },'ift,D'],
-    ['Point',0.32,&acgtRs{
-        me&reaw,R,'Point'
-        $S = me&inode,R
-        me&OPoint,R,s
-    },'ift,D'],
    // signals
     ['Plot',0.33,&acgtRs{
         $x = me&Jx,R
-        # async select which Nine/* to get ready
-        $who = me&ja,xc&This,'listening',0
-        # %%upto <- This &pageturn past Lc&Page_out
-        $upto = me&ja,R,'upto,efrom',0 || 0
-        upto and me&nodei,R,who,{upto},{dome:'upto'}
-        
-        # %%gotupto,allready,allok? <- Nine
-        me&jaa,R,'allready,gotupto,efrom' .map(&ai{
-            i > 0 and throw "one"
-            # -> Point
-            me&ioty,s .filter(L => Lc&Page_out <= as&gotupto)
-                .map(L => me&nodei,R,L,a )
+        # < forwarding %%L here to /L
+        # &pageturn L{%Page > L%Page_out}
+        #  -> Plot -> /Point:L
+        me&jaa,R,'Checkable,L,efrom' .map(&n{
+            $e = me&nodei,R,ns&L,n
         })
+        
         # and finally
         !ss&alldone and return
         me&tsc,"Done",0,'G'
@@ -623,25 +644,56 @@ me.Sch_Travel = &acgt{ return [
     #    then do some act with-into the next plot point
     #  not:
     #    become Story/** hacking session, resume?
+    &{
+        # qualities on a jaa and what it wants todo
+        # < see arou(...Eighed below
+        me.brackstream = &acgtRs{
+        
+        }
+    },
+    ['Point',0.32,&acgtRs{
+        me&reaw,R,'Point'
+        $S = me&inode,R
+        
+        me&OPoint,R,s
+    },'ift,D'],
     ['Point',0.36,&acgtRs{
         $x = me&Jx,R
+        $go = me&acting,R,'Point'
         $Plot = xs&Plot
-        $This = xs&This
-        # ...
-        $a = me&jaa,R,'allready' [0]
-        !a and return
-        $wasready = me&sa,R,'allready'
+        $This = xc&This
         $L = s
+        
+        $Ch = me&jaa,R,'Checkable,efrom' .filter(n => !ns&Eigh)
+        hak(Ch) > 1 and me&tsc,"multiChin",0,'G' .sc.fs = 30
+            
+        # async select which Nine/* to get ready
+        $who = me&ja,This,'listening',0
+        $N = me&jaa,R,'Checkable,L,efrom'
+        $Eighed = []
+        arou(N,n => ns&Eigh,Eighed) .map(&ni{
+            i > 0 and throw "one"
+            ns&L != L and throw "Confus"
+            #debugger
+            me&nodei,R,who,n
+        })
+        
+        !hak(Eighed) and return
+        
+        # L receives %%Eigh%%ready,ok?
+        $ok = !hak(Eighed.filter(n => !ns&ok)) ? 1 : 0
+        $before = Ls&ok != null
+        $wasok = Ls&ok
+        Ls&ok = ok
+        !ok && wasok and debugger
+        
         if (Lc&pi == 'Point') {
-            $ok = as&allok || 0
-            $wasok = Ls&ok
-            Ls&ok = ok
-            if (ok && !(wasready && wasok)) {
-                !wasok and Ls&became_ok = 1
+            if (ok && !wasok) {
+                before and Ls&became_ok = 1
                 # act onwards
                 $say = Lc&then ? "..." : "!"
                 me&log,R,"L++"+say,{L,ok}
-                Lc&then and Lc&then()
+                Lc&then and Lc&then(L)
                 else {
                     Plots&alldone = 1
                     me&wants,R,"alldone",Plot
@@ -660,8 +712,8 @@ me.Sch_Travel = &acgt{ return [
         }
     },'ift,D'],
     
-   // Point 8
-    &{ // &iPoint, &Opoint
+   // Point 8 - &iPoint, &Opoint
+    &{
         me.iPoint = &acgtRtc{
             $x = me&Jx,R
             $Plot = xs&Plot
@@ -687,18 +739,19 @@ me.Sch_Travel = &acgt{ return [
             me.neigh(s,&lr{ sy&l = l; sy&r = r })
             $l = sy&l
             # never later before?
-            l && !ls&ok and return
-            # creation, relation to now
-            if (sc&Page_in == null) {
-                !Plots&Page and throw "!Page"
-                # from|to the current dome or so
-                sc&Page_in = l && lc&Page_in || 1
-                sc&Page_out = Plots&Page + (sc&Pages||1) -1
-                # silently become Ploty&Point
-                me&log,R,'Point++',{oL:Ploty&Point,L:s}
-                Ploty&Point = s
-            }
-            ss&ready and return
+            l && !ls&ok and debugger; return
+            
+            # creation
+            sc&Page_in and return
+            
+            !Plots&Page and throw "!Page"
+            # from|to the current dome or so
+            sc&Page_in = l && lc&Page_in || 1
+            sc&Page_out = Plots&Page + (sc&Pages||1) -1
+            # silently become Ploty&Point
+            me&log,R,'Point++',{oL:Ploty&Point,L:s}
+            Ploty&Point = s
+            
             # starting
             if (sc&acts) {
                 # either may set up
@@ -713,7 +766,6 @@ me.Sch_Travel = &acgt{ return [
                 
                 # < &nodei electrodes in, adjust things etc
             }
-            ss&ready = 1
             # either will get to R:Point when &pageturn %upto satisfied
         }
     },
