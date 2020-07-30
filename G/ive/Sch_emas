@@ -1,8 +1,16 @@
 # Picturity
+   // modulat
     me.scroll = &acgts{
         s&mh = s;
         s&over = 1
     }
+    # in-modulat &nu
+    me.mnu = &acgtgts{
+        $nu = me&nu,t,s;
+        nus&ope = 1;
+        me&zN,nu;
+        me&zuct,g,nu;
+    };
    // pi f
     # selective ex, removing
     #  as in consuming arguments from a c
@@ -86,7 +94,7 @@
         #   separation coming before the row:{} here
         #   better getting at the row in &ind, grouped by arkfor?
         #   and tw mode, or even t mode (dup keep z)
-        #   otherwise works:
+        #   otherwise works:    this v is io's d.row, not brack row
         #i $D/@row row:{ s&gate = s.row[1] } y o $s/:gate/:row
         # instead:
         me&ioty,s .map(&z{
@@ -237,8 +245,267 @@
         # normal -vat -> -n, talk of ground things
         Dc&pi == 'n' and delete Dc&pi
     }
-   // stylemap
+  // stylemap
     
-   // -brackology**
+  // -brackology** - takes a look
+    # situating crammed meanings
+    #  wildest edge of things, where wheres where
+    # < fill with hooks, combine with KnowC?
+    #   see CB, which also wants:
+    # < brackology with styles
+    # < may have already been, shade difference?
+    
+    # find openness asap, ology upwards
+    me.sbrackope = &acgtjkc{
+        $C = js&C
+        $z = jc&s
+        $bk = 'brack'+k+'ology'
+        $ok = bk+"_ope"
+        $tog = &q{
+            # q.name qualifies up g to R
+            $n = q.n = me&tsc,q.may,q.s,'y'
+            $issetor = &z,is{
+                z.y [ok] == null && is != null and z.y [ok] = is
+                return z.y [ok]
+            }
+            # 0..2 adjustable
+            me.nto(j,q.n,&sTe{
+                $add = e.t.startsWith('C') ? -1 : 1
+                # may start from an ope we inherit
+                $is = issetor(z,ope) || 0
+                is += add
+                is > 2 and is = 2
+                is < -1 and is = -1
+                z.y [ok] = is
+            })
+            # inherit last defined ok
+            $ope = 1
+            zy&R && me.cbu(zy&R,&r{
+                $z = rc&s
+                if (z) {
+                    $te = rs&Te
+                    # may remember over null
+                    te and issetor(z,te.sc[ok])
+                    $is = z.y [ok]
+                    if (is != null) {
+                        te.sc[ok] = is
+                        ope = is; return 1
+                    }
+                }
+                rs&Peace == 4 and return 1
+            })
+            ns&fs = 9+(ope*2)
+            # to &vlabinto, &opelabel: puts ope on gs&ope
+            return ope
+        }
+        $g = j.sc[bk] ||= me&opeology,k,{label:{walls:'bg',tog}};
+        gs&opek = ok
+        !c and return
+        
+        c.sc and ex(g.sc,c.sc)
+        gs&ope and gs&pow = gs&ope
+        gs&pow ||= 0
+        
+        gs&ws = 0;
+        if (gs&pow > 1) {
+            #gs&float = 'right';
+            #gs&dis = 2;
+        }
+        me&walls,g,'b:2.2h6';
+        
+        return g;
+    };
+    
+    me.sbrackology = &acgtjzc{
+        $C = js&C
+        c ||= {}
+        $config = c
+        isst(z) and z = j.sc[z]
+        !isC(z) and throw "!z"
+        $k = c.t || z.t;
+        $g = me&brackope,j,k,config||{}
+        !z and return g;
+        
+        $X = zs&X ||= me&brackX,zs&z;
+        
+        !hak(X.k) and return g
+        
+        gy&brack = z;
+        zy&brackology = g;
+        gy&X = X;
+        
+        if (gs&ope) {
+            #me&nu,'waigh',z;
+            #me&nu,"X",X;
+        }
+        
+        # 0 - t-only, grouped
+        # 1 - with amounts
+        # 2 - t:v, for 1 v only (as now)
+        # < t-only, of at the toplevel
+        if (gs&pow < 0) {
+            # < only changes pop up, shrink in
+            $op = me&sizo,g,{t:'rows',len:zs&z.length,opelen:1};
+            me&sizo,g,{len:hak(X.k)};
+            !(op && ops&ope) and return g
+        }
+        
+        $N = me&brackgroupX,j,z;
+        
+        each ic N {
+            $ug = g;
+            if (!cs&X) {
+                cs&X = me&brackX,cs&z;
+                ug = me&opeKn,g,c.t+'-'+i,{walls:'bd:1.4'}
+                ugs&bgh = 581;
+                ugs&dis = 2;
+            }
+            ugc&rows = cs&z;
+            ugs&pow = gs&pow;
+            ugs&ope = gs&ope;
+            #j.t == 'Travel' and me&nu,"rowish"+i,c
+            me&brackXology,ug,cs&X,config;
+        }
+        # < X.ref for inter-group object link
+        # < ny&act from a &acting%ope glow
+        return g;
+    };
+    # regroup similar rows
+    # allowing a and a+b to fit together,
+    #  sizo per column|value communicates the oddness
+    # < show clearer when Km%ope (tabular?)
+    me.sbrackgroupX = &acgtjz{
+        $N = [];
+        each in zs&z {
+            nc&drop and continue
+            $ks = haks(n.sc);
+            $matchness = 0;
+            $match = null;
+            each ic N {
+                $no = haks(c.c).filter(k => !hak(n.sc,k)).length;
+                no > 1 and continue
+                ns&dome != cc&dome and continue
+                $yes = ks.filter(k => hak(c.c,k)).length;
+                $matched = yes - no;
+                matched <= matchness and continue
+                match = c;
+                matchness = matched;
+                #j.t == 'Travel' and me&nu,"matched"+i,[ks.join(','),matched+'('+yes+'/'+no+')'+matchness,c.t]
+            }
+            if (match && matchness >= ks.length-1) {
+                # groups members with <= 1 odd key
+                $c = match;
+                ac(c,'z',n);
+            }
+            else {
+                $c = Cye([ks.join(','),1]);
+                c.c = ex({},n.sc)
+                cs&z = [n];
+                N.push(c)
+            }
+        }
+        #N.length == 1 and N = [z]
+        return N
+    };
+  
+  // brackXology - draw openable!
+    # draw openable X.k/ref/z
+    me.sbrackXology = &acgtgXc{
+        c ||= {}
+        $Kms = [];
+        each kx X.k {
+            $Km = me&opeKm,g,k;
+            Kmc&k = k;
+            Kmc&x = x;
+            #
+            Kms&pow = 1
+            $con = c.kc && c.kc[k]
+            con and ex(Km.sc,con)
+            gs&ope && Kms&ope == null and Kms&ope = 1
+            Kms&ope and Kms&pow = gs&pow = 2
+            gs&pow ||= 0
+            Kms.push(Km)
+        }
+        
+        gs&pow < 2 and gs&ma = 0.2
+        each i,Km Kms {
+            $k = Kmc&k;
+            $x = Kmc&x;
+            if (Kms&pow < 1) {
+                Kms&ma = 0.1
+                continue
+            }
+            
+            # total values for key, Km%ope if 1
+            me&opesizup,Km,{len:hak(x.ref)};
+            !Kms&ope and continue
+            
+            fio(Km,['ope',1,{s:":"},'hs:888']);
+            $vii = 0;
+            each vi,fx x.ref {
+                $v = x.refs[vi];
+                $lc = me&labeline,v
+                $Kn = me&opeKn,Km,lc.t,{label:{tsc:'y'}};
+                Kny&v = v
+                ac(Kn,'vis',vi)
+                
+                $lab = Kny&label;
+                $bsize = Knc&size || Knc&sortcv && 1 || 0
+                Knc&sortcv = 1;
+                lc.C &&
+                    fio(Kn,['sym'+vi,112,{s:lc.sym},
+                    'label,fs:13,lh:0.8,hs:757']);
+
+                # total rows for this value with this key
+                # < light up other k/v/rows this k/v/row has
+                Knc&size = 0
+                me&sizo,Kn,{len:fx.z.length};
+                # many same lc.t pile up many sym, add sizo
+                # < fix in -ology
+                Knc&size ||= 1
+                Knc&size *= 1
+                bsize and Knc&size = (Knc&size||1)*1 + bsize*1
+                Knc&size == 1 and delete Knc&size
+                Knc&size > 2000 and debugger
+                Kns&ma = 0.2;
+                if (Kns&ope) {
+                    each in fx.z {
+                        $val = n.sc[k];
+                        $na = [g.t,k,vi,i].join("'");
+                        $wa = me&opeKn,Kn,na;
+                        way&cv = 0.2;
+                        was&dis = 1;
+                        # sprout icon, some non-nu to click
+                        $wan = me&opeKn,wa,'ܤ',{label:{tsc:'y'}};
+                        if (wans&ope) {
+                            # whole row
+                            me&mnu,wa,'row',n
+                        }
+                        else {
+                            # for the value
+                            me&mnu,wa,k,val;
+                        }
+                        wany&cv = 0.8;
+                    }
+                }
+            }
+        }
+        return g
+    };
+    # a title for $s, data if weird
+    # < -vat compat, fliop
+    me.slabeline = &acgts{
+        $c = {}
+        if (isC(s)) {
+            c.C = 1
+            c.sym = isR(s) ? 'R' : 'C'
+        }
+        c.t = c.C ? s.t :
+            s == null ? '*null' :
+            isst(s) ? s :
+            isob(s) ? ki(s,2) : ""+s;
+        return c
+    }
+    
    
    
