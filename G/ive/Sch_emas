@@ -27,9 +27,19 @@
         }
         return s
     }
-    
+    # "$t1-$t2" for [C,C,C{.t==not}]
+    window.joint = &N,join,not{
+        # ioty may N=C/*
+        return me&ioty,N .map(n => n.t)
+            .filter(t => not == null || t != not)
+            .join(join)
+    }
     window.defor = &sc{
         return s != null ? s : c
+    }
+    # y(k,v) for s
+    window.hav = &sy{
+        return haks(s).map(k => y(s[k],k))
     }
     # create a -pi on a node
     me.Api = &acgtstc{
@@ -95,7 +105,7 @@
         #   better getting at the row in &ind, grouped by arkfor?
         #   and tw mode, or even t mode (dup keep z)
         #   otherwise works:    this v is io's d.row, not brack row
-        #i $D/@row row:{ s&gate = s.row[1] } y o $s/:gate/:row
+        # i $D/@row row:{ s&gate = s.row[1] } y o $s/:gate/:row
         # instead:
         me&ioty,s .map(&z{
             me&ioty,z .map(&t{
@@ -104,22 +114,43 @@
                 ac(D,'z',t)
             })
         })
+        
         # < interactive
-        $g = me&brackology,R,D,{t:'four'}
-        me&walls,g,'b:2.2';
-        gs&hue = 200
-        ac(R,'M',g);
-       // into el:2-four..-vat
-        me&ioty,g .map(&Km,{
-            !Kms&groupthing and return
-            
-            $tee = me&ioty,Km .map(Kn => Kn.t)
-                .filter(t => t != 'gate').join('-')
-            # < &fiu,s,z,2 - fatal create?
-            me&fiu,fo,tee,8 and throw "already a "+tee
-            $mg = Kmy&gate = me&fiu,fo,tee
-            mgc&pi = 'legs'
-            
+        $br = me&pibrackology,R,s,{D}
+        bry&M(&Km,{
+            $leg = me&pilegs,R,s,{Km}
+            # fatal create
+            me&fiu,fo,leg,2
+        })
+        
+        $po = me&pipooling,R,fo
+        gof and me&nu,"Po",po
+        
+        return fo
+    }
+    # draws drawings together as plans to complete them
+    # find all -pi for s, generating an M
+    me.pipooling = &acgtRsc{
+        $po = me&Api,s,'pooling',c
+        # searches s for sy&somethingc&pi,
+        #  eg s=$fo=-four, finds $D, $br
+        $M = []
+        $api = v => v && v.c && v.c.pi && M.push(v)
+        hav(s.y, v => api(v))
+        # and eg $fo/$leg+
+        sc&pi && me&ioty,s .map(v => api(v))
+        
+        poc&M = arou(uniq(M),v=>v!=po)
+        return po
+    }
+    # ology - way to lum -brackology/Km
+    # 
+    me.pilegs = &acgtRsc{
+        $Km = c.Km
+        !Km and throw "!Km"
+        c.t ||= joint(Km,'-','gate')
+        $mg = me&Api,s,'legs',c
+        
             me&ioty,Km .map(&Kn,{
                 $N = me&ioty,Kn
                 #me&nu,"Kn:"+Kn.t,N
@@ -162,9 +193,19 @@
                     }
                 }
             })
-        })
-       // etc 
-        return fo
+        return mg
+    }
+    me.pibrackology = &acgtRsc{
+        $D = c.D
+        !D and throw "!D"
+        $g = me&brackology,R,D,{t:'four'}
+        me&walls,g,'b:2.2'
+        gs&hue = 200
+        ac(R,'M',g)
+        gy&M = &y{
+            me&ioty,g,'groupthing' .map(m => y(m))
+        }
+        return g
     }
     me.piseven = &acgtRsc{
         $se = me&Api,s,'seven',c
