@@ -30,9 +30,16 @@
     # "$t1-$t2" for [C,C,C{.t==not}]
     window.joint = &N,join,not{
         # ioty may N=C/*
-        return me&ioty,N .map(n => n.t)
-            .filter(t => not == null || t != not)
-            .join(join)
+        $M = me&ioty,N .map(n => isC(n) ? n.t : n)
+            .filter(t => t != null && (not == null || t != not))
+        $s = M.shift()
+        join ||= '-'
+        each in M {
+            # leading joiner-ish thing
+            n.startsWith('<'+join) and s += n
+            else { s += join+n }
+        }
+        return s
     }
     window.defor = &sc{
         return s != null ? s : c
