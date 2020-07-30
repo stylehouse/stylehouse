@@ -924,25 +924,33 @@ me.vlabinto = &acgtgc{
     $R = Cy&R;
     c ||= {};
     # qualify up g
-    $name = me.cby(g) .map(n => n.t) .join("_");
-    $q = {name,may:'label_'+name,s:c.s||g.t};
-    c.tsc and q.tsc = delete c.tsc
-    # see -brackology
-    $ope = c.tog ? c.tog(q) : me&rolltog,R,q
-    
-    q = q.n
-    me&modopt,R,g,q
+    # < cbub(s,Rc&s) that always returns something, up to Rc&s
+    $name = [];
+    me.cby(g,s => name.unshift(s) && s == Rc&s)
+    name = name.map(n => n.t) .join("_");
+    $qc = {name,may:'label_'+name,s:c.s||g.t};
+    c.tsc and qc.tsc = delete c.tsc
+    # see -brackology, i $g/$label
+    if (c.tog) {
+        q = c.tog(g,qc)
+    }
+    else {
+        $ope = me&rolltog,R,qc
+        q = qc.n
+        qs&ope = ope
+        me&modopt,R,g,q
+    }
     qy&cv = 0.12;
-    qs&ope = ope;
     if (c.opeg) {
-        gs&ope = ope;
-        if (ope) {
+        gs&ope = qs&ope
+        # open labels enlarge the Km
+        if (qs&ope) {
             $Km = me.cbub(g,'grouping');
             Km and delete Kms&fs
         }
     }
     # styles the vertical text, not the spacer it's in
-    me&applystylec,qy&label||q,c;
+    me&applystylec,qy&label||q,qc;
     me&opewires,q;
     return q
 };
