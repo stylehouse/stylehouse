@@ -234,7 +234,7 @@
     # < may have already been, shade difference?
     # < Citology, has nk/gk etc scrambling in one pool?
     
-    # merge eight:N/seven:z/row into D/row+%%gate=z
+    # D-gate/@row+%gate=oD = N/oD/row
     me.pigate = &acgtRsc{
         $N = c.N
         !N and throw "!N"
@@ -263,19 +263,24 @@
         $br = me&Api,s,'brackology',c
         $D = c.D
         !D and throw "!D"
-        # c mostly goes to the -group*
-        $g = me&piology,R,br,{D}
-        me&mtsc,g,"Steve",0,'G'
-        
-        # br <-> D, Ds&X ||= index(D)
+        # br <-> D
+        # < maniable
         bry&brack = D;
         Dy&brackology = br;
-        # anything not destroying D (and thus X), eg -gate
-        #  should keep X up to date (eg &bracki)
-        $X = Ds&X ||= me&brackX,Ds&z
-        # < going? Nodar the only other y&X, should be s&X
-        bry&X = X;
-        !hak(X.k) and return br
+        # g-ology: the viewable unity
+        #  c mostly goes to the -group* later
+        #  who render things into g
+        # since g == br,
+        #  gear in br/* (params) may sit near the %groupthing they are for
+        # < that should be %grouping, with no label
+        #  < because the Kn labels look enough like it
+        # < they could hoist elsewhere, eg the minimaps of Abodis,
+        # < any -ology should be able to grok Km/Kn/n, see &KnowC
+        #   and pipe into projections, gaining extra layout layers
+        #   gy&M shall iterate Km for its current group+ology
+        # < g-ology projecting its own gy&ology is short circuit
+        #   suppose there must be a mediating force between each -ology
+        $g = me&piology,R,br,{D}
         
         # we have bry&ology, so:
         # < -groupbrack <-> -groupology
@@ -284,20 +289,26 @@
         # < X.ref for inter-group object link
         # < ny&act from a &acting%ope glow
         # < X == by&X && X.i same?
-        
+        # < only changes pop up, shrink in
         # < separate sizology
+        #    the brackgroup causes -brack on D?
+        
+      // D index, size
+        # Ds&X should be up to date, eg &bracki
+        #  or not yet created, eg -gate el:2 D
+        $X = Ds&X ||= me&brackX,Ds&z
+        !hak(X.k) and return br
         #-1 - only amounts (rows + uniq t)
         # 0 - t-only
         # 1 - with amounts
         # 2 - t:v, for 1 v only (as now)
         # < t-only, of at the toplevel
         if (gs&pow < 0) {
-            # < only changes pop up, shrink in
-            $op = me&sizo,g,{t:'rows',len:zs&z.length,opelen:1};
+            $op = me&sizo,g,{t:'rows',len:Ds&z.length,opelen:1};
             me&sizo,g,{len:hak(X.k)};
-            !(op && ops&ope) and return g
+            !(op && ops&ope) and return br
         }
-        
+      // D group
         $N = me&brackgroupX,s,D;
         
         each iD N {
