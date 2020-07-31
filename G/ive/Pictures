@@ -223,9 +223,9 @@
         Dc&pi == 'n' and delete Dc&pi
     }
   
-  // stylemap
+  // stylemap - make outsidable
     
-  // -brackology** - takes a look
+ // -brackology** - takes a look
     # situating crammed meanings
     #  wildest edge of things, where wheres where
     # < fill with hooks, combine with KnowC?
@@ -234,36 +234,13 @@
     # < may have already been, shade difference?
     # < Citology, has nk/gk etc scrambling in one pool?
     
-    # D-gate/@row+%gate=oD = N/oD/row
-    me.pigate = &acgtRsc{
-        $D = me&Api,s,'gate'
-        $N = c.N
-        !N and throw "!N"
-        # < i $D/@row%gate=@gate y:row o $s/:gate/:row
-        # < separation happening. it's not our $row to eat.
-        #   separation coming before the row:{} here
-        #   better getting at the row in &ind, grouped by arkfor?
-        #   and tw mode, or even t mode (dup keep z)
-        #   otherwise works:    this v is io's d.row, not brack row
-        # i $D/@row row:{ s&gate = s.row[1] } y o $s/:gate/:row
-        # instead:
-        Ds&z ||= []
-        me&ioty,N .map(&z{
-            me&ioty,z .map(&t{
-                t = Cye(t)
-                ts&gate = z
-                ac(D,'z',t)
-            })
-        })
-        return D
-    }
-    
     # start an interactive viewability of brack
     # find openness asap, ology upwards
     me.pibrackology = &acgtRsc{
         $br = me&Api,s,'brackology',c
         $D = c.D
         !D and throw "!D"
+      // D-ology
         # br <-> D
         # < maniable
         bry&brack = D;
@@ -310,22 +287,11 @@
             !(op && ops&ope) and return br
         }
       // D group
-        =pod
-         < -group/* = -groupbrack_similark, -grouprefs, -groupspace(-groupnodar)
-           should be a pipe, ^ i D o D%X
-          < further D may be another layer of info, relative to origin
-             how to traverse the origin to get the grouping
-            not the origin in that grouping
-          < ideally producing only X (not new D+rows)
-            having ways to the original node and indexing qualities against them
-            they might have an index of which indexes are important,
-             and how to compute metrics for possible layouts
-            can &bracko handle that? with joins?
-           so many X, each perspecting D**
-        =cut
-        # pre-Km 
-        $gr
-        $N = me&brackgroupX,s,D;
+        # pre-Km structure pooling
+        $gr = me&pigroup,R,br,c
+        # i D o D%X
+        $N = me&pigroupbrack_similark,R,gr,c
+        # < D rows %%Km,n ?
         
         # piping into: i Km o D%X        
         each iD N {
@@ -350,18 +316,46 @@
         return br
     }
    
-   // -group # i -ology/Km
+ // -group # i -ology/Km {reasoning} o $info**
+  // structure pooling -> Km+
+    =pod
+     < -group/* = -groupbrack_similark, -grouprefs, -groupspace(-groupnodar)
+       should be a pipe, ^ i D o D%X
+     
+     < D indentifying its structure
+       when D = a -group*,
+        D provides an iterator for %%Km,D:z
+         and more, magical overlaying D:others
+
+      < further D may be another layer of info, relative to origin
+         how to traverse the origin to get the grouping
+        not the origin in that grouping
+
+      < ideally producing only X (not new D+rows)
+        having ways to the original node and indexing qualities against them
+        they might have an index of which indexes are important,
+         and how to compute metrics for possible layouts
+        can &bracko handle that? with joins?
        
+       so many X, each perspecting D**
+    =cut
+    me.pigroup = &acgtRsc{
+        $D = me&Api,s,'group'
+        c.D and Dy&origin = D
+        return D
+    }
+  // structures
+   // addition
     # regroup similar rows
     # allowing a and a+b to fit together,
     #  sizo per column|value communicates the oddness
     # < show clearer when Km%ope (tabular?)
-    me.pigroupbrack = &acgtjz{
-        $mg = me&Api,s,'groupbrack',c
-        $D = c.D
-        !D and throw "!D"
+    me.pigroupbrack_similark = &acgtRsc{
+        $D = me&Api,s,'groupbrack_similark',c
+        # $j $z?
+        $C = c.D
+        !C and throw "!D"
         $N = [];
-        me&ioty,D 
         each in zs&z {
             nc&drop and continue
             $ks = haks(n.sc);
@@ -394,8 +388,33 @@
         return N
     };
    
+   // subtraction
+    # D-gate/@row+%gate=oD = N/oD/row
+    me.pigate = &acgtRsc{
+        $D = me&Api,s,'gate'
+        $N = c.N
+        !N and throw "!N"
+        # < i $D/@row%gate=@gate y:row o $s/:gate/:row
+        # < separation happening. it's not our $row to eat.
+        #   separation coming before the row:{} here
+        #   better getting at the row in &ind, grouped by arkfor?
+        #   and tw mode, or even t mode (dup keep z)
+        #   otherwise works:    this v is io's d.row, not brack row
+        # i $D/@row row:{ s&gate = s.row[1] } y o $s/:gate/:row
+        # instead:
+        Ds&z ||= []
+        me&ioty,N .map(&z{
+            me&ioty,z .map(&t{
+                t = Cye(t)
+                ts&gate = z
+                ac(D,'z',t)
+            })
+        })
+        return D
+    }
+    
    
-   // -ology # o -ology/Km
+  // -ology # i $metrics o -ology/Km
     # viewable end of a -process
     # eg -brackology is -brack -> -ology
     me.piology = &acgtRsc{
