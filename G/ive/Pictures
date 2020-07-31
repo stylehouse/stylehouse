@@ -274,7 +274,7 @@
       // D index, size
         # Ds&X should be up to date, eg &bracki
         #  or not yet created, eg -gate el:2 D
-        $X = Ds&X ||= me&brackX,Ds&z
+        $X = me&brackXD,D
         !hak(X.k) and return br
         #-1 - only amounts (rows + uniq t)
         # 0 - t-only
@@ -283,6 +283,7 @@
         # < t-only, of at the toplevel
         if (gs&pow < 0) {
             $op = me&sizo,g,{t:'rows',len:Ds&z.length,opelen:1};
+            # < each type of X.*, will be Km mot
             me&sizo,g,{len:hak(X.k)};
             !(op && ops&ope) and return br
         }
@@ -290,14 +291,19 @@
         # pre-Km structure pooling
         $gr = me&pigroup,R,br,c
         # i D o D%X
-        $N = me&pigroupbrack_similark,R,gr,c
-        # < D rows %%Km,n ?
+        $D = me&pigroupbrack_similark,R,gr,c
         
-        # piping into: i Km o D%X        
+        # piping into: i Km o D...%X  
+        # < D iterates rows of %%K,n,Km?,... 
+        me&Kmish,D (&DCn{
+            # < might be no regroup
+            D == C and debugger
+            
+            me&Kmish,C (&DCn{
         each iD N {
             $ug = g;
             if (!Ds&X) {
-                Ds&X = me&brackX,Ds&z;
+                Ds&X = me&brackX,Ds&z
                 # < t?
                 ug = me&opeKn,g,c.t+'-'+i,{walls:'bd:1.4'}
                 ugs&bgh = 581;
@@ -342,50 +348,189 @@
     me.pigroup = &acgtRsc{
         $D = me&Api,s,'group'
         c.D and Dy&origin = D
+        # Km = agreeable Km,D
         return D
     }
+    # draw openable X.k/ref/z
+    me.sbrackXology = &acgtgXc{
+        c ||= {}
+        $Kms = [];
+        each kx X.k {
+            $Km = me&opeKm,g,k;
+            Kmc&k = k;
+            Kmc&x = x;
+            #
+            Kms&pow = 1
+            $con = c.kc && c.kc[k]
+            con and ex(Km.sc,con)
+            gs&ope && Kms&ope == null and Kms&ope = 1
+            Kms&ope and Kms&pow = gs&pow = 2
+            gs&pow ||= 0
+            Kms.push(Km)
+        }
+        
+        gs&pow < 2 and gs&ma = 0.2
+        each i,Km Kms {
+            $k = Kmc&k;
+            $x = Kmc&x;
+            if (Kms&pow < 1) {
+                Kms&ma = 0.1
+                continue
+            }
+            
+            # total values for key, Km%ope if 1
+            me&opesizup,Km,{len:hak(x.ref)};
+            !Kms&ope and continue
+            
+            fio(Km,['ope',1,{s:":"},'hs:888']);
+            $vii = 0;
+            each vi,fx x.ref {
+                $v = x.refs[vi];
+                $lc = me&labeline,v
+                $Kn = me&opeKn,Km,lc.t,{label:{tsc:'y'}};
+                Kny&v = v
+                ac(Kn,'vis',vi)
+                
+                $lab = Kny&label;
+                $bsize = Knc&size || Knc&sortcv && 1 || 0
+                Knc&sortcv = 1;
+                lc.C &&
+                    fio(Kn,['sym'+vi,112,{s:lc.sym},
+                    'label,fs:13,lh:0.8,hs:757']);
+
+                # total rows for this value with this key
+                # < light up other k/v/rows this k/v/row has
+                Knc&size = 0
+                me&sizo,Kn,{len:fx.z.length};
+                # many same lc.t pile up many sym, add sizo
+                # < fix in -ology
+                Knc&size ||= 1
+                Knc&size *= 1
+                bsize and Knc&size = (Knc&size||1)*1 + bsize*1
+                Knc&size == 1 and delete Knc&size
+                Knc&size > 2000 and debugger
+                Kns&ma = 0.2;
+                if (Kns&ope) {
+                    each in fx.z {
+                        $val = n.sc[k];
+                        $na = [g.t,k,vi,i].join("'");
+                        $wa = me&opeKn,Kn,na;
+                        way&cv = 0.2;
+                        was&dis = 1;
+                        # sprout icon, some non-nu to click
+                        $wan = me&opeKn,wa,'ܤ',{label:{tsc:'y'}};
+                        if (wans&ope) {
+                            # whole row
+                            me&mnu,wa,'row',n
+                        }
+                        else {
+                            # for the value
+                            me&mnu,wa,k,val;
+                        }
+                        wany&cv = 0.8;
+                    }
+                }
+            }
+        }
+        return g
+    };
+    # a title for $s, data if weird
+    # < -vat compat, fliop
+    me.slabeline = &acgts{
+        $c = {}
+        if (isC(s)) {
+            c.C = 1
+            c.sym = isR(s) ? 'R' : 'C'
+        }
+        c.t = c.C ? s.t :
+            s == null ? '*null' :
+            isst(s) ? s :
+            isob(s) ? ki(s,2) : ""+s;
+        return c
+    }
   // structures
+    me.Kmish = &acgtD{
+        !D and throw "!D"
+        me&brackXD,D
+        $d = Dc&brackin
+        !d and throw "noindex"
+        # any D-group* y&M interates Cn, before Km
+        return &y{
+            d == 1 and $N = [D]
+            else {
+                $index = [...Array(i)].map(t=>'*')]
+                $N = me&ioty,D,index
+            }
+            N.map(&C{
+                each in Cs&z {
+                    nc&drop and continue
+                    y (D,C,n)
+                }
+            })
+        }
+    }
+    # < Kmish returning what y (D,C,n) returns
+    me.resultily = &{
+        
+    }
+    me.brackXD = &acgtD{
+        # for N
+        return Ds&X ||= me&brackX,Ds&z
+    }
    // addition
     # regroup similar rows
     # allowing a and a+b to fit together,
     #  sizo per column|value communicates the oddness
+    # splitting by %%dome:$v
     # < show clearer when Km%ope (tabular?)
     me.pigroupbrack_similark = &acgtRsc{
         $D = me&Api,s,'groupbrack_similark',c
-        # $j $z?
-        $C = c.D
-        !C and throw "!D"
-        $N = [];
-        each in zs&z {
-            nc&drop and continue
+        # i D/K-joint/n o D/n
+        # layers of C structure before /n-row
+        Dc&brackin = 2
+        # the last of which (D/z) informs Km.t
+        Ds&z ||= []
+        # < doing this between Km already there? is multiply|divide
+        me&Kmish,c.D (&DCn{
+            c&pi != 'gate' and debugger
             $ks = haks(n.sc);
             $matchness = 0;
             $match = null;
-            each ic N {
-                $no = haks(c.c).filter(k => !hak(n.sc,k)).length;
+            # < D/K indexed already, for K with k
+            #   the X.k/$k might union X.grouptype/K
+            #    for different types talks about X.k stuff
+            each iK Ds&z {
+                # < K having indexes already
+                $no = haks(K.c).filter(k => !hak(n.sc,k)).length
+                # allowing a and a+b to fit together
                 no > 1 and continue
-                ns&dome != cc&dome and continue
-                $yes = ks.filter(k => hak(c.c,k)).length;
-                $matched = yes - no;
+                # splitting by %%dome:$v
+                ns&dome != Kc&dome and continue
+                $yes = ks.filter(k => hak(K.c,k)).length
+                $matched = yes - no
                 matched <= matchness and continue
-                match = c;
-                matchness = matched;
+                match = K
+                matchness = matched
                 #j.t == 'Travel' and me&nu,"matched"+i,[ks.join(','),matched+'('+yes+'/'+no+')'+matchness,c.t]
             }
             if (match && matchness >= ks.length-1) {
                 # groups members with <= 1 odd key
-                $c = match;
-                ac(c,'z',n);
+                $K = match
+                ac(K,'z',n)
             }
             else {
-                $c = Cye([ks.join(','),1]);
-                c.c = ex({},n.sc)
-                cs&z = [n];
-                N.push(c)
+                $K = Cye([ks.join(','),1]);
+                # Kc&* are the match
+                # < &if
+                each kv n.sc {
+                    K.c[k] = 1
+                }
+                Kcs&z = [n]
+                Ds&z.push(K)
             }
-        }
+        })
         #N.length == 1 and N = [z]
-        return N
+        return D
     };
    
    // subtraction
@@ -394,6 +539,7 @@
         $D = me&Api,s,'gate'
         $N = c.N
         !N and throw "!N"
+        Dc&brackin = 2
         # < i $D/@row%gate=@gate y:row o $s/:gate/:row
         # < separation happening. it's not our $row to eat.
         #   separation coming before the row:{} here
@@ -569,106 +715,6 @@
         return mg
     }
    
-   // legacy
-  
-  // brackXology - draw openable!
-    # draw openable X.k/ref/z
-    me.sbrackXology = &acgtgXc{
-        c ||= {}
-        $Kms = [];
-        each kx X.k {
-            $Km = me&opeKm,g,k;
-            Kmc&k = k;
-            Kmc&x = x;
-            #
-            Kms&pow = 1
-            $con = c.kc && c.kc[k]
-            con and ex(Km.sc,con)
-            gs&ope && Kms&ope == null and Kms&ope = 1
-            Kms&ope and Kms&pow = gs&pow = 2
-            gs&pow ||= 0
-            Kms.push(Km)
-        }
-        
-        gs&pow < 2 and gs&ma = 0.2
-        each i,Km Kms {
-            $k = Kmc&k;
-            $x = Kmc&x;
-            if (Kms&pow < 1) {
-                Kms&ma = 0.1
-                continue
-            }
-            
-            # total values for key, Km%ope if 1
-            me&opesizup,Km,{len:hak(x.ref)};
-            !Kms&ope and continue
-            
-            fio(Km,['ope',1,{s:":"},'hs:888']);
-            $vii = 0;
-            each vi,fx x.ref {
-                $v = x.refs[vi];
-                $lc = me&labeline,v
-                $Kn = me&opeKn,Km,lc.t,{label:{tsc:'y'}};
-                Kny&v = v
-                ac(Kn,'vis',vi)
-                
-                $lab = Kny&label;
-                $bsize = Knc&size || Knc&sortcv && 1 || 0
-                Knc&sortcv = 1;
-                lc.C &&
-                    fio(Kn,['sym'+vi,112,{s:lc.sym},
-                    'label,fs:13,lh:0.8,hs:757']);
-
-                # total rows for this value with this key
-                # < light up other k/v/rows this k/v/row has
-                Knc&size = 0
-                me&sizo,Kn,{len:fx.z.length};
-                # many same lc.t pile up many sym, add sizo
-                # < fix in -ology
-                Knc&size ||= 1
-                Knc&size *= 1
-                bsize and Knc&size = (Knc&size||1)*1 + bsize*1
-                Knc&size == 1 and delete Knc&size
-                Knc&size > 2000 and debugger
-                Kns&ma = 0.2;
-                if (Kns&ope) {
-                    each in fx.z {
-                        $val = n.sc[k];
-                        $na = [g.t,k,vi,i].join("'");
-                        $wa = me&opeKn,Kn,na;
-                        way&cv = 0.2;
-                        was&dis = 1;
-                        # sprout icon, some non-nu to click
-                        $wan = me&opeKn,wa,'ܤ',{label:{tsc:'y'}};
-                        if (wans&ope) {
-                            # whole row
-                            me&mnu,wa,'row',n
-                        }
-                        else {
-                            # for the value
-                            me&mnu,wa,k,val;
-                        }
-                        wany&cv = 0.8;
-                    }
-                }
-            }
-        }
-        return g
-    };
-    # a title for $s, data if weird
-    # < -vat compat, fliop
-    me.slabeline = &acgts{
-        $c = {}
-        if (isC(s)) {
-            c.C = 1
-            c.sym = isR(s) ? 'R' : 'C'
-        }
-        c.t = c.C ? s.t :
-            s == null ? '*null' :
-            isst(s) ? s :
-            isob(s) ? ki(s,2) : ""+s;
-        return c
-    }
     
    
    
