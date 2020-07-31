@@ -56,6 +56,7 @@
         c.el = 2
         $b = s.y [t]
         $E = s.y [t] = Cye([defor(c.t,s.t),1,{pi:t}])
+        Es&z ||= []
         Ey&up = s
         return E
     }
@@ -112,6 +113,7 @@
         $D = me&pigate,R,fo,{N:s}
         # start an interactive viewability on it
         $br = me&pibrackology,R,fo,{D}
+        0 && 
         bry&M(&Km,{
             $leg = me&pilegs,R,s,{Km}
             # fatal create each -leg in -four
@@ -291,31 +293,40 @@
         # pre-Km structure pooling
         $gr = me&pigroup,R,br,c
         # i D o D%X
-        $D = me&pigroupbrack_similark,R,gr,c
+        $Z = me&pigroupbrack_similark,R,gr,c
         
         # piping into: i Km o D...%X  
         # < D iterates rows of %%K,n,Km?,... 
-        me&Kmish,D (&DCn{
-            # < might be no regroup
-            D == C and debugger
+        me&nu,"Dgate",D
+        me&nu,"Cbrack",Z
+        #debugger
+        me&Kmish,Z (&dzn{
+            # < might be no regroup, direct from %wou
+            d == z and debugger
+            me&nu,"K"+z.t,z
+            # < t? i?
+            # piped into modulat from the structuring D/K, now z
+            # K is now a Kn:groupology
+            # < only to have no label, the joint(arks)
+            $K = me&opeKn,g,z.t,{walls:'bd:1.4'}
+            # < originate
+            Kc&rows = Ds&z
+            Ks&pow = gs&pow
+            Ks&ope = gs&ope
             
-            me&Kmish,C (&DCn{
-        each iD N {
-            $ug = g;
-            if (!Ds&X) {
-                Ds&X = me&brackX,Ds&z
-                # < t?
-                ug = me&opeKn,g,c.t+'-'+i,{walls:'bd:1.4'}
-                ugs&bgh = 581;
-                ugs&dis = 2;
-            }
-            ugc&rows = Ds&z
-            ugs&pow = gs&pow
-            ugs&ope = gs&ope
+            Ks&bgh = 581;
+            Ks&dis = 2;
             
-            me&brackXology,ug,Ds&X,c
-        }
-        
+            me&Kmish,z
+            # K/Km:ark-sim/Kn:C-vat
+            # has an X-specific iteration,
+            # < D/t/-x
+            c.tx = zs&X.k
+            $Kms = me&pitxology,R,g,c
+            
+        me&nu,"KMs",Kms
+            me&pitsograph,R,g,{Kms}
+        })
         # beyond -brackology: i Km-mod o Km,
         #  knowing how to translate interest in those later expressions,
         #  into focusing this -brackology on certain rows/columns/values
@@ -351,33 +362,42 @@
         # Km = agreeable Km,D
         return D
     }
-    # draw openable X.k/ref/z
-    me.sbrackXology = &acgtgXc{
-        c ||= {}
+    # draw openable X.k
+    me.pitxology = &acgtRgc{
+        !c.tx and throw "!tx"
         $Kms = [];
-        each kx X.k {
-            $Km = me&opeKm,g,k;
-            Kmc&k = k;
-            Kmc&x = x;
-            #
+        each tx c.tx {
+            $Km = me&opeKm,g,t
+            #Kmc&k = t
+            Kmc&x = x
+            Kms.push(Km)
+        }
+        # energise it
+        # < sizography of this whole K
+        gs&pow < 2 and gs&ma = 0.2
+        each i,Km Kms {
             Kms&pow = 1
             $con = c.kc && c.kc[k]
             con and ex(Km.sc,con)
             gs&ope && Kms&ope == null and Kms&ope = 1
             Kms&ope and Kms&pow = gs&pow = 2
             gs&pow ||= 0
-            Kms.push(Km)
-        }
-        
-        gs&pow < 2 and gs&ma = 0.2
-        each i,Km Kms {
-            $k = Kmc&k;
-            $x = Kmc&x;
+            
             if (Kms&pow < 1) {
                 Kms&ma = 0.1
+                Kmc&left_blank = 1
                 continue
             }
-            
+            # open
+        }
+        return Kms
+    }
+    # draw openable /ref/z
+    me.pitsograph = &acgtRgc{
+        $Kms = c.Kms
+        !Kms and throw "!Kms"
+        each i,Km Kms {
+            $x = Kmc&x;
             # total values for key, Km%ope if 1
             me&opesizup,Km,{len:hak(x.ref)};
             !Kms&ope and continue
@@ -433,7 +453,7 @@
             }
         }
         return g
-    };
+    }
     # a title for $s, data if weird
     # < -vat compat, fliop
     me.slabeline = &acgts{
@@ -449,16 +469,24 @@
         return c
     }
   // structures
+    # D%X
+    me.brackXD = &acgtD{
+        return Ds&X ||= me&brackX,Ds&z
+    }
     me.Kmish = &acgtD{
         !D and throw "!D"
         me&brackXD,D
         $d = Dc&brackin
+        # < etc, if we are on a K
+        #!d && me.cby(&sd{ try while hak(d)<3 })
+        $Dp = Dy&up
+        !d && Dp && Dpc&brackin and d = Dpc&brackin-1
         !d and throw "noindex"
         # any D-group* y&M interates Cn, before Km
         return &y{
             d == 1 and $N = [D]
             else {
-                $index = [...Array(i)].map(t=>'*')]
+                $index = [...Array(d-1)].map(t=>'*')
                 $N = me&ioty,D,index
             }
             N.map(&C{
@@ -473,10 +501,6 @@
     me.resultily = &{
         
     }
-    me.brackXD = &acgtD{
-        # for N
-        return Ds&X ||= me&brackX,Ds&z
-    }
    // addition
     # regroup similar rows
     # allowing a and a+b to fit together,
@@ -489,10 +513,10 @@
         # layers of C structure before /n-row
         Dc&brackin = 2
         # the last of which (D/z) informs Km.t
-        Ds&z ||= []
         # < doing this between Km already there? is multiply|divide
-        me&Kmish,c.D (&DCn{
-            c&pi != 'gate' and debugger
+        me&Kmish,c.D (&dzn{
+            zc&pi != 'gate' and debugger
+            d != c.D and throw "c.D==d"
             $ks = haks(n.sc);
             $matchness = 0;
             $match = null;
@@ -525,8 +549,9 @@
                 each kv n.sc {
                     K.c[k] = 1
                 }
-                Kcs&z = [n]
+                Ks&z = [n]
                 Ds&z.push(K)
+                Ky&up = D
             }
         })
         #N.length == 1 and N = [z]
@@ -539,7 +564,7 @@
         $D = me&Api,s,'gate'
         $N = c.N
         !N and throw "!N"
-        Dc&brackin = 2
+        Dc&brackin = 1
         # < i $D/@row%gate=@gate y:row o $s/:gate/:row
         # < separation happening. it's not our $row to eat.
         #   separation coming before the row:{} here
