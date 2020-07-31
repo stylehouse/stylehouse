@@ -236,9 +236,9 @@
     
     # D-gate/@row+%gate=oD = N/oD/row
     me.pigate = &acgtRsc{
+        $D = me&Api,s,'gate'
         $N = c.N
         !N and throw "!N"
-        $D = me&Api,s,'gate'
         # < i $D/@row%gate=@gate y:row o $s/:gate/:row
         # < separation happening. it's not our $row to eat.
         #   separation coming before the row:{} here
@@ -247,6 +247,7 @@
         #   otherwise works:    this v is io's d.row, not brack row
         # i $D/@row row:{ s&gate = s.row[1] } y o $s/:gate/:row
         # instead:
+        Ds&z ||= []
         me&ioty,N .map(&z{
             me&ioty,z .map(&t{
                 t = Cye(t)
@@ -309,8 +310,24 @@
             !(op && ops&ope) and return br
         }
       // D group
+        =pod
+         < -group/* = -groupbrack_similark, -grouprefs, -groupspace(-groupnodar)
+           should be a pipe, ^ i D o D%X
+          < further D may be another layer of info, relative to origin
+             how to traverse the origin to get the grouping
+            not the origin in that grouping
+          < ideally producing only X (not new D+rows)
+            having ways to the original node and indexing qualities against them
+            they might have an index of which indexes are important,
+             and how to compute metrics for possible layouts
+            can &bracko handle that? with joins?
+           so many X, each perspecting D**
+        =cut
+        # pre-Km 
+        $gr
         $N = me&brackgroupX,s,D;
         
+        # piping into: i Km o D%X        
         each iD N {
             $ug = g;
             if (!Ds&X) {
@@ -327,11 +344,58 @@
             me&brackXology,ug,Ds&X,c
         }
         
-        
+        # beyond -brackology: i Km-mod o Km,
+        #  knowing how to translate interest in those later expressions,
+        #  into focusing this -brackology on certain rows/columns/values
         return br
     }
-    
-   // -ology # io -brackology/Km
+   
+   // -group # i -ology/Km
+       
+    # regroup similar rows
+    # allowing a and a+b to fit together,
+    #  sizo per column|value communicates the oddness
+    # < show clearer when Km%ope (tabular?)
+    me.pigroupbrack = &acgtjz{
+        $mg = me&Api,s,'groupbrack',c
+        $D = c.D
+        !D and throw "!D"
+        $N = [];
+        me&ioty,D 
+        each in zs&z {
+            nc&drop and continue
+            $ks = haks(n.sc);
+            $matchness = 0;
+            $match = null;
+            each ic N {
+                $no = haks(c.c).filter(k => !hak(n.sc,k)).length;
+                no > 1 and continue
+                ns&dome != cc&dome and continue
+                $yes = ks.filter(k => hak(c.c,k)).length;
+                $matched = yes - no;
+                matched <= matchness and continue
+                match = c;
+                matchness = matched;
+                #j.t == 'Travel' and me&nu,"matched"+i,[ks.join(','),matched+'('+yes+'/'+no+')'+matchness,c.t]
+            }
+            if (match && matchness >= ks.length-1) {
+                # groups members with <= 1 odd key
+                $c = match;
+                ac(c,'z',n);
+            }
+            else {
+                $c = Cye([ks.join(','),1]);
+                c.c = ex({},n.sc)
+                cs&z = [n];
+                N.push(c)
+            }
+        }
+        #N.length == 1 and N = [z]
+        return N
+    };
+   
+   
+   // -ology # o -ology/Km
     # viewable end of a -process
     # eg -brackology is -brack -> -ology
     me.piology = &acgtRsc{
@@ -485,44 +549,8 @@
         })
         return mg
     }
+   
    // legacy
-    # regroup similar rows
-    # allowing a and a+b to fit together,
-    #  sizo per column|value communicates the oddness
-    # < show clearer when Km%ope (tabular?)
-    me.sbrackgroupX = &acgtjz{
-        $N = [];
-        each in zs&z {
-            nc&drop and continue
-            $ks = haks(n.sc);
-            $matchness = 0;
-            $match = null;
-            each ic N {
-                $no = haks(c.c).filter(k => !hak(n.sc,k)).length;
-                no > 1 and continue
-                ns&dome != cc&dome and continue
-                $yes = ks.filter(k => hak(c.c,k)).length;
-                $matched = yes - no;
-                matched <= matchness and continue
-                match = c;
-                matchness = matched;
-                #j.t == 'Travel' and me&nu,"matched"+i,[ks.join(','),matched+'('+yes+'/'+no+')'+matchness,c.t]
-            }
-            if (match && matchness >= ks.length-1) {
-                # groups members with <= 1 odd key
-                $c = match;
-                ac(c,'z',n);
-            }
-            else {
-                $c = Cye([ks.join(','),1]);
-                c.c = ex({},n.sc)
-                cs&z = [n];
-                N.push(c)
-            }
-        }
-        #N.length == 1 and N = [z]
-        return N
-    };
   
   // brackXology - draw openable!
     # draw openable X.k/ref/z
