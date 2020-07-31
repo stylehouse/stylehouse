@@ -108,26 +108,9 @@
     me.pifour = &acgtRsc{
         $fo = me&Api,s,'four',c
         $gof = me&acting,R,'-four',0
-        
-        # -four/-gate(-eight/*-seven) is input
-        $D = me&Api,fo,'gate'
-        # < i $D/@row%gate=@gate y:row o $s/:gate/:row
-        # < separation happening. it's not our $row to eat.
-        #   separation coming before the row:{} here
-        #   better getting at the row in &ind, grouped by arkfor?
-        #   and tw mode, or even t mode (dup keep z)
-        #   otherwise works:    this v is io's d.row, not brack row
-        # i $D/@row row:{ s&gate = s.row[1] } y o $s/:gate/:row
-        # instead:
-        me&ioty,s .map(&z{
-            me&ioty,z .map(&t{
-                t = Cye(t)
-                ts&gate = z
-                ac(D,'z',t)
-            })
-        })
-        
-        # < interactive viewability
+        # merge eight:s/seven:z/row into D/row+%%gate=z
+        $D = me&pigate,R,fo,{N:s}
+        # start an interactive viewability on it
         $br = me&pibrackology,R,fo,{D}
         bry&M(&Km,{
             $leg = me&pilegs,R,s,{Km}
@@ -141,6 +124,7 @@
         
         return fo
     }
+    
     # < self in %Yingate, continues with -eight
     me.piseven = &acgtRsc{
         $se = me&Api,s,'seven',c
@@ -175,9 +159,9 @@
         return se
     }
   
-  // -piling
+  // -piling to complete
     # draws drawings together as plans to complete them
-    # find all -pi for s, generating an M
+    # find all -pi for s, generating a poc&M to be Yc&M
     me.piling = &acgtRsc{
         $po = me&Api,s,'ling',c
         # searches s for sy&somethingc&pi,
@@ -250,16 +234,92 @@
     # < may have already been, shade difference?
     # < Citology, has nk/gk etc scrambling in one pool?
     
+    # merge eight:N/seven:z/row into D/row+%%gate=z
+    me.pigate = &acgtRsc{
+        $N = c.N
+        !N and throw "!N"
+        $D = me&Api,s,'gate'
+        # < i $D/@row%gate=@gate y:row o $s/:gate/:row
+        # < separation happening. it's not our $row to eat.
+        #   separation coming before the row:{} here
+        #   better getting at the row in &ind, grouped by arkfor?
+        #   and tw mode, or even t mode (dup keep z)
+        #   otherwise works:    this v is io's d.row, not brack row
+        # i $D/@row row:{ s&gate = s.row[1] } y o $s/:gate/:row
+        # instead:
+        me&ioty,N .map(&z{
+            me&ioty,z .map(&t{
+                t = Cye(t)
+                ts&gate = z
+                ac(D,'z',t)
+            })
+        })
+        return D
+    }
+    
+    # start an interactive viewability of brack
     # find openness asap, ology upwards
     me.pibrackology = &acgtRsc{
         $br = me&Api,s,'brackology',c
         $D = c.D
         !D and throw "!D"
+        # c mostly goes to the -group*
         $g = me&piology,R,br,{D}
         me&mtsc,g,"Steve",0,'G'
-        # < D -> Km
+        
+        # br <-> D, Ds&X ||= index(D)
+        bry&brack = D;
+        Dy&brackology = br;
+        # anything not destroying D (and thus X), eg -gate
+        #  should keep X up to date (eg &bracki)
+        $X = Ds&X ||= me&brackX,Ds&z
+        # < going? Nodar the only other y&X, should be s&X
+        bry&X = X;
+        !hak(X.k) and return br
+        
+        # we have bry&ology, so:
+        # < -groupbrack <-> -groupology
+        
+        # < g**s&ope %%Savable?
+        # < X.ref for inter-group object link
+        # < ny&act from a &acting%ope glow
+        # < X == by&X && X.i same?
+        
+        # < separate sizology
+        #-1 - only amounts (rows + uniq t)
+        # 0 - t-only
+        # 1 - with amounts
+        # 2 - t:v, for 1 v only (as now)
+        # < t-only, of at the toplevel
+        if (gs&pow < 0) {
+            # < only changes pop up, shrink in
+            $op = me&sizo,g,{t:'rows',len:zs&z.length,opelen:1};
+            me&sizo,g,{len:hak(X.k)};
+            !(op && ops&ope) and return g
+        }
+        
+        $N = me&brackgroupX,s,D;
+        
+        each iD N {
+            $ug = g;
+            if (!Ds&X) {
+                Ds&X = me&brackX,Ds&z;
+                # < t?
+                ug = me&opeKn,g,c.t+'-'+i,{walls:'bd:1.4'}
+                ugs&bgh = 581;
+                ugs&dis = 2;
+            }
+            ugc&rows = Ds&z
+            ugs&pow = gs&pow
+            ugs&ope = gs&ope
+            
+            me&brackXology,ug,Ds&X,c
+        }
+        
+        
         return br
     }
+    
     # viewable end of a -process
     # eg -brackology is -brack -> -ology
     me.piology = &acgtRsc{
@@ -364,7 +424,7 @@
         }
     }
    // ology # ways to lum -brackology/Km
-    # for 
+    # storable -four
     me.pilegs = &acgtRsc{
         $Km = c.Km
         !Km and throw "!Km"
@@ -416,60 +476,6 @@
         return mg
     }
    // legacy
-    me.sbrackology = &acgtjzc{
-        $C = js&C
-        c ||= {}
-        $config = c
-        isst(z) and z = j.sc[z]
-        !isC(z) and throw "!z"
-        $k = c.t || z.t;
-        $g = me&brackope,j,k,config||{}
-        !z and return g;
-        
-        $X = zs&X ||= me&brackX,zs&z;
-        
-        !hak(X.k) and return g
-        
-        gy&brack = z;
-        zy&brackology = g;
-        gy&X = X;
-        
-        if (gs&ope) {
-            #me&nu,'waigh',z;
-            #me&nu,"X",X;
-        }
-        
-        # 0 - t-only, grouped
-        # 1 - with amounts
-        # 2 - t:v, for 1 v only (as now)
-        # < t-only, of at the toplevel
-        if (gs&pow < 0) {
-            # < only changes pop up, shrink in
-            $op = me&sizo,g,{t:'rows',len:zs&z.length,opelen:1};
-            me&sizo,g,{len:hak(X.k)};
-            !(op && ops&ope) and return g
-        }
-        
-        $N = me&brackgroupX,j,z;
-        
-        each ic N {
-            $ug = g;
-            if (!cs&X) {
-                cs&X = me&brackX,cs&z;
-                ug = me&opeKn,g,c.t+'-'+i,{walls:'bd:1.4'}
-                ugs&bgh = 581;
-                ugs&dis = 2;
-            }
-            ugc&rows = cs&z;
-            ugs&pow = gs&pow;
-            ugs&ope = gs&ope;
-            #j.t == 'Travel' and me&nu,"rowish"+i,c
-            me&brackXology,ug,cs&X,config;
-        }
-        # < X.ref for inter-group object link
-        # < ny&act from a &acting%ope glow
-        return g;
-    };
     # regroup similar rows
     # allowing a and a+b to fit together,
     #  sizo per column|value communicates the oddness
