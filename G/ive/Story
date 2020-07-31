@@ -223,6 +223,7 @@ me.Sch_Story = &acgt{ return [
             me&quiet_waker,R and Rs&ever_quiet = 1
             !Rs&ever_quiet and return
         }
+        if (0) {
         
         # sources of and tests
         me&bal,'Stories','Stories,eph'
@@ -235,7 +236,8 @@ me.Sch_Story = &acgt{ return [
 
         # navigator
         me&bal,'Plot','Plot,eph'
-            
+        
+        }
         # experience
         $r = me&bal,'This','theThis,eph'
         # is visited to draw them into %Yingates/%Yingate
@@ -589,6 +591,8 @@ me.Sch_Story = &acgt{ return [
         # may be unturned, see merge similar previous
         # < turn fractions of a page|plot, when|why
         $Plot = xs&Plot
+        # may have no plot, autopause if %Page > 2
+        !Plot and Plot = s
         $page_turning = &c{
             Plots&Page ||= Ds&z.length
             $i = Plots&Page + 1
@@ -603,7 +607,7 @@ me.Sch_Story = &acgt{ return [
             $cb = Ploty&pageturn
             cb and cb(R,d,p)
             else {
-                i > 1 and Rs&pause = 1
+                i > 2 and Rs&pause = 1
             }
             i > 9 and Rs&pause = 1; ss&overturning = 1
             # < Plot leaves tightenable hooks
