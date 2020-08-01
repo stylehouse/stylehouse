@@ -291,7 +291,7 @@
             !(op && ops&ope) and return br
         }
       // D group
-        # pre-Km structure pooling
+        # pre-K** structure pooling
         $gr = me&pigroup,R,br,c
         # i D/K/n o D%X
         $Z = me&pigroupbrack_similark,R,gr,c
@@ -301,7 +301,8 @@
         # < K knows which d+z it came from, to repipe...
         #   having slep sensors along the pipe,
         #   solo just the changed stuff
-        me&Kmish,Z (&dzn{
+        # in this case we want rows grouped away
+        me&Kmish,Z,{for:'K'} (&dz{
             # < might be no regroup, direct from %wou
             d == z and debugger
             # < t? i?
@@ -310,7 +311,7 @@
             # < only to have no label, the joint(arks)
             $K = me&opeKn,g,z.t,{walls:'bd:1.4'}
             # < originate
-            Kc&rows = Ds&z
+            Kc&rows = zs&z
             Ks&pow = gs&pow
             Ks&ope = gs&ope
             
@@ -335,9 +336,36 @@
    
  // -group # i -ology/Km {reasoning} o $info**
   // structure pooling -> Km+
-    =pod
-     < -group/* = -groupbrack_similark, -grouprefs, -groupspace(-groupnodar)
-       should be a pipe, ^ i D o D%X
+    =spec
+     < -group makes K for mix of -group*
+       mostly we want to:
+     
+     -groupbrack_similark
+     
+     < -grouprefs
+       
+       stepx5: x3CTravel(wakex2), gatex3
+        or (wakex2,gate:le-2) if not ^ K/Km/Kn mergible:
+         would inject Km with Cn not from that K?
+          or inject Kn:gate with Cn&v:
+           Cn&v are really multiple, coming from Cn&x.ref
+           < iterate &Knish
+         yet have them undo if the wake is open
+        Cn sizo (explicit x1) if different to Kn sizo
+         or (wakex1) if wakex1
+       
+       puts K=step,node,wake as columns
+        because they share a lot of refs
+     
+     < -groupspace
+       puts K=step,node as columns, with an order
+        because that is efficient Cn&v^ = Kn&v
+         and we can z-order (or something else?) the v**
+       or
+        because that is Ying/*/** + attention
+         and we have a Nodar to order them
+      
+      should be a pipe, ^ i D o D%X
      
      < D indentifying its structure
        when D = a -group*,
@@ -355,7 +383,7 @@
         can &bracko handle that? with joins?
        
        so many X, each perspecting D**
-    =cut
+    =spec
     me.pigroup = &acgtRsc{
         $D = me&Api,s,'group'
         c.D and Dy&origin = D
@@ -366,9 +394,12 @@
     me.brackXD = &acgtD{
         return Ds&X ||= me&brackX,Ds&z
     }
-    me.Kmish = &acgtD{
+    me.Kmish = &acgtDc{
         !D and throw "!D"
+        c ||= {}
+        c.for = 'Km'
         me&brackXD,D
+        # depth of C before rows
         $d = Dc&brackin
         # < etc, if we are on a K
         #!d && me.cby(&sd{ try while hak(d)<3 })
@@ -383,9 +414,12 @@
                 $N = me&ioty,D,index
             }
             N.map(&C{
-                each in Cs&z {
-                    nc&drop and continue
-                    y (D,C,n)
+                c.for == 'K' and y (D,C)
+                else {
+                    each in Cs&z {
+                        nc&drop and continue
+                        y (D,C,n)
+                    }
                 }
             })
         }
@@ -584,8 +618,9 @@
             # to &vlabinto, &opelabel
         }
     }
+   
    // 3 i K/Km/Kn
-    # i K c.tx=X.k /t/x
+    # i Km:t c.tx=X.k /t/x
     me.pitxology = &acgtRgc{
         !c.tx and throw "!tx"
         $Kms = [];
@@ -691,6 +726,7 @@
             isob(s) ? ki(s,2) : ""+s;
         return c
     }
+   
    // 6 o K**, other
     # storable -four/Km/ref
     me.pilegs = &acgtRsc{
