@@ -552,6 +552,11 @@
     # phenom comes in waves
     # waves have a skin
     # skins relate posture
+    window.hashkv = &kv{
+        $c = {}
+        c[k] = v != null ? v : 1
+        return c
+    }
     
     # hash from k:v, v=1 if not given
     window.peel = &s,sep{
@@ -568,43 +573,111 @@
         isha(s) and return s
         throw "not peely", s
     }
-    # s=k:v hash copy
-    # if !q && both hash, v merges
-    #  either v being C is fatal
-    # < could have something on it?
-    #  v not being hash is fatal
+    
+    # departmentalise c if not already
+    #  for s sublating its namespace
+    # q.K=1:        c=v -> s.K=v
+    # q.K=gk:  c(.K)?=v -> s.K.k=v
+    # is basically:
+    #  !q.qk and q = {qk:q}
+    # smallest totality?
+    #  people fall in a ditch that triangle will not fix
+    window.arranq = &cq{
+        # c fated to mix into s.$K, not s
+        #  unless it knows any of these $k
+        !q.qk and throw "index"
+        $qk = haks(q.qk)
+        # the default department first
+        $K = qk[0]
+        $gk = q.qk[K]
+        
+        if (isst(c)) {
+            # < peeling this?
+            # c="st" -> c.label(.s)?="st"
+            c = gk == 1 ? c : hashkv(gk,c)
+            c = hashkv(K,c)
+        }
+        elsif (isha(c)) {
+            # for any department, or the default
+            $match = qk.filter(K => hak(c,K))
+            if (!hak(match)) {
+                # c.s:C -> c.label.s=C
+                c = gk == 1 ? c : hashkv(gk,c)
+                c = hashkv(K,c)
+            }
+            else {
+                each iK match {
+                    $v = c[K]
+                    # leave c.label={...}
+                    isha(v) && !isC(v) and continue
+                    # v could be string
+                    # c.label=C -> c.label.s=C
+                    $gk = q.qk[K]
+                    c = gk == 1 ? c : hashkv(gk,c)
+                    c = hashkv(K,c)
+                }
+            }
+            # preserves the c passed in
+            #c = ex({},c)
+        }
+        else {
+            throw "type"
+        }
+    }
+    # s=k:v hash copy after arranq()
+    #  c can stay string if ^ takes it beyond c.*.*
+    # v merges if both hash
+    # s|c being C is fatal
+    #  < could have something on it?
+    # v not being hash is fatal
     #   which is where exts() would give it a key
     #   unless v=1,
     #    logically compatible with v={...}
-    # c="st" may -> k="st":1
-    #  if $q may -> k=$q/"st":1
-    #  if c.$q,
-    #   that mixes into s.$q,
-    #   other c.* into s.*
-    # 
     window.expe = &scq{
         # ensure c is a hash
+        $origin = c
+        if (q) {
+            # get a list of words
+            q = peel(q)
+            # arranq() is basically:
+            !q.qk and q = {qk:q}
+            
+            # may departmentalise c
+            c = qarrang(c,q)
+        }
+        return ex2(s,c)
+    }
+    window.ex2 = &scq{
         c = peel(c)
-        # get a list of words
-        q = peel(q)
-        $qk = haks(q)
-        # c fated to mix into s.$k, not s
-        #  unless it knows any of the $k
-        !hak(qk.filter(k => hak(c,k))) and c[qk[0]] = c
-        
+        isC(s)||isC(c) and throw "expe..C"
         each kv c {
             $V = s [k]
             if (V && isha(V) || v && isha(v)) {
-                
+                # allows either $v to:
+                #  peel if other is hash
+                isst(V) && isha(v) and V = peel(V)
+                isst(v) && isha(V) and v = peel(v)
+                #  replace 1->{}
+                V = exable(V)
+                #  and|or premix arrays in v.*
+                v = exable(v,V)
+                # mixing v into V
+                ex(V,v)
             }
-            # and if isar(V|v), 
+            else {
+                # replacing
+                V = v
+            }
+            s [k] = V
         }
+        return s
     }
     # will it ex()
     # s = one argument to ex() at a time
-    # 
-    #  for ex(s,c) with 1->{} coercion,
-    window.exable = &sc{
+    # returns s or a coercion to replace it:
+    #  s=null|1 -> {} coercion
+    #  s.* and c.* array pre-mixing
+    window.exable = &s,c,fatal{
         # returns coercions or false
         !s and return {}
         s == 1 and return {}
@@ -618,7 +691,7 @@
         #   ex(s,c) becomes el(s,c)
         isC(s) and throw "exC"
         if (c) {
-            # pre-mixed arrays
+            # premix arrays
             # c,s are the s,c from ex(s,c)! upside down.
             #  here, s merges into c
             #  because we can replace s
@@ -640,28 +713,30 @@
         return s
     }
     # s=K.k:v hash copy
-    # c=K/k="st" may -> s=K/"s":"st" if q.es[K] (not peeled?)
+    # with q, c may be (already)? departmentalised
+    # s.label = "st", c.label = {...} is fatal
+    #  in reverse however, s will .label:{...,s:"st"}
+    #   given q.label:"s"
+    # c="st" or c=K/"st" may -> s=K/"s":"st"
+    #  if q.es[K] (not peeled?)
     # eg la:{ya:2} + la:three -> la:{ya:2,s:three} (K="la")
-    window.exts = &scq{
-        # q a hash of keys to surely become k/"s"
-        q = {ts:{}}
-        q.ts.label = 1
-        # < any q.ts.$K:
-        $shouldbe = &KV{
-            # keys to surely become K/k="s":V
-            q.ts[K] and return
-            
-            isst(V) and V = peel(V)
+    window.exts = &scqk{
+        if (k) {
+            # specifying a pair
+            !isst(q) and throw "q+k"
+            q = {qk:hashkv(q,k)}
         }
-        each KV c {
-            $W = s [K]
-            isst(V) and V = peel(V)
-            isst(W) and W = 
-            # mix {} into string
+        else {
+            # get a list of words
+            q = peel(q)
+            !q.qk and q = {qk:q}
+            # with a default gk='s'
+            $qk = haks(q.qk)
+            hak(qk) == 1 && q.qk[qk[0]] == 1 and q.qk[qk[0]] = 's'
         }
-        
-    
+        return expe(s,c,q)
     }
+    
     # clickable, energised, etc
     me.ologise = &acgtRgc{
         $tog = me&togcon,R
