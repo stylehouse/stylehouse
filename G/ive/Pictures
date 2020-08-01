@@ -570,44 +570,74 @@
     }
     # s=k:v hash copy
     # if !q && both hash, v merges
-    #  either being C is fatal
-    #   could have something on it?
-    #  one not being hash is fatal
+    #  either v being C is fatal
+    # < could have something on it?
+    #  v not being hash is fatal
     #   which is where exts() would give it a key
     #   unless v=1,
     #    logically compatible with v={...}
-    # if q,
-    #  the first q/$k:1 adopts: c=$k:$c 
-    #  for sweep q/$cq=label
-    #  as if c is fated to become s.label
-    #   unless it already knows about it
-    #  if c.label,
-    #   it knows about the s/label slope
-    #   mixes as if !q:
     # c="st" may -> k="st":1
     #  if $q may -> k=$q/"st":1
     #  if c.$q,
     #   that mixes into s.$q,
     #   other c.* into s.*
     # 
-    #   c.* and c.q
-    #   -> k=$q/k="st":1
-    #  c.$k==q be put within q,
-    #  
     window.expe = &scq{
         # ensure c is a hash
         c = peel(c)
         # get a list of words
         q = peel(q)
-        $def = q && haks(q)[0]
-        
-        # cant use expe() to
-        q = {ks = }
+        $qk = haks(q)
+        # c fated to mix into s.$k, not s
+        #  unless it knows any of the $k
+        !hak(qk.filter(k => hak(c,k))) and c[qk[0]] = c
         
         each kv c {
             $V = s [k]
-            V && isha(V)
+            if (V && isha(V) || v && isha(v)) {
+                
+            }
+            # and if isar(V|v), 
         }
+    }
+    # will it ex()
+    # s = one argument to ex() at a time
+    # 
+    #  for ex(s,c) with 1->{} coercion,
+    window.exable = &sc{
+        # returns coercions or false
+        !s and return {}
+        s == 1 and return {}
+        isar(s) and throw "what?"
+        if (!isha(s)) {
+            fatal and throw "!exable",s,c
+            return 0
+        }
+        # < Cy&sortin patch-conforming c, putting el:8 etc
+        #   exable(c,s) becomes lv(s,c)
+        #   ex(s,c) becomes el(s,c)
+        isC(s) and throw "exC"
+        if (c) {
+            # pre-mixed arrays
+            # c,s are the s,c from ex(s,c)! upside down.
+            #  here, s merges into c
+            #  because we can replace s
+            #    as returning a coercion
+            #   with a copy with pre-mixed arrays
+            # < does it uniq, or have:
+            #    a sort-in function on s.* or isC(V)?
+            #   if k=ref, has to renumber or create subnet
+            s = ex({},s)
+            each kv s {
+                $V = c[k]
+                (!v || !isar(v)) && (!V || !isar(V)) and continue
+                # < coerce V==0 -> []?
+                V && isar(v) && !isar(V) and throw "ex not<-array"
+                v && isar(V) && !isar(v) and throw "ex array<-not"
+                s[k] = [...(V||[]), ...(v||[])]
+            }
+        }
+        return s
     }
     # s=K.k:v hash copy
     # c=K/k="st" may -> s=K/"s":"st" if q.es[K] (not peeled?)
@@ -620,6 +650,7 @@
         $shouldbe = &KV{
             # keys to surely become K/k="s":V
             q.ts[K] and return
+            
             isst(V) and V = peel(V)
         }
         each KV c {
