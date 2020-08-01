@@ -335,6 +335,7 @@
     }
    
  // -group # i -ology/Km {reasoning} o $info**
+  
   // structure pooling -> Km+
     =spec
      < -group makes K for mix of -group*
@@ -428,6 +429,7 @@
     me.resultily = &{
         
     }
+  
   // structures
    // addition
     # regroup similar rows
@@ -516,12 +518,11 @@
    // 1 - br+g
     # viewable end of a -process
     # eg -brackology is -brack... -> -ology
-    # 
+    #  at R:eight/-four/-brackology/-ology,
+    #   Rs&M += -ology
     me.piology = &acgtRsc{
-        # eg R:eight/-four/-brackology/-ology
         $br = s
         $fo = bry&up
-        
         # < conveniently named after Rc&s.t,(^^^brc&pi) and c.*
         $D = c.D
         # all .t are likely to be the same...
@@ -529,26 +530,118 @@
         # display title for the c&pi having -brackology above
         brc&pi == 'brackology' and $ot = foc&pi
         
-        c.el and $g = me&Api,br,'ology',c
-        else {
-            # $br becomes &opeology-ish cell divider-ness
-            $g = bry&ology = br
-            g.t = c.t
-            gy&cv = 0.2
-        }
+        $g = me&Api,br,'ology',c
         
         # all R/**{,2}/-ology appear
         $appears = br == Rc&s || fo == Rc&s || foy&up == Rc&s
         appears and ac(R,'M',g)
-        # clickable
-        $tog = me&togcon,R,br
-        $c = {
+        
+        me&ologise,R,g,{}
+        $la = gy&label
+        me&zu,"la",la
+        #ot and c.label.s = ot
+        
+        bry&M = &y{
+            me&ioty,g,'groupthing' .map(m => y(m))
+        }
+        return g
+    }
+    
+    # some of the smallest structures
+    # reversibly|diffily, create transform theory
+    # phenom comes in waves
+    # waves have a skin
+    # skins relate posture
+    
+    # hash from k:v, v=1 if not given
+    window.peel = &s,sep{
+        s == null and return {}
+        if (isst(s)) {
+            !s.includes(sep||',') and sep={};sep[s]=1;return sep
+            # < sep?
+            # < rebuild for k:that:go:deeply,
+            #   or that@link to indentedchunk later
+            #    or object anywhere, if A:*L..A:peel
+            #    < rebuild a subset of yaml mostly,
+            return G&peel,s
+        }
+        isha(s) and return s
+        throw "not peely", s
+    }
+    # s=k:v hash copy
+    # if !q && both hash, v merges
+    #  either being C is fatal
+    #   could have something on it?
+    #  one not being hash is fatal
+    #   which is where exts() would give it a key
+    #   unless v=1,
+    #    logically compatible with v={...}
+    # if q,
+    #  the first q/$k:1 adopts: c=$k:$c 
+    #  for sweep q/$cq=label
+    #  as if c is fated to become s.label
+    #   unless it already knows about it
+    #  if c.label,
+    #   it knows about the s/label slope
+    #   mixes as if !q:
+    # c="st" may -> k="st":1
+    #  if $q may -> k=$q/"st":1
+    #  if c.$q,
+    #   that mixes into s.$q,
+    #   other c.* into s.*
+    # 
+    #   c.* and c.q
+    #   -> k=$q/k="st":1
+    #  c.$k==q be put within q,
+    #  
+    window.expe = &scq{
+        # ensure c is a hash
+        c = peel(c)
+        # get a list of words
+        q = peel(q)
+        $def = q && haks(q)[0]
+        
+        # cant use expe() to
+        q = {ks = }
+        
+        each kv c {
+            $V = s [k]
+            V && isha(V)
+        }
+    }
+    # s=K.k:v hash copy
+    # c=K/k="st" may -> s=K/"s":"st" if q.es[K] (not peeled?)
+    # eg la:{ya:2} + la:three -> la:{ya:2,s:three} (K="la")
+    window.exts = &scq{
+        # q a hash of keys to surely become k/"s"
+        q = {ts:{}}
+        q.ts.label = 1
+        # < any q.ts.$K:
+        $shouldbe = &KV{
+            # keys to surely become K/k="s":V
+            q.ts[K] and return
+            isst(V) and V = peel(V)
+        }
+        each KV c {
+            $W = s [K]
+            isst(V) and V = peel(V)
+            isst(W) and W = 
+            # mix {} into string
+        }
+        
+    
+    }
+    # clickable, energised, etc
+    me.ologise = &acgtRgc{
+        $tog = me&togcon,R
+        $q = {
             walls:'b:2.2',
             label:{walls:'bg',tog},
             tog,
         }
+        # ex(q,c) with q.label.s = c.label
+        exts(q,c,'label')
         # < move out
-        ot and c.label.s = ot
         c.sc and ex(g.sc,c.sc)
         gs&hue = 30
         gs&ws = 0
@@ -563,24 +656,22 @@
             #gs&float = 'right';
             #gs&dis = 2;
         }
-        bry&M = &y{
-            me&ioty,g,'groupthing' .map(m => y(m))
-        }
-        return g
     }
     # temperature
     # < generalise from label only
     # for within elvising on s-pi,
     #  where its ^^^.t must be uniq
-    me.togcon = &acgtjs{
-        $C = js&C
-        $z = jc&s
+    me.togcon = &acgtR{
+        $C = Rs&C
+        $z = Rc&s
         return &gq{
             ~>3 Togable: q.name, z.t
             # q.name qualifies up g to R
             $ok = q.name
             !q.name and throw "named!?"
+            
             $n = q.n = me&mtsc,g,q.may,q.s,'y'
+            
             $issetor = &z,is{
                 ~>3 Togs: q.name, z.t, is
                 z.y [ok] == null && is != null and z.y [ok] = is
@@ -588,7 +679,7 @@
             }
             $ope = 1
             # -1..2 adjustable
-            me.nto(j,n,&sTe{
+            me.nto(R,n,&sTe{
                 $add = e.t.startsWith('C') ? -1 : 1
                 # may start from an ope we inherit
                 $is = issetor(z,ope) || 0
