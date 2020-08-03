@@ -48,6 +48,254 @@
     window.hav = &sy{
         return haks(s).map(k => y(s[k],k))
     }
+    
+    # some of the smallest structures
+    # reversibly|diffily, create transform theory
+    # phenom comes in waves
+    # waves have a skin
+    # skins relate posture
+    window.hashkv = &kv{
+        $c = {}
+        c[k] = v != null ? v : 1
+        return c
+    }
+    
+    # hash from k:v, v=1 if not given
+    window.peel = &s,sep{
+        s == null and return {}
+        if (isst(s)) {
+            !s.includes(sep||',') and sep={};sep[s]=1;return sep
+            # < sep?
+            # < rebuild for k:that:go:deeply,
+            #   or that@link to indentedchunk later
+            #    or link object anywhere, if A:L..A:peel
+            #    < rebuild a subset of yaml mostly,
+            return G&peel,s
+        }
+        isha(s) and return s
+        throw "not peely", s
+    }
+   // ex*() + arranq() f
+    # departmentalise c if not already
+    #  for s sublating its namespace
+    # q.K=1:        c=v -> s.K=v
+    # q.K=gk:  c(.K)?=v -> s.K.k=v
+    # is basically:
+    #  !q.qk and q = {qk:q}
+    # q.peely>0: peel(v) if it needs to be housey
+    #  not if v is going for c.label.s
+    #  
+    # smallest totality?
+    #  people fall in a ditch that triangle will not fix
+    window.arranq = &cq{
+        $origin = c
+        # c fated to mix into s.$K, not s
+        #  unless it knows any of these $k
+        !q.qk and throw "index"
+        # < without any q.qk? does to_housey(c.*.*)
+        $qk = haks(q.qk)
+        # the default department first
+        $K = qk[0]
+        $gk = q.qk[K]
+        # how c and any c.K should end up
+        $housey = v => isha(v) && !isC(v)
+        # v must be beyond housey (index)
+        $itemic = v => !isha(v) || isC(v)
+        
+        # try to leave c(.*)? housey
+        # may not be possible, if v=C and no more qk
+        # eg &Cye solving c="La":
+        #   expe() peely=1: -> c={La:1}
+        #  + qk.s=1:
+        #   exts() peely=0: -> c={s:"La"}
+        #   expe() peely=1: -> c={s:{La:1}}
+        # more eg below
+        $to_housey = &vd{
+            # not c if peely=0
+            # even c.*.* if peely=2
+            !(q.peely && q.peely >= (d||0)) and return v
+            return v == null ? null : peel(v)
+        }
+        if (itemic(c)) {
+            # 2-house: c.label.s may be itemic
+            # c=C -> c.s=C, then -> c.label.s=C
+            gk != 1 and c = hashkv(gk,c)
+            else {
+                # 1-house: c should be housey
+                # c=C -> c.label=C
+                # c="st" -> c.label=(peely ? {st:1} : "st")
+                c = to_housey(c)
+                if (itemic(c)) {
+                    # was peely=0, or C passed through peel()
+                    # put as default department
+                    K != null and c = hashkv(K,c)
+                }
+                else {
+                    # now may have deparments:
+                }
+            }
+        }
+        if (housey(c)) {
+            # for any department, or the default
+            $match = qk.filter(K => hak(c,K))
+            if (!hak(match)) {
+                # nothing we know about
+                #  (that we should try to make housey)
+                # c.s:C -> c.label.s=C
+                c = gk == 1 ? c : hashkv(gk,c)
+                c = hashkv(K,c)
+            }
+            else {
+                each iK match {
+                    $v = c[K]
+                    $gk = q.qk[K]
+                    # leave c.label={...}
+                    # < or whatever we want there
+                    housey(v) and continue
+                    # 2-house: v may be itemic
+                    # c.label=C -> c.label.s=C
+                    gk != 1 and v = hashkv(gk,v)
+                    else {
+                        # 1-house: c.label should be housey
+                        # c.label="st" -> c.label=(peely ? {st:1} : "st")
+                        v = to_housey(v)
+                        # may still be itemic if !peely, eg:
+                        # c.label=C -> c.label.C (unhousable)
+                        isC(v) and throw "c."+K+"=C !",c,v
+                    }
+                    # < when|how v not housey (domesticate it)
+                    isC(v) and throw "c."+K+"=C !",c,v
+                    !isha(v) and throw "c."+K+"!housey",c,v
+                    v == c[K] and continue
+                    # preserves the c passed in
+                    c == origin and c = ex({},c)
+                    c[K] = v
+                }
+            }
+        }
+        else {
+            throw "type",c
+        }
+        if (q.peely == 2) {
+            # < c.label.s housey or fatal?
+            throw "each qkv c"
+        }
+        return c
+    }
+    # s=k:v hash copy after arranq()
+    #  c can stay string if ^ takes it beyond c.*.*
+    # v merges if both hash
+    # s|c being C is fatal
+    #  < could have something on it?
+    # v not being hash is fatal
+    #   which is where exts() would give it a key
+    #   unless v=1,
+    #    logically compatible with v={...}
+    window.expe = &scq{
+        # ensure c is a hash
+        $origin = c
+        if (q) {
+            # get a list of words
+            q = peel(q)
+            # arranq() is basically:
+            !q.qk and q = {qk:q}
+            # may departmentalise c, peel c.label
+            q.peely = defor(q.peely,1)
+            c = arranq(c,q)
+        }
+        return ex2(s,c)
+    }
+    window.ex2 = &scq{
+        c = peel(c)
+        isC(s)||isC(c) and throw "expe..C"
+        each kv c {
+            $V = s [k]
+            if (V && isha(V) || v && isha(v)) {
+                # allows either $v to:
+                #  peel if other is hash
+                isst(V) && isha(v) and V = peel(V)
+                isst(v) && isha(V) and v = peel(v)
+                #  replace 1->{}
+                V = exable(V)
+                #  and|or premix arrays in v.*
+                v = exable(v,V)
+                # mixing v into V
+                ex(V,v)
+            }
+            else {
+                # replacing
+                V = v
+            }
+            s [k] = V
+        }
+        return s
+    }
+    # will it ex()
+    # s = one argument to ex() at a time
+    # returns s or a coercion to replace it:
+    #  s=null|1 -> {} coercion
+    #  s.* and c.* array pre-mixing
+    window.exable = &s,c,fatal{
+        # returns coercions or false
+        !s and return {}
+        s == 1 and return {}
+        isar(s) and throw "what?"
+        if (!isha(s)) {
+            fatal and throw "!exable",s,c
+            return 0
+        }
+        # < Cy&sortin patch-conforming c, putting el:8 etc
+        #   exable(c,s) becomes lv(s,c)
+        #   ex(s,c) becomes el(s,c)
+        isC(s) and throw "exC"
+        if (c) {
+            # premix arrays
+            # c,s are the s,c from ex(s,c)! upside down.
+            #  here, s merges into c
+            #  because we can replace s
+            #    as returning a coercion
+            #   with a copy with pre-mixed arrays
+            # < does it uniq, or have:
+            #    a sort-in function on s.* or isC(V)?
+            #   if k=ref, has to renumber or create subnet
+            s = ex({},s)
+            each kv s {
+                $V = c[k]
+                (!v || !isar(v)) && (!V || !isar(V)) and continue
+                # < coerce V==0 -> []?
+                V && isar(v) && !isar(V) and throw "ex not<-array"
+                v && isar(V) && !isar(v) and throw "ex array<-not"
+                s[k] = [...(V||[]), ...(v||[])]
+            }
+        }
+        return s
+    }
+    # s=K.k:v hash copy
+    # with q, c may be (already)? departmentalised
+    # s.label = "st", c.label = {...} is fatal
+    #  in reverse however, s will .label:{...,s:"st"}
+    #   given q.label:"s"
+    # c="st" or c=K/"st" may -> s=K/"s":"st"
+    #  if q.es[K] (not peeled?)
+    # eg la:{ya:2} + la:three -> la:{ya:2,s:three} (K="la")
+    window.exts = &scqk{
+        if (k) {
+            # specifying a pair
+            !isst(q) and throw "q+k"
+            q = {qk:hashkv(q,k)}
+        }
+        else {
+            # get a list of words
+            q = peel(q)
+            !q.qk and q = {qk:q}
+            # with a default gk='s'
+            $qk = haks(q.qk)
+            hak(qk) == 1 && q.qk[qk[0]] == 1 and q.qk[qk[0]] = 's'
+            # dont peel c(.label)?="string"
+            q.peely = 0
+        }
+        return expe(s,c,q)
+    }
    // pi f
     # create a -pi on a node
     me.Api = &acgtstc{
@@ -546,254 +794,6 @@
             me&ioty,g,'groupthing' .map(m => y(m))
         }
         return g
-    }
-    
-    # some of the smallest structures
-    # reversibly|diffily, create transform theory
-    # phenom comes in waves
-    # waves have a skin
-    # skins relate posture
-    window.hashkv = &kv{
-        $c = {}
-        c[k] = v != null ? v : 1
-        return c
-    }
-    
-    # hash from k:v, v=1 if not given
-    window.peel = &s,sep{
-        s == null and return {}
-        if (isst(s)) {
-            !s.includes(sep||',') and sep={};sep[s]=1;return sep
-            # < sep?
-            # < rebuild for k:that:go:deeply,
-            #   or that@link to indentedchunk later
-            #    or link object anywhere, if A:L..A:peel
-            #    < rebuild a subset of yaml mostly,
-            return G&peel,s
-        }
-        isha(s) and return s
-        throw "not peely", s
-    }
-    
-    # departmentalise c if not already
-    #  for s sublating its namespace
-    # q.K=1:        c=v -> s.K=v
-    # q.K=gk:  c(.K)?=v -> s.K.k=v
-    # is basically:
-    #  !q.qk and q = {qk:q}
-    # q.peely>0: peel(v) if it needs to be housey
-    #  not if v is going for c.label.s
-    #  
-    # smallest totality?
-    #  people fall in a ditch that triangle will not fix
-    window.arranq = &cq{
-        $origin = c
-        # c fated to mix into s.$K, not s
-        #  unless it knows any of these $k
-        !q.qk and throw "index"
-        # < without any q.qk? does to_housey(c.*.*)
-        $qk = haks(q.qk)
-        # the default department first
-        $K = qk[0]
-        $gk = q.qk[K]
-        # how c and any c.K should end up
-        $housey = v => isha(v) && !isC(v)
-        # v must be beyond housey (index)
-        $itemic = v => !isha(v) || isC(v)
-        
-        # try to leave c(.*)? housey
-        # may not be possible, if v=C and no more qk
-        # eg &Cye solving c="La":
-        #   expe() peely=1: -> c={La:1}
-        #  + qk.s=1:
-        #   exts() peely=0: -> c={s:"La"}
-        #   expe() peely=1: -> c={s:{La:1}}
-        # more eg below
-        $to_housey = &vd{
-            # not c if peely=0
-            # even c.*.* if peely=2
-            !(q.peely && q.peely >= (d||0)) and return v
-            return v == null ? null : peel(v)
-        }
-        if (itemic(c)) {
-            # 2-house: c.label.s may be itemic
-            # c=C -> c.s=C, then -> c.label.s=C
-            gk != 1 and c = hashkv(gk,c)
-            else {
-                # 1-house: c should be housey
-                # c=C -> c.label=C
-                # c="st" -> c.label=(peely ? {st:1} : "st")
-                c = to_housey(c)
-                if (itemic(c)) {
-                    # was peely=0, or C passed through peel()
-                    # put as default department
-                    K != null and c = hashkv(K,c)
-                }
-                else {
-                    # now may have deparments:
-                }
-            }
-        }
-        if (housey(c)) {
-            # for any department, or the default
-            $match = qk.filter(K => hak(c,K))
-            if (!hak(match)) {
-                # nothing we know about
-                #  (that we should try to make housey)
-                # c.s:C -> c.label.s=C
-                c = gk == 1 ? c : hashkv(gk,c)
-                c = hashkv(K,c)
-            }
-            else {
-                each iK match {
-                    $v = c[K]
-                    $gk = q.qk[K]
-                    # leave c.label={...}
-                    # < or whatever we want there
-                    housey(v) and continue
-                    # 2-house: v may be itemic
-                    # c.label=C -> c.label.s=C
-                    gk != 1 and v = hashkv(gk,v)
-                    else {
-                        # 1-house: c.label should be housey
-                        # c.label="st" -> c.label=(peely ? {st:1} : "st")
-                        v = to_housey(v)
-                        # may still be itemic if !peely, eg:
-                        # c.label=C -> c.label.C (unhousable)
-                        isC(v) and throw "c."+K+"=C !",c,v
-                    }
-                    # < when|how v not housey (domesticate it)
-                    isC(v) and throw "c."+K+"=C !",c,v
-                    !isha(v) and throw "c."+K+"!housey",c,v
-                    v == c[K] and continue
-                    # preserves the c passed in
-                    c == origin and c = ex({},c)
-                    c[K] = v
-                }
-            }
-        }
-        else {
-            throw "type",c
-        }
-        if (q.peely == 2) {
-            # < c.label.s housey or fatal?
-            throw "each qkv c"
-        }
-        return c
-    }
-    # s=k:v hash copy after arranq()
-    #  c can stay string if ^ takes it beyond c.*.*
-    # v merges if both hash
-    # s|c being C is fatal
-    #  < could have something on it?
-    # v not being hash is fatal
-    #   which is where exts() would give it a key
-    #   unless v=1,
-    #    logically compatible with v={...}
-    window.expe = &scq{
-        # ensure c is a hash
-        $origin = c
-        if (q) {
-            # get a list of words
-            q = peel(q)
-            # arranq() is basically:
-            !q.qk and q = {qk:q}
-            # may departmentalise c, peel c.label
-            q.peely = defor(q.peely,1)
-            c = arranq(c,q)
-        }
-        return ex2(s,c)
-    }
-    window.ex2 = &scq{
-        c = peel(c)
-        isC(s)||isC(c) and throw "expe..C"
-        each kv c {
-            $V = s [k]
-            if (V && isha(V) || v && isha(v)) {
-                # allows either $v to:
-                #  peel if other is hash
-                isst(V) && isha(v) and V = peel(V)
-                isst(v) && isha(V) and v = peel(v)
-                #  replace 1->{}
-                V = exable(V)
-                #  and|or premix arrays in v.*
-                v = exable(v,V)
-                # mixing v into V
-                ex(V,v)
-            }
-            else {
-                # replacing
-                V = v
-            }
-            s [k] = V
-        }
-        return s
-    }
-    # will it ex()
-    # s = one argument to ex() at a time
-    # returns s or a coercion to replace it:
-    #  s=null|1 -> {} coercion
-    #  s.* and c.* array pre-mixing
-    window.exable = &s,c,fatal{
-        # returns coercions or false
-        !s and return {}
-        s == 1 and return {}
-        isar(s) and throw "what?"
-        if (!isha(s)) {
-            fatal and throw "!exable",s,c
-            return 0
-        }
-        # < Cy&sortin patch-conforming c, putting el:8 etc
-        #   exable(c,s) becomes lv(s,c)
-        #   ex(s,c) becomes el(s,c)
-        isC(s) and throw "exC"
-        if (c) {
-            # premix arrays
-            # c,s are the s,c from ex(s,c)! upside down.
-            #  here, s merges into c
-            #  because we can replace s
-            #    as returning a coercion
-            #   with a copy with pre-mixed arrays
-            # < does it uniq, or have:
-            #    a sort-in function on s.* or isC(V)?
-            #   if k=ref, has to renumber or create subnet
-            s = ex({},s)
-            each kv s {
-                $V = c[k]
-                (!v || !isar(v)) && (!V || !isar(V)) and continue
-                # < coerce V==0 -> []?
-                V && isar(v) && !isar(V) and throw "ex not<-array"
-                v && isar(V) && !isar(v) and throw "ex array<-not"
-                s[k] = [...(V||[]), ...(v||[])]
-            }
-        }
-        return s
-    }
-    # s=K.k:v hash copy
-    # with q, c may be (already)? departmentalised
-    # s.label = "st", c.label = {...} is fatal
-    #  in reverse however, s will .label:{...,s:"st"}
-    #   given q.label:"s"
-    # c="st" or c=K/"st" may -> s=K/"s":"st"
-    #  if q.es[K] (not peeled?)
-    # eg la:{ya:2} + la:three -> la:{ya:2,s:three} (K="la")
-    window.exts = &scqk{
-        if (k) {
-            # specifying a pair
-            !isst(q) and throw "q+k"
-            q = {qk:hashkv(q,k)}
-        }
-        else {
-            # get a list of words
-            q = peel(q)
-            !q.qk and q = {qk:q}
-            # with a default gk='s'
-            $qk = haks(q.qk)
-            hak(qk) == 1 && q.qk[qk[0]] == 1 and q.qk[qk[0]] = 's'
-            # dont peel c(.label)?="string"
-            q.peely = 0
-        }
-        return expe(s,c,q)
     }
     
     # clickable, energised, etc
