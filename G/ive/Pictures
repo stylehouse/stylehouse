@@ -64,7 +64,8 @@
     window.peel = &s,sep{
         s == null and return {}
         if (isst(s)) {
-            !s.includes(sep||',') and sep={};sep[s]=1;return sep
+            # shortcut?
+            !s.includes(sep||',') and return hashkv(s)
             # < sep?
             # < rebuild for k:that:go:deeply,
             #   or that@link to indentedchunk later
@@ -75,7 +76,7 @@
         isha(s) and return s
         throw "not peely", s
     }
-   // ex*() + arranq() f
+   // ex*(), arq() f
     # departmentalise c if not already
     #  for s sublating its namespace
     # q.K=1:        c=v -> s.K=v
@@ -87,7 +88,7 @@
     #  
     # smallest totality?
     #  people fall in a ditch that triangle will not fix
-    window.arranq = &cq{
+    window.arq = &cq{
         $origin = c
         # c fated to mix into s.$K, not s
         #  unless it knows any of these $k
@@ -182,7 +183,7 @@
         }
         return c
     }
-    # s=k:v hash copy after arranq()
+    # s=k:v hash copy after arq()
     #  c can stay string if ^ takes it beyond c.*.*
     # v merges if both hash
     # s|c being C is fatal
@@ -197,11 +198,11 @@
         if (q) {
             # get a list of words
             q = peel(q)
-            # arranq() is basically:
+            # arq() is basically:
             !q.qk and q = {qk:q}
             # may departmentalise c, peel c.label
             q.peely = defor(q.peely,1)
-            c = arranq(c,q)
+            c = arq(c,q)
         }
         return ex2(s,c)
     }
