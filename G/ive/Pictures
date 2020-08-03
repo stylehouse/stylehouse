@@ -774,25 +774,52 @@
     me.piology = &acgtRsc{
         $br = s
         $fo = bry&up
-        # < conveniently named after Rc&s.t,(^^^brc&pi) and c.*
-        $D = c.D
-        # all .t are likely to be the same...
-        c.t ||= joint([s.t, fo && foc&pi, brc&pi, 'ology', D && Dc&pi && '<-'+Dc&pi])
-        # display title for the c&pi having -brackology above
-        brc&pi == 'brackology' and $ot = foc&pi
-        
+        me&labelt,R,br,c,{thispi:'ology'}
         $g = me&Api,br,'ology',c
-        
-        # all R/**{,2}/-ology appear
-        $appears = br == Rc&s || fo == Rc&s || foy&up == Rc&s
-        appears and ac(R,'M',g)
-        
-        me&ologise,R,g,{label:fo&&foc&pi||c.t}
-        
+        # is appearable thing
+        c.appears and ac(R,'M',g)
+        me&ologise,R,g,c
+        # has things (once other inputs them)
         bry&M = &y{
-            me&ioty,g,'groupthing' .map(m => y(m))
+            me&ioty,g,'groupthing' .map(Km => y(Km))
         }
         return g
+    }
+    # generate names over the slope
+    # < these types in %Slope hypothetica
+    me.labelt = &acgtRscq{
+        # must be a pi under Rc&s already:
+        $br = s
+        $fo = bry&up
+        
+        # one highly unique:
+        # < conveniently named after Rc&s.t,(^^^brc&pi) and c.*,
+        #   a compressey mingle of what's around (to it|it to)
+        # < once $g created, before its name matters: Y:pi @015
+        # with c.* fact:
+        $D = c.D
+        c.t = c.t || joint([
+            # stretches up to Rc&s.t:
+            s.t,
+            # up two:
+            fo && foc&pi,
+                brc&pi,
+            # pi we're about to make ($g):
+            q && q.thispi,
+            # and some thing coming at it
+            D && Dc&pi && '<-'+Dc&pi
+        ])
+        
+        # one small and concise:
+        # all .t are likely to be the same...
+        # display title for the c&pi having -brackology above
+        #  -four being the last real work,
+        #    before the holograms showing it
+        c.label = fo && foc&pi || c.t
+        
+        # all R/**{,2}/-ology appear
+        if (br == Rc&s || fo == Rc&s || foy&up == Rc&s)
+            c.appears = 1
     }
     
     # clickable, energised, etc
