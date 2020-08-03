@@ -591,6 +591,7 @@
         # c fated to mix into s.$K, not s
         #  unless it knows any of these $k
         !q.qk and throw "index"
+        # < without any q.qk? does to_housey(c.*.*)
         $qk = haks(q.qk)
         # the default department first
         $K = qk[0]
@@ -600,41 +601,45 @@
         # v must be beyond housey (index)
         $itemic = v => !isha(v) || isC(v)
         
-        # v itemic for c, c.*, c.*.* which must be housey
-        #  eg &Cye with c="La":
+        # try to leave c(.*)? housey
+        # may not be possible, if v=C and no more qk
+        # eg &Cye solving c="La":
         #   expe() peely=1: -> c={La:1}
         #  + qk.s=1:
-        #   expe() peely=1: -> c={s:{La:1}}
         #   exts() peely=0: -> c={s:"La"}
-        #  eg c.label="st",
-        #   expe() -> 
-        #   
-        #  eg &Cye,'tee',1,"La": c="La" -> c.s="La"
-        # or
-        #  eg c.label=("st" -> q.peely ? {st:1} : {s:}
-        #   c.label.s="settings" if !q.peely
-        #   c.label.st=1 if q.peely
-        $to_housey = &v{
-        
+        #   expe() peely=1: -> c={s:{La:1}}
+        # more eg below
+        $to_housey = &vd{
+            # not c if peely=0
+            # even c.*.* if peely=2
+            !(q.peely && q.peely >= (d||0)) and return v
+            return v == null ? null : peel(v)
         }
-        
         if (itemic(c)) {
-            $v = c
-            # 2-house: v may be itemic
-            # c=C -> c.label.s=C
-            gk != 1 and v = hashkv(gk,v)
-            else
-            # 1-house: v should be housey
-            # c=C -> c.label=C
-            # < peeling this instead of gking?
-            # c="st" -> c.label(.s)?="st"
-            c = gk == 1 ? c : hashkv(gk,c)
-            c = hashkv(K,c)
+            # 2-house: c.label.s may be itemic
+            # c=C -> c.s=C, then -> c.label.s=C
+            gk != 1 and c = hashkv(gk,c)
+            else {
+                # 1-house: c should be housey
+                # c=C -> c.label=C
+                # c="st" -> c.label=(peely ? {st:1} : "st")
+                c = to_housey(c)
+                if (itemic(c)) {
+                    # was peely=0, or C passed through peel()
+                    # put as default department
+                    K != null and c = hashkv(K,c)
+                }
+                else {
+                    # now may have deparments:
+                }
+            }
         }
-        elsif (housey(c)) {
+        if (housey(c)) {
             # for any department, or the default
             $match = qk.filter(K => hak(c,K))
             if (!hak(match)) {
+                # nothing we know about
+                #  (that we should try to make housey)
                 # c.s:C -> c.label.s=C
                 c = gk == 1 ? c : hashkv(gk,c)
                 c = hashkv(K,c)
@@ -645,30 +650,34 @@
                     $gk = q.qk[K]
                     # leave c.label={...}
                     # < or whatever we want there
-                    isha(v) && !isC(v) and continue
-                    
+                    housey(v) and continue
                     # 2-house: v may be itemic
                     # c.label=C -> c.label.s=C
                     gk != 1 and v = hashkv(gk,v)
-                    else
-                    # 1-house: v should be housey
-                    # c.K=("st" -> {st:1})
-                    # c.K=("st" -> {st:1})
-                    # c.label="st" -> c.label.st=1
-                    #  ex2() peels c..v string if s..v hash
-                    #  so always do that
-                    isst(v) && q.peely == 1 and v = peel(v)
-                    else
-                    # v not housey
-                    isC(v) and throw "c."+K+"=C !"
+                    else {
+                        # 1-house: c.label should be housey
+                        # c.label="st" -> c.label=(peely ? {st:1} : "st")
+                        v = to_housey(v)
+                        # may still be itemic if !peely, eg:
+                        # c.label=C -> c.label.C (unhousable)
+                        isC(v) and throw "c."+K+"=C !",c,v
+                    }
+                    # < when|how v not housey (domesticate it)
+                    isC(v) and throw "c."+K+"=C !",c,v
+                    !isha(v) and throw "c."+K+"!housey",c,v
+                    v == c[K] and continue
+                    # preserves the c passed in
+                    c == origin and c = ex({},c)
                     c[K] = v
                 }
             }
-            # preserves the c passed in
-            # c = ex({},c)
         }
         else {
-            throw "type"
+            throw "type",c
+        }
+        if (q.peely == 2) {
+            # < c.label.s housey or fatal?
+            throw "each qkv c"
         }
         return c
     }
@@ -797,9 +806,8 @@
         }
         # ex(q,c) with q.label.s = c.label
         c.label = "SSS"
-        $Q = exts(q,c,'label')
-        Q.label.s != "SSS" and debugger
         c = exts(q,c,'label')
+        c.label.s != "SSS" and debugger
         # < move out
         c.sc and ex(g.sc,c.sc)
         gs&hue = 30
