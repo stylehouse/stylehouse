@@ -128,6 +128,7 @@
         return fo
     }
     
+   // -seven**
     # < self in %Yingate, continues with -eight
     me.piseven = &acgtRsc{
         $se = me&Api,s,'seven',c
@@ -566,7 +567,7 @@
             # < sep?
             # < rebuild for k:that:go:deeply,
             #   or that@link to indentedchunk later
-            #    or object anywhere, if A:*L..A:peel
+            #    or link object anywhere, if A:L..A:peel
             #    < rebuild a subset of yaml mostly,
             return G&peel,s
         }
@@ -580,9 +581,13 @@
     # q.K=gk:  c(.K)?=v -> s.K.k=v
     # is basically:
     #  !q.qk and q = {qk:q}
+    # q.peely>0: peel(v) if it needs to be housey
+    #  not if v is going for c.label.s
+    #  
     # smallest totality?
     #  people fall in a ditch that triangle will not fix
     window.arranq = &cq{
+        $origin = c
         # c fated to mix into s.$K, not s
         #  unless it knows any of these $k
         !q.qk and throw "index"
@@ -590,14 +595,43 @@
         # the default department first
         $K = qk[0]
         $gk = q.qk[K]
+        # how c and any c.K should end up
+        $housey = v => isha(v) && !isC(v)
+        # v must be beyond housey (index)
+        $itemic = v => !isha(v) || isC(v)
         
-        if (isst(c)) {
-            # < peeling this?
+        # v itemic for c, c.*, c.*.* which must be housey
+        #  eg &Cye with c="La":
+        #   expe() peely=1: -> c={La:1}
+        #  + qk.s=1:
+        #   expe() peely=1: -> c={s:{La:1}}
+        #   exts() peely=0: -> c={s:"La"}
+        #  eg c.label="st",
+        #   expe() -> 
+        #   
+        #  eg &Cye,'tee',1,"La": c="La" -> c.s="La"
+        # or
+        #  eg c.label=("st" -> q.peely ? {st:1} : {s:}
+        #   c.label.s="settings" if !q.peely
+        #   c.label.st=1 if q.peely
+        $to_housey = &v{
+        
+        }
+        
+        if (itemic(c)) {
+            $v = c
+            # 2-house: v may be itemic
+            # c=C -> c.label.s=C
+            gk != 1 and v = hashkv(gk,v)
+            else
+            # 1-house: v should be housey
+            # c=C -> c.label=C
+            # < peeling this instead of gking?
             # c="st" -> c.label(.s)?="st"
             c = gk == 1 ? c : hashkv(gk,c)
             c = hashkv(K,c)
         }
-        elsif (isha(c)) {
+        elsif (housey(c)) {
             # for any department, or the default
             $match = qk.filter(K => hak(c,K))
             if (!hak(match)) {
@@ -608,21 +642,35 @@
             else {
                 each iK match {
                     $v = c[K]
-                    # leave c.label={...}
-                    isha(v) && !isC(v) and continue
-                    # v could be string
-                    # c.label=C -> c.label.s=C
                     $gk = q.qk[K]
-                    c = gk == 1 ? c : hashkv(gk,c)
-                    c = hashkv(K,c)
+                    # leave c.label={...}
+                    # < or whatever we want there
+                    isha(v) && !isC(v) and continue
+                    
+                    # 2-house: v may be itemic
+                    # c.label=C -> c.label.s=C
+                    gk != 1 and v = hashkv(gk,v)
+                    else
+                    # 1-house: v should be housey
+                    # c.K=("st" -> {st:1})
+                    # c.K=("st" -> {st:1})
+                    # c.label="st" -> c.label.st=1
+                    #  ex2() peels c..v string if s..v hash
+                    #  so always do that
+                    isst(v) && q.peely == 1 and v = peel(v)
+                    else
+                    # v not housey
+                    isC(v) and throw "c."+K+"=C !"
+                    c[K] = v
                 }
             }
             # preserves the c passed in
-            #c = ex({},c)
+            # c = ex({},c)
         }
         else {
             throw "type"
         }
+        return c
     }
     # s=k:v hash copy after arranq()
     #  c can stay string if ^ takes it beyond c.*.*
@@ -641,9 +689,9 @@
             q = peel(q)
             # arranq() is basically:
             !q.qk and q = {qk:q}
-            
-            # may departmentalise c
-            c = qarrang(c,q)
+            # may departmentalise c, peel c.label
+            q.peely = defor(q.peely,1)
+            c = arranq(c,q)
         }
         return ex2(s,c)
     }
@@ -733,6 +781,8 @@
             # with a default gk='s'
             $qk = haks(q.qk)
             hak(qk) == 1 && q.qk[qk[0]] == 1 and q.qk[qk[0]] = 's'
+            # dont peel c(.label)?="string"
+            q.peely = 0
         }
         return expe(s,c,q)
     }
@@ -746,7 +796,10 @@
             tog,
         }
         # ex(q,c) with q.label.s = c.label
-        exts(q,c,'label')
+        c.label = "SSS"
+        $Q = exts(q,c,'label')
+        Q.label.s != "SSS" and debugger
+        c = exts(q,c,'label')
         # < move out
         c.sc and ex(g.sc,c.sc)
         gs&hue = 30
