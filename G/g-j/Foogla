@@ -903,12 +903,15 @@ me.opeKn = &acgtgtc{
 
 # applies tsc/walls as per c or d(efault)
 # < use for rolltog taking .tsc, 
-me.applystylec = &acgtqcd{
-    d ||= {};
-    c ||= {};
+me.applystylec = &acgtncd{
+    d = ex(d||{},c||{})
     ex(d,c);
-    d.tsc and me&tsc,q,0,d.tsc
-    d.walls and me&walls,q,d.walls
+    d.tsc and me&tsc,n,0,d.tsc
+    d.walls and me&walls,n,d.walls
+    # inherits
+    $g = ny&up
+    !g and return
+    gy&togcon and ny&togcon = gy&togcon
 };
 
 
@@ -924,17 +927,36 @@ me.vlabinto = &acgtgc{
     $R = Cy&R;
     c ||= {};
     # qualify up g
-    # < cbub(s,Rc&s) that always returns something, up to Rc&s
-    $name = [];
-    me.cby(g,s => name.unshift(s) && s == Rc&s)
-    name = name.map(n => n.t) .join("_");
-    $qc = {name,may:'label_'+name,s:c.s||g.t};
-    c.tsc and qc.tsc = delete c.tsc
     # see -brackology, i $g/$label
-    if (c.tog) {
+    if (gy&togcon) {
+        $qc = {}
+        # display name
+        qc.s = c.s || g.t
+        c.tsc and qc.tsc = delete c.tsc
+        # q's name relativity to g:
+        qc.may = 'label'
+        # more name, g/q made
+        q = gy&togcon(g,qc)
+    }
+    elsif (c.tog) {
+        # GOING - from &brackope
+        # < cbub(s,Rc&s) that always returns something, up to Rc&s
+        $name = [];
+        me.cby(g,s => name.unshift(s) && s == Rc&s)
+        name = name.map(n => n.t) .join("_");
+        $qc = {name,may:'label_'+name,s:c.s||g.t}
+        c.tsc and qc.tsc = delete c.tsc
         q = c.tog(g,qc)
     }
     else {
+        # GOING? widely not togcon yet
+        # < cbub(s,Rc&s) that always returns something, up to Rc&s
+        $name = [];
+        me.cby(g,s => name.unshift(s) && s == Rc&s)
+        name = name.map(n => n.t) .join("_");
+        $qc = {name,may:'label_'+name,s:c.s||g.t}
+        c.tsc and qc.tsc = delete c.tsc
+        
         $ope = me&rolltog,R,qc
         q = qc.n
         qs&ope = ope
@@ -942,6 +964,7 @@ me.vlabinto = &acgtgc{
     }
     qy&cv = 0.12;
     if (c.opeg) {
+        # g/q%label%ope -> g%ope
         gs&ope = qs&ope
         # open labels enlarge the Km
         if (qs&ope) {
@@ -968,7 +991,8 @@ me.sizo = &acgtgc{
     c ||= {};
     $ope = c.opeif1 && c.len == 1
         || c.opelen && c.len <= c.opelen;
-    ope and gs&ope = 'is1'; return
+    ope and ope = 1
+    ope && gs&ope < ope and gs&ope = 1; return
     $t = c.t || 'size';
     $s = fio(g,t);
     ss&label = 1;
