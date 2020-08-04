@@ -860,16 +860,15 @@
     }
     # clickable, energised, etc
     me.ologise = &acgtRgc{
-        $tog = me&togcon,R
+        $tog = me&togcon,R,g
         $q = {
             walls:'b:2.2',
-            label:{walls:'bg',tog},
+            label:{walls:'bg'},
         }
         # ex(q,c) with q.label.s = c.label
         c = exts(q,c,'label')
         # < move out
         c.sc and ex(g.sc,c.sc)
-        gy&togcon = tog
         gs&hue = 30
         gs&ws = 0
         me&applystylec,g,c,{};
@@ -884,25 +883,37 @@
             #gs&dis = 2;
         }
     }
-    # temperature
+    
+    # return R%Te, storable pointer cloudlayer
+    me.theTe = &acgtR,softly{
+        return Rs&Te && Rs&Te.c && Rs&Te || !softly && me&introqua,R
+    }
+    
+    # temperate -ology clusters
+    #  R%Te %togcon.$pt serves .$ok for $p**
     # < generalise from label only
     # for within elvising on s-pi,
     #  where its ^^^.t must be uniq
-    me.togcon = &acgtR{
+    me.togcon = &acgtRp{
         $C = Rs&C
         $z = Rc&s
         !zy&R and throw "leave a node"
+        !p and throw "give top modulat"
         # get Tes&togcon for R
         $togcon = &R,softly{
-            $te = me&introqua,R
+            $te = me&theTe,R,softly
+            !te and return
             # < Te save: meaning collapse, empty hash scrub
             #   eg $ok:0 is as it inherits
             !softly and tes&togcon ||= {}
             $toge = tes&togcon
             return toge
         }
-        $togeptok = &toge,pt,ok,ope{
-            return &ope,{
+        $togeptok = &toge,q{
+            $pt = qc&pt
+            return &q,ope{
+                qc&pt != pt and debugger
+                $ok = qc&ok
                 if (ope != null) {
                     toge[pt] ||= {}
                     toge[pt][ok] = ope
@@ -915,83 +926,125 @@
         #  make g/n, the label, attach click handler
         # < generalise
         $toge = togcon(R)
-        return &gq{
+        py&togcon = &gq{
             # for continuous this togcon
             q.path = me.cby(g,s => sy&togcon == gy&togcon ? 0 : -2)
+            #!q.path.includes(Rc&s) and debugger
             q.depth = hak(q.path)
             # R/(p) name (the -ology)
-            $p = q.path[0]
+            $alsop = q.path[0]
+            p != alsop and debugger
             $pt = q.part = p.t
             # R/p/(**) name, inside p
             $insidep = q.path.slice(1)
             $ok = q.name = hak(insidep) ? joint(insidep,"_")
                 : 'itself'
-            # gets us a bit of storage on Te
-            # see 'init default'
-            $open = togeptok(toge,pt,ok)
             
-            if (q.depth == 1) {
-                # the -ology
-                q.tsc ||= 'y'
-            }
+            # the $p-ology
+            #q.depth == 1 and q.tsc ||= 'y'
+            
             # tooltip
             #  pointer is forgetting that it is 'label'
             !q.may and throw "may join"
             q.may = q.may+"_"+q.name
-            # the -ology
+            # #$p-ology/#$bits
+            q.c = {}
+            qc&pt = pt
+            qc&ok = ok
             
+            # auto ope depth:!
+            $ope = q.depth <3 ? 1 : null
+            # on the label:
             $n = q.n = me&mtsc,g,q.may,q.s,q.tsc
             
-            # auto ope depth:
-            $ope = q.depth <3 ? 1 : null
+            if (q.depth == 1) {
+                # the first $n will be $p for the others
+                # R%Te %togcon.$pt, serves .$ok for $p**
+                
+                # search R^^^ for %%toge,pt
+                #  keep them to serve .$ok inheritability
+                $N = []
+                $inherited
+                me&inheritily,R (&rz{
+                    $wander = r != R && 'softly'
+                    $toge = togcon(r,wander)
+                    if (!toge || !toge[pt]) {
+                        # has never heard of $p-ology
+                        !toge && r == R and throw "!toge"
+                        if (q.depth == 1 && rs&Peace == 4) {
+                            # made it to 4 for the $p-ology
+                            # init Ying-wide defaults
+                            ~>3 init: R.t
+                            $toge = togcon(r)
+                            $open = togeptok(toge,q)
+                            # the $p/itself -1?
+                            open(q,-1)
+                            # < do the:
+                            #sy&brackwouology_ope == null
+                            #  and sy&brackwouology_ope = -1
+                        }
+                    }
+                    if (toge && toge[pt]) {
+                        rs&Teoptic = 1
+                        $open = togeptok(toge,q)
+                        N.push({r,q,open})
+                    }
+                    ~>5 Vis: r.t, q.depth
+                })
+                
+                # for this $p:
+                $open =
+                # for $p/**
+                ny&open = &q,ope{
+                    each in N {
+                        $r = n.r
+                        $is = n.open(q,ope)
+                        if (is != null) {
+                            r != R and q.inherited = r
+                            return is
+                        }
+                        ope != null and debugger
+                    }
+                }
+            }
+            else {
+                $open = py&open || py&label.y.open
+            }
+            
+            $is = open(q)
+            is != null and ope = is
+            
             
             # -1..2 adjustable!
             me.nto(R,n,&sTe{
                 $add = e.t.startsWith('C') ? -1 : 1
                 # may start from an ope we inherit
-                $is = defor(open(),ope) || 0
+                $is = defor(open(q),ope) || 0
                 $was = is
                 is += add
                 is > 2 and is = 2
                 is < -1 and is = -1
                 ~>3 Togs: was,'->',is, q.name, z.t
-                open(is)
+                open(q,is)
             })
-            # inherit last defined $ok:$ope (first zy&R == R)
-            $inherited
-            zy&R && me.cbu(zy&R,&r{
-                $z = rc&s
-                if (z) {
-                    $toge = togcon(r,'softly')
-                    $open = toge && togeptok(toge,pt,ok)
-                    $is = open && open()
-                    if (is != null) {
-                        r != R and inherited = 1
-                        ope = is
-                        return 1
-                    }
-                    Rc&s == z and return 1
-                }
-                rs&Peace != 4 and return
-                
-                if (q.depth == 1) {
-                    # init default Ying**
-                    ~>3 init: R.t
-                    $Ying = me.cbu(R,'Ying') [0]
-                    $toge = togcon(Ying)
-                    $open = toge && togeptok(toge,pt,ok)
-                    # < do the:
-                    #sy&brackwouology_ope == null
-                    #  and sy&brackwouology_ope = -1
-                }
-                return 1
-            })
+            
             ns&fs = 9+((ope||0.5)*2)
             ns&ope = ope
-            z.t != 'le-5' and inherited = 1
-            inherited and 1
-            ~>6 Toge: q.depth, ope, ok, q.name, z.t
+            q.depth <3 and ~>6 Toge: q.depth, ope, pt, ok, z.t
+            
             return n
+        }
+    }
+    me.inheritily = &acgtR{
+        return &y{
+            me.cbu(R,&r{
+                $z = rc&s
+                if (z) {
+                    $re = y (r,z)
+                    re != null and return re
+                }
+                rs&Peace == 4 and return 1
+            })
         }
     }
    
