@@ -968,13 +968,12 @@
                 me&inheritily,R (&rz{
                     $wander = r != R && 'softly'
                     $toge = togcon(r,wander)
-                    if (!toge || !toge[pt]) {
+                    if (!toge || !toge[pt] && wander) {
                         # has never heard of $p-ology
                         !toge && r == R and throw "!toge"
                         if (q.depth == 1 && rs&Peace == 4) {
                             # made it to 4 for the $p-ology
                             # init Ying-wide defaults
-                            ~>3 init: R.t
                             $toge = togcon(r)
                             $open = togeptok(toge,q)
                             # the $p/itself -1?
@@ -984,12 +983,10 @@
                             #  and sy&brackwouology_ope = -1
                         }
                     }
-                    if (toge && toge[pt]) {
-                        rs&Teoptic = 1
+                    else {
                         $open = togeptok(toge,q)
                         N.push({r,q,open})
                     }
-                    ~>5 Vis: r.t, q.depth
                 })
                 
                 # for this $p:
@@ -1000,6 +997,7 @@
                         $r = n.r
                         $is = n.open(q,ope)
                         if (is != null) {
+                            rs&Teoptic = 1
                             r != R and q.inherited = r
                             return is
                         }
@@ -1024,11 +1022,12 @@
                 is += add
                 is > 2 and is = 2
                 is < -1 and is = -1
-                ~>3 Togs: was,'->',is, q.name, z.t
+                ~>3 Togssssssss: was,'->',is, q.name, z.t
                 open(q,is)
             })
             
             ns&fs = 9+((ope||0.5)*2)
+            ope < 1 and ns&bri = 0.5
             ns&ope = ope
             q.depth <3 and ~>6 Toge: q.depth, ope, pt, ok, z.t
             
