@@ -625,11 +625,14 @@ me.Sch_Story = &acgt{ return [
             # so $d will start with this -gate
             $d = Ds&z.slice(-1)[0]
             $p = Ds&z.slice(-2)[0]
-            $cb = Ploty&pageturn
+            
+            # other &Plot_Pageturn
+            $cb = Ploty&Pageturn
             cb and cb(R,d,p)
             else {
                 i > 2 and Rs&pause = 1
             }
+            
             i > 9 and Rs&pause = 1; ss&overturning = 1
             # < Plot leaves tightenable hooks
             #   for Yingate_2 -> Outlog -> next:
@@ -638,8 +641,10 @@ me.Sch_Story = &acgt{ return [
         $Y = me.cbu(R,'Ying').sc.Ying
         Ys&quiet_wakers_too_recently = &{
             ~>4 pagequiet: Plots&Page
-            $y = Ploty&pageturnable
-            # would like to happen: must self to act
+            $y = Ploty&Pageturnable
+            # can sometimes want to happen:
+            #  must self to act first in the next Page
+            #   < supposing multiple layers of quiet_wakers
             y && y () and return 1
             page_turning()
         }

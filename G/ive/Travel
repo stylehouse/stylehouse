@@ -569,47 +569,20 @@ me.Sch_Travel = &acgt{ return [
         $go = me&acting,R,'Plot'
         ah(R,'inheritscif','ball','Point',1)
    // otherses
-        # This turns page
-        sy&pageturn = &rd{
+        # r:This turns page (from D:Stream/$p to $d)
+        sy&Pageturn = &rdp{
             rc&s != xs&This and debugger
-            $L = sy&Point
-            $i = ss&Page
-            ~>4 Pageturn: i
-            me&log,R,'Pageturn',{i,L}
-            !L and return
-            
-            # spring act, may &iPoint
-            Ly&atPage and Ly&atPage(i); delete Ly&atPage
-            
-            # go through L+ considering new %Page
-            each iL ss&z {
-                # %%Checkable -> Point -> Nine
-                $q = {Checkable:1,L}
-                if (!me&ja,r,q ) {
-                    !Lc&Page_out and throw "!L"
-                    if (Lc&Page_out) {
-                        Lc&Page_out >= ss&Page and break
-                    }
-                    else {
-                        throw "L!howhen"
-                    }
-                }
-                # < ideally %%eto=L will work already
-                me&nodei,r,R,q,{dome:'pageturn'}
-            }
-            # < allow it to empty?
-            me&dome_traction,r,'pageturn',{el:2}
+            me&Plot_Pageturn,R,s,r,d,p
         }
         # sense wanting quiet,wake
         # < to asap an -eight**
-        sy&pageturnable = &rd{
+        sy&Pageturnable = &rd{
             $L = sy&Point
             # before Page++
             $i = ss&Page + 1
             return L && i && Lc&Page_out < i
         }
    
-   // Plot/Point 3
         # enters Plot/Point**
         # < based on Stori/* rhythms
         $con = &tyc{
@@ -634,6 +607,39 @@ me.Sch_Travel = &acgt{ return [
             # < else?
         })
     },'ift,D'],
+    &{
+    # r:This with s:Plot, othering a Page++ async
+    me.Plot_Pageturn = &acgtRsrdp{
+        $L = sy&Point
+        $i = ss&Page
+        ~>4 Pageturn: i
+        me&log,R,'Pageturn',{i,L}
+        # no Point yet?
+        !L and return
+
+        # spring act, may &iPoint
+        Ly&atPage and Ly&atPage(i); delete Ly&atPage
+
+        # go through L+ considering new %Page
+        each iL ss&z {
+            # %%Checkable -> Point -> Nine
+            $q = {Checkable:1,L}
+            if (!me&ja,r,q ) {
+                !Lc&Page_out and throw "!L"
+                if (Lc&Page_out) {
+                    Lc&Page_out >= ss&Page and break
+                }
+                else {
+                    throw "L!howhen"
+                }
+            }
+            # < ideally %%eto=L will work already
+            me&nodei,r,R,q,{dome:'pageturn'}
+        }
+        # < allow it to empty?
+        me&dome_traction,r,'pageturn',{el:2}
+    }
+    },
    
    // signals
     ['Plot',0.33,&acgtRs{
