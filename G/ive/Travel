@@ -560,6 +560,7 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
  
  // %Plot drive Story
+    # for This
     ['Plot',0.298,&acgtRs{
         # < TEST see &OPoint Plot 298 init too early
         #me&bewind,R,Ry&up.sc.z and return
@@ -568,7 +569,7 @@ me.Sch_Travel = &acgt{ return [
         $x = me&Jx,R;
         $go = me&acting,R,'Plot'
         ah(R,'inheritscif','ball','Point',1)
-   // otherses
+        
         # r:This turns page (from D:Stream/$p to $d)
         sy&Pageturn = &rdp{
             rc&s != xs&This and debugger
@@ -582,8 +583,43 @@ me.Sch_Travel = &acgt{ return [
             $i = ss&Page + 1
             return L && i && Lc&Page_out < i
         }
-   
-        # enters Plot/Point**
+    },'ift,D'],
+    &{
+    # This othering a Page++ async
+    me.Plot_Pageturn = &acgtRsrdp{
+        $Plot = R
+        $L = sy&Point
+        $i = ss&Page
+        ~>4 Pageturn: i
+        me&log,r,'Pageturn',{i,L}
+        # no Point yet?
+        !L and return
+
+        # spring act, may &iPoint
+        Ly&atPage and Ly&atPage(i); delete Ly&atPage
+
+        # go through L+ considering new %Page
+        each iL ss&z {
+            # %%Checkable -> Point -> Nine
+            $q = {Checkable:1,L}
+            if (!me&ja,r,q ) {
+                !Lc&Page_out and throw "!L"
+                if (Lc&Page_out) {
+                    Lc&Page_out >= ss&Page and break
+                }
+                else {
+                    throw "L!howhen"
+                }
+            }
+            # < ideally %%eto=L will work already
+            me&nodei,r,Plot,q,{dome:'pageturn'}
+        }
+        # < allow it to empty?
+        me&dome_traction,r,'pageturn',{el:2}
+    }
+    },
+    # enters Plot/Point**
+    ['Plot',0.31,&acgtRs{
         # < based on Stori/* rhythms
         $con = &tyc{
             c ||= {}
@@ -608,36 +644,60 @@ me.Sch_Travel = &acgt{ return [
         })
     },'ift,D'],
     &{
-    # r:This with s:Plot, othering a Page++ async
-    me.Plot_Pageturn = &acgtRsrdp{
-        $L = sy&Point
-        $i = ss&Page
-        ~>4 Pageturn: i
-        me&log,R,'Pageturn',{i,L}
-        # no Point yet?
-        !L and return
+    me.iPoint = &acgtRtc{
+        $x = me&Jx,R
+        $Plot = xs&Plot
+        c ||= {}
+        $L = me&fiu,Plot,[t,'-Point',c]
+        me&OPoint,R,L
+        return L
+    }
+    # creation of $L=Plot/Point**
+    #  may be This othering via &Pageturn handlers
+    # < may be Plotted in advance, de-%eph now
+    # either causing immediate:
+    #  Ploty&Point = L, having:
+    #   Lc&Page_out for &Pageturn to complete it
+    me.OPoint = &acgtRs{
+        $x = me&Jx,R
+        $Plot = xs&Plot
+        $This = xc&This
+        $D = Thiss&Storystream
+        # Plot 298 init too early yet appears this time
+        !D && !Rc&b && Rs&Plot and return
+        !D and throw "!D"
+        me.neigh(s,&lr{ sy&l = l; sy&r = r })
+        $l = sy&l
+        # never later before?
+        l && !ls&ok and debugger; return
 
-        # spring act, may &iPoint
-        Ly&atPage and Ly&atPage(i); delete Ly&atPage
+        # creation in other
+        sc&Page_in != null and return
 
-        # go through L+ considering new %Page
-        each iL ss&z {
-            # %%Checkable -> Point -> Nine
-            $q = {Checkable:1,L}
-            if (!me&ja,r,q ) {
-                !Lc&Page_out and throw "!L"
-                if (Lc&Page_out) {
-                    Lc&Page_out >= ss&Page and break
-                }
-                else {
-                    throw "L!howhen"
-                }
-            }
-            # < ideally %%eto=L will work already
-            me&nodei,r,R,q,{dome:'pageturn'}
+        !Plots&Page and throw "!Page"
+        # usu after the last L's Pages
+        sc&Page_in = l && lc&Page_out+1 || 1
+        # usu Point%ok at the end of this Page
+        sc&Page_out = Plots&Page + (sc&Pages||1) -1
+        # silently become Ploty&Point
+        me&log,R,'Point++',{oL:Ploty&Point,L:s}
+        Ploty&Point = s
+
+        # starting
+        if (sc&acts) {
+            # either may set up
+
+            # < elvis to set off when quiet
+            #   instead of &pageturn
         }
-        # < allow it to empty?
-        me&dome_traction,r,'pageturn',{el:2}
+        if (sc&self_acts) {
+            # as R:Point itself
+            # < s not node yet? should work, try sy&up
+            !Rs&Point and return me&wants,R,'self',s
+
+            # < &nodei electrodes in, adjust things etc
+        }
+        # either will get to R:Point when &pageturn %upto satisfied
     }
     },
    
@@ -745,65 +805,6 @@ me.Sch_Travel = &acgt{ return [
             throw "L!pi", Lc&pi
         }
     },'ift,D'],
-    
-   // Point 8 - &iPoint, &Opoint
-    &{
-        me.iPoint = &acgtRtc{
-            $x = me&Jx,R
-            $Plot = xs&Plot
-            c ||= {}
-            $L = me&fiu,Plot,[t,'-Point',c]
-            me&OPoint,R,L
-            return L
-        }
-        # for s=L=Plot/Point** just input,
-        #  self: R:Plot/Point**
-        #  other: R:This via sy&pageturn
-        # either causing immediate:
-        #  Ploty&Point = L, having:
-        #   Lc&Page_out for &pageturn to complete it
-        me.OPoint = &acgtRs{
-            $x = me&Jx,R
-            $Plot = xs&Plot
-            $This = xc&This
-            $D = Thiss&Storystream
-            # Plot 298 init too early yet appears this time
-            !D && !Rc&b && Rs&Plot and return
-            !D and throw "!D"
-            me.neigh(s,&lr{ sy&l = l; sy&r = r })
-            $l = sy&l
-            # never later before?
-            l && !ls&ok and debugger; return
-            
-            # creation
-            sc&Page_in != null and return
-            
-            !Plots&Page and throw "!Page"
-            # usu after the last L's Pages
-            sc&Page_in = l && lc&Page_out+1 || 1
-            # usu Point%ok at the end of this Page
-            sc&Page_out = Plots&Page + (sc&Pages||1) -1
-            # silently become Ploty&Point
-            me&log,R,'Point++',{oL:Ploty&Point,L:s}
-            Ploty&Point = s
-            
-            # starting
-            if (sc&acts) {
-                # either may set up
-                
-                # < elvis to set off when quiet
-                #   instead of &pageturn
-            }
-            if (sc&self_acts) {
-                # as R:Point itself
-                # < s not node yet? should work, try sy&up
-                !Rs&Point and return me&wants,R,'self',s
-                
-                # < &nodei electrodes in, adjust things etc
-            }
-            # either will get to R:Point when &pageturn %upto satisfied
-        }
-    },
     
   
 // Gump - Know|That %%cha -> Travel
