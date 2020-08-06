@@ -374,6 +374,7 @@ me.Sch_Story = &acgt{ return [
         Rs&noRsync = 1
         #  %exp = $t's link to Stories/$t/$eight
         #  %got = Yingates, having a %dige%string
+        # < %L = Plot streaming this $eight
         $N = me&ioty,xc&This,'Yingates'
         # not the current one
         N.pop()
@@ -546,7 +547,7 @@ me.Sch_Story = &acgt{ return [
         }
     },'ift,D'],
  
- // This/$eight stream
+ // This%Storystream/$eight
     ['theThis',0.293,&acgtRs{
         me&reaw,R,'theThis,wakeful,onlyish'
         me&inode,R
@@ -586,7 +587,7 @@ me.Sch_Story = &acgt{ return [
         r and rs&wakeful = delete rs&Fin
     },'ift,D'],
         
- // Storystream[Page] <- Outlog
+ //   Storystream[Page] <- Outlog
     # when e,on:m%Yingates, it keeps filling up
     ['sleeping+Storystream',0.53,&acgtRs{
         $D = Rs&Storystream
@@ -615,24 +616,22 @@ me.Sch_Story = &acgt{ return [
         # may have no plot, autopause if %Page > 2
         !Plot and Plot = s
         $page_turning = &c{
-            Plots&Page ||= Ds&z.length
-            $i = Plots&Page + 1
+            # othery before turn
+            $cb = Ploty&Pageturning
+            cb and $t = cb(R,D)
+            !t and throw "page!name"
+            
             # close
             Dy&domed(c)
             # open
-            Dy&dome("le-"+i,'light')
-            Plots&Page = i
-            # so $d will start with this -gate
-            $d = Ds&z.slice(-1)[0]
-            $p = Ds&z.slice(-2)[0]
+            Dy&dome(t,'light')
             
-            # other &Plot_Pageturn
+            # othery &Plot_Pageturn
             $cb = Ploty&Pageturn
-            cb and cb(R,d,p)
-            else {
-                i > 2 and Rs&pause = 1
-            }
+            cb and cb(R,D)
             
+            $i = Ds&z.length
+            !cb && i > 2 and Rs&pause = 1
             i > 9 and Rs&pause = 1; ss&overturning = 1
             # < Plot leaves tightenable hooks
             #   for Yingate_2 -> Outlog -> next:
