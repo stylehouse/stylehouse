@@ -266,38 +266,41 @@
     # < generalise from label only
     # for within elvising on s-pi,
     #  where its ^^^.t must be uniq
+    
+    # get R%Te %togcon, maybe
+    me.get_togcon = &acgtR,softly{
+        $te = me&theTe,R,softly
+        !te and return
+        # < Te save: meaning collapse, empty hash scrub
+        #   eg $ok:0 is as it inherits
+        !softly and tes&togcon ||= {}
+        $toge = tes&togcon
+        return toge
+    }
+    # 
+    me.point_togcon = &acgt,toge,q,{
+        $pt = qc&pt
+        return &q,ope{
+            qc&pt != pt and debugger
+            $ok = qc&ok
+            if (ope != null) {
+                toge[pt] ||= {}
+                toge[pt][ok] = ope
+            }
+            return toge[pt] && toge[pt][ok]
+        }
+    }
+    
     me.togcon = &acgtRp{
         $C = Rs&C
         $z = Rc&s
         !zy&R and throw "leave a node"
         !p and throw "give top modulat"
-        # get Tes&togcon for R
-        $togcon = &R,softly{
-            $te = me&theTe,R,softly
-            !te and return
-            # < Te save: meaning collapse, empty hash scrub
-            #   eg $ok:0 is as it inherits
-            !softly and tes&togcon ||= {}
-            $toge = tes&togcon
-            return toge
-        }
-        $togeptok = &toge,q,{
-            $pt = qc&pt
-            return &q,ope{
-                qc&pt != pt and debugger
-                $ok = qc&ok
-                if (ope != null) {
-                    toge[pt] ||= {}
-                    toge[pt][ok] = ope
-                }
-                return toge[pt] && toge[pt][ok]
-            }
-        }
         
         # for $g from &vlabinto, &opelabel
         #  make g/n, the label, attach click handler
         # < generalise
-        $toge = togcon(R)
+        $toge = me&get_togcon,R
         py&togcon = &gq{
             # for continuous this togcon
             q.path = me.cby(g,s => sy&togcon == gy&togcon ? 0 : -2)
@@ -333,21 +336,29 @@
                 # the first $n will be $p for the others
                 # R%Te %togcon.$pt, serves .$ok for $p**
                 
-                # search R^^^ for %%toge,pt
-                #  keep them to serve .$ok inheritability
+                # search R^^^ for %togcon.$pt
+                #  keep them to serve inheritable .$ok
                 $N = []
                 $inherited
                 me&inheritily,R (&rz{
-                    $wander = r != R && 'softly'
-                    $toge = togcon(r,wander)
-                    if (!toge || !toge[pt] && wander) {
+                    # creates %togcon for R,
+                    #  just looks at others
+                    $wander = r == R ? 0 : 1
+                    $toge = me&get_togcon,r,wander
+                    !toge && r == R and throw "!toge"
+                    if (toge && (toge[pt] || !wander)) {
+                        # where R will save $pt
+                        #  or other R^^^%togcon.$pt instance
+                        $open = me&point_togcon,toge,q
+                        N.push({r,q,open})
+                    }
+                    else {
                         # has never heard of $p-ology
-                        !toge && r == R and throw "!toge"
                         if (q.depth == 1 && rs&Peace == 4) {
                             # made it to 4 for the $p-ology
                             # init Ying-wide defaults
-                            $toge = togcon(r)
-                            $open = togeptok(toge,q)
+                            $toge = me&get_togcon,r
+                            $open = me&point_togcon,toge,q
                             # the $p/itself -1?
                             #open(q,-1)
                             # < do the:
@@ -355,16 +366,10 @@
                             #  and sy&brackwouology_ope = -1
                         }
                     }
-                    else {
-                        $open = togeptok(toge,q)
-                        N.push({r,q,open})
-                    }
                 })
                 
-                # for this $p:
-                $open =
                 # for $p/**
-                ny&open = &q,ope{
+                $open = ny&open = &q,ope{
                     each in N {
                         $r = n.r
                         $is = n.open(q,ope)
@@ -381,6 +386,7 @@
                 $open = py&open || py&label.y.open
             }
             
+            # look up this q, with its $ok
             $is = open(q)
             is != null and ope = is
             
