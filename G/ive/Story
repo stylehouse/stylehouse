@@ -363,6 +363,9 @@ me.Sch_Story = &acgt{ return [
         Rs&acceptables = 1
         $go = me&acting,R,'Nine'
         $x = me&Jx,R;
+        if (go) {
+            $showexp = x.ro('showexp',{})
+        }
         sc&pi = 'nine'
         # roll the invention of Eigh s
         me&sleepic,R and me&rollbs,R,'bal_tw_s'; return
@@ -381,7 +384,24 @@ me.Sch_Story = &acgt{ return [
             ex(r.sc,c)
             l and rs&exp = l
             z and rs&got = z
+            if (showexp) {
+                if (l) {
+                    $re = me&bal,t+"@exp",l,'eph'
+                    res&title = '@exp'
+                    res&EighExp = rc&s
+                }
+                else {
+                    x.ro("fillinblank")
+                    # usu would manual check, accept
+                }
+                
+            }
         })
+    },'ift,D'],
+    # next to TheEigh
+    ['EighExp',0.32,&acgtRs{
+        me&reaw,R,'EighExp,title'
+        s&bgh = '000'
     },'ift,D'],
     
     # many acceptables
