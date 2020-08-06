@@ -277,9 +277,10 @@
         $toge = tes&togcon
         return toge
     }
-    # 
+    # return climber at toge.$pt
     me.point_togcon = &acgt,toge,q,{
         $pt = qc&pt
+        # for many subsequent $ok ioings
         return &q,ope{
             qc&pt != pt and debugger
             $ok = qc&ok
@@ -288,6 +289,53 @@
                 toge[pt][ok] = ope
             }
             return toge[pt] && toge[pt][ok]
+        }
+    }
+    me.open_togcon = &acgtRq,{
+        $pt = qc&pt
+        !pt and throw "!pt"
+        # search R^^^ for %togcon.$pt
+        #  keep them to serve inheritable .$ok
+        $N = []
+        me&inheritily,R (&rz{
+            # creates %togcon for R,
+            #  just looks at others
+            $wander = r == R ? 0 : 1
+            $toge = me&get_togcon,r,wander
+            !toge && r == R and throw "!toge"
+
+            if (toge && (toge[pt] || !wander)) {
+                # where R will save $pt
+                #  or other R^^^%togcon.$pt instance
+                $open = me&point_togcon,toge,q
+                N.push({r,q,open})
+            }
+            else {
+                # has never heard of $p-ology
+                if (q.depth == 1 && rs&Peace == 4) {
+                    # made it to 4 for the $p-ology
+                    # init Ying-wide defaults
+                    $toge = me&get_togcon,r
+                    $open = me&point_togcon,toge,q
+                    # the $p/itself -1?
+                    #open(q,-1)
+                    # < do the:
+                    #sy&brackwouology_ope == null
+                    #  and sy&brackwouology_ope = -1
+                }
+            }
+        })
+        return &q,ope{
+            each in N {
+                $r = n.r
+                $is = n.open(q,ope)
+                if (is != null) {
+                    rs&Teoptic = 1
+                    r != R and q.inherited = r
+                    return is
+                }
+                ope != null and debugger
+            }
         }
     }
     
@@ -336,51 +384,9 @@
                 # the first $n will be $p for the others
                 # R%Te %togcon.$pt, serves .$ok for $p**
                 
-                # search R^^^ for %togcon.$pt
-                #  keep them to serve inheritable .$ok
-                $N = []
-                $inherited
-                me&inheritily,R (&rz{
-                    # creates %togcon for R,
-                    #  just looks at others
-                    $wander = r == R ? 0 : 1
-                    $toge = me&get_togcon,r,wander
-                    !toge && r == R and throw "!toge"
-                    if (toge && (toge[pt] || !wander)) {
-                        # where R will save $pt
-                        #  or other R^^^%togcon.$pt instance
-                        $open = me&point_togcon,toge,q
-                        N.push({r,q,open})
-                    }
-                    else {
-                        # has never heard of $p-ology
-                        if (q.depth == 1 && rs&Peace == 4) {
-                            # made it to 4 for the $p-ology
-                            # init Ying-wide defaults
-                            $toge = me&get_togcon,r
-                            $open = me&point_togcon,toge,q
-                            # the $p/itself -1?
-                            #open(q,-1)
-                            # < do the:
-                            #sy&brackwouology_ope == null
-                            #  and sy&brackwouology_ope = -1
-                        }
-                    }
-                })
                 
                 # for $p/**
-                $open = ny&open = &q,ope{
-                    each in N {
-                        $r = n.r
-                        $is = n.open(q,ope)
-                        if (is != null) {
-                            rs&Teoptic = 1
-                            r != R and q.inherited = r
-                            return is
-                        }
-                        ope != null and debugger
-                    }
-                }
+                $open = ny&open = me&open_togcon,R,q
             }
             else {
                 $open = py&open || py&label.y.open
