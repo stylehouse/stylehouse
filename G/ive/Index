@@ -66,7 +66,7 @@
         }
  
  // &togcon via %Te
- =spec
+ =todo
   < pointers may mung to sensible syntax
      so they can be squished together...
     may not need to for %togcon.$pt.$ok,
@@ -94,8 +94,9 @@
           or %pointe would okc&s,
            %togcon would oky&cv
          # terrain: mergible A mind, split complicated
-     
-     mostly:
+ =todo
+ =spec
+    mostly:
       $t/$expr%togcon:2/$ok # $expr implies $pt
      verbosely:
       $t/$expr%togcon/$pt/$ok # on|for an $expr,
@@ -103,8 +104,8 @@
        and okc&s = $ope
         or is it oky&cv transposing $ope? modes:
          + 1,2,3,4[1-4],5[11-55],6[111-666]...,
-         and the inverse
-         - 09,08,07,06[9-6],05[99-66],04[999-666]
+         and the inverse, down from 1:
+         - 09,08,07,06[9-3],05[99-33],04[999-333]
         subnetty numbers:
          quickly slowing down into precision
          are in order for ages
@@ -151,7 +152,7 @@
         via -expr parsing @8 means %togcon:1
         $pt restricts it to $p-four
      
-     it can name '-four':
+    it can name '-four':
       $t/$expr:'-four'%togcon:2/$ok
        $expr targets -four (some $eight**c&pi|.t)
        %togcon:2 meaning $expr/** is a %togcon index,
@@ -190,7 +191,7 @@
         ie the $ope, or compatible projects'' stuff joint()ed somehow
        /$ok - have anything on that C
        
-     movable meaning zones:
+    movable meaning zones:
      so $t/$expr
      and %togcon/$pt/$ok
       or $expr%togcon:2/$ok
@@ -229,7 +230,7 @@
         so $pt/$ok for any possible $expr
         eg turn up the volume knob on everything
      
-     so
+    so
        $expr is treated -expr
         could bind to one (maybe more) possible $expr,
          a place to hang details for all those $expr,
@@ -277,10 +278,9 @@
         $toge = tes&togcon
         return toge
     }
-    # return climber at toge.$pt
-    me.point_togcon = &acgt,toge,q,{
+    # climber at %togcon.$pt, serves many .$ok
+    me.togcon_open = &acgt,toge,q,{
         $pt = qc&pt
-        # for many subsequent $ok ioings
         return &q,ope{
             qc&pt != pt and debugger
             $ok = qc&ok
@@ -291,11 +291,11 @@
             return toge[pt] && toge[pt][ok]
         }
     }
-    me.open_togcon = &acgtRq,{
+    # wrap the above for each (nearet) R^^^%togcon.$pt
+    #  serves many inheritable .$ok
+    me.togcon_inheritily_open = &acgtRq,{
         $pt = qc&pt
         !pt and throw "!pt"
-        # search R^^^ for %togcon.$pt
-        #  keep them to serve inheritable .$ok
         $N = []
         me&inheritily,R (&rz{
             # creates %togcon for R,
@@ -307,7 +307,7 @@
             if (toge && (toge[pt] || !wander)) {
                 # where R will save $pt
                 #  or other R^^^%togcon.$pt instance
-                $open = me&point_togcon,toge,q
+                $open = me&togcon_open,toge,q
                 N.push({r,q,open})
             }
             else {
@@ -316,7 +316,7 @@
                     # made it to 4 for the $p-ology
                     # init Ying-wide defaults
                     $toge = me&get_togcon,r
-                    $open = me&point_togcon,toge,q
+                    $open = me&togcon_open,toge,q
                     # the $p/itself -1?
                     #open(q,-1)
                     # < do the:
@@ -338,9 +338,11 @@
             }
         }
     }
-    
-    me.togcon = &acgtRp{
-        $C = Rs&C
+    # the $p ($pt-er) starts inheritable y&togcon,
+    #  called by $p**y&label (itself first)
+    me.togcon = &acgtRpc{
+        c ||= {}
+        #$C = Rs&C
         $z = Rc&s
         !zy&R and throw "leave a node"
         !p and throw "give top modulat"
@@ -348,76 +350,80 @@
         # for $g from &vlabinto, &opelabel
         #  make g/n, the label, attach click handler
         # < generalise
-        $toge = me&get_togcon,R
         py&togcon = &gq{
-            # for continuous this togcon
-            q.path = me.cby(g,s => sy&togcon == gy&togcon ? 0 : -2)
-            #!q.path.includes(Rc&s) and debugger
-            q.depth = hak(q.path)
-            # R/(p) name (the -ology)
-            $alsop = q.path[0]
-            p != alsop and debugger
-            $pt = q.part = p.t
-            # R/p/(**) name, inside p
-            $insidep = q.path.slice(1)
-            $ok = q.name = hak(insidep) ? joint(insidep,"_")
-                : 'itself'
-            
-            # the $p-ology
-            #q.depth == 1 and q.tsc ||= 'y'
-            
-            # tooltip
-            #  pointer is forgetting that it is 'label'
-            !q.may and throw "may join"
-            q.may = q.may+"_"+q.name
-            # #$p-ology/#$bits
-            q.c = {}
-            qc&pt = pt
-            qc&ok = ok
-            
-            # auto ope depth:!
-            $ope = q.depth <3 ? 1 : null
-            # on the label:
-            $n = q.n = me&mtsc,g,q.may,q.s,q.tsc
-            
-            if (q.depth == 1) {
-                # the first $n will be $p for the others
-                # R%Te %togcon.$pt, serves .$ok for $p**
-                
-                
-                # for $p/**
-                $open = ny&open = me&open_togcon,R,q
-            }
-            else {
-                $open = py&open || py&label.y.open
-            }
-            
-            # look up this q, with its $ok
-            $is = open(q)
-            is != null and ope = is
-            
-            
-            # -1..2 adjustable!
-            me.nto(R,n,&sTe{
-                $add = e.t.startsWith('C') ? -1 : 1
-                # may start from an ope we inherit
-                $is = defor(open(q),ope) || 0
-                $was = is
-                is += add
-                is > 2 and is = 2
-                is < -1 and is = -1
-                ~>3 Togssssssss: was,'->',is, q.name, z.t
-                open(q,is)
-            })
-            
-            ns&fs = 9+((ope||0.5)*2)
-            ope < 1 and ns&bri = 0.5
-            ns&ope = ope
-            q.depth <3 and ~>6 Toge: q.depth, ope, pt, ok, z.t
-            
-            return n
+            return me&togcon_solve,R,p,c,g,q
         }
     }
+    # instance of $pt/$ok
+    me.togcon_solve = &acgtRpcgq{
+        # for continuous this togcon
+        q.path = me.cby(g,s => sy&togcon == gy&togcon ? 0 : -2)
+        #!q.path.includes(Rc&s) and debugger
+        q.depth = hak(q.path)
+        # R/(p) name (the -ology)
+        $alsop = q.path[0]
+        p != alsop and debugger
+        $pt = q.part = p.t
+        # R/p/(**) name, inside p
+        $insidep = q.path.slice(1)
+        $ok = q.name = hak(insidep) ? joint(insidep,"_")
+            : 'itself'
+
+        # the $p-ology
+        #q.depth == 1 and q.tsc ||= 'y'
+
+        # tooltip
+        #  pointer is forgetting that it is 'label'
+        !q.may and throw "may join"
+        q.may = q.may+"_"+q.name
+        # #$p-ology/#$bits
+        q.c = {}
+        qc&pt = pt
+        qc&ok = ok
+
+        # auto ope depth:!
+        $ope = q.depth <3 ? 1 : null
+
+        # on the label:
+        $n = q.n = me&mtsc,g,q.may,q.s,q.tsc
+
+        if (q.depth == 1) {
+            # the first $n will be $p for the others
+            # R%Te %togcon.$pt, saves+serves .$ok for $p**,
+            #  we may inherit .$ok also
+            $open = ny&open = me&togcon_inheritily_open,R,q
+        }
+        else {
+            $open = py&open || py&label.y.open
+        }
+
+        # look up this q, with its $ok
+        $is = open(q)
+        is != null and ope = is
+
+
+        # -1..2 adjustable!
+        me.nto(R,n,&sTe{
+            $add = e.t.startsWith('C') ? -1 : 1
+            # may start from an ope we inherit
+            $is = defor(open(q),ope) || 0
+            $was = is
+            is += add
+            is > 2 and is = 2
+            is < -1 and is = -1
+            ~>3 Togssssssss: was,'->',is, q.name
+            open(q,is)
+        })
+
+        ns&fs = 9+((ope||0.5)*2)
+        ope < 1 and ns&bri = 0.5
+        ns&ope = ope
+        $interest = ope != null
+        interest and ~>6 Toge: q.depth, ope, pt, ok
+
+        return n
+    }
+    
     # return R%Te, storable pointer cloudlayer
     me.theTe = &acgtR,softly{
         return Rs&Te && Rs&Te.c && Rs&Te || !softly && me&introqua,R
