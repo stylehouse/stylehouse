@@ -482,27 +482,38 @@ me.Sch_Travel = &acgt{ return [
     ['TheNine',0.45,&acgtRs{
         # upto is a length
         $x = me&Jx,R;
-        # L subscribe to results
-        $N = me&ioty,R,'TheEigh'
-        me&jaa,R,'Checkable,L,efrom' .map(&ni{
-            # < returns through Nine?
-            ns&Eigh and debugger
-            ns&Eigh and throw "Eigh in"
+        # all results here
+        me&jaa,R,'Checkable,L' .map(&ni{
+            # the ones arriving, not leaving
+            !ns&efrom and debugger; return
+            # not from /Eigh, sends vitals to keep Nine aware
+            ns&Eigh and return
+            # < ^ has the eight<->Eigh map got via L%Dome:
+            
             # L has Eigh+ to get to
             $L = ns&L
-            $LN = N.slice(Lc&Page_in-1,Lc&Page_out)
-            $ready = !hak(LN.filter(r => !me&za,r,'ready'))
-            $ok = !hak(LN.filter(r => !me&za,r,'ok'))
+            !hak(Ls&Dome) and debugger
+            $ready = 1
+            $ok = 1
+            $Eighed = Ls&Dome.map(&eight,{
+                $Eigh = eighty&Eigh
+                !Eigh and return ready=ok=0
+                !me&za,Eighy&R,'ready' and ready = 0
+                !me&za,Eighy&R,'ok' and ok = 0
+                return Eigh
+            }).filter(s=>s)
             
-            LN.map(&r{
-                $Eigh = rc&s
+            Eighed.map(&Eigh,{
+                !Eigh and debugger
                 # %%Checkable -> Eigh -> -eight
                 me&nodei,R,Eigh,n
+                
                 # all Eigh%%ready
                 !ready and return
-                # L <- %%Checkable,Eigh
+                
+                # L <- %%Checkable,Eigh,ok
                 $a = {Eigh}
-                a.ok = me&za,r,'ok',0 == 1 ? 1 : 0
+                a.ok = me&za,Eighy&R,'ok',0 ? 1 : 0
                 me&nodei,R,L,n,{},a
             })
             #me&nu,"Group:"+L.t,LN
@@ -520,22 +531,34 @@ me.Sch_Travel = &acgt{ return [
         $t = Rs&exp
         $z = Rs&got
         !z and return
+        # eight:z now knows Eigh
+        zy&Eigh = s
         $r = zy&R
-        $Ch = me&jaa,R,'Checkable,efrom' .filter(n => !ns&Eigh)
+        $Ch = me&jaa,R,'Checkable,efrom'
+        hak(grepout(Ch,n => ns&Eigh)) and debugger
         hak(Ch) > 1 and me&tsc,"multiChin",0,'G' .sc.fs = 30
-        
+        # can be manually
         !hak(Ch) && x.ro("check",{}) and Ch[0] = 'Checkable'
         Ch.map(check => me&nodei,R,z,check,{},{expect:t} )
     },'ift,D'],
     # Eigh%%ready -> Nine
     ['TheEigh',0.37,&acgtRs{
         $x = me&Jx,R;
-        # Nine is who we are %%Checkable from
-        $Nine = me&jaa,R,{Checkable:1,eto:s},'efrom' [0]
-        !Nine and return
         # then once got storable
         me&ja,R,'ready' && !me&za,R,'ready'
-            && me&wants,R,'gotready',Nine
+        # ! Eigh wants:gotready is very important...
+        #   stops Nine pushing while we are pushing to it
+        #   at some critical moment?
+            && me&wants,R,'gotready',Ry&up.c.s
+        # %%Checkable...+Eigh,ready,ok back to Nine
+        #  once all %%ready then they pipe all %%ok over to %%L
+        me&jaa,R,{Checkable:1,eto:s} .map(&n{
+            $q = {}
+            q.Eigh = s
+            q.ready = me&jaa,R,'ready',0
+            q.ok = me&jaa,R,'ok',0
+            me&nodei,R,ns&efrom,n,{},q
+        })
     },'ift,D'],
   
   // about Qup
@@ -638,6 +661,7 @@ me.Sch_Travel = &acgt{ return [
                 ss&Page >= Lc&Page_in and me&L_Streaming,r,L,D
                 ss&Page <= Lc&Page_out and break
                 # L's pages now complete
+                me&log,R,'Checkable',{L,Page_out:Lc&Page_out}
             }
             # %%Checkable -> Plot->/Point -> Nine
             # < ideally %%eto=L will work already
@@ -795,6 +819,7 @@ me.Sch_Travel = &acgt{ return [
         # and finally
         !ss&alldone and return
         
+        me&log,R,'Plot-Done'
         me&tsc,"Done",0,'G'
         $This = xc&This
         Thiss&pause = 1
@@ -870,17 +895,18 @@ me.Sch_Travel = &acgt{ return [
                 before and Ls&became_ok = 1
                 # act onwards
                 $say = Lc&then ? "..." : "!"
-                me&log,R,"L++"+say,{L,ok}
+                me&log,R,"L-ok"+say,{L}
                 Lc&then and Lc&then(L)
                 else {
                     Plots&alldone = 1
                     me&wants,R,"alldone",Plot
+                    me&log,R,'allDone'
                     #me&nodei,R,Plot,'alldone',{dome:'forever'}
                     delete Ploty&Point
                 }
             }
             elsif (!ok) {
-                # throw merging
+                # throw merging test resumer
                 me&tsc,"Error?" .sc.fs = 40
                 Thiss&pause = 1
             }
