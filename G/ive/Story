@@ -361,6 +361,7 @@ me.Sch_Story = &acgt{ return [
     #  = Nine/Eigh%exp+%got
     ['TheNine',0.295,&acgtRs{
         me&reaw,R,'TheNine,bal_tw_s'
+        Rs&noRsync = 1
         Rs&acceptables = 1
         $go = me&acting,R,'Nine'
         $x = me&Jx,R;
@@ -372,14 +373,11 @@ me.Sch_Story = &acgt{ return [
         me&sleepic,R and me&rollbs,R,'bal_tw_s'; return
         
         # $Nine cloned from a Stories/Stori
-        # $Nine/* become Eigh%exp (has %dige, instructions)
-        #  with Eigh%got = $eight (has %dige%string)
-        # may pull in Stories/Stori/Eighi to show diff
-        Rs&noRsync = 1
-        # < %L = Point containing this $eight
-        $N = me&ioty,xc&This,'Yingates'
-        # not the current one
-        N.pop()
+        # $Nine/* become Eigh%exp (have %dige, instructions)
+        # these eight -> Eigh%got (have %dige%string, y&Point=$L)
+        $N = me&jaa,R,"eight,Having,L",1
+        
+        $la
         me&twlic,N,s (&zlct{
             $r = me&bal,t,'eph'
             rs&TheEigh = 1
@@ -397,8 +395,10 @@ me.Sch_Story = &acgt{ return [
                     x.ro("fillinblank")
                     # usu would manual check, accept
                 }
-                
             }
+            # %%Having,eight come in order?
+            la && z && lac&i && lac&i+1 != zc&i and debugger
+            la = z
         })
     },'ift,D'],
     # next to TheEigh

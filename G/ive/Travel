@@ -534,7 +534,7 @@ me.Sch_Travel = &acgt{ return [
         $Nine = me&jaa,R,{Checkable:1,eto:s},'efrom' [0]
         !Nine and return
         # then once got storable
-        me&ja,R,'ready' && !me&sa,R,'ready'
+        me&ja,R,'ready' && !me&za,R,'ready'
             && me&wants,R,'gotready',Nine
     },'ift,D'],
   
@@ -838,9 +838,10 @@ me.Sch_Travel = &acgt{ return [
         # Point gets %%Checkable when %Dome is complete
         $Ch = me&jaa,R,'Checkable,L,efrom'
         $Eighed = grepout(Ch,n=>ns&Eigh)
-        hak(Ch) > 1 and debugger; me&tsc,"multiChin",0,'G' .sc.fs = 30
+        hak(Ch) > 1 and debugger
         Ch.map(&n{
             ns&L != L and throw "Confus"
+            !Ls&Nine and return me&wants,R,"getNine"
             me&nodei,R,Ls&Nine,n
         })
         
