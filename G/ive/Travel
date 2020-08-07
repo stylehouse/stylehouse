@@ -423,7 +423,7 @@ me.Sch_Travel = &acgt{ return [
    // nodepile given -seven+
  
  // signals
-  // This^^^/** %Teoptic
+  // %Teoptic
     # see configure to Te/togcon/$p-ology/$n
     # < -group* like io.ind, columns from $p.split(/\b/)
     #   these things split by -0
@@ -437,27 +437,43 @@ me.Sch_Travel = &acgt{ return [
         !Rs&sleeping and me&nu,"Te",Rs&Te
     },'ift,D,sleeping'],
     
-  // The<->This %%listening <- %%Having
-    # The/Test/Nine is wanted
+  // for Plot%%Nine to init L%Nine for <- %%Having,eight
+    # Plot wants %%Nine to give to L
+    # < de-mysteriate beginning (Ying in %SummerCat?)
     ['The',0.46,&acgtRs{
-        $x = me&Jx,R;
-        $z = sy&Test
-        $liz = me&zaa,xs&This,'listening',1 [0]
-        !liz and me&wants,R,'Theing',z
+        $x = me&Jx,R
+        $Plot = xs&Plot
+        me&za,Plot,'Nine' ||
+            # keep trying The..Nine
+            me&wants,R,'Theing',ss&z[0]
     },'ift,D'],
-    # Nine -> This%%listening
-    ['TheNine',0.295,&acgtRs{
-        $x = me&Jx,R;
-        xc&This and me&nodei,R,xc&This,{listening:s}
+    # Nine -> Plot%%Nine
+    ['TheNine',0.44,&acgtRs{
+        $x = me&Jx,R
+        $Plot = xs&Plot
+        me&nodei,R,Plot,{Nine:s}
     },'ift,D'],
-    
+  
+    # L%Nine <- %%Having,eight(y&Point=$L)
     # < an &Accepting mode for these three,
     #   controlling and resulting some A
-    # Nine <- %%Having=This/$eight
     ['theThis',0.297,&acgtRs{
         $D = Rs&Storystream
-        $who = Rs&who = me&jaa,R,'listening',1 [0]
-        who and Ds&z.map(Having => me&nodei,R,who,{Having} )
+        $lastPoint = 0
+        each in Ds&z {
+            $q = {Having:1,eight:n}
+            $L = ny&Point
+            # may be before OPoint,
+            #  before L_Streaming this n,
+            #  or after the last L has Page_out
+            !L and q.wander = lastPoint ? "in" : "off"
+            L ||= lastPoint
+            !L and break
+            # may be before Plot%%Nine -> first Ls&Nine
+            !Ls&Nine and break
+            q.L = L
+            me&nodei,R,Ls&Nine,q
+        }
     },'ift,D'],
   
   // The<->Plot %%Checkable
@@ -507,7 +523,6 @@ me.Sch_Travel = &acgt{ return [
         $r = zy&R
         $Ch = me&jaa,R,'Checkable,efrom' .filter(n => !ns&Eigh)
         hak(Ch) > 1 and me&tsc,"multiChin",0,'G' .sc.fs = 30
-        hak(Ch) > 1 and Ch.map(n => me&nu,n)
         
         !hak(Ch) && x.ro("check",{}) and Ch[0] = 'Checkable'
         Ch.map(check => me&nodei,R,z,check,{},{expect:t} )
@@ -570,6 +585,16 @@ me.Sch_Travel = &acgt{ return [
         $go = me&acting,R,'Plot'
         ah(R,'inheritscif','ball','Point',1)
         
+        # sense wanting quiet,wake
+        # < to asap an -eight**
+        sy&Pageturnable = &rd{
+            $L = sy&Point
+            # before Page++
+            $i = ss&Page + 1
+            $is = L && i && Lc&Page_out < i
+            is and ~>5 is Pageturnable: s.t,Lc&Page_out, i
+            return is
+        }
         # title the next page
         # < name after Lf
         sy&Pageturning = &rD{
@@ -583,17 +608,12 @@ me.Sch_Travel = &acgt{ return [
             rc&s != xs&This and debugger
             me&Plot_Pageturn,R,s,r,D
         }
-        # sense wanting quiet,wake
-        # < to asap an -eight**
-        sy&Pageturnable = &rd{
-            $L = sy&Point
-            # before Page++
-            $i = ss&Page + 1
-            return L && i && Lc&Page_out < i
-        }
         s&bgh = '372'
+        
+        # init something to do
+        !hak(ss&z) && me&Plot_Default,R,s
     },'ift,D'],
-    &{
+   &{
     # This othering a Page++ async
     me.Plot_Pageturn = &acgtRsrD{
         $Plot = R
@@ -617,7 +637,7 @@ me.Sch_Travel = &acgt{ return [
             if (!Ls&ok || !me&ja,r,q ) {
                 ss&Page >= Lc&Page_in and me&L_Streaming,r,L,D
                 ss&Page <= Lc&Page_out and break
-                # now pages are complete,
+                # L's pages now complete
             }
             # %%Checkable -> Plot->/Point -> Nine
             # < ideally %%eto=L will work already
@@ -626,9 +646,8 @@ me.Sch_Travel = &acgt{ return [
         # < allow it to empty?
         me&dome_traction,r,'pageturn',{el:2}
     }
-    },
-    # enters Plot/Point**
-    ['Plot',0.31,&acgtRs{
+    # init something to do
+    me.Plot_Default = &acgtRs{
         # < based on Stori/* rhythms
         $con = &tyc{
             c ||= {}
@@ -636,7 +655,7 @@ me.Sch_Travel = &acgt{ return [
             # c.Pages ||= 1 later
             me&iPoint,R,t,c
         }
-        !hak(ss&z) && con('startStory',&L{
+        con('startStory',&L{
             # wait for quiet
             # < default?
             me&log,R,'waitforquiet'
@@ -651,8 +670,7 @@ me.Sch_Travel = &acgt{ return [
             }
             # < else?
         })
-    },'ift,D'],
-    &{
+    }
     # any Story** can L++ async,
     #  immediately be Ploty&Point
     #  probably while Pageturn
@@ -682,18 +700,28 @@ me.Sch_Travel = &acgt{ return [
         !D && !Rc&b && Rs&Plot and return
         !Plots&Page and throw "!Page"
         !D and throw "!D"
+        !Plots&z.includes(L) and throw "!Plot/L"
+        
         me.neigh(L,&lr{ Ly&l = l; Ly&r = r })
         $l = Ly&l
-        # never later before?
-        l && !ls&ok and debugger; return
-        
+        if (l) {
+            # never later before?
+            !ls&ok and debugger; return
+        }
+        # L init: binds to Plot
         if (!Lc&Page_in) {
-            # L binds here
+            if (l) {
+                # inherit %Nine
+                Ls&Nine ||= ls&Nine
+                !Ls&Nine and throw "L2!Nine"
+            }
+            
             # usu after the last L's Pages
             Lc&Page_in ||= l && lc&Page_out+1 || 1
             # usu Point%ok at the end of this Page
             Lc&Page_out ||= Plots&Page + (Lc&Pages||1) -1
             !Lc&Page_in and debugger
+            !Lc&Page_out and debugger
             
             # silently become Ploty&Point
             me&log,R,'Point++',{oL:Ploty&Point,L}
@@ -721,7 +749,7 @@ me.Sch_Travel = &acgt{ return [
     }
     # any time we can read Stream[Page_in..out]
     me.L_Streaming = &acgtRLD{
-        $N = Ds&z.slice(Lc&Page_in-1,Lc&Page_out-1)
+        $N = Ds&z.slice(Lc&Page_in-1,Lc&Page_out)
         $was = Ls&Dome
         if (was) {
             heq(was,N) and return
@@ -730,13 +758,34 @@ me.Sch_Travel = &acgt{ return [
             N[hak(was)-1] != was[hak(was)-1] and Ls&Domeend = 'diff'
         }
         Ls&Dome = N
+        # claim each This/$eight
+        each in N {
+            $was = ny&Point
+            was && was != L and debugger
+            ny&Point = L
+        }
     }
-    },
+   },
    
    // signals
     ['Plot',0.36,&acgtRs{
         $x = me&Jx,R
-        # < forwarding %%L here to /L
+        # %%Nine pile up, just to:
+        # bind first Nine to first L
+        #  since they start separately
+        #  then L%Nine is inherited,
+        #   until a different Stori
+        $L = sy&Point
+        if (L && !Ls&Nine) {
+            Ly&l and throw "nonfirstL!%Nine"
+            $Nine = me&ja,R,'Nine',0
+            Nine and Ls&Nine = Nine
+            # now L can async enough to:
+            #  This/eight find L, send Nine, send %%Having,eight
+            #  later L inherit oL%Nine, if not new Stori
+        }
+        
+        # < forwarding %%L here to /L can be faster if selfed?
         # &pageturn L{%Page > L%Page_out}
         #  -> Plot -> /Point:L
         me&jaa,R,'Checkable,L,efrom' .map(&n{
@@ -765,6 +814,13 @@ me.Sch_Travel = &acgt{ return [
         me.brackstream = &acgtRs{
         
         }
+        window.grepout = &Ny{
+            $out = []
+            each in N {
+                y (n,i) and out.unshift(i)
+            }
+            return out.map(i => N.splice(i,i+1)[0]).reverse()
+        }
     },
     ['Point',0.34,&acgtRs{
         me&reaw,R,'Point'
@@ -779,19 +835,13 @@ me.Sch_Travel = &acgt{ return [
         $This = xc&This
         $L = s
         
-        $Ch = me&jaa,R,'Checkable,efrom' .filter(n => !ns&Eigh)
-        hak(Ch) > 1 and me&tsc,"multiChin",0,'G' .sc.fs = 30
-        
-        
-        # async select which Nine/* to get ready
-        $who = me&ja,This,'listening',0
-        $N = me&jaa,R,'Checkable,L,efrom'
-        $Eighed = []
-        who && arou(N,n => ns&Eigh,Eighed) .map(&ni{
-            i > 0 and throw "one"
+        # Point gets %%Checkable when %Dome is complete
+        $Ch = me&jaa,R,'Checkable,L,efrom'
+        $Eighed = grepout(Ch,n=>ns&Eigh)
+        hak(Ch) > 1 and debugger; me&tsc,"multiChin",0,'G' .sc.fs = 30
+        Ch.map(&n{
             ns&L != L and throw "Confus"
-            #debugger
-            me&nodei,R,who,n
+            me&nodei,R,Ls&Nine,n
         })
         
         $D = Cye(["Show",1])
