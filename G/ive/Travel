@@ -564,6 +564,8 @@ me.Sch_Travel = &acgt{ return [
             me&nodei,R,Ls&Nine,n
         })
     },'ift,D'],
+  
+  // Nine<->Eigh->eight %%Checkable
     # L%Nine %%Checkable,L -> /Eigh
     #  each L%Dome.$eight have become Eigh%got,
     #   so eighty&Eigh and Eighy&eight
@@ -571,7 +573,7 @@ me.Sch_Travel = &acgt{ return [
         # upto is a length
         $x = me&Jx,R;
         # all results here
-        me&jaa,R,'Checkable,L' .map(&ni{
+        me&jaa,R,'Checkable,L' .map(&n{
             # the ones arriving, not leaving
             !ns&efrom and debugger; return
             # not from /Eigh, sends vitals to keep Nine aware
@@ -586,72 +588,77 @@ me.Sch_Travel = &acgt{ return [
             $ok = 1
             $Eighed = Ls&Dome.map(&eight,{
                 $Eigh = eighty&Eigh
-                !Eigh and return ready=ok=0
-                !me&za,Eighy&R,'ready' and ready = 0
-                !me&za,Eighy&R,'ok' and ok = 0
+                r = Eigh && Eighy&R
+                !r and return ready=ok=0
+                !me&za,r,'ready' and ready = 0
+                !me&za,r,'ok' and ok = 0
                 return Eigh
             }).filter(s=>s)
+            !hak(Eighed) and debugger
             
+            # %%Checkable -> Eigh
+            # < include %%Eigh already?
             Eighed.map(&Eigh,{
                 !Eigh and debugger
-                # %%Checkable -> Eigh -> -eight
                 me&nodei,R,Eigh,n
-                
-                # all Eigh%%ready
-                !ready and return
-                
-                # L <- %%Checkable,Eigh,ok
-                $a = {Eigh}
-                a.ok = me&za,Eighy&R,'ok',0 ? 1 : 0
-                me&nodei,R,L,n,{},a
             })
-            #me&nu,"Group:"+L.t,LN
+            
+            # all Eigh%%ready
+            !ready and return
+            
+            # L <- %%Checkable,...,ready,ok <- Eigh
+            # < return it from -eight instead of %Fin?
+            me&jaa,R,{L,Checkable:1,Eigh:1,eight:1} .map(&n{
+                me&nodei,R,L,n
+            })
         })
         # < detecting limbs of %%Checkable pipe with eg %%expect
         # < retracting %%Checkable (from L?)
         #   fading out Eigh|-eight
     },'ift,D'],
-    # Eigh %%Checkable,+expect=Nine/$t -> $eight
+    # Eigh %%Checkable,+expect=Nine/$t -> This/$eight
     #  $eight Yingates+Fin:
     #   half happens without it,
     #   -> Eigh%%Fin:$eight,dige checks it ...
     ['TheEigh',0.35,&acgtRs{
         $x = me&Jx,R;
         $t = Rs&exp
-        $z = Rs&got
-        !z and return
+        $eight = Rs&got
+        !eight and return
         # each L%Dome.$eight have become Eigh%got,
         #  so eighty&Eigh and Eighy&eight
         # eight:z now knows Eigh
-        zy&Eigh = s
-        sy&eight = z
+        eighty&Eigh = s
+        sy&eight = eight
         
-        $r = zy&R
+        $r = eighty&R
         $Ch = me&jaa,R,'Checkable,efrom'
         hak(grepout(Ch,n => ns&Eigh)) and debugger
         hak(Ch) > 1 and debugger
+        
         # can be manually
         !hak(Ch) && x.ro("check",{}) and Ch[0] = 'Checkable'
-        Ch.map(check => me&nodei,R,z,check,{},{expect:t} )
+        
+        Ch.map(n => me&nodei,R,eight,n,{},{expect:t} )
     },'ift,D'],
     # Eigh%%ready -> Nine
     ['TheEigh',0.37,&acgtRs{
         $x = me&Jx,R;
-        # then once got storable
+        # then once got storable (via &acceptable)
         me&ja,R,'ready' && !me&za,R,'ready'
         # ! Eigh wants:gotready is very important...
         #   stops Nine pushing while we are pushing to it
         #   at some critical moment?
             && me&wants,R,'gotready',Ry&up.c.s
-        # %%Checkable...+Eigh,ready,ok back to Nine
+        # %%Checkable...+Eigh,eight,ready,ok back to Nine
         #  once all %%ready then they pipe all %%ok over to %%L
         me&jaa,R,{Checkable:1,eto:s} .map(&n{
             $q = {}
             # add on:
             q.Eigh = s
             q.eight = sy&eight
-            q.ready = me&jaa,R,'ready',0
-            q.ok = me&jaa,R,'ok',0
+            q.ready = me&ja,R,'ready',0
+            q.ok = me&ja,R,'ok',0 
             me&nodei,R,ns&efrom,n,{},q
         })
     },'ift,D'],
