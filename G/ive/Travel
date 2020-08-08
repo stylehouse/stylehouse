@@ -819,23 +819,35 @@ me.Sch_Travel = &acgt{ return [
             # then in 3, 3,4:
             # as soon as L gets %%Checkable,
             #  create the next Point,
-            $L = con('okoking',{then:&LR{
-                me&log,R,'okoking-then'
-                
-                # < wants to be the first thing in the next Page
-                $x = me&Jx,R
-                $Tra = xs&Travel
-                $Eas = me&fiu,Tra,'Easiness',8
-                
-                me&nodei,R,Eas,'Go'
-                
-                con('carryon',{Pages:2,then:&L{
-                    me&log,R,'carryon-then'
-                },able:&L{
-                    me&log,R,'carryon-able'
-                }})
-            },able:&L{
+            $L = con('okoking',{able:&L{
                 me&log,R,'okoking-able'
+            },then:&LR{
+                me&log,R,'okoking-then'
+                # each wants to be the first thing in the next Page
+                # via Lc&init, for R:L
+                $x = me&Jx,R
+                
+                $testcase = 'Easiness'
+                
+                con('carryon',{init:&LR{
+                    me&log,R,'carryon-init'
+                    me&nodei,R,xs&The,{Nine:testcase},{dome:'forNine'}
+                },able:&LR{
+                    me&log,R,'carryon-able'
+                },then:&LR{
+                    me&log,R,'carryon-then'
+                    $Nine = me&fiu,xs&The,testcase,7
+                    con('ut',{Nine,init:&LR{
+                        me&log,R,'ut-engage'
+                        $Tra = xs&Travel
+                        $Eas = me&fiu,Tra,testcase,7
+                        me&nodei,R,Eas,'Go',{dome:'forGoing'}
+                    },able:&LR{
+                        me&log,R,'ut-able'
+                    },then:&LR{
+                        me&log,R,'ut-then'
+                    }})
+                }})
             }})
             # ..2 is ok
             oLc&then = &{
@@ -891,10 +903,12 @@ me.Sch_Travel = &acgt{ return [
         # L init: binds to Pages
         if (!Ly&initialis) {
             # inherit %Nine
+            Lc&Nine and Ls&Nine = delete Lc&Nine
             l and Ls&Nine ||= ls&Nine
             l && !Ls&Nine and throw "L2!Nine"
             
             Ly&initialis = 1
+            Lc&init and me&wants,R,"L-init",Plot
             
             # usu after the last L's Pages
             Lc&Page_in ||= l && lc&Page_out+1 || 1
@@ -935,6 +949,8 @@ me.Sch_Travel = &acgt{ return [
         $This = xc&This
         $L = s
         
+        Lc&init and Lc&init(L,R); delete Lc&init
+
         if (me&ja,R,'Checkable,L' && !me&za,R,'Checkable,L') {
             # hook: able when %%Checkable
             Lc&able and Lc&able(L,R)
