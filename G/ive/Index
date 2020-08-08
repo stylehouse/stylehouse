@@ -453,6 +453,8 @@
                     c ||= {}
                     c.t ||= l && l.t || z.t
                     $t = delete c.t
+                    !z and c.surprise = 1
+                    !l and c.originonly = 1
                     M.push(y(z,l,c,t))
                 }
                 $con = me&twlim,L (&lc{ ya(null,l,c) })
@@ -470,18 +472,31 @@
         # consume L/* by t one at a time in order
         #  y(L) for missing
         me.twlim = &acgtL{
-            $used = L ? me&ioty,L : []
-            $for_missing
+            $have = L ? me&ioty,L : []
             return &y{
-                for_missing = y;
+                $for_missing = y || &{}
+                # each had s:
                 return &s{
-                    !s and used.map(l => for_missing(l)); return
-                    $l = L && me&fiu,L,s,8
-                    if (l) {
-                        $li = used.indexOf(l)
-                        # before found now missing
-                        li > 0 && used.splice(0,li)
-                            .map(l=> for_missing(l,{now_missing:1}));
+                    if (s) {
+                        # a name to find
+                        $l = L && me&fiu,L,s,8
+                        if (l) {
+                            $li = have.indexOf(l)
+                            # unfound L/* before l are now missing
+                            # ! splice(in,length), slice(in,out)
+                            #    [0,1,2,3].slice(0,2) = [0,1]
+                            #                   (1,2) = [1]
+                            #   [0,1,2,3].splice(0,2) = [0,1]/[2,3]
+                            #                   (1,2) = [1,2]/[0,3]
+                            li > 0 && have.splice(0,li)
+                                .map(l => for_missing(l,{now_missing:1}))
+                            $thel = have.shift()
+                            thel != l and debugger
+                        }
+                    }
+                    else {
+                        # finish
+                        have.map(l => for_missing(l,{trailing:1}))
                     }
                     return l
                 }
