@@ -222,6 +222,17 @@ me.Sch_Travel = &acgt{ return [
         };
         me&ha,R,"Travels,to:Morrocco";
     },'ift,D'],
+    
+    ['Travelty',0.298,&acgtRs{
+        me&bin,'Traveltoid'
+    },'ift,D'],
+    # %%Go -> %play, without sticking in %Te
+    #  for Peace 291 to personify
+    ['Traveltoid',0.29,&acgtRs{
+        me&inode,R
+        me&ha,R,"Hazid"
+        me&ja,R,'Go' and Rs&play = 1
+    },'ift,D'],
         
     ['Travelty',0.39,&acgtRs{
         $x = me&Jx,R
@@ -808,8 +819,16 @@ me.Sch_Travel = &acgt{ return [
             # then in 3, 3,4:
             # as soon as L gets %%Checkable,
             #  create the next Point,
-            $L = con('okoking',{then:&L{
+            $L = con('okoking',{then:&LR{
                 me&log,R,'okoking-then'
+                
+                # < wants to be the first thing in the next Page
+                $x = me&Jx,R
+                $Tra = xs&Travel
+                $Eas = me&fiu,Tra,'Easiness',8
+                
+                me&nodei,R,Eas,'Go'
+                
                 con('carryon',{Pages:2,then:&L{
                     me&log,R,'carryon-then'
                 },able:&L{
@@ -918,7 +937,7 @@ me.Sch_Travel = &acgt{ return [
         
         if (me&ja,R,'Checkable,L' && !me&za,R,'Checkable,L') {
             # hook: able when %%Checkable
-            Lc&able and Lc&able(L)
+            Lc&able and Lc&able(L,R)
         }
         $Eighed = me&jaa,R,'Checkable,L,Eigh,efrom'
         
@@ -948,7 +967,7 @@ me.Sch_Travel = &acgt{ return [
                 # act onwards
                 $say = Lc&then ? "..." : "!"
                 me&log,R,"L-ok"+say,{L}
-                Lc&then and Lc&then(L)
+                Lc&then and Lc&then(L,R)
                 else {
                     Plots&alldone = 1
                     me&wants,R,"alldone",Plot
@@ -1359,13 +1378,13 @@ me.Sch_Travel = &acgt{ return [
     ['MayGansp','298',&acgtRs{
     
         me&reaw,R,'MayGansp,eph';
-        me&bin,'MayTwine';
         $S = me&inode,R;
         
         $g = me&case,34
         $twin = sy&twin;
-        !twin and throw "!join to"
+        !twin and return me&mtsc,g,"!twin",'','g'
         gy&can('m','to').y.can('i',twin.t);
+        me&bin,'MayTwine';
         
         $rs = sy&release;
         !rs and throw "!t->u/n bunch"
