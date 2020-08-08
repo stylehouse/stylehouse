@@ -423,7 +423,7 @@ me.Sch_Travel = &acgt{ return [
    // nodepile given -seven+
  
  // signals
-  // %Teoptic
+  // %Teoptic - customise -eight etc
     # see configure to Te/togcon/$p-ology/$n
     # < -group* like io.ind, columns from $p.split(/\b/)
     #   these things split by -0
@@ -436,8 +436,10 @@ me.Sch_Travel = &acgt{ return [
         me&reaw,R,'Teoptic'
         !Rs&sleeping and me&nu,"Te",Rs&Te
     },'ift,D,sleeping'],
-    
-  // for Plot%%Nine to init L%Nine for <- %%Having,eight
+  
+  # L (visits|stays) (Plot|eight)y&Point
+  # L%Nine <- %%Having,eight+
+  // Plot%%Nine<->L%Nine
     # Plot wants %%Nine to give to L
     # < de-mysteriate beginning (Ying in %SummerCat?)
     ['The',0.46,&acgtRs{
@@ -447,13 +449,50 @@ me.Sch_Travel = &acgt{ return [
             # keep trying The..Nine
             me&wants,R,'Theing',ss&z[0]
     },'ift,D'],
+    
     # Nine -> Plot%%Nine
     ['TheNine',0.44,&acgtRs{
         $x = me&Jx,R
         $Plot = xs&Plot
         me&nodei,R,Plot,{Nine:s}
     },'ift,D'],
+    
+    # Plot%%Nine just to bind the first L%Nine
+    #  thence inherited, until a different Stori
+    ['Plot',0.36,&acgtRs{
+        $L = sy&Point
+        if (L && !Ls&Nine) {
+            Ly&l and throw "nonfirstL!%Nine"
+            $Nine = me&ja,R,'Nine',0
+            Nine and Ls&Nine = Nine
+            # now L can async enough to:
+            #  This/eight find L, send Nine, send %%Having,eight
+            #  later L inherit oL%Nine, if not new Stori
+        }
+    },'ift,D'],
   
+  // L%Nine <- %%Having,eight,L     &L_Streaming
+    &{
+    # L finds its This/eight +y&Point=L
+    # any time we can read Stream[Page_in..out]
+    me.L_Streaming = &acgtRLD{
+        $N = Ds&z.slice(Lc&Page_in-1,Lc&Page_out)
+        $was = Ls&Dome
+        if (was) {
+            heq(was,N) and return
+            hak(N) < hak(was) and Ls&Domeshrinks = 1
+            N[0] != was[0] and Ls&Domestart = 'diff'
+            N[hak(was)-1] != was[hak(was)-1] and Ls&Domeend = 'diff'
+        }
+        Ls&Dome = N
+        # claim each This/$eight for L
+        each in N {
+            $was = ny&Point
+            was && was != L and debugger
+            ny&Point = L
+        }
+    }
+    },
     # L%Nine <- %%Having,eight(y&Point=$L)
     # < an &Accepting mode for these three,
     #   controlling and resulting some A
@@ -477,8 +516,40 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
   
   // The<->Plot %%Checkable
-    # < This%pause as auto %%Checkable + minimise
-    # Eigh%%Checkable <-> Plot/Point
+    &{
+    # Plot%%Checkable,L <- This/* (L Pages) completed
+    # as r:This othering a Page++ (async)
+    # < merge all Page_*... %Domes = D/*:eight{where},
+    #   tell from eight if it's still streaming?
+    #   or wait til there's a Page after it, as in:
+    me.Plot_Pageturn_Checkable = &acgtRsrD{
+        $Plot = R
+        # go through L+ considering new %Page
+        each iL ss&z {
+            !Lc&Page_in || !Lc&Page_out and throw "L!&OPoint"
+            $q = {Checkable:1,L}
+            if (!Ls&ok || !me&ja,r,q ) {
+                ss&Page >= Lc&Page_in and me&L_Streaming,r,L,D
+                ss&Page <= Lc&Page_out and break
+                # L's pages now complete
+                me&log,R,'Checkable',{L,Page_out:Lc&Page_out}
+            }
+            # %%Checkable -> Plot->/Point -> Nine
+            # < ideally %%eto=L will work already
+            me&nodei,r,Plot,q,{dome:'pageturn'}
+        }
+        # < allow it to empty?
+        me&dome_traction,r,'pageturn',{el:2}
+    }
+    },
+    # Plot%%Checkable,L -> /Point:L
+    #  via here to ensure selfed before eto:L
+    # < forwarding %%L here to /L can be faster if selfed?
+    ['Plot',0.36,&acgtRs{
+        me&jaa,R,'Checkable,L,efrom'
+            .map(n => me&nodei,R,ns&L,n )
+    },'ift,D'],
+    
     ['TheNine',0.45,&acgtRs{
         # upto is a length
         $x = me&Jx,R;
@@ -626,7 +697,7 @@ me.Sch_Travel = &acgt{ return [
             ss&Page != i and ss&wanderi = 'Page!=Stream'
             return "le-"+(++ss&Page)
         }
-        # r:This turns page (from D:Stream/$p to $d)
+        # r:This has turned page from D:Stream/-2 to -1
         sy&Pageturn = &rD{
             rc&s != xs&This and debugger
             me&Plot_Pageturn,R,s,r,D
@@ -636,8 +707,20 @@ me.Sch_Travel = &acgt{ return [
         # init something to do
         !hak(ss&z) && me&Plot_Default,R,s
     },'ift,D'],
+    ['Plot',0.36,&acgtRs{
+        $x = me&Jx,R
+        
+        # and finally
+        !ss&alldone and return
+        
+        me&log,R,'Plot-Done'
+        me&tsc,"Done",0,'G'
+        $This = xc&This
+        Thiss&pause = 1
+    },'ift,D'],
+   
    &{
-    # This othering a Page++ async
+    # This othering a Page++ (async)
     me.Plot_Pageturn = &acgtRsrD{
         $Plot = R
         $L = sy&Point
@@ -652,23 +735,8 @@ me.Sch_Travel = &acgt{ return [
 
         # spring act, may &iPoint
         Ly&atPage and Ly&atPage(i); delete Ly&atPage
-
-        # go through L+ considering new %Page
-        each iL ss&z {
-            !Lc&Page_in || !Lc&Page_out and throw "L!&OPoint"
-            $q = {Checkable:1,L}
-            if (!Ls&ok || !me&ja,r,q ) {
-                ss&Page >= Lc&Page_in and me&L_Streaming,r,L,D
-                ss&Page <= Lc&Page_out and break
-                # L's pages now complete
-                me&log,R,'Checkable',{L,Page_out:Lc&Page_out}
-            }
-            # %%Checkable -> Plot->/Point -> Nine
-            # < ideally %%eto=L will work already
-            me&nodei,r,Plot,q,{dome:'pageturn'}
-        }
-        # < allow it to empty?
-        me&dome_traction,r,'pageturn',{el:2}
+        
+        me&Plot_Pageturn_Checkable,R,s,r,D
     }
     # init something to do
     me.Plot_Default = &acgtRs{
@@ -771,59 +839,7 @@ me.Sch_Travel = &acgt{ return [
         }
         # either will get to R:Point when &pageturn %upto satisfied
     }
-    # any time we can read Stream[Page_in..out]
-    me.L_Streaming = &acgtRLD{
-        $N = Ds&z.slice(Lc&Page_in-1,Lc&Page_out)
-        $was = Ls&Dome
-        if (was) {
-            heq(was,N) and return
-            hak(N) < hak(was) and Ls&Domeshrinks = 1
-            N[0] != was[0] and Ls&Domestart = 'diff'
-            N[hak(was)-1] != was[hak(was)-1] and Ls&Domeend = 'diff'
-        }
-        Ls&Dome = N
-        # claim each This/$eight
-        each in N {
-            $was = ny&Point
-            was && was != L and debugger
-            ny&Point = L
-        }
-    }
    },
-   
-   // signals
-    ['Plot',0.36,&acgtRs{
-        $x = me&Jx,R
-        # %%Nine pile up, just to:
-        # bind first Nine to first L
-        #  since they start separately
-        #  then L%Nine is inherited,
-        #   until a different Stori
-        $L = sy&Point
-        if (L && !Ls&Nine) {
-            Ly&l and throw "nonfirstL!%Nine"
-            $Nine = me&ja,R,'Nine',0
-            Nine and Ls&Nine = Nine
-            # now L can async enough to:
-            #  This/eight find L, send Nine, send %%Having,eight
-            #  later L inherit oL%Nine, if not new Stori
-        }
-        
-        # < forwarding %%L here to /L can be faster if selfed?
-        # &pageturn L{%Page > L%Page_out}
-        #  -> Plot -> /Point:L
-        me&jaa,R,'Checkable,L,efrom' .map(&n{
-            $e = me&nodei,R,ns&L,n
-        })
-        
-        # and finally
-        !ss&alldone and return
-        
-        me&log,R,'Plot-Done'
-        me&tsc,"Done",0,'G'
-        $This = xc&This
-        Thiss&pause = 1
-    },'ift,D'],
    
    // Point 6
     # This -> Plot/Point:L %%L:Plot/Point,Checkable
