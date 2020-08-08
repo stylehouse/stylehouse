@@ -223,7 +223,7 @@ me.Sch_Story = &acgt{ return [
             me&quiet_waker,R and Rs&ever_quiet = 1
             !Rs&ever_quiet and return
         }
-        if (1) {
+        if (0) {
         
         # sources of and tests
         me&bal,'Stories','Stories,eph'
@@ -615,7 +615,11 @@ me.Sch_Story = &acgt{ return [
             # othery before turn
             $cb = Ploty&Pageturning
             cb and $t = cb(R,D)
+            else {
+                t = "blank-"+hak(Ds&z)
+            }
             !t and throw "page!name"
+            
             
             # close
             Dy&domed(c)
@@ -634,13 +638,13 @@ me.Sch_Story = &acgt{ return [
         }
         # even if too close to the last quiet,wake to self
         $Y = me.cbu(R,'Ying').sc.Ying
-        Ys&quiet_wakers_too_recently = &{
+        Ys&quiet_wakers_too_recently = &R{
             ~>4 pagequiet: Plots&Page
             $y = Ploty&Pageturnable
             # can sometimes want to happen:
             #  must self to act first in the next Page
             #   < supposing multiple layers of quiet_wakers
-            y && y () and return 1
+            y && y (R) and return 1
             page_turning()
         }
         
