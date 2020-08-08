@@ -517,8 +517,8 @@ me.Sch_Travel = &acgt{ return [
   
   // The<->Plot %%Checkable
     &{
-    # Plot%%Checkable,L <- This/* (L Pages) completed
-    # as r:This othering a Page++ (async)
+    # Plot%%Checkable,L <- This/* subset L%Dome completed
+    # as r:This othering a Page++
     # < merge all Page_*... %Domes = D/*:eight{where},
     #   tell from eight if it's still streaming?
     #   or wait til there's a Page after it, as in:
@@ -542,7 +542,7 @@ me.Sch_Travel = &acgt{ return [
         me&dome_traction,r,'pageturn',{el:2}
     }
     },
-    # Plot%%Checkable,L -> /Point:L
+    # Plot %%Checkable,L -> /Point:L
     #  via here to ensure selfed before eto:L
     # < forwarding %%L here to /L can be faster if selfed?
     ['Plot',0.36,&acgtRs{
@@ -550,6 +550,23 @@ me.Sch_Travel = &acgt{ return [
             .map(n => me&nodei,R,ns&L,n )
     },'ift,D'],
     
+    # L %%Checkable,L -> L%Nine
+    #  when L%Dome completed
+    ['Point',0.36,&acgtRs{
+        $L = s
+        # Point gets %%Checkable 
+        $Ch = me&jaa,R,'Checkable,L,efrom'
+            .filter(n=>!ns&Eigh)
+        hak(Ch) > 1 and debugger
+        Ch.map(&n{
+            ns&L != L and throw "Confus"
+            !Ls&Nine and return me&wants,R,"getNine"
+            me&nodei,R,Ls&Nine,n
+        })
+    },'ift,D'],
+    # L%Nine %%Checkable,L -> /Eigh
+    #  each L%Dome.$eight have become Eigh%got,
+    #   so eighty&Eigh and Eighy&eight
     ['TheNine',0.45,&acgtRs{
         # upto is a length
         $x = me&Jx,R;
@@ -559,7 +576,8 @@ me.Sch_Travel = &acgt{ return [
             !ns&efrom and debugger; return
             # not from /Eigh, sends vitals to keep Nine aware
             ns&Eigh and return
-            # < ^ has the eight<->Eigh map got via L%Dome:
+            # < ^ forward them once all Eigh%%ready
+            #   should mirror the eight<->Eigh got via L%Dome:
             
             # L has Eigh+ to get to
             $L = ns&L
@@ -593,7 +611,7 @@ me.Sch_Travel = &acgt{ return [
         # < retracting %%Checkable (from L?)
         #   fading out Eigh|-eight
     },'ift,D'],
-    # Eigh %%Checkable,+expect=Nine/$t -> -eight
+    # Eigh %%Checkable,+expect=Nine/$t -> $eight
     #  $eight Yingates+Fin:
     #   half happens without it,
     #   -> Eigh%%Fin:$eight,dige checks it ...
@@ -602,12 +620,16 @@ me.Sch_Travel = &acgt{ return [
         $t = Rs&exp
         $z = Rs&got
         !z and return
+        # each L%Dome.$eight have become Eigh%got,
+        #  so eighty&Eigh and Eighy&eight
         # eight:z now knows Eigh
         zy&Eigh = s
+        sy&eight = z
+        
         $r = zy&R
         $Ch = me&jaa,R,'Checkable,efrom'
         hak(grepout(Ch,n => ns&Eigh)) and debugger
-        hak(Ch) > 1 and me&tsc,"multiChin",0,'G' .sc.fs = 30
+        hak(Ch) > 1 and debugger
         # can be manually
         !hak(Ch) && x.ro("check",{}) and Ch[0] = 'Checkable'
         Ch.map(check => me&nodei,R,z,check,{},{expect:t} )
@@ -625,7 +647,9 @@ me.Sch_Travel = &acgt{ return [
         #  once all %%ready then they pipe all %%ok over to %%L
         me&jaa,R,{Checkable:1,eto:s} .map(&n{
             $q = {}
+            # add on:
             q.Eigh = s
+            q.eight = sy&eight
             q.ready = me&jaa,R,'ready',0
             q.ok = me&jaa,R,'ok',0
             me&nodei,R,ns&efrom,n,{},q
@@ -869,22 +893,15 @@ me.Sch_Travel = &acgt{ return [
         ss&ok && me&sleepic,R and return
         me&OPoint,R,s
     },'ift,D'],
-    ['Point',0.36,&acgtRs{
+    ['Point',0.37,&acgtRs{
         $x = me&Jx,R
         $go = me&acting,R,'Point'
         $Plot = xs&Plot
         $This = xc&This
         $L = s
         
-        # Point gets %%Checkable when %Dome is complete
-        $Ch = me&jaa,R,'Checkable,L,efrom'
-        $Eighed = grepout(Ch,n=>ns&Eigh)
-        hak(Ch) > 1 and debugger
-        Ch.map(&n{
-            ns&L != L and throw "Confus"
-            !Ls&Nine and return me&wants,R,"getNine"
-            me&nodei,R,Ls&Nine,n
-        })
+        
+        $Eighed = me&jaa,R,'Checkable,L,Eigh,efrom'
         
         $D = Cye(["Show",1])
         me&bracki,R,D,"Neef,cabop"
