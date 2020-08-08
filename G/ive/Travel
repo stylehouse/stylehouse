@@ -476,6 +476,7 @@ me.Sch_Travel = &acgt{ return [
     # L finds its This/eight +y&Point=L
     # any time we can read Stream[Page_in..out]
     me.L_Streaming = &acgtRLD{
+        !Ly&initialis and debugger
         $N = Ds&z.slice(Lc&Page_in-1,Lc&Page_out)
         $was = Ls&Dome
         if (was) {
@@ -526,6 +527,7 @@ me.Sch_Travel = &acgt{ return [
         $Plot = R
         # go through L+ considering new %Page
         each iL ss&z {
+            !Ly&initialis and break
             !Lc&Page_in || !Lc&Page_out and throw "L!&OPoint"
             $q = {Checkable:1,L}
             if (!Ls&ok || !me&ja,r,q ) {
@@ -536,6 +538,10 @@ me.Sch_Travel = &acgt{ return [
             }
             # %%Checkable -> Plot->/Point -> Nine
             # < ideally %%eto=L will work already
+            if (me&jaa,r,ex(q,{dome:'pageturn'}) .length > 1 ) {
+                ~>5 multi This Checkable: L.t
+                continue
+            }
             me&nodei,r,Plot,q,{dome:'pageturn'}
         }
         # < allow it to empty?
@@ -726,8 +732,14 @@ me.Sch_Travel = &acgt{ return [
             # before Page++
             $i = ss&Page + 1
             $is = L && i && Lc&Page_out < i
-            is and ~>5 is Pageturnable: s.t,Lc&Page_out, i
-            return is
+            !is and return 0
+            if (Ly&R && me&ja,Ly&R,'Checkable,L' ) {
+                ~>5 still Pageturnable: L.t, Lc&Page_out, '<', i
+                return 0
+            }
+            me&log,r,'Pageturnable',{Page:ss&Page,next:i,L,Page_out:Lc&Page_out}
+            ~>5 is Pageturnable: L.t, Lc&Page_out, '<', i
+            return 1
         }
         # title the next page
         # < name after Lf
@@ -782,21 +794,39 @@ me.Sch_Travel = &acgt{ return [
     # init something to do
     me.Plot_Default = &acgtRs{
         # < based on Stori/* rhythms
-        $con = &tyc{
+        $con = &tc{
             c ||= {}
-            y and c.then = y
+            isfu(c) and c = {able:c}
             # c.Pages ||= 1 later
-            me&iPoint,R,t,c
+            return me&OPoint,R,[t,'-Point',c]
         }
-        con('startStory',&L{
-            # wait for quiet
+        # now Page=2, for 1,2:
+        con('startStory',&oL,{
+            # then in 3, 3,4:
+            # as soon as L gets %%Checkable,
+            #  create the next Point,
+            $L = con('okoking',{then:&L{
+                me&log,R,'okoking-then'
+                con('carryon',{Pages:2,then:&L{
+                    me&log,R,'carryon-then'
+                },able:&L{
+                    me&log,R,'carryon-able'
+                }})
+            },able:&L{
+                me&log,R,'okoking-able'
+            }})
+            # ..2 is ok
+            oLc&then = &{
+                me&log,R,'setupOk'
+                me&OPoint,R,L
+            }
+            #  to begin after this Page...
             # < default?
             me&log,R,'waitforquiet'
             Ly&atPage = &{
                 # 3,4 are Look oking
                 ~>4 OkOking:
                 me&log,R,'OkOk'
-                con('okoking')
                 # < 300ms impatience for getting here
                 # < get Gump, protoJ for Ying
                 #me&nodei,R,xs&Gump,{narrative:1},{dome:'nar'}
@@ -806,17 +836,6 @@ me.Sch_Travel = &acgt{ return [
     }
  
  // %Plot about Points
-    # any Story** can L++ async,
-    #  immediately be Ploty&Point
-    #  probably while Pageturn
-    me.iPoint = &acgtRtc{
-        $x = me&Jx,R
-        $Plot = xs&Plot
-        c ||= {}
-        $L = me&fiu,Plot,[t,'-Point',c]
-        me&OPoint,R,L
-        return L
-    }
     # creation of $L=Plot/Point**
     #  may be This othering via &Pageturn handlers
     # < may be Plotted in advance, de-%eph now
@@ -835,21 +854,25 @@ me.Sch_Travel = &acgt{ return [
         !D && !Rc&b && Rs&Plot and return
         !Plots&Page and throw "!Page"
         !D and throw "!D"
+        
+        # creation
+        isar(L) and L = me&fiu,Plot,L
         !Plots&z.includes(L) and throw "!Plot/L"
         
         me.neigh(L,&lr{ Ly&l = l; Ly&r = r })
         $l = Ly&l
         if (l) {
-            # never later before?
-            !ls&ok and debugger; return
+            # later not init before this solves
+            # < unless lowL, handling accepting
+            !ls&ok and return L
         }
-        # L init: binds to Plot
-        if (!Lc&Page_in) {
-            if (l) {
-                # inherit %Nine
-                Ls&Nine ||= ls&Nine
-                !Ls&Nine and throw "L2!Nine"
-            }
+        # L init: binds to Pages
+        if (!Ly&initialis) {
+            # inherit %Nine
+            l and Ls&Nine ||= ls&Nine
+            l && !Ls&Nine and throw "L2!Nine"
+            
+            Ly&initialis = 1
             
             # usu after the last L's Pages
             Lc&Page_in ||= l && lc&Page_out+1 || 1
@@ -866,21 +889,7 @@ me.Sch_Travel = &acgt{ return [
         # any time we can read Stream[Page_in..out]
         me&L_Streaming,R,L,D
         
-        # starting
-        if (Lc&acts) {
-            # either may set up
-
-            # < elvis to set off when quiet
-            #   instead of &pageturn
-        }
-        if (Lc&self_acts) {
-            # as R:Point itself
-            # < s not node yet? should work, try sy&up
-            !Rs&Point and return me&wants,R,'self',L
-
-            # < &nodei electrodes in, adjust things etc
-        }
-        # either will get to R:Point when &pageturn %upto satisfied
+        return L
     }
     },
    
@@ -904,7 +913,10 @@ me.Sch_Travel = &acgt{ return [
         $This = xc&This
         $L = s
         
-        
+        if (me&ja,R,'Checkable,L' && !me&za,R,'Checkable,L') {
+            # hook: able when %%Checkable
+            Lc&able and Lc&able(L)
+        }
         $Eighed = me&jaa,R,'Checkable,L,Eigh,efrom'
         
         $D = Cye(["Show",1])
