@@ -1050,15 +1050,17 @@ me.Sch_Pavings = &acgt{ return [
         #  &accept will %%inside
         me.reself = &acgtRNhq{
             !q and throw "no q"
+            $go = me&acting,R,'reself'
             $k = haks(q)[0]
+            go and me&nu,'inc',N
+            $x = me&Jx,R
+            $sav = x.ro('sav')
             # each Eigh may send an %%acceptable
             # < &twlic ish, all jaa or N, to check they mesh:
             $todo = me&jaa,R,q,1
-            !todo.length and return
+            !todo.length && !sav and return
             # < put them in dome:acceptable? when none:
             #   me&dome_traction,R,'acceptable',{el:2}
-            $go = me&acting,R,'reself'
-            go and me&nu,'inc',N
             
             $self = Rc&s
             $O = Cye(self)

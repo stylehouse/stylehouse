@@ -444,40 +444,46 @@
  
  // jobs
     // &twlic, &twlim - tw matchup
-        # as twlim but with one r?,l? callback
+        # expand twlim to &l,z,c,either.t{} everything
+        #  will c.surprise|wanted
         me.twlic = &acgtNL{
             return &y{
                 $M = []
                 # returns list of y returns
-                $ya = &zlc{
+                $ya = &lzc{
                     c ||= {}
                     c.t ||= l && l.t || z.t
                     $t = delete c.t
-                    !z and c.surprise = 1
-                    !l and c.originonly = 1
-                    M.push(y(z,l,c,t))
+                    !z and c.wanted = 1
+                    !l and c.surprise = 1
+                    M.push(y(l,z,c,t))
                 }
-                $con = me&twlim,L (&lc{ ya(null,l,c) })
-
+                $seek = me&twlim,L (&lc{ ya(l,null,c,l.t) })
+                
+                # N[got] match into the expected stream
                 N.map(&t{
                     $z = isR(t) && ts&ball ? tc&s : t
-                    $l = con(z)
-                    ya(z,l)
+                    $l = seek(z)
+                    ya(l,z)
                 })
-                con()
+                seek()
                 
                 return M
             }
         }
-        # consume L/* by t one at a time in order
-        #  y(L) for missing
+        # consume expectations: L/*
+        # by t one at a time in order
+        #  returns L/l per found thing,
+        #   or calls y(l,c) with c.missing|trailing
         me.twlim = &acgtL{
             $have = L ? me&ioty,L : []
             return &y{
                 $for_missing = y || &{}
                 # each had s:
+                $some = 0
                 return &s{
                     if (s) {
+                        some = 1
                         # a name to find
                         $l = L && me&fiu,L,s,8
                         if (l) {
@@ -489,14 +495,16 @@
                             #   [0,1,2,3].splice(0,2) = [0,1]/[2,3]
                             #                   (1,2) = [1,2]/[0,3]
                             li > 0 && have.splice(0,li)
-                                .map(l => for_missing(l,{now_missing:1}))
+                                .map(l => for_missing(l,{missing:1}))
                             $thel = have.shift()
                             thel != l and debugger
                         }
                     }
                     else {
                         # finish
-                        have.map(l => for_missing(l,{trailing:1}))
+                        $c = {}
+                        some and c.trailing = 1
+                        have.map(l => for_missing(l,ex({},c)))
                     }
                     return l
                 }

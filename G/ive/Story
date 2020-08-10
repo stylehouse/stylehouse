@@ -369,9 +369,6 @@ me.Sch_Story = &acgt{ return [
         Rs&acceptables = 1
         $go = me&acting,R,'Nine'
         $x = me&Jx,R;
-        if (go) {
-            $showexp = x.ro('showexp',{})
-        }
         sc&pi = 'nine'
         # roll the invention of Eigh s
         me&sleepic,R and me&rollbs,R,'bal_tw_s'; return
@@ -380,31 +377,16 @@ me.Sch_Story = &acgt{ return [
         # $Nine/* become Eigh%exp (have %dige, instructions)
         # these eight -> Eigh%got (have %dige%string, y&Point=$L)
         # < %%Having,eight come in order?
-        $N = me&jaa,R,"eight,Having,L",1
-        
-        me&twlic,N,s (&zlct{
-            $r = me&bal,t,'eph'
-            # &twlim match styles:
-            #  starts with everything trailing,surprise
-            #  may +%now_missing once later $eight are found
+        $gotN = me&jaa,R,"eight,Having,L",1
+        me&twlic,gotN,s (&lzct{
+            $r = c.surprise ? me&bal,t,'eph'
+                : me&bal,t,l
             ex(r.sc,c)
             #me&tsc,"Ergo:"+t+(ki(c)) .sc.dis = 1
             
             rs&TheEigh = 1
             l and rs&exp = l
             z and rs&got = z
-            
-            if (showexp) {
-                if (l) {
-                    $re = me&bal,t+"@exp",l,'eph'
-                    res&title = '@exp'
-                    res&EighExp = rc&s
-                }
-                else {
-                    x.ro("fillinblank")
-                    # usu would manual check, accept
-                }
-            }
         })
     },'ift,D'],
     # next to TheEigh
@@ -469,8 +451,6 @@ me.Sch_Story = &acgt{ return [
             me&zu,"Exp",t
             me&zu,"Got",z
         }
-        ss&coun ||= 0
-        ss&coun++
     },'ift,D'],
     ['TheEigh',0.36,&acgtRs{
         
@@ -493,7 +473,18 @@ me.Sch_Story = &acgt{ return [
         #     lots of slightly different %%$word...,
         #      iterating commissions on 
         me&ja,R,'ok' and return
-        !t and return
+        if (!t) {
+            me&log,R,"Unexpected",{got:z}
+            return
+        }
+        if (me&za,R,'unready' ) {
+            me&log,R,"Failing",{got:z}
+            if (Rs&trailing) {
+                # beyond last expected thing
+                me&log,R,"Failing",{got:z}
+            }
+            
+        }
         !(tc&pi && ts&dige) and return me&tsc,"Nine/!-eight"
         
         $self = me&moreThat,R,t,t
