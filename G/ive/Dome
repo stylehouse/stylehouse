@@ -780,7 +780,10 @@
             are.map(&n{
                 #~>4 of: ki(n,4.23)
                 ns&el and 'where/what?'
-                (nc&recycled ? old : neu ).push(n)
+                # tractioned until gone around
+                $isold = nc&recycled || nc&tractioned;
+                (isold ? old : neu ).push(n)
+                nc&tractioned = 1
             })
             # everything must have been given
             $says_drop = c.el == 2 && "el2";
