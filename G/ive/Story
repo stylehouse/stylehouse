@@ -452,6 +452,11 @@ me.Sch_Story = &acgt{ return [
             me&zu,"Got",z
         }
     },'ift,D'],
+    &{
+    me.yyt = &acgtst{
+        
+    }
+    },
     ['TheEigh',0.36,&acgtRs{
         
         $t = Rs&exp
@@ -472,7 +477,14 @@ me.Sch_Story = &acgt{ return [
         #      staging chunk regroup for commit essential
         #     lots of slightly different %%$word...,
         #      iterating commissions on 
-        me&ja,R,'ok' and return
+        if (me&ja,R,'ok' ) {
+            if (!me&za,R,'ok' ) {
+                zy&on_ok and zy&on_ok,R,s
+            }
+            return
+        }
+        # when Story is recording itself,
+        # these all cause that -eight to show the failing, etc
         if (!t) {
             me&log,R,"Unexpected",{got:z}
             return
@@ -481,10 +493,10 @@ me.Sch_Story = &acgt{ return [
             me&log,R,"Failing",{got:z}
             if (Rs&trailing) {
                 # beyond last expected thing
-                me&log,R,"Failing",{got:z}
+                me&log,R,"Trailing"
             }
-            
         }
+        # receive the got into a diff against the full self
         !(tc&pi && ts&dige) and return me&tsc,"Nine/!-eight"
         
         $self = me&moreThat,R,t,t
