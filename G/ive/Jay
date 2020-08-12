@@ -175,10 +175,14 @@ me.Yingmind ||= {};
             $sc = {}
             N != Dc&last_thing and sc.chathing = 1; Dc&i = -1
             Dc&last_thing = N
+            # from where we last got to
             N.length > Dc&i+1 and sc.N = N.slice(Dc&i+1)
             Dc&i = N.length - 1;
-            # avoid current -gate
-            N.length && c.tailwag and Dc&i--; sc.N && sc.N.pop()
+            if (sc.N && c.until) {
+                # avoid from the current -gate
+                $ui = sc.N.indexOf(c.until)
+                ui >= 0 and Dc&i -= hak(sc.N.splice(ui))
+            }
             return sc
         }
         return D
