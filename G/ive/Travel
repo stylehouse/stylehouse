@@ -809,11 +809,11 @@ me.Sch_Travel = &acgt{ return [
     # init something to do
     me.Plot_Default = &acgtRs{
         # < based on Stori/* rhythms
-        $con = &tc{
+        $con = &tcs{
             c ||= {}
             isfu(c) and c = {able:c}
             # c.Pages ||= 1 later
-            return me&OPoint,R,[t,'-Point',c]
+            return me&OPoint,R,[t,'-Point',c,s]
         }
         # now Page=2, for 1,2:
         con('startStory',&oL,{
@@ -849,7 +849,7 @@ me.Sch_Travel = &acgt{ return [
                         me&log,R,'ut-then'
                     }})
                 }})
-            }})
+            }},{checking:oL})
             # ..2 is ok
             oLc&then = &{
                 me&log,R,'setupOk'
@@ -893,13 +893,14 @@ me.Sch_Travel = &acgt{ return [
         # creation
         isar(L) and L = me&fiu,Plot,L
         !Plots&z.includes(L) and throw "!Plot/L"
+        !Ly&R and me&wants,R,'Linit',Plot
         
         me.neigh(L,&lr{ Ly&l = l; Ly&r = r })
         $l = Ly&l
         if (l) {
-            # later not init before this solves
+            # later not created before this solves
             # < unless lowL, handling accepting
-            !ls&ok and return L
+            #!ls&ok and return L
         }
         # L init: binds to Pages
         if (!Ly&initialis) {
@@ -921,6 +922,7 @@ me.Sch_Travel = &acgt{ return [
             # silently become Ploty&Point
             me&log,R,'Point++',{oL:Ploty&Point,L}
             Ploty&Point = L
+            
         }
         
         # any time we can read Stream[Page_in..out]
@@ -969,7 +971,7 @@ me.Sch_Travel = &acgt{ return [
             gs&dis = 1
         })
         
-        !hak(Eighed) and return
+        !hak(Eighed) && !Ls&resumed and return
         
         # L receives %%Eigh%%ready,ok?
         $ok = !hak(Eighed.filter(n => !ns&ok)) ? 1 : 0
@@ -985,6 +987,7 @@ me.Sch_Travel = &acgt{ return [
                 # act onwards
                 $say = Lc&then ? "..." : "!"
                 me&log,R,"L-ok"+say,{L}
+                
                 Lc&then and Lc&then(L,R)
                 else {
                     Plots&alldone = 1
@@ -995,10 +998,22 @@ me.Sch_Travel = &acgt{ return [
                 }
             }
             elsif (!ok) {
+                # means nothing, only Fugues if it 
+                Ls&checking and return
                 # throw merging test resumer
+                if (!Ls&resumer && !Ls&checking) {
+                    $Lo = Ls&resumer =
+                        me&OPoint,R,['accept:'+L.t,'-Fugue',{}]
+                    Los&resuming = L
+                    # ^ becomes resumed instead of %ok
+                    Loc&Page_out = 99
+                }
+                #Thiss&pause = 1
                 me&tsc,"Error?" .sc.fs = 40
-                Thiss&pause = 1
             }
+        }
+        elsif (Lc&pi == 'Fugue') {
+            me&tsc,"Accept-progress"
         }
         else {
             throw "L!pi", Lc&pi
