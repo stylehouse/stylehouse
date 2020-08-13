@@ -740,11 +740,11 @@ me.Sch_Story = &acgt{ return [
         Rs&fixatfour = 1
         $x = me&Jx,R;
         $go = me&acting,R,'-eight',0
+        
         # page of story: -eight a %Yingates
         $c = {ov:0.4}
         $Ch = me&jaa,R,'Checkable,efrom' [0]
-        !Ch and me&tsc,"..Checkable"
-        else {
+        if (Ch) {
             c.ov = 0.9
             # have name pile
             $No = xs&Nodar
@@ -757,8 +757,17 @@ me.Sch_Story = &acgt{ return [
             # send results
             c.Finto = Chs&efrom
         }
+        else {
+            me&tsc,"..Checkable"
+        }
+        
         me&pieight,R,s,c
-       # ^ does %%Fin:s -> Eigh
+        
+        if (Ch) {
+            # -> Eigh
+            # randomly not part of %%Checkable circuit
+            me&nodei,R,Chs&efrom,{Fin:s,dige:ss&dige}
+        }
     },'ift,D'],
    
  
