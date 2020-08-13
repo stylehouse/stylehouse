@@ -513,7 +513,11 @@ me.Sch_Travel = &acgt{ return [
     ['theThis',0.297,&acgtRs{
         $D = Rs&Storystream
         $lastPoint = 0
+        $last = Ds&z.length-1
         each in Ds&z {
+            if (i == last) {
+                !hak( me&ioty,n ) and continue
+            }
             $q = {Having:1,eight:n}
             $L = ny&Point
             # may be before OPoint,
@@ -581,6 +585,10 @@ me.Sch_Travel = &acgt{ return [
         Ch.map(&n{
             ns&L != L and throw "Confus"
             !Ls&Nine and return me&wants,R,"getNine"
+            
+            $ch = Ls&checking
+            ch && !chs&ok and return me&tsc,"Fuguing",0,'g'
+            
             me&nodei,R,Ls&Nine,n
         })
     },'ift,D'],
@@ -659,6 +667,10 @@ me.Sch_Travel = &acgt{ return [
         # eight:z now knows Eigh
         eighty&Eigh = s
         sy&eight = eight
+        $L = eighty&Point
+        
+        $ch = Ls&checking
+        ch && !chs&ok and return me&tsc,"Fuguing",0,'g'
         
         $r = eighty&R
         $Ch = me&jaa,R,'Checkable,efrom'
@@ -1008,12 +1020,13 @@ me.Sch_Travel = &acgt{ return [
                     # ^ becomes resumed instead of %ok
                     Loc&Page_out = 99
                 }
-                #Thiss&pause = 1
+                Thiss&pause = 1
                 me&tsc,"Error?" .sc.fs = 40
             }
         }
         elsif (Lc&pi == 'Fugue') {
             me&tsc,"Accept-progress"
+            #Thiss&pause = 0
         }
         else {
             throw "L!pi", Lc&pi
