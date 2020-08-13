@@ -419,13 +419,33 @@
         })
         return n
     }
-    # give many n %eCsc.$t = {style}
+    # give many n %eCsc.$t = sc style
     #  in or out of time
     me.eCscor = &acgtt{
         return &nc{
-            $modon = me&Dispon,n;
+            $modon = me&Dispon,n
+            #me&eCscorigin,n,t,c
             # can remain on Rs&eCsc.-eight
-            me&eCsc,n,t,c (modon);
+            me&eCsc,n,t,c (modon)
+        }
+    }
+    # style de-overwriting
+    # < BROKE: dis:1->0 reverts to dis:2?
+    me.eCscorigin = &acgtntc{
+        $origin = ns&eCsc && ns&eCsc[t+"_origin"]
+        if (!origin) {
+            # create originals
+            $oc = {}
+            each kv c {
+                hak(n.sc,k) and oc[k] = n.sc[k]
+            }
+            ah(n,'eCsc',t+"_origin",oc)
+        }
+        else {
+            # default them back in
+            each kv origin {
+                !hak(c,k) and c[k] = v
+            }
         }
     }
     # s(y&brackology)?y&ology
@@ -464,7 +484,8 @@
                 # hide entire $eight/r
                 $ce = rs&C
                 !cey&Display and ce = me&ollbs,r,'C'
-
+                # 0,1 hidden,block (assuming R%rowish)
+                !hak(sc,'dis') and sc.dis = 1
                 apply(r,sc)
             }
         })
