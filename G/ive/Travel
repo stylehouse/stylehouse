@@ -982,9 +982,15 @@ me.Sch_Travel = &acgt{ return [
         }
         # when checking has completed, with each Nine/Eigh
         $Eighed = me&jaa,R,'Checkable,L,Eigh,efrom'
-        # L%resumed may recover (act onward) from L%Fugued,
-        #  with an L%ok based on no !ok in empty Eighed
-        !hak(Eighed) && !Ls&resumed and return
+        if (Ls&resumed) {
+            # L%resumed may recover (act onward) from L%Fugued,
+            #  with an L%ok based on no !ok in empty Eighed
+            
+            # it will arrive on commit L, pass to the 
+            $mer = Ls&resumer
+        }
+        else
+        !hak(Eighed) and return
         
         # L receives %%Eigh%%ready,ok?
         $ok = !hak(Eighed.filter(n => !ns&ok)) ? 1 : 0
@@ -1051,7 +1057,12 @@ me.Sch_Travel = &acgt{ return [
                     # ^ becomes resumed instead of %ok
                     Loc&Page_out = 99
                 }
-                me&tsc,"Error?" .sc.fs = 40
+                if (Ls&resumed) {
+                    me&tsc,"Error." .sc.fs = 20
+                }
+                else {
+                    me&tsc,"Error?" .sc.fs = 40         
+                }
                 Thiss&pause = 1
             }
         }
