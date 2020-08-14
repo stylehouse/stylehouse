@@ -973,21 +973,35 @@ me.Sch_Travel = &acgt{ return [
     # R:Point 3ing, %%Checkable|L%resumed get L%ok
     #  returns true when ready to act on the state of L%ok (null until)
     me.Point_Eigh = &acgtRL{
+        $x = me&Jx,R
+        $Plot = xs&Plot
+        $This = xc&This
         # asap
         Lc&init and Lc&init(L,R); delete Lc&init
-        # when it is able to be checked
+        # checking begins - able to be checked
         if (me&da,R,'Checkable,L' ) {
             # hook: able when %%Checkable
             Lc&able and Lc&able(L,R)
         }
-        # when checking has completed, with each Nine/Eigh
+        # checking completes, with each Nine/Eigh
         $Eighed = me&jaa,R,'Checkable,L,Eigh,efrom'
         if (Ls&resumed) {
             # L%resumed may recover (act onward) from L%Fugued,
             #  with an L%ok based on no !ok in empty Eighed
             
-            # it will arrive on commit L, pass to the 
+            # it will arrive on commit L
             $mer = Ls&resumer
+            $ker = me&ioty,Plot .filter(ker => kers&checking == L) [0]
+            if (mer && merc&Page_out == 99) {
+                # un-sinkhole -Fugue
+                merc&Page_out = Plots&Page
+                Thiss&pause = 0
+                me&wants,R,'L-de-Fugue',mer
+                # the L%checking may now &then
+                kers&resumed = 1
+                me&wants,R,'L-de-Fugued',ker
+            }
+            
         }
         else
         !hak(Eighed) and return
