@@ -1039,13 +1039,20 @@ me.Sch_Travel = &acgt{ return [
         # sublate some R/%fix
         Rs&nofixfor = peel('Page_in,Page_out,Dome,Nine,ok')
         sc&pi == 'Point' and Rs&nofixfor.pi = 1
+        go and delete Rs&nofixfor
+        # for
         $D = Cye(["Show",1])
         me&bracki,R,D,{Nine:Ls&Nine}
         each in Ls&Dome {
             me&bracki,R,D,{Dome:n}
         }
+        if (Lc&Page_out && Lc&Page_in) {
+            $Pages = 1+(Lc&Page_out*1)-(Lc&Page_in*1)
+            me&bracki,R,D,{Pages,i:Lc&Page_in,o:Lc&Page_out}
+        }
         # whether hungry?
         Ls&ok != null and me&bracki,R,D,{ok:Ls&ok}
+        
         me&pibrackology,R,s,{D} .y.gog(&g{
             gy&cv = 0.8
             gs&dis = 1
