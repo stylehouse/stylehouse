@@ -753,6 +753,24 @@ me.Sch_Travel = &acgt{ return [
         $go = me&acting,R,'Plot'
         ah(R,'inheritscif','ball','Point',1)
         
+        me&Plot_Pageness,R,s
+        #s&bgh = '372'
+        
+        # init something to do
+        !hak(ss&z) && me&Plot_Default,R,s
+    },'ift,D'],
+    ['Plot',0.36,&acgtRs{
+        # and finally
+        !ss&alldone and return
+        me&ha,R,'alldone'
+        me&da,R,'alldone' and me&log,R,'Plot-Done'
+        me&tsc,"Done",0,'G'
+    },'ift,D'],
+ 
+ // %Plot about Pages
+    &{
+    # Ploty&asynchandler
+    me.Plot_Pageness = &acgtRs{
         # sense wanting quiet,wake
         # < to asap an L finishing
         # this R may be Ying itself, out of time...
@@ -783,25 +801,7 @@ me.Sch_Travel = &acgt{ return [
             rc&s != xs&This and debugger
             me&Plot_Pageturn,R,s,r,D
         }
-        s&bgh = '372'
-        
-        # init something to do
-        !hak(ss&z) && me&Plot_Default,R,s
-    },'ift,D'],
-    ['Plot',0.36,&acgtRs{
-        $x = me&Jx,R
-        
-        # and finally
-        !ss&alldone and return
-        
-        me&log,R,'Plot-Done'
-        me&tsc,"Done",0,'G'
-        $This = xc&This
-        Thiss&pause = 1
-    },'ift,D'],
- 
- // %Plot about Pages
-    &{
+    }
     # This othering a Page++ (async)
     me.Plot_Pageturn = &acgtRsrD{
         $Plot = R
@@ -989,6 +989,7 @@ me.Sch_Travel = &acgt{ return [
                     me&log,R,'allDone'
                     #me&nodei,R,Plot,'alldone',{dome:'forever'}
                     delete Ploty&Point
+                    Thiss&pause = 1
                 }
             }
             elsif (!Ls&ok) {
@@ -1002,8 +1003,8 @@ me.Sch_Travel = &acgt{ return [
                     # ^ becomes resumed instead of %ok
                     Loc&Page_out = 99
                 }
-                Thiss&pause = 1
                 me&tsc,"Error?" .sc.fs = 40
+                Thiss&pause = 1
             }
         }
         elsif (Lc&pi == 'Fugue') {
