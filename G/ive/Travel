@@ -976,9 +976,6 @@ me.Sch_Travel = &acgt{ return [
     # R:Point 3ing, %%Checkable|L%resumed get L%ok
     #  returns true when ready to act on the state of L%ok (null until)
     me.Point_Eigh = &acgtRL{
-        $x = me&Jx,R
-        $Plot = xs&Plot
-        $This = xc&This
         # asap
         Lc&init and Lc&init(L,R); delete Lc&init
         # checking begins - able to be checked
@@ -988,24 +985,9 @@ me.Sch_Travel = &acgt{ return [
         }
         # checking completes, with each Nine/Eigh
         $Eighed = me&jaa,R,'Checkable,L,Eigh,efrom'
-        if (Ls&resumed) {
-            # L%resumed may recover (act onward) from L%Fugued,
-            #  with an L%ok based on no !ok in empty Eighed
-            
-            # it will arrive on commit L
-            $mer = Ls&resumer
-            $ker = me&ioty,Plot .filter(ker => kers&checking == L) [0]
-            if (mer && merc&Page_out == 99) {
-                # un-sinkhole -Fugue
-                merc&Page_out = Plots&Page
-                Thiss&pause = 0
-                me&wants,R,'L-de-Fugue',mer
-                # the L%checking may now &then
-                kers&resumed = 1
-                me&wants,R,'L-de-Fugued',ker
-            }
-            
-        }
+        
+        # L%resumed are L%ok based on no !ok in empty Eighed
+        Ls&resumed and me&Point_resumed,R,L
         else
         !hak(Eighed) and return
         
@@ -1015,6 +997,7 @@ me.Sch_Travel = &acgt{ return [
         Rs&wasok = Ls&ok
         Ls&ok = ok
         !ok && Rs&wasok and Ls&became_notok = 1
+        
         return Eighed
     }
     me.Point_ology = &acgtRL{
@@ -1039,6 +1022,24 @@ me.Sch_Travel = &acgt{ return [
             gy&cv = 0.8
             gs&dis = 1
         })
+    }
+    # L%resumed may recover (act onward) from L%Fugued
+    me.Point_resumed = &acgtRL{
+        $x = me&Jx,R
+        $Plot = xs&Plot
+        $This = xc&This
+        # acquired on commit of L/* in ReNine+unity
+        $mer = Ls&resumer
+        $ker = me&ioty,Plot .filter(ker => kers&checking == L) [0]
+        if (mer && merc&Page_out == 99) {
+            # un-sinkhole -Fugue
+            merc&Page_out = Plots&Page
+            Thiss&pause = 0
+            me&wants,R,'L-de-Fugue',mer
+            # the L%checking may now &then
+            kers&resumed = 1
+            me&wants,R,'L-de-Fugued',ker
+        }
     }
     # L&then
     # act onwards
