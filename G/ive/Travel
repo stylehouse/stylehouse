@@ -858,8 +858,10 @@ me.Sch_Travel = &acgt{ return [
             c ||= {}
             isfu(c) and c = {able:c}
             # c.Pages ||= 1 later
-            return me&OPoint,R,[t,'-Point',c,s]
+            $L = me&OPoint,R,[t,'-Point',c,s]
+            return L
         }
+        
         # now Page=2, for 1,2:
         con('startStory',&oL,{
             # then in 3, 3,4:
@@ -995,8 +997,9 @@ me.Sch_Travel = &acgt{ return [
         # checking completes, with each Nine/Eigh
         $Eighed = me&jaa,R,'Checkable,L,Eigh,efrom'
         
-        # L%resumed are L%ok based on no !ok in empty Eighed
-        Ls&resumed and me&Point_resumed,R,L
+        # L%resumed acquired on commit of L/* in ReNine+unity
+        #  are L%ok based on no !ok in empty Eighed
+        Ls&resumed and me&Point_resumed,R,L; Eighed = []
         else
         !hak(Eighed) and return
         
@@ -1032,22 +1035,26 @@ me.Sch_Travel = &acgt{ return [
             gs&dis = 1
         })
     }
-    # L%resumed may recover (act onward) from L%Fugued
+    # L%Fugu(ed|ing)%resumed may recover (act onward)
     me.Point_resumed = &acgtRL{
         $x = me&Jx,R
         $Plot = xs&Plot
         $This = xc&This
-        # acquired on commit of L/* in ReNine+unity
-        $mer = Ls&resumer
+        # always has a later L%Fugue
+        $Fugue = Ls&Fugued
+        # may have an L%checking in between
         $ker = me&ioty,Plot .filter(ker => kers&checking == L) [0]
-        if (mer && merc&Page_out == 99) {
+        if (Fugue && Fuguec&Page_out == 99) {
             # un-sinkhole -Fugue
-            merc&Page_out = Plots&Page
+            Fuguec&Page_out = Plots&Page
+            Fugues&resumed = 1
             Thiss&pause = 0
-            me&wants,R,'L-de-Fugue',mer
-            # the L%checking may now &then
-            kers&resumed = 1
-            me&wants,R,'L-de-Fugued',ker
+            me&wants,R,'L-de-Fugue',Fugue
+            if (ker) {
+                # the L%checking may now &then
+                kers&resumed = 1
+                me&wants,R,'L-de-Fugued',ker
+            }
         }
     }
     # L&then
