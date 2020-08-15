@@ -536,7 +536,7 @@ me.Sch_Travel = &acgt{ return [
   // The<->Plot %%Checkable
     &{
     # Plot%%Checkable,L <- This/* subset L%Dome completed
-    # as r:This othering a Page++
+    # as r:This othering a Page++!
     # < merge all Page_*... %Domes = D/*:eight{where},
     #   tell from eight if it's still streaming?
     #   or wait til there's a Page after it, as in:
@@ -544,8 +544,11 @@ me.Sch_Travel = &acgt{ return [
         $Plot = R
         # go through L+ considering new %Page
         each iL ss&z {
-            !Ly&initialis and break
-            Ls&checking || Ls&resuming and continue
+            # < Plot/L could exist before init
+            !Ly&initialis and debugger
+            # ignore stuff for the -Fugue
+            Ls&Fugue and continue
+            
             !Lc&Page_in || !Lc&Page_out and throw "L!&OPoint"
             $q = {Checkable:1,L}
             if (!Ls&ok || !me&ja,r,q ) {
@@ -577,7 +580,7 @@ me.Sch_Travel = &acgt{ return [
     
     # L %%Checkable,L -> L%Nine
     #  when L%Dome completed
-    ['Point',0.36,&acgtRs{
+    ['Point',0.38,&acgtRs{
         $L = s
         # Point gets %%Checkable 
         $Ch = me&jaa,R,'Checkable,L,efrom'
@@ -961,6 +964,14 @@ me.Sch_Travel = &acgt{ return [
             !Lc&Page_in and debugger
             !Lc&Page_out and debugger
             
+            # for another L
+            $oL = Ls&checking
+            if (oL) {
+                oLs&checker && oLs&checker != L and debugger
+                !Plots&z.includes(oL) and debugger
+                oLs&checker = L
+            }
+            
             # silently become Ploty&Point
             me&log,R,'Point++',{oL:Ploty&Point,L}
             Ploty&Point = L
@@ -978,11 +989,9 @@ me.Sch_Travel = &acgt{ return [
     me.Point_Eigh = &acgtRL{
         # asap
         Lc&init and Lc&init(L,R); delete Lc&init
-        # checking begins - able to be checked
-        if (me&da,R,'Checkable,L' ) {
-            # hook: able when %%Checkable
-            Lc&able and Lc&able(L,R)
-        }
+        # %%Checkable has two layers:
+        # checking begins, going to - able to be checked
+        me&da,R,'Checkable,L' and Lc&able and Lc&able(L,R)
         # checking completes, with each Nine/Eigh
         $Eighed = me&jaa,R,'Checkable,L,Eigh,efrom'
         
@@ -1054,6 +1063,10 @@ me.Sch_Travel = &acgt{ return [
                 $say = Lc&then ? "..." : "!"
                 me&log,R,"L-ok"+say,{L}
                 
+                $ch = Ls&checker
+                # unblocks Point@38: %%Checkable L%checking
+                ch and me&wants,R,'L-checked',Plot
+                
                 Lc&then and Lc&then(L,R)
                 else {
                     Plots&alldone = 1
@@ -1065,13 +1078,21 @@ me.Sch_Travel = &acgt{ return [
                 }
             }
             elsif (!Ls&ok) {
-                # means nothing, only Fugues if it 
-                Ls&checking and return
+                # L%checker%Fugued
+                # L%checking%Fuguing - ignored (even !%Fuguing?)
+                #     -Fugue%Fugue   - not usually there
+                
+                # L%checking do no -eight til %%Checkable,
+                #  avoided completely if %Fuguing, unless %resumed->%ok (above)
+                Ls&Fuguing and debugger
                 # throw merging test resumer
-                if (!Ls&resumer && !Ls&checking) {
-                    $Lo = Ls&resumer =
+                if (!Ls&Fugued && !Ls&checking) {
+                    $ch = Ls&checker
+                    ch and chs&Fuguing = 1
+                    $Lo =
+                    Ls&Fugued = Ls&resumer =
                         me&OPoint,R,['accept:'+L.t,'-Fugue',{}]
-                    Los&resuming = L
+                    Los&Fugue = Los&resuming = L
                     # ^ becomes resumed instead of %ok
                     Loc&Page_out = 99
                 }
