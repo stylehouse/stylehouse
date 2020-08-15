@@ -7,18 +7,17 @@ le-3		pi:eight
         2		"Story/The%eph/vv/vv%eph/le-2"	beyond,size:5
         3		"Story/This%eph/This?%eph/le-3"	beyond
         4		"Story/The%eph/vv/vv%eph/le-3"	beyond,size:4
-        5		"Story/Plot%eph"	beyond,size:4
+        5		"Story/Plot%eph"	beyond,size:2
         6		"Story/The%eph/vv/vv%eph"	beyond,size:4
         7		"Story/The%eph/vv/vv%eph/beginning"	beyond,size:5
         8		"Story/This%eph/This?%eph/beginning"	beyond,size:2
         9		"Story/The%eph/vv/vv%eph/le-4"	beyond,size:4
         10		"Story/The%eph/vv/vv%eph/le-5"	beyond,size:4
-        11		"Story/Plot%eph/startStory"	beyond,size:3
-        12		"Story/Plot%eph/okoking"	beyond
-      gate		pi:leg	size:12
-      says		pi:leg	size:2
-        0		pi:vat,s:waitforquiet
-        1		pi:vat,s:setupOk
+        11		"Story/Plot%eph/startStory"	beyond,size:4
+        12		"Story/Plot%eph/ok:startStory"	beyond
+      gate		pi:leg	size:11
+      says		pi:leg
+        0		{"pi":"vat","s":"'startStory-able'"}
     step		pi:legs
       step		pi:leg
         0		"Story"	size:10
@@ -59,7 +58,7 @@ le-3		pi:eight
     says-i-L-node		pi:legs
       says		pi:leg	size:2
         0		pi:vat,s:Pageturn
-        1		{"pi":"vat","s":"'L-ok...'"}
+        1		{"pi":"vat","s":"'L-ok!'"}
       i		pi:leg
         0		pi:vat,s:3
       L		pi:leg
@@ -84,7 +83,7 @@ le-3		pi:eight
       oL		pi:leg
         0		"Story/Plot%eph/startStory"	beyond
       L		pi:leg
-        0		"Story/Plot%eph/okoking"	beyond
+        0		"Story/Plot%eph/ok:startStory"	beyond
       node		pi:leg
         0		"Story/Plot%eph"	beyond
       gate		pi:leg
@@ -164,16 +163,16 @@ le-3		pi:eight
         e		pi:C,s:Yingvoids
         on		pi:vat,s:startStory	R
   5		pi:seven
+    says-node		
+      0		
+        says		{"s":"'startStory-able'","pi":"vat"}
+        node		"Story/Plot%eph/startStory"	beyond
+  6		pi:seven
     says-oL-L-node		
       0		
         says		{"s":"Point++","pi":"vat"}
         oL		"Story/Plot%eph/startStory"	beyond
-        L		"Story/Plot%eph/okoking"	beyond
-        node		"Story/Plot%eph"	beyond
-  6		pi:seven
-    says-node		
-      0		
-        says		pi:vat,s:waitforquiet
+        L		"Story/Plot%eph/ok:startStory"	beyond
         node		"Story/Plot%eph"	beyond
   7		pi:seven
     node		
@@ -311,20 +310,15 @@ le-3		pi:eight
   13		pi:seven
     says-L-node		
       0		
-        says		{"s":"'L-ok...'","pi":"vat"}
+        says		{"s":"'L-ok!'","pi":"vat"}
         L		"Story/Plot%eph/startStory"	beyond
         node		"Story/Plot%eph/startStory"	beyond
   14		pi:seven
-    says-node		
-      0		
-        says		pi:vat,s:setupOk
-        node		"Story/Plot%eph"	beyond
-  15		pi:seven
     node		
       0		
         node		"Story/Plot%eph"	beyond
       1		
-        node		"Story/Plot%eph/okoking"	beyond
+        node		"Story/Plot%eph/ok:startStory"	beyond
     step		
       0		
         step		"Story"

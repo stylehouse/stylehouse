@@ -758,6 +758,7 @@ me.Sch_Travel = &acgt{ return [
         # for This
         me&Plot_Pageness,R,s
         
+        
         # init something to do
         !hak(ss&z) && me&Plot_Default,R,s
     },'ift,D'],
@@ -854,6 +855,7 @@ me.Sch_Travel = &acgt{ return [
     # init something to do
     me.Plot_Default = &acgtRs{
         # < based on Stori/* rhythms
+        $la
         $con = &tcs{
             c ||= {}
             isfu(c) and c = {able:c}
@@ -861,8 +863,76 @@ me.Sch_Travel = &acgt{ return [
             $L = me&OPoint,R,[t,'-Point',c,s]
             return L
         }
+        # an L is always followed by L%checking
+        #  generated in &able
+        $x = me&Jx,R
+        $Plot = xs&Plot
+        $This = xc&This
+        $D = Thiss&Storystream
+        # Plot 298 init too early yet appears this time
+        !D && !Rc&b && Rs&Plot and return me&waits,"enPlot"
         
-        # now Page=2, for 1,2:
+        if (1) {
+        $testcase = 'Easiness'
+        $Nine
+        # Nine/* may have %L=L.t etc, grouping into:
+        $N = [
+            # n = t,c,sc
+            ['startStory',{check:1}],
+            
+            ['carryon',{init:&LR{
+                me&log,R,'carryon-init'
+                me&nodei,R,xs&The,{Nine:testcase},{dome:'forNine'}
+            },then:&LR{
+                Nine = me&fiu,xs&The,testcase,7
+            }}],
+            
+            ['ut',{init:&LR{
+                Lc&Nine = Nine
+                $Tra = xs&Travel
+                $Eas = me&fiu,Tra,testcase,7
+                me&nodei,R,Eas,'Go',{dome:'forGoing'}
+            }}],
+        ]
+        $i = 0
+        $consum = &{
+            $n = N[i]
+            !n and return
+            # eg starts in Page=2, so for 1,2:
+            $L = con(...n)
+            Lc&able ||= &LR{
+                # once L%%Checkable, in|for Page=3
+                me&log,R,L.t+'-able'
+                
+                $checks = defor(Lc&check,1)
+                !checks and return
+                
+                # fire continuation after checking
+                $then = delete Lc&then
+                $check = con('ok:'+L.t,{},{checking:L})
+                if (checks == 2) {
+                    $thenafter = then
+                    then = &nothing,{}
+                    checkc&able = &L,chcheck{
+                        debugger
+                        $ch = con('ok:'+L.t,{},{checking:L})
+                        chc&then = thenafter
+                    }
+                }
+                checkc&then = then
+            }
+            $then = Lc&then
+            Lc&then = &LR{
+                consum()
+                then && then(L,R)
+            }
+            i++
+        }
+        #
+        consum()
+       return;
+        }
+        
         con('startStory',&oL,{
             # then in 3, 3,4:
             # as soon as L gets %%Checkable,
@@ -933,7 +1003,7 @@ me.Sch_Travel = &acgt{ return [
         $This = xc&This
         $D = Thiss&Storystream
         # Plot 298 init too early yet appears this time
-        !D && !Rc&b && Rs&Plot and return
+        !D && !Rc&b && Rs&Plot and debugger
         !Plots&Page and throw "!Page"
         !D and throw "!D"
         
@@ -1074,7 +1144,11 @@ me.Sch_Travel = &acgt{ return [
                 # unblocks Point@38: %%Checkable L%checking
                 ch and me&wants,R,'L-checked',Plot
                 
+                $oL = Ly&r
+                #oL and me&OPoint,R,oL
                 Lc&then and Lc&then(L,R)
+                else
+                oL and "more coming"
                 else {
                     Plots&alldone = 1
                     me&wants,R,"alldone",Plot
