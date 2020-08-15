@@ -597,11 +597,11 @@ me.Sch_Story = &acgt{ return [
         each im Ds&z {
             mc&pi ||= 'eight'
             # %onlyish 294 has made these if sleeping them
-            $r = me&bal,m.t,m,'Yingates,Fin,eph'
+            $r = me&bal,m.t,m,'Yingates,eph'
             rc&s != m and throw 'crae'
         }
         # leaves current -gate streaming
-        r and rs&wakeful = delete rs&Fin
+        r and rs&wakeful = 1
     },'ift,D'],
         
    // Storystream[Page] <- Outlog
@@ -698,12 +698,19 @@ me.Sch_Story = &acgt{ return [
         Rs&noRsync = 1
         
         $L = sy&Point
-        if (L) {
-            if (Ls&checking || Ls&resuming) {
-                delete Rs&Fin
-                return me&tsc,"Fuguing",0,'g'
-            }
+        delete Rs&Fin
+        if (Rs&wakeful) {
+            me&tsc,"wakeful"
         }
+        elsif (L && Ls&checking && !me&ja,R,'Checkable,L' ) {
+            # L%checking do no -eight until %%Checkable
+            #  may be avoided, esp if %Fuguing
+            return me&tsc,"Fuguing",0,'g'
+        }
+        else {
+            Rs&Fin = 1
+        }
+        
         each in ss&z {
             $r = me&Ret,R,{t:"n:"+i,s:n,Yingate:1}
         }
