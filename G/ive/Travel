@@ -592,6 +592,13 @@ me.Sch_Travel = &acgt{ return [
             
             $ch = Ls&checking
             ch && !chs&ok and return me&tsc,"Fuguing",0,'g'
+            if (Ls&checking && !Ls&checker) {
+                !Ls&resumed && me&waits,'acheck'
+                # becomes L%ok:
+                Ls&resumed = 'acheck'
+                me&ha,R,{Checkable:'acheck',L}
+                return me&tsc,"acheck",0,'g'
+            }
             
             me&nodei,R,Ls&Nine,n
         })
@@ -878,7 +885,7 @@ me.Sch_Travel = &acgt{ return [
         # Nine/* may have %L=L.t etc, grouping into:
         $N = [
             # n = t,c,sc
-            ['startStory',{check:1}],
+            ['startStory',{check:2}],
             
             ['carryon',{init:&LR{
                 me&log,R,'carryon-init'
@@ -914,7 +921,7 @@ me.Sch_Travel = &acgt{ return [
                     $thenafter = then
                     then = &nothing,{}
                     checkc&able = &L,chcheck{
-                        debugger
+                        me&log,R,L.t+'-able'
                         $ch = con('ok:'+L.t,{},{checking:L})
                         chc&then = thenafter
                     }

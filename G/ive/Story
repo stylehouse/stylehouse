@@ -693,6 +693,7 @@ me.Sch_Story = &acgt{ return [
     ['Yingates',0.296,&acgtRs{
         me&reaw,R,'Yingates,wakeful,who,Fin'
         me&inode,R
+        $x = me&Jx,R
         Rs&rowish = 1
         # * become %Yingate!%ball
         Rs&noRsync = 1
@@ -702,10 +703,11 @@ me.Sch_Story = &acgt{ return [
         if (Rs&wakeful) {
             me&tsc,"wakeful"
         }
-        elsif (L && Ls&checking && !me&ja,R,'Checkable,L' ) {
+        elsif (L && Ls&checking && !me&ja,R,'Checkable,L') {
             # L%checking do no -eight until %%Checkable
             #  may be avoided, esp if %Fuguing
-            return me&tsc,"Fuguing",0,'g'
+            me&tsc,"Fuguing",0,'g'
+            !x.ro('Fuguing',{}) and return 
         }
         else {
             Rs&Fin = 1
