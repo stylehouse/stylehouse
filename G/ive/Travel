@@ -645,7 +645,7 @@ me.Sch_Travel = &acgt{ return [
                 !me&za,r,'ok' and ok = 0
                 return Eigh
             }).filter(s=>s)
-            !hak(Eighed) and debugger
+            !hak(Eighed) and return me&log,R,'NineCheckable-noDomes',{L}
             
             # %%Checkable -> Eigh
             # < include %%Eigh already?
@@ -855,7 +855,7 @@ me.Sch_Travel = &acgt{ return [
         }
 
         # spring act, may &iPoint
-        Ly&atPage and Ly&atPage(i); delete Ly&atPage
+        Ly&atPage and Ly&atPage(r,i); delete Ly&atPage
         
         me&Plot_Pageturn_Checkable,R,s,r,D
     }
@@ -866,6 +866,7 @@ me.Sch_Travel = &acgt{ return [
         $con = &tcs{
             c ||= {}
             isfu(c) and c = {able:c}
+            q and ex(c,q)
             # c.Pages ||= 1 later
             $L = me&OPoint,R,[t,'-Point',c,s]
             return L
@@ -892,25 +893,26 @@ me.Sch_Travel = &acgt{ return [
                 me&nodei,R,xs&The,{Nine:testcase},{dome:'forNine'}
             },then:&LR{
                 Nine = me&fiu,xs&The,testcase,7
+                nextc = {Nine}
             }}],
             
             ['ut',{init:&LR{
-                Lc&Nine = Nine
+                Ls&Nine != Nine and debugger
                 $Tra = xs&Travel
                 $Eas = me&fiu,Tra,testcase,7
                 me&nodei,R,Eas,'Go',{dome:'forGoing'}
             }}],
         ]
         $i = 0
-        $consum = &{
+        $consum = &q{
             $n = N[i]
-            !n and return
+            !n and return delete Ploty&Point
             # eg starts in Page=2, so for 1,2:
+            n[3] = q
             $L = con(...n)
             Lc&able ||= &LR{
                 # once L%%Checkable, in|for Page=3
                 me&log,R,L.t+'-able'
-                
                 $checks = defor(Lc&check,1)
                 !checks and return
                 
@@ -930,10 +932,19 @@ me.Sch_Travel = &acgt{ return [
             }
             $then = Lc&then
             Lc&then = &LR{
-                consum()
+                Ly&atPage = &R{
+                if (0 && Ls&checking && !Ls&checker) {
+                    Lc&Page_out != Plots&Page-1
+                        && me&log,R,"Couldup",{L,Page:Plots&Page}
+                    Lc&Page_out = Plots&Page-1
+                }
+                consum({Page_in:Plots&Page})
+                me&wants,R,'Lup',Plot
                 then && then(L,R)
+                }
             }
             i++
+            return L
         }
         #
         consum()
