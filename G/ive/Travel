@@ -862,8 +862,7 @@ me.Sch_Travel = &acgt{ return [
     # init something to do
     me.Plot_Default = &acgtRs{
         # < based on Stori/* rhythms
-        $la
-        $con = &tcs{
+        $con = &tcsq{
             c ||= {}
             isfu(c) and c = {able:c}
             q and ex(c,q)
@@ -891,9 +890,9 @@ me.Sch_Travel = &acgt{ return [
             ['carryon',{init:&LR{
                 me&log,R,'carryon-init'
                 me&nodei,R,xs&The,{Nine:testcase},{dome:'forNine'}
-            },then:&LR{
+            },able:&LR{
                 Nine = me&fiu,xs&The,testcase,7
-                nextc = {Nine}
+                Lc&nextc = {Nine}
             }}],
             
             ['ut',{init:&LR{
@@ -910,9 +909,11 @@ me.Sch_Travel = &acgt{ return [
             # eg starts in Page=2, so for 1,2:
             n[3] = q
             $L = con(...n)
-            Lc&able ||= &LR{
+            $able = Lc&able
+            Lc&able = &LR{
                 # once L%%Checkable, in|for Page=3
                 me&log,R,L.t+'-able'
+                able && able(L,R)
                 $checks = defor(Lc&check,1)
                 !checks and return
                 
@@ -931,6 +932,8 @@ me.Sch_Travel = &acgt{ return [
                 checkc&then = then
             }
             $then = Lc&then
+            $oL = L;
+            # ^ &then may be moved onto L%checking
             Lc&then = &LR{
                 Ly&atPage = &R{
                 if (0 && Ls&checking && !Ls&checker) {
@@ -938,7 +941,10 @@ me.Sch_Travel = &acgt{ return [
                         && me&log,R,"Couldup",{L,Page:Plots&Page}
                     Lc&Page_out = Plots&Page-1
                 }
-                consum({Page_in:Plots&Page})
+                $q = {}
+                #Page_in:Plots&Page}
+                oLc&nextc and ex(q,oLc&nextc)
+                consum(q)
                 me&wants,R,'Lup',Plot
                 then && then(L,R)
                 }
