@@ -452,7 +452,7 @@ me.Sch_Travel = &acgt{ return [
   
   # L (visits|stays) (Plot|eight)y&Point
   # L%Nine <- %%Having,eight+
-  // Plot%%Nine<->L%Nine
+  // Plot%%Nine<->L%Nine init
     # Plot wants %%Nine to give to L
     # < de-mysteriate beginning (Ying in %SummerCat?)
     ['The',0.46,&acgtRs{
@@ -520,12 +520,13 @@ me.Sch_Travel = &acgt{ return [
             }
             $q = {Having:1,eight:n}
             $L = ny&Point
-            # may be before OPoint,
-            #  before L_Streaming this n,
+            # may be before OPoint (L_Streaming finds n)
             #  or after the last L has Page_out
-            !L and q.wander = lastPoint ? "in" : "off"
+            !L and q.wander = lastPoint ? "off" : "in"
             L ||= lastPoint
             !L and break
+            lastPoint = L
+            
             # may be before Plot%%Nine -> first Ls&Nine
             !Ls&Nine and break
             q.L = L
@@ -680,7 +681,7 @@ me.Sch_Travel = &acgt{ return [
         sy&eight = eight
         $L = eighty&Point
         
-        $ch = Ls&checking
+        $ch = L && Ls&checking
         ch && !chs&ok and return me&tsc,"Fuguing",0,'g'
         
         $r = eighty&R
@@ -943,8 +944,7 @@ me.Sch_Travel = &acgt{ return [
                         && me&log,R,"Couldup",{L,Page:Plots&Page}
                     Lc&Page_out = Plots&Page-1
                 }
-                $q = {}
-                #Page_in:Plots&Page}
+                $q = {Page_in:Plots&Page}
                 oLc&nextc and ex(q,oLc&nextc)
                 consum(q)
                 me&wants,R,'Lup',Plot
