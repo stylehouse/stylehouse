@@ -1110,11 +1110,16 @@ me.Sch_Travel = &acgt{ return [
     }
     me.Point_ology = &acgtRL{
         # sublate some R/%fix
-        Rs&nofixfor = peel('Page_in,Page_out,Dome,Nine,ok')
+        Rs&nofixfor = peel('Page_in,Page_out,Dome,Nine,ok,'
+            +'checking,checker,resumed')
         Lc&pi == 'Point' and Rs&nofixfor.pi = 1
         Rs&goPoint and delete Rs&nofixfor
-        # for
+        
+        # for the info
         $D = Cye(["Show",1])
+        # when adding strange info, to insist open
+        $strange = &{ Ds&strange = 1 }
+        # L has range, etc
         me&bracki,R,D,{Nine:Ls&Nine}
         each in Ls&Dome {
             me&bracki,R,D,{Dome:n}
@@ -1124,7 +1129,29 @@ me.Sch_Travel = &acgt{ return [
             me&bracki,R,D,{Pages,i:Lc&Page_in,o:Lc&Page_out}
         }
         # whether hungry?
-        Ls&ok != null and me&bracki,R,D,{ok:Ls&ok}
+        if (Ls&ok != null) {
+            Ls&ok and me&tsc,"OK",0,'g' .y.cv = 0.01
+            Ls&ok != 1 and strange()
+            me&bracki,R,D,{ok:Ls&ok}
+        }
+        # also says 'acheck' (Point@38) when not followed by a %checking (avoid loop)
+        $l = Ly&l
+        if (Ls&checking) {
+            me&tsc,"check",0,'g'
+            Ls&checking != l
+                && strange( me&bracki,R,D,{checking:Ls&checking} )
+        }
+        if (Ls&resumed) {
+            Ls&resumed != 'acheck'
+                && strange( me&bracki,R,D,{resumed:Ls&resumed} )
+        }
+        
+        # OK pseudo-Points, unless freakish, avoid ology
+        # < one boost to lum them all
+        #   eg know already if ology is boosted
+        Ls&ok && (Ls&checking) && !Ds&strange and return
+        
+        #Ls&checking && !hak('checking,resumedme&bracki,R,D,{resumed:Ls&resumed}
         
         me&pibrackology,R,L,{D} .y.gog(&g{
             gy&cv = 0.8
