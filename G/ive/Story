@@ -217,6 +217,7 @@ me.Sch_Story = &acgt{ return [
         
         me&reaw,R,'Story'
         $x = me&Jx,R
+        sy&about ||= ['vv','Easiness']
 
         # quiet,wake:Story then Story/This
         if (!me&rollbs,R,'ever_quiet' ) {
@@ -271,7 +272,21 @@ me.Sch_Story = &acgt{ return [
         ah(R,'adhere','noGump',1)
         
         $r = me&bal,"Around","Around"
-        !Rc&b and me&fiu,s,'vv'
+        $Story = xs&Story
+        $The = xs&The
+        if (!Rc&b) {
+            $p = me.cbu(R,r => rs&Peace == 9).y.up
+            p = ps&Te
+            !py&Stories_init and Thes&very_first = 1
+            py&Stories_init = 1
+            each it Storyy&about {
+                i > 0 && !Thes&very_first and break
+                # the first time Story resets, warm cache
+                # this will mess up L:startStory,
+                #  which never sees async &t
+                me&fiu,s,t
+            }
+        }
         s&hue = 66
     },'ift,D'],
     ['Stories+Pavings',0.2999,&acgtRs{
@@ -327,10 +342,12 @@ me.Sch_Story = &acgt{ return [
     ['The',0.292,&acgtRs{
         me&reaw,R,'The'
         me&inode,R
+        $x = me&Jx,R
         ah(R,'inheritscif','ball','TheTest',1)
         # init The/$t/$t
         #  which %%Nine -> Plot, then <-> eight
-        me&fiu,s,'vv'
+        $Story = xs&Story
+        me&fiu,s,Storyy&about[0]
         # < each ^ TheTest (run) should many Nine (case)
         me&jaa,R,'Nine',1 .map(&t{
             me&fiu,s,t
@@ -347,6 +364,8 @@ me.Sch_Story = &acgt{ return [
         #  and commit $t -> Stories/Around
         $that = me&getThat,R,xs&Stories,s.t
         !that and return
+        $The = xs&The
+        #Thes&very_first and 
         # then harness %Live into TheNine
         # < harness self (TheNine<->...) <-> other (Paving)
         $self = me&selfThat,R,that
@@ -365,6 +384,7 @@ me.Sch_Story = &acgt{ return [
     # Nine/$exp + Story/-eight%Yingates
     #  = Nine/Eigh%exp+%got
     ['TheNine',0.295,&acgtRs{
+        
         me&reaw,R,'TheNine,bal_tw_s'
         Rs&noRsync = 1
         Rs&acceptables = 1
@@ -404,12 +424,14 @@ me.Sch_Story = &acgt{ return [
         me&rollbs,R,'reself'
     },'ift,D'],
     ['TheNine',0.67,&acgtRs{
+        
         $N = me&ioty,R,'TheEigh'
         # -nine settles the -eights, see &sleepic
         # < create new &settles and go to sleep
         #me&settle,R,N && me&sleepic,R,2 and return
         me&acceptables,R,N
         $c = {
+            
             # an Eigh accepted again
             accept: &acgtsOrznt{
                 me&accept,R,t
@@ -434,13 +456,12 @@ me.Sch_Story = &acgt{ return [
             }
         }
         me&acceptables_reself,R,N,c
-        
     },'ift,D'],
   
   // 6  %TheEigh 
     ['TheEigh',0.33,&acgtRs{
         me&reaw,R,'TheEigh,exp,got,now_missing'
-        $x = me&Jx,R;
+        $x = me&Jx,R
         $go = me&acting,R,'Eigh'
         $t = Rs&exp
         $z = Rs&got
@@ -588,7 +609,6 @@ me.Sch_Story = &acgt{ return [
         # sleep r when R%onlyish/r!%wakeful
         Rs&onlyish = 1
         
-        
         $Ying = me.cbu(R,'Ying')
         $c = {s:Yings&Outlog}
         me&Storystream,R,s,c
@@ -596,10 +616,7 @@ me.Sch_Story = &acgt{ return [
     ['theThis',0.296,&acgtRs{
         $D = Rs&Storystream
         $x = me&Jx,R
-        
-        # draw the story
-        # < selfing it to -seven and -eight already,
-        #    realising novelty asap
+        # draw the story, probably chunked by a %%quiet
         each im Ds&z {
             mc&pi ||= 'eight'
             # %onlyish 294 has made these if sleeping them
@@ -613,6 +630,7 @@ me.Sch_Story = &acgt{ return [
    // Storystream[Page] <- Outlog
     &{
     me.Storystream = &acgtRsc{
+        
         $x = me&Jx,R
         me&reaw,R,'Storystream,pause'
         me&rollbs,R,'Storystream'
@@ -628,15 +646,13 @@ me.Sch_Story = &acgt{ return [
         # may be unturned, see merge similar previous
         # < turn fractions of a page|plot, when|why
         $Plot = xs&Plot
-        # may have no plot, autopause if %Page > 2
-        !Plot and Plot = s
-        $page_turning = &c{
+        $page_turning = &q{
             # othery before turn
             $t = me&yyt,Plot,'Pageturning',R,D
                 || "blank-"+(1+hak(Ds&z))
             
             # close
-            Dy&domed(c)
+            Dy&domed(q)
             # open
             Dy&dome(t,'light')
             
@@ -648,10 +664,11 @@ me.Sch_Story = &acgt{ return [
             # < Plot leaves tightenable hooks
             #   for Yingate_2 -> Outlog -> next:
         }
-        # even if too close to the last quiet,wake to self
+        # when it matters, want to self,
+        #  even if too close to the last quiet,wake (loop avoidance)
         $Y = me.cbu(R,'Ying').sc.Ying
         Ys&quiet_wakers_too_recently = &R{
-            ~>4 pagequiet: Plots&Page
+            #~>4 pagequiet: Plots&Page
             # can sometimes want to happen:
             #  must self to act first in the next Page
             #   < supposing multiple layers of quiet_wakers
