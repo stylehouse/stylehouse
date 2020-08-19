@@ -536,12 +536,13 @@ me.Sch_Travel = &acgt{ return [
   
   // The<->Plot %%Checkable
     &{
-    # Plot%%Checkable,L <- This/* subset L%Dome completed
+    # Plot%%Checkable,L <- This/* subset L%Dome completed !
     # as r:This othering a Page++!
     # < merge all Page_*... %Domes = D/*:eight{where},
     #   tell from eight if it's still streaming?
     #   or wait til there's a Page after it, as in:
     me.Plot_Pageturn_Checkable = &acgtRsrD{
+        $dome = {dome:'pageturn'}
         $Plot = R
         # go through L+ considering new %Page
         each iL ss&z {
@@ -560,13 +561,32 @@ me.Sch_Travel = &acgt{ return [
             }
             # %%Checkable -> Plot->/Point -> Nine
             # < ideally %%eto=L will work already
-            if (me&jaa,r,ex(q,{dome:'pageturn'}) .length > 1 ) {
+            if (me&jaa,r,ex(q,dome) .length > 1 ) {
                 ~>5 multi This Checkable: L.t
                 debugger
                 continue
             }
-            me&nodei,r,Plot,q,{dome:'pageturn'}
+            me&nodei,r,Plot,q,dome
         }
+        
+        # also through D/* considering y&Point=L or not
+        # < twlic mode for this
+        $D = rs&Storystream
+        !D and throw "Storystream"
+        $Lless = []
+        #!G.afll and debugger
+        me&ioty,D .map(&n{
+            ~>4 Doom: n.t
+            !ny&R and return
+            $L = ny&Point
+            ~>4 hads: L ? "Y" : 0
+            !L and Lless.push(n)
+            else {
+                Lless.map(n => me&nodei,r,n,'Ignored',dome )
+                Lless = []
+            }
+        })
+        
         # < allow it to empty?
         me&dome_traction,r,'pageturn',{el:2}
     }
@@ -594,7 +614,7 @@ me.Sch_Travel = &acgt{ return [
             $ch = Ls&checking
             ch && !chs&ok and return me&tsc,"Fuguing",0,'g'
             if (Ls&checking && !Ls&checker) {
-                !Ls&resumed && me&waits,'acheck'
+                !Ls&resumed and me&waits,'acheck'
                 # becomes L%ok:
                 Ls&resumed = 'acheck'
                 me&ha,R,{Checkable:'acheck',L}
@@ -670,7 +690,7 @@ me.Sch_Travel = &acgt{ return [
     #   half happens without it,
     #   -> Eigh%%Fin:$eight,dige checks it ...
     ['TheEigh',0.35,&acgtRs{
-        $x = me&Jx,R;
+        $x = me&Jx,R
         $t = Rs&exp
         $eight = Rs&got
         !eight and return
@@ -913,11 +933,11 @@ me.Sch_Travel = &acgt{ return [
             n[3] = q
             $L = con(...n)
             $able = Lc&able
+            $checks = defor(Lc&check,1)
             Lc&able = &LR{
                 # once L%%Checkable, in|for Page=3
                 me&log,R,L.t+'-able'
-                able && able(L,R)
-                $checks = defor(Lc&check,1)
+                able and able(L,R)
                 !checks and return
                 
                 # fire continuation after checking
@@ -938,18 +958,19 @@ me.Sch_Travel = &acgt{ return [
             $oL = L;
             # ^ &then may be moved onto L%checking
             Lc&then = &LR{
+                # while we realise L&then
+                # there will be a small page between Ls
                 Ly&atPage = &R{
-                if (0 && Ls&checking && !Ls&checker) {
-                    Lc&Page_out != Plots&Page-1
-                        && me&log,R,"Couldup",{L,Page:Plots&Page}
-                    Lc&Page_out = Plots&Page-1
+                    # now the next page|L starts
+                    #  with no mention of the previous L
+                    $q = {Page_in:Plots&Page}
+                    oLc&nextc and ex(q,oLc&nextc)
+                    consum(q)
+                    me&wants,R,'Lup',Plot
+                    then and then(L,R)
                 }
-                $q = {Page_in:Plots&Page}
-                oLc&nextc and ex(q,oLc&nextc)
-                consum(q)
-                me&wants,R,'Lup',Plot
-                then && then(L,R)
-                }
+                # < message that small page
+                #me&nodei,r,that_small_page,'Ignorable',dome 
             }
             i++
             return L
@@ -1108,6 +1129,7 @@ me.Sch_Travel = &acgt{ return [
         
         return Eighed
     }
+    # cosmetica
     me.Point_ology = &acgtRL{
         # sublate some R/%fix
         Rs&nofixfor = peel('Page_in,Page_out,Dome,Nine,ok,'
