@@ -632,13 +632,8 @@ me.Sch_Story = &acgt{ return [
         !Plot and Plot = s
         $page_turning = &c{
             # othery before turn
-            $cb = Ploty&Pageturning
-            cb and $t = cb(R,D)
-            else {
-                t = "blank-"+hak(Ds&z)
-            }
-            !t and throw "page!name"
-            
+            $t = me&yyt,Plot,'Pageturning',R,D
+                || "blank-"+(1+hak(Ds&z))
             
             # close
             Dy&domed(c)
@@ -646,11 +641,9 @@ me.Sch_Story = &acgt{ return [
             Dy&dome(t,'light')
             
             # othery &Plot_Pageturn
-            $cb = Ploty&Pageturn
-            cb and cb(R,D)
+            me&yyt,Plot,'Pageturn',R,D
             
             $i = Ds&z.length
-            !cb && i > 2 and Rs&pause = 1
             i > 15 and Rs&pause = 1; ss&overturning = 1
             # < Plot leaves tightenable hooks
             #   for Yingate_2 -> Outlog -> next:
@@ -659,11 +652,10 @@ me.Sch_Story = &acgt{ return [
         $Y = me.cbu(R,'Ying').sc.Ying
         Ys&quiet_wakers_too_recently = &R{
             ~>4 pagequiet: Plots&Page
-            $y = Ploty&Pageturnable
             # can sometimes want to happen:
             #  must self to act first in the next Page
             #   < supposing multiple layers of quiet_wakers
-            y && y (R) and return 1
+            me&yyt,Plot,'Pageturnable',R,D and return 1
             page_turning()
         }
         
