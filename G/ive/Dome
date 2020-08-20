@@ -711,9 +711,11 @@
         # display
         return me&stepbrack,r;
     }
-    
+
+me.etoblab = 0
+me.settleblab = 1
+
 // 5 < Domes
-   # < %%dome
    # < nodeein
    # < nodee test
    
@@ -829,6 +831,7 @@
         }
    
   // %%eto - externalising state
+        # < el:9 retracting it
         # $to += %%efrom...
         me.etos_o3 = &acgtrs{
             $ef = sy&efroms;
@@ -867,17 +870,17 @@
             })
             !rows.length && !sy&etos and return
             # loads up sy&etos
-            $c = {rows,k:'eto',tk:'etos'};
+            $c = {rows,k:'eto',tk:'etos'}
             c.on_el9 = &h{
-                hs&current = h;
+                hs&current = h
             }
             c.each = &h{
-                $fromt = hs&fromt;
+                $fromt = hs&fromt
                 # brackstill version off the previous
                 hs&vers ||= [];
                 if (hc&el != 9) {
-                    $la = hs&vers.slice(-1)[0];
-                    $cha = me&brackstill,r,h,la;
+                    $la = hs&vers.slice(-1)[0]
+                    $cha = me&brackstill,r,h,la
                     if (cha) {
                         delete hs&accepted_boring;
                         # clone into vers[], h/* replaces
@@ -893,14 +896,18 @@
                         ~>2 GC: h.t
                         fio(hy&up,h.t,9)
                     }
-                    $neu = !hs&accepted_boring;
-                    hs&accepted_boring = 1;
-                    neu and ~>3 hoistcept: h.t, '<-', fromt
+                    $neu = !hs&accepted_boring
+                    hs&accepted_boring = 1
+                    if (neu) {
+                        me.etoblab and ~>3 hoistcept: h.t, '<-', fromt
+                    }
                 }
                 else {
                     # asking %Ying to transport
                     me&ha,R,{etos:h,s,fromt}
-                    !cha and ~>3 oldnews: h.t, '<-', fromt
+                    if (!cha) {
+                        me.etoblab and ~>3 oldnews: h.t, '<-', fromt
+                    }
                 }
             }
             me&either_6,R,r,c;
@@ -908,12 +915,12 @@
         # $to %%efrom marked as accepted
         #  relaxes $from sending it
         me.etos_7 = &acgtRprs{
-            $ef = sy&efroms;
+            $ef = sy&efroms
             !ef and return
             $gone = [];
             me&ioty,ef .map(&fo,{
-                $h = fos&etos;
-                hs&accepted = fos&using;
+                $h = fos&etos
+                hs&accepted = fos&using
                 hc&el == 9 and gone.push(fo); return
                 # something in the way it is now?
             })
@@ -930,7 +937,7 @@
                 # send attention
                 me&ha,R,{waits:'eto',wants:to}
                 
-                ~>5 efroms hoisting: ef.t, '<-', fo.t
+                me.etoblab and ~>5 efroms hoisting: ef.t, '<-', fo.t
             }
             me&either_8,R,c;
         }
@@ -958,7 +965,7 @@
     }
    
   // %%settle - still state
-  
+   
    // beginning
     # $from sees a version of each &settled,$to
     me.settle_o3 = &acgtrs{
@@ -1031,12 +1038,12 @@
 
         if (!rs&isbready) {
             # generates %%waits, will come back
-            ~>4 set7 isntbready: r.t
+            me.settleblab and ~>4 set7 isntbready: r.t
             return
         }
         if (!ses&brackstable) {
             want(s,'onemore')
-            ~>4 set7 onemore: r.t
+            me.settleblab and ~>4 set7 onemore: r.t
             return
         }
 
@@ -1047,7 +1054,7 @@
         each in fromss&halfsettle_for {
             # when we become &halfsettled
             washalf and break
-            ~>4 set7 half aboving: n.t, '<-', s.t
+            me.settleblab and ~>4 set7 half aboving: n.t, '<-', s.t
             want(n,'nodesabove')
             # < $s/$n awake at the same time is ok
             # < that could be $n%onlyish (not $n/** again)
@@ -1055,7 +1062,7 @@
         # < ^v mutex?
         $non = me&settle_halfsettle_down,s;
         if (non.length) {
-            ~>4 set7 half below: ki(non,4.23)
+            me.settleblab and ~>4 set7 half below: ki(non,4.23)
             non.map(n => want(n,'nodesbelow'))
             return;
         }
@@ -1068,7 +1075,7 @@
             !hs&from and throw "nofrom"
             hs&current = ses&current;
             if (hs&current != hs&accepted || ses&bump) {
-                ~>4 set7 awaits: h.t, hs&from.t
+                me.settleblab and ~>4 set7 awaits: h.t, hs&from.t
                 want(hs&from,'settled')
             }
         })
@@ -1128,9 +1135,11 @@
             #ac(set,'froms',hs&from);
             
             if (hs&accepted && hs&current == hs&accepted) {
-                $neu = !hs&accepted_boring;
-                hs&accepted_boring = 1;
-                neu and ~>7 settled: to.t, '<-', from.t
+                $neu = !hs&accepted_boring
+                hs&accepted_boring = 1
+                if (neu) {
+                    me.settleblab and ~>7 settled: to.t, '<-', from.t
+                }
                 return
             }
             
@@ -1592,7 +1601,7 @@
      
      &settle sets/checks a node that is:
       relative to this node, which wants it,
-      &node_issleeping, not able to unsettle
+      &node_issleeping, not able to unsettle this time
       < not pending elvising:
         as in %%wants:n,acty:1,settled,
          unless %%acty has transmit
@@ -1910,7 +1919,7 @@
                 # waiting for these
                 $arewakers = me&ioty,tos .filter(n => tpaths[n.t]);
                 if (arewakers.length) {
-                    ~>5 waitfor: tpath(s)
+                    #~>5 waitfor: tpath(s)
                     later.push(s);
                     return
                 }
@@ -1930,26 +1939,32 @@
         
    //   # or laters
         # < then submit to another round of ^ (Jx doming)
+        # the arrays going to &log must be readonly
         
-        sooner.length and ~>3 sooner:
-        
-        sooner.length and momentarily.push(...wakers); wakers = sooner
-        
-        !wakers.length and wakers = momentarily; momentarily = []
+        # sooners take precedence over any wakers
+        if (sooner.length) {
+            momentarily.push(...wakers)
+            wakers = sooner
+            wakers.length && momentarily.length
+                && me&log,R,'sooner',{wakers,momentarily}
+        }
+        !wakers.length and wakers = momentarily.slice(); momentarily = []
         !wakers.length and wakers = (Ys&momentarilys||[]).pop() || []
         
+        # laters give precedence to any wakers
         !wakers.length and wakers = later; later = []
         if (!wakers.length) {
             wakers = (Ys&laters||[]).pop() || [];
-            wakers.length and ~>4 lately: ki(wakers,4.23)
+            wakers.length
+                && me&log,R,'later',{wakers}
         }
-        wakers = uniq(wakers);
+        wakers = uniq(wakers)
         
         if (wakers.length) {
             $via = {};
             uniq(wakers) .map(&s{
                 $got = me&jaa,R,{waits:1,wants:s} .map(&n{
-                    isR(s) and ~>7 GoR: s.t
+                    #+isR(s) and ~>7 GoR: s.t
                     isR(s) and return
                     $tp = me&tpath,s;
                     via[tp] ||= [];
@@ -1963,9 +1978,9 @@
                 }
             })
             each tm via {
-                ~>7 Go: t
+                #~>7 Go: t
                 each is m {
-                    ~>7 <-: s
+                    #~>7 <-: s
                 }
             }
             
@@ -2003,7 +2018,7 @@
    // &Yinge - &waits_8 gives:
     me.Yinge = &acgtRc{
         me&rollbs,R,'Iinint',0;
-        $starting = Rs&Iinint++ < 64;
+        $starting = Rs&Iinint++ < 128
         
         $elvising = &{
             # since delay, Ying may have reset at Peace:8

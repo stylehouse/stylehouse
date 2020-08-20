@@ -616,10 +616,25 @@
         return po
     }
     me.dopi = &acgtDdCc{
+        # C is readonly -seven/**
+        #   except for expanding arrays
+        #  s is the thing itself
+        # D is its representation
         $s = c&s
+        $p = Cy&up
         if (c&pi == 'vat') {
-
-            # starts s=object|data|value, becomes stringified
+            !p and throw "-vat toplevel"
+            if (isar(s) && pc&pi != 'vat') {
+                # expand one array
+                Dc&pi = 'array'
+                each in s {
+                    $gv = me&fiu,C,i
+                    gvc&s = n
+                    gvc&pi = 'vat'
+                }
+                return
+            }
+            # other s=object|data|value become stringified
             !isC(s) and Dc&s = ki(s); return
             Dc&s = s.t
             # avoid talking of R

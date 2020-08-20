@@ -381,7 +381,8 @@
         qc&ok = ok
 
         # auto ope depth:!
-        $ope = q.depth <3 ? 1 : null
+        $shall = q.depth <3 ? 1 : null
+        $ope = shall
 
         # on the label:
         $n = q.n = me&mtsc,g,q.may,q.s,q.tsc
@@ -418,7 +419,8 @@
         ns&fs = 9+((ope||0.5)*2)
         ope < 1 and ns&bri = 0.5
         ns&ope = ope
-        $interest = ope != null
+        # not nothing, not default open
+        $interest = ope != null && ope != shall
         interest and ~>6 Toge: q.depth, ope, pt, ok
 
         return n
