@@ -713,7 +713,7 @@ me.Sch_Story = &acgt{ return [
    
    // This/$eight/$seven%Yingate
     ['Yingates',0.296,&acgtRs{
-        me&reaw,R,'Yingates,wakeful,who,Fin'
+        me&reaw,R,'Yingates,wakeful,who'
         me&inode,R
         $x = me&Jx,R
         Rs&rowish = 1
@@ -724,7 +724,6 @@ me.Sch_Story = &acgt{ return [
         if (L) {
             me&tsc,"L.t",L.t,"y"
         }
-        delete Rs&Fin
         if (Rs&wakeful) {
             me&tsc,"wakeful"
         }
@@ -811,7 +810,17 @@ me.Sch_Story = &acgt{ return [
             c.Finto = Chs&efrom
         }
         else {
-            me&tsc,"..Checkable"
+            if (me&ja,R,'Ignored' ) {
+                # from This noticing no L for it
+                # should have a accompanied by its cause
+                $why = me&jaa,R,'Ignorable',0
+                $n = me&tsc,"Ignored:"+(why||"?"),"Ignored"
+                !why and ns&fs = 18
+                # < should have both (ed|able) by the end
+            }
+            else {
+                me&tsc,"..Checkable"
+            }
         }
         
         me&pieight,R,s,c
