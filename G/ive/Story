@@ -720,6 +720,8 @@ me.Sch_Story = &acgt{ return [
         # * become %Yingate!%ball
         Rs&noRsync = 1
         
+        me&pieight,R,s,1
+        
         $L = sy&Point
         if (L) {
             me&tsc,"L.t",L.t,"y"
@@ -730,6 +732,7 @@ me.Sch_Story = &acgt{ return [
         elsif (L && Ls&checking && !me&ja,R,'Checkable,L') {
             # L%checking do no -eight until %%Checkable
             #  may be avoided, esp if %Fuguing
+            me&Effect,s,'acheck','ope:0'
             me&tsc,"acheck",0,'g'
             !x.ro('acheck',{}) and return 
         }
@@ -741,6 +744,11 @@ me.Sch_Story = &acgt{ return [
             $r = me&Ret,R,{t:"n:"+i,s:n,Yingate:1}
         }
     },'ift,D'],
+    &{
+    me.Effect = &acgtst{
+        
+    }
+    },
    
    // -seven -> &brackology
     # < self a -seven
@@ -810,13 +818,13 @@ me.Sch_Story = &acgt{ return [
             c.Finto = Chs&efrom
         }
         else {
-            if (me&ja,R,'Ignored' ) {
-                # from This noticing no L for it
-                # should have a accompanied by its cause
+            if (me&ja,R,'Ignored' || me&ja,R,'Ignorable') {
+                # ^ from This noticing no L for it
+                # < that it was expected:
                 $why = me&ja,R,'Ignorable',0
                 $n = me&tsc,"Ignored:"+(why||"?"),"Ignored"
                 !why and ns&fs = 18
-                # < should have both (ed|able) by the end
+                me&ha,R,'eight,Ignorable'
             }
             else {
                 me&tsc,"..Checkable"
