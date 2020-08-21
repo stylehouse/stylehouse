@@ -312,11 +312,12 @@
     # create a -pi on a node
     me.Api = &acgtstc{
         !isst(t) and throw "which -pi"
-        # takes c.t (< etc) into a new c
-        c = tax({},'t',c)
+        # takes c.t,el (< etc) into a new c
+        #  leaving the &pi* with c.ov, etc
+        c = tax({},'t,el',c)
         c.el ||= 2
         $b = s.y [t]
-        if (c.el <3) {
+        if (!b || c.el <3) {
             $E = s.y [t] = Cye([defor(c.t,s.t),1,{pi:t}])
             Es&z = []
         }
@@ -352,22 +353,23 @@
     # s^^^node
     me.uptonode = &acgtsc{
         c ||= {}
-        c.non ||= []
+        c.beyond ||= []
         $z = me.cbu(s,&z{
             # < demand zy&path, yet we want $seven which isn't a node
             zy&path && zy&R && zy&R.c.s == z and return 1
-            c.non.unshift(z)
+            c.beyond.unshift(z)
         })
         !z and debugger
         c.path = zy&path.slice()
+        c.node = z
         return z
     }
     # c.non[pi+] path, off the end of c.path[node+]
     me.pipath = &acgtsc{
         c ||= {}
-        !c.non and me&uptonode,s,c
+        !c.beyond and me&uptonode,s,c
         $s = c.path.slice(-1)[0]
-        return c.non.map(z => me&pitorpi,s,z ).join('/')
+        return c.beyond.map(z => me&pitorpi,s,z ).join('/')
     }
     # says t+pi compressily
     #  pi sometimes have another t, usu same as last node
@@ -436,22 +438,64 @@
         $fpith = ''
         # to a node, and any pi beyond it
         $to = e
-        $trip = {}
-        $tnode = me&uptonode,to,trip
-        $tpath = me&tpath,tnode
-        $tpith = me&pipath,to,trip
-        
         # to gets an -Effects @1 (~ nodey&efroms)
-        $E = me&piEffect,j,to
+        $E = me&piEffect,j,to,1
         
+        Ec&times ||= 0
+        Ec&times ++
+        ec&times ||= 0
+        ec&times ++
+        me&tsc,"Aluthere:"+Ec&times+'/'+ec&times
         
         
         #  compute, diff -> wake e
         #   unless it's otherable (%ope=0 -> dis:0)
     }
     # at both ends of the deal
-    me.piEffect = &acgtRs{
+    me.piEffect = &acgtRsc{
+        num(c) and c = {ov:scaf(c)}
+        c.ov ||= 0.9
+        # E rolls from under the previous s-eight
+        $trip = {t:'Effect'}
+        $re = me&pisurrect,R,s,trip
+        # so we can reuse it
+        c.el ||= 3
+        $E = me&Api,s,'Effect',c
+        re(E)
         
+        $trip = {}
+        $to = s
+        $tnode = me&uptonode,to,trip
+        $tpath = me&tpath,tnode
+        $tpith = me&pipath,to,trip
+        
+        c.ov <= 0.1 and return E
+    }
+    # s:node(...):z remembers zy&$pi = b
+    #  to b el:3 inside a z el:2
+    me.pisurrect = &acgtRzc{
+        isst(c) and c = {t:c}
+        !c.t and throw "b!path"
+        c ||= {}
+        
+        # via ^^nodey&surrect, for existing z
+        $s = me&uptonode,z,c
+        $re = me&Api,s,'surrect',{el:3}
+        
+        # with pipath + c.t to maybe existing b
+        $tpith = c.tpith = me&pipath,z,c
+        !tpith and debugger
+        tpith += '/-'+c.t
+        $ber = me&fiu,re,tpith,8
+        
+        # put so &Api will b it
+        ber and z.y [c.t] = berc&s
+        # remember what it is once created
+        return &b{
+            c.s = b
+            $ber = me&fiu,re,tpith,1
+            ber.c = c
+        }
     }
     # to: user wants qualia computed
     me.Effected = &acgtet{
