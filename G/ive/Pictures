@@ -416,11 +416,23 @@
        and not yet &Effected
    
    &Effected,to,c
+    self
      -eight wants state of %ope, etc
-     $Test wants state of %wobbly,
-      which relays to senders of %ope, who use it
-      any $eight that we havent passed,
-       ie domes that contain the errors
+    other
+     $Test has state of %wobbly,
+       from $Eigh or whatever notices etc
+      but isnt &Effected by it,
+     $eight however,
+      is, using it to &Effect more %ope (E:shy)
+       ie it relays there when changed, etc
+        as if $Test &Effect $eight,
+    so,
+     how to get it to those self/others that are &Effected
+     it relays to senders of %ope, who use it
+      depending on how it changes,
+       and how they set up their &Effected endpoint
+       eg %wobbly only affects $eight we havent passed,
+        ie domes that contain the errors
  =cut
     # nearly an %%eto, maybe its own &either_
     # from: takes state to where it matters
@@ -436,39 +448,43 @@
         $fnode = s
         $fpath = me&tpath,fnode
         $fpith = ''
-        # to a node, and any pi beyond it
+        
+        # to a node, or any pi beyond it
         $to = e
-        # to gets an -Effects @1 (~ nodey&efroms)
+        # gets -Effects @1 (~ nodey&efroms)
+        #  on to, other to j (from's)
         $E = me&piEffect,j,to,1
         
-        Ec&times ||= 0
-        Ec&times ++
-        ec&times ||= 0
-        ec&times ++
-        me&tsc,"Aluthere:"+Ec&times+'/'+ec&times
+        # E/fpath/fpith/t
+        $Ef = me&fiu,E,fpath
+        Efc&node && Efc&node != fnode and debugger
+        Efc&node = fnode
+        # < from pi, would put onto:
+        $Ep = me&fiu,Ef,fpith
+        # remark, eg 'acheck'
+        $Et = me&fiu,Ep,t
         
+        # c qualia mix in, shade eg q.dome
+        me&ha,j,{Effect:t,Eto:to},c,q
         
-        #  compute, diff -> wake e
-        #   unless it's otherable (%ope=0 -> dis:0)
+        # < compute now if already &Effected
+        #    diff -> wake e
+        #     unless it's otherable (%ope=0 -> dis:0)
     }
     # at both ends of the deal
     me.piEffect = &acgtRsc{
         num(c) and c = {ov:scaf(c)}
         c.ov ||= 0.9
+        
         # E rolls from under the previous s-eight
         $trip = {t:'Effect'}
         $re = me&pisurrect,R,s,trip
+        
         # so we can reuse it
         c.el ||= 3
         $E = me&Api,s,'Effect',c
         re(E)
         Ec&tpith = trip.tpith
-        
-        $trip = {}
-        $to = s
-        $tnode = me&uptonode,to,trip
-        $tpath = me&tpath,tnode
-        $tpith = me&pipath,to,trip
         
         c.ov <= 0.1 and return E
     }
@@ -499,12 +515,47 @@
         }
     }
     # to: user wants qualia computed
-    me.Effected = &acgtet{
+    me.Effected = &acgtec{
+        # someone Ringing and awake
+        $j = Cy&R
+        $z = jc&s
+        # might be the self
+        $R = ey&R
+        !R and throw "to!node"
+        $self = R == j
+        # gets -Effects @1 (~ nodey&efroms)
+        #  on to, other to j (from's)
+        $E = me&piEffect,j,e,1
+        
+        $trip = {}
+        $to = e
+        $tnode = me&uptonode,to,trip
+        $tpath = me&tpath,tnode
+        $tpith = me&pipath,to,trip
+        
         $froms = []
         each ie froms {
             # e may be pi inside a node,
             #  the node must still be sending it
             #  doming as usual
+        }
+        
+        if (self) {
+            Ey&R = R
+        }
+        else {
+            # other, using qualia from somewhere else
+            #  is this nodeo|da?
+            # setup forwarding address for z:
+            #  such that Eigh &Effect Test %%wobbly
+            #   does eight &Effected Test %%wobbly
+            #     based on the one that already exists
+            #    which visits eight to:
+            #    eight &Effect -eight %%ope
+            #     then &Effected -eight %%ope
+            # any of that might be doable as other
+            #   if it wasn't for me&ha,j,{Effect...
+            #  or avoidable
         }
     }
   
@@ -585,7 +636,10 @@
         # <
         # hide by default
         #  
-        
+        # -eight visiting
+        Ey&R = R
+        # consuming qualia
+        $F = me&Effected,E,{ope:0}
         
         $q = {t:'shut',s:'ʚ',act:&v{
             $style = v ? {dis:0} : {}
