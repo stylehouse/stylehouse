@@ -455,7 +455,7 @@
         #  on to, other to j (from's)
         $E = me&piEffect,j,to,1
         
-        # E/fpath/fpith/t
+        # E/fpath:node/fpith/t
         $Ef = me&fiu,E,fpath
         Efc&node && Efc&node != fnode and debugger
         Efc&node = fnode
@@ -526,6 +526,36 @@
         # gets -Effects @1 (~ nodey&efroms)
         #  on to, other to j (from's)
         $E = me&piEffect,j,e,1
+        $M = []
+        me&ioty,E .map(&Ef,{
+            $from = Efc&node
+            $fj = fromy&R
+            # we have senders with remarks
+            $fempty = 1
+            me&ioty,Ef .map(&Ep,{
+                $empty = 1
+                me&ioty,Ep .map(&Et,{
+                    # the node must still be sending it
+                    # < &zaa it when not entered yet?
+                    #   try to make all from-to wake separately?
+                    $N = me&jaa,fromy&R,{Effect:Et.t,Eto:e}
+                    if (!N.length) {
+                        # or is de-applied
+                        return me&fiu,Ep,Et,9
+                    }
+                    empty = 0
+                    M.push(...N)
+                    # < &brackstill on Ep? Ef? sortably?
+                })
+                empty and me&fiu,Ef,Ep,9
+                else { fempty = 0 }
+            })
+            fempty and me&fiu,E,Ef,9
+        })
+        
+        me&nu,'E',E
+        me&nu,'M',M
+        # <
         
         $trip = {}
         $to = e
@@ -533,12 +563,6 @@
         $tpath = me&tpath,tnode
         $tpith = me&pipath,to,trip
         
-        $froms = []
-        each ie froms {
-            # e may be pi inside a node,
-            #  the node must still be sending it
-            #  doming as usual
-        }
         
         if (self) {
             Ey&R = R
@@ -557,6 +581,8 @@
             #   if it wasn't for me&ha,j,{Effect...
             #  or avoidable
         }
+        # probably a third way,
+        #  gauging update for an &Effect
     }
   
  // -** - takes a look
@@ -599,6 +625,8 @@
             Eac(se)
         }
         
+        me&foraneight,R,s,E
+        
         # -eight display
         $br = me&pibrackology,R,E,{D}
         $ol = me&yology,br
@@ -607,7 +635,14 @@
         # < start early to take place, load D when ...
         oly&cv = 0.117
         
-        me&onaneight,R,s,E
+        # 5
+        # instead of drawing a button,
+        #me&onaneight,R,s,E
+        # we apply styles based on ...
+        #  (%ope:0 -> distributed dis:0)
+        $ys = delete Es&todo5
+        ys and ys.map(y => y (ol) )
+        
         # through -tll (thing looks like) to -act
         
         #ss&z.length > 5 and me&scroll,27
@@ -627,19 +662,57 @@
    
    // -eight e
     # $eight remembers|does hidden
+    #   makes changes in Effected %%ope otherable
+    #  settings may stick onto r%eCsc...
+    # < as &togcon layer: for hidingness, undone by ...
+    # < as A imposing A
+    me.foraneight = &acgtRsE{
+        $apply = me&eCscor,'-eight'
+        #$ol = me&yology,E
+        
+        # -eight visiting
+        Ey&R = R
+        # consuming qualia
+        # hide by default is provided by $eight
+        $F = me&Effected,E,{ope:1}
+        
+        $q = {t:'shut',s:'ʚ',act:&v{
+            $style = v ? {dis:0} : {}
+            $visit = &n{
+                $also = {}
+                # 0,1 hidden,block (assuming r%rowish)
+                !v and also.dis = isR(n) ? 1 : 2
+                apply(n,ex(also,style))
+            }
+            me&toureight,R,E,visit
+        }}
+        # instead of drawing a button,
+        #me&fliponoff,R,s,ol,q
+        
+        # we have F for &togcon,
+        #  andor &togcon for F
+        
+        # which we then apply...
+        ac(E,'todo5',&g{
+            # gs&ope as Effected
+            me&nu,"g",g
+        })
+        
+        # colour when OK
+        sy&on_ok = &{
+            # < %%Effect:check,ok
+            me&eCscor,'-eight:ok' (R,{bgh:'041'})
+            # already so
+            #G&yl:3,&{ q.set(1) }
+        }
+    }
+    # $eight remembers|does hidden
     #  settings may stick onto r%eCsc...
     # < as &togcon layer: for hidingness, undone by ...
     # < as A imposing A
     me.onaneight = &acgtRsE{
         $apply = me&eCscor,'-eight'
         $ol = me&yology,E
-        # <
-        # hide by default
-        #  
-        # -eight visiting
-        Ey&R = R
-        # consuming qualia
-        $F = me&Effected,E,{ope:0}
         
         $q = {t:'shut',s:'ʚ',act:&v{
             $style = v ? {dis:0} : {}
@@ -686,7 +759,9 @@
     me.fliponoff = &acgtRsgq{
         $apply = me&eCscor,q.t
         $on = me&casbut,g,q.t,q.s
-        ony&click = () => q.set(s.y [q.t] ? 0 : 1)
+        ony&click = &{
+            q.set(s.y [q.t] ? 0 : 1)
+        }
         q.set = &v{
             apply(on,v ? {fs:13,bri:1.4} : {})
             s.y [q.t] = v
