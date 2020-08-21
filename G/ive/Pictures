@@ -327,6 +327,7 @@
         Ey&up = s
         return E
     }
+   // Aing pi
     # for s if sc&pi=$k, or sy&$k
     # < used
     window.phisy = &sk{
@@ -346,9 +347,122 @@
     me.uptoR = &acgts{
         $z = me.cbu(s,z => zy&R)
         !z and debugger
-        return zy&R
+        return z
     }
+    # s^^^node
+    me.uptonode = &acgtsc{
+        c ||= {}
+        c.non ||= []
+        $z = me.cbu(s,&z{
+            # < demand zy&path, yet we want $seven which isn't a node
+            zy&path && zy&R && zy&R.c.s == z and return 1
+            c.non.unshift(z)
+        })
+        !z and debugger
+        c.path = zy&path.slice()
+        return z
+    }
+    # c.non[pi+] path, off the end of c.path[node+]
+    me.pipath = &acgtsc{
+        c ||= {}
+        !c.non and me&uptonode,s,c
+        $s = c.path.slice(-1)[0]
+        return c.non.map(z => me&pitorpi,s,z ).join('/')
+    }
+    # says t+pi compressily
+    #  pi sometimes have another t, usu same as last node
+    me.pitorpi = &acgtsz{
+        !sc&pi and debugger
+        return (z.t != s.t ? z.t : "")
+            + "-"+sc&pi
+    }
+ // &Effect
+ =todo
+  shrink minor eights, with &togcon,
+   $eight wants to use -eight to avoid -eight:
+    E:acheck: L%checking and !%%Checkable
+    E:Ignored for %%Ignor*
+    E:shy until interesting:
+     the $Test becomes interactive
+      an e:click in any Dome should be noticed
+     or wobbly - Failing
+     or wandering off the end
+     maybe until it becomes %%Checkable
+      for maximum time to incubate style
+    so
+     a receptive Plot mode for going weird
+     could be another system of:
+   &Effect the acheck|Ignored|shy etc to -eight
+   they resolve otherably to a -eight%ope default
+    then &togcon takes precedence if !null,
+     deciding -eight%ope, through the same process
+    so
+     %ope=0 hides stuff
+      noDisplay or eCsc dis:0 $seven+$four/Kn
+     %ope=1 shows stuff
+      may need to visit $eight to Display $seven
+      can occur by E:Failing $Test
+       then E:shy $eight diminish (enlightening)
+   to just -four %%step when shut
    
+   &Effect,from,to,t,c
+     e gets an -Effects @1
+      z+c put into it, like nodey&efroms
+       including distance to node from pi
+     to has a timeframe to compute -Effects @6
+      %%waits for it unless node is this-timed
+       and not yet &Effected
+   
+   &Effected,to,c
+     -eight wants state of %ope, etc
+     $Test wants state of %wobbly,
+      which relays to senders of %ope, who use it
+      any $eight that we havent passed,
+       ie domes that contain the errors
+ =cut
+    # nearly an %%eto, maybe its own &either_
+    # from: takes state to where it matters
+    me.Effect = &acgtsetcq{
+        !isst(t) || !c and throw "give from,to,t,c"
+        # from as self: Ringing and awake
+        $j = Cy&R
+        $z = jc&s
+        z != s and throw "from!Ringing"
+        # from a node (< pi)
+        $from = s
+        !sy&path and throw "from!node"
+        $fnode = s
+        $fpath = me&tpath,fnode
+        $fpith = ''
+        # to a node, and any pi beyond it
+        $to = e
+        $trip = {}
+        $tnode = me&uptonode,to,trip
+        $tpath = me&tpath,tnode
+        $tpith = me&pipath,to,trip
+        
+        # to gets an -Effects @1 (~ nodey&efroms)
+        $E = me&piEffect,j,to
+        
+        
+        
+        #  compute, diff -> wake e
+        #   unless it's otherable (%ope=0 -> dis:0)
+    }
+    # at both ends of the deal
+    me.piEffect = &acgtRs{
+        
+    }
+    # to: user wants qualia computed
+    me.Effected = &acgtet{
+        $froms = []
+        each ie froms {
+            # e may be pi inside a node,
+            #  the node must still be sending it
+            #  doming as usual
+        }
+    }
+  
  // -** - takes a look
    // -eight
     # < drop -seven c.t=i, se.t can be set
@@ -490,6 +604,7 @@
         me.nto(R,n,&sTe{
             me&yyt,n,'click',g,n
             # click not wakey
+            # < unless un-noDisplay
             T.wake = 'not'
         })
         return n
@@ -631,7 +746,7 @@
         return se
     }
   
-  // -piling Yc&M[$pi+] to complete
+  // -vat, -piling Yc&M[$pi+] to complete
     # draws drawings together as plans to complete them
     # find all -pi for s, generating a poc&M to be Yc&M
     me.piling = &acgtRsc{
@@ -649,7 +764,7 @@
     }
     me.dopi = &acgtDdCc{
         # C is readonly -seven/**
-        #   except for expanding arrays
+        #   ro except for expanding arrays
         #  s is the thing itself
         # D is its representation
         $s = c&s
