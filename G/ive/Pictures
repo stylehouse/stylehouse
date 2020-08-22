@@ -4,6 +4,17 @@
         s&mh = s;
         s&over = 1
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     # in-modulat &nu
     me.mnu = &acgtgts{
         $nu = me&nu,t,s;
@@ -285,7 +296,6 @@
     # with q, c may be (already)? departmentalised
     # s.label = "st", c.label = {...} is fatal
     #  in reverse however, s will .label:{...,s:"st"}
-    #   given q.label:"s"
     # c="st" or c=K/"st" may -> s=K/"s":"st"
     #  if q.es[K] (not peeled?)
     # eg la:{ya:2} + la:three -> la:{ya:2,s:three} (K="la")
@@ -328,7 +338,7 @@
         Ey&up = s
         return E
     }
-   // Aing pi
+   // climb pi
     # for s if sc&pi=$k, or sy&$k
     # < used
     window.phisy = &sk{
@@ -379,8 +389,8 @@
             + "-"+sc&pi
     }
  // &Effect
- =todo
-  shrink minor eights, with &togcon,
+  =todo
+   shrink minor eights, with &togcon,
    $eight wants to use -eight to avoid -eight:
     E:acheck: L%checking and !%%Checkable
     E:Ignored for %%Ignor*
@@ -433,7 +443,7 @@
        and how they set up their &Effected endpoint
        eg %wobbly only affects $eight we havent passed,
         ie domes that contain the errors
- =cut
+  =cut
     # nearly an %%eto, maybe its own &either_
     # from: takes state to where it matters
     me.Effect = &acgtsetcq{
@@ -451,18 +461,12 @@
         
         # to a node, or any pi beyond it
         $to = e
-        # gets -Effects @1 (~ nodey&efroms)
+        # gets -Effects @1 (~ toy&efroms)
         #  on to, other to j (from's)
         $E = me&piEffect,j,to,1
         
-        # E/fpath:node/fpith/t
-        $Ef = me&fiu,E,fpath
-        Efc&node && Efc&node != fnode and debugger
-        Efc&node = fnode
-        # < from pi, would put onto:
-        $Ep = me&fiu,Ef,fpith
-        # remark, eg 'acheck'
-        $Et = me&fiu,Ep,t
+        # i E/fpath:node/fpith/t
+        me&Effect_i,E,fpath,fnode,fpith,t
         
         # c qualia mix in, shade eg q.dome
         me&ha,j,{Effect:t,Eto:to},c,q
@@ -470,6 +474,7 @@
         # < compute now if already &Effected
         #    diff -> wake e
         #     unless it's otherable (%ope=0 -> dis:0)
+        'ya'
     }
     # at both ends of the deal
     me.piEffect = &acgtRsc{
@@ -481,17 +486,64 @@
         $re = me&pisurrect,R,s,trip
         
         # so we can reuse it
+        # < el:4 defies el:2 above to be el:3?
+        #   then &Api could handle the -surrect
         c.el ||= 3
         $E = me&Api,s,'Effect',c
         re(E)
         Ec&tpith = trip.tpith
         
         c.ov <= 0.1 and return E
+     }
+     # E/fpath:node/fpith/t
+     me.Effect_i = &acgtE,fpath,fnode,fpith,t{
+        $Ef = me&fiu,E,fpath
+        Efc&node && Efc&node != fnode and debugger
+        Efc&node = fnode
+        # < from pi, would put onto:
+        $Ep = me&fiu,Ef,fpith
+        # remark, eg 'acheck'
+        $Et = me&fiu,Ep,t
+        return Et
+     }
+     # %Effect:$t,... rows from the above
+     me.Effect_o = &acgtE{
+        # the -eight
+        $e = Ey&up
+        $M = []
+        me&ioty,E .map(&Ef,{
+            $from = Efc&node
+            $fj = fromy&R
+            # we have senders with remarks
+            $fempty = 1
+            me&ioty,Ef .map(&Ep,{
+                $empty = 1
+                me&ioty,Ep .map(&Et,{
+                    # the node must still be sending it
+                    # < &zaa it when not entered yet?
+                    #   try to make all from-to wake separately?
+                    $N = me&jaa,fromy&R,{Effect:Et.t,Eto:e}
+                    if (!N.length) {
+                        # or is de-applied
+                        return me&fiu,Ep,Et,9
+                    }
+                    empty = 0
+                    M.push(...N)
+                    # < &brackstill on Ep? Ef? sortably?
+                })
+                empty and me&fiu,Ef,Ep,9
+                else { fempty = 0 }
+            })
+            fempty and me&fiu,E,Ef,9
+        })
+        return M
     }
+    
     # s:node(...):z remembers zy&$pi = b
     #  to b el:3 inside a z el:2
     me.pisurrect = &acgtRzc{
         isst(c) and c = {t:c}
+        # < pi we are about to make is called c.thispi
         !c.t and throw "b!path"
         c ||= {}
         
@@ -523,35 +575,10 @@
         $R = ey&R
         !R and throw "to!node"
         $self = R == j
-        # gets -Effects @1 (~ nodey&efroms)
-        #  on to, other to j (from's)
+        # gets -Effects @1 (~ toy&efroms)
+        #  on to, self to j (unless other)
         $E = me&piEffect,j,e,1
-        $M = []
-        me&ioty,E .map(&Ef,{
-            $from = Efc&node
-            $fj = fromy&R
-            # we have senders with remarks
-            $fempty = 1
-            me&ioty,Ef .map(&Ep,{
-                $empty = 1
-                me&ioty,Ep .map(&Et,{
-                    # the node must still be sending it
-                    # < &zaa it when not entered yet?
-                    #   try to make all from-to wake separately?
-                    $N = me&jaa,fromy&R,{Effect:Et.t,Eto:e}
-                    if (!N.length) {
-                        # or is de-applied
-                        return me&fiu,Ep,Et,9
-                    }
-                    empty = 0
-                    M.push(...N)
-                    # < &brackstill on Ep? Ef? sortably?
-                })
-                empty and me&fiu,Ef,Ep,9
-                else { fempty = 0 }
-            })
-            fempty and me&fiu,E,Ef,9
-        })
+        $M = me&Effect_o,E
         
         me&nu,'E',E
         me&nu,'M',M
@@ -628,7 +655,8 @@
         me&foraneight,R,s,E
         
         # -eight display
-        $br = me&pibrackology,R,E,{D}
+        $brackc = delete Ec&brackology
+        $br = me&pibrackology,R,E,ex({D},brackc||{})
         $ol = me&yology,br
         ols&pa = 0.2
         # sorts before four
@@ -637,7 +665,7 @@
         
         # 5
         # instead of drawing a button,
-        #me&onaneight,R,s,E
+        me&onaneight,R,s,E
         # we apply styles based on ...
         #  (%ope:0 -> distributed dis:0)
         $ys = delete Es&todo5
@@ -647,14 +675,10 @@
         
         #ss&z.length > 5 and me&scroll,27
         
-        # only -four yet, to help -eight sublate
+        # < only -four yet, to help -eight sublate
         c.ov < 0.6 and return
         # 6
-        $d = {
-            compLines:&DdC{
-                me&dopi,D,d,C,c
-            },
-        }
+        $d = {compLines: &DdC{ me&dopi,D,d,C,c }}
         # < the Lineso top D on ss&string.D
         #   showing the string with chunks inteligised
         me&Linets,s,E,d
@@ -672,6 +696,17 @@
         
         # -eight visiting
         Ey&R = R
+        # goes into c for -brackology/-ology
+        # < want an ah() that doesn't require .sc...
+        $c = Ec&brackology ||= {}
+        c = c.ology ||= {}
+        c = c.togcon ||= {}
+        c.for ||= {}
+        # pops up in togcon_solve, for $ok=itself
+        c.for.itself = &q{
+            me&nu,"Letsitself",q
+        }
+        
         # consuming qualia
         # hide by default is provided by $eight
         $F = me&Effected,E,{ope:1}
@@ -756,6 +791,7 @@
             }
         })
     }
+   // eflips
     me.fliponoff = &acgtRsgq{
         $apply = me&eCscor,q.t
         $on = me&casbut,g,q.t,q.s
@@ -1028,7 +1064,7 @@
         !D and throw "!D"
         # g-ology provides bry&M() which iterates g/Km,
         #  which we create after -group**
-        $g = me&piology,R,br,{D}
+        $g = me&piology,R,br,ex({D},c.ology||{})
         # Ds&X should be up to date, eg &bracki
         #  or not yet created, eg -gate el:2 D (has )
         #   < it could allkv slep before reindexing it
@@ -1289,7 +1325,7 @@
         # is appearable thing
         c.appears and ac(R,'M',g)
         # $g is a $pt
-        me&togcon,R,g
+        me&togcon,R,g,c.togcon
         # and has a label, etc
         me&ologise,R,g,c
         # br has things from g,
