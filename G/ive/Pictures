@@ -389,12 +389,12 @@
             + "-"+sc&pi
     }
  // &Effect
-  =todo
+  =Effect
    shrink minor eights, with &togcon,
    $eight wants to use -eight to avoid -eight:
-    E:acheck: L%checking and !%%Checkable
+    < E:acheck: L%checking and !%%Checkable
     E:Ignored for %%Ignor*
-    E:shy until interesting:
+    < E:shy until interesting:
      the $Test becomes interactive
       an e:click in any Dome should be noticed
      or wobbly - Failing
@@ -405,30 +405,39 @@
      a receptive Plot mode for going weird
      could be another system of:
    &Effect the acheck|Ignored|shy etc to -eight
-   they resolve otherably to a -eight%ope default
-    then &togcon takes precedence if !null,
+   they resolve over the -eight%ope default
+    and &togcon takes precedence if !null,
      deciding -eight%ope, through the same process
     so
      %ope=0 hides stuff
-      noDisplay or eCsc dis:0 $seven+$four/Kn
+      eCsc dis:0 $seven+$four/Kn
+       < noDisplay $seven
      %ope=1 shows stuff
-      may need to visit $eight to Display $seven
-      can occur by E:Failing $Test
+      < may need to visit $eight to Display $seven
+      < can occur by E:Failing $Test
        then E:shy $eight diminish (enlightening)
-   to just -four %%step when shut
+        we can adjust the %Effect...$qua without selfing?
+         if permitted (self not using it somehow)
+         since the brackindexing only knows having $qua?
+   
+   < those E:* &Effect-ings
+   < -four %%step when shut?
+   < -four clicking open, separating from -eight &Effected-ness
+   < see 'otherable outcome',
+     know when to visit $eight
    
    &Effect,from,to,t,c
      e gets an -Effects @1
       z+c put into it, like nodey&efroms
        including distance to node from pi
-     to has a timeframe to compute -Effects @6
+     < to has a timeframe to compute -Effects @6
       %%waits for it unless node is this-timed
-       and not yet &Effected
+       and not yet &Effected + able to have an 'otherable outcome'
    
    &Effected,to,c
     self
      -eight wants state of %ope, etc
-    other
+    < other
      $Test has state of %wobbly,
        from $Eigh or whatever notices etc
       but isnt &Effected by it,
@@ -436,13 +445,15 @@
       is, using it to &Effect more %ope (E:shy)
        ie it relays there when changed, etc
         as if $Test &Effect $eight,
-    so,
+    < so,
      how to get it to those self/others that are &Effected
-     it relays to senders of %ope, who use it
+     it relays %wobbly to senders of %ope, who use it
       depending on how it changes,
        and how they set up their &Effected endpoint
        eg %wobbly only affects $eight we havent passed,
         ie domes that contain the errors
+       yet, that seems like leaking the time domain from Plot
+      so maybe %wobbly is given directly to the $eight involved...
   =cut
     # nearly an %%eto, maybe its own &either_
     # from: takes state to where it matters
@@ -580,22 +591,30 @@
         $E = me&piEffect,j,e,1
         $M = me&Effect_o,E
         
+        $Ms = M.map(m => m.sc)
         me&nu,'E',E
-        me&nu,'M',M
-        # <
+        me&nu,'Ms',Ms
+        c = peel(c)
+        # qua:lav overall
+        $qua = haks(c)[0]
+        $mode = qua == 'ope' && 'num'
+        !mode and throw "mode qua:"+qua
+        $lav = me.Effectsum[mode](A,C,G,T,qua,M)
         
-        $trip = {}
-        $to = e
-        $tnode = me&uptonode,to,trip
-        $tpath = me&tpath,tnode
-        $tpith = me&pipath,to,trip
+        # <
         
         
         if (self) {
+            # -Effect visiting
             Ey&R = R
         }
         else {
-            # other, using qualia from somewhere else
+            $trip = {}
+            $to = e
+            $tnode = me&uptonode,to,trip
+            $tpath = me&tpath,tnode
+            $tpith = me&pipath,to,trip
+            # other, using qualia from this somewhere else
             #  is this nodeo|da?
             # setup forwarding address for z:
             #  such that Eigh &Effect Test %%wobbly
@@ -610,9 +629,36 @@
         }
         # probably a third way,
         #  gauging update for an &Effect
+        
+        return lav
+    }
+    me.Effectsum ||= {}
+    me.Effectsum.num = &acgt,qua,M{
+        $lav = null
+        $votes = {}
+        each in M {
+            $v = n.sc[qua]
+            v == null and continue
+            $N = votes[v] ||= []
+            N.push(n)
+            ns&dom and lav = v
+        }
+        if (lav == null) {
+            # if no %%dom-inant state (&togcon adjustment)
+            $lalength = 0
+            each vN votes {
+                # favour more votes
+                N.length < lalength and continue
+                # or more positive votes
+                N.length == lalength && v < lav and continue
+                lav = v
+                lavlength = N.length
+            }
+        }
+        return lav * 1
     }
   
- // -** - takes a look
+ // -eight** - takes a look
    // -eight
     # < drop -seven c.t=i, se.t can be set
     # < num() -> isnu(), for new:
@@ -652,7 +698,8 @@
             Eac(se)
         }
         
-        me&foraneight,R,s,E
+        $OLD = s.t != 'le-5'
+        !OLD and me&foraneight,R,s,E
         
         # -eight display
         $brackc = delete Ec&brackology
@@ -662,18 +709,16 @@
         # sorts before four
         # < start early to take place, load D when ...
         oly&cv = 0.117
+        # < through -tll (thing looks like) to -act
+        #ss&z.length > 5 and me&scroll,27
         
         # 5
         # instead of drawing a button,
-        me&onaneight,R,s,E
+        OLD and me&onaneight,R,s,E
         # we apply styles based on ...
         #  (%ope:0 -> distributed dis:0)
         $ys = delete Es&todo5
         ys and ys.map(y => y (ol) )
-        
-        # through -tll (thing looks like) to -act
-        
-        #ss&z.length > 5 and me&scroll,27
         
         # < only -four yet, to help -eight sublate
         c.ov < 0.6 and return
@@ -696,6 +741,10 @@
         
         # -eight visiting
         Ey&R = R
+        
+        # the thing... can apply before (to %eCsc for Display)
+        # < after is complicated, as it ~ -brackology%ope
+        
         # goes into c for -brackology/-ology
         # < want an ah() that doesn't require .sc...
         $c = Ec&brackology ||= {}
@@ -704,14 +753,27 @@
         c.for ||= {}
         # pops up in togcon_solve, for $ok=itself
         c.for.itself = &q{
+            if (q.is != null) {
+                # what &togcon has found takes precedence
+                me&Effect,Rc&s,E,'togcon',{ope:q.is,dom:1}
+            }
+            # consuming qualia
+            # hide by default is provided by $eight
+            $lav = me&Effected,E,{ope:1}
+            lav == null and return
+            # < otherable outcome:
+            #  becoming %ope unto the label and its thing (g%ope)
+            #   affects the style on the label
+            #   and potentially Km%ope (innards)
+            #    which may be able to Display & hide,
+            #     or be tunneled in (to modulat?) to appear
+            q.is = q.Effected = lav
             me&nu,"Letsitself",q
         }
         
-        # consuming qualia
-        # hide by default is provided by $eight
-        $F = me&Effected,E,{ope:1}
-        
-        $q = {t:'shut',s:'ʚ',act:&v{
+        # < iconify this effect, next to the shrunken eight label
+        #   and know how to open without selfing, see 'otherable outcome'
+        $ef = {t:'shut',s:'ʚ',act:&v{
             $style = v ? {dis:0} : {}
             $visit = &n{
                 $also = {}
@@ -730,6 +792,10 @@
         # which we then apply...
         ac(E,'todo5',&g{
             # gs&ope as Effected
+            # default 1, -1..2 or so...
+            # <= 0 meaning hidden
+            $shut = gs&ope <= 0 ? 1 : 0
+            ef.act(shut)
             me&nu,"g",g
         })
         
@@ -741,7 +807,7 @@
             #G&yl:3,&{ q.set(1) }
         }
     }
-    # $eight remembers|does hidden
+    # OLD $eight remembers|does hidden
     #  settings may stick onto r%eCsc...
     # < as &togcon layer: for hidingness, undone by ...
     # < as A imposing A
