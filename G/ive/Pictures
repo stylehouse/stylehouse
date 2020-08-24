@@ -482,6 +482,14 @@
         # c qualia mix in, shade eg q.dome
         me&ha,j,{Effect:t,Eto:to},c,q
         
+        $toR = me&uptoR,to
+        # the Effected R is waking, hasn't yet &Effected:
+        jc&N.includes(toR) && !(Ey&R && jc&N.includes(Ey&R)) and 'ok'
+        else {
+            # < not noising the brack here (direct to R:Ying)
+            # < waits_8 noticing if it did wake (just not yet)
+            me&wants,j,'Effect',toRc&s
+        }
         # < compute now if already &Effected
         #    diff -> wake e
         #     unless it's otherable (%ope=0 -> dis:0)
@@ -560,6 +568,7 @@
     }
     # &zaa it when it might not be entered yet
     #  or when j%sleeping
+    # < perhaps &sa means &ja even if sleeping?
     # < try to make all from-to wake separately?
     #   Ring und Story/* sequentially?
     #  or the more complex:
@@ -569,8 +578,7 @@
     me.jaaz = &acgtjq{
         $R = Cy&R
         $N = me&jaa,j,q
-        # < perhaps &sa means &ja even if sleeping?
-        !N.length && !Rc&N.includes(j) && !js&sleeping and return N
+        N.length || !Rc&N.includes(j) && !js&sleeping and return N
         $N = me&zaa,j,q
         return N
     }
@@ -616,6 +624,7 @@
         $E = me&piEffect,j,e
         $M = me&Effect_o,E
         
+        self and Ey&R = R
         !M.length and return
         
         c = peel(c)
@@ -635,7 +644,6 @@
         
         if (self) {
             # -Effect visiting
-            Ey&R = R
         }
         else {
             $trip = {}
