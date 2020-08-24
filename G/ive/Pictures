@@ -474,7 +474,7 @@
         $to = e
         # gets -Effects @1 (~ toy&efroms)
         #  on to, other to j (from's)
-        $E = me&piEffect,j,to,1
+        $E = me&piEffect,j,to
         
         # i E/fpath:node/fpith/t
         me&Effect_i,E,fpath,fnode,fpith,t
@@ -489,8 +489,7 @@
     }
     # at both ends of the deal
     me.piEffect = &acgtRsc{
-        num(c) and c = {ov:scaf(c)}
-        c.ov ||= 0.9
+        c ||= {}
         
         # E rolls from under the previous s-eight
         $trip = {t:'Effect'}
@@ -504,7 +503,7 @@
         re(E)
         Ec&tpith = trip.tpith
         
-        c.ov <= 0.1 and return E
+        return E
      }
      # E/fpath:node/fpith/t
      me.Effect_i = &acgtE,fpath,fnode,fpith,t{
@@ -559,17 +558,19 @@
         })
         return M
     }
-    # &zaa it when it might not be entered yet?
+    # &zaa it when it might not be entered yet
+    #  or when j%sleeping
     # < try to make all from-to wake separately?
     #   Ring und Story/* sequentially?
     #  or the more complex:
-    # < give the from (j) a Dome_7 check (when &ja appears in &sa)
+    # < give the from (j) a Dome_7 check (when &ja appears as &sa)
     #   to re-&Effect send if these rows did change
     #    (besides %%Eto:-eight)
     me.jaaz = &acgtjq{
         $R = Cy&R
         $N = me&jaa,j,q
-        !N.length && !Rc&N.includes(j) and return N
+        # < perhaps &sa means &ja even if sleeping?
+        !N.length && !Rc&N.includes(j) && !js&sleeping and return N
         $N = me&zaa,j,q
         return N
     }
@@ -612,7 +613,7 @@
         $self = R == j
         # gets -Effects @1 (~ toy&efroms)
         #  on to, self to j (unless other)
-        $E = me&piEffect,j,e,1
+        $E = me&piEffect,j,e
         $M = me&Effect_o,E
         
         !M.length and return
