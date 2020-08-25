@@ -623,7 +623,7 @@ me.Sch_Travel = &acgt{ return [
             
             $ch = Ls&checking
             ch && !chs&ok and return me&tsc,"Fuguing",0,'g'
-            if (Ls&checking && !Ls&checker) {
+            if (Ls&checking && !Ls&checked) {
                 !Ls&resumed and me&waits,'acheck'
                 # becomes L%ok:
                 Ls&resumed = 'acheck'
@@ -878,6 +878,8 @@ me.Sch_Travel = &acgt{ return [
                 $Tra = xs&Travel
                 $Eas = me&fiu,Tra,testcase,7
                 me&nodei,R,Eas,'Go',{dome:'forGoing'}
+            },then:&LR{
+                con("Wander",{Pages:99,trail:3})
             }}],
         ]
         #N = [N[0]]
@@ -887,6 +889,7 @@ me.Sch_Travel = &acgt{ return [
             !n and return delete Ploty&Point
             # eg starts in Page=2, so for 1,2:
             n[3] = q
+            # t c sc q
             $L = con(...n)
             $able = Lc&able
             $checks = defor(Lc&check,1)
@@ -923,11 +926,13 @@ me.Sch_Travel = &acgt{ return [
                     oLc&nextc and ex(q,oLc&nextc)
                     consum(q)
                     me&wants,R,'Lup',Plot
+                    
                     then and then(L,R)
                 }
                 This = me&yfuture,This
                 $la = me&ioty,This,'Yingates' .slice(-1)[0]
                 # previous L wants that small page ignored
+                #  we may be L%checking by now (&then may be moved)
                 $Ignorable = 'pagebetween'
                 me&nodei,R,la,{Ignorable},{dome:Ignorable}
             }
@@ -937,6 +942,21 @@ me.Sch_Travel = &acgt{ return [
         #
         consum()
     }
+    # R%Point is the last of something,
+    # < trace back to -Will
+    me.Point_alldone = &acgtRL{
+        $x = me&Jx,R
+        $Plot = xs&Plot
+        $This = xc&This
+        Plots&alldone = 1
+        me&wants,R,"alldone",Plot
+        me&log,R,'allDone'
+        me&nodei,R,ss&Nine,'alldone',{dome:'forever'}
+        delete Ploty&Point
+        Thiss&pause = 1
+    }
+    
+    
  // Plot about Pages
     # This: Ploty&Pageturnable, etc
     me.Plot_Pageness = &acgtRs{
@@ -1046,9 +1066,9 @@ me.Sch_Travel = &acgt{ return [
             # for another L
             $oL = Ls&checking
             if (oL) {
-                oLs&checker && oLs&checker != L and debugger
+                oLs&checked && oLs&checked != L and debugger
                 !Plots&z.includes(oL) and debugger
-                oLs&checker = L
+                oLs&checked = L
             }
             
             # silently become Ploty&Point
@@ -1093,7 +1113,7 @@ me.Sch_Travel = &acgt{ return [
     me.Point_ology = &acgtRL{
         # sublate some R/%fix
         Rs&nofixfor = peel('Page_in,Page_out,Dome,Nine,ok,'
-            +'checking,checker,resumed')
+            +'checking,checked,resumed')
         Lc&pi == 'Point' and Rs&nofixfor.pi = 1
         Rs&goPoint and delete Rs&nofixfor
         
@@ -1175,7 +1195,7 @@ me.Sch_Travel = &acgt{ return [
                 $say = Lc&then ? "..." : "!"
                 me&log,R,"L-ok"+say,{L}
                 
-                $ch = Ls&checker
+                $ch = Ls&checked
                 # unblocks Point@38: %%Checkable L%checking
                 ch and me&wants,R,'L-checked',Plot
                 
@@ -1185,16 +1205,17 @@ me.Sch_Travel = &acgt{ return [
                 else
                 oL and "more coming"
                 else {
-                    Plots&alldone = 1
-                    me&wants,R,"alldone",Plot
-                    me&log,R,'allDone'
-                    #me&nodei,R,Plot,'alldone',{dome:'forever'}
-                    delete Ploty&Point
-                    Thiss&pause = 1
+                    # Point: last one OK
+                    # simply run out of &then
+                    # is one way to end, or usually:
+                    #  avoided by being %acheck, not made ok itself
+                    #   oL&then will call L&then,
+                    # and onward somehow, depends
+                    me&Point_alldone,R,L
                 }
             }
             elsif (!Ls&ok) {
-                # L%checker%Fugued
+                # oL%checked%Fugued
                 # L%checking%Fuguing - ignored (even !%Fuguing?)
                 #     -Fugue%Fugue   - not usually there
                 
@@ -1203,7 +1224,7 @@ me.Sch_Travel = &acgt{ return [
                 Ls&Fuguing and debugger
                 # throw merging test resumer
                 if (!Ls&Fugued && !Ls&checking) {
-                    $ch = Ls&checker
+                    $ch = Ls&checked
                     ch and chs&Fuguing = 1
                     $Lo =
                     Ls&Fugued = Ls&resumer =
