@@ -2632,11 +2632,6 @@ me.Display = &acgtrc{
         };
         # R or modulat have y&Display
         sy&Display = R
-        # put from others that may not be awake
-        each th ss&eCsc {
-            t.endsWith('_origin') and continue
-            ex(C.sc,h)
-        }
         if (!Rs&modulat) {
             # must be from the A (R) doing Display
             rollsc('nofurtherDisplay');
@@ -2741,15 +2736,19 @@ me.Display = &acgtrc{
     # < stretch/shrink into a bunch of grapes, like W:Das
     # > runs out of width!
     each in dc&N {
-        ns&modulat and continue
+        $s = nc&s
+        $C = ns&C || s
         
-        $s = nc&s;
-        $C = ns&C || s;
+        if (ss&rowish && !ss&zuctedto && !ns&modulat) {
+            s&dis = 1
+            nc&d && s&pl == null and s&pl = 1
+        }
         
-        !ss&rowish and continue
-        ss&zuctedto and continue
-        s&dis = 1;
-        nc&d && s&pl == null and s&pl = 1
+        # put from others that may not be awake
+        each th ss&eCsc {
+            t.endsWith('_origin') and continue
+            ex(C.sc,h)
+        }
     }
     me&Cavon,d;
     # Display joins to another Displaying thing,
