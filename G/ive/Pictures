@@ -573,14 +573,23 @@
     # < try to make all from-to wake separately?
     #   Ring und Story/* sequentially?
     #  or the more complex:
-    # < give the from (j) a Dome_7 check (when &ja appears as &sa)
-    #   to re-&Effect send if these rows did change
+    # < Dome_7 check from (j)
+    #    it may still wake up or alter (noiseloop)
+    #   to re-&Effected wake if ~
     #    (besides %%Eto:-eight)
     me.jaaz = &acgtjq{
         $R = Cy&R
         $N = me&jaa,j,q
-        N.length || !Rc&N.includes(j) && !js&sleeping and return N
+        # reasons to trust this R's brackstate:
+        # something
+        N.length and return N
+        # nothing from yourself
+        R == j and return N
+        # nothing, not happening (in R-time, see 'may still wake up')
+        !Rc&N.includes(j) && !js&sleeping and return N
+        # use the commit brack
         $N = me&zaa,j,q
+        # there's a chance we dont wake up to notice a vanish
         return N
     }
     
