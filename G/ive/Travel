@@ -445,6 +445,18 @@ me.Sch_Travel = &acgt{ return [
     #   then unset after a while?
     #   it is &t wanting to know where $Q is
     #    in frozen time, in the case of This/*
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     ['Teoptic',0.88,&acgtRs{
         me&reaw,R,'Teoptic'
         !Rs&sleeping and me&nu,"Te",Rs&Te
@@ -821,62 +833,7 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
  
  &{
- // Plot about Pages
-    # This: Ploty&Pageturnable, etc
-    me.Plot_Pageness = &acgtRs{
-        $x = me&Jx,R
-        $This = xs&This
-        # sense wanting quiet,wake
-        # < to asap an L finishing
-        sy&Pageturnable = &acgtr{
-            #  may be Ying     ^
-            $r = Thisy&R
-            rs&pause and return 0
-            $L = sy&Point
-            # before Page++
-            $i = ss&Page + 1
-            $is = L && i && Lc&Page_out < i
-            !is and return 0
-            if (Ly&R && me&ja,Ly&R,'Checkable,L' ) {
-                ~>5 still Pageturnable: L.t, Lc&Page_out, '<', i
-                return 0
-            }
-            me&log,r,'Pageturnable',{Page:ss&Page,next:i,L,Page_out:Lc&Page_out}
-            ~>5 is Pageturnable: L.t, Lc&Page_out, '<', i
-            return 1
-        }
-        # title the next page
-        # < name after Lf
-        sy&Pageturning = &acgtrD{
-            $i = Ds&z.length
-            ss&Page ||= i
-            ss&Page != i and ss&wanderi = 'Page!=Stream'
-            return "le-"+(++ss&Page)
-        }
-        # r:This has turned page from D:Stream/-2 to -1
-        sy&Pageturn = &acgtrD{
-            rc&s != xs&This and debugger
-            me&Plot_Pageturn,R,s,r,D
-        }
-    }
-    # This othering a Page++ (async)
-    me.Plot_Pageturn = &acgtRsrD{
-        $Plot = R
-        $L = sy&Point
-        # has incremented:
-        $i = ss&Page
-        me&log,r,'Pageturn',{i,L}
-        if (!L) {
-            # no Point until Story** on this page
-            i != 2 && i < 6 and debugger
-            return
-        }
-
-        # spring act, may &iPoint
-        Ly&atPage and Ly&atPage(r,i); delete Ly&atPage
-        
-        me&Plot_Pageturn_Checkable,R,s,r,D
-    }
+ // Plot Point
     # init something to do
     me.Plot_Default = &acgtRs{
         # < based on Stori/* rhythms
@@ -923,7 +880,7 @@ me.Sch_Travel = &acgt{ return [
                 me&nodei,R,Eas,'Go',{dome:'forGoing'}
             }}],
         ]
-        N = [N[0]]
+        #N = [N[0]]
         $i = 0
         $consum = &q{
             $n = N[i]
@@ -979,6 +936,62 @@ me.Sch_Travel = &acgt{ return [
         }
         #
         consum()
+    }
+ // Plot about Pages
+    # This: Ploty&Pageturnable, etc
+    me.Plot_Pageness = &acgtRs{
+        $x = me&Jx,R
+        $This = xs&This
+        # sense wanting quiet,wake
+        # < to asap an L finishing
+        sy&Pageturnable = &acgtr{
+            #  may be Ying     ^
+            $r = Thisy&R
+            rs&pause and return 0
+            $L = sy&Point
+            # before Page++
+            $i = ss&Page + 1
+            $is = L && i && Lc&Page_out < i
+            !is and return 0
+            if (Ly&R && me&ja,Ly&R,'Checkable,L' ) {
+                ~>5 still Pageturnable: L.t, Lc&Page_out, '<', i
+                return 0
+            }
+            me&log,r,'Pageturnable',{Page:ss&Page,next:i,L,Page_out:Lc&Page_out}
+            ~>5 is Pageturnable: L.t, Lc&Page_out, '<', i
+            return 1
+        }
+        # title the next page
+        # < name after Lf
+        sy&Pageturning = &acgtrD{
+            $i = Ds&z.length
+            ss&Page ||= i
+            ss&Page != i and ss&wanderi = 'Page!=Stream'
+            return "le-"+(++ss&Page)
+        }
+        # r:This has turned page from D:Stream/-2 to -1
+        sy&Pageturn = &acgtrD{
+            rc&s != xs&This and debugger
+            me&Plot_Pageturn,R,s,r,D
+        }
+    }
+    # This othering a Page++ (async)
+    me.Plot_Pageturn = &acgtRsrD{
+        $Plot = R
+        $L = sy&Point
+        # has incremented:
+        $i = ss&Page
+        me&log,r,'Pageturn',{i,L}
+        if (!L) {
+            # no Point until Story** on this page
+            i != 2 && i < 6 and debugger
+            return
+        }
+
+        # spring act, may &iPoint
+        Ly&atPage and Ly&atPage(r,i); delete Ly&atPage
+        
+        me&Plot_Pageturn_Checkable,R,s,r,D
     }
  
  // Point

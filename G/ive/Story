@@ -513,7 +513,6 @@ me.Sch_Story = &acgt{ return [
         if (me&ja,R,'ok' ) {
             s&bgh = '041'
             # &Effect needs to be permanent (or %%dome)
-            #s.t == 'beginning' and debugger
             me&Effect,s,zy&eight,'check',{ok:1,ope:0}
             if (!me&za,R,'ok' ) {
                 me&yyt,z,'on_ok',R,s
@@ -720,26 +719,19 @@ me.Sch_Story = &acgt{ return [
         me&inode,R
         $x = me&Jx,R
         Rs&rowish = 1
-        # * become %Yingate!%ball
+        # R/* become %Yingate!%ball
         Rs&noRsync = 1
         
         $E = Rs&eight = me&pieight,R,s,1
-        
         $L = sy&Point
-        if (L) {
-            me&tsc,"L.t",L.t,"y"
-        }
+        
         if (Rs&wakeful) {
-            me&tsc,"wakeful"
-        }
-        elsif (L && Ls&checking && !me&ja,R,'Checkable,L') {
-            # L%checking do no -eight until %%Checkable
-            #  may be avoided, esp if %Fuguing
-            me&Effect,s,E,'acheck','ope:0'
-            me&tsc,"acheck",0,'g'
-            !x.ro('acheck',{}) and return 
+            # no -eight, yes -seven
+            # < or -eight without &enL?
+            me&tsc,"wakeful",0,'g'
         }
         else {
+            # complete -eight
             Rs&Fin = 1
         }
         
@@ -792,6 +784,20 @@ me.Sch_Story = &acgt{ return [
     #  c.nlist: official nodes
     #   -n can tpath relative to their name
     # < see Atiming of R,R/*, adjust cv for less rounds
+    &{
+    # relative identity
+    me.Pointness = &acgtRs{
+        $R = Cy&R
+        $s = Rc&s
+        $L = sy&Point
+        !L and return
+        
+        L ? me&tsc,"L.t",L.t,"y"
+          : me&tsc,"L-less","L?","y"
+        
+        return L
+    }
+    },
     ['Yingates+Fin',0.33,&acgtRs{
         
         me&bewind,R and return
@@ -800,10 +806,12 @@ me.Sch_Story = &acgt{ return [
         $go = me&acting,R,'-eight',0
         
         $E = Rs&eight
+        $L = me&Pointness
+        L != sy&Point and debugger
         
         # page of story: -eight a %Yingates
         $c = {ov:0.4}
-        $Ch = me&jaa,R,'Checkable,efrom' [0]
+        $Ch = c.Checkable = me&jaa,R,'Checkable,efrom' [0]
         if (Ch) {
             c.ov = 0.9
             # have name pile
@@ -818,16 +826,20 @@ me.Sch_Story = &acgt{ return [
             c.Finto = Chs&efrom
         }
         else {
-            if (me&ja,R,'Ignored' || me&ja,R,'Ignorable') {
-                # ^ from This noticing no L for it
+            if (L && Ls&checking) {
+                # unchecked checkingness
+                #  esp avoid if %Fuguing
+                #   it will be loading more test data to diff
+                me&Effect,s,E,'acheck','Ignored,ope:0'
+                me&tsc,"acheck",0,'g'
+            }
+            elsif (me&ja,R,'Ignored' || me&ja,R,'Ignorable') {
+                # ^ from This noticing no L for it, or ^ reason:
                 # < that it was expected:
                 $why = me&ja,R,'Ignorable',0
-                $n = me&tsc,"Ignored:"+(why||"?"),"Ignored"
+                $n = me&tsc,"Ignored:"+(why||"?"),"Ignored","g"
                 !why and ns&fs = 18
-                me&Effect,s,E,'Ingored','ope:0'
-            }
-            else {
-                me&tsc,"..Checkable"
+                me&Effect,s,E,'Ignored','Ignored,ope:0'
             }
         }
         
@@ -837,6 +849,9 @@ me.Sch_Story = &acgt{ return [
             # -> Eigh
             # randomly not part of %%Checkable circuit
             me&nodei,R,Chs&efrom,{Fin:s,dige:ss&dige}
+        }
+        else {
+            !Es&Ignored and me&tsc,"..Checkable"
         }
     },'ift,D'],
    
