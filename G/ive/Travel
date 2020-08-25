@@ -806,11 +806,11 @@ me.Sch_Travel = &acgt{ return [
     #    then do some act with-into the next plot point
     #  not:
     #    become Story/** hacking session, resume?
-    ['Point',0.34,&acgtRs{
+    ['Point',0.34,&acgtRL{
         me&reaw,R,'Point'
-        $S = me&inode,R
-        ss&ok && me&sleepic,R and return
-        me&OPoint,R,s
+        me&inode,R
+        Ls&ok && me&sleepic,R and return
+        me&OPoint,R,L
     },'ift,D'],
     ['Point',0.37,&acgtRs{
         $go = me&acting,R,'Point'
@@ -834,6 +834,19 @@ me.Sch_Travel = &acgt{ return [
  
  &{
  // Plot Point
+    # R%Point is the last of something,
+    # < trace back to -Will
+    me.Point_alldone = &acgtRL{
+        $x = me&Jx,R
+        $Plot = xs&Plot
+        $This = xc&This
+        Plots&alldone = 1
+        me&wants,R,"alldone",Plot
+        me&log,R,'allDone'
+        me&nodei,R,ss&Nine,'alldone',{dome:'forever'}
+        delete Ploty&Point
+        Thiss&pause = 1
+    }
     # init something to do
     me.Plot_Default = &acgtRs{
         # < based on Stori/* rhythms
@@ -879,7 +892,9 @@ me.Sch_Travel = &acgt{ return [
                 $Eas = me&fiu,Tra,testcase,7
                 me&nodei,R,Eas,'Go',{dome:'forGoing'}
             },then:&LR{
+                debugger
                 con("Wander",{Pages:99,trail:3})
+                me&log,R,"Wanderoff"
             }}],
         ]
         #N = [N[0]]
@@ -941,19 +956,6 @@ me.Sch_Travel = &acgt{ return [
         }
         #
         consum()
-    }
-    # R%Point is the last of something,
-    # < trace back to -Will
-    me.Point_alldone = &acgtRL{
-        $x = me&Jx,R
-        $Plot = xs&Plot
-        $This = xc&This
-        Plots&alldone = 1
-        me&wants,R,"alldone",Plot
-        me&log,R,'allDone'
-        me&nodei,R,ss&Nine,'alldone',{dome:'forever'}
-        delete Ploty&Point
-        Thiss&pause = 1
     }
     
     
