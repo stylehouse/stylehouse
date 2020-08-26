@@ -843,7 +843,7 @@ me.Sch_Travel = &acgt{ return [
         Plots&alldone = 1
         me&wants,R,"alldone",Plot
         me&log,R,'allDone'
-        me&nodei,R,ss&Nine,'alldone',{dome:'forever'}
+        me&nodei,R,Ls&Nine,'alldone',{dome:'forever'}
         delete Ploty&Point
         Thiss&pause = 1
     }
@@ -872,6 +872,7 @@ me.Sch_Travel = &acgt{ return [
         $testcase = 'Easiness'
         $Nine
         # Nine/* may have %L=L.t etc, grouping into:
+       // vv-Easiness
         $N = [
             # n = t,c,sc
             ['startStory',{check:2}],
@@ -892,7 +893,7 @@ me.Sch_Travel = &acgt{ return [
                 $Eas = me&fiu,Tra,testcase,7
                 me&nodei,R,Eas,'Go',{dome:'forGoing'}
             },then:&LR{
-                debugger
+                return me&Point_alldone,R,L
                 con("Wander",{Pages:99,trail:3})
                 me&log,R,"Wanderoff"
             }}],

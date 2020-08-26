@@ -439,22 +439,32 @@ me.Sch_Story = &acgt{ return [
         me&acceptables,R,N
         $c = {
             
+            # Eigh have inside:
+            #  t may be accepted in-change
+            # outside:
+            #  merely reincludes Nine/$z (Eigh%exp)
+            #  z%* or z/* may have been changed
+            #   are meta or recipe for the running of it
+            # z separates to allow y&up=O, keeps s&z, y&*
+            # < align diff chunks outside Nine/($z**)
+            #    per Nine/($t** inside)
+            
             # an Eigh accepted again
             accept: &acgtsOrznt{
                 me&accept,R,t
                 $dige = me&storable,t
-                # Stories/$t links /$eight
-                $link = me&fiu,O,t.t,2
-                linkc&pi = 'eight'
-                links&dige = dige
+                # Nine/$z links /$eight
+                $Z = G&Cye,z
+                me&fiu,O,Z,2
+                Zc&pi = 'eight'
+                Zs&dige = dige
             },
             # an Eigh still
             sleep: &acgtsOrz{
-                $t = rs&exp
-                !t and return
-                # Stories/$t links /$eight
-                # < should be as it was, skip encode?
-                me&fiu,O,Cye(t),2
+                !rs&exp and return
+                rs&exp != z and debugger
+                $Z = G&Cye,z
+                me&fiu,O,Z,2
             },
             # the Nine itself
             self: &acgtsO{
@@ -585,7 +595,7 @@ me.Sch_Story = &acgt{ return [
                 # < send %%Push...,L,resumed
             })
     },'ift,D'],
-    # ReNine**
+    # ReNine** difference and flock apply again
     ['ReNine',0.33,&acgtRs{
         $go = me&acting,R,'Re'
         $x = me&Jx,R;
@@ -595,7 +605,6 @@ me.Sch_Story = &acgt{ return [
         # < because pipe can go back through Nine &reother,
         #    and Test/Nine &reself
         $t = me&twineThat,R,The,{origin:xs&Stories}
-        # difference and flock apply again
         # < ReNine species
         t and me&toPave,R,R,t,The
 
