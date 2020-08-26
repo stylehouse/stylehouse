@@ -694,9 +694,28 @@ me.Sch_Story = &acgt{ return [
             #~>4 quiet,wake: s.t
             $Ying = xc&Ying
             !Yings&Det and throw "!Det"
-            # until the current Outlog,
-            #  so -eights end with %%quiet(_recently,wake)
-            page_turning({until:Yings&Det})
+            $q = {}
+            if (1) {
+                # until the current Outlog:D
+                #  so pages|-eights end with %%quiet(_recently,wake)
+                q.until = Yings&Det
+            }
+            else {
+                # OR, not. have on the old page:
+                #  quiet waking %%node:This..
+                #  < log:Pageturn...Point++ etc
+                #   takes a few wakes to ready the next Point,
+                #  should be on the old page?
+                #   since they mention the old Point
+                #  which is likely to be %%Ignored
+                #   or grepo everything from Story**
+                #    see Ying only in or out of some subnet
+                #    may take templating the new Point in the old page,
+                #     for a beginning with many different middles parametised
+                #     watching the new Point set up there too
+                #      and stream() just before it really starts
+            }
+            page_turning(q)
         }
         # then inhaling nothing if the page was just turned ^
         Dy&stream()
