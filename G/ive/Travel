@@ -546,7 +546,7 @@ me.Sch_Travel = &acgt{ return [
         }
     },'ift,D'],
   
-  // The<->Plot %%Checkable
+  // The<->Plot %%Checkable    &Plot_Pageturn_Checkable
     &{
     # Plot%%Checkable,L <- This/* subset L%Dome completed !
     # as r:This othering a Page++!
@@ -621,15 +621,7 @@ me.Sch_Travel = &acgt{ return [
             ns&L != L and throw "Confus"
             !Ls&Nine and return me&wants,R,"getNine"
             
-            $ch = Ls&checking
-            ch && !chs&ok and return me&tsc,"Fuguing",0,'g'
-            if (Ls&checking && !Ls&checked) {
-                !Ls&resumed and me&waits,'acheck'
-                # becomes L%ok:
-                Ls&resumed = 'acheck'
-                me&ha,R,{Checkable:'acheck',L}
-                return me&tsc,"acheck",0,'g'
-            }
+            me&Point_nonCheckable,R,L,n and return
             
             me&nodei,R,Ls&Nine,n
         })
@@ -812,9 +804,8 @@ me.Sch_Travel = &acgt{ return [
         Ls&ok && me&sleepic,R and return
         me&OPoint,R,L
     },'ift,D'],
-    ['Point',0.37,&acgtRs{
+    ['Point',0.37,&acgtRL{
         $go = me&acting,R,'Point'
-        $L = s
         # L%ok from  %%Checkable,Eigh
         $Eighs = me&Point_Eigh,R,L
         Ls&ok and s&bgh = '041'
@@ -824,9 +815,9 @@ me.Sch_Travel = &acgt{ return [
         Eighs and me&Point_then,R,L
     },'ift,D'],
     
-    ['Plot',0.38,&acgtRs{
+    ['Plot',0.38,&acgtRL{
         # and finally
-        !ss&alldone and return
+        !Ls&alldone and return
         me&ha,R,'alldone'
         me&da,R,'alldone' and me&log,R,'Plot-Done'
         me&tsc,"Done",0,'G'
@@ -973,7 +964,7 @@ me.Sch_Travel = &acgt{ return [
     
     
  // Plot about Pages
-    # This: Ploty&Pageturnable, etc
+    # This uses Ploty&Pageturnable, etc
     me.Plot_Pageness = &acgtRs{
         $x = me&Jx,R
         $This = xs&This
@@ -1097,7 +1088,7 @@ me.Sch_Travel = &acgt{ return [
         
         return L
     }
-    # L&init, L&able
+  // Point@37: L&init(), L&able(), L%ok=Eigh-tally
     # R:Point 3ing, %%Checkable|L%resumed get L%ok
     #  returns true when ready to act on the state of L%ok (null until)
     me.Point_Eigh = &acgtRL{
@@ -1124,70 +1115,27 @@ me.Sch_Travel = &acgt{ return [
         
         return Eighed
     }
-    # cosmetica for self:Point
-    me.Point_ology = &acgtRL{
-        # sublate some R/%fix
-        Rs&nofixfor = peel('Page_in,Page_out,Dome,Nine,ok,'
-            +'checking,checked,resumed')
-        Lc&pi == 'Point' and Rs&nofixfor.pi = 1
-        Rs&goPoint and delete Rs&nofixfor
-        
-        # for the info
-        $D = Cye(["Show",1])
-        # when adding strange info, to insist open
-        $strange = &{ Ds&strange = 1 }
-        # L has range, etc
-        me&bracki,R,D,{Nine:Ls&Nine}
-        each in Ls&Dome {
-            me&bracki,R,D,{Dome:n}
-        }
-        if (Lc&Page_out && Lc&Page_in) {
-            $Pages = 1+(Lc&Page_out*1)-(Lc&Page_in*1)
-            me&bracki,R,D,{Pages,i:Lc&Page_in,o:Lc&Page_out}
-        }
-        # whether hungry?
-        if (Ls&ok != null) {
-            Ls&ok and me&tsc,"OK",0,'g' .y.cv = 0.01
-            Ls&ok != 1 and strange()
-            me&bracki,R,D,{ok:Ls&ok}
-        }
-        # also says 'acheck' (Point@38) when not followed by a %checking (avoid loop)
-        $l = Ly&l
-        if (Ls&checking) {
-            me&tsc,"check",0,'g'
-            Ls&checking != l
-                && strange( me&bracki,R,D,{checking:Ls&checking} )
-        }
-        if (Ls&resumed) {
-            Ls&resumed != 'acheck'
-                && strange( me&bracki,R,D,{resumed:Ls&resumed} )
-        }
-        
-        # OK pseudo-Points, unless freakish, avoid ology
-        # < one boost to lum them all
-        #   eg know already if ology is boosted
-        Ls&ok && (Ls&checking) && !Ds&strange and return
-        
-        #Ls&checking && !hak('checking,resumedme&bracki,R,D,{resumed:Ls&resumed}
-        
-        me&pibrackology,R,L,{D} .y.gog(&g{
-            gy&cv = 0.8
-            gs&dis = 1
-        })
+  
+  // Point%resumed to continue anyway
+    # when R:ReNine+unity pushes (Eigh related to) L
+    me.ReNine_pushed_Point = &acgtRL{
+        !Ls&resumed and me&wants,R,"L-resumed",L
+        Ls&resumed = 'ReNine'
+        me&nodei,R,L,{Push:'resumed'}
     }
-    # relative identity for other:Point
-    me.Pointness = &acgtRs{
-        $R = Cy&R
-        $s = Rc&s
-        $L = sy&Point
-        !L and return
-        
-        L ? me&tsc,"L.t",L.t,"y"
-          : me&tsc,"L-less","L?","y"
-        
-        return L
+    # whether L should stop n%%Checkable signal getting to Nine
+    me.Point_nonCheckable = &acgtRLn{
+        $ch = Ls&checking
+        ch && !chs&ok and return me&tsc,"Fuguing",0,'g'
+        if (Ls&checking && !Ls&checked) {
+            !Ls&resumed and me&waits,'acheck'
+            # becomes L%ok:
+            Ls&resumed = 'acheck'
+            me&ha,R,{Checkable:'acheck',L}
+            return me&tsc,"acheck",0,'g'
+        }
     }
-    # L%Fugu(ed|ing)%resumed may recover (act onward)
+    # how L%Fugu(ed|ing)%resumed may recover (act onward anyway)
     me.Point_resumed = &acgtRL{
         $x = me&Jx,R
         $Plot = xs&Plot
@@ -1209,8 +1157,8 @@ me.Sch_Travel = &acgt{ return [
             }
         }
     }
-    # L&then
-    # act onwards
+  
+  // Point@37: L&then() acts onwards
     me.Point_then = &acgtRL{
         $x = me&Jx,R
         $Plot = xs&Plot
@@ -1276,6 +1224,71 @@ me.Sch_Travel = &acgt{ return [
         else {
             throw "L!pi", Lc&pi
         }
+    }
+  
+  // Point cosmetica
+    # for R:Point
+    me.Point_ology = &acgtRL{
+        # sublate some R/%fix
+        Rs&nofixfor = peel('Page_in,Page_out,Dome,Nine,ok,'
+            +'checking,checked,resumed')
+        Lc&pi == 'Point' and Rs&nofixfor.pi = 1
+        Rs&goPoint and delete Rs&nofixfor
+        
+        # for the info
+        $D = Cye(["Show",1])
+        # when adding strange info, to insist open
+        $strange = &{ Ds&strange = 1 }
+        # L has range, etc
+        me&bracki,R,D,{Nine:Ls&Nine}
+        each in Ls&Dome {
+            me&bracki,R,D,{Dome:n}
+        }
+        if (Lc&Page_out && Lc&Page_in) {
+            $Pages = 1+(Lc&Page_out*1)-(Lc&Page_in*1)
+            me&bracki,R,D,{Pages,i:Lc&Page_in,o:Lc&Page_out}
+        }
+        # whether hungry?
+        if (Ls&ok != null) {
+            Ls&ok and me&tsc,"OK",0,'g' .y.cv = 0.01
+            Ls&ok != 1 and strange()
+            me&bracki,R,D,{ok:Ls&ok}
+        }
+        # also says 'acheck' (Point@38) when not followed by a %checking (avoid loop)
+        $l = Ly&l
+        if (Ls&checking) {
+            me&tsc,"check",0,'g'
+            Ls&checking != l
+                && strange( me&bracki,R,D,{checking:Ls&checking} )
+        }
+        if (Ls&resumed) {
+            Ls&resumed != 'acheck'
+                && strange( me&bracki,R,D,{resumed:Ls&resumed} )
+        }
+        
+        # OK pseudo-Points, unless freakish, avoid ology
+        # < one boost to lum them all
+        #   eg know already if ology is boosted
+        Ls&ok && (Ls&checking) && !Ds&strange and return
+        
+        #Ls&checking && !hak('checking,resumedme&bracki,R,D,{resumed:Ls&resumed}
+        
+        me&pibrackology,R,L,{D} .y.gog(&g{
+            gy&cv = 0.8
+            gs&dis = 1
+        })
+    }
+    # for a relative (eg $eight)
+    me.Pointness = &acgtRs{
+        $R = Cy&R
+        $s = Rc&s
+        $L = sy&Point
+        !L and return
+        
+        L ? me&tsc,"L.t",L.t,"y"
+          : me&tsc,"L-less","L?","y"
+        
+        return L
     }
  },
 // Gump - Know|That %%cha -> Travel
