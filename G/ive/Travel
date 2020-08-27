@@ -807,12 +807,12 @@ me.Sch_Travel = &acgt{ return [
     ['Point',0.37,&acgtRL{
         $go = me&acting,R,'Point'
         # L%ok from  %%Checkable,Eigh
-        $Eighs = me&Point_Eigh,R,L
+        $Eighs = me&Point_Eighs,R,L
         Ls&ok and s&bgh = '041'
-        # L%* shown
-        me&Point_ology,R,L
         # act onwards
         Eighs and me&Point_then,R,L
+        # L%* shown
+        me&Point_ology,R,L
     },'ift,D'],
     
     ['Plot',0.38,&acgtRL{
@@ -824,7 +824,7 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
  
  &{
- // Plot Point
+ // Plot gen Point
     # R%Point is the last of something,
     # < trace back to -Will
     me.Point_alldone = &acgtRL{
@@ -992,7 +992,7 @@ me.Sch_Travel = &acgt{ return [
         sy&Pageturning = &acgtrD{
             $i = Ds&z.length
             ss&Page ||= i
-            ss&Page != i and ss&wanderi = 'Page!=Stream'
+            ss&Page != i and ss&wanderi = ss&Page+'Page!='+i+'Stream'
             return "le-"+(++ss&Page)
         }
         # r:This has turned page from D:Stream/-2 to -1
@@ -1091,12 +1091,12 @@ me.Sch_Travel = &acgt{ return [
   // Point@37: L&init(), L&able(), L%ok=Eigh-tally
     # R:Point 3ing, %%Checkable|L%resumed get L%ok
     #  returns true when ready to act on the state of L%ok (null until)
-    me.Point_Eigh = &acgtRL{
-        # asap
-        Lc&init and Lc&init(L,R); delete Lc&init
+    me.Point_Eighs = &acgtRL{
+        # asap, once
+        me&ccb,L,'init',1,L,R
         # %%Checkable has two layers:
         # checking begins, going to - able to be checked
-        me&da,R,'Checkable,L' and Lc&able and Lc&able(L,R)
+        me&da,R,'Checkable,L' and me&ccb,L,'able',2,L,R
         # checking completes, with each Nine/Eigh
         $Eighed = me&jaa,R,'Checkable,L,Eigh,efrom'
         
@@ -1180,6 +1180,26 @@ me.Sch_Travel = &acgt{ return [
     }
   
   // Point@37: L&then() acts onwards
+    # callback eg Lc&then, L%had_ccb.then knows it happened
+    #  el=1,2 insist on calling only once, 2 fataly
+    #  returns true if there is|was such a callback
+    me.ccb = &acgtstc{
+        !num(c) and throw 'ccb mode'
+        c = {el:c}
+        
+        $had = ss&had_ccb ||= {}
+        $was = had[t]
+        $is = s.c[t]
+        !is and return 0
+        if (was) {
+            c.el == 2 and throw "dup ccb",t
+            else
+            c.el <3 and return 1
+        }
+        had[t] = 1
+        return is(...[...arguments].slice(7)) || 1
+    }
+    # if &Point_Eighs
     me.Point_then = &acgtRL{
         $x = me&Jx,R
         $Plot = xs&Plot
@@ -1197,7 +1217,7 @@ me.Sch_Travel = &acgt{ return [
                 
                 $oL = Ly&r
                 #oL and me&OPoint,R,oL
-                Lc&then and Lc&then(L,R)
+                me&ccb,L,'then',2,L,R and 'then something'
                 else
                 oL and "more coming"
                 else {
@@ -1226,7 +1246,8 @@ me.Sch_Travel = &acgt{ return [
                     Ls&Fugued = Ls&resumer =
                         me&OPoint,R,['accept:'+L.t,'-Fugue',{}]
                     Los&Fugue = Los&resuming = L
-                    # ^ becomes resumed instead of %ok
+                    # ^ becomes %resumed instead of %ok
+                    me&wants,R,'Plot-en-Fugue',Plot
                     Loc&Page_out = 99
                 }
                 if (Ls&resumed) {
@@ -1235,7 +1256,7 @@ me.Sch_Travel = &acgt{ return [
                 else {
                     me&tsc,"Error?" .sc.fs = 40         
                 }
-                Thiss&pause = 1
+                #Thiss&pause = 1
             }
         }
         elsif (Lc&pi == 'Fugue') {
@@ -1252,7 +1273,7 @@ me.Sch_Travel = &acgt{ return [
     me.Point_ology = &acgtRL{
         # sublate some R/%fix
         Rs&nofixfor = peel('Page_in,Page_out,Dome,Nine,ok,'
-            +'checking,checked,resumed')
+            +'checking,checked,resumed,had_ccb')
         Lc&pi == 'Point' and Rs&nofixfor.pi = 1
         Rs&goPoint and delete Rs&nofixfor
         
@@ -1275,6 +1296,10 @@ me.Sch_Travel = &acgt{ return [
             Ls&ok and me&tsc,"OK",0,'g' .y.cv = 0.01
             Ls&ok != 1 and strange()
             ha({ok:Ls&ok})
+        }
+        # which Lc&init|able|then have been called
+        each tn Ls&had_ccb {
+            ah(R,'fixablestyle',t,{opa:0.67})
         }
         # also says 'acheck' (Point@38) when not followed by a %checking (avoid loop)
         $l = Ly&l
