@@ -703,8 +703,7 @@ me.Sch_Travel = &acgt{ return [
         sy&eight = eight
         $L = eighty&Point
         
-        $ch = L && Ls&checking
-        ch && !chs&ok and return me&tsc,"Fuguing",0,'g'
+        me&Eigh_nonCheckable,R,L and return
         
         $r = eighty&R
         $Ch = me&jaa,R,'Checkable,efrom'
@@ -774,7 +773,7 @@ me.Sch_Travel = &acgt{ return [
         me&PaveelQup_5,R,s
     },'ift,D'],
  
- // Plot/Point
+ // Plot/Point tie most thing together
     ['Plot',0.298,&acgtRs{
         
         # < TEST see &OPoint Plot 298 init too early
@@ -1123,17 +1122,38 @@ me.Sch_Travel = &acgt{ return [
         Ls&resumed = 'ReNine'
         me&nodei,R,L,{Push:'resumed'}
     }
-    # whether L should stop n%%Checkable signal getting to Nine
+    # < &Pointness these two could be
+    #   says each thing once - domes it into -Point
+    #    links to other entanglements of
+    #    notices if it changes across b-Rin-R7-R8:b
+    #   knows where can do what
+    #    wires in the y&Eigh|eight for Eigh@35
+    #   our L%checking is waited for: R%nonCheckable
+    #    or going weird: R%Fuguing
+    #   &Effect collaboration
+    # Point@38 may stop n%%Checkable signal getting to Nine
     me.Point_nonCheckable = &acgtRLn{
         $ch = Ls&checking
-        ch && !chs&ok and return me&tsc,"Fuguing",0,'g'
-        if (Ls&checking && !Ls&checked) {
-            !Ls&resumed and me&waits,'acheck'
-            # becomes L%ok:
-            Ls&resumed = 'acheck'
-            me&ha,R,{Checkable:'acheck',L}
-            return me&tsc,"acheck",0,'g'
+        if (ch) {
+            # this L%checking=lL%checked=L (lL,L)
+            # not yet
+            chs&ok == null and return me&tsc,"check..",0,'g'
+            # not ok
+            !chs&ok and return me&tsc,"Fuguing",0,'g'
+            # without L%checked=rL%checking=L (L,rL)
+            if (!Ls&checked) {
+                !Ls&resumed and me&waits,'acheck'
+                # becomes L%ok:
+                Ls&resumed = 'acheck'
+                me&ha,R,{Checkable:'acheck',L}
+                return me&tsc,"acheck",0,'g'
+            }
         }
+    }
+    # Eigh@35 may stop n%%Checkable signal getting to $eight
+    me.Eigh_nonCheckable = &acgtRLn{
+        $ch = L && Ls&checking
+        ch && !chs&ok and return me&tsc,"Fuguing",0,'g'
     }
     # how L%Fugu(ed|ing)%resumed may recover (act onward anyway)
     me.Point_resumed = &acgtRL{
@@ -1237,33 +1257,34 @@ me.Sch_Travel = &acgt{ return [
         
         # for the info
         $D = Cye(["Show",1])
+        $ha = &c{ me&bracki,R,D,c }
         # when adding strange info, to insist open
-        $strange = &{ Ds&strange = 1 }
+        $strange = &c{ Ds&strange = 1 }
         # L has range, etc
-        me&bracki,R,D,{Nine:Ls&Nine}
+        ha({Nine:Ls&Nine})
         each in Ls&Dome {
-            me&bracki,R,D,{Dome:n}
+            ha({Dome:n})
         }
         if (Lc&Page_out && Lc&Page_in) {
             $Pages = 1+(Lc&Page_out*1)-(Lc&Page_in*1)
-            me&bracki,R,D,{Pages,i:Lc&Page_in,o:Lc&Page_out}
+            ha({Pages,i:Lc&Page_in,o:Lc&Page_out})
         }
         # whether hungry?
         if (Ls&ok != null) {
             Ls&ok and me&tsc,"OK",0,'g' .y.cv = 0.01
             Ls&ok != 1 and strange()
-            me&bracki,R,D,{ok:Ls&ok}
+            ha({ok:Ls&ok})
         }
         # also says 'acheck' (Point@38) when not followed by a %checking (avoid loop)
         $l = Ly&l
         if (Ls&checking) {
             me&tsc,"check",0,'g'
             Ls&checking != l
-                && strange( me&bracki,R,D,{checking:Ls&checking} )
+                && strange(ha({checking:Ls&checking}))
         }
         if (Ls&resumed) {
             Ls&resumed != 'acheck'
-                && strange( me&bracki,R,D,{resumed:Ls&resumed} )
+                && strange(ha({resumed:Ls&resumed}))
         }
         
         # OK pseudo-Points, unless freakish, avoid ology
@@ -1278,12 +1299,18 @@ me.Sch_Travel = &acgt{ return [
             gs&dis = 1
         })
     }
-    # for a relative (eg $eight)
+    # for a relative (eg $eight or Eigh)
     me.Pointness = &acgtRs{
         $R = Cy&R
         $s = Rc&s
-        $L = sy&Point
-        !L and return
+        if (Rs&TheEigh) {
+            $z = Rs&got
+            $L = z && zy&Point
+            !z and me&tsc,"!%got",'...',"y"
+        }
+        else {
+            $L = sy&Point
+        }
         
         L ? me&tsc,"L.t",L.t,"y"
           : me&tsc,"L-less","L?","y"
