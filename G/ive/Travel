@@ -923,8 +923,24 @@ me.Sch_Travel = &acgt{ return [
                 $check = con('ok:'+L.t,{},{checking:L})
                 if (checks == 2) {
                     $thenafter = then
-                    then = &nothing,{}
-                    checkc&able = &L,chcheck{
+                    then = &L,R,nothing{
+                        # usually nothing
+                        !Ls&resumed and return
+                        # once L%Fuguing, never %%Checkable
+                        #  so may never call &able
+                        # keep on after the ok:ok:L.t
+                        me&log,R,L.t+'-then%resumed'
+                        # from the perspective of L%Fugue, accept:L.t
+                        #  instead of the ok:ok:L.t 
+                        $Fuguing = Ls&Fuguing
+                        !Fuguing and debugger
+                        debugger
+                        # < the L:carryon nodei doesn't get it ready
+                        #   by the time it becomes %%Checkable...
+                        thenafter(Fuguing,R)
+                    }
+                    checkc&able = &L,R,thenvia{
+                        Ls&resumed and debugger
                         me&log,R,L.t+'-able'
                         $ch = con('ok:'+L.t,{},{checking:L})
                         chc&then = thenafter
@@ -935,7 +951,7 @@ me.Sch_Travel = &acgt{ return [
             $then = Lc&then
             $oL = L;
             # ^ &then may be moved onto L%checking
-            Lc&then = &LR{
+            Lc&then = &LRq{
                 # while we realise L&then
                 # we are in a small page between Ls
                 Ly&atPage = &R{
@@ -944,6 +960,7 @@ me.Sch_Travel = &acgt{ return [
                     $q = {Page_in:Plots&Page}
                     oLc&nextc and ex(q,oLc&nextc)
                     $uL = consum(q)
+                    # < why without this, L:carryon has !Niney&Nine 
                     me&wants,R,'Lup',Plot
                     
                     then and then(L,R)
@@ -1097,6 +1114,8 @@ me.Sch_Travel = &acgt{ return [
         # %%Checkable has two layers:
         # checking begins, going to - able to be checked
         me&da,R,'Checkable,L' and me&ccb,L,'able',2,L,R
+        else
+        1 and 1
         # checking completes, with each Nine/Eigh
         $Eighed = me&jaa,R,'Checkable,L,Eigh,efrom'
         
@@ -1196,8 +1215,9 @@ me.Sch_Travel = &acgt{ return [
             else
             c.el <3 and return 1
         }
+        is(...[...arguments].slice(7))
         had[t] = 1
-        return is(...[...arguments].slice(7)) || 1
+        return 1
     }
     # if &Point_Eighs
     me.Point_then = &acgtRL{
@@ -1240,15 +1260,15 @@ me.Sch_Travel = &acgt{ return [
                 Ls&Fuguing and debugger
                 # throw merging test resumer
                 if (!Ls&Fugued && !Ls&checking) {
+                    # L 1, ch 2, Fugued 3 (may be instead of a ch 3, or extra)
+                    $Fuguing = me&OPoint,R,['accept:'+L.t,'-Fugue',{}]
                     $ch = Ls&checked
-                    ch and chs&Fuguing = 1
-                    $Lo =
-                    Ls&Fugued = Ls&resumer =
-                        me&OPoint,R,['accept:'+L.t,'-Fugue',{}]
-                    Los&Fugue = Los&resuming = L
+                    ch and chs&Fuguing = Fuguing
+                    Ls&Fugued = Fuguing
+                    Fuguings&Fugue = L
                     # ^ becomes %resumed instead of %ok
                     me&wants,R,'Plot-en-Fugue',Plot
-                    Loc&Page_out = 99
+                    Fuguingc&Page_out = 99
                 }
                 if (Ls&resumed) {
                     me&tsc,"Error." .sc.fs = 20
