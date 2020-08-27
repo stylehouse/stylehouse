@@ -356,7 +356,9 @@ me.Sch_Story = &acgt{ return [
     },'ift,D'],
     # -nine being Zavable
     ['TheTest',0.294,&acgtRs{
-        me&reaw,R,'TheTest'
+        
+        me&reaw,R,'TheTest,shelf'
+        me&rollbs,R,'shelf'
         Rs&acceptables = 1
         $go = me&acting,R,'Test'
         $x = me&Jx,R;
@@ -377,6 +379,15 @@ me.Sch_Story = &acgt{ return [
         # then harness %Live into TheNine
         # < harness self (TheNine<->...) <-> other (Paving)
         $self = me&selfThat,R,that
+        
+        # doesn't reload Nine/Eigh
+        # < unless it looks pulley
+        #   without losing all the L-mapping etc: lv in?
+        !Rs&shelf and Rs&shelf = self
+        else
+        self != Rs&shelf and me&tsc,'re-self',0,'g'
+        self = Rs&shelf
+        
         # < a Stori could compose many Stori,
         #    a Stori = plot - subplots
         #     subplots pointed to, recipised to solo:
@@ -578,9 +589,14 @@ me.Sch_Story = &acgt{ return [
         $N = me&ioty,R,'ReNine'
         s&bg = '#180213'
         
+        # Accepting:Push
         me&toPaves,R,[R,...N]
+        # engages
+        # < subscribe to Q-1 for this
+        me&da,R,'Pushable,go'
+            && me&log,R,'Pushabilityofthethingthatisnow'
         
-        # L%resumed for any fixed up
+        # completes: L%resumed for any fixed up
         me&da,R,'allok:Push'
             && uniq(me&ioty,R,'ReNine' .map(&r{
                     $z = rc&s
