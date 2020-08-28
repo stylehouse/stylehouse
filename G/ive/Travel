@@ -741,7 +741,6 @@ me.Sch_Travel = &acgt{ return [
                 #    or 
                 if (x.ro("+")) {
                     me&fiu,Nine,[s.t,1,{},{L:'further'}]
-                    me&wants,R,'exp++',Nine
                 }
                 # < or stretch l%Pages
             }
@@ -1107,6 +1106,8 @@ me.Sch_Travel = &acgt{ return [
                     
                     then and then(L,R)
                 }
+                Ls&ignore and Ly&atPage(R); delete Ly&atPage
+                
                 This = me&yfuture,This
                 $la = me&ioty,This,'Yingates' .slice(-1)[0]
                 # previous L wants that small page ignored
@@ -1306,7 +1307,13 @@ me.Sch_Travel = &acgt{ return [
     #   &Effect collaboration
     # Point@38 may stop n%%Checkable signal getting to Nine
     me.Point_nonCheckable = &acgtRLn{
-        Ls&ignore and return 1
+        if (Ls&ignore) {
+            me&log,R,"%ignore-passed",{L}
+            !Ls&resumed and me&waits,'ignored'
+            # becomes L%ok:
+            Ls&resumed = 'ignore'
+            return 1
+        }
         
         $ch = Ls&checking
         if (ch) {
