@@ -63,11 +63,32 @@ me.Yingmind ||= {};
         return n
     }
  // object methods
-    # call zy&$t, with ACGT, without 
+    # call zy&$t, with ACGT
     me.yyt = &acgtzt{
         $y = z.y [t]
         !y and return
         return y(A,C,G,T,...[...arguments].slice(6))
+    }
+    # callback eg Lc&then(L,R)
+    #  L%had_ccb.then knows it happened
+    #  el=1,2 insist on calling only once, 2 fataly
+    #  returns true if there is|was such a callback
+    me.ccb = &acgtstc{
+        !num(c) and throw 'ccb mode'
+        c = {el:c}
+        
+        $had = ss&had_ccb ||= {}
+        $was = had[t]
+        $is = s.c[t]
+        !is and return 0
+        if (was) {
+            c.el == 2 and throw "dup ccb",t
+            else
+            c.el <3 and return 1
+        }
+        is(...[...arguments].slice(7))
+        had[t] = 1
+        return 1
     }
   
     # pseudo OO: D is of me.$t.* wrappers in Dy&*()
