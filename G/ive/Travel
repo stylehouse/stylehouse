@@ -828,6 +828,11 @@ me.Sch_Travel = &acgt{ return [
     # R%Point is the last of something,
     # < trace back to -Will
     me.Point_alldone = &acgtRL{
+        if (0) {
+            # or keep going...
+            con("Wander",{Pages:99,trail:3})
+            me&log,R,"Wanderoff"
+        }
         $x = me&Jx,R
         $Plot = xs&Plot
         $This = xc&This
@@ -851,14 +856,38 @@ me.Sch_Travel = &acgt{ return [
       Nino may return to more Nine, via -Will
       
     =cut
+    me.Plot_oNine = &acgts{
+        # n = t,c,sc
+        $N = []
+        $req_L_sc = peel('enNine,check,ignore')
+        me&ioty,s .map(&ti{
+            ts&L and $L = Cye([ts&L,1])
+            i == 0 && L and throw "first t not %L"
+            each kv t.sc {
+                req_L_sc[k] && !L and throw "must be with %L: "+k
+            }
+            if (L) {
+                # Eigh that starts a new L
+                # %check defor 1, can be 2 to check checking
+                ts&check and Ls&check = ts&check
+                ts&ignore and Ls&check = 0
+                # 
+                $en = ts&enNine
+                en == 1 and en = sy&about[1]
+                # fab L.c.*
+            }
+            else {
+                # Eigh in last L
+            }
+            
+        })
+    }
     me.Plot_Default = &acgtRs{
         # < based on Stori/* rhythms
         # < 300ms impatience for getting somewhere
         # < get Gump, protoJ for Ying
-        $con = &tcsq{
+        $con = &tycs{
             c ||= {}
-            isfu(c) and c = {able:c}
-            q and ex(c,q)
             # c.Pages ||= 1 later
             $L = me&OPoint,R,[t,'-Point',c,s]
             return L
@@ -866,21 +895,30 @@ me.Sch_Travel = &acgt{ return [
         # an L is always followed by L%checking
         #  generated in &able
         $x = me&Jx,R
+        $The = xs&The
         $Plot = xs&Plot
         $This = xc&This
         $D = Thiss&Storystream
         # Plot 298 init too early yet appears this time
         !D && !Rc&b && Rs&Plot and return me&waits,"enPlot"
         
+        # we start with sy&about[0], pulls [1] in L:carryon
+        $start = me&ioty,The [0]
+        start = starty&Nine
+        start.t != sy&about[0] and throw "start not"
+        $N = []
+        
+        # sy&about
         $testcase = 'Easiness'
         $Nine
+        debugger
         # Nine/* may have %L=L.t etc, grouping into:
        // vv-Easiness
-        $N = [
+        $No = [
             # n = t,c,sc
-            ['startStory',{check:2}],
+            ['startStory',1,{check:2}],
          
-            ['carryon',{init:&LR{
+            ['carryon',1,{init:&LR{
                 me&log,R,'carryon-init'
                 me&nodei,R,xs&The,{Nine:testcase},{dome:'forNine'}
             },able:&LR{
@@ -891,26 +929,22 @@ me.Sch_Travel = &acgt{ return [
                 Lc&intoaNine = Nine
             }}],
             
-            ['ut',{init:&LR{
+            ['ut',1,{init:&LR{
                 Ls&Nine != Nine and debugger
                 $Tra = xs&Travel
                 $Eas = me&fiu,Tra,testcase,7
                 me&nodei,R,Eas,'Go',{dome:'forGoing'}
             },then:&LR{
                 return me&Point_alldone,R,L
-                # or keep going...
-                con("Wander",{Pages:99,trail:3})
-                me&log,R,"Wanderoff"
             }}],
         ]
-        #N = [N[0]]
+        N = [N[0]]
         $i = 0
         $consum = &q{
             $n = N[i]
             !n and return delete Ploty&Point
-            # eg starts in Page=2, so for 1,2:
-            n[3] = q
-            # t c sc q
+            # q over c
+            q and ex(n[2],q)
             $L = con(...n)
             $able = Lc&able
             $checks = defor(Lc&check,1)
@@ -1126,7 +1160,7 @@ me.Sch_Travel = &acgt{ return [
         
         return L
     }
-  // Point@37: L&init(), L&able(), L%ok=Eigh-tally
+  // Point@37: L&init(), L&able(), L%ok <- Eigh-tally
     # R:Point 3ing, %%Checkable|L%resumed get L%ok
     #  returns true when ready to act on the state of L%ok (null until)
     me.Point_Eighs = &acgtRL{
@@ -1219,7 +1253,7 @@ me.Sch_Travel = &acgt{ return [
         }
     }
   
-  // Point@37: L&then() acts onwards
+  // Point@37: L%ok -> L&then(), acts onwards
     # if &Point_Eighs
     me.Point_then = &acgtRL{
         $x = me&Jx,R
