@@ -888,6 +888,7 @@ me.Sch_Travel = &acgt{ return [
                 Nine = Niney&Nine
                 !Nine and debugger
                 Lc&nextc = {Nine}
+                Lc&intoaNine = Nine
             }}],
             
             ['ut',{init:&LR{
@@ -897,6 +898,7 @@ me.Sch_Travel = &acgt{ return [
                 me&nodei,R,Eas,'Go',{dome:'forGoing'}
             },then:&LR{
                 return me&Point_alldone,R,L
+                # or keep going...
                 con("Wander",{Pages:99,trail:3})
                 me&log,R,"Wanderoff"
             }}],
@@ -954,6 +956,12 @@ me.Sch_Travel = &acgt{ return [
             Lc&then = &LRq{
                 # while we realise L&then
                 # we are in a small page between Ls
+                
+                # rename|number between Nine
+                # eg &able is moved to L:(ok:)+carryon
+                $re = oLc&intoaNine
+                re and Ploty&namePages = re
+                
                 Ly&atPage = &R{
                     # now the next page|L starts
                     #  with no mention of the previous L
@@ -1010,7 +1018,20 @@ me.Sch_Travel = &acgt{ return [
             $i = Ds&z.length
             ss&Page ||= i
             ss&Page != i and ss&wanderi = ss&Page+'Page!='+i+'Stream'
-            return "le-"+(++ss&Page)
+            $name = 'le'
+            $i = ++ss&Page
+            $Nine = sy&namePages
+            if (Nine) {
+                # re-name|number subtests
+                # < there would be a leading L
+                #   more ideal place to coord this
+                #   is not entered yet. allow before &init
+                #    and naming them 00-name|desc
+                name = Nine.t
+                Niney&Pageturns ||= 0
+                i = ++Niney&Pageturns
+            }
+            return name+'-'+i
         }
         # r:This has turned page from D:Stream/-2 to -1
         sy&Pageturn = &acgtrD{
