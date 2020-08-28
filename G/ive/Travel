@@ -830,7 +830,7 @@ me.Sch_Travel = &acgt{ return [
     me.Point_alldone = &acgtRL{
         if (0) {
             # or keep going...
-            con("Wander",{Pages:99,trail:3})
+            #con("Wander",1,{Pages:99,trail:3})
             me&log,R,"Wanderoff"
         }
         $x = me&Jx,R
@@ -839,7 +839,9 @@ me.Sch_Travel = &acgt{ return [
         Plots&alldone = 1
         me&wants,R,"alldone",Plot
         me&log,R,'allDone'
-        me&nodei,R,Ls&Nine,'alldone',{dome:'forever'}
+        if (L) {
+            me&nodei,R,Ls&Nine,'alldone',{dome:'forever'}
+        }
         delete Ploty&Point
         Thiss&pause = 1
     }
@@ -856,31 +858,76 @@ me.Sch_Travel = &acgt{ return [
       Nino may return to more Nine, via -Will
       
     =cut
-    me.Plot_oNine = &acgts{
+    me.Plot_PointoNine = &acgts,oL{
+        $x = me&Jx,R
+        $The = xs&The
+        $Plot = xs&Plot
+        $Story = xs&Story
         # n = t,c,sc
         $N = []
-        $req_L_sc = peel('enNine,check,ignore')
+        $req_L_sc = peel('enNine,Go,check,ignore')
         me&ioty,s .map(&ti{
             ts&L and $L = Cye([ts&L,1])
-            i == 0 && L and throw "first t not %L"
+            i == 0 && !L and throw "first t not %L"
             each kv t.sc {
                 req_L_sc[k] && !L and throw "must be with %L: "+k
             }
             if (L) {
+                N.push(L)
                 # Eigh that starts a new L
                 # %check defor 1, can be 2 to check checking
                 ts&check and Ls&check = ts&check
                 ts&ignore and Ls&check = 0
-                # 
+                # another Stori->Nine
                 $en = ts&enNine
-                en == 1 and en = sy&about[1]
-                # fab L.c.*
+                if (en) {
+                    en == 1 and en = Storyy&about[1]
+                    # start The/Test looking for that Nine (to Stories/$Test)
+                    Lc&init = &LR{
+                        me&log,R,L.t+'-init'
+                        me&nodei,R,The,{Nine:en},{dome:'forNine'}
+                    }
+                    Lc&able = &LR{
+                        $Nine = me&fiu,The,en,7
+                        # Test/Nine
+                        Nine = Niney&Nine
+                        !Nine and debugger
+                        Lc&nextc = {Nine}
+                        Lc&intoaNine = Nine
+                    }
+                }
+                if (oL && oLc&intoaNine && i == 0) {
+                    # oL is &then()..consum()..here
+                    $also_init = &LR{
+                        Ls&Nine != oLc&intoaNine and debugger
+                        Ls&Nine != s and debugger
+                    }
+                }
+                $Go = ts&Go
+                if (Go) {
+                    Go == 1 and Go = s.t
+                    Lc&init = &LR{
+                        $Tra = xs&Travel
+                        # < Travel%%Go=$Go -> Travel/$Go
+                        $Eas = me&fiu,Tra,Go,7
+                        me&nodei,R,Eas,'Go',{dome:'forGo'}
+                    }
+                }
+                
+                # < L.c.* merging as an ah() field (Index)
+                if (also_init) {
+                    $was_init = delete Lc&init
+                    Lc&init = &LR{
+                        also_init(L,R)
+                        was_init and was_init(L,R)
+                    }
+                }
             }
             else {
-                # Eigh in last L
+                # Eigh in that L
             }
-            
         })
+        return N.map(n => [n.t,n.y,n.c,n.sc])
     }
     me.Plot_Default = &acgtRs{
         # < based on Stori/* rhythms
@@ -897,6 +944,7 @@ me.Sch_Travel = &acgt{ return [
         $x = me&Jx,R
         $The = xs&The
         $Plot = xs&Plot
+        $Story = xs&Story
         $This = xc&This
         $D = Thiss&Storystream
         # Plot 298 init too early yet appears this time
@@ -905,16 +953,14 @@ me.Sch_Travel = &acgt{ return [
         # we start with sy&about[0], pulls [1] in L:carryon
         $start = me&ioty,The [0]
         start = starty&Nine
-        start.t != sy&about[0] and throw "start not"
-        $N = []
+        start.t != Storyy&about[0] and throw "start not"
         
         # sy&about
         $testcase = 'Easiness'
         $Nine
-        debugger
         # Nine/* may have %L=L.t etc, grouping into:
        // vv-Easiness
-        $No = [
+        $N = [
             # n = t,c,sc
             ['startStory',1,{check:2}],
          
@@ -938,11 +984,21 @@ me.Sch_Travel = &acgt{ return [
                 return me&Point_alldone,R,L
             }}],
         ]
-        N = [N[0]]
-        $i = 0
-        $consum = &q{
-            $n = N[i]
-            !n and return delete Ploty&Point
+        N.pop();
+        
+        #$N = me&Plot_PointoNine,start
+        #N = [N[0]]
+        $consum = &q,oL{
+            if (oL) {
+                # connected to the last Point
+                if (oLc&intoaNine) {
+                    # load Points from the Nine
+                    #  any N[Point+] potential now happen after it
+                    N.unshift(... me&Plot_PointoNine,oLc&intoaNine,oL )
+                }
+            }
+            $n = N.shift()
+            !n and return me&Point_alldone,R,L
             # q over c
             q and ex(n[2],q)
             $L = con(...n)
@@ -956,7 +1012,7 @@ me.Sch_Travel = &acgt{ return [
                 
                 # fire continuation after checking
                 $then = delete Lc&then
-                $check = con('ok:'+L.t,{},{checking:L})
+                $check = con('ok:'+L.t,1,{},{checking:L})
                 if (checks == 2) {
                     $thenafter = then
                     then = &L,R,nothing{
@@ -978,7 +1034,7 @@ me.Sch_Travel = &acgt{ return [
                     checkc&able = &L,R,thenvia{
                         Ls&resumed and debugger
                         me&log,R,L.t+'-able'
-                        $ch = con('ok:'+L.t,{},{checking:L})
+                        $ch = con('ok:'+L.t,1,{},{checking:L})
                         chc&then = thenafter
                     }
                 }
@@ -1001,7 +1057,7 @@ me.Sch_Travel = &acgt{ return [
                     #  with no mention of the previous L
                     $q = {Page_in:Plots&Page}
                     oLc&nextc and ex(q,oLc&nextc)
-                    $uL = consum(q)
+                    $uL = consum(q,oL)
                     # < why without this, L:carryon has !Niney&Nine 
                     me&wants,R,'Lup',Plot
                     
@@ -1014,7 +1070,6 @@ me.Sch_Travel = &acgt{ return [
                 $Ignorable = 'pagebetween'
                 me&nodei,R,la,{Ignorable},{dome:Ignorable}
             }
-            i++
             return L
         }
         #
