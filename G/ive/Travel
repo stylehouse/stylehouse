@@ -565,7 +565,7 @@ me.Sch_Travel = &acgt{ return [
             
             !Lc&Page_in || !Lc&Page_out and throw "L!&OPoint"
             $q = {Checkable:1,L}
-            if (!Ls&ok || !me&ja,r,q ) {
+            if (!Ls&ok && !me&ja,r,q) {
                 ss&Page >= Lc&Page_in and me&L_Streaming,r,L,D
                 ss&Page <= Lc&Page_out and break
                 # L's pages now complete
@@ -593,13 +593,15 @@ me.Sch_Travel = &acgt{ return [
             $L = ny&Point
             !L and Lless.push(n)
             else {
+                Lless.length and ~>4 LlessIgnored: joint(Lless), L.t
+                Ls&ignore and me&nodei,r,n,{Ignored:Ls&ignore},dome
                 Lless.map(n => me&nodei,r,n,'Ignored',dome )
                 Lless = []
             }
         })
         
         # < allow it to empty?
-        me&dome_traction,r,'pageturn',{el:2}
+        me&dome_traction,r,dome.dome,{el:2}
     }
     },
     # Plot %%Checkable,L -> /Point:L
@@ -692,8 +694,24 @@ me.Sch_Travel = &acgt{ return [
     #  $eight Yingates+Fin:
     #   half happens without it,
     #   -> Eigh%%Fin:$eight,dige checks it ...
+    &{
+    me.neaz = &acgtsy{
+        $p = sy&up
+        $z = ps&z
+        $si = z.indexOf(s)
+        si < 0 and throw "!neaz"
+        if (num(y)) {
+            return z[si+y]
+        } 
+        else {
+            throw "either direction until y()?"
+        }
+    }
+    },
     ['TheEigh',0.35,&acgtRs{
+        
         $x = me&Jx,R
+        $Nine = Ry&up.c.s
         $t = Rs&exp
         $eight = Rs&got
         !eight and return
@@ -702,7 +720,7 @@ me.Sch_Travel = &acgt{ return [
         # eight:z now knows Eigh
         eighty&Eigh = s
         sy&eight = eight
-        $L = eighty&Point
+        $L = sy&Point = eighty&Point
         
         me&Eigh_nonCheckable,R,L and return
         
@@ -713,6 +731,22 @@ me.Sch_Travel = &acgt{ return [
         
         # can be manually
         !hak(Ch) && x.ro("check",{}) and Ch[0] = 'Checkable'
+        if (!L) {
+            $l = me&neaz,R,-1
+            l and l = lc&s
+            $oL = l && ly&Point
+            if (oL) {
+                # previous one was found
+                # < type in t%L=L.t
+                #    or 
+                if (x.ro("+")) {
+                    me&fiu,Nine,[s.t,1,{},{L:'further'}]
+                    me&wants,R,'exp++',Nine
+                }
+                # < or stretch l%Pages
+            }
+        }
+        # disregard actual
         
         Ch.map(n => me&nodei,R,eight,n,{},{expect:t} )
     },'ift,D'],
@@ -988,7 +1022,9 @@ me.Sch_Travel = &acgt{ return [
         
         # Nine/* may have %L=L.t etc
         $N = me&ioty,start .length ? me&Plot_PointoNine,start
-            : [['startStory',1,{},'ignore']]
+            # unless it's a new way to start
+            : [['startup',1,{check:0}]]
+            
         #N = [N[0]]
         $consum = &q,oL{
             if (oL) {
@@ -1000,17 +1036,23 @@ me.Sch_Travel = &acgt{ return [
                 }
             }
             $n = N.shift()
-            !n and return me&Point_alldone,R,L
+            !n and return me&Point_alldone,R
             # q over c
             q and ex(n[2],q)
             $L = con(...n)
+            
+            
             $able = Lc&able
             $checks = defor(Lc&check,1)
             Lc&able = &LR{
                 # once L%%Checkable, in|for Page=3
                 me&log,R,L.t+'-able'
                 able and able(L,R)
-                !checks and return
+                
+                if (!checks) {
+                    Ls&ignore ||= 'nocheck'
+                    return
+                }
                 
                 # fire continuation after checking
                 $then = delete Lc&then
@@ -1226,8 +1268,7 @@ me.Sch_Travel = &acgt{ return [
         # %%Checkable has two layers:
         # checking begins, going to - able to be checked
         me&da,R,'Checkable,L' and me&ccb,L,'able',2,L,R
-        else
-        1 and 1
+        
         # checking completes, with each Nine/Eigh
         $Eighed = me&jaa,R,'Checkable,L,Eigh,efrom'
         
@@ -1265,6 +1306,8 @@ me.Sch_Travel = &acgt{ return [
     #   &Effect collaboration
     # Point@38 may stop n%%Checkable signal getting to Nine
     me.Point_nonCheckable = &acgtRLn{
+        Ls&ignore and return 1
+        
         $ch = Ls&checking
         if (ch) {
             # this L%checking=lL%checked=L (lL,L)
@@ -1284,8 +1327,13 @@ me.Sch_Travel = &acgt{ return [
     }
     # Eigh@35 may stop n%%Checkable signal getting to $eight
     me.Eigh_nonCheckable = &acgtRLn{
-        $ch = L && Ls&checking
-        ch && !chs&ok and return me&tsc,"Fuguing",0,'g'
+        !L and return
+        Ls&ignore and return me&tsc,"Ignore",0,'g'
+        
+        $ch = Ls&checking
+        if (ch) {
+            !chs&ok and return me&tsc,"Fuguing",0,'g'
+        }
     }
     # how L%Fugu(ed|ing)%resumed may recover (act onward anyway)
     me.Point_resumed = &acgtRL{
