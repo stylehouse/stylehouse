@@ -846,8 +846,8 @@ me.Sch_Travel = &acgt{ return [
         Thiss&pause = 1
     }
     =pod
-     < make L of Nine/$t
-       mostly by $t%L=L.t
+     make L of Nine/$t
+        mostly by $t%L=L.t
       
       carryon%enNine=1|Nino.t - loads, runs a Nine
       -Will has the list of Nines you want:
@@ -881,7 +881,7 @@ me.Sch_Travel = &acgt{ return [
                 # another Stori->Nine
                 $en = ts&enNine
                 if (en) {
-                    en == 1 and en = Storyy&about[1]
+                    en == 1 and en = Thes&about[1]
                     # start The/Test looking for that Nine (to Stories/$Test)
                     Lc&init = &LR{
                         me&log,R,L.t+'-init'
@@ -950,13 +950,12 @@ me.Sch_Travel = &acgt{ return [
         # Plot 298 init too early yet appears this time
         !D && !Rc&b && Rs&Plot and return me&waits,"enPlot"
         
-        # we start with sy&about[0], pulls [1] in L:carryon
+        # Story%about=[start.t,etc.t]:
+        #  etc pulled by start's L:carryon%enNine=1|etc
         $start = me&ioty,The [0]
         start = starty&Nine
-        start.t != Storyy&about[0] and throw "start not"
+        start.t != Thes&about[0] and throw "start not"
         
-        # sy&about
-        # Nine/* may have %L=L.t etc, grouping into:
         if ('old'&&0) {
             $testcase = 'Easiness'
             $Nine
@@ -987,8 +986,9 @@ me.Sch_Travel = &acgt{ return [
             N.pop();
         }
         
-        # Nine/* may have %L=L.t etc, grouping into:
-        $N = me&Plot_PointoNine,start
+        # Nine/* may have %L=L.t etc
+        $N = me&ioty,start .length ? me&Plot_PointoNine,start
+            : [['startStory',1,{},'ignore']]
         #N = [N[0]]
         $consum = &q,oL{
             if (oL) {
