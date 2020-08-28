@@ -876,8 +876,8 @@ me.Sch_Travel = &acgt{ return [
                 N.push(L)
                 # Eigh that starts a new L
                 # %check defor 1, can be 2 to check checking
-                ts&check and Ls&check = ts&check
-                ts&ignore and Ls&check = 0
+                ts&check and Lc&check = ts&check
+                ts&ignore and Lc&check = 0
                 # another Stori->Nine
                 $en = ts&enNine
                 if (en) {
@@ -956,37 +956,39 @@ me.Sch_Travel = &acgt{ return [
         start.t != Storyy&about[0] and throw "start not"
         
         # sy&about
-        $testcase = 'Easiness'
-        $Nine
         # Nine/* may have %L=L.t etc, grouping into:
-       // vv-Easiness
-        $N = [
-            # n = t,c,sc
-            ['startStory',1,{check:2}],
-         
-            ['carryon',1,{init:&LR{
-                me&log,R,'carryon-init'
-                me&nodei,R,xs&The,{Nine:testcase},{dome:'forNine'}
-            },able:&LR{
-                Nine = me&fiu,xs&The,testcase,7
-                Nine = Niney&Nine
-                !Nine and debugger
-                Lc&nextc = {Nine}
-                Lc&intoaNine = Nine
-            }}],
-            
-            ['ut',1,{init:&LR{
-                Ls&Nine != Nine and debugger
-                $Tra = xs&Travel
-                $Eas = me&fiu,Tra,testcase,7
-                me&nodei,R,Eas,'Go',{dome:'forGoing'}
-            },then:&LR{
-                return me&Point_alldone,R,L
-            }}],
-        ]
-        N.pop();
+        if ('old'&&0) {
+            $testcase = 'Easiness'
+            $Nine
+            $N = [
+                # n = t,c,sc
+                ['startStory',1,{check:2}],
+
+                ['carryon',1,{init:&LR{
+                    me&log,R,'carryon-init'
+                    me&nodei,R,xs&The,{Nine:testcase},{dome:'forNine'}
+                },able:&LR{
+                    Nine = me&fiu,xs&The,testcase,7
+                    Nine = Niney&Nine
+                    !Nine and debugger
+                    Lc&nextc = {Nine}
+                    Lc&intoaNine = Nine
+                }}],
+
+                ['ut',1,{init:&LR{
+                    Ls&Nine != Nine and debugger
+                    $Tra = xs&Travel
+                    $Eas = me&fiu,Tra,testcase,7
+                    me&nodei,R,Eas,'Go',{dome:'forGoing'}
+                },then:&LR{
+                    return me&Point_alldone,R,L
+                }}],
+            ]
+            N.pop();
+        }
         
-        #$N = me&Plot_PointoNine,start
+        # Nine/* may have %L=L.t etc, grouping into:
+        $N = me&Plot_PointoNine,start
         #N = [N[0]]
         $consum = &q,oL{
             if (oL) {
