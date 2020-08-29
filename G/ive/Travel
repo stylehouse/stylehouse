@@ -891,6 +891,7 @@ me.Sch_Travel = &acgt{ return [
       Nino may return to more Nine, via -Will
       
     =cut
+    # parse Nine:s/$t+ into L+
     me.Plot_PointoNine = &acgts,oL{
         $x = me&Jx,R
         $The = xs&The
@@ -988,6 +989,10 @@ me.Sch_Travel = &acgt{ return [
         $start = me&ioty,The [0]
         start = starty&Nine
         start.t != Thes&about[0] and throw "start not"
+        !me&ioty,start .length and throw "start/!*"
+        # Nine/* may have %L=L.t etc
+        $N = me&Plot_PointoNine,start
+            
         
         if ('old'&&0) {
             $testcase = 'Easiness'
@@ -1019,11 +1024,6 @@ me.Sch_Travel = &acgt{ return [
             N.pop();
         }
         
-        # Nine/* may have %L=L.t etc
-        $N = me&ioty,start .length ? me&Plot_PointoNine,start
-            # unless it's a new way to start
-            : [['startup',1,{check:0}]]
-            
         #N = [N[0]]
         $consum = &q,oL{
             if (oL) {
@@ -1213,7 +1213,7 @@ me.Sch_Travel = &acgt{ return [
         !D and throw "!D"
         
         # creation
-        isar(L) and L = me&fiu,Plot,L
+        isar(L) and L = me&fiu,Plot,L,2
         !Plots&z.includes(L) and throw "!Plot/L"
         !Ly&R and me&wants,R,'Linit',Plot
         
