@@ -916,16 +916,20 @@ me.Sch_Travel = &acgt{ return [
                 $en = ts&enNine
                 if (en) {
                     en == 1 and en = Thes&about[1]
+                    $getNine = &t{
+                        $Nine = me&fiu,The,en,7
+                        # Test/Nine
+                        Nine = Niney&Nine
+                        !Nine and debugger
+                        return Nine
+                    }
                     # start The/Test looking for that Nine (to Stories/$Test)
                     Lc&init = &LR{
                         me&log,R,L.t+'-init'
                         me&nodei,R,The,{Nine:en},{dome:'forNine'}
                     }
                     Lc&able = &LR{
-                        $Nine = me&fiu,The,en,7
-                        # Test/Nine
-                        Nine = Niney&Nine
-                        !Nine and debugger
+                        $Nine = getNine(en)
                         Lc&nextc = {Nine}
                         Lc&intoaNine = Nine
                     }
