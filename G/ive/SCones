@@ -773,13 +773,24 @@ me.Sch_Comm = &acgt{ return [
      // 1
         # %Jproto prepares run!!
         me&settle_prev,R and return
-        me&log,R,'On'
+        $x = me&Jx,R
+        $log = &tc{
+            $Story = xs&Story
+            !Story || !Storyy&running and return
+            me&log,R,t,c
+        }
+        log('On')
         $x = me&Jx,R;
         # &Zeve %%eto,e sends to:
         $p = Rs&Proto = xc&Jproto;
         !ps&wou and me&tsc,"Jproto!wou"
         $tw = {};
+        # plans contain multiple C
+        # < use &X_t + &X_s to differ them
+        #   climbs the bit of A needed to do over
         $plans = {};
+        $plan_versions = sy&plan_versions ||= {}
+        
         me&zaa,p,'dome:now' .map(&E{
             
             $D = Es&C;
@@ -787,7 +798,15 @@ me.Sch_Comm = &acgt{ return [
             tw[D.t] = 1;
             $to = Es&to;
             $plan = Es&plan;
-            plans[plan] = 1;
+            if (!plans[plan]) {
+                # plan contains a version already,
+                #  here also are (attempted) runs
+                plan_versions[plan] ||= 0
+                plan_versions[plan]++
+            }
+            else
+            plans[plan] == D and throw "plan/C not uniq"
+            plans[plan] = D
             $b = Dy&Y;
             $starts = Gtime();
             # outputs of each $plan, uniquely named
@@ -884,6 +903,12 @@ me.Sch_Comm = &acgt{ return [
         })
         each ti plans {
             # for %%dome=$plan
+            me&ja,R,{dome:t} .map(&n{
+                $version = plan_versions[t]
+                !version and throw "didntplan"
+                $name = t+"."+version
+                log('run: '+name,n.sc)
+            })
             me&dome_traction,R,t,{el:2};
         }
         
