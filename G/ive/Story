@@ -327,20 +327,119 @@ me.Sch_Story = &acgt{ return [
         
         #me&tsc,"Eighi:"+ki(Rs&twmt,2)
     },'ift,D'],
-    
+   
+   // Around**
     # loads, small list of potential Stori
     #  could be in each A.4 (W:Lingo) Stories,
     #   outsphere of Story/Stories
     #  since Stories%eph we must store our list
-    ['Stori+Around',0.298,&acgtRs{
-        me&reaw,R,'Around'
-        me&scroll,10
-        me&tsc,"Arou"
-        ah(R,'noadhere','director',1)
+    ['Stori+Around',0.294,&acgtRs{
+        me&reaw,R,'Around,onitself'
+        me&inode,R
+        # getting things to itself, usu Test%acceptables/Nine
+        Rs&acceptables = 1
         # does its own %eto,tw
-        ah(R,'noadhere','twmt',1)
         ah(R,'adhere','twmt',s)
-        Rs&fully = 1
+        #me&scroll,10
+        # has ourself inside:
+        #me&bal,"Around","Zaroum,eph"
+        $h = {
+            ytag: 'origin',
+            self: &acgtnt{
+                $r = me&bal,"Re:"+t.t,'ReNine,unity,eph'
+                $z = rc&s
+                return z
+            },
+            other: &acgtntzlm{
+                return me&fiu,z,l.t
+            },
+        }
+        me&acceptables_reother,R,h
+    },'ift,D'],
+    ['Stories',0.294,&acgtRs{
+        Rs&acceptables = 1
+    },'ift,D'],
+    # like TheTest (stages Around)
+    ['Zaroum',0.291,&acgtRs{
+        me&reaw,R,'Zaroum,onitself'
+        ah(R,'noadhere','Paving',1)
+        #debugger
+        me&inode,R
+        Rs&onitself = 1
+        Rs&acceptables = 1
+        me&bal,"Around","Zaround,eph"
+        me&tsc,"Zaroum"
+    },'ift,D'],
+    ['Zaroum',0.67,&acgtRs{
+        $N = me&ioty,R,'ZaNine'
+        # -nine settles the -eights, see &sleepic
+        # < create new &settles and go to sleep
+        #me&settle,R,N && me&sleepic,R,2 and return
+        me&acceptables,R,N
+        $c = {
+            
+            # Eigh have inside:
+            #  t may be accepted in-change
+            # outside:
+            #  merely reincludes Nine/$z (Eigh%exp)
+            #  z%* or z/* may have been changed
+            #   are meta or recipe for the running of it
+            # z separates to allow y&up=O, keeps s&z, y&*
+            # < align diff chunks outside Nine/($z**)
+            #    per Nine/($t** inside)
+            
+            # an Eigh accepted again
+            accept: &acgtsOrznt{
+                me&accept,R,t
+                $dige = me&storable,t
+                # Nine/$z links /$eight
+                $Z = G&Cye,z
+                me&fiu,O,Z,2
+                Zc&pi = 'eight'
+                Zs&dige = dige
+            },
+            # an Eigh still
+            sleep: &acgtsOrz{
+                !rs&exp and return
+                rs&exp != z and debugger
+                $Z = G&Cye,z
+                me&fiu,O,Z,2
+            },
+            # the Nine itself
+            self: &acgtsO{
+                me&Linets,s,O
+                me&accept,R,s
+            },
+        }
+        me&acceptables_reself,R,N,c
+    },'ift,D'],
+    # like TheNine (for Around)
+    ['Zaround',0.33,&acgtRs{
+        me&reaw,R,'Zaround,onitself'
+        #debugger
+        me&inode,R
+        Rs&onitself = 1
+        Rs&acceptables = 1
+        me&tsc,"Zaro"
+        $Ar = me.cbu(R,'Around')
+        #me&settle,R,Ar and return
+        $self = me&selfThat,R,Arc&s
+        me&nu,'self',self
+    },'ift,D'],
+    ['ZaNine',0.291,&acgtRs{
+        
+        $x = me&Jx,R
+        #$that = me&getThat,R,xs&Stories,s.t
+        #!that and return
+        #me&nu,'that',that
+        !Ry&up.sc.Paving and me&waits,"^Paving"; return
+        me&sleepic,R and return
+        
+        # then harness %Live into TheNine
+        # < harness self (TheNine<->...) <-> other (Paving)
+        $self = me&selfThat,R,sy&up
+        me&nu,'self',self
+        
     },'ift,D'],
  
  // %The/Test/Nine/Eigh pos
