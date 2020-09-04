@@ -225,6 +225,9 @@ me.Sch_Story = &acgt{ return [
             !Rs&ever_quiet and return
         }
         if (1) {
+        # changing Stories/Around
+        me&ja,R,'Arounder' &&
+            me&bal,'Arounder','Zaroum,eph'
         # sources of and tests
         Storyy&running = 1
         me&bal,'Stories','Stories,eph'
@@ -252,7 +255,7 @@ me.Sch_Story = &acgt{ return [
  
  // %Stories/Stori/Eighi Live
    
-   // %Stories%Pavings
+  // %Stories%Pavings
     ['Stories',0.297,&acgtRs{
         
         me&reaw,R,'Stories'
@@ -301,7 +304,7 @@ me.Sch_Story = &acgt{ return [
         me&tsc,"SP"
     },'ift,D'],
     
-   // Stori/Eighi?%Paving
+  // Stori/Eighi?%Paving
     # loads if The/Stori wants
     # many Stori/Eighi%dige toc for directory=$Stori
     #  usu enough to pass tests where -eight%dige matches
@@ -328,7 +331,7 @@ me.Sch_Story = &acgt{ return [
         #me&tsc,"Eighi:"+ki(Rs&twmt,2)
     },'ift,D'],
    
-   // Around**
+  // Around**
     # loads, small list of potential Stori
     #  could be in each A.4 (W:Lingo) Stories,
     #   outsphere of Story/Stories
@@ -336,17 +339,33 @@ me.Sch_Story = &acgt{ return [
     ['Stori+Around',0.294,&acgtRs{
         me&reaw,R,'Around,onitself'
         me&inode,R
-        # getting things to itself, usu Test%acceptables/Nine
-        Rs&acceptables = 1
         # does its own %eto,tw
         ah(R,'adhere','twmt',s)
         #me&scroll,10
         # has ourself inside:
         #me&bal,"Around","Zaroum,eph"
+    },'ift,D'],
+    ['Stori+Around',0.7,&acgtRs{
+        $x = me&Jx,R
+        $Q = me&PaveQ,R,s
+        Qc&el == 9 || x.ro("Arou",{}) and me&nodei,R,xs&Story,"Arounder"
+    },'ift,D'],
+    
+    # like TheTest (stages Around)
+    ['Zaroum',0.291,&acgtRs{
+        me&reaw,R,'Zaroum,onitself'
+        #debugger
+        me&inode,R
+        Rs&acceptables = 1
+        me&tsc,"Zaroum"
+        
+        me&bal,"Around","Zaround,eph"
+    },'ift,D'],
+    ['Zaroum',0.294,&acgtRs{
         $h = {
             ytag: 'origin',
             self: &acgtnt{
-                $r = me&bal,"Re:"+t.t,'ReNine,unity,eph'
+                $r = me&bal,"Re:"+t.t,'ReArou,unity,eph'
                 $z = rc&s
                 return z
             },
@@ -356,21 +375,70 @@ me.Sch_Story = &acgt{ return [
         }
         me&acceptables_reother,R,h
     },'ift,D'],
-    ['Stories',0.294,&acgtRs{
-        Rs&acceptables = 1
+   // ReArou
+    ['ReArou',0.295,&acgtRs{
+        me&reaw,R,'ReArou,unity'
+        ah(R,'inheritscif','ball','ReArou',1)
     },'ift,D'],
-    # like TheTest (stages Around)
-    ['Zaroum',0.291,&acgtRs{
-        me&reaw,R,'Zaroum,onitself'
-        ah(R,'noadhere','Paving',1)
+    ['ReArou+unity',0.35,&acgtRs{
+        $N = me&ioty,R,'ReArou'
+        s&bg = '#180213'
+        # Accepting:Push
+        me&toPaves,R,[R,...N]
+    },'ift,D'],
+    # ReArou** difference and flock apply again
+    ['ReArou',0.33,&acgtRs{
+        $go = me&acting,R,'Re'
+        $x = me&Jx,R;
+        # the got, being pushed, is 
+        $The = sy&origin
+        $t = me&twineThat,R,The,{origin:xs&Stories}
+        t and me&toPave,R,R,t,The
+
+        go and me&nu,"The",The
+        !t and return
+        $r = ty&R
+        $Q = rs&Q;
+        if (go) {
+            me&nu,"Q",Q
+            me&nu,"P",Qs&P
+        }
+    },'ift,D'],
+    
+    
+   // Zaround
+    # like TheNine (for Around)
+    ['Zaround',0.33,&acgtRs{
+        me&reaw,R,'Zaround,onitself'
         #debugger
         me&inode,R
-        Rs&onitself = 1
-        Rs&acceptables = 1
-        me&bal,"Around","Zaround,eph"
-        me&tsc,"Zaroum"
+        me&tsc,"Zaro"
+        $x = me&Jx,R
+        $that = me&getThat,R,xs&Stories,"Around"
+        !that and return
+        me&nu,'that',that
+        $self = me&selfThat,R,that
+        me&nu,'self',self
+        
+        $r = me&bal,s.t,self,'ZaTen,eph'
     },'ift,D'],
-    ['Zaroum',0.67,&acgtRs{
+    ['ZaTen',0.294,&acgtRs{
+        me&tsc,"ZaTen"
+        me&reaw,R,'ZaTen,bal_tw_s'
+        Rs&acceptables = 1
+        ah(R,'inheritscif','ball','ZaNine',1)
+        $go = me&acting,R,'Nine'
+        $x = me&Jx,R;
+        $Plot = xs&Plot
+        sc&pi = 'Arou'
+        # roll the invention of Eigh s
+        me&sleepic,R and me&rollbs,R,'bal_tw_s'; return
+        
+        if (!me&ioty,s .length) {
+            me&fiu,s,"Roundness"
+        }
+    },'ift,D'],
+    ['ZaTen',0.67,&acgtRs{
         $N = me&ioty,R,'ZaNine'
         # -nine settles the -eights, see &sleepic
         # < create new &settles and go to sleep
@@ -400,8 +468,6 @@ me.Sch_Story = &acgt{ return [
             },
             # an Eigh still
             sleep: &acgtsOrz{
-                !rs&exp and return
-                rs&exp != z and debugger
                 $Z = G&Cye,z
                 me&fiu,O,Z,2
             },
@@ -413,33 +479,9 @@ me.Sch_Story = &acgt{ return [
         }
         me&acceptables_reself,R,N,c
     },'ift,D'],
-    # like TheNine (for Around)
-    ['Zaround',0.33,&acgtRs{
-        me&reaw,R,'Zaround,onitself'
-        #debugger
-        me&inode,R
-        Rs&onitself = 1
-        Rs&acceptables = 1
-        me&tsc,"Zaro"
-        $Ar = me.cbu(R,'Around')
-        #me&settle,R,Ar and return
-        $self = me&selfThat,R,Arc&s
-        me&nu,'self',self
-    },'ift,D'],
     ['ZaNine',0.291,&acgtRs{
-        
-        $x = me&Jx,R
-        #$that = me&getThat,R,xs&Stories,s.t
-        #!that and return
-        #me&nu,'that',that
-        !Ry&up.sc.Paving and me&waits,"^Paving"; return
-        me&sleepic,R and return
-        
-        # then harness %Live into TheNine
-        # < harness self (TheNine<->...) <-> other (Paving)
-        $self = me&selfThat,R,sy&up
-        me&nu,'self',self
-        
+        me&inode,R
+        me&tsc,"ZaNine"
     },'ift,D'],
  
  // %The/Test/Nine/Eigh pos
