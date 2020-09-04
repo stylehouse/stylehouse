@@ -1289,7 +1289,7 @@
             each vi,fx x.ref {
                 $v = x.refs[vi];
                 $lc = me&slabeline,v
-                $Kn = me&opeKn,Km,lc.t,{label:{tsc:'y'}};
+                $Kn = me&opeKn,Km,lc.t,{label:{tsc:'y'}}
                 Kny&v = v
                 ac(Kn,'vis',vi)
                 
@@ -1348,6 +1348,18 @@
             s == null ? '*null' :
             isst(s) ? s :
             isob(s) ? ki(s,2) : ""+s;
+        # constrain string size
+        if (isst(s) && s.length > 100) {
+            $len = '...'+s.length
+            $lines = s.split("\n")
+            if (lines.length > 1) {
+                $firstline = lines[0]
+                lines = '*'+lines.length
+            }
+            $hash = '#'+dig(s)
+            c.t = firstline != null ? firstline+len+lines+hash
+                : s.substr(0,100)+len+hash
+        }
         return c
     }
    
