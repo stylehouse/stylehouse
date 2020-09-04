@@ -906,77 +906,70 @@ me.Sch_Travel = &acgt{ return [
             each kv t.sc {
                 req_L_sc[k] && !L and throw "must be with %L: "+k
             }
-            if (L) {
-                N.push(L)
-                # Eigh that starts a new L
-                # %check defor 1, can be 2 to check checking
-                ts&check and Lc&check = ts&check
-                ts&ignore and Lc&check = 0
-                # another Stori->Nine
-                $en = ts&enNine
-                if (en) {
-                    en == 1 and en = Thes&about[1]
-                    $getNine = &t{
-                        $Nine = me&fiu,The,en,7
-                        # Test/Nine
-                        Nine = Niney&Nine
-                        !Nine and debugger
-                        return Nine
-                    }
-                    # start The/Test looking for that Nine (to Stories/$Test)
-                    Lc&init = &LR{
-                        me&log,R,L.t+'-init'
-                        me&nodei,R,The,{Nine:en},{dome:'forNine'}
-                    }
-                    Lc&able = &LR{
-                        $Nine = getNine(en)
-                        Lc&nextc = {Nine}
-                        Lc&intoaNine = Nine
-                    }
+            # Eigh in last L
+            !L and return
+            
+            # Eigh that starts a new L
+            N.push(L)
+            # %check defor 1, can be 2 to check checking
+            ts&check and Lc&check = ts&check
+            ts&ignore and Lc&check = 0
+            # another Stori->Nine
+            $en = ts&enNine
+            if (en) {
+                en == 1 and en = Thes&about[1]
+                $getNine = &t{
+                    $Nine = me&fiu,The,en,7
+                    # Test/Nine
+                    Nine = Niney&Nine
+                    !Nine and debugger
+                    return Nine
                 }
-                if (oL && oLc&intoaNine && i == 0) {
-                    # oL is &then()..consum()..here
-                    $also_init = &LR{
-                        Ls&Nine != oLc&intoaNine and debugger
-                        Ls&Nine != s and debugger
-                    }
+                # start The/Test looking for that Nine (to Stories/$Test)
+                Lc&init = &LR{
+                    me&log,R,L.t+'-init'
+                    me&nodei,R,The,{Nine:en},{dome:'forNine'}
                 }
-                $Go = ts&Go
-                if (Go) {
-                    Go == 1 and Go = s.t
-                    Lc&init = &LR{
-                        $Tra = xs&Travel
-                        # < Travel%%Go=$Go -> Travel/$Go
-                        $Eas = me&fiu,Tra,Go,7
-                        me&nodei,R,Eas,'Go',{dome:'forGo'}
-                    }
-                }
-                
-                # < L.c.* merging as an ah() field (Index)
-                if (also_init) {
-                    $was_init = delete Lc&init
-                    Lc&init = &LR{
-                        also_init(L,R)
-                        was_init and was_init(L,R)
-                    }
+                Lc&able = &LR{
+                    $Nine = getNine(en)
+                    Lc&nextc = {Nine}
+                    Lc&intoaNine = Nine
                 }
             }
-            else {
-                # Eigh in that L
+            if (oL && oLc&intoaNine && i == 0) {
+                # oL is &then()..consum()..here
+                $also_init = &LR{
+                    Ls&Nine != oLc&intoaNine and debugger
+                    Ls&Nine != s and debugger
+                }
+            }
+            $Go = ts&Go
+            if (Go) {
+                Go == 1 and Go = s.t
+                Lc&init = &LR{
+                    $Tra = xs&Travel
+                    # < Travel%%Go=$Go -> Travel/$Go
+                    $Eas = me&fiu,Tra,Go,7
+                    me&nodei,R,Eas,'Go',{dome:'forGo'}
+                }
+            }
+
+            # < L.c.* merging as an ah() field (Index)
+            if (also_init) {
+                $was_init = delete Lc&init
+                Lc&init = &LR{
+                    also_init(L,R)
+                    was_init and was_init(L,R)
+                }
             }
         })
-        return N.map(n => [n.t,n.y,n.c,n.sc])
+        return N
     }
     me.Plot_Default = &acgtRs{
         # < based on Stori/* rhythms
         # < 300ms impatience for getting somewhere
         # < get Gump, protoJ for Ying
-        $con = &tycs{
-            c ||= {}
-            # c.Pages ||= 1 later
-            $L = me&OPoint,R,[t,'-Point',c,s]
-            return L
-        }
+        
         # an L is always followed by L%checking
         #  generated in &able
         $x = me&Jx,R
@@ -994,135 +987,118 @@ me.Sch_Travel = &acgt{ return [
         start = starty&Nine
         start.t != Thes&about[0] and throw "start not"
         !me&ioty,start .length and throw "start/!*"
-        # Nine/* may have %L=L.t etc
-        $N = me&Plot_PointoNine,start
-            
         
-        if ('old'&&0) {
-            $testcase = 'Easiness'
-            $Nine
-            $N = [
-                # n = t,c,sc
-                ['startStory',1,{check:2}],
-
-                ['carryon',1,{init:&LR{
-                    me&log,R,'carryon-init'
-                    me&nodei,R,xs&The,{Nine:testcase},{dome:'forNine'}
-                },able:&LR{
-                    Nine = me&fiu,xs&The,testcase,7
-                    Nine = Niney&Nine
-                    !Nine and debugger
-                    Lc&nextc = {Nine}
-                    Lc&intoaNine = Nine
-                }}],
-
-                ['ut',1,{init:&LR{
-                    Ls&Nine != Nine and debugger
-                    $Tra = xs&Travel
-                    $Eas = me&fiu,Tra,testcase,7
-                    me&nodei,R,Eas,'Go',{dome:'forGoing'}
-                },then:&LR{
-                    return me&Point_alldone,R,L
-                }}],
-            ]
-            N.pop();
-        }
-        
+        # Nine/* should have %L=L.t etc
+        $N = Ploty&incoming = me&Plot_PointoNine,start
         #N = [N[0]]
-        $consum = &q,oL{
-            if (oL) {
-                # connected to the last Point
-                if (oLc&intoaNine) {
-                    # load Points from the Nine
-                    #  any N[Point+] potential now happen after it
-                    N.unshift(... me&Plot_PointoNine,oLc&intoaNine,oL )
-                }
+        me&Plot_incoming,R
+    }
+    # starts|continues generating L
+    me.Plot_incoming = &acgtRq,oL{
+        $x = me&Jx,R
+        $Plot = xs&Plot
+        $N = Ploty&incoming
+        
+        if (oL) {
+            # connected to the last Point
+            if (oLc&intoaNine) {
+                # load Points from the Nine
+                #  any N[Point+] potential now happen after it
+                N.unshift(... me&Plot_PointoNine,oLc&intoaNine,oL )
             }
-            $n = N.shift()
-            !n and return me&Point_alldone,R
-            # q over c
-            q and ex(n[2],q)
-            $L = con(...n)
-            
-            
-            $able = Lc&able
-            $checks = defor(Lc&check,1)
-            Lc&able = &LR{
-                # once L%%Checkable, in|for Page=3
-                me&log,R,L.t+'-able'
-                able and able(L,R)
-                
-                if (!checks) {
-                    Ls&ignore ||= 'nocheck'
-                    return
-                }
-                
-                # fire continuation after checking
-                $then = delete Lc&then
-                $check = con('ok:'+L.t,1,{},{checking:L})
-                if (checks == 2) {
-                    $thenafter = then
-                    then = &L,R,nothing{
-                        # usually nothing
-                        !Ls&resumed and return
-                        # once L%Fuguing, never %%Checkable
-                        #  so may never call &able
-                        # keep on after the ok:ok:L.t
-                        me&log,R,L.t+'-then%resumed'
-                        # from the perspective of L%Fugue, accept:L.t
-                        #  instead of the ok:ok:L.t 
-                        $Fuguing = Ls&Fuguing
-                        !Fuguing and debugger
-                        debugger
-                        # < the L:carryon nodei doesn't get it ready
-                        #   by the time it becomes %%Checkable...
-                        thenafter(Fuguing,R)
-                    }
-                    checkc&able = &L,R,thenvia{
-                        Ls&resumed and debugger
-                        me&log,R,L.t+'-able'
-                        $ch = con('ok:'+L.t,1,{},{checking:L})
-                        chc&then = thenafter
-                    }
-                }
-                checkc&then = then
-            }
-            $then = Lc&then
-            $oL = L;
-            # ^ &then may be moved onto L%checking
-            Lc&then = &LRq{
-                # while we realise L&then
-                # we are in a small page between Ls
-                
-                # rename|number between Nine
-                # eg &able is moved to L:(ok:)+carryon
-                $re = oLc&intoaNine
-                re and Ploty&namePages = re
-                
-                Ly&atPage = &R{
-                    # now the next page|L starts
-                    #  with no mention of the previous L
-                    $q = {Page_in:Plots&Page}
-                    oLc&nextc and ex(q,oLc&nextc)
-                    $uL = consum(q,oL)
-                    # < why without this, L:carryon has !Niney&Nine 
-                    me&wants,R,'Lup',Plot
-                    
-                    then and then(L,R)
-                }
-                Ls&ignore and Ly&atPage(R); delete Ly&atPage
-                
-                This = me&yfuture,This
-                $la = me&ioty,This,'Yingates' .slice(-1)[0]
-                # previous L wants that small page ignored
-                #  we may be L%checking by now (&then may be moved)
-                $Ignorable = 'pagebetween'
-                me&nodei,R,la,{Ignorable},{dome:Ignorable}
-            }
-            return L
         }
-        #
-        consum()
+        $n = N.shift()
+        !n and return me&Point_alldone,R
+        
+        q and ex(n.c,q)
+        $L = me&OPoint,R,[n.t,'-Point',n.c,n.sc]
+        
+        me&Point_addcheck,R,L
+        
+        return L
+    }
+    # L:oL gets subsequent L%checking,
+    #  moves oL&able,&then to L
+    me.Point_addcheck = &acgtRL{
+        $x = me&Jx,R
+        $Plot = xs&Plot
+        $This = xc&This
+        
+        $able = Lc&able
+        $checks = defor(Lc&check,1)
+        Lc&able = &LR{
+            # once L%%Checkable, in|for Page=3
+            me&log,R,L.t+'-able'
+            able and able(L,R)
+
+            if (!checks) {
+                Ls&ignore ||= 'nocheck'
+                return
+            }
+
+            # fire continuation after checking
+            $then = delete Lc&then
+            $check = me&OPoint,R,['ok:'+L.t,'-Point',{},{checking:L}]
+            if (checks == 2) {
+                $thenafter = then
+                then = &L,R,nothing{
+                    # usually nothing
+                    !Ls&resumed and return
+                    # once L%Fuguing, never %%Checkable
+                    #  so may never call &able
+                    # keep on after the ok:ok:L.t
+                    me&log,R,L.t+'-then%resumed'
+                    # from the perspective of L%Fugue, accept:L.t
+                    #  instead of the ok:ok:L.t 
+                    $Fuguing = Ls&Fuguing
+                    !Fuguing and debugger
+                    debugger
+                    # < the L:carryon nodei doesn't get it ready
+                    #   by the time it becomes %%Checkable...
+                    thenafter(Fuguing,R)
+                }
+                checkc&able = &L,R,thenvia{
+                    Ls&resumed and debugger
+                    me&log,R,L.t+'-able'
+                    $ch = me&OPoint,R,['ok:'+L.t,'-Point',{},{checking:L}]
+                    chc&then = thenafter
+                }
+            }
+            checkc&then = then
+        }
+        $then = Lc&then
+        $oL = L;
+        # this &then may be moved onto L%checking
+        Lc&then = &LRq{
+            # when we realise L&then
+            # we are in a small page between Ls
+
+            # rename|number between Nine
+            # eg &able is moved to L:(ok:)+carryon
+            $re = oLc&intoaNine
+            re and Ploty&namePages = re
+
+            Ly&atPage = &R{
+                # now the next page|L starts
+                #  with no mention of the previous L
+                $q = {Page_in:Plots&Page}
+                oLc&nextc and ex(q,oLc&nextc)
+                $uL = me&Plot_incoming,R,q,oL
+                # < why without this, L:carryon has !Niney&Nine 
+                me&wants,R,'Lup',Plot
+
+                then and then(L,R)
+            }
+            Ls&ignore and Ly&atPage(R); delete Ly&atPage
+
+            This = me&yfuture,This
+            $la = me&ioty,This,'Yingates' .slice(-1)[0]
+            # previous L wants that small page ignored
+            #  we may be L%checking by now (&then may be moved)
+            $Ignorable = 'pagebetween'
+            me&nodei,R,la,{Ignorable},{dome:Ignorable}
+        }
+        return L
     }
     
     
