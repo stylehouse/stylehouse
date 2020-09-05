@@ -238,8 +238,9 @@ me.Sch_Story = &acgt{ return [
         $r = me&bal,'The','The,eph'
         $The = rc&s
         # 
-        #Thes&about ||= ['vovol','Dealap']
+        Thes&about ||= ['vovol','Dealap']
         # max 490 Yings
+        #  left failing while Jrunto learns logging
         Thes&about ||= ['vv','Easiness']
         
         # pile of nodes
@@ -497,12 +498,16 @@ me.Sch_Story = &acgt{ return [
         # init The/$t/$t
         #  which %%Nine -> Plot, then <-> eight
         $Story = xs&Story
-        $first = me&fiu,The,Thes&about[0]
-        firsts&first = 1
-        # < each ^ TheTest (run) should many Nine (case)
-        me&jaa,R,'Nine',1 .map(&t{
-            me&fiu,The,t
-        })
+        $about = uniq([
+            # < load all %about from the start
+            #   needs to make a Nine current
+            Thes&about[0],
+            ... me&jaa,R,'Nine',1 ,
+        ])
+        each it about {
+            $n = me&fiu,The,t
+            i == 0 and ns&firstNine = 1
+        }
     },'ift,D'],
     # -nine being Zavable
     ['TheTest',0.294,&acgtRs{
@@ -566,7 +571,7 @@ me.Sch_Story = &acgt{ return [
         
         if (sy&autoviv && !me&ioty,s .length) {
             ac(Plot,'autovivNine',s.t)
-            if (ss&first) {
+            if (ss&firstNine) {
                 # init something for &Plot_Default to begin on
                 #  usu tests grow off the end of others and never:
                 # need to ignore startup (2 Pages, by the time Plot&init)
