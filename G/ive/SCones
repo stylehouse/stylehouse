@@ -905,13 +905,13 @@ me.Sch_Comm = &acgt{ return [
         })
         each ti plans {
             # for %%dome=$plan
+            me&dome_traction,R,plan,{el:2}
             me&ja,R,{dome:t} .map(&n{
                 $version = plan_versions[t]
                 !version and throw "didntplan"
                 $name = t+"."+version
                 log('run: '+name,n.sc)
             })
-            me&dome_traction,R,t,{el:2};
         }
         
         if (me&rolltog,R,{k:'T',once:1}) {
