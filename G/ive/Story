@@ -238,6 +238,8 @@ me.Sch_Story = &acgt{ return [
         $r = me&bal,'The','The,eph'
         $The = rc&s
         # 
+        Thes&about ||= ['Dealap']
+        # max 400 Yings?
         Thes&about ||= ['vovol','Dealap']
         # max 490 Yings
         #  left failing while Jrunto learns logging
@@ -854,17 +856,22 @@ me.Sch_Story = &acgt{ return [
         # may be unturned, see merge similar previous
         # < turn fractions of a page|plot, when|why
         $Plot = xs&Plot
-        $page_turning = &q{
-            # othery before turn
+        $This = s
+        # just the turney bit
+        Thisy&Pageturn = &q{
+            # othery before turn: make name
             $t = me&yyt,Plot,'Pageturning',R,D
                 || "blank-"+(1+hak(Ds&z))
-            
             # close
             Dy&domed(q)
             # open
             Dy&dome(t,'light')
+        }
+        $page_turning = &q{
+            # turney bit:
+            me&yyt,This,'Pageturn'
             
-            # othery &Plot_Pageturn
+            # othery &Plot_Pageturn responds to it
             me&yyt,Plot,'Pageturn',R,D
             
             $i = Ds&z.length

@@ -860,6 +860,7 @@ me.Sch_Travel = &acgt{ return [
  &{
  // Plot gen Point
     # R%Point is the last of something,
+    # < see Around-ness (time collection)
     # < trace back to -Will
     me.Point_alldone = &acgtRL{
         if (0) {
@@ -896,6 +897,13 @@ me.Sch_Travel = &acgt{ return [
     me.Plot_PointoNine = &acgts,oL{
         $x = me&Jx,R
         $The = xs&The
+        $getNine = &t{
+            $Nine = me&fiu,The,t,7
+            # Test/Nine
+            Nine = Niney&Nine
+            !Nine and debugger
+            return Nine
+        }
         $Plot = xs&Plot
         $Story = xs&Story
         # n = t,c,sc
@@ -911,6 +919,14 @@ me.Sch_Travel = &acgt{ return [
             !L and return
             
             # Eigh that starts a new L
+            if (!oL && i == 0 && ts&Go) {
+                # L%Go first, preceed with a startup ignorer
+                #  will be ranged for beginning,startStory
+                N.push(Cye(['startStory',1,{check:0}]))
+                # will then have a page of mumbling,
+                #  up to the 'Going'-log
+                $sudden_Go = 1
+            }
             N.push(L)
             # %check defor 1, can be 2 to check checking
             ts&check and Lc&check = ts&check
@@ -919,13 +935,6 @@ me.Sch_Travel = &acgt{ return [
             $en = ts&enNine
             if (en) {
                 en == 1 and en = Thes&about[1]
-                $getNine = &t{
-                    $Nine = me&fiu,The,en,7
-                    # Test/Nine
-                    Nine = Niney&Nine
-                    !Nine and debugger
-                    return Nine
-                }
                 # start The/Test looking for that Nine (to Stories/$Test)
                 Lc&init = &LR{
                     me&log,R,L.t+'-init'
@@ -949,6 +958,12 @@ me.Sch_Travel = &acgt{ return [
                 Go == 1 and Go = s.t
                 Lc&init = &LR{
                     $Tra = xs&Travel
+                    # by now, sweep stuff (we Story a bit, Point++)
+                    if (sudden_Go) {
+                        Ploty&namePages = Ls&Nine
+                        me&Pageturn_suddenly,R
+                    }
+                    me&log,R,'Going',{Go}
                     # < Travel%%Go=$Go -> Travel/$Go
                     $Eas = me&fiu,Tra,Go,7
                     me&nodei,R,Eas,'Go',{dome:'forGo'}
@@ -1171,6 +1186,18 @@ me.Sch_Travel = &acgt{ return [
         Ly&atPage and Ly&atPage(r,i); delete Ly&atPage
         
         me&Plot_Pageturn_Checkable,R,s,r,D
+    }
+    # R:Point demanding a clear page, without %%quiet
+    #  or the above &Plot_Pageturn responding to it (no &atPage)
+    me.Pageturn_suddenly = &acgtR{
+        $x = me&Jx,R
+        $This = xs&This
+        me&log,R,"Pageturn_suddenly"
+        me&yyt,This,'Pageturn'
+        $Plot = xs&Plot
+        $L = Ploty&Point
+        Lc&Page_in += 1
+        Lc&Page_out += 1
     }
  
  // Point
