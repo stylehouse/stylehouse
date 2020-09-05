@@ -775,10 +775,11 @@ me.Sch_Comm = &acgt{ return [
         me&settle_prev,R and return
         
         $x = me&Jx,R
-        $log = &tc{
+        $log = &tch{
             $Story = xs&Story
             !Story || !Storyy&running and return
-            me&log,R,t,c
+            isnu(h) and h = {hu:h}
+            me&log,R,t,c,h
         }
         log('On')
         
@@ -791,6 +792,11 @@ me.Sch_Comm = &acgt{ return [
         #   climbs the bit of A needed to do over
         $plans = {};
         $plan_versions = sy&plan_versions ||= {}
+        $planvername = &t{
+            $version = plan_versions[t]
+            !version and throw "didntplan"
+            return t+"."+version
+        }
         
         me&zaa,p,'dome:now' .map(&E{
             
@@ -807,6 +813,8 @@ me.Sch_Comm = &acgt{ return [
             }
             else
             plans[plan] == D and throw "plan/C not uniq"
+            
+            log('run: '+planvername(plan),E.sc,{hu:1,pi:'input'})
             plans[plan] = D
             $b = Dy&Y;
             $starts = Gtime();
@@ -903,14 +911,11 @@ me.Sch_Comm = &acgt{ return [
                 n error  $s:er,R %Error
             }
         })
-        each ti plans {
+        each plan,i plans {
             # for %%dome=$plan
             me&dome_traction,R,plan,{el:2}
-            me&ja,R,{dome:t} .map(&n{
-                $version = plan_versions[t]
-                !version and throw "didntplan"
-                $name = t+"."+version
-                log('run: '+name,n.sc)
+            me&ja,R,{dome:plan} .map(&n{
+                log('run: '+planvername(plan),n.sc,{hu:2,pi:'output'})
             })
         }
         

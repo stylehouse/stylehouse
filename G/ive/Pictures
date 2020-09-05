@@ -782,7 +782,7 @@
             #   see 'capture any adjusted ology for replay'
             #   specifics for the process its going into,
             #    want tuning in the brackology
-            $br = me&pibrackology,R,se,{D,ology:{labelD:1}}
+            $br = me&pibrackology,R,se,{D,ology:{labelD:1,usuDpi:'gate'}}
             br != sey&brackology and throw "you"
             #me&nu,"See",{s,br}
         },&se,D{
@@ -1229,7 +1229,20 @@
         c = exts(q,c,'label')
         # < move out
         c.sc and ex(g.sc,c.sc)
+        
+        $D = c.D
+        # colour
         gs&hue = 30
+        if (D) {
+            if (c.usuDpi && Dc&pi != c.usuDpi) {
+                s&ml = -2
+                gs&hue = -20
+            }
+            if (c.labelD && Dc&hu) {
+                gs&hue = 100 + Dc&hu * 45
+            }
+        }
+        
         gs&ws = 0
         me&applystylec,g,c,{};
         me&opelabel,g,c.label;
