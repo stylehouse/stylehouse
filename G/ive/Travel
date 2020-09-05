@@ -958,10 +958,15 @@ me.Sch_Travel = &acgt{ return [
                 Go == 1 and Go = s.t
                 Lc&init = &LR{
                     $Tra = xs&Travel
-                    # by now, sweep stuff (we Story a bit, Point++)
+                    # by now, stuff (Story...Point++...)
                     if (sudden_Go) {
+                        # kept in le-3, shut, ignored
                         Ploty&namePages = Ls&Nine
                         me&Pageturn_suddenly,R
+                    }
+                    else {
+                        # could be swept into the last Page?
+                        #me&Pageturn_pretendnow,R
                     }
                     me&log,R,'Going',{Go}
                     # < Travel%%Go=$Go -> Travel/$Go
@@ -1187,17 +1192,34 @@ me.Sch_Travel = &acgt{ return [
         
         me&Plot_Pageturn_Checkable,R,s,r,D
     }
-    # R:Point demanding a clear page, without %%quiet
+    # R:Point demanding a new page, without %%quiet
     #  or the above &Plot_Pageturn responding to it (no &atPage)
     me.Pageturn_suddenly = &acgtR{
         $x = me&Jx,R
         $This = xs&This
         me&log,R,"Pageturn_suddenly"
-        me&yyt,This,'Pageturn'
+        $D = me&yyt,This,'Pageturn'
+        !D and throw "This!&Pageturn"
         $Plot = xs&Plot
         $L = Ploty&Point
         Lc&Page_in += 1
         Lc&Page_out += 1
+    }
+    # GONER R:Point demanding a clear page
+    #  Page's stuff so far swept back onto lastPage
+    # < may naff out Y:Dome
+    #    eg drop empty: lastPage will already be gone
+    # < slep D/*/*?
+    me.Pageturn_pretendnow = &acgtR{
+        debugger
+        $x = me&Jx,R
+        $This = xs&This
+        $D = Thisy&Storystream
+        $Page = Ds&z.slice(-1)[0]
+        $lastPage = Ds&z.slice(-2)[0]
+        # these are not input, mere ac z
+        lastPages&z.push(... Pages&z)
+        Pages&z = []
     }
  
  // Point
