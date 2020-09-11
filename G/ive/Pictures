@@ -598,8 +598,19 @@
             $style = v ? {dis:0} : {}
             $visit = &n{
                 $also = {}
-                # 0,1 hidden,block (assuming r%rowish)
-                !v and also.dis = isR(n) ? 1 : 2
+                if (v) {
+                    # hiding
+                    # for now we are always selfing, huge extra load
+                    #  avoid putting into html just to hide it
+                    #   and once on, avoid removing just to hide it
+                    $b = nc&b
+                    isR(n) && (!b || !by&Display) and ns&noDisplay = 1
+                }
+                else {
+                    # revealing
+                    # 0,1 hidden,block(r%rowish),inline-block(-ology/*)
+                    also.dis = isR(n) ? 1 : 2
+                }
                 apply(n,ex(also,style))
             }
             me&toureight,R,E,visit
