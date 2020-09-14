@@ -214,63 +214,27 @@ me.Sch_Story = &acgt{ return [
  
  // %Story itself
     ['Story',0.299,&acgtR,Story{
-      // as a player
+      // as non-%play
         me&reaw,R,'Story,Cu'
         me&inode,R
         $x = me&Jx,R
-        Rc&W = 'Story'
         
-        # to amble attention from
-        me&rollbsc,R,'Cu'
-        $Cu = me&remember,R,'Cu'
-        #Cuc&thaw and 'loaded'
-        # created:
-        Cuc&prefab and Cu.t = 'Dealap'
-        Rs&doThe = &t{
-            me&fiu,Cu,Cu.t
-            me&fiu,Cu,t,9
-            Cu.t = t
-        }
-        # send things to promote, Cu/* what was (t+cv only)
-        me&jaa,R,'Cu',1 .map(&ti{
-            0 < i and throw "manyCu"
-            Rs&doThe(t)
-        })
-        
-        if (Cu.t == Storys&engaged) {
-            
-        }
+        # %play avoids running tests
+        #  ie we are playing with the W
+        $store = "Story/%play"
+        !Rc&b and Rs&play = localStorage[store]*1
         else {
-            #Rs&icount > 1 and delete Rs&emptied
-            if (!me&rollbs,R,'emptied') {
-                # make this Story/* empty
-                #  to invalidate &bal /* tunnelings
-                !me&rollbs,R,'emptied' and me&waits,'emptied'
-                Rs&emptied = 1
-                Rs&Shouldbeempty = 1
-                me&tsc,'emptieding'
-                return
-            }
-            else {
-                me&tsc,'emptied'
-                delete Rs&emptied
-                Storys&engaged = Cu.t
-            }
+            # sync %play once init
+            localStorage[store] = Rs&play || 0
         }
-        me.nto(R,me&tsc,'reset' ,&s{
-            delete Storys&engaged
-            Storys&disen = 1
-        })
+        $play = Rs&play || 0
+        me&introqua,R,{play}
         
-        #Storys&disen and return
-        #me&bal,'Storiz','Storiz,eph'
-        
-        #return
+        Rs&play and return
         
       // as playing
-        Rs&play and return
-
         # quiet,wake:Story then Story/This
+        #  ie settle non-Story**, then start Story
         if (!me&rollbs,R,'ever_quiet' ) {
             me&quiet_waker,R and Rs&ever_quiet = 1
             !Rs&ever_quiet and return
@@ -310,6 +274,7 @@ me.Sch_Story = &acgt{ return [
         # is visited to draw them into %Yingates/%Yingate
         # < lighter drawing into -eight/-seven
     },'ift,D'],
+  // misc Story
     # negate %onlyish sleeping innards
     ['Shouldbeempty',0.33,&acgtRs{
         grepout(Rs&z,r => rs&ball && rs&sleeping).map(&r{
