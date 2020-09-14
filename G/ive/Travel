@@ -2154,7 +2154,9 @@ me.Sch_Travel = &acgt{ return [
         #  that we want to push a state to
         !msy&structure[li+1] and me&ha,R,'thing'
         
-        # Travel/$t <-> Ghost/$ms..$z <-> Know..$K
+        # $ms (MayGansp) knows about the Ghost/** structure
+        #   ms%%found:$sz
+        # Travel/$t <-> Ghost/$sz..$z <-> Know..$K
         $K;
         
         # twin|tw_nodeo: p%%found=$zt|$z / #$s
@@ -2208,8 +2210,9 @@ me.Sch_Travel = &acgt{ return [
         # < x&ja,c,1 for:
         $K = me&jaa,R,'yonder',1 [0]
         $z = me&jaa,R,'found',1 [0]
-        
-        K && me&twin_nodeo,R,msy&twin,msy&remote,{s:K} (&n{
+        $sz = me&jaa,mg,'found',1 [0]
+        K && !sz and debugger
+        K && me&twin_nodeo,R,msy&twin,msy&remote,{s:K,inside:sz} (&n{
             # Know..K can find other Ghost..z
             ns&s == K and return
             me&ha,R,{otherz:ns&s,via:ns&efrom}
