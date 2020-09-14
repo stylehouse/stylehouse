@@ -2117,25 +2117,25 @@ me.Sch_Travel = &acgt{ return [
         me&reaw,R,'MayTwine,eph,activy';
         me&bin,'MayTwine';
         $S = me&inode,R;
-        $mg = me.cbu(R,'MayGansp');
-        $ms = mgc&s;
-        
         $x = me&Jx,R;
         $ja = &c{ return me&ja,R,c };
-        
+        # n|u should have To|Ghost/$t
+        $mg = me.cbu(R,'MayGansp');
+        $ms = mgc&s;
+        # some distance in
         $li = sy&path.indexOf(ms);
         li < 0 and throw "!^^MayGansp"
         $l = sy&path.slice(li);
         li = l.length-1;
+        # we start beyond 0 (MayGansp's To|Ghost/$t)
         $h = msy&structure[li];
         # t/of/t/species is pushed but not remembered
         !h and me&ha,R,'extra'
-        else
         # a t/of/t, or any complete leg of index
         #  that we want to push a state to
         !msy&structure[li+1] and me&ha,R,'thing'
         
-        # Travel/* <-> Ghost/$ms..$z <-> Know..$K
+        # Travel/$t <-> Ghost/$ms..$z <-> Know..$K
         $K;
         
         # twin|tw_nodeo: p%%found=$zt|$z / #$s
@@ -2146,8 +2146,11 @@ me.Sch_Travel = &acgt{ return [
             $zj = zy&R;
             !zj and return me&waits,"theyR"
             !ja('thing') and return
+            
             # Ghost%%tw... again for the other side
-            me&twin_nodeo,R,msy&twin,msy&remote,{tw:s.t},'yonder' (&n{
+            #  Ghost..$z we have climbed to, finds:
+            #  Know..$K that was located by %twin itself
+            me&twin_nodeo,R,msy&twin,msy&remote,{efrom:z},'yonder' (&n{
                 # we are %%yonder=K
                 # wake %MayGansp on Know..K connection
                 !me&za,R,'yonder,via'
