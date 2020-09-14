@@ -235,17 +235,34 @@ me.Sch_Travel = &acgt{ return [
         me&ha,R,"Travels,to:Morrocco";
     },'ift,D'],
     
-    ['Travelty',0.298,&acgtRs{
-        me&bin,'Traveltoid'
+    # < a process similar to Travel itself,
+    #   acty:3 saving a W
+    # Travel/*(%play?%SummerCat)
+    ['Travelables',0.297,&acgtRs{
+        me&bin,'Travelable'
+        #me&ha,R,"Go:figuratively"
+        #me&ha,R,"Go:Dealap"
+        me&jaa,R,'Go' .map(&n{
+            $t = ns&Go
+            $z = me&fiu,s,t,8
+            z ||= me&bal,t,'eph' .c.s
+            zy&path ? me&nodei,R,z,n : me&waits,"node.."
+        })
     },'ift,D'],
-    # %%Go -> %play, without sticking in %Te
-    #  for Peace 291 to personify
-    ['Traveltoid',0.29,&acgtRs{
+    ['Travelable',0.2971,&acgtRs{
         me&inode,R
-        me&ha,R,"Hazid"
-        me&ja,R,'Go' and Rs&play = 1
+        !me&ja,R,'Go' and return
+        Rs&play = 1
+        # %eph while %%Go-created, up permanence:
+        $x = me&Jx,R
+        $Tr = xs&Travel
+        Rs&eph && x.ro('%eph') and me&fiu,Tr,s
     },'ift,D'],
-        
+    ['Travelable+play',0.2972,&acgtRs{
+        Rs&SummerCat = 1
+    },'ift,D'],
+    
+    # noise
     ['Travelty',0.39,&acgtRs{
         $x = me&Jx,R
         me&ha,R,"Travels,to:everywhere",{R};
@@ -297,8 +314,6 @@ me.Sch_Travel = &acgt{ return [
 
 
 // Story ext
-    
-    
  // %Nodar views
   // doc
         =experiencing a:
@@ -1554,6 +1569,7 @@ me.Sch_Travel = &acgt{ return [
         return L
     }
  },
+
 // Gump - Know|That %%cha -> Travel
     ['Gumptio',0.5,&acgtRs{
     
@@ -2012,11 +2028,14 @@ me.Sch_Travel = &acgt{ return [
         t and c = {q:c,t:t}
         $j = me&yfuture,twin;
         $q = c.q || c
+        hak(q,'t') and q.tw = delete q.t
         # %MayGansp &settles j/$zt once found
         #  is too specific to &settle j|Ghost itself
         q.host ||= 1;
         $N = me&zaa,j,q
-            .filter(n => ns&host.t == host.t);
+            # spec %%host gives us the %%inside (or not)
+            .filter(n => ns&host.t == host.t)
+        N.length > 1 and debugger
         return &per_thing,{
             N.length > 1 and return me&waits,"many:"+twin.t+"->"+host.t;
             N.map(&n{
@@ -2148,8 +2167,8 @@ me.Sch_Travel = &acgt{ return [
             !ja('thing') and return
             
             # Ghost%%tw... again for the other side
-            #  Ghost..$z we have climbed to, finds:
-            #  Know..$K that was located by %twin itself
+            #  %%efrom: Ghost..$z we have climbed to, finds:
+            #  %%s: Know..$K that was located by %twin itself
             me&twin_nodeo,R,msy&twin,msy&remote,{efrom:z},'yonder' (&n{
                 # we are %%yonder=K
                 # wake %MayGansp on Know..K connection
