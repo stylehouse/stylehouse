@@ -1571,9 +1571,30 @@ me.Sch_Travel = &acgt{ return [
  },
 
 // Gump - Know|That %%cha -> Travel
+    &{
+    # after page refresh (opo. Ying reset)
+    #  we seem to lose some laters[], or something
+    #  quiet_wakers never fires
+    me.extrainitbump = &acgtR{
+        $first = &{
+            $Ri = me&yfuture,R
+            $wake = me&yfuture,me.cbu(R,'Ying')
+            Ris&icount <3 and me&elvis,Ri,'Bump',{wake}
+        }
+        G&yl,222,first
+    }
+    },
     ['Gumptio',0.5,&acgtRs{
     
         me&reaw,R,'Gumptio'
+        $x = me&Jx,R
+        $Story = xs&Story
+        Story && Storyy&running and return me&tsc,"Story..."
+        
+        if (!sy&ever_quiet) {
+            me&quiet_waker,R and sy&ever_quiet = 1
+            !sy&ever_quiet and me&extrainitbump,R; return
+        }
         
         me&jaa,R,'chag' .map(&n{
             # Know..$z
