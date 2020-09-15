@@ -1608,30 +1608,8 @@ me.Sch_Travel = &acgt{ return [
             !sy&ever_quiet and me&extrainitbump,R; return
         }
         
-        $g = me&opeolo,R,'plans'
-        me&jaa,R,'chag' .map(&n{
-            # Know..$K
-            $K = ns&efrom
-            $tp = me&tpath,K
-            # tabular expression?
-            $gr = gy&can('w')
-            $se = gry&can('c')
-            $lc = sey&can('i',tp)
-            $le = gry&can('c')
-            
-            # Travel..$t
-            $N = me&otwin,K
-            N.map(&t{
-                $ro = ley&can('w');
-                ros&hue = 38;
-                $rc = roy&can('i',t.t)
-                #me&mnu,ro,'Travel',t
-            })
-            
-        })
         me&baleg,'Gutwin'
         me&baleg,'Guten'
-        #me&baleg,"Gumprocess"
         
         # < manage the Travel/$t
         # < %%chag instability before commit,
@@ -1666,11 +1644,25 @@ me.Sch_Travel = &acgt{ return [
         
         
     },'ift,D'],
-  // 1
-    ['Gumprocess',0.5,&acgtRs{
-        me&baleg,'Gutwin'
-        me&baleg,'Guten'
+        
+    ['Gumptio',0.6,&acgtRs{
+        me&bewind,R and return
+        $x = me&Jx,R
+        $Gu = xs&Guten
+        !Gu and return
+        !Gu and return me&waits,"Othersel1"
+        !Guy&R and debugger
+        !Guy&R and return me&waits,"Othersel2"
+        # Know..$K <-> K%Thing
+        me&jaa,R,'chag' .map(&n{
+            me&nodei,R,Gu,n
+        })
+        # K <-> Ghost..$z
+        me&jaa,R,'chat' .map(&n{
+            me&nodei,R,Gu,n
+        })
     },'ift,D'],
+  // 1
     # check out all the %twins around
     ['Gutwin',0.45,&acgtRs{
         me&sleepic,R and return
@@ -1678,6 +1670,28 @@ me.Sch_Travel = &acgt{ return [
         $Gu = xs&Guten
         # awkward start. &bewind goes forever?
         !Guy&R and return me&waits,"Othersel2"
+        
+        me&ioty,xs&Ying .map(&p{
+            !ps&twin and return
+            each iz py&N {
+                # pointing to another $p
+                !zy&host and continue
+                $r = zy&R
+                $n = me&zaa,r,{tw:1,eto:p,host:zy&host} [0]
+                # find dead links: z with no K
+                if (!n) {
+                    me&ha,R,{lost:zy&host,p,z},{dome:'feels'}
+                    continue
+                }
+                $K = ns&s
+                # notice when K%dige ~ z%dige
+                if (zs&dige != Ks&dige) {
+                    $mix = {is:Ks&dige, was:zs&dige}
+                    me&ha,R,{cha:'dige',p,z,K},{dome:'feels'},mix
+                }
+            }
+            # < find dead links: K|t with no z
+        })
         
         Rs&icount > 5 and return
         $Vink = Rs&icount > 3 ? 1 : 4
@@ -1689,6 +1703,29 @@ me.Sch_Travel = &acgt{ return [
             me&tsc,"("+V+")",0,'G'
         })
         me&tsc,"Yep"
+        
+        # 
+        
+        $g = me&opeolo,R,'plans'
+        me&jaa,R,'chag' .map(&n{
+            # Know|That..$K
+            $K = ns&K
+            $tp = me&tpath,K
+            # tabular expression?
+            $gr = gy&can('w')
+            $se = gry&can('c')
+            $lc = sey&can('i',tp)
+            $le = gry&can('c')
+            
+            # Travel..$t
+            $N = me&otwin,K
+            N.map(&t{
+                $ro = ley&can('w');
+                ros&hue = 38;
+                $rc = roy&can('i',t.t)
+                #me&mnu,ro,'Travel',t
+            })
+        })
     },'ift,D'],
   
 // Duolish/%Releasor <- Travel
