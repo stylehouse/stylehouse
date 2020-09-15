@@ -213,7 +213,7 @@ me.Sch_Story = &acgt{ return [
     =todo
  
  // %Story itself
-    ['Story',0.299,&acgtR,Story{
+    ['Story',0.299,&acgtRs{
       // as non-%play
         me&reaw,R,'Story,Cu'
         me&inode,R
@@ -235,16 +235,16 @@ me.Sch_Story = &acgt{ return [
       // as playing
         # quiet,wake:Story then Story/This
         #  ie settle non-Story**, then start Story
-        if (!me&rollbs,R,'ever_quiet' ) {
-            me&quiet_waker,R and Rs&ever_quiet = 1
-            !Rs&ever_quiet and return
+        if (!sy&ever_quiet) {
+            me&quiet_waker,R and sy&ever_quiet = 1
+            !sy&ever_quiet and return
         }
-        if (1) {
+        
         # changing Stories/Around
         me&ja,R,'Arounder' &&
             me&bal,'Arounder','Zaroum,eph'
         # sources of and tests
-        Storyy&running = 1
+        sy&running = 1
         me&bal,'Stories','Stories,eph'
         
         # expectation - where it begins
@@ -268,7 +268,6 @@ me.Sch_Story = &acgt{ return [
         # navigator
         me&bal,'Plot','Plot,eph'
         
-        }
         # experience
         $r = me&bal,'This','theThis,eph'
         # is visited to draw them into %Yingates/%Yingate
