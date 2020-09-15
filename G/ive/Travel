@@ -1571,6 +1571,7 @@ me.Sch_Travel = &acgt{ return [
  },
 
 // Gump - Know|That %%cha -> Travel
+  // 0
     &{
     # after page refresh (opo. Ying reset)
     #  we seem to lose some laters[], or something
@@ -1583,10 +1584,21 @@ me.Sch_Travel = &acgt{ return [
         }
         G&yl,222,first
     }
+    # < move with &bin, &Jx, &inode, etc
+    me.baleg = &acgtt{
+        $r = me&bal,t,'Blaga,eph'
+        r.sc[t] = 1
+        rs&Baleg = t
+    }
     },
+    ['Baleg',0.292,&acgtRs{
+        R.sc[R.t] = 1
+        me&inode,R
+        me&reaw,R,'Baleg,'+Rs&Baleg
+        me&tsc,"YeBap"
+    },'ift,D'],
+    # receive %%chag, make updates
     ['Gumptio',0.5,&acgtRs{
-    
-        me&reaw,R,'Gumptio'
         $x = me&Jx,R
         $Story = xs&Story
         Story && Storyy&running and return me&tsc,"Story..."
@@ -1596,32 +1608,34 @@ me.Sch_Travel = &acgt{ return [
             !sy&ever_quiet and me&extrainitbump,R; return
         }
         
+        $g = me&opeolo,R,'plans'
         me&jaa,R,'chag' .map(&n{
-            # Know..$z
-            $z = ns&efrom;
-            # Travel..$n
-            $N = me&otwin,z
-            N.map(&n{
-                $t = me&tpath,z
-                me&zu,t,n
+            # Know..$K
+            $K = ns&efrom
+            $tp = me&tpath,K
+            # tabular expression?
+            $gr = gy&can('w')
+            $se = gry&can('c')
+            $lc = sey&can('i',tp)
+            $le = gry&can('c')
+            
+            # Travel..$t
+            $N = me&otwin,K
+            N.map(&t{
+                $ro = ley&can('w');
+                ros&hue = 38;
+                $rc = roy&can('i',t.t)
+                #me&mnu,ro,'Travel',t
             })
+            
         })
+        me&baleg,'Gutwin'
+        me&baleg,'Guten'
+        #me&baleg,"Gumprocess"
         
-        # any new narrative is filled with the %%chag of now
-        me&jaa,R,'narrative',1 .map(&i{
-            $dome = 'v'+i
-            me&ja,R,{dome} and return
-            me&jaa,R,'chag' .map(&n{
-                $z = ns&efrom
-                n = ns&n
-                me&otwin,z .map(&t{
-                    me&ha,R,n,{dome},{cha:ns&cha||'?',t:t}
-                })
-            })
-        });
         # < manage the Travel/$t
         # < %%chag instability before commit,
-        #    see %Compiling
+        #    see %Compiling!
         
       // testable
         return;
@@ -1650,6 +1664,31 @@ me.Sch_Travel = &acgt{ return [
             me&zu,"fro",c
         })
         
+        
+    },'ift,D'],
+  // 1
+    ['Gumprocess',0.5,&acgtRs{
+        me&baleg,'Gutwin'
+        me&baleg,'Guten'
+    },'ift,D'],
+    # check out all the %twins around
+    ['Gutwin',0.45,&acgtRs{
+        me&sleepic,R and return
+        $x = me&Jx,R
+        $Gu = xs&Guten
+        # awkward start. &bewind goes forever?
+        !Guy&R and return me&waits,"Othersel2"
+        
+        Rs&icount > 5 and return
+        $Vink = Rs&icount > 3 ? 1 : 4
+        me&nodei,R,xs&Guten,{Vink}
+    },'ift,D'],
+    # grouped by Travel/$t
+    ['Guten',0.45,&acgtRs{
+        me&jaa,R,'Vink',1 .map(&V{
+            me&tsc,"("+V+")",0,'G'
+        })
+        me&tsc,"Yep"
     },'ift,D'],
   
 // Duolish/%Releasor <- Travel

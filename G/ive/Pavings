@@ -508,7 +508,9 @@ me.Sch_Pavings = &acgt{ return [
             }
         }
         if (ss&dige != Things&dige) {
-            me&ha,R,{cha:'dige',src:s,from:Q},{dome:'feels'}
+            # < part of CBing, could be anything
+            $mix = {is:Things&dige, was:ss&dige}
+            me&ha,R,{cha:'dige',Q},{dome:'feels'},mix
         }
         
         # skip two complications:
@@ -658,7 +660,8 @@ me.Sch_Pavings = &acgt{ return [
         
         $x = me&Jx,R;
         # %%cha -> Gump
-        me&jaa,R,'cha,src,from,dome:feels' .map(&n{
+        me&jaa,R,'cha,Q,dome:feels' .map(&n{
+            # %%n can be another brack row to &brackstill
             me&nodei,R,xs&Gump,{chag:1,n},{dome:'means'}
         })
 
