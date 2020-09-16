@@ -1581,7 +1581,6 @@ me.Sch_Travel = &acgt{ return [
         R.sc[R.t] = 1
         me&inode,R
         me&reaw,R,'Baleg,'+Rs&Baleg
-        me&tsc,"YeBap"
     },'ift,D'],
     # receive %%chag, make updates
     ['Gumptio',0.5,&acgtRs{
@@ -1643,10 +1642,7 @@ me.Sch_Travel = &acgt{ return [
         me&jaa,R,'chag' .map(&n{
             me&nodei,R,Gu,n
         })
-        # K <-> Ghost..$z
-        me&jaa,R,'chat' .map(&n{
-            me&nodei,R,Gu,n
-        })
+        # K <-> Ghost..$z (%%chat) gen from Gutwin
     },'ift,D'],
   // 1
     # check out all the %twins around
@@ -1664,9 +1660,12 @@ me.Sch_Travel = &acgt{ return [
         # these are in Schema order
         me&ioty,xs&Ying .reverse() .map(&p{
             !ps&twin and return
+            
+           // %twin link
             each iz py&N {
                 # pointing to another $p
                 !zy&twinning and continue
+                
                 $r = zy&R
                 $n = me&zaa,r,{tw:1,eto:p,host:zy&host} [0]
                 # find dead links: z with no K
@@ -1683,6 +1682,8 @@ me.Sch_Travel = &acgt{ return [
                     chaf('dige',{p,z,K},mix)
                 }
             }
+            
+           // remotes
             # find dead links: K|t with no z
             # note: p is s (Rc&s), not sy&p (about Schema)
             #  %twin guts are moving to sy&remotes etc.
@@ -1696,6 +1697,8 @@ me.Sch_Travel = &acgt{ return [
             #  we would probably want $W/That first (as it &bal)
             #   the others being aux concern
             $pi = me&neaz,py&p,0
+            # build Guten layout: That,To,Travel,Ghost,Know
+            $c = {}
             each ih py&remotes {
                 $hi = me&neaz,hy&p,0
                 # flows upwards
@@ -1706,7 +1709,7 @@ me.Sch_Travel = &acgt{ return [
                     pi,p.t,(forward?"->":"<-"),
                     h.t,hi,(outside?'outside':''),
                 ])
-                me&tsc,desc .sc.dis = 1
+                #me&tsc,desc .sc.dis = 1
                 # since p%twin %%tw...s=h/**$K
                 me&zaa,hy&R,'tw,s' .map(&n{
                     $s = ns&s
@@ -1716,28 +1719,58 @@ me.Sch_Travel = &acgt{ return [
                         chaf('lonely',{lonely:h,p},mix)
                     }
                 })
+                
+           // %twin layout
+                c.p && c.p != p and debugger
+                c.p = p
+                c[outside ? 'outside' : 'inside'] = h
+                if (c.outside && c.inside) {
+                    !outside and throw "later !outside"
+                    $mix = sex({},c,forward ?
+                        # That:outside,To:p,Travel:inside
+                        'outside,p,inside' : 
+                        # Travel:inside,Ghost:p,Know:outside
+                        'inside,p,outside'
+                    )
+                    me&nodei,R,xs&Guten,'layout',{},mix
+                    c = {}
+                }
             }
             
         })
         me&dome_traction,R,'feels'
         me&jaa,R,'cha' .map(&n{
             # %Paving passes %%n yet this inherits n
-            #  they are handled differently, yet almost generic (p,t|K)
+            #  they are handled differently, yet almost generic (p,z?,t|K)
             me&nodei,R,xs&Guten,n,{},{chat:'linkage'}
         })
-        
-        Rs&icount > 5 and return
-        $Vink = Rs&icount > 3 ? 1 : 4
-        me&nodei,R,xs&Guten,{Vink}
     },'ift,D'],
     # grouped by Travel/$t, differing
     ['Guten',0.45,&acgtRs{
-        me&jaa,R,'Vink',1 .map(&V{
-            me&tsc,"("+V+")",0,'G'
+        # steps for columns
+        $columns = []
+        # order doesn't matter to bracko
+        me&jaa,R,'layout,outside,p,inside' .map(&ni{
+            $spec = haks(n.sc)
+            $left = spec.indexOf('outside') < spec.indexOf('inside')
+            if (left) {
+                columns.push(ns&outside,ns&p,ns&inside)
+            }
+            else {
+                columns.slice(-1)[0] != ns&inside and throw "not joined %%inside"
+                columns.push(ns&p,ns&outside)
+            }
         })
-        me&tsc,"Yep"
+        $g = me&opeolo,R,'sprains'
+        $gr = gy&can('w')
+        grs&bri = 1.4
+        grs&deco = 1
+        columns .map(&n{
+            $se = gry&can('c')
+            $lc = sey&can('i',n.t)
+        })
+        # < get cha* grouped by column
         
-        # 
         
         $g = me&opeolo,R,'plans'
         me&jaa,R,'chag' .map(&n{
