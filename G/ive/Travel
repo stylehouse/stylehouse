@@ -1673,7 +1673,9 @@ me.Sch_Travel = &acgt{ return [
                     chaf('lost',{lost:zy&twinning,p,z})
                     continue
                 }
-                $outside = !ns&inside
+                # they %%inside (=$a for Travel/$t),
+                #  when on the outside (...$z for Know|That/**)
+                $outside = ns&inside
                 # $K=$t and $z=$a when not outside (and t!%dige)
                 $K = ns&s
                 # notice when K%dige ~ z%dige
@@ -1747,13 +1749,17 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
     # grouped by Travel/$t, differing
     ['Guten',0.45,&acgtRs{
-        # steps for columns
+       // steps for columns
         $columns = []
+        $pk
         # order doesn't matter to bracko
         me&jaa,R,'layout,outside,p,inside' .map(&ni{
+            1 < i and throw "many joins"
             $spec = haks(n.sc)
             $left = spec.indexOf('outside') < spec.indexOf('inside')
             if (left) {
+                pk and throw "many left"
+                pk = ns&inside
                 columns.push(ns&outside,ns&p,ns&inside)
             }
             else {
@@ -1769,29 +1775,77 @@ me.Sch_Travel = &acgt{ return [
             $se = gry&can('c')
             $lc = sey&can('i',n.t)
         })
-        # < get cha* grouped by column
         
         
-        $g = me&opeolo,R,'plans'
-        me&jaa,R,'chag' .map(&n{
-            # Know|That..$K
-            $K = ns&K
-            $tp = me&tpath,K
-            # tabular expression?
-            $gr = gy&can('w')
-            $se = gry&can('c')
-            $lc = sey&can('i',tp)
-            $le = gry&can('c')
+       // sprains by Travel
+        # < get cha* grouped to columns...
+          
+        # each type knowing
+        $seen = []
+        $inSteps = &sN{
             
+        }
+        $byTravel = &nt{
+            # t ||= some ns&* that ^^$Travel:pk
+            $gk
+            if (t == null) {
+                each kv n.sc {
+                    v == pk and continue
+                    !isnode(v) and continue
+                    vy&path[0] != pk and continue
+                    t = v
+                    gk = k
+                }
+                # then again for any column?
+            }
+            t ||= 0
+            # stash with explanations
+            me&ha,R,{t,n},{dome:'byT'},gk?{gk}:{}
+        }
+        # %Paving changes first
+        me&jaa,R,'chag,K' .map(&n{
+            seen.push(n)
             # Travel..$t
-            $N = me&otwin,K
+            $N = me&otwin,ns&K
             N.map(&t{
+                byTravel(n,t)
+            })
+            !N.length and byTravel(n,0)
+        })
+        # %twin changes first
+        me&jaa,R,'chat,z,K' .map(&n{
+            seen.push(n)
+        })
+        me&dome_traction,R,'byT'
+        
+        $ts = uniq( me&jaa,R,'dome:byT','t' )
+        each it ts {
+            me&jaa,R,{dome:'byT',t} .map(&j{
+                $n = js&n
+                # Know|That..$K
+                $K = ns&K
+                $left = Ky&path[0] == columns[0]
+                $tp = me&tpath,K
+                # tabular expression?
+                $gr = gy&can('w')
+                $se = gry&can('c')
+                left and $lc = sey&can('i',tp)
+                $li = gry&can('c')
+                $le = gry&can('c')
+
+                # Travel..$t
                 $ro = ley&can('w');
                 ros&hue = 38;
                 $rc = roy&can('i',t.t)
+                
+                
+                $li = gry&can('c')
+                $se = gry&can('c')
+                !left and $lc = sey&can('i',tp)
+                
                 #me&mnu,ro,'Travel',t
             })
-        })
+        }
     },'ift,D'],
   
 // Duolish/%Releasor <- Travel
