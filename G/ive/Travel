@@ -721,20 +721,6 @@ me.Sch_Travel = &acgt{ return [
     #  $eight Yingates+Fin:
     #   half happens without it,
     #   -> Eigh%%Fin:$eight,dige checks it ...
-    &{
-    me.neaz = &acgtsy{
-        $p = sy&up
-        $z = ps&z
-        $si = z.indexOf(s)
-        si < 0 and throw "!neaz"
-        if (num(y)) {
-            return z[si+y]
-        } 
-        else {
-            throw "either direction until y()?"
-        }
-    }
-    },
     ['TheEigh',0.35,&acgtRs{
         
         $x = me&Jx,R
@@ -1671,33 +1657,80 @@ me.Sch_Travel = &acgt{ return [
         # awkward start. &bewind goes forever?
         !Guy&R and return me&waits,"Othersel2"
         
-        me&ioty,xs&Ying .map(&p{
+        $chaf = &t,c,mix{
+            c = ex({cha:t},c)
+            me&ha,R,c,{dome:'feels'},mix
+        }
+        # these are in Schema order
+        me&ioty,xs&Ying .reverse() .map(&p{
             !ps&twin and return
             each iz py&N {
                 # pointing to another $p
-                !zy&host and continue
+                !zy&twinning and continue
                 $r = zy&R
                 $n = me&zaa,r,{tw:1,eto:p,host:zy&host} [0]
                 # find dead links: z with no K
                 if (!n) {
-                    me&ha,R,{lost:zy&host,p,z},{dome:'feels'}
+                    chaf('lost',{lost:zy&twinning,p,z})
                     continue
                 }
+                $outside = !ns&inside
+                # $K=$t and $z=$a when not outside (and t!%dige)
                 $K = ns&s
                 # notice when K%dige ~ z%dige
-                if (zs&dige != Ks&dige) {
+                if (outside && zs&dige != Ks&dige) {
                     $mix = {is:Ks&dige, was:zs&dige}
-                    me&ha,R,{cha:'dige',p,z,K},{dome:'feels'},mix
+                    chaf('dige',{p,z,K},mix)
                 }
             }
-            # < find dead links: K|t with no z
+            # find dead links: K|t with no z
+            # note: p is s (Rc&s), not sy&p (about Schema)
+            #  %twin guts are moving to sy&remotes etc.
+            # < possibly undo the Ying/$s:step y&up=Ying thing
+            #    what requires climbing s only up to the step?
+            #   which forgot about how:
+            # YET! for finding which way it all goes
+            #  ie Know--->That
+            #  use Schema's sy&p, re-ordering W:Fingo for workflow sense
+            #   also the steps &bal in reverse, so things bubble upwards
+            #  we would probably want $W/That first (as it &bal)
+            #   the others being aux concern
+            $pi = me&neaz,py&p,0
+            each ih py&remotes {
+                $hi = me&neaz,hy&p,0
+                # flows upwards
+                $forward = hi > pi
+                # when $z, %%inside=$a: p/$a/**$z
+                $outside = i > 0
+                $desc = joint([
+                    pi,p.t,(forward?"->":"<-"),
+                    h.t,hi,(outside?'outside':''),
+                ])
+                me&tsc,desc .sc.dis = 1
+                # since p%twin %%tw...s=h/**$K
+                me&zaa,hy&R,'tw,s' .map(&n{
+                    $s = ns&s
+                    $some = me&zaa,py&R,{tw:1,s}
+                    if (!some.length) {
+                        $mix = outside ? {K:s} : {t:s}
+                        chaf('lonely',{lonely:h,p},mix)
+                    }
+                })
+            }
+            
+        })
+        me&dome_traction,R,'feels'
+        me&jaa,R,'cha' .map(&n{
+            # %Paving passes %%n yet this inherits n
+            #  they are handled differently, yet almost generic (p,t|K)
+            me&nodei,R,xs&Guten,n,{},{chat:'linkage'}
         })
         
         Rs&icount > 5 and return
         $Vink = Rs&icount > 3 ? 1 : 4
         me&nodei,R,xs&Guten,{Vink}
     },'ift,D'],
-    # grouped by Travel/$t
+    # grouped by Travel/$t, differing
     ['Guten',0.45,&acgtRs{
         me&jaa,R,'Vink',1 .map(&V{
             me&tsc,"("+V+")",0,'G'
