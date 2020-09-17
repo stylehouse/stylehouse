@@ -1680,7 +1680,8 @@ me.Sch_Travel = &acgt{ return [
                 $K = ns&s
                 # notice when K%dige ~ z%dige
                 if (outside && zs&dige != Ks&dige) {
-                    $mix = {is:zs&dige, was:Ks&dige}
+                    $mix = zs&dige == null ? {is:Ks&dige}
+                        : {is:zs&dige, was:Ks&dige}
                     chaf('dige',{p,z,K},mix)
                 }
             }
@@ -1777,12 +1778,10 @@ me.Sch_Travel = &acgt{ return [
             $lc = sey&can('i',n.t)
         })
         
-        
        // sprains by Travel
-        # < get cha* grouped to columns...
+        # get %%cha* grouped to columns...
           
         # each type knowing
-        $seen = []
         $inSteps = &sNq{
             each kv s.sc {
                 # ignore eg %%lost:Travel
@@ -1808,71 +1807,116 @@ me.Sch_Travel = &acgt{ return [
             q.t ||= 0
             me&ha,R,q,{dome:'byT'}
         }
-        # %Paving changes first
-        me&jaa,R,'chag,K' .map(&n{
+       
+       // sprains Travel
+        $seen = []
+        $Ghossc = &nh{
             seen.push(n)
             # K%dige can affect all Travel..$t
             # %%was=K%dige
             # %%is=Thing%dige (may already be on $z)
             $K = ns&K
-            $h = ns&n
+            $k = hs&cha
+            !K || !k and throw "takes K+k"
             me&ootwin,K (&tz{
+                # might have %%z if about linkage
+                ns&z && ns&z != z and return
                 $p = zy&path[0]
-                byTravel(n,{t,p,z,K})
+                $q = {t,p,z,K}
+                # should find amongst $z,$K
+                q.Ghoscgk = k
+                # may not have the correct value
+                q.Ghoscis = hs&is
+                # $z may be the correct value
+                hs&is == z.sc[k] and q.satis = 1
+                byTravel(n,q)
             })
             || byTravel(n,{t:0})
-        })
+        }
+        
+        # %Paving changes first
+        me&jaa,R,'chag,K' .map(n => Ghossc(n,ns&n))
         # %twin changes first
         #  the %%z,is=$dige may match the %%K,is=$dige
-        me&jaa,R,'chat,z,K' .map(&n{
-            seen.push(n)
+        me&jaa,R,'chat,z,K' .map(n => Ghossc(n,n))
+        
+        me&jaa,R,'chat,lost' .map(&n{
+            ns&dome == 'byT' and return
+            me&ha,R,n,{dome:'byT'}
         })
+        
         me&dome_traction,R,'byT'
         
-        $ts = uniq( me&jaa,R,'dome:byT','t' )
-        each it ts {
-            $te = null
-            me&jaa,R,{dome:'byT',t} .map(&ji{
+       // Travel sprains
+        $te
+        $N = me&jaa,R,{dome:'byT'}
+        me&sortial,N,'t' .map(&N{
+            te = null
+        me&sortial,N,'K' .map(&N{
+            each ij N {
                 $n = js&n
-                # Know|That..$K
-                $K = ns&K
-                $p = ns&p
+                # Know|That..$K !
+                $K = js&K
+                $p = js&p
+                $z = js&z
+                $t = js&t
+                $forK = &se,{ midK(se) }
+                $midK = &se,{}
+                $forp = &li,{ midp(li) }
+                $midp = &li,{}
                 if (K) {
                     $left = Ky&path[0] == columns[0]
-                    $Kish = &se,{
-                        $tp = me&tpath,K
+                    forK = &se,{
+                        $tp = joint(Ky&path.slice(1),'/')
                         $lc = sey&can('i',tp)
+                        midK(se)
+                    }
+                    if (js&Ghoscgk) {
+                        $k = js&Ghoscgk
+                        midK = &se,{
+                            me&mtsc,se,'~'+k,0,'y'
+                        }
+                        midp = &li,{
+                            $el = js&satis ? 8 :
+                                z && z.sc[k] == null ? 2 :
+                                !z ? 1 :
+                                3
+                            me&mtsc,li,'el:'+el,0,'y'
+                        }
                     }
                 }
                 elsif (p) {
                     $left ||= py&path[0] == columns[1]
                 }
                 else {
-                    $gr = gy&can('w')
-                    me&mtsc,gr,"NoK|p"
+                    #$gr = gy&can('w')
+                    #me&mtsc,gr,"NoK|p"
                 }
-                # tabular expression?
+       // tabular expression?
                 $gr = gy&can('w')
                 $se = gry&can('c')
                 $lc = sey&can('i','+')
                 if (lcs&ope) {
-                    $gj = gy&can('r')
+                    #$gj = gy&can('r')
                     #gjs&dis = 1
-                    me&nu,"t:"+t.t+",i:"+i,j
+                    $labe = (t ? "t:"+t.t+"," : "")
+                        + "i:"+i
+                    me&nu,labe,j
                 }
                 
                 # That
                 $se = gry&can('c')
-                left and Kish(se)
+                left and forK(se)
                 # To
                 $li = gry&can('c')
+                left and forp(li)
 
                 # Travel..$t
                 if (!te) {
                     te = gry&can('c')
                     $ro = tey&can('w')
                     ros&hue = 38
-                    $rc = roy&can('i',t.t)
+                    $rc = roy&can('i',t ? t.t : "?")
                     tes&tag = 'td'
                     ah(te,'attr','rowspan',1)
                 }
@@ -1882,13 +1926,17 @@ me.Sch_Travel = &acgt{ return [
                 
                 # Ghost
                 $li = gry&can('c')
+                !left and forp(li)
                 # Know
                 $se = gry&can('c')
-                !left and Kish(se)
+                !left and forK(se)
                 
                 #me&mnu,ro,'Travel',t
-            })
-        }
+            }
+        })
+        })
+        $gr = gy&can('w')
+        me&mtsc,gr,"t*yep"
     },'ift,D'],
   
 // Duolish/%Releasor <- Travel
