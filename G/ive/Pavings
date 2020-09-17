@@ -89,6 +89,15 @@ me.Sch_Pavings = &acgt{ return [
         $win = me.cby(R,'^^^twin');
         $r = win.shift();
         $st = rc&s;
+        if (!hak(win)) {
+            # the step, C above index
+            r != R and throw "R"
+            if (!Rc&b) {
+                # avoid initial everything %%broken
+                rs&twinningup =
+                Rs&numberclicked = 1; me&waits,"Loading..."
+            }
+        }
         
         $S = me&inode,R;
         # can give/take
@@ -114,7 +123,8 @@ me.Sch_Pavings = &acgt{ return [
             #  so s=Know..s,efrom=Ghost..s
             me&nodei,R,1,n,{},qe;
         }
-        !N.length and me&nodei,R,1,{broken:1},{},qe;
+        N.length || rs&twinningup and return
+        me&nodei,R,1,{broken:1},{},qe
         # wait for them until we find this thing
         !me&ja,R,qe and me&settle,R,hosty&R
     },'ift,D'],
