@@ -1853,11 +1853,11 @@ me.Sch_Travel = &acgt{ return [
         me&jaa,R,'chat,lost' .map(&n{
             ns&dome == 'byT' and return
             
-            $h = me&ha,R,n,{dome:'byT'}
+            $h = me&ha,R,n,{dome:'byT'},inSteps(n)
             # cluey infill of the non-broken end
             $z = ns&z
             z && me&revtwin,z (&ta{
-                $c = {cluey:t,n}
+                $c = {cluey:'infill',t,n:h}
                 # mix choosen column for t
                 #  brings up the fact of $gk=cluey, also
                 $m = me&ha,R,c,{},inSteps(c)
@@ -1873,13 +1873,13 @@ me.Sch_Travel = &acgt{ return [
         me&sortial,N,'t' .map(&N{
             te = null
         me&sortial,N,'K' .map(&N{
-            each ij N {
-                $n = js&n
+            each ih N {
+                $n = hs&n
                 # Know|That..$K !
-                $K = js&K
-                $p = js&p
-                $z = js&z
-                $t = js&t
+                $K = hs&K
+                $p = hs&p
+                $z = hs&z
+                $t = hs&t
                 # when on to unjoined rows:
                 !t and te = null
                 $forK = &se,{ midK(se) }
@@ -1893,13 +1893,13 @@ me.Sch_Travel = &acgt{ return [
                         $lc = sey&can('i',tp)
                         midK(se)
                     }
-                    if (js&Ghoscgk) {
-                        $k = js&Ghoscgk
+                    if (hs&Ghoscgk) {
+                        $k = hs&Ghoscgk
                         midK = &se,{
                             me&mtsc,se,'~'+k,0,'y'
                         }
                         midp = &li,{
-                            $el = js&satis ? 8 :
+                            $el = hs&satis ? 8 :
                                 z && z.sc[k] == null ? 2 :
                                 !z ? 1 :
                                 3
@@ -1910,7 +1910,7 @@ me.Sch_Travel = &acgt{ return [
                     }
                 }
                 elsif (p) {
-                    $left ||= py&path[0] == columns[1]
+                    $left = py&path[0] == columns[1]
                     forp = &li,{
                         #$tp = joint(py&path.slice(1),'/')
                         z &&
@@ -1928,9 +1928,9 @@ me.Sch_Travel = &acgt{ return [
                 if (lcs&ope) {
                     #$gj = gy&can('r')
                     #gjs&dis = 1
-                    $labe = (t ? "t:"+t.t+"," : "")
+                    $labe = "$h "+(t ? "t:"+t.t+"," : "")
                         + "i:"+i
-                    me&nu,labe,j
+                    me&nu,labe,h
                 }
                 
                 $col = columns.map(&Si{
@@ -1956,16 +1956,28 @@ me.Sch_Travel = &acgt{ return [
                     sey&coli = i
                     return se
                 })
-                
                 # That,To
                 left ?
-                col.slice(0,1).map(&ei{
-                     !i ? forK(e) : forp(e)
+                col.slice(0,2).map(&ei{
+                    !i*1 ? forK(e) : forp(e)
                 })
                 :
                 # Ghost,Know
                 col.slice(-2).map(&ei{
-                     !!i ? forK(e) : forp(e)
+                    !!i*1 ? forK(e) : forp(e)
+                })
+                
+                me&jaa,R,{cluey:1,n:h} .map(&l{
+                    if (ls&step) {
+                        $e = col.filter(e => ey&step == ls&step)[0]
+                        !e and debugger
+                        $s = ls&gk && l.sc[ls&gk]
+                        $labe = s ? s.t : '@?'
+                        me&mtsc,e,"cluey:"+ls&cluey,labe,'g'
+                    }
+                    else {
+                        me&nu,"%cluey!%step",l
+                    }
                 })
                 
                 #me&nu,'Travel',las
