@@ -1680,7 +1680,7 @@ me.Sch_Travel = &acgt{ return [
                 $K = ns&s
                 # notice when K%dige ~ z%dige
                 if (outside && zs&dige != Ks&dige) {
-                    $mix = {is:Ks&dige, was:zs&dige}
+                    $mix = {is:zs&dige, was:Ks&dige}
                     chaf('dige',{p,z,K},mix)
                 }
             }
@@ -1771,6 +1771,7 @@ me.Sch_Travel = &acgt{ return [
         $gr = gy&can('w')
         grs&bri = 1.4
         grs&deco = 1
+        $se = gry&can('c')
         columns .map(&n{
             $se = gry&can('c')
             $lc = sey&can('i',n.t)
@@ -1782,37 +1783,47 @@ me.Sch_Travel = &acgt{ return [
           
         # each type knowing
         $seen = []
-        $inSteps = &sN{
-            
-        }
-        $byTravel = &nt{
-            # t ||= some ns&* that ^^$Travel:pk
-            $gk
-            if (t == null) {
-                each kv n.sc {
-                    v == pk and continue
-                    !isnode(v) and continue
-                    vy&path[0] != pk and continue
-                    t = v
-                    gk = k
-                }
-                # then again for any column?
+        $inSteps = &sNq{
+            each kv s.sc {
+                # ignore eg %%lost:Travel
+                N.includes(v) and continue
+                !isnode(v) and continue
+                $vi = N.indexOf(vy&path[0])
+                vi < 0 and continue
+                # thing is in a step that is a column
+                q.column = vi
+                q.t = v
+                q.gk = k
+                break
             }
-            t ||= 0
-            # stash with explanations
-            me&ha,R,{t,n},{dome:'byT'},gk?{gk}:{}
+        }
+        # stash with explanations
+        #  try to find a Travel..$t to hang off
+        $byTravel = &nq{
+            # t ||= some ns&* that ^^$Travel:pk
+            q = ex(q||{},{n})
+            q.t == null and inSteps(n,[pk],q)
+            # then again for any column?
+            #q.t == null and inSteps(n,[columns],q)
+            q.t ||= 0
+            me&ha,R,q,{dome:'byT'}
         }
         # %Paving changes first
         me&jaa,R,'chag,K' .map(&n{
             seen.push(n)
-            # Travel..$t
-            $N = me&otwin,ns&K
-            N.map(&t{
-                byTravel(n,t)
+            # K%dige can affect all Travel..$t
+            # %%was=K%dige
+            # %%is=Thing%dige (may already be on $z)
+            $K = ns&K
+            $h = ns&n
+            me&ootwin,K (&tz{
+                $p = zy&path[0]
+                byTravel(n,{t,p,z,K})
             })
-            !N.length and byTravel(n,0)
+            || byTravel(n,{t:0})
         })
         # %twin changes first
+        #  the %%z,is=$dige may match the %%K,is=$dige
         me&jaa,R,'chat,z,K' .map(&n{
             seen.push(n)
         })
@@ -1820,28 +1831,60 @@ me.Sch_Travel = &acgt{ return [
         
         $ts = uniq( me&jaa,R,'dome:byT','t' )
         each it ts {
-            me&jaa,R,{dome:'byT',t} .map(&j{
+            $te = null
+            me&jaa,R,{dome:'byT',t} .map(&ji{
                 $n = js&n
                 # Know|That..$K
                 $K = ns&K
-                $left = Ky&path[0] == columns[0]
-                $tp = me&tpath,K
+                $p = ns&p
+                if (K) {
+                    $left = Ky&path[0] == columns[0]
+                    $Kish = &se,{
+                        $tp = me&tpath,K
+                        $lc = sey&can('i',tp)
+                    }
+                }
+                elsif (p) {
+                    $left ||= py&path[0] == columns[1]
+                }
+                else {
+                    $gr = gy&can('w')
+                    me&mtsc,gr,"NoK|p"
+                }
                 # tabular expression?
                 $gr = gy&can('w')
                 $se = gry&can('c')
-                left and $lc = sey&can('i',tp)
+                $lc = sey&can('i','+')
+                if (lcs&ope) {
+                    $gj = gy&can('r')
+                    #gjs&dis = 1
+                    me&nu,"t:"+t.t+",i:"+i,j
+                }
+                
+                # That
+                $se = gry&can('c')
+                left and Kish(se)
+                # To
                 $li = gry&can('c')
-                $le = gry&can('c')
 
                 # Travel..$t
-                $ro = ley&can('w');
-                ros&hue = 38;
-                $rc = roy&can('i',t.t)
+                if (!te) {
+                    te = gry&can('c')
+                    $ro = tey&can('w')
+                    ros&hue = 38
+                    $rc = roy&can('i',t.t)
+                    tes&tag = 'td'
+                    ah(te,'attr','rowspan',1)
+                }
+                else {
+                    tes&attr.rowspan++
+                }
                 
-                
+                # Ghost
                 $li = gry&can('c')
+                # Know
                 $se = gry&can('c')
-                !left and $lc = sey&can('i',tp)
+                !left and Kish(se)
                 
                 #me&mnu,ro,'Travel',t
             })
@@ -2318,6 +2361,40 @@ me.Sch_Travel = &acgt{ return [
             })
         }
         return N
+    }
+    # same as above with $z
+    #  eg Know..$K finds To..$z and Travel..$t
+    me.ootwin = &acgtK{
+        return &per,{
+            $S = Ky&path[0]
+            $some = 0
+            # for all connected to Know (To)
+            each ip Sy&twinned {
+                $twin = py&R
+                # look for To%%tw...s=K
+                me&jaa,twin,{tw:1,s:K} .map(&n{
+                    # go to the other side
+                    #  Ghost/$a <-> Ghost..$z%%inside
+                    $q = {tw:1}
+                    $z = null
+                    !ns&inside and q.inside = ns&efrom
+                    else {
+                        q.efrom = ns&inside
+                        z = ns&efrom
+                    }
+                    me&jaa,twin,ex(q,{tw:1}) .map(&n{
+                        $t = ns&s
+                        # when K=Travel..$t, still select $z
+                        z ||= ns&efrom
+                        !z and throw "no Ghost..z"
+                        some = 1
+                        per(t,z,K)
+                    })
+                    
+                })
+            }
+            return some
+        }
     }
     
     # nodein %%el,tw requets +|- $s/#$e
