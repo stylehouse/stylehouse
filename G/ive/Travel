@@ -1926,24 +1926,17 @@ me.Sch_Travel = &acgt{ return [
                 $gr = gy&can('w')
                 $se = gry&can('c')
                 $lc = sey&can('i','+')
-                if (lcs&ope) {
-                    #$gj = gy&can('r')
-                    #gjs&dis = 1
-                    $labe = "$h "+(t ? "t:"+t.t+"," : "")
-                        + "i:"+i
-                    me&nu,labe,h
-                }
                 
+                $made_te = 0
                 $col = columns.map(&Si{
                     if (S == pk) {
                         # Travel..$t
                         if (!te) {
-                            te = gry&can('c')
-                            $ro = tey&can('w')
-                            ros&hue = 38
-                            $rc = roy&can('i',t ? t.t : "?")
+                            te = gry&can('o')
+                            me&walls,te,'b:1.4h6'
                             tes&tag = 'td'
                             ah(te,'attr','rowspan',1)
+                            made_te = 1
                         }
                         else {
                             tes&attr.rowspan++
@@ -1973,19 +1966,34 @@ me.Sch_Travel = &acgt{ return [
                     !!i*1 ? forK(e) : forp(e)
                 })
                 
+                # + show source rows
+                if (lcs&ope) {
+                    $labe = "$h "+(t ? "t:"+t.t+"," : "")
+                        + "i:"+i
+                    me&nu,labe,h
+                }
                 # < little peeks at what could be there
                 me&jaa,R,{cluey:1,n:h} .map(&li{
                     if (ls&step) {
                         $e = stepcol(ls&step)
                         $s = ls&gk && l.sc[ls&gk]
                         $labe = s ? s.t : '@?'
-                        me&tsc,"Cluey:"+e.t+":"+labe
+                        #me&tsc,"Cluey:"+e.t+":"+labe
                         me&mtsc,e,"cluey"+i+":"+ls&cluey,labe,'g'
+                            .sc.dis = 1
+                        
+                        if (lcs&ope) {
+                            me&nu,labe+"%%cluey"+i,l
+                        }
                     }
                     else {
                         me&nu,"%cluey!%step",l
                     }
                 })
+                if (made_te) {
+                    $ro = tey&can('w')
+                    $rc = roy&can('i',t ? t.t : "?")
+                }
                 
                 #me&nu,'Travel',las
             }
