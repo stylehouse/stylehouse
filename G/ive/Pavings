@@ -81,6 +81,34 @@ me.Sch_Pavings = &acgt{ return [
             return Q
         }
     },
+    ['twin',0.299,&acgtRs{
+        $p = Ry&up
+        ps&twin and return
+        # the step, C above index
+        Rs&YingStep ||= 1
+        if (!Rc&b) {
+            # avoid initial everything %%broken
+            Rc&nofurther = 1
+            # while remotes gather their %%twmt
+            me&waits,"Loading..."
+            return
+        }
+        
+        # after refresh (> reset) seems to need more:
+        # after receiving all %%broken
+        Rs&allbroken = me&jaa,R,'broken,efrom' .length
+            && !me&jaa,R,'tw,efrom' .length
+        if (Rs&allbroken) {
+            if (!me&ollbs,R,'allbroken' ) {
+                # do it again, negating %onlyish
+                Rs&numberclicked = 1
+                me&waits,"Loading!"
+            }
+            else {
+                me&tsc,'allbroken'
+            }
+        }
+    },'ift,D'],
     ['twin',0.3,&acgtRs{
         ah(R,'adhere','twin',2);
     },'ift,D'],
@@ -89,15 +117,7 @@ me.Sch_Pavings = &acgt{ return [
         $win = me.cby(R,'^^^twin');
         $r = win.shift();
         $st = rc&s;
-        if (!hak(win)) {
-            # the step, C above index
-            r != R and throw "R"
-            if (!Rc&b) {
-                # avoid initial everything %%broken
-                rs&twinningup =
-                Rs&numberclicked = 1; me&waits,"Loading..."
-            }
-        }
+        (Rs&boost||0) > 0 and me&nu,"s)%twin",s
         
         $S = me&inode,R;
         # can give/take
@@ -123,9 +143,10 @@ me.Sch_Pavings = &acgt{ return [
             #  so s=Know..s,efrom=Ghost..s
             me&nodei,R,1,n,{},qe;
         }
-        N.length || rs&twinningup and return
+        N.length and return
         me&nodei,R,1,{broken:1},{},qe
         # wait for them until we find this thing
+        # < &nodeo -pipes us?
         !me&ja,R,qe and me&settle,R,hosty&R
     },'ift,D'],
     
