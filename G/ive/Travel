@@ -1862,7 +1862,7 @@ me.Sch_Travel = &acgt{ return [
                 # mix choosen column for t
                 #  brings up the fact of $gk=cluey, also
                 $m = me&ha,R,c,{},inSteps(c)
-                me&nu,"Huh:"+z.t,m
+                #me&nu,"Huh:"+z.t,m
             })
         })
         
@@ -1957,6 +1957,11 @@ me.Sch_Travel = &acgt{ return [
                     sey&coli = i
                     return se
                 })
+                $stepcol = &S{
+                    $e = col.filter(e => ey&step == S)[0]
+                    !e and debugger
+                    return e
+                }
                 # That,To
                 left ?
                 col.slice(0,2).map(&ei{
@@ -1968,13 +1973,14 @@ me.Sch_Travel = &acgt{ return [
                     !!i*1 ? forK(e) : forp(e)
                 })
                 
-                me&jaa,R,{cluey:1,n:h} .map(&l{
+                # < little peeks at what could be there
+                me&jaa,R,{cluey:1,n:h} .map(&li{
                     if (ls&step) {
-                        $e = col.filter(e => ey&step == ls&step)[0]
-                        !e and debugger
+                        $e = stepcol(ls&step)
                         $s = ls&gk && l.sc[ls&gk]
                         $labe = s ? s.t : '@?'
-                        me&mtsc,e,"cluey:"+ls&cluey,labe,'g'
+                        me&tsc,"Cluey:"+e.t+":"+labe
+                        me&mtsc,e,"cluey"+i+":"+ls&cluey,labe,'g'
                     }
                     else {
                         me&nu,"%cluey!%step",l
@@ -1988,6 +1994,9 @@ me.Sch_Travel = &acgt{ return [
         $gr = gy&can('w')
         me&mtsc,gr,"t*yep"
     },'ift,D'],
+    &{
+    
+    },
   
 // Duolish/%Releasor <- Travel
  # < de y&p %twin
