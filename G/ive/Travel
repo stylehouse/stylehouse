@@ -1752,7 +1752,7 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
     # grouped by Travel/$t, differing
     ['Guten',0.45,&acgtRs{
-       // steps for columns
+       // columns, pk <- %%layout
         $columns = []
         $pk
         # order doesn't matter to bracko
@@ -1783,7 +1783,7 @@ me.Sch_Travel = &acgt{ return [
        // sprains by Travel
         # get %%cha* grouped to columns...
         
-        # how to programe in three easy steps:
+        
         # each type knowing
         $inSteps = &sqN{
             N ||= columns
@@ -1819,6 +1819,23 @@ me.Sch_Travel = &acgt{ return [
         }
        
        // sprains Travel
+        # $chagt = %%cha[gt],...
+        #
+        # $abyT = %%t,etc,dome:byT,n:$chagt
+        #  is a row
+        #  %%t groups rows
+        #   if present must be a Travel/$t
+        #   may be found in a %%clue
+        #
+        # $clue = %%cluey:infill,...,n:$abyT
+        #  subrows, explaining aspects
+        #  ... may include:
+        #   %%step,column - identifies column
+        #   %%gk=s,s - thing to put there
+        =andor
+         chagt -> abyT -> clue
+         from n to u-ness
+        =cut
         $seen = []
         $Ghossc = &nh{
             seen.push(n)
@@ -1871,6 +1888,29 @@ me.Sch_Travel = &acgt{ return [
        // Travel sprains
         $te
         $N = me&jaa,R,{dome:'byT'}
+        $lalabe
+        $span = &nid{
+            ns&tag = 'td'
+            $way = (d == 'row' || d) ? 'row' : 'col'
+            ah(n,'attr',way+'span',i)
+        }
+        $plusrows = &kN{
+            $D = Cye(['+'+k,1])
+            Ds&z = N
+            #!
+            $br = me&pibrackology,R,D,{D,ology:{label:lalabe}}
+            $ol = bry&ology
+            ol.t = lalabe+k
+            
+            $gr = gy&can('w')
+            $se = gry&can('c')
+            $rc = sey&can('i',k)
+            rcs&dis = 5
+            span(se,columns.length+1)
+            
+            ac(se,'z',ol)
+            oly&label.sc.dis = 0
+        }
         me&sortial,N,'t' .map(&N{
             te = null
         me&sortial,N,'K' .map(&N{
@@ -1922,6 +1962,7 @@ me.Sch_Travel = &acgt{ return [
                     #$gr = gy&can('w')
                     #me&mtsc,gr,"NoK|p"
                 }
+       
        // tabular expression?
                 $gr = gy&can('w')
                 $se = gry&can('c')
@@ -1965,16 +2006,19 @@ me.Sch_Travel = &acgt{ return [
                 col.slice(-2).map(&ei{
                     !!i*1 ? forK(e) : forp(e)
                 })
-                
+       
+       // extrap
                 # + show source rows
+                $labe = "$h "+(t ? "t:"+t.t+"," : "")
+                    + "i:"+i
+                lalabe = labe
                 if (lcs&ope) {
-                    $labe = "$h "+(t ? "t:"+t.t+"," : "")
-                        + "i:"+i
-                    me&nu,labe,h
+                    ac(te,'srcbyT',h)
                 }
                 # < little peeks at what could be there
                 me&jaa,R,{cluey:1,n:h} .map(&li{
                     if (ls&step) {
+                    
                         $e = stepcol(ls&step)
                         $s = ls&gk && l.sc[ls&gk]
                         $labe = s ? s.t : '@?'
@@ -1983,7 +2027,7 @@ me.Sch_Travel = &acgt{ return [
                             .sc.dis = 1
                         
                         if (lcs&ope) {
-                            me&nu,labe+"%%cluey"+i,l
+                            ac(te,'srccluey',l)
                         }
                     }
                     else {
@@ -1994,13 +2038,14 @@ me.Sch_Travel = &acgt{ return [
                     $ro = tey&can('w')
                     $rc = roy&can('i',t ? t.t : "?")
                 }
-                
-                #me&nu,'Travel',las
             }
         })
+            if (te) {
+                tes&srcbyT and plusrows('byT',tes&srcbyT)
+                tes&srccluey and plusrows('cluey',tes&srccluey)
+                #me&mtsc,g,'iwthe'
+            }
         })
-        $gr = gy&can('w')
-        me&mtsc,gr,"t*yep"
     },'ift,D'],
     &{
     
