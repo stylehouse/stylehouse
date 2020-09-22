@@ -1846,6 +1846,7 @@ me.Sch_Travel = &acgt{ return [
          from n to u-ness
         =cut
         $seen = []
+        
         # ghostings have a %%t,z,K,n and a %%cluey,Ghoscis
         #  from h=%%cha,is,was
         $Ghossc = &nh{
@@ -1898,7 +1899,6 @@ me.Sch_Travel = &acgt{ return [
             })
             !some and debugger
         }
-        
         # %Paving changes
         me&jaa,R,'chag,K' .map(n => Ghossc(n,ns&n))
         # %twin changes
@@ -1907,17 +1907,32 @@ me.Sch_Travel = &acgt{ return [
         
         # %twinning %%broken
         me&jaa,R,'chat,lost' .map(&n{
-            ns&dome == 'byT' and return
+            $q = {}
+            each kv n.sc {
+                k == 'eto' and break
+                q[k] = v
+            }
+            $a = abyT(n,q)
             
-            $h = me&ha,R,n,{dome:'byT'},inSteps(n)
-            # cluey infill of the non-broken end
+            # guess what to mainly hang off
+            $nq = inSteps(n)
+            uby(a,{step:nq.step,says:'lost'})
+            
+            # all %%lost %%z?
             $z = ns&z
-            z && me&revtwin,z (&ta{
-                $c = {cluey:'infill',s:t,n:h}
+            !z and debugger
+            # suggest +$t based on $z
+            uby(a,{step:ns&lost,may:'el2',gk:'z',z,spacer:1})
+            
+            # cluey infill the non-broken end
+            me&revtwin,z (&s{
+                # s=t|K
+                $qe = {cluey:'infill',s}
                 # mix choosen column for t
                 #  brings up the fact of $gk=cluey, also
-                $m = me&ha,R,c,{},inSteps(c)
-                #me&nu,"Huh:"+z.t,m
+                
+                inSteps(qe,qe)
+                uby(a,qe)
             })
         })
         
@@ -2043,11 +2058,13 @@ me.Sch_Travel = &acgt{ return [
                 me&jaa,R,{n:h} .map(&li{
                     $mostk = haks(l.sc)[0]
                     if (ls&step) {
-                        
                         $e = stepcol(ls&step)
                         $s = ls&gk && l.sc[ls&gk]
+                        
                         $labe = ls&says || (s ? s.t : '@?')
-                        # pointer
+                        $tite = joint([mostk,i,l.sc[mostk]],':')
+                        
+                        # point flow
                         $di = ls&direction
                         if (di) {
                             !left and labe = labe+di
@@ -2059,18 +2076,33 @@ me.Sch_Travel = &acgt{ return [
                                 # put before, coming from K=That
                                 labe = di+labe
                             }
-                                
                         }
-                        $tite = joint([mostk,i,l.sc[mostk]],':')
+                        # clickable act
+                        $may = ls&may
+                        if (may) {
+                            labe += "?"
+                            tite += "-may:"+may
+                            if (may == 'el2') {
+                                # < having a node per instance of $s)%ball
+                                !ls&spacer and throw "only spacers"
+                                $act = &mTe{
+                                    # < create Travel/$t like MayTwine
+                                    #   so attention goes there and back
+                                    #    Gutwin &settle Travel?
+                                }
+                            }
+                        }
+                        
                         $gc = me&mtsc,e,tite,labe,'g'
                         gcs&dis = 1
                         ls&satis and gcs&opa = 0.6
+                        act and me.nto(R,gc,act)
                     }
                     else {
                         me&nu,"%"+mostk+"!%step",l
                     }
                 })
-                if (made_te) {
+                if (made_te && !me&ioty,te .length) {
                     $ro = tey&can('w')
                     $rc = roy&can('i',t ? t.t : "?")
                 }
