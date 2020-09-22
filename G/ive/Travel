@@ -1892,6 +1892,10 @@ me.Sch_Travel = &acgt{ return [
                 qe.Ghoscis = hs&is
                 # $z may be the correct value
                 hs&is == z.sc[k] and qe.satis = 1
+                else {
+                    # usu auto-%%Go level
+                    qe.mot = 2
+                }
                 # needs Travel from right to left
                 #  reversed on the left side of Travel
                 qe.direction = qe.satis ? '>' : '<'
@@ -1905,20 +1909,26 @@ me.Sch_Travel = &acgt{ return [
         #  the %%z,is=$dige may match the %%K,is=$dige
         me&jaa,R,'chat,z,K' .map(n => Ghossc(n,n))
         
+        # hash copy up to a certain key
+        window.extil = &scq{
+            # < expe q, and q=CODE -> q.cb
+            each kv c {
+                k == q and break
+                s [k] = v
+            }
+            return s
+        }
+        
         # %twinning %%broken
         me&jaa,R,'chat,lost' .map(&n{
-            $q = {}
-            each kv n.sc {
-                k == 'eto' and break
-                q[k] = v
-            }
+            $q = extil({},n.sc,'eto')
             $a = abyT(n,q)
             
-            # guess what to mainly hang off
+            # guess what to mainly hang off (z)
             $nq = inSteps(n)
             uby(a,{step:nq.step,says:'lost'})
             
-            # all %%lost %%z?
+            # all %%lost %%z, z being the link (either %twin)
             $z = ns&z
             !z and debugger
             # suggest +$t based on $z
@@ -1934,6 +1944,37 @@ me.Sch_Travel = &acgt{ return [
                 inSteps(qe,qe)
                 uby(a,qe)
             })
+        })
+        # no %twinning, perhaps guessable
+        #  eg K:w/Brackio -> $t:Brackio
+        #   J:Brackio will not look like a W,
+        #    yet will update $me code
+        me&jaa,R,'chat,lonely' .map(&n{
+            $q = extil({},n.sc,'eto')
+            $a = abyT(n,q)
+            # the %twin that would
+            $p = ns&p
+            !p and debugger
+            # guess what to mainly hang off (t|K)
+            $nq = inSteps(n)
+            uby(a,{step:nq.step,says:'lonely'})
+            if (ns&lonely == pk) {
+                # must %%Go to Know|That
+                uby(a,{step:p,says:'empty',mot:3})
+            }
+            else {
+                # must be created, to then become lonely as before
+                # < go searching for That/W/$t
+                #   import To|Ghost from W.5
+                # find Travel from Ghost+Know
+                $other = py&remotes.filter(s => s != ns&lonely)[0]
+                $actq = {step:other,may:'el2',spacer:1}
+                # sometimes t|K
+                actq.gk = nq.gk
+                actq[nq.gk] = n.sc[nq.gk]
+                #me&nu,"Says",nq
+                uby(a,actq)
+            }
         })
         
         me&dome_traction,R,'byT'
