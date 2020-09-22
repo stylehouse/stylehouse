@@ -1781,11 +1781,10 @@ me.Sch_Travel = &acgt{ return [
             $lc = sey&can('i',n.t)
         })
         
-       // sprains by Travel
-        # get %%cha* grouped to columns...
+       // sprains func
         
-        
-        # each type knowing
+        # try to find a Travel..$t etc to hang off
+        # < for any column
         $inSteps = &sqN{
             N ||= columns
             !q and $returnq = q = {}
@@ -1806,45 +1805,40 @@ me.Sch_Travel = &acgt{ return [
             }
             returnq and return returnq
         }
-        # stash with explanations
-        #  try to find a Travel..$t to hang off
-        $byTravel = &nq{
-            # t ||= some ns&* that ^^$Travel:pk
-            q = ex(q||{},{n})
-            # < should be a %%cluey
-            q.t == null and q.t = inSteps(n,q,[pk])
-            # then again for any column?
-            #q.t == null and inSteps(n,[columns],q)
-            q.t ||= 0
-            return me&ha,R,q,{dome:'byT'}
-        }
+        # hopefully pk-columnish dome:byT
         $abyT = &nq{
             q.n = n
             return me&ha,R,q,{dome:'byT'}
         }
+        # extenting u-ward
         $uby = &nq{
             q.n = n
             return me&ha,R,q
         }
        
-       // sprains Travel
-        # $chagt = %%cha[gt],...
-        #
-        # $abyT = %%t,etc,dome:byT,n:$chagt
-        #  is a row
-        #  %%t groups rows
-        #   if present must be a Travel/$t
-        #   may be found in a %%clue
-        #
-        # $clue = %%cluey:infill,...,n:$abyT
-        #  subrows, explaining aspects
-        #  ... may include:
-        #   %%step,column - identifies column
-        #   %%gk=s,s - thing to put there
-        =andor
+       // < %%cha* -> sprains
+        =sprains
+         spread out to find means
+         the more u-ish also %%mot levels of action onward
          chagt -> abyT -> clue
-         from n to u-ness
+        from n to u:
+         $chagt = %%cha[gt],...
+        
+         $abyT = %%t,etc,dome:byT,n:$chagt
+          is a row
+          %%t groups rows
+           if present must be a Travel/$t
+           < may be found in a %%clue etc
+             promoted to guide the whole sprain
+        
+         $clue = %%cluey:infill,...,n:$abyT
+          subrows, explaining aspects
+          ... may include:
+           %%step,column - identifies column
+           %%gk=s,s - thing to put there
+        
         =cut
+        # < check all input find byT
         $seen = []
         
         # ghostings have a %%t,z,K,n and a %%cluey,Ghoscis
@@ -1891,7 +1885,10 @@ me.Sch_Travel = &acgt{ return [
                 # may not have the correct value
                 qe.Ghoscis = hs&is
                 # $z may be the correct value
-                hs&is == z.sc[k] and qe.satis = 1
+                if (hs&is == z.sc[k]) {
+                    qe.satis = 1
+                    qe.mot = 8
+                }
                 else {
                     # usu auto-%%Go level
                     qe.mot = 2
@@ -1908,16 +1905,6 @@ me.Sch_Travel = &acgt{ return [
         # %twin changes
         #  the %%z,is=$dige may match the %%K,is=$dige
         me&jaa,R,'chat,z,K' .map(n => Ghossc(n,n))
-        
-        # hash copy up to a certain key
-        window.extil = &scq{
-            # < expe q, and q=CODE -> q.cb
-            each kv c {
-                k == q and break
-                s [k] = v
-            }
-            return s
-        }
         
         # %twinning %%broken
         me&jaa,R,'chat,lost' .map(&n{
@@ -2143,7 +2130,8 @@ me.Sch_Travel = &acgt{ return [
                         me&nu,"%"+mostk+"!%step",l
                     }
                 })
-                if (made_te && !me&ioty,te .length) {
+                if (made_te && (t || !me&ioty,te .length)) {
+                    # !t and empty te/* ||= '?'
                     $ro = tey&can('w')
                     $rc = roy&can('i',t ? t.t : "?")
                 }
