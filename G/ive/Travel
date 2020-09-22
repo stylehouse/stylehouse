@@ -1750,42 +1750,45 @@ me.Sch_Travel = &acgt{ return [
             me&nodei,R,xs&Guten,n,{},{chat:'linkage'}
         })
     },'ift,D'],
-    # grouped by Travel/$t, differing
-    ['Guten',0.45,&acgtRs{
-       // columns, pk <- %%layout
-        $columns = []
-        $pk
+    &{
+    # x%columns%pk <- %%layout
+    me.columns = &acgtRc{
+        $s = Rc&s
+        # < via &Jx
+        $x = {y:{},sc:{}}
+       // <- %%layout spec
+        xs&columns = []
         # order doesn't matter to bracko
         me&jaa,R,'layout,outside,p,inside' .map(&ni{
             1 < i and throw "many joins"
             $spec = haks(n.sc)
             $left = spec.indexOf('outside') < spec.indexOf('inside')
             if (left) {
-                pk and throw "many left"
-                pk = ns&inside
-                columns.push(ns&outside,ns&p,ns&inside)
+                xs&pk and throw "many left"
+                xs&pk = ns&inside
+                xs&columns.push(ns&outside,ns&p,ns&inside)
             }
             else {
-                columns.slice(-1)[0] != ns&inside and throw "not joined %%inside"
-                columns.push(ns&p,ns&outside)
+                xs&columns.slice(-1)[0] != ns&inside and throw "not joined %%inside"
+                xs&columns.push(ns&p,ns&outside)
             }
         })
-        $g = me&opeolo,R,'sprains'
+        
+        $g = xs&g = me&opeolo,R,'sprains'
+        # column header
         $gr = gy&can('w')
         grs&bri = 1.4
         grs&deco = 1
         $se = gry&can('c')
-        !columns.length and return me&tsc,"nocolumns..."
-        columns .map(&n{
+        xs&columns .map(&n{
             $se = gry&can('c')
             $lc = sey&can('i',n.t)
         })
         
-       // sprains :byT
         # try to find a Travel..$t etc to hang off
         # < for any column
-        $inSteps = &sqN{
-            N ||= columns
+        xy&inSteps = &sqN{
+            N ||= xs&columns
             !q and $returnq = q = {}
             $sc = isC(s) ? s.sc : s
             each kv sc {
@@ -1804,6 +1807,15 @@ me.Sch_Travel = &acgt{ return [
             }
             returnq and return returnq
         }
+        
+        
+        return x
+    }
+    },
+    # grouped by Travel/$t, differing
+    ['Guten',0.45,&acgtRs{
+        # xs&columns|pk <- %%layout
+        $x = me&columns,R
        
        // < %%cha* -> sprains
         =sprains
@@ -1835,6 +1847,7 @@ me.Sch_Travel = &acgt{ return [
         $abyT = (n,q) => seen.push(n) && me&ha,R,q,{dome:'byT'},{n}
         # extenting u-ward
         $uby = (n,q) => me&ha,R,q,{},{n}
+        
         
         # ghostings have a %%t,z,K,n and a %%cluey,Ghoscis
         #  from h=%%cha,is,was
@@ -1900,13 +1913,14 @@ me.Sch_Travel = &acgt{ return [
         #  the %%z,is=$dige may match the %%K,is=$dige
         me&jaa,R,'chat,z,K' .map(n => Ghossc(n,n))
         
+        
         # %twinning %%broken
         me&jaa,R,'chat,lost' .map(&n{
             $q = extil({},n.sc,'eto')
             $a = abyT(n,q)
             
             # guess what to mainly hang off (z)
-            $nq = inSteps(n)
+            $nq = xy&inSteps(n)
             uby(a,{step:nq.step,says:'lost'})
             
             # all %%lost %%z, z being the link (either %twin)
@@ -1922,7 +1936,7 @@ me.Sch_Travel = &acgt{ return [
                 # mix choosen column for t
                 #  brings up the fact of $gk=cluey, also
                 
-                inSteps(qe,qe)
+                xy&inSteps(qe,qe)
                 uby(a,qe)
             })
         })
@@ -1937,7 +1951,7 @@ me.Sch_Travel = &acgt{ return [
             $p = ns&p
             !p and debugger
             # guess what to mainly hang off (t|K)
-            $nq = inSteps(n)
+            $nq = xy&inSteps(n)
             uby(a,{step:nq.step,says:'lonely'})
             if (ns&lonely == pk) {
                 # must %%Go to Know|That
@@ -1957,6 +1971,8 @@ me.Sch_Travel = &acgt{ return [
                 uby(a,actq)
             }
         })
+        
+        
         $all = []
         all.push(... me&jaa,R,'chag')
         all.push(... me&jaa,R,'chat')
@@ -1969,7 +1985,6 @@ me.Sch_Travel = &acgt{ return [
        // Travel sprains
         $te
         $N = me&jaa,R,{dome:'byT'}
-        $lalabe
         $span = &nid{
             ns&tag = 'td'
             $way = (d == 'row' || d) ? 'row' : 'col'
@@ -1978,37 +1993,61 @@ me.Sch_Travel = &acgt{ return [
         $plusrows = &kN{
             $D = Cye(['+'+k,1])
             Ds&z = N
-            #!
-            $br = me&pibrackology,R,D,{D,ology:{label:lalabe}}
+            # < dupe C confusol
+            $label = xc&row.label
+            $br = me&pibrackology,R,D,{D,ology:{label}}
             $ol = bry&ology
-            ol.t = lalabe+k
+            ol.t = label+k
             
             $gr = gy&can('w')
             $se = gry&can('c')
             $rc = sey&can('i',k)
             rcs&dis = 5
-            span(se,columns.length+1)
+            span(se,xs&columns.length+1)
             
             ac(se,'z',ol)
             oly&label.sc.dis = 0
             return ol
         }
+        # h:byT starts drawing
+        xc&rows = 0
+        xy&arow = &hc{
+            isst(c) and c = {inish:peel(c)}
+            $i = xc&rows++
+            $was = xc&row
+            $row = xc&row = {}
+            row.present = sex({},h.sc,c.inish)
+            $joincoli = xs&columns.indexOf(xs&pk)
+            each kv row.present {
+                $vi = xs&columns.indexOf(Ky&path[0])
+                vi < 0 and continue
+                vi < joincoli and $left = 1; break
+                # < here
+            }
+            row.label = "h:"+(t ? t.t : "?")+" "+i
+            
+        }
+        $eye = 0
         me&sortial,N,'t' .map(&N{
             te = null
         me&sortial,N,'K' .map(&N{
             each ih N {
+                # $h:byT is from n%%cha*
                 $n = hs&n
                 # Know|That..$K !
                 $K = hs&K
                 $p = hs&p
                 $z = hs&z
                 $t = hs&t
+                xy&arow(h,'K,p,z,t')
                 # when on to unjoined rows:
                 !t and te = null
+                
                 $forK = &se,{ midK(se) }
                 $midK = &se,{}
                 $forp = &li,{ midp(li) }
                 $midp = &li,{}
+                # < here
                 if (K) {
                     $left = Ky&path[0] == columns[0]
                     forK = &se,{
@@ -2076,9 +2115,6 @@ me.Sch_Travel = &acgt{ return [
        
        // extrap
                 # + show source rows
-                $labe = "$h "+(t ? "t:"+t.t+"," : "")
-                    + "i:"+i
-                lalabe = labe
                 if (lcs&ope) {
                     ac(te,'srcbyT',h)
                 }
