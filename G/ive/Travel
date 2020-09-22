@@ -1781,8 +1781,7 @@ me.Sch_Travel = &acgt{ return [
             $lc = sey&can('i',n.t)
         })
         
-       // sprains func
-        
+       // sprains :byT
         # try to find a Travel..$t etc to hang off
         # < for any column
         $inSteps = &sqN{
@@ -1805,23 +1804,16 @@ me.Sch_Travel = &acgt{ return [
             }
             returnq and return returnq
         }
-        # hopefully pk-columnish dome:byT
-        $abyT = &nq{
-            q.n = n
-            return me&ha,R,q,{dome:'byT'}
-        }
-        # extenting u-ward
-        $uby = &nq{
-            q.n = n
-            return me&ha,R,q
-        }
        
        // < %%cha* -> sprains
         =sprains
          spread out to find means
-         the more u-ish also %%mot levels of action onward
+         the more u-ish %%may=act with e
+          or %%mot=levels of action onward
+         
          chagt -> abyT -> clue
-        from n to u:
+         from n to u:
+         
          $chagt = %%cha[gt],...
         
          $abyT = %%t,etc,dome:byT,n:$chagt
@@ -1838,13 +1830,15 @@ me.Sch_Travel = &acgt{ return [
            %%gk=s,s - thing to put there
         
         =cut
-        # < check all input find byT
         $seen = []
+        # hopefully pk-columnish dome:byT
+        $abyT = (n,q) => seen.push(n) && me&ha,R,q,{dome:'byT'},{n}
+        # extenting u-ward
+        $uby = (n,q) => me&ha,R,q,{},{n}
         
         # ghostings have a %%t,z,K,n and a %%cluey,Ghoscis
         #  from h=%%cha,is,was
         $Ghossc = &nh{
-            seen.push(n)
             # K%dige can affect all Travel..$t
             # %%was=K%dige
             # %%is=Thing%dige (may already be on $z)
@@ -1962,6 +1956,12 @@ me.Sch_Travel = &acgt{ return [
                 #me&nu,"Says",nq
                 uby(a,actq)
             }
+        })
+        $all = []
+        all.push(... me&jaa,R,'chag')
+        all.push(... me&jaa,R,'chat')
+        all.map(&n{
+            !seen.includes(n) and me&zu,"Unseen-input",n
         })
         
         me&dome_traction,R,'byT'
