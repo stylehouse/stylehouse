@@ -1735,8 +1735,10 @@ me.Sch_Travel = &acgt{ return [
             
             # ^v est. row
             xs&row = row
+            hy&arow and throw "many arow per h"
+            hy&arow = row
             $g = xs&g
-            $gr = gy&can('w')
+            $gr = row.gr = gy&can('w')
             $se = gry&can('c')
             $lc = sey&can('i','+')
             
@@ -1763,10 +1765,13 @@ me.Sch_Travel = &acgt{ return [
                 sey&coli = i
                 return se
             })
-            
+           
+           // is
             !te and throw "note"
             # + shows  source rows
             lcs&ope and ac(te,'srcbyT',h)
+            
+            return gr
         }
         
        // y&inSteps(z), y&stepcol(p), y&usun(z)
@@ -1852,20 +1857,41 @@ me.Sch_Travel = &acgt{ return [
             $row = xs&row
             $te = row.te
             !te and debugger; return
+            
             tec&finished = 1
             $N = tes&srcbyT
-            !N and return
-            
-            xy&plusrows('n', xy&nward(N))
-                .sc.hue -= 50
-            
-            xy&plusrows('byT',N)
-            
-            xy&plusrows('u', xy&uward(N))
-                .sc.hue += 50
+            if (N) {
+                xy&plusrows('n', xy&nward(N))
+                    .sc.hue -= 50
+
+                xy&plusrows('byT',N)
+
+                xy&plusrows('u', xy&uward(N))
+                    .sc.hue += 50
+            }
+            # < wanting to row.gr%mb=1, means nothing when tabley?
+            # insert a spacer row
+            $g = xs&g
+            $gr = xs&rowspacer = gy&can('w')
+            grc&s = ' '
+            grs&fs = 4
         }
-        # extra group of (brack) rows as table-spanning row,
+        # table-spanning row for extra group of (brack) rows
         xy&plusrows = &kN{
+            $g = xs&g
+            $gr = gy&can('w')
+            $se = gry&can('c')
+            $rc = sey&can('i',k)
+            rcs&dis = 5
+            me&span,se,xs&columns.length+1,1
+            
+            $ol = xy&brackcell(k,N)
+            ac(se,'z',ol)
+            
+            return ol
+        }
+        # extra group of brack rows
+        xy&brackcell = &kN{
             $D = Cye(['+'+k,1])
             Ds&z = N
             # < dupe C confusol
@@ -1874,18 +1900,12 @@ me.Sch_Travel = &acgt{ return [
             $ol = bry&ology
             ol.t = label+k
             
-            $g = xs&g
-            $gr = gy&can('w')
-            $se = gry&can('c')
-            $rc = sey&can('i',k)
-            rcs&dis = 5
-            me&span,se,xs&columns.length+1,1
-            
-            ac(se,'z',ol)
             # make the Kms wrap, not dis:inline-block
             # < when the line we're on is fresh
             me&ioty,ol .map(t => delete ts&dis)
+            # with no label inside the brack cell
             oly&label.sc.dis = 0
+            
             return ol
         }
         
@@ -2287,19 +2307,23 @@ me.Sch_Travel = &acgt{ return [
         # < look for a %%t, currently one &nward
         me&jaa,R,'mot' .map(&n{
             $t = ns&t
-            if (!t) {
+            $K = ns&K
+            if (!t || !K) {
                 $h = xy&nward(n)[0]
-                t = hs&t
+                t ||= hs&t
+                K ||= hs&K
                 if (!t) {
                     # the That/W/Dealap To/Loose...>dige
                     # < mute %%Ghosc once a !%%t
                     hs&K && hs&K.t == 'Dealap' and return
-                    me&nu,"furthern",{n,h}
+                    me&nu,"tfurthern",{n,h}
                     return
                 }
             }
+            $q = {t}
+            K and q.K = K
             N.push(
-                me&nodei,R,Jxs&Gutago,n,{},{t}
+                me&nodei,R,Jxs&Gutago,n,{},q
             )
         })
         $runable = me&sortial,N,'t' .length
@@ -2313,22 +2337,80 @@ me.Sch_Travel = &acgt{ return [
         $Jx = me&Jx,R
         me&ha,R,{layout:1,mostly:Jxs&Travel}
         me&ha,R,{layout:1,also:'mot'}
+        me&ha,R,{layout:1,also:'step'}
         me&ha,R,{layout:1,also:'etc'}
+        me&ha,R,{layout:1,also:'dep'}
         
         $x = me&columns,R
         !xs&columns.length and return me&tsc,"columns..."
-       
-        $N = me&jaa,R,{mot:1,eto:s}
-        me&sortial,N,'t' .map(&N{
+        
+        $all = me&jaa,R,{mot:1,eto:s}
+        me&sortial,all,'t' .map(&N{
+            $by_mot = {}
+        me&sortial,N,'mot' .map(&N{
+        me&sortial,N,'K' .map(&N{
             each ih N {
                 $t = hs&t
-                !t and debugger
+                $mot = hs&mot
+                !t || !mot and debugger
+                $M = by_mot[mot] ||= []
+                M.push(h)
+                
                 xy&arow(h,'t')
+                
+                $mo = xy&stepcol('mot')
+                moy&can('i',hs&mot)
+                
+                # < step,etc want binding so they group as far as possible
+                $ep = xy&stepcol('step')
+                if (hs&step) {
+                    epy&can('i',hs&step.t)
+                }
+                else {
+                    me&mtsc,ep,'no-step',"?",'g'
+                }
+                
+                $et = xy&stepcol('etc')
+                $says = hs&says || "?"
+                me&mtsc,et,'says',says,'g'
+                
+                $dep = xy&stepcol('dep')
+                $K = hs&K
+                if (K) {
+                    $co = depy&can('i',K.t)
+                    $others = hs&mot == 8
+                        && all.filter(n => ns&K == K && ns&mot < 8)
+                    if (hak(others)) {
+                        # waits for all other mot:<8,K
+                        $gr = xs&row.gr
+                        $ol = xy&brackcell('etc',others)
+                        ac(dep,'z',ol)
+                        grs&bgh = '000'
+                        me&ha,R,{t,mot,blockage:1}
+                    }
+                }
+                
+                if (0) {
+                    $et = xy&stepcol('etc')
+                    # for etc = %%step,says...
+                    $etc = Cye(['etc',1])
+                    sex(etc.sc,h.sc,'step,says')
+                    $ol = xy&brackcell('etc',[etc])
+                    me&mtsc,ol,'...',0,'6'
+                    ac(et,'z',ol)
+                }
+                
+                
                 #me&nu,"Ro"+i,xs&row
                 xy&arowed()
             }
-            xy&arowgrouped()
             #t and xy&plusrows("The "+t.t,N)
+        })
+        })
+        $mots = haks(by_mot).sort()
+        me&mtsc,xs&row.gr,joint(["Go",...mots])
+        
+        xy&arowgrouped()
         })
     },'ift,D'],
     &{
