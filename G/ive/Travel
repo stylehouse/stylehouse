@@ -1817,7 +1817,7 @@ me.Sch_Travel = &acgt{ return [
             isst(c) and c = {inish:peel(c)}
             $i = xs&rows++
             $was = xs&row
-            $row = xs&row = {}
+            $row = {}
            // detect row.present columns
             # inish are h%$gk to see as a column
             #  you could go further
@@ -1842,14 +1842,21 @@ me.Sch_Travel = &acgt{ return [
             row.label = "h:"+(t ? t.t : "?")+" "+i
            
            // draw row
+            # Travel/$t:join, has $te modulat
+            $waste = was && was.te
+            $samejoin = row.join && was && row.join == was.join
+            samejoin and $te = row.te = was.te
+            else
+            # group each !row.join
+            !row.join && waste && !wastec&finished and xy&arowgrouped()
+            
+            # ^v est. row
+            xs&row = row
             $g = xs&g
             $gr = gy&can('w')
             $se = gry&can('c')
             $lc = sey&can('i','+')
-               
-            if (row.join && was && row.join == was.join) {
-                $te = row.te = was.te
-            }
+            
             row.col = xs&columns.map(&Si{
                 if (S == xs&pk) {
                     # Travel..$t
@@ -1903,6 +1910,7 @@ me.Sch_Travel = &acgt{ return [
             $row = xs&row
             $te = row.te
             !te and debugger; return
+            tec&finished = 1
             $N = tes&srcbyT
             !N and return
             
@@ -1926,6 +1934,7 @@ me.Sch_Travel = &acgt{ return [
             $ol = bry&ology
             ol.t = label+k
             
+            $g = xs&g
             $gr = gy&can('w')
             $se = gry&can('c')
             $rc = sey&can('i',k)
