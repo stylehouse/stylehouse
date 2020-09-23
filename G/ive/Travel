@@ -1595,6 +1595,7 @@ me.Sch_Travel = &acgt{ return [
         
         me&baleg,'Gutwin'
         me&baleg,'Guten'
+        me&baleg,'Gutago'
         
         # < manage the Travel/$t
         # < %%chag instability before commit,
@@ -1645,8 +1646,10 @@ me.Sch_Travel = &acgt{ return [
         })
         # K <-> Ghost..$z (%%chat) gen from Gutwin
     },'ift,D'],
+  
   // 1
-    # check out all the %twins around
+    # check all around %twins
+    #  for any odness besides what %Paving sends
     ['Gutwin',0.45,&acgtRs{
         me&sleepic,R and return
         $x = me&Jx,R
@@ -1772,7 +1775,15 @@ me.Sch_Travel = &acgt{ return [
                 xs&columns.slice(-1)[0] != ns&inside and throw "not joined %%inside"
                 xs&columns.push(ns&p,ns&outside)
             }
-        })
+        }).length
+        ||
+            me&jaa,R,'layout,mostly' .map(&ni{
+                xs&pk ||= ns&mostly
+                xs&columns.push(ns&mostly)
+            }) .length
+            && me&jaa,R,'layout,also' .map(&ni{
+                xs&columns.push(ns&also)
+            })
         
         $g = xs&g = me&opeolo,R,'sprains'
         # column header
@@ -1782,7 +1793,7 @@ me.Sch_Travel = &acgt{ return [
         $se = gry&can('c')
         xs&columns .map(&n{
             $se = gry&can('c')
-            $lc = sey&can('i',n.t)
+            $lc = sey&can('i',isC(n) ? n.t : ""+n)
         })
         
        // -> y&arow(h,c) starts drawing
@@ -1792,6 +1803,7 @@ me.Sch_Travel = &acgt{ return [
         xs&rows = 0
         xy&arow = &hc{
             isst(c) and c = {inish:peel(c)}
+            c ||= {}
             $i = xs&rows++
             $was = xs&row
             $row = {}
@@ -1932,6 +1944,16 @@ me.Sch_Travel = &acgt{ return [
         }
         # done a group of rows,
         #  nearby unfoldments and footnotes
+        xy&uward = &s{
+            $N = isar(s) ? s : [s]
+            $M = []
+            N.map(n => M.push(... me&jaa,R,{n} ))
+            return M
+        }
+        xy&nward = &s{
+            $N = isar(s) ? s : [s]
+            return uniq(N.map(u => us&n))
+        }
         xy&arowgrouped = &{
             $row = xs&row
             $te = row.te
@@ -1940,14 +1962,12 @@ me.Sch_Travel = &acgt{ return [
             $N = tes&srcbyT
             !N and return
             
-            xy&plusrows('n', uniq(N.map(u => us&n)))
+            xy&plusrows('n', xy&nward(N))
                 .sc.hue -= 50
             
             xy&plusrows('byT',N)
             
-            $M = []
-            N.map(n => M.push(... me&jaa,R,{n} ))
-            xy&plusrows('u', M)
+            xy&plusrows('u', xy&uward(N))
                 .sc.hue += 50
         }
         # extra group of (brack) rows as table-spanning row,
@@ -1985,6 +2005,7 @@ me.Sch_Travel = &acgt{ return [
     },
     # grouped by Travel/$t, differing
     ['Guten',0.45,&acgtRs{
+        $Jx = me&Jx,R
         # xs&columns|pk <- %%layout
         $x = me&columns,R
         !xs&columns.length and return me&tsc,"columns..."
@@ -2156,7 +2177,7 @@ me.Sch_Travel = &acgt{ return [
         
         me&dome_traction,R,'byT'
         
-       // Travel sprains
+       // sprains
         $N = me&jaa,R,{dome:'byT'}
         # < group by t,(z|K), whichever tidier, see elabourate regroup
         
@@ -2258,6 +2279,55 @@ me.Sch_Travel = &acgt{ return [
             }
         })
             xy&arowgrouped()
+        })
+       
+       // sprains -> @Gutago
+        $N = []
+        # < look for a %%t, currently one &nward
+        me&jaa,R,'mot' .map(&n{
+            $t = ns&t
+            if (!t) {
+                $h = xy&nward(n)[0]
+                t = hs&t
+                if (!t) {
+                    # the That/W/Dealap To/Loose...>dige
+                    # < mute %%Ghosc once a !%%t
+                    hs&K && hs&K.t == 'Dealap' and return
+                    me&nu,"furthern",{n,h}
+                    return
+                }
+            }
+            N.push(
+                me&nodei,R,Jxs&Gutago,n,{},{t}
+            )
+        })
+        $runable = me&sortial,N,'t' .length
+        me&tsc,"mot",0,'b'
+        me&tsc,"x"+runable
+    },'ift,D'],
+  
+  // 2
+    # %%Go-able Travel/$t
+    ['Gutago',0.4,&acgtRs{
+        $Jx = me&Jx,R
+        me&ha,R,{layout:1,mostly:Jxs&Travel}
+        me&ha,R,{layout:1,also:'mot'}
+        me&ha,R,{layout:1,also:'etc'}
+        
+        $x = me&columns,R
+        !xs&columns.length and return me&tsc,"columns..."
+       
+        $N = me&jaa,R,{mot:1,eto:s}
+        me&sortial,N,'t' .map(&N{
+            each ih N {
+                $t = hs&t
+                !t and debugger
+                xy&arow(h,'t')
+                #me&nu,"Ro"+i,xs&row
+                xy&arowed()
+            }
+            xy&arowgrouped()
+            #t and xy&plusrows("The "+t.t,N)
         })
     },'ift,D'],
     &{
