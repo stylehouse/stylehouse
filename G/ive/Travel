@@ -1596,6 +1596,7 @@ me.Sch_Travel = &acgt{ return [
         me&baleg,'Gutwin'
         me&baleg,'Guten'
         me&baleg,'Gutago'
+        me&baleg,'Guting'
         
         # < manage the Travel/$t
         # < %%chag instability before commit,
@@ -1652,7 +1653,7 @@ me.Sch_Travel = &acgt{ return [
     me.columns = &acgtRc{
         $s = Rc&s
         # < via &Jx
-        $x = {y:{},sc:{}}
+        $x = Cye(['acoluming',1])
        // <- %%layout spec, y&inSteps()
         xs&columns = []
         # order doesn't matter to bracko
@@ -1798,8 +1799,9 @@ me.Sch_Travel = &acgt{ return [
             returnq and return returnq
         }
         # once arow, you may find row.col.$coli=$se for p
-        xy&stepcol = &p{
-            $se = xs&row.col.filter(se => sey&step == p)[0]
+        xy&stepcol = &p,row{
+            row ||= xs&row
+            $se = row.col.filter(se => sey&step == p)[0]
             !se and debugger
             return se
         }
@@ -2344,17 +2346,16 @@ me.Sch_Travel = &acgt{ return [
         $x = me&columns,R
         !xs&columns.length and return me&tsc,"columns..."
         
+       // all Goable
         $all = me&jaa,R,{mot:1,eto:s}
         me&sortial,all,'t' .map(&N{
-            $by_mot = {}
         me&sortial,N,'mot' .map(&N{
         me&sortial,N,'K' .map(&N{
             each ih N {
                 $t = hs&t
                 $mot = hs&mot
                 !t || !mot and debugger
-                $M = by_mot[mot] ||= []
-                M.push(h)
+                ah(x,['by_mot'],mot,t.t,h)
                 
                 xy&arow(h,'t')
                 
@@ -2378,6 +2379,8 @@ me.Sch_Travel = &acgt{ return [
                 $K = hs&K
                 if (K) {
                     $co = depy&can('i',K.t)
+                    # < GOING doesn't need managing
+                    #    since that other %%mot will be lower
                     $others = hs&mot == 8
                         && all.filter(n => ns&K == K && ns&mot < 8)
                     if (hak(others)) {
@@ -2386,7 +2389,7 @@ me.Sch_Travel = &acgt{ return [
                         $ol = xy&brackcell('etc',others)
                         ac(dep,'z',ol)
                         grs&bgh = '000'
-                        me&ha,R,{t,mot,blockage:1}
+                        me&ha,R,{t,mot,blockage:'otherKbefore8'}
                     }
                 }
                 
@@ -2407,10 +2410,46 @@ me.Sch_Travel = &acgt{ return [
             #t and xy&plusrows("The "+t.t,N)
         })
         })
-        $mots = haks(by_mot).sort()
-        me&mtsc,xs&row.gr,joint(["Go",...mots])
-        
         xy&arowgrouped()
+        })
+       
+       // next Goable
+        # per t, lowest %%mot is it's main intention
+        
+        $all = me&jaa,R,{mot:1,eto:s}
+        $mots = haks(xs&by_mot).sort()
+        each i,mot mots {
+            each tN xs&by_mot[mot] {
+                # any row, onto the join $t (spanning)
+                0 < i and continue
+                me&ha,R,{Goable:t}
+                N.map(&h{
+                    $row = hy&arow
+                    $te = row.te
+                    tes&bri = 1.6
+                    $se = xy&stepcol('mot',row)
+                    ses&bri = 1.6
+                })
+            }
+        }
+        me&jaa,R,{Goable:1} .map(&ni{
+            # < parallel
+            0 > i and return
+            me&nodei,R,Jxs&Guting,n,{},q
+        })
+        
+    },'ift,D'],
+    # %%Go-ing Travel/$t
+    ['Guting',0.4,&acgtRs{
+        $x = me&Jx,R
+        $Tr = xs&Travel
+        me&jaa,R,{Goable:1,eto:s} .map(&n{
+            $Go = ns&Goable
+            me&tsc,"Go:",0,'b'
+            me&tsc,Go
+            !me&fiu,Tr,Go,8 and me&tsc,'(new)',0,'g'
+            x.ro('sure?',{}) &&
+                me&nodei,R,xs&Travel,{Go}
         })
     },'ift,D'],
     &{
