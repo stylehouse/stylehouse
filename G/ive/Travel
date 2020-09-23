@@ -1785,29 +1785,6 @@ me.Sch_Travel = &acgt{ return [
             $lc = sey&can('i',n.t)
         })
         
-        # try to find a Travel..$t etc to hang off
-        # < for any column
-        xy&inSteps = &sqN{
-            N ||= xs&columns
-            !q and $returnq = q = {}
-            $sc = isC(s) ? s.sc : s
-            each kv sc {
-                # ignore eg %%lost:Travel
-                N.includes(v) and continue
-                !isnode(v) and continue
-                $S = vy&path[0]
-                $vi = N.indexOf(S)
-                vi < 0 and continue
-                # thing is in a step that is a column
-                # notes first thing that is so
-                q.step = S
-                q.column = vi
-                q.gk = k
-                return returnq || v
-            }
-            returnq and return returnq
-        }
-        
        // -> y&arow(h,c) starts drawing
         # h:byT starts drawing
         # < able to pass columning x between J|R%rowgroup
@@ -1885,11 +1862,56 @@ me.Sch_Travel = &acgt{ return [
             # + shows  source rows
             lcs&ope and ac(te,'srcbyT',h)
         }
+        
+       // y&inSteps(z), y&stepcol(p), y&usun(z)
+        # try to find a Travel..$t etc to hang off
+        # < for all column
+        xy&inSteps = &sqN{
+            N ||= xs&columns
+            !q and $returnq = q = {}
+            $sc = isC(s) ? s.sc : s
+            each kv sc {
+                # ignore eg %%lost:Travel
+                N.includes(v) and continue
+                !isnode(v) and continue
+                $S = vy&path[0]
+                $vi = N.indexOf(S)
+                vi < 0 and continue
+                # thing is in a step that is a column
+                # notes first thing that is so
+                q.step = S
+                q.column = vi
+                q.gk = k
+                return returnq || v
+            }
+            returnq and return returnq
+        }
         # once arow, you may find row.col.$coli=$se for p
         xy&stepcol = &p{
             $se = xs&row.col.filter(se => sey&step == p)[0]
             !se and debugger
             return se
+        }
+        # node gets label
+        # se - which column modulat to put in
+        xy&usun = &z,se{
+            $label = z.t
+
+            !isnode(z) and throw "unnode"
+            se ||= xy&stepcol(zy&path[0])
+            # < interesting, posited as not yet?
+            #   might be from the To..z when Know..K?
+            sey&step && sey&step != zy&path[0] and debugger
+            
+            # pathy label K columns, the outsides
+            # < know better
+            $col = xs&row.col
+            if (se == col[0] || se == col.slice(-1)[0]) {
+                label = joint(zy&path.slice(1),'/')
+            }
+
+            $lc = sey&can('i',label)
+            return lc
         }
        
        // -> y&arowed() etc finishes drawing
@@ -1900,7 +1922,12 @@ me.Sch_Travel = &acgt{ return [
             if (row.made_te && (t || !me&ioty,te .length)) {
                 # !t and empty te/* ||= '?'
                 $ro = tey&can('w')
-                $rc = roy&can('i',t ? t.t : "?")
+                
+                $rc = !t ? roy&can('i',"?")
+                    # print it like a node, like h%%K,z except:
+                    #  with the above te/* ||=
+                    #  without comp. same .t as neighbour (K>v)
+                    : xy&usun(t,ro)
             }
         }
         # done a group of rows,
@@ -2149,44 +2176,20 @@ me.Sch_Travel = &acgt{ return [
                 $columns = xs&columns
                 $col = xs&row.col
                 $left = xs&row.left
-                $forK = &se,{ midK(se) }
-                $midK = &se,{}
-                $forp = &li,{ midp(li) }
-                $midp = &li,{}
                 
-                # node gets label
-                # se - which column modulat to put in
-                $usun = &z,se{
-                    $label = z.t
-                    
-                    !isnode(z) and throw "unnode"
-                    se ||= xy&stepcol(zy&path[0])
-                    # < interesting, posited as not yet?
-                    #   might be from the To..z when Know..K?
-                    sey&step && sey&step != zy&path[0] and debugger
-                    # pathy label K columns, the outsides
-                    if (se == col[0] || se == col.slice(-1)[0]) {
-                        label = joint(zy&path.slice(1),'/')
-                    }
-                    
-                    $lc = sey&can('i',label)
-                    return lc
-                }
-                
+                # h %%K,z want label in those columns
                 # < imagine %%distance from the %%layout,inside
                 #   so distance=1 for t
                 #   and %%closeness = radius - distance
                 #   so closeness=0 for K, 1 for p|z etc
                 # That,To or Know,Ghost
+                # < know better
                 $ou = left ? col.slice(0,2) : col.slice(-2).reverse()
-                K and usun(K,ou[0])
-                z && (!K || z.t != K.t) and usun(z,ou[1])
+                K and xy&usun(K,ou[0])
+                #  comp. same .t as neighbour (K>v)
+                z && (!K || z.t != K.t) and xy&usun(z,ou[1])
                 
-       
-       // tabular expression?
-                
-       // extrap
-                
+                # u
                 # < little peeks at what could be there
                 me&jaa,R,{n:h} .map(&li{
                     $mostk = haks(l.sc)[0]
@@ -2236,7 +2239,7 @@ me.Sch_Travel = &acgt{ return [
                                 #$see = se.y [k] = se.y [k]
                                 #    || sey&can('m',k)
                                 #seey&step = sey&step
-                                $gc = usun(s,se)
+                                $gc = xy&usun(s,se)
                                 # or fadey
                                 gcs&opa = 0.6
                                 ls&satis and debugger
@@ -2250,6 +2253,7 @@ me.Sch_Travel = &acgt{ return [
                         me&nu,"%"+mostk+"!%step",l
                     }
                 })
+                
                 xy&arowed()
             }
         })
