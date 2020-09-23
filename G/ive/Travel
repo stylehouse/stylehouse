@@ -1887,8 +1887,7 @@ me.Sch_Travel = &acgt{ return [
         }
         # once arow, you may find row.col.$coli=$se for p
         xy&stepcol = &p{
-            $row = xs&row
-            $se = row.col.filter(se => sey&step == p)[0]
+            $se = xs&row.col.filter(se => sey&step == p)[0]
             !se and debugger
             return se
         }
@@ -2169,7 +2168,9 @@ me.Sch_Travel = &acgt{ return [
                     if (se == col[0] || se == col.slice(-1)[0]) {
                         label = joint(zy&path.slice(1),'/')
                     }
+                    
                     $lc = sey&can('i',label)
+                    return lc
                 }
                 
                 # < imagine %%distance from the %%layout,inside
@@ -2190,7 +2191,7 @@ me.Sch_Travel = &acgt{ return [
                 me&jaa,R,{n:h} .map(&li{
                     $mostk = haks(l.sc)[0]
                     if (ls&step) {
-                        $e = xy&stepcol(ls&step)
+                        $se = xy&stepcol(ls&step)
                         $s = ls&gk && l.sc[ls&gk]
                         
                         $labe = ls&says || (s ? s.t : '@?')
@@ -2224,11 +2225,26 @@ me.Sch_Travel = &acgt{ return [
                                 }
                             }
                         }
-                        
-                        $gc = me&mtsc,e,tite,labe,'g'
-                        gcs&dis = 1
-                        ls&satis and gcs&opa = 0.6
-                        act and me.nto(R,gc,act)
+                        # native mirage
+                        $types = ls&cluey ? ['cluey'] : ['']
+                        each ik types {
+                            if (!k) {
+                                $gc = me&mtsc,se,tite,labe,'g'
+                            }
+                            else {
+                                # < it should be inline cell something?
+                                #$see = se.y [k] = se.y [k]
+                                #    || sey&can('m',k)
+                                #seey&step = sey&step
+                                $gc = usun(s,se)
+                                # or fadey
+                                gcs&opa = 0.6
+                                ls&satis and debugger
+                            }
+                            gcs&dis = 1
+                            ls&satis and gcs&opa = 0.6
+                            act and me.nto(R,gc,act)
+                        }
                     }
                     else {
                         me&nu,"%"+mostk+"!%step",l
