@@ -1628,7 +1628,6 @@ me.Sch_Travel = &acgt{ return [
             me&zu,"fro",c
         })
         
-        
     },'ift,D'],
     
     # forward %%chag, now /* isnode
@@ -1647,112 +1646,7 @@ me.Sch_Travel = &acgt{ return [
         # K <-> Ghost..$z (%%chat) gen from Gutwin
     },'ift,D'],
   
-  // 1
-    # check all around %twins
-    #  for any odness besides what %Paving sends
-    ['Gutwin',0.45,&acgtRs{
-        me&sleepic,R and return
-        $x = me&Jx,R
-        $Gu = xs&Guten
-        # awkward start. &bewind goes forever?
-        !Guy&R and return me&waits,"Othersel2"
-        
-        $chaf = &t,c,mix{
-            c = ex({cha:t},c)
-            me&ha,R,c,{dome:'feels'},mix
-        }
-        # these are in Schema order
-        me&ioty,xs&Ying .reverse() .map(&p{
-            !ps&twin and return
-            
-           // %twin link
-            each iz py&N {
-                # $p/**$z pointing to another $p
-                !zy&twinning and continue
-                
-                $r = zy&R
-                $n = me&zaa,r,{tw:1,eto:p,host:zy&host} [0]
-                # find dead links: z with no K
-                if (!n) {
-                    chaf('lost',{lost:zy&twinning,p,z})
-                    continue
-                }
-                # they %%inside (=$a for Travel/$t),
-                #  when on the outside (...$z for Know|That/**)
-                $outside = ns&inside
-                # $K=$t and $z=$a when not outside (and t!%dige)
-                $K = ns&s
-                # notice when K%dige ~ z%dige
-                if (outside && zs&dige != Ks&dige) {
-                    $mix = zs&dige == null ? {is:Ks&dige}
-                        : {is:zs&dige, was:Ks&dige}
-                    chaf('dige',{p,z,K},mix)
-                }
-            }
-            
-           // remotes
-            # find dead links: K|t with no z
-            # note: p is s (Rc&s), not sy&p (about Schema)
-            #  %twin guts are moving to sy&remotes etc.
-            # < possibly undo the Ying/$s:step y&up=Ying thing
-            #    what requires climbing s only up to the step?
-            #   which forgot about how:
-            # YET! for finding which way it all goes
-            #  ie Know--->That
-            #  use Schema's sy&p, re-ordering W:Fingo for workflow sense
-            #   also the steps &bal in reverse, so things bubble upwards
-            #  we would probably want $W/That first (as it &bal)
-            #   the others being aux concern
-            $pi = me&neaz,py&p,0
-            # build Guten layout: That,To,Travel,Ghost,Know
-            $c = {}
-            each ih py&remotes {
-                
-                $hi = me&neaz,hy&p,0
-                # flows upwards
-                $forward = hi > pi
-                # when $z, %%inside=$a: p/$a/**$z
-                $outside = i > 0
-                $desc = joint([
-                    pi,p.t,(forward?"->":"<-"),
-                    h.t,hi,(outside?'outside':''),
-                ])
-                #me&tsc,desc .sc.dis = 1
-                # since p%twin %%tw...s=h/**$K
-                me&zaa,hy&R,'tw,s' .map(&n{
-                    $s = ns&s
-                    $some = me&zaa,py&R,{tw:1,s}
-                    if (!some.length) {
-                        $mix = outside ? {K:s} : {t:s}
-                        chaf('lonely',{lonely:h,p},mix)
-                    }
-                })
-                
-           // %twin layout
-                c.p && c.p != p and debugger
-                c.p = p
-                c[outside ? 'outside' : 'inside'] = h
-                if (c.outside && c.inside) {
-                    !outside and throw "later !outside"
-                    $mix = sex({},c,forward ?
-                        # That:outside,To:p,Travel:inside
-                        'outside,p,inside' : 
-                        # Travel:inside,Ghost:p,Know:outside
-                        'inside,p,outside'
-                    )
-                    me&nodei,R,xs&Guten,'layout',{},mix
-                    c = {}
-                }
-            }
-            
-        })
-        me&dome_traction,R,'feels'
-        me&jaa,R,'cha' .map(&n{
-            # %Paving passes %%n yet this inherits n
-            #  they are handled differently, yet almost generic (p,z?,t|K)
-            me&nodei,R,xs&Guten,n,{},{chat:'linkage'}
-        })
-    },'ift,D'],
+  // 0.columns
     &{
     # x%columns%pk <- %%layout
     me.columns = &acgtRc{
@@ -2003,6 +1897,113 @@ me.Sch_Travel = &acgt{ return [
         ah(n,'attr',way+'span',i)
     }
     },
+  
+  // 1
+    # check all around %twins
+    #  for any odness besides what %Paving sends
+    ['Gutwin',0.45,&acgtRs{
+        me&sleepic,R and return
+        $x = me&Jx,R
+        $Gu = xs&Guten
+        # awkward start. &bewind goes forever?
+        !Guy&R and return me&waits,"Othersel2"
+        
+        $chaf = &t,c,mix{
+            c = ex({cha:t},c)
+            me&ha,R,c,{dome:'feels'},mix
+        }
+        # these are in Schema order
+        me&ioty,xs&Ying .reverse() .map(&p{
+            !ps&twin and return
+            
+           // %twin link
+            each iz py&N {
+                # $p/**$z pointing to another $p
+                !zy&twinning and continue
+                
+                $r = zy&R
+                $n = me&zaa,r,{tw:1,eto:p,host:zy&host} [0]
+                # find dead links: z with no K
+                if (!n) {
+                    chaf('lost',{lost:zy&twinning,p,z})
+                    continue
+                }
+                # they %%inside (=$a for Travel/$t),
+                #  when on the outside (...$z for Know|That/**)
+                $outside = ns&inside
+                # $K=$t and $z=$a when not outside (and t!%dige)
+                $K = ns&s
+                # notice when K%dige ~ z%dige
+                if (outside && zs&dige != Ks&dige) {
+                    $mix = zs&dige == null ? {is:Ks&dige}
+                        : {is:zs&dige, was:Ks&dige}
+                    chaf('dige',{p,z,K},mix)
+                }
+            }
+            
+           // remotes
+            # find dead links: K|t with no z
+            # note: p is s (Rc&s), not sy&p (about Schema)
+            #  %twin guts are moving to sy&remotes etc.
+            # < possibly undo the Ying/$s:step y&up=Ying thing
+            #    what requires climbing s only up to the step?
+            #   which forgot about how:
+            # YET! for finding which way it all goes
+            #  ie Know--->That
+            #  use Schema's sy&p, re-ordering W:Fingo for workflow sense
+            #   also the steps &bal in reverse, so things bubble upwards
+            #  we would probably want $W/That first (as it &bal)
+            #   the others being aux concern
+            $pi = me&neaz,py&p,0
+            # build Guten layout: That,To,Travel,Ghost,Know
+            $c = {}
+            each ih py&remotes {
+                
+                $hi = me&neaz,hy&p,0
+                # flows upwards
+                $forward = hi > pi
+                # when $z, %%inside=$a: p/$a/**$z
+                $outside = i > 0
+                $desc = joint([
+                    pi,p.t,(forward?"->":"<-"),
+                    h.t,hi,(outside?'outside':''),
+                ])
+                #me&tsc,desc .sc.dis = 1
+                # since p%twin %%tw...s=h/**$K
+                me&zaa,hy&R,'tw,s' .map(&n{
+                    $s = ns&s
+                    $some = me&zaa,py&R,{tw:1,s}
+                    if (!some.length) {
+                        $mix = outside ? {K:s} : {t:s}
+                        chaf('lonely',{lonely:h,p},mix)
+                    }
+                })
+                
+           // %twin layout
+                c.p && c.p != p and debugger
+                c.p = p
+                c[outside ? 'outside' : 'inside'] = h
+                if (c.outside && c.inside) {
+                    !outside and throw "later !outside"
+                    $mix = sex({},c,forward ?
+                        # That:outside,To:p,Travel:inside
+                        'outside,p,inside' : 
+                        # Travel:inside,Ghost:p,Know:outside
+                        'inside,p,outside'
+                    )
+                    me&nodei,R,xs&Guten,'layout',{},mix
+                    c = {}
+                }
+            }
+            
+        })
+        me&dome_traction,R,'feels'
+        me&jaa,R,'cha' .map(&n{
+            # %Paving passes %%n yet this inherits n
+            #  they are handled differently, yet almost generic (p,z?,t|K)
+            me&nodei,R,xs&Guten,n,{},{chat:'linkage'}
+        })
+    },'ift,D'],
     # grouped by Travel/$t, differing
     ['Guten',0.45,&acgtRs{
         $Jx = me&Jx,R
