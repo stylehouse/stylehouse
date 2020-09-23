@@ -1873,17 +1873,17 @@ me.Sch_Travel = &acgt{ return [
                 sey&coli = i
                 return se
             })
-            xy&stepcol = &S{
-                $row = xs&row
-                $e = row.col.filter(e => ey&step == S)[0]
-                !e and debugger
-                return e
-            }
             
             !te and throw "note"
             # + shows  source rows
             lcs&ope and ac(te,'srcbyT',h)
-           
+        }
+        # once arow, you may find row.col.$coli=$se for p
+        xy&stepcol = &p{
+            $row = xs&row
+            $se = row.col.filter(se => sey&step == p)[0]
+            !se and debugger
+            return se
         }
        
        // -> y&arowed() etc finishes drawing
@@ -2146,41 +2146,35 @@ me.Sch_Travel = &acgt{ return [
                 $forp = &li,{ midp(li) }
                 $midp = &li,{}
                 
-                # < here
-                if (K) {
-                    $left = Ky&path[0] == columns[0]
-                    forK = &se,{
-                        $tp = joint(Ky&path.slice(1),'/')
-                        $lc = sey&can('i',tp)
-                        midK(se)
+                # node gets label
+                # se - which column modulat to put in
+                $usun = &z,se{
+                    $label = z.t
+                    
+                    !isnode(z) and throw "unnode"
+                    se ||= xy&stepcol(zy&path[0])
+                    # < interesting, posited as not yet?
+                    #   might be from the To..z when Know..K?
+                    sey&step && sey&step != zy&path[0] and debugger
+                    # pathy label K columns, the outsides
+                    if (se == col[0] || se == col.slice(-1)[0]) {
+                        label = joint(zy&path.slice(1),'/')
                     }
+                    $lc = sey&can('i',label)
                 }
-                elsif (p) {
-                    $left = py&path[0] == columns[1]
-                    forp = &li,{
-                        #$tp = joint(py&path.slice(1),'/')
-                        z &&
-                            me&mtsc,li,z.t,0,'y'
-                    }
-                }
-                else {
-                    #$gr = gy&can('w')
-                    #me&mtsc,gr,"NoK|p"
-                }
+                
+                # < imagine %%distance from the %%layout,inside
+                #   so distance=1 for t
+                #   and %%closeness = radius - distance
+                #   so closeness=0 for K, 1 for p|z etc
+                # That,To or Know,Ghost
+                $ou = left ? col.slice(0,2) : col.slice(-2).reverse()
+                K and usun(K,ou[0])
+                z && (!K || z.t != K.t) and usun(z,ou[1])
+                
        
        // tabular expression?
                 
-                # That,To
-                left ?
-                col.slice(0,2).map(&ei{
-                    !i*1 ? forK(e) : forp(e)
-                })
-                :
-                # Ghost,Know
-                col.slice(-2).map(&ei{
-                    !!i*1 ? forK(e) : forp(e)
-                })
-       
        // extrap
                 
                 # < little peeks at what could be there
