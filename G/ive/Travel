@@ -1562,41 +1562,52 @@ me.Sch_Travel = &acgt{ return [
     # after page refresh (opo. Ying reset)
     #  we seem to lose some laters[], or something
     #  quiet_wakers never fires
-    me.extrainitbump = &acgtR{
+    me.extrainitbump = &acgtRs{
+        $s = Rc&s
+        $Yingwas = me.cbu(R,'Ying')
         $first = &{
-            $Ri = me&yfuture,R
-            $wake = me&yfuture,me.cbu(R,'Ying')
-            Ris&icount <3 and me&elvis,Ri,'Bump',{wake}
+            $Rnow = me&yfuture,R
+            $Yingnow = me&yfuture,me.cbu(R,'Ying')
+            # < some EXP & put syeverquiet = 'pseudo';
+            #        DO if put%el<3 || Re<3
+            #   put bareword function, makes column of one
+            #    has el:2 on creation
+            $wasnt = !sy&ever_quiet
+            $is = Yingnow == Yingwas
+            is and sy&ever_quiet = 'psuedo'
+            is && wasnt || Rnows&icount <6 and me&elvis,Rnow,'Bump'
+            else {
+                ~>5 LostInitiar: R.t
+            }
         }
-        G&yl,222,first
-    }
-    # < move with &bin, &Jx, &inode, etc
-    me.baleg = &acgtt{
-        $r = me&bal,t,'Blaga,eph'
-        r.sc[t] = 1
-        rs&Baleg = t
+        G&yl,555,first
     }
     },
-    ['Baleg',0.292,&acgtRs{
-        R.sc[R.t] = 1
-        me&inode,R
-        me&reaw,R,'Baleg,'+Rs&Baleg
-    },'ift,D'],
     # receive %%chag, make updates
     ['Gumptio',0.5,&acgtRs{
+        
         $x = me&Jx,R
+        # < &mutex,'with:Story,quiet' and return
         $Story = xs&Story
         Story && Storyy&running and return me&tsc,"Story..."
         
         if (!sy&ever_quiet) {
             me&quiet_waker,R and sy&ever_quiet = 1
-            !sy&ever_quiet and me&extrainitbump,R; return
+        }
+        sy&ever_quiet and me&tsc,"quiet"
+        
+        $waity = !sy&ever_quiet && "ever"
+            || me&ja,xc&To,'waits' && "early"
+        if (waity) {
+            me&tsc,"..."+waity
+            me&extrainitbump,R
+            return
         }
         
         me&baleg,'Gutwin'
         me&baleg,'Guten'
         me&baleg,'Gutago'
-        me&baleg,'Guting'
+        me&baleg,'Goting'
         
         # < manage the Travel/$t
         # < %%chag instability before commit,
@@ -1645,6 +1656,9 @@ me.Sch_Travel = &acgt{ return [
             me&nodei,R,Gu,n
         })
         # K <-> Ghost..$z (%%chat) gen from Gutwin
+    },'ift,D'],
+    ['Gumptio',0.67,&acgtRs{
+        
     },'ift,D'],
   
   // 0.columns
@@ -2081,7 +2095,7 @@ me.Sch_Travel = &acgt{ return [
             $qs = me&ootwin,K (&tz{
                 return {t,z,K}
             })
-            !qs.length and debugger
+            !qs.length and me&tsc,"no-ootwin:"+joint(haks(n.sc))
             $z = ns&z
             if (z) {
                 # linkage cha:dige have %%z
@@ -2335,6 +2349,8 @@ me.Sch_Travel = &acgt{ return [
   
   // 2
     # %%Go-able Travel/$t
+    # < %%Go-abled also
+    #   mot:9 log from job tractor?
     ['Gutago',0.4,&acgtRs{
         $Jx = me&Jx,R
         me&ha,R,{layout:1,mostly:Jxs&Travel}
@@ -2435,12 +2451,12 @@ me.Sch_Travel = &acgt{ return [
         me&jaa,R,{Goable:1} .map(&ni{
             # < parallel
             0 > i and return
-            me&nodei,R,Jxs&Guting,n,{},q
+            me&nodei,R,Jxs&Goting,n,{},q
         })
         
     },'ift,D'],
     # %%Go-ing Travel/$t
-    ['Guting',0.4,&acgtRs{
+    ['Goting',0.4,&acgtRs{
         $x = me&Jx,R
         $Tr = xs&Travel
         me&jaa,R,{Goable:1,eto:s} .map(&n{
@@ -2957,7 +2973,7 @@ me.Sch_Travel = &acgt{ return [
                     
                 })
             }
-            return some.length && some
+            return some
         }
     }
     # Ghost..$z finds Ghost/$a
