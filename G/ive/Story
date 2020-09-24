@@ -230,7 +230,11 @@ me.Sch_Story = &acgt{ return [
         $play = Rs&play || 0
         me&introqua,R,{play}
         
-        Rs&play and return me&tsc,"off",'','g'
+        if (Rs&play) {
+            Rs&Shouldbeempty = 1
+            me&tsc,"off",'','g'
+            return
+        }
         
       // as playing
         # quiet,wake:Story then Story/This
@@ -275,14 +279,22 @@ me.Sch_Story = &acgt{ return [
         # < lighter drawing into -eight/-seven
     },'ift,D'],
   // misc Story
-    # negate %onlyish sleeping innards
+    # negate %onlyish sleeping innards,
+    #  lose history and make untunnelable
     ['Shouldbeempty',0.33,&acgtRs{
-        grepout(Rs&z,r => rs&ball && rs&sleeping).map(&r{
-            delete Rc&X.x[r.t]
-            # ^ transacted, v not
-            rs&ball and rc&s.y.invalide = 1
-        })
+        # < stash history until?
+        $N = grepout(Rs&z,r => rs&ball && rs&sleeping)
+        me&losehistory,R,N
     },'ift,D'],
+    &{
+        me.losehistory = &acgtRN{
+            N.map(&r{
+                delete Rc&X.x[r.t]
+                # ^ transacted, v not
+                rs&ball and rc&s.y.invalide = 1
+            })
+        }
+    },
     ['Storiz',0.33,&acgtRs{
         me&reaw,R,'Storiz'
         me&inode,R
