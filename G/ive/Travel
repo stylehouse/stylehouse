@@ -240,8 +240,6 @@ me.Sch_Travel = &acgt{ return [
     # Travel/*(%play?%SummerCat)
     ['Travelables',0.297,&acgtRs{
         me&bin,'Travelable'
-        #me&ha,R,"Go:figuratively"
-        #me&ha,R,"Go:Dealap"
         me&jaa,R,'Go' .map(&n{
             $t = ns&Go
             $z = me&fiu,s,t,8
@@ -251,7 +249,12 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
     ['Travelable',0.2971,&acgtRs{
         me&inode,R
-        !me&ja,R,'Go' and return
+        if (!me&ja,R,'Go') {
+            delete Rs&SummerCat
+            Rs&Shouldbeempty = 1
+            return
+        }
+        me&tsc,"play"
         Rs&play = 1
         # %eph while %%Go-created, up permanence:
         $x = me&Jx,R
@@ -293,6 +296,7 @@ me.Sch_Travel = &acgt{ return [
             ns&blr = 9;
         }
     },'ift,D'],
+    
     # finished Travels commit
     ['Duolish',0.303,&acgtRs{
         # unrelated
