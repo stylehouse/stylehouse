@@ -1582,6 +1582,15 @@ me.Sch_Travel = &acgt{ return [
         }
         G&yl,555,first
     }
+    # false, %%waitsing for named node
+    me.Othersel2 = &acgtRt{
+        $x = me&Jx,R
+        $Gu = x.sc[t]
+        !Gu and return
+        !Gu and me&waits,"Othersel1",0,'say'; return
+        !Guy&R and me&waits,"Othersel2",0,'say'; return
+        return Gu
+    }
     },
     # receive %%chag, make updates
     ['Gumptio',0.5,&acgtRs{
@@ -1594,13 +1603,17 @@ me.Sch_Travel = &acgt{ return [
         # observe wakes from when it goes quiet
         # turn
         if (!sy&ever_quiet) {
-            me&quiet_waker,R and sy&ever_quiet = 1
+            if (me&quiet_waker,R) {
+                sy&ever_quiet = 1
+                me&tsc,"First"
+            }
         }
         sy&ever_quiet and me&tsc,"quiet"
         
         $waity = !sy&ever_quiet && "ever"
             || me&ja,xc&To,'waits' && "early"
         if (waity) {
+            #waity == 'early' and me&wants,R,'Bump',xc&Ying
             me&tsc,"..."+waity
             me&extrainitbump,R
             return
@@ -1615,13 +1628,9 @@ me.Sch_Travel = &acgt{ return [
         # < %%chag instability before commit,
         #    see %Compiling!
         
-      // testable
+      // go wandering
         return;
         uniq( me&jaa,R,'chag','efrom' ) .map(&Z{
-            
-            # Know..$Z
-            # Travel..$z
-            $N = me&otwin,z
             
             $c = {};
             #z.t == 'Easiness' and me&zu,"from",z;
@@ -1641,23 +1650,14 @@ me.Sch_Travel = &acgt{ return [
             })
             me&zu,"fro",c
         })
-        
     },'ift,D'],
+    
     
     # forward %%chag, now /* isnode
     ['Gumptio',0.6,&acgtRs{
         me&bewind,R and return
-        $x = me&Jx,R
-        $Gu = xs&Guten
+        $Gu = me&Othersel2,R,'Guten'
         !Gu and return
-        !Gu and return me&waits,"Othersel1",0,'say'
-        !Guy&R and debugger
-        if (!Guy&R) {
-            #!
-            me&waits,"Othersel2",0,'say'
-            #me&nu,'waits',Rs&waits
-            return
-        }
         # Know..$K <-> K%Thing
         me&jaa,R,'chag' .map(&n{
             me&nodei,R,Gu,n
@@ -1946,17 +1946,12 @@ me.Sch_Travel = &acgt{ return [
     #  for any odness besides what %Paving sends
     ['Gutwin',0.45,&acgtRs{
         me&sleepic,R and return
-        $x = me&Jx,R
-        $Gu = xs&Guten
+        $Gu = me&Othersel2,R,'Guten'
         # awkward start. &bewind goes forever?
-        if (!Guy&R) {
-            # < more multiobject finding multimeanings:
-            Rs&wakeful = 1
-            me&waits,"Othersel2",0,'say'
-            #me&nu,'waits',Rs&waits
-            return
-        }
-        !Guy&R and return me&waits,"Othersel2"
+        # < more multiobject finding multimeanings
+        #    when eg %wakeful = $waits
+        !Gu and Rs&wakeful = 1; return
+        $x = me&Jx,R
         
         $chaf = &t,c,mix{
             c = ex({cha:t},c)

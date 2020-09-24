@@ -893,7 +893,11 @@
                 la = z
                 stem.unshift([t])
                 if (Xss.includes(z)) {
-                    !zy&path and throw "node!zy&path"
+                    if (!zy&path) {
+                        # capturing %eph from weird times before quiet?
+                        Ds&NOTANODE = 1
+                        #throw "node!zy&path"
+                    }
                     # finish?!
                     return 1
                 }
