@@ -1591,6 +1591,8 @@ me.Sch_Travel = &acgt{ return [
         $Story = xs&Story
         Story && Storyy&running and return me&tsc,"Story..."
         
+        # observe wakes from when it goes quiet
+        # turn
         if (!sy&ever_quiet) {
             me&quiet_waker,R and sy&ever_quiet = 1
         }
@@ -1648,9 +1650,14 @@ me.Sch_Travel = &acgt{ return [
         $x = me&Jx,R
         $Gu = xs&Guten
         !Gu and return
-        !Gu and return me&waits,"Othersel1"
+        !Gu and return me&waits,"Othersel1",0,'say'
         !Guy&R and debugger
-        !Guy&R and return me&waits,"Othersel2"
+        if (!Guy&R) {
+            #!
+            me&waits,"Othersel2",0,'say'
+            #me&nu,'waits',Rs&waits
+            return
+        }
         # Know..$K <-> K%Thing
         me&jaa,R,'chag' .map(&n{
             me&nodei,R,Gu,n
@@ -1942,6 +1949,12 @@ me.Sch_Travel = &acgt{ return [
         $x = me&Jx,R
         $Gu = xs&Guten
         # awkward start. &bewind goes forever?
+        if (!Guy&R) {
+            # < more multiobject finding multimeanings:
+            me&waits,"Othersel2",0,'say'
+            #me&nu,'waits',Rs&waits
+            return
+        }
         !Guy&R and return me&waits,"Othersel2"
         
         $chaf = &t,c,mix{
@@ -2137,7 +2150,7 @@ me.Sch_Travel = &acgt{ return [
                 qe.direction = qe.satis ? '>' : '<'
                 uby(a,qe)
             })
-            !some and debugger
+            !some and me&nu,"ootwin!some",n.sc
         }
         # %Paving changes
         me&jaa,R,'chag,K' .map(n => Ghossc(n,ns&n))

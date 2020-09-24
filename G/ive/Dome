@@ -1859,7 +1859,9 @@ me.settleblab = 1
         # R%waits -> %%waits
         each in Rs&waits {
             me&ja,R,{waits:n} and continue
-            me&ha,R,{waits:n}
+            $h = me&ha,R,{waits:n}
+            hy&waits = n
+            ny&waits = h
         }
         # %%wants:$n && n%%waits -> %%waits:wants,wants:$n
         #  $n may be a non-node R
@@ -2063,16 +2065,33 @@ me.settleblab = 1
         # &bready finalises and returns the %%waits
         $waits = me&bready,r || []
         waits .map(&n{
-            $z = ns&wants
+            # %%waits = R%waits/$D
+            $D = ns&waits
+            D = isC(D) && D
             $q = {via:s}
-            # %%waits momentarily (after %%..wants)
-            !z and q.desires = s
-            ns&notanode and ~>3 notanode: s.t, z.t
-            else {
-                isR(z) and ~>3 wantsR: s.t, z.t
+            
+            D && sex(q,D.sc,'say,sooner,momentarily,later')
+            if (!ns&wants) {
+                # usu from just &waits
+                #  lets explicit %%wants happen first
+                q.wants = s
+                q.momentarily = 'nowants'
             }
+            
+            $z = ns&wants || q.wants
+            if (ns&notanode) {
+                q.sooner = 'notanode'
+                ~>3 notanode: s.t, z.t
+            }
+            else
+            isR(z) and ~>3 wantsR: s.t, z.t
+            
             # -> Ying waits_8
-            me&ha,R,n,{},q
+            $h = me&ha,R,n,{},q
+            D and Dy&waits8 = h
+            ny&waits8 = h
+            hy&waits = n
+            
         })
         !waits.length and rs&isbready = 1
     }
@@ -2172,18 +2191,33 @@ me.settleblab = 1
             $si = tpath_s.push(s)-1;
             return tpath_[si] = tp
         }
+        $saywaits = &n{
+            $tp = joint(haks(n.sc))+" "
+            $s = ns&wants
+            $sr = s && me&tpath,s || "!%wants"
+            $viar = ns&via && me&tpath,ns&via
+            viar = viar && viar != sr
+                ? " (via "+viar+")" : ''
+            $why = ns&waits
+            why = isC(why) ? why.t : why
+            
+            return sr+viar+": "+why
+        }
         me&jaa,R,{waits:1} .filter(&n{
-            $s = ns&wants;
-            if (!s) {
-                # not pointing to anything it wants, just &waits
-                s = ns&desires;
-                s and momentarily.push(s); return
-                !s and throw "waits!wants"
+            $s = ns&wants
+            # !
+            if (ns&say) {
+                $tp = saywaits(n)
+                ~>4 says: ns&say, tp
             }
-            # just R we should tunnel
+            
+            # usu from just &waits!
+            #  lets explicit %%wants happen first
+            ns&momentarily and momentarily.push(s); return
+            # usu just R we should tunnel
             # eg R%Paving/r%Pave, happens to only tunnel to R
             # < ns&via probably -> later
-            ns&notanode and sooner.push(s); return
+            ns&sooner and sooner.push(s); return
             # < others may have %Q waiting for %ready
             #   this could later an entire set of wakers for 300ms
             
@@ -2250,45 +2284,62 @@ me.settleblab = 1
         # the arrays going to &log must be readonly
         
         # sooners take precedence over any wakers
+        $rem = ''
         if (sooner.length) {
             momentarily.push(...wakers)
             wakers = sooner
-            wakers.length && momentarily.length
-                && me&log,R,'sooner',{wakers,momentarily}
+            rem = "sooner"
+            hak(momentarily) and rem = "<-sooner"
+            hak(momentarily) and me&log,R,'sooner',{wakers,momentarily}
         }
-        !wakers.length and wakers = momentarily.slice(); momentarily = []
-        !wakers.length and wakers = (Ys&momentarilys||[]).pop() || []
+        if (!wakers.length) {
+            wakers = momentarily.slice()
+            # < shouldnt happen?
+            hak(wakers) and rem = "()momentarily"
+            momentarily = []
+        }
+        if (!wakers.length) {
+            wakers = (Ys&momentarilys||[]).pop() || []
+            hak(wakers) and rem = "<-momentarily"
+        }
         
         # laters give precedence to any wakers
         !wakers.length and wakers = later; later = []
         if (!wakers.length) {
             wakers = (Ys&laters||[]).pop() || [];
-            wakers.length
-                && me&log,R,'later',{wakers}
+            hak(wakers) and rem = "<-later"
+            hak(wakers) and me&log,R,'later',{wakers}
         }
         wakers = uniq(wakers)
         
+   //   are concluded
         if (wakers.length) {
-            $via = {};
+            $via = {}
+            $vias = {}
             uniq(wakers) .map(&s{
                 $got = me&jaa,R,{waits:1,wants:s} .map(&n{
                     #+isR(s) and ~>7 GoR: s.t
                     isR(s) and return
-                    $tp = me&tpath,s;
-                    via[tp] ||= [];
-                    via[tp].push(
-                        haks(n.sc).join('-')
-                        +(ns&via ? me&tpath,ns&via : "?")
-                        +": "+ns&waits)
+                    $t = me&tpath,s;
+                    vias[t] = s
+                    via[t] ||= [];
+                    via[t].push(saywaits(n))
                 });
                 if (!got.length) {
+                    # < can't find any via later[] etc
                     #~>7 unk: s.t
                 }
             })
             each tm via {
-                #~>7 Go: t
-                each is m {
-                    #~>7 <-: s
+                $s = vias[t]
+                $V = me&jaa,R,{wants:s,say:1} [0]
+                !V and break
+                # < assumes only one
+                $say = Vs&say || ''
+                ~>7 8r: t, say
+                each it m {
+                    ~>7 <-: t
+                    me&log,R,'later',{waker:s,say,saywaits:t}
                 }
             }
             
