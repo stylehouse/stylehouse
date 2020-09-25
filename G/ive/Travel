@@ -1574,12 +1574,10 @@ me.Sch_Travel = &acgt{ return [
             !Guy&R and me&waits,"Othersel2",0,'say'; return
             return Gu
         }
+        # observe %%quiet, wait for all p%%waits
+        #  may be guessed by a callback: &extrainitbump
         me.aboutready = &acgtR{
             $s = Rc&s
-            $x = me&Jx,R
-            
-            # observe wakes from when it goes quiet
-            # turn
             if (!sy&ever_quiet) {
                 if (me&quiet_waker,R) {
                     sy&ever_quiet = 1
@@ -1589,9 +1587,12 @@ me.Sch_Travel = &acgt{ return [
             sy&ever_quiet and me&tsc,"quiet"
 
             $waity = !sy&ever_quiet && "ever"
-                || me&ja,xc&To,'waits' && "early"
+            if (!waity) {
+                $N = me&ioty,me.cbu(R,'Ying')
+                    .filter(r => me&ja,r,'waits' )
+                waity = hak(N) && "early:"+joint(N,',')
+            }
             if (waity) {
-                #waity == 'early' and me&wants,R,'Bump',xc&Ying
                 me&tsc,"..."+waity
                 me&extrainitbump,R
                 return 1
