@@ -1936,6 +1936,7 @@ me.Sch_Travel = &acgt{ return [
     # check all around %twins
     #  for any odness besides what %Paving sends
     ['Gutwin',0.45,&acgtRs{
+        
         me&sleepic,R and return
         $Gu = me&Othersel2,R,'Guten'
         # awkward start. &bewind goes forever?
@@ -2473,23 +2474,22 @@ me.Sch_Travel = &acgt{ return [
         $Tr = xs&Travel
         $ts = uniq( me&jaa,R,{Goable:1,eto:s},1 )
         each it ts {
+          // get D of %%Goable
             0 < i and debugger
             !isst(t) and debugger
             # related rows mix $Goable to group
             $Goable = {Goable:t,mot:1}
             $jaa = &cs{
                 isst(c) and c = peel(c)
-                isst(s) and ex(c,peel(s))
+                s and ex(c,peel(s))
                 return me&jaa,R,ex(c,Goable)
             }
             # they come in
             $mot = jaa({eto:s})
-            # state as string over time, making:
+            # state as string|drawing over time, making:
             #  %%lowel,tid,el,D,oD? - the state of it
             #  %%current,wid,el,fromt - many efroms
-            # draw diff, etc
             $lo = me&version_efroms,R,mot,'fromone,diff',Goable
-            # < join to %%D,trustable,... to accept diff
             
             $D = los&D
             !D and debugger
@@ -2508,6 +2508,9 @@ me.Sch_Travel = &acgt{ return [
                 me&nu,"Goners",{n,w}
             })
             
+          // Go
+            
+            # < diff D <-> Dy&parent=oD
             me&tsc,"Go:",0,'b'
             me&tsc,t
             !me&fiu,Tr,t,8 and me&tsc,'(new)',0,'g'
@@ -2520,17 +2523,18 @@ me.Sch_Travel = &acgt{ return [
             los&el <6 and 'notice ~u: loses Permit with a new D'
             
             !hak(jaa('Permit',{D}))
-                && x.ro('sure?',{})
+                && x.ro('sure?')
                 && me&ha,R,{Permit:'sure',D},{dome:"Permit:"+D.t},Goable
             
             jaa('Permit',{D}) .map(&n{
-                me&nu,"Permit-fed",n
-                #me&nodei,R,xs&Travel,{Go:t,tid}
+                #me&nu,"Permit-fed",n
+                me&nodei,R,xs&Travel,{Go:t,tid}
             })
             
         }
     },'ift,D'],
     &{
+    
         # for a bunch of %%...efrom
         #  difference them, auf. &brackstill's $current
         # < probably rename slep slip
@@ -2588,7 +2592,7 @@ me.Sch_Travel = &acgt{ return [
             $lo = me&zaa,R,ex({lowel:1},q)
             hak(lo) > 1 and debugger
             lo = lo[0]
-            if (lowel <6 || 1) {
+            if (lowel <6) {
                 $noise = []
                 potent.map(&d{
                     $N = delete d.froms
