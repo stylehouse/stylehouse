@@ -2465,6 +2465,7 @@ me.Sch_Travel = &acgt{ return [
         }
         
     },'ift,D'],
+  
   // 4 @Goting
     # %%Go-ing Travel/$t
     ['Goting',0.4,&acgtRs{
@@ -2472,27 +2473,69 @@ me.Sch_Travel = &acgt{ return [
         $Tr = xs&Travel
         $ts = uniq( me&jaa,R,{Goable:1,eto:s},1 )
         each it ts {
+            0 < i and debugger
+            !isst(t) and debugger
+            # related rows mix $Goable to group
             $Goable = {Goable:t,mot:1}
-            $mot = me&jaa,R,ex({eto:s},Goable)
+            $jaa = &cs{
+                isst(c) and c = peel(c)
+                isst(s) and ex(c,peel(s))
+                return me&jaa,R,ex(c,Goable)
+            }
+            # they come in
+            $mot = jaa({eto:s})
+            # state as string over time, making:
+            #  %%lowel,tid,el,D,oD? - the state of it
+            #  %%current,wid,el,fromt - many efroms
             # draw diff, etc
             $lo = me&version_efroms,R,mot,'fromone,diff',Goable
+            # < join to %%D,trustable,... to accept diff
             
-            los&el <6 and 'notice ~u'
-            $tid = 'some'
+            $D = los&D
+            !D and debugger
+            $oD = los&oD
+            if (x.ro("see?",{})) {
+                $six = Dy&six
+                # displays
+                $ol = me&yology,six
+                ac(R,'M', ol)
+                oly&cv = 0.7
+                me&nu,"D",D
+                n streng 7 $s:Ds&string %e:2,mh:30
+            }
+            jaa('Goners') .map(&n{
+                $w = ns&n
+                me&nu,"Goners",{n,w}
+            })
             
-            !isst(t) and debugger
             me&tsc,"Go:",0,'b'
             me&tsc,t
             !me&fiu,Tr,t,8 and me&tsc,'(new)',0,'g'
-            x.ro('sure?',{}) &&
-                me&nodei,R,xs&Travel,{Go:t,tid}
+            
+            $el = los&el
+            # this would become the four version
+            #  Jproto dome has the three version
+            $tid = los&tid
+            
+            los&el <6 and 'notice ~u: loses Permit with a new D'
+            
+            !hak(jaa('Permit',{D}))
+                && x.ro('sure?',{})
+                && me&ha,R,{Permit:'sure',D},{dome:"Permit:"+D.t},Goable
+            
+            jaa('Permit',{D}) .map(&n{
+                me&nu,"Permit-fed",n
+                #me&nodei,R,xs&Travel,{Go:t,tid}
+            })
+            
         }
     },'ift,D'],
     &{
         # for a bunch of %%...efrom
-        #  difference them, leveraging brackstill
+        #  difference them, auf. &brackstill's $current
         # < probably rename slep slip
         me.version_efroms = &acgtRNcq{
+          // pool currents
             $s = Rc&s
             c = peel(c)
             $to = Rc&s
@@ -2537,6 +2580,7 @@ me.Sch_Travel = &acgt{ return [
                 return {current:c,fromt,w,froms,el}
             })
             
+          // watch el
             # any low el (from any from)
             $lowel = potent.map(d => d.el).sort()[0]
             # called %%lowel even if %%el is not low,
@@ -2544,23 +2588,46 @@ me.Sch_Travel = &acgt{ return [
             $lo = me&zaa,R,ex({lowel:1},q)
             hak(lo) > 1 and debugger
             lo = lo[0]
-            if (lowel <6) {
+            if (lowel <6 || 1) {
                 $noise = []
                 potent.map(&d{
                     $N = delete d.froms
                     noise.push(...N)
                 })
+                # convert noise to D%string/-row/-vat
+                $t = joint(potent.map(d => d.fromt),"+")
+                $D = Cye([t,1])
+                Ds&z = noise
+                #  creating on this D:brack means no history
+                $sev = me&pisix,R,D,{D}
+                !Ds&string || !Ds&dige and debugger
                 
-                # < $tid = -seven $noise
-                # < to various degrees of loel
-                #   like brackstill knowing ref noise < string noise
-                $cha = 1
-                $tid = cha
-                    ? (lo && los&tid || 0) + 1
-                    : los&tid
+                # get $lo versioning
+                #  D is now &storable
+                $d = {lowel:t}
+                $oD = lo && los&D
+                # < degrees of change
+                #   like brackstill knowing ref noise < string|key noise
+                #   -six with history
+                #   squish|dimension its -ology with diff
+                #    where it goes, have a diff to bring
+                if (oD && oDs&dige == Ds&dige) {
+                    # ignore new D
+                    d.el = 8
+                    d.tid = los&tid
+                    sex(d,lo.sc,'oD,D')
+                }
+                else {
+                    # roll D, and other stuff
+                    d.el = oD ? 3 : 2
+                    d.tid = (lo && los&tid || 0) + 1
+                    oD and d.oD = oD
+                    d.D = D
+                }
                 
+                # lo may not change if -six compresses what &brackstill
+                lo = me&ha,R,d,{},q
                 potent.map(&d{
-                    d = ex({},d)
                     $w = delete d.w
                     # re-$wid per w that supposedly changed
                     d.wid = d.el <6
@@ -2568,32 +2635,28 @@ me.Sch_Travel = &acgt{ return [
                         : ws&wid
                     me&ha,R,d,{},q
                 })
-                # re-$tid one big lowel
-                # return %%lowel...?
-                $d = {lowel:1,tid}
-                lo and d.prev = lo
-                lo = me&ha,R,d,{},q
             }
             else {
+                # lo and its w relax to %%...el=8 over time
                 !lo and debugger
+                lo = me&ha,R,lo,{},{el:lowel}
                 potent.map(&d{
                     # usu roll
                     $el = d.el
                     $w = d.w
                     me&ha,R,w,{},{el}
                 })
-                lo = me&ha,R,lo,{},{el:lowel}
             }
             # old become %%Goners
-            old .map(w => me&ha,R,{Goners:1,tid:ws&tid,n:w} )
+            old .map(w => me&ha,R,{Goners:1,wid:ws&tid,n:w},{},q )
             # all noise collected
             hak(collect) and debugger
             
             #me&nu,"collectGo",collect
             #me&nu,"current",currents
-            me&nu,"tid",lo
-            $now = me&jaa,R,ex({wid:1,fromt:1,current:1},q)
-            me&nu,"wids",now
+            #me&nu,"tid",lo
+            #$now = me&jaa,R,ex({wid:1,fromt:1,current:1},q)
+            #me&nu,"wids",now
             
             return lo
         }
