@@ -1932,7 +1932,7 @@ me.Sch_Travel = &acgt{ return [
     }
     },
   
-  // 1 @Guten <- @Gutwin
+  // 1 @Gutwin
     # check all around %twins
     #  for any odness besides what %Paving sends
     ['Gutwin',0.45,&acgtRs{
@@ -2040,6 +2040,7 @@ me.Sch_Travel = &acgt{ return [
             me&nodei,R,xs&Guten,n,{},{chat:'linkage'}
         })
     },'ift,D'],
+  // 2 @Guten 
     # grouped by Travel/$t, differing
     ['Guten',0.45,&acgtRs{
         $Jx = me&Jx,R
@@ -2320,11 +2321,12 @@ me.Sch_Travel = &acgt{ return [
        
        // sprains -> @Gutago
         $N = []
-        # < look for a %%t, currently one &nward
+        # those with motivation
         me&jaa,R,'mot' .map(&n{
             $t = ns&t
             $K = ns&K
             if (!t || !K) {
+                # look &nward for t,K to attach
                 $h = xy&nward(n)[0]
                 t ||= hs&t
                 K ||= hs&K
@@ -2347,10 +2349,12 @@ me.Sch_Travel = &acgt{ return [
         me&tsc,"x"+runable
     },'ift,D'],
   
-  // 2
+  // 3 @Gutago
+    # <- @Guten %%mot,t,K,? 
     # %%Go-able Travel/$t
     # < %%Go-abled also
     #   mot:9 log from job tractor?
+    # < currently running should be preferred, negotiated
     ['Gutago',0.4,&acgtRs{
         $Jx = me&Jx,R
         me&ha,R,{layout:1,mostly:Jxs&Travel}
@@ -2371,7 +2375,6 @@ me.Sch_Travel = &acgt{ return [
                 $t = hs&t
                 $mot = hs&mot
                 !t || !mot and debugger
-                ah(x,['by_mot'],mot,t.t,h)
                 
                 xy&arow(h,'t')
                 
@@ -2430,46 +2433,170 @@ me.Sch_Travel = &acgt{ return [
         })
        
        // next Goable
-        # per t, lowest %%mot is it's main intention
-        
-        $all = me&jaa,R,{mot:1,eto:s}
-        $mots = haks(xs&by_mot).sort()
+        # lowest %%mot, first %%t is %%Goable -> @Goting
+        #  %%K not required
+        $mots = uniq( me&jaa,R,'mot,t',1 ).sort()
         each i,mot mots {
-            each tN xs&by_mot[mot] {
-                # any row, onto the join $t (spanning)
-                0 < i and continue
-                me&ha,R,{Goable:t}
-                N.map(&h{
+            if (mot >= 9) {
+                me&tsc,"relink-K:"+ki(K,2)
+                break
+            }
+            $ts = uniq( me&jaa,R,{t:1,mot},1 )
+            each it ts {
+                # pipe all %%mot-ish for that $t,
+                #  to detect ~u
+                me&jaa,R,{t,mot:1} .map(&h{
+                    $q = {Goable:t.t}
+                    hs&mot != mot and q.anyway = 1
+                    # -> @Goting
+                    me&nodei,R,Jxs&Goting,h,{},q
+                    q.anyway and return
+                    # visual
                     $row = hy&arow
                     $te = row.te
                     tes&bri = 1.6
                     $se = xy&stepcol('mot',row)
                     ses&bri = 1.6
                 })
+                # < parallel
+                break
             }
+            break
         }
-        me&jaa,R,{Goable:1} .map(&ni{
-            # < parallel
-            0 > i and return
-            me&nodei,R,Jxs&Goting,n,{},q
-        })
         
     },'ift,D'],
+  // 4 @Goting
     # %%Go-ing Travel/$t
     ['Goting',0.4,&acgtRs{
         $x = me&Jx,R
         $Tr = xs&Travel
-        me&jaa,R,{Goable:1,eto:s} .map(&n{
-            $Go = ns&Goable
+        $ts = uniq( me&jaa,R,{Goable:1,eto:s},1 )
+        each it ts {
+            $Goable = {Goable:t,mot:1}
+            $mot = me&jaa,R,ex({eto:s},Goable)
+            # draw diff, etc
+            $lo = me&version_efroms,R,mot,'fromone,diff',Goable
+            
+            los&el <6 and 'notice ~u'
+            $tid = 'some'
+            
+            !isst(t) and debugger
             me&tsc,"Go:",0,'b'
-            me&tsc,Go
-            !me&fiu,Tr,Go,8 and me&tsc,'(new)',0,'g'
+            me&tsc,t
+            !me&fiu,Tr,t,8 and me&tsc,'(new)',0,'g'
             x.ro('sure?',{}) &&
-                me&nodei,R,xs&Travel,{Go}
-        })
+                me&nodei,R,xs&Travel,{Go:t,tid}
+        }
     },'ift,D'],
     &{
-    
+        # for a bunch of %%...efrom
+        #  difference them, leveraging brackstill
+        # < probably rename slep slip
+        me.version_efroms = &acgtRNcq{
+            $s = Rc&s
+            c = peel(c)
+            $to = Rc&s
+            # efrom=node
+            $efroms = uniq(N.map(n => ns&efrom))
+            c.fromone && hak(efroms) != 1 and debugger
+            # each %current version
+            # Gotingy&efroms/Gutago %etos=$eto:
+            # Gutagoy&etos/Goting:eto %to=Goting %from=Gutago %current
+            $currents = efroms .map(&from,{
+                $N = me&ioty,sy&efroms
+                    .map(n => ns&etos)
+                    .filter(eto => etos&from == from)
+                    .filter(eto => etos&to == to)
+                    .map(eto => etos&current)
+                
+                hak(N) != 1 and debugger
+                return N[0]
+            }) .filter(n=>n)
+            
+            # remembered
+            # [w:old]
+            $old = me&zaa,R,ex({wid:1,fromt:1,current:1},q)
+            $collect = N.slice()
+            $potent =
+            currents .map(&c{
+                # find w:old, knowing $current, which has:
+                $from = cs&from
+                $fromt = cs&fromt
+                !from || !fromt and debugger
+                # by name
+                $olds = grepout(old, n => ns&fromt == fromt)
+                hak(olds) > 1 and debugger
+                $w = olds[0]
+                # overall new, same, diff
+                $el = !hak(olds) ? 2
+                    : ws&current == c ? 8
+                    : 3
+                # %%mot...* noise
+                $froms = grepout(collect, n => ns&efrom == from)
+                
+                return {current:c,fromt,w,froms,el}
+            })
+            
+            # any low el (from any from)
+            $lowel = potent.map(d => d.el).sort()[0]
+            # called %%lowel even if %%el is not low,
+            #  otherwise %%began=now(),prev=lo
+            $lo = me&zaa,R,ex({lowel:1},q)
+            hak(lo) > 1 and debugger
+            lo = lo[0]
+            if (lowel <6) {
+                $noise = []
+                potent.map(&d{
+                    $N = delete d.froms
+                    noise.push(...N)
+                })
+                
+                # < $tid = -seven $noise
+                # < to various degrees of loel
+                #   like brackstill knowing ref noise < string noise
+                $cha = 1
+                $tid = cha
+                    ? (lo && los&tid || 0) + 1
+                    : los&tid
+                
+                potent.map(&d{
+                    d = ex({},d)
+                    $w = delete d.w
+                    # re-$wid per w that supposedly changed
+                    d.wid = d.el <6
+                        ? (w && ws&wid || 0) + 1
+                        : ws&wid
+                    me&ha,R,d,{},q
+                })
+                # re-$tid one big lowel
+                # return %%lowel...?
+                $d = {lowel:1,tid}
+                lo and d.prev = lo
+                lo = me&ha,R,d,{},q
+            }
+            else {
+                !lo and debugger
+                potent.map(&d{
+                    # usu roll
+                    $el = d.el
+                    $w = d.w
+                    me&ha,R,w,{},{el}
+                })
+                lo = me&ha,R,lo,{},{el:lowel}
+            }
+            # old become %%Goners
+            old .map(w => me&ha,R,{Goners:1,tid:ws&tid,n:w} )
+            # all noise collected
+            hak(collect) and debugger
+            
+            #me&nu,"collectGo",collect
+            #me&nu,"current",currents
+            me&nu,"tid",lo
+            $now = me&jaa,R,ex({wid:1,fromt:1,current:1},q)
+            me&nu,"wids",now
+            
+            return lo
+        }
     },
   
 // Duolish push <- Travel
