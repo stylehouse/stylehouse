@@ -2041,6 +2041,7 @@ me.Sch_Travel = &acgt{ return [
             me&nodei,R,xs&Guten,n,{},{chat:'linkage'}
         })
     },'ift,D'],
+  
   // 2 @Guten 
     # grouped by Travel/$t, differing
     ['Guten',0.45,&acgtRs{
@@ -2617,13 +2618,14 @@ me.Sch_Travel = &acgt{ return [
                 #   squish|dimension its -ology with diff
                 #    where it goes, have a diff to bring
                 if (oD && oDs&dige == Ds&dige) {
-                    # ignore new D
+                    # ignore new D, so ref stays still
+                    # < -eight wants to learn this
                     d.el = 8
                     d.tid = los&tid
                     sex(d,lo.sc,'oD,D')
                 }
                 else {
-                    # roll D, and other stuff
+                    # $tid++
                     d.el = oD ? 3 : 2
                     d.tid = (lo && los&tid || 0) + 1
                     oD and d.oD = oD
@@ -2662,6 +2664,7 @@ me.Sch_Travel = &acgt{ return [
             #me&nu,"tid",lo
             #$now = me&jaa,R,ex({wid:1,fromt:1,current:1},q)
             #me&nu,"wids",now
+            c.diff and me&diffany,R,los&D,los&oD
             
             return lo
         }
