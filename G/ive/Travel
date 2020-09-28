@@ -1679,6 +1679,8 @@ me.Sch_Travel = &acgt{ return [
     me.columns = &acgtRc{
         $s = Rc&s
         # < via &Jx
+        #$x = me&Jx,R
+        #x.t = 'acolumning'
         $x = Cye(['acoluming',1])
        // <- %%layout spec, y&inSteps()
         xs&columns = []
@@ -1735,9 +1737,12 @@ me.Sch_Travel = &acgt{ return [
             $joincoli = xs&columns.indexOf(xs&pk)
             joincoli < 0 and debugger
             each kv row.present {
-                # < non-thing joins (crux?)
-                !isnode(v) and continue
-                $vi = xs&columns.indexOf(vy&path[0])
+                # usually a node for its step's column
+                $notnode = isst(xs&pk)
+                !notnode && !isnode(v) and continue
+                $vi = xs&columns.indexOf(
+                     notnode ? k : vy&path[0]
+                )
                 vi < 0 and continue
                 vi < joincoli and row.left ||= 1
                 else
@@ -1834,21 +1839,26 @@ me.Sch_Travel = &acgt{ return [
         # node gets label
         # se - which column modulat to put in
         xy&usun = &z,se{
-            $label = z.t
-
-            !isnode(z) and throw "unnode"
-            se ||= xy&stepcol(zy&path[0])
-            # < interesting, posited as not yet?
-            #   might be from the To..z when Know..K?
-            sey&step && sey&step != zy&path[0] and debugger
-            
-            # pathy label K columns, the outsides
-            # < know better
-            $col = xs&row.col
-            if (se == col[0] || se == col.slice(-1)[0]) {
-                label = joint(zy&path.slice(1),'/')
+            if (isnode(z)) {
+                $label = z.t
+                !isnode(z) and throw "unnode"
+                se ||= xy&stepcol(zy&path[0])
+                # < interesting, posited as not yet?
+                #   might be from the To..z when Know..K?
+                sey&step && sey&step != zy&path[0] and debugger
+                
+                # pathy label K columns, the outsides
+                # < know better
+                $col = xs&row.col
+                if (se == col[0] || se == col.slice(-1)[0]) {
+                    label = joint(zy&path.slice(1),'/')
+                }
             }
-
+            else {
+                !se and throw "usun!node!se"
+                !isst(z) && !num(z) and throw "usun!st|num"
+                $label = z
+            }
             $lc = sey&can('i',label)
             return lc
         }
@@ -2499,13 +2509,43 @@ me.Sch_Travel = &acgt{ return [
   // 4 @Goting
     # %%Go-ing Travel/$t
     ['Goting',0.4,&acgtRs{
-        $x = me&Jx,R
-        $Tr = xs&Travel
-        $ts = uniq( me&jaa,R,{Goable:1,eto:s},1 )
-        each it ts {
-          // get D of %%Goable
-            0 < i and debugger
+        $Jx = me&Jx,R
+        $Tr = Jxs&Travel
+        
+        me&ha,R,{layout:1,mostly:'Goable'}
+        me&ha,R,{layout:1,also:'mot'}
+        me&ha,R,{layout:1,also:'step'}
+        me&ha,R,{layout:1,also:'etc'}
+        me&ha,R,{layout:1,also:'dep'}
+        $x = me&columns,R
+        !xs&columns.length and return me&tsc,"columns..."
+        
+       // all Goable
+        $all = me&jaa,R,{Goable:1}
+        # incoming on many %%mot...
+        #  and %%historic... are %lowel,tid... that once were
+            .filter(n => ns&eto == s || ns&historic)
+        
+        me&sortial,all,'Goable' .map(&Ni{
+        0 < i and debugger
+        $t = N[0].sc.Goable
+        $historic = grepout(N,n => ns&historic)
+        # now N is current %%mot-ivation to Travel/$t
+        N = [...historic, N[0]]
+        
+        each ih N {
+            $t = hs&Goable
             !isst(t) and debugger
+            
+            xy&arow(h,'Goable')
+                me&nu,"Eex",x
+
+            $mo = xy&stepcol('mot')
+            moy&can('i',t)
+
+            
+            
+          // get D of %%Goable
             # related rows mix $Goable to group
             $Goable = {Goable:t,mot:1}
             $jaa = &cs{
@@ -2520,9 +2560,11 @@ me.Sch_Travel = &acgt{ return [
             # $tid increases, persists while not a %lowel
             c.tidgen = &lo,{
                 $was = ahsk(s,'y','ttid',t)
-                !was and return 1
-                !num(was) and debugger
-                $now = was++
+                !was and $now = 1
+                else {
+                    !num(was) and debugger
+                    $now = was + 1
+                }
                 ah(s,'y','ttid',t,now)
                 return now
             }
@@ -2535,14 +2577,14 @@ me.Sch_Travel = &acgt{ return [
             $D = los&D
             !D and debugger
             $oD = los&oD
-            if (x.ro("see?",{})) {
+            if (Jx.ro("see?",{})) {
                 $six = Dy&six
                 # displays
                 $ol = me&yology,six
                 ac(R,'M', ol)
                 oly&cv = 0.7
                 me&nu,"D",D
-                x.ro("see-string?",{}) &&
+                Jx.ro("see-string?",{}) &&
                 n streng 7 $s:Ds&string %e:2,mh:30
             }
             jaa('Goners') .map(&n{
@@ -2550,7 +2592,7 @@ me.Sch_Travel = &acgt{ return [
                 me&nu,"Goners",{n,w}
             })
             
-          // Go
+          // Going
             
             # < diff D <-> Dy&parent=oD
             me&tsc,"Go:",0,'b'
@@ -2567,7 +2609,7 @@ me.Sch_Travel = &acgt{ return [
             los&el <6 and 'notice ~u: loses Permit with a new D'
             
             !hak(jaa('Permit',{D}))
-                && x.ro('sure?')
+                && Jx.ro('sure?')
                 && me&ha,R,{Permit:'sure',D},{dome:"Permit:"+D.t},Goable
             
             jaa('Permit',{D}) .map(&n{
@@ -2575,8 +2617,13 @@ me.Sch_Travel = &acgt{ return [
                 #me&nu,"Permit-fed",n
                 me&nodei,R,xs&Travel,{Go:t,tid}
             })
-            
+          
+          
+          // etc
+            xy&arowed()
         }
+        xy&arowgrouped()
+        })
     },'ift,D'],
     &{
     
