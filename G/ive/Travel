@@ -1616,8 +1616,12 @@ me.Sch_Travel = &acgt{ return [
         
         $x = me&Jx,R
         # < &mutex,'with:Story,quiet' and return
+        # such that it can start after we do
         $Story = xs&Story
-        Story && Storyy&running and return me&tsc,"Story..."
+        $avoid = !sy&Storymaystart
+            && Story && Storyy&running
+        avoid and return me&tsc,"Story..."
+        sy&Storymaystart = 1
         
         me&aboutready,R and return
         me&baleg,'Goting'
@@ -2511,10 +2515,22 @@ me.Sch_Travel = &acgt{ return [
             }
             # they come in
             $mot = jaa({eto:s})
+            # from @Gutago only
+            $c = {fromone:1}
+            # $tid increases, persists while not a %lowel
+            c.tidgen = &lo,{
+                $was = ahsk(s,'y','ttid',t)
+                !was and return 1
+                !num(was) and debugger
+                $now = was++
+                ah(s,'y','ttid',t,now)
+                return now
+            }
             # state as string|drawing over time, making:
             #  %%lowel,tid,el,D,oD? - the state of it
             #  %%current,wid,el,fromt - many efroms
-            $lo = me&version_efroms,R,mot,'fromone,diff',Goable
+            c.diff = 1
+            $lo = me&version_efroms,R,mot,c,Goable
             
             $D = los&D
             !D and debugger
@@ -2526,6 +2542,7 @@ me.Sch_Travel = &acgt{ return [
                 ac(R,'M', ol)
                 oly&cv = 0.7
                 me&nu,"D",D
+                x.ro("see-string?",{}) &&
                 n streng 7 $s:Ds&string %e:2,mh:30
             }
             jaa('Goners') .map(&n{
@@ -2539,6 +2556,8 @@ me.Sch_Travel = &acgt{ return [
             me&tsc,"Go:",0,'b'
             me&tsc,t
             !me&fiu,Tr,t,8 and me&tsc,'(new)',0,'g'
+            me&tsc,"tid:",0,'b'
+            me&tsc,los&tid
             
             $el = los&el
             # this would become the four version
@@ -2618,6 +2637,7 @@ me.Sch_Travel = &acgt{ return [
             $lo = me&zaa,R,ex({lowel:1},q)
             hak(lo) > 1 and debugger
             lo = lo[0]
+            
             if (lowel <6) {
                 $noise = []
                 potent.map(&d{
@@ -2651,7 +2671,7 @@ me.Sch_Travel = &acgt{ return [
                 else {
                     # $tid++
                     d.el = oD ? 3 : 2
-                    d.tid = (lo && los&tid || 0) + 1
+                    d.tid = c.tidgen(lo)
                     oD and d.oD = oD
                     d.D = D
                 }
