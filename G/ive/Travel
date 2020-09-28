@@ -1889,7 +1889,7 @@ me.Sch_Travel = &acgt{ return [
         }
         xy&nward = &s{
             $N = isar(s) ? s : [s]
-            return uniq(N.map(u => us&n))
+            return uniq(N.map(u => us&n).filter(n=>n))
         }
         xy&arowgrouped = &{
             $row = xs&row
@@ -1897,6 +1897,9 @@ me.Sch_Travel = &acgt{ return [
             !te and debugger; return
             
             tec&finished = 1
+            each tN tes&brackaft {
+                xy&plusrows(t,N)
+            }
             $N = tes&srcbyT
             if (N) {
                 xy&plusrows('n', xy&nward(N))
@@ -1916,6 +1919,7 @@ me.Sch_Travel = &acgt{ return [
         }
         # table-spanning row for extra group of (brack) rows
         xy&plusrows = &kN{
+            isC(N) and N = [N]
             $g = xs&g
             $gr = gy&can('w')
             $se = gry&can('c')
@@ -2513,38 +2517,43 @@ me.Sch_Travel = &acgt{ return [
         $Tr = Jxs&Travel
         
         me&ha,R,{layout:1,mostly:'Goable'}
-        me&ha,R,{layout:1,also:'mot'}
-        me&ha,R,{layout:1,also:'step'}
+        me&ha,R,{layout:1,also:'tid'}
+        me&ha,R,{layout:1,also:'phase'}
         me&ha,R,{layout:1,also:'etc'}
         me&ha,R,{layout:1,also:'dep'}
         $x = me&columns,R
         !xs&columns.length and return me&tsc,"columns..."
         
        // all Goable
-        $all = me&jaa,R,{Goable:1}
         # incoming on many %%mot...
-        #  and %%historic... are %lowel,tid... that once were
-            .filter(n => ns&eto == s || ns&historic)
+        $all = me&jaa,R,{Goable:1,eto:s}
+        #  + %%historic... - $lo-ish that once were
+        all.push(... me&zaa,R,{Goable:1,historic:1} )
+        
         
         me&sortial,all,'Goable' .map(&Ni{
+        
         0 < i and debugger
         $t = N[0].sc.Goable
         $historic = grepout(N,n => ns&historic)
         # now N is current %%mot-ivation to Travel/$t
+        $mots = N
+        # and now historic $lo (sans %%lowel)
+        #  + a single current %%mot (to begin ...)
         N = [...historic, N[0]]
         
-        each ih N {
+        N.map(&h{
             $t = hs&Goable
             !isst(t) and debugger
             
             xy&arow(h,'Goable')
-                me&nu,"Eex",x
+            $te = xs&row.te
 
-            $mo = xy&stepcol('mot')
-            moy&can('i',t)
-
+            $mo = xy&stepcol('tid')
             
-            
+         // non-historic
+          if (!hs&historic) {
+          # may find $hi:
           // get D of %%Goable
             # related rows mix $Goable to group
             $Goable = {Goable:t,mot:1}
@@ -2553,8 +2562,6 @@ me.Sch_Travel = &acgt{ return [
                 s and ex(c,peel(s))
                 return me&jaa,R,ex(c,Goable)
             }
-            # they come in
-            $mot = jaa({eto:s})
             # from @Gutago only
             $c = {fromone:1}
             # $tid increases, persists while not a %lowel
@@ -2571,8 +2578,7 @@ me.Sch_Travel = &acgt{ return [
             # state as string|drawing over time, making:
             #  %%lowel,tid,el,D,oD? - the state of it
             #  %%current,wid,el,fromt - many efroms
-            c.diff = 1
-            $lo = me&version_efroms,R,mot,c,Goable
+            $lo = me&version_efroms,R,mots,c,Goable
             
             $D = los&D
             !D and debugger
@@ -2593,7 +2599,6 @@ me.Sch_Travel = &acgt{ return [
             })
             
           // Going
-            
             # < diff D <-> Dy&parent=oD
             me&tsc,"Go:",0,'b'
             me&tsc,t
@@ -2601,10 +2606,19 @@ me.Sch_Travel = &acgt{ return [
             me&tsc,"tid:",0,'b'
             me&tsc,los&tid
             
+            los&oD and me&diffany,R,los&D,los&oD
+            
             $el = los&el
             # this would become the four version
             #  Jproto dome has the three version
             $tid = los&tid
+            $ti = moy&can('i',tid)
+            $hi = historic.filter(hi => his&tid == tid)[0]
+            if (tis&ope) {
+                ah(te,'brackaft','lo',lo)
+                ah(te,'brackaft','hi',hi)
+                me&nu,"self",s
+            }
             
             los&el <6 and 'notice ~u: loses Permit with a new D'
             
@@ -2617,16 +2631,57 @@ me.Sch_Travel = &acgt{ return [
                 #me&nu,"Permit-fed",n
                 me&nodei,R,xs&Travel,{Go:t,tid}
             })
-          
-          
-          // etc
+            
+          }
+         // historic
+            me&historicalise,R,{h,lo,hi,x,shade:'lowel'}
+            
             xy&arowed()
-        }
+        })
         xy&arowgrouped()
         })
     },'ift,D'],
     &{
-    
+        # for h that may be|produce hi%%historic
+        #  c.shade/$k - delete hi%$k (only h %%lowel)
+        #  c.x - (&columns) hide current %%historic row
+        me.historicalise = &acgtRc{
+            $h = c.h
+            $hi = c.hi
+            $lo = c.lo
+            !h and throw "whoh?"
+            
+            if (hs&historic) {
+                # you iterate hi rows before h rows
+                hi and debugger
+                hi = h
+                if (c.x) {
+                    $x = c.x
+                    hiy&row = xs&row
+                }
+            }
+            else {
+                # latest $Goable/$tid
+                if (!hi) {
+                    # just $tid++
+                    hi = Cye(['historific',1])
+                    his&historic = 1
+                    ex(hi.sc,lo.sc)
+                    c.shade && haks(peel(c.shade))
+                        .map(k => delete hi.sc[k])
+                }
+                else {
+                    # hide hi row of current h
+                    if (hiy&row) {
+                        $gr = hiy&row.gr
+                        grs&bgh = '101'
+                    }
+                    hi = null
+                }
+            }
+            hi and me&ha,R,hi
+        }
+        
         # for a bunch of %%...efrom
         #  difference them, auf. &brackstill's $current
         # < probably rename slep slip
@@ -2686,6 +2741,7 @@ me.Sch_Travel = &acgt{ return [
             lo = lo[0]
             
             if (lowel <6) {
+                
                 $noise = []
                 potent.map(&d{
                     $N = delete d.froms
@@ -2723,6 +2779,7 @@ me.Sch_Travel = &acgt{ return [
                     d.D = D
                 }
                 
+          // usu
                 # lo may not change if -six compresses what &brackstill
                 lo = me&ha,R,d,{},q
                 potent.map(&d{
@@ -2745,8 +2802,9 @@ me.Sch_Travel = &acgt{ return [
                     me&ha,R,w,{},{el}
                 })
             }
+            !los&tid and debugger
             # old become %%Goners
-            old .map(w => me&ha,R,{Goners:1,wid:ws&tid,n:w},{},q )
+            old .map(w => me&ha,R,{Goners:1,wid:ws&wid,n:w},{},q )
             # all noise collected
             hak(collect) and debugger
             
@@ -2755,7 +2813,6 @@ me.Sch_Travel = &acgt{ return [
             #me&nu,"tid",lo
             #$now = me&jaa,R,ex({wid:1,fromt:1,current:1},q)
             #me&nu,"wids",now
-            c.diff and me&diffany,R,los&D,los&oD
             
             return lo
         }
