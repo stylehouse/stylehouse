@@ -14,9 +14,17 @@ me.Yingmind ||= {};
         # the 3, eg Travel, aka Step
         xc&Step = me.cby(R,'^^Ying')[1]
         !xc&Step and throw "!Step"
+        
         # the 3, eg Travel/$t, aka client
-        xc&client = me.cbu(R,'SummerCat');
-        !xc&client and delete xc&client;
+        $client = me.cbu(R,'client');
+        if (client) {
+            # they remember they are
+            me&reaw,client,'client',1
+            # they have children to know
+            xc&client = client
+        }
+        
+        #  %client/* etc are named
         each tr x.c {
             x.sc[t] = rc&s
             me&ioty,r,'ball' .map(&n{
@@ -25,7 +33,20 @@ me.Yingmind ||= {};
             });
         }
         
-        # < x. contextualised modulata/expressiona: x.ro, etc
+        #  %client may specify another R,
+        #   eg Travel/$t/$tid%SummerCat%client=$t
+        #    keep named $tid%SummerCat/*
+        $p = client && clients&client
+        if (hasR(p)) {
+            p = me&yfuture,p
+            xc&clienting = xc&client
+            xs&clienting = xs&client
+            xc&client = p
+            xs&client = ps&ball && pc&s
+        }
+        
+        # < contextualised modulata/expressiona: x.ro, etc
+        #   see &columns
         # click act
         x.ro = &kc{
             c ||= {once:1};

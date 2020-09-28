@@ -248,7 +248,7 @@ me.Sch_Travel = &acgt{ return [
     # Travel/$t(%play?%SummerCat)
     ['Travelable',0.2971,&acgtRs{
         me&inode,R
-        if (!me&ja,R,'Go') {
+        if (!me&ja,R,'Go' && !Rs&play) {
             delete Rs&SummerCat
             Rs&Shouldbeempty = 1
             return
@@ -261,7 +261,9 @@ me.Sch_Travel = &acgt{ return [
         Rs&eph && x.ro('%eph') and me&fiu,Tr,s
     },'ift,D'],
     ['Travelable+playsia',0.2972,&acgtRs{
-        Rs&SummerCat = 1
+        $tid = Rs&tid || 'dunno'
+        Rs&tid = tid
+        me&bal,tid,'eph,SummerCat'
     },'ift,D'],
     
     # noise
@@ -1610,10 +1612,10 @@ me.Sch_Travel = &acgt{ return [
         
         me&aboutready,R and return
         
-        me&baleg,'Gutwin'
-        me&baleg,'Guten'
-        me&baleg,'Gutago'
         me&baleg,'Goting'
+        me&baleg,'Gutago'
+        me&baleg,'Guten'
+        me&baleg,'Gutwin'
         
         # < manage the Travel/$t
         # < %%chag instability before commit,
