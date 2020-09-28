@@ -221,8 +221,8 @@ me.Sch_Story = &acgt{ return [
         
         # %play avoids running tests
         #  ie we are playing with the W
-        $store = "Story/%play"
-        !Rc&b and Rs&play = localStorage[store]*1
+        $store = xs&Ying.t+"/Story%play"
+        !Rc&b and Rs&play = (localStorage[store]||0) *1
         else {
             # sync %play once init
             localStorage[store] = Rs&play || 0
@@ -230,7 +230,7 @@ me.Sch_Story = &acgt{ return [
         $play = Rs&play || 0
         me&introqua,R,{play}
         
-        if (Rs&play) {
+        if (!Rs&play) {
             Rs&Shouldbeempty = 1
             me&tsc,"off",'','g'
             return
@@ -257,9 +257,9 @@ me.Sch_Story = &acgt{ return [
         #   io knowing i.bal likes to var $$t = C
         $r = me&bal,'The','The,eph'
         $The = rc&s
-        Thes&about ||= ['Fingo-init']
+        #Thes&about ||= ['Fingo-init']
         # 
-        #Thes&about ||= ['Dealap']
+        Thes&about ||= ['Dealap']
         # max 400 Yings?
         #  left failing because Dealap toodiff as firstNine
         #Thes&about ||= ['vovol','Dealap']
