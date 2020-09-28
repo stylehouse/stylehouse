@@ -1599,6 +1599,15 @@ me.Sch_Travel = &acgt{ return [
                 me&extrainitbump,R
                 return 1
             }
+            else {
+                # appear some time after we look ready,
+                # < %%waits,later:$actycv
+                if (!sy&ever_quread) {
+                    sy&ever_quread = 1
+                    G&yl:333,&{ me&elvis,R,'Bump' }
+                    return
+                }
+            }
             
         }
     },
@@ -1611,7 +1620,6 @@ me.Sch_Travel = &acgt{ return [
         Story && Storyy&running and return me&tsc,"Story..."
         
         me&aboutready,R and return
-        
         me&baleg,'Goting'
         me&baleg,'Gutago'
         me&baleg,'Guten'
@@ -2440,6 +2448,19 @@ me.Sch_Travel = &acgt{ return [
         # lowest %%mot, first %%t is %%Goable -> @Goting
         #  %%K not required
         $mots = uniq( me&jaa,R,'mot,t',1 ).sort()
+        
+        # < double-check @Gutwin the first time
+        #   TEST why not.
+        # < and more? suppose %Bat-ness will refresh acts
+        if (1 && hak(mots) && !sy&checkedGutwin) {
+            sy&checkedGutwin = 1
+            # < this never happens?
+            me&wants,R,"re1:Gutwin",xs&Gutwin,{say:1}
+            $wa = me&waits,"checked:Gutwin",'',{later:1,say:1}
+            #me&nu,"wa",wa
+            return
+        }
+        
         each i,mot mots {
             if (mot >= 9) {
                 me&tsc,"relink-K:"+ki(K,2)
