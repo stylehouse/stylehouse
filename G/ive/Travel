@@ -2530,7 +2530,6 @@ me.Sch_Travel = &acgt{ return [
         #  + %%historic... - $lo-ish that once were
         all.push(... me&zaa,R,{Goable:1,historic:1} )
         
-        
         me&sortial,all,'Goable' .map(&Ni{
         
         0 < i and debugger
@@ -2634,7 +2633,7 @@ me.Sch_Travel = &acgt{ return [
             
           }
          // historic
-            me&historicalise,R,{h,lo,hi,x,shade:'lowel'}
+            me&historicalise,R,{h,lo,hi,shade:'lowel'}
             
             xy&arowed()
         })
@@ -2655,10 +2654,6 @@ me.Sch_Travel = &acgt{ return [
                 # you iterate hi rows before h rows
                 hi and debugger
                 hi = h
-                if (c.x) {
-                    $x = c.x
-                    hiy&row = xs&row
-                }
             }
             else {
                 # latest $Goable/$tid
@@ -2667,13 +2662,15 @@ me.Sch_Travel = &acgt{ return [
                     hi = Cye(['historific',1])
                     his&historic = 1
                     ex(hi.sc,lo.sc)
-                    c.shade && haks(peel(c.shade))
-                        .map(k => delete hi.sc[k])
+                    if (c.shade) {
+                        haks(peel(c.shade))
+                            .map(k => delete hi.sc[k])
+                    }
                 }
                 else {
                     # hide hi row of current h
-                    if (hiy&row) {
-                        $gr = hiy&row.gr
+                    if (hiy&arow) {
+                        $gr = hiy&arow.gr
                         grs&bgh = '101'
                     }
                     hi = null
@@ -2684,6 +2681,8 @@ me.Sch_Travel = &acgt{ return [
         
         # for a bunch of %%...efrom
         #  difference them, auf. &brackstill's $current
+        #  only what's in N (eg %%Goable:$t group) matters
+        #   $current merely helps it sleep
         # < probably rename slep slip
         me.version_efroms = &acgtRNcq{
           // pool currents
@@ -2779,7 +2778,7 @@ me.Sch_Travel = &acgt{ return [
                     d.D = D
                 }
                 
-          // usu
+          // usu %%lowel,tid... / %%current,wid...+
                 # lo may not change if -six compresses what &brackstill
                 lo = me&ha,R,d,{},q
                 potent.map(&d{
