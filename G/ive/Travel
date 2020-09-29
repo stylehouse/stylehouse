@@ -2239,6 +2239,7 @@ me.Sch_Travel = &acgt{ return [
         
         me&ha,R,{layout:1,mostly:'Goable'}
         me&ha,R,{layout:1,also:'tid'}
+        me&ha,R,{layout:1,also:'el'}
         me&ha,R,{layout:1,also:'phase'}
         me&ha,R,{layout:1,also:'etc'}
         me&ha,R,{layout:1,also:'dep'}
@@ -2289,7 +2290,7 @@ me.Sch_Travel = &acgt{ return [
             # maybe have $lo-ish hist
             $hi = grepout(historic,hi => his&tid == tid)[0]
             # to recycle or create
-            hi = me&historicalise,R,{lo,hi,shade:'lowel'}
+            hi = me&historicalise,R,{lo,hi}
             hiy&latest = 1
             # $lo, its $hi, and history
             $rows = [
@@ -2311,11 +2312,31 @@ me.Sch_Travel = &acgt{ return [
             xy&arow(h,'Goable')
             hs&Goable != t and debugger
             $te = xs&row.te
+            $cean = &t{
+                $args = [...arguments].slice(1)
+                $se = xy&stepcol(t)
+                !se and debugger
+                !hak(args) and return se
+                return sey&can(...args)
+            }
 
             $mo = xy&stepcol('tid')
             
-          if (hs&lowel) {
+            if (hs&lowel) {
+                # hist or not
+                # < joinery
+                cean('tid','i',hs&tid)
+                
+                cean('el','i',hs&el)
+                
+                if (hs&historic) {
+                
+                }
+                else {
             $lo = h
+            if (cean('el').sc.ope) {
+                ah(te,'brackaft','lo',lo)
+            }
           # may find $hi:
           // get D of %%Goable
             
@@ -2351,13 +2372,6 @@ me.Sch_Travel = &acgt{ return [
             # this would become the four version
             #  Jproto dome has the three version
             $tid = los&tid
-            $ti = moy&can('i',tid)
-            $hi = historic.filter(hi => his&tid == tid)[0]
-            if (tis&ope) {
-                ah(te,'brackaft','lo',lo)
-                ah(te,'brackaft','hi',hi)
-                me&nu,"self",s
-            }
             
             los&el <6 and 'notice ~u: loses Permit with a new D'
             
@@ -2370,13 +2384,14 @@ me.Sch_Travel = &acgt{ return [
                 #me&nu,"Permit-fed",n
                 me&nodei,R,xs&Travel,{Go:t,tid}
             })
-            
-          }
-          if (hs&historic) {
-            $ti = moy&can('i',hs&tid)
-              
-          }
-         // etc
+          // etc      
+                }
+            }
+            else {
+                # misc row
+                $ti = moy&can('i',(hs&tid||''))
+                me&tsc,mo,'misc-row','?','g'
+            }
             xy&arowed()
         }
         xy&arowgrouped()
@@ -2468,6 +2483,7 @@ me.Sch_Travel = &acgt{ return [
             # called %%lowel even if %%el is not low,
             #  otherwise %%began=now(),prev=lo
             $lo = me&zaa,R,ex({lowel:1},q)
+                .filter(n => !ns&historic)
             hak(lo) > 1 and debugger
             lo = lo[0]
             
