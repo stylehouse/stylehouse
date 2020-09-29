@@ -104,6 +104,8 @@
         $x = Cye(['acoluming',1])
        // <- %%layout spec, y&inSteps()
         xs&columns = []
+        $toname = n => isC(n) ? n.t : ""+n
+        xs&groups = []
         # order doesn't matter to bracko
         me&jaa,R,'layout,outside,p,inside' .map(&ni{
             1 < i and throw "many joins"
@@ -112,6 +114,7 @@
             if (left) {
                 xs&pk and throw "many left"
                 xs&pk = ns&inside
+                xs&groups.push(ns&inside)
                 xs&columns.push(ns&outside,ns&p,ns&inside)
             }
             else {
@@ -122,6 +125,7 @@
         ||
             me&jaa,R,'layout,mostly' .map(&ni{
                 xs&pk ||= ns&mostly
+                xs&groups.push(ns&mostly)
                 xs&columns.push(ns&mostly)
             }) .length
             && me&jaa,R,'layout,also' .map(&ni{
@@ -136,8 +140,11 @@
         $se = gry&can('c')
         xs&columns .map(&n{
             $se = gry&can('c')
-            $name = isC(n) ? n.t : ""+n
-            ah(x,'headings',name,se)
+            $name = toname(n)
+            ah(x,'columnt',name,n)
+            xs&groups.includes(n)
+                && ah(x,'grouptse',name,se)
+            ah(x,'headingtse',name,se)
             $lc = sey&can('i',name)
         })
         
@@ -153,39 +160,59 @@
             $was = xs&row
             $row = {}
            // detect row.present columns
-            # inish are h%$gk to see as a column
-            #  you could go further
+            # inish are h%$gk to match as a column
             row.present = sex({},h.sc,c.inish)
-            $joincoli = xs&columns.indexOf(xs&pk)
-            joincoli < 0 and debugger
+            # coli:value of matched $gk
+            row.joiniv = {}
             each kv row.present {
-                # usually a node for its step's column
-                $notnode = isst(xs&pk)
-                !notnode && !isnode(v) and continue
-                $vi = xs&columns.indexOf(
-                     notnode ? k : vy&path[0]
-                )
-                vi < 0 and continue
-                vi < joincoli and row.left ||= 1
-                else
-                vi == joincoli and row.join = v
+                $vi = xs&columns.indexOf(k)
+                if (vi >= 0) {
+                    # column named $gk
+                }
                 else {
-                    row.left ||= 2
+                    # a node for its step's column
+                    !isnode(v) and continue
+                    vi = xs&columns.indexOf(vy&path[0])
+                }
+                vi < 0 and continue
+                $n = xs&columns[vi]
+                if (xs&groups.includes(n)) {
+                    # in the group-by
+                    row.join ||= v
+                    row.joiniv[vi] = v
+                }
+                else {
+                    # when it %pk|groups|joins in the middle,
+                    #  the first columnable thing is left or not of it
+                    #   helps to have %%direction symbols
+                    $joincoli = xs&columns.indexOf(xs&groups[0])
+                    joincoli < 0 and debugger
+                    row.left ||= vi < joincoli ? 'k:'+k : 2
                 }
             }
             row.left == 2 and delete row.left
             
             $t = row.join
-            row.label = "h:"+(t ? t.t : "?")+" "+i
+            $indexing = []
+            each iv row.joiniv {
+                indexing.push(v => v ? toname(v) : "?")
+            }
+            indexing = joint(indexing,'+') || "???"
+            row.label = "h:"+indexing+" "+i
            
            // draw row
             # Travel/$t:join, has $te modulat
-            $waste = was && was.te
-            $samejoin = row.join && was && row.join == was.join
-            samejoin and $te = row.te = was.te
-            else
-            # group each !row.join
-            !row.join && waste && !wastec&finished and xy&arowgrouped()
+            row.joining = {}
+            each iv row.joiniv {
+                $vo = was && was.joiniv[i]
+                vo != v and continue
+                $te = row.joining[i] = was.col[i]
+                row.te ||= te
+            }
+            # now, as the &arow-looper might have done,
+            #  mark row groups for uncommon joiniv
+            #   also space for large-ish items, spacer row
+            was and xy&arowgrouped(row)
             
             # ^v est. row
             xs&row = row
@@ -197,10 +224,12 @@
             $lc = sey&can('i','+')
             
             row.col = xs&columns.map(&Si{
-                if (S == xs&pk) {
+                if (row.joiniv[i]) {
                     # Travel..$t
+                    $te = row.joining[i]
                     if (!te) {
-                        te = row.te = gry&can('o')
+                        te = gry&can('o')
+                        row.te ||= te
                         tec&rows = [h]
                         me&walls,te,'b:1.4h6'
                         row.made_te = 1
@@ -209,7 +238,7 @@
                         # < Km Kn supposed|used to know!
                         tec&rows.push(h)
                     }
-                    me&span,te,tec&rows.length
+                    xy&terowspan(te)
                     $se = te
                 }
                 else {
@@ -219,9 +248,9 @@
                 sey&coli = i
                 return se
             })
+            $te = row.te
            
            // is
-            !te and throw "note"
             # + shows  source rows
             lcs&ope and ac(te,'srcbyT',h)
             
@@ -267,7 +296,10 @@
                 se ||= xy&stepcol(zy&path[0])
                 # < interesting, posited as not yet?
                 #   might be from the To..z when Know..K?
-                sey&step && sey&step != zy&path[0] and debugger
+                if (sey&step && sey&step != zy&path[0]) {
+                    se = xy&stepcol(zy&path[0])
+                    me&mtsc,se,"wrongleft:"+xs&row.left,"","y"
+                }
                 
                 # pathy label K columns, the outsides
                 # < know better
@@ -286,47 +318,88 @@
         }
        
        // -> y&arowed() etc finishes drawing
+        xy&terowspan = &te,{
+            $rows = hak(tec&rows) + hak(tec&nonrows)
+            me&span,te,rows
+        }
         xy&arowed = &{
             $row = xs&row
-            $te = row.te
-            $t = row.join
-            if (row.made_te && (t || !me&ioty,te .length)) {
-                # !t and empty te/* ||= '?'
-                $ro = tey&can('w')
-                
-                $rc = !t ? roy&can('i',"?")
-                    # print it like a node, like h%%K,z except:
-                    #  with the above te/* ||=
-                    #  without comp. same .t as neighbour (K>v)
-                    : xy&usun(t,ro)
+            each iv row.joiniv {
+                # for new joinings
+                row.joining[i] and continue
+                $te = row.col[i]
+                if (v || !me&ioty,te .length) {
+                    # empty te/* ||= '?'
+                    $ro = tey&can('w')
+
+                    $rc = !v ? roy&can('i',"?")
+                        # print it like a node, like h%%K,z except:
+                        #  with the above te/* ||=
+                        #  without comp. same .t as neighbour (K>v)
+                        : xy&usun(v,ro)
+                }
             }
         }
-        xy&arowgrouped = &{
-            $row = xs&row
-            $te = row.te
-            !te and debugger; return
-            
-            tec&finished = 1
-            each tN tes&brackaft {
-                xy&plusrows(t,N)
-            }
-            $N = tes&srcbyT
-            if (N) {
-                xy&plusrows('n', xy&nward(N))
-                    .sc.hue -= 50
+        # may have another row to group onto
+        xy&arowgrouped = &row,{
+            $was = xs&row
+            # coli/nonrows to make joining[i<coli] span
+            $spanning = {}
+            # coli/te that join
+            $joining = {}
+            each iv was.joiniv {
+                if (row) {
+                    # we are the next, joinable row
+                    $te = row.joining[i]
+                    te and joining[i] = te
+                    te && tec&finished and debugger; continue
+                    # te can accumulate interestings until finished
+                    te and continue
+                }
+                $te = was.col[i]
+                tec&finished = 1
+                # they collect details
+                $plusrows = &ts{
+                    $spans = spanning[i] ||= []
+                    $ol = xy&plusrows(t,s)
+                    spans.push(ol)
+                    return ol
+                }
+                each tN tes&brackaft {
+                    plusrows(t,N)
+                }
+                $N = tes&srcbyT
+                if (N) {
+                    plusrows('n', xy&nward(N))
+                        .sc.hue -= 50
 
-                xy&plusrows('byT',N)
+                    plusrows('byT',N)
 
-                xy&plusrows('u', xy&uward(N))
-                    .sc.hue += 50
+                    plusrows('u', xy&uward(N))
+                        .sc.hue += 50
+                }
             }
-            
-            # < wanting to row.gr%mb=1, means nothing when tabley?
-            # insert a spacer row
-            $g = xs&g
-            $gr = xs&rowspacer = gy&can('w')
-            grc&s = ' '
-            grs&fs = 4
+            if (hak(joining)) {
+                # joining columns span large item rows
+                # < the plusrows()'s colspan doesn't expect
+                #   this rowspan moving it over
+                each coli,l spanning {
+                    each i,te joining {
+                        coli > i and continue
+                        $nonrows = tec&nonrows ||= []
+                        nonrows.push(...l)
+                        xy&terowspan(te)
+                    }
+                }
+            }
+            else {
+                # insert a spacer row when nothing in common
+                # < wanting to row.gr%mb=1, means nothing when tabley?
+                $g = xs&g
+                $gr = xs&rowspacer = gy&can('w')
+                grc&s = ' '
+                grs&fs = 4
+            }
         }
        
        // y&nward, &plusrows etc detail
