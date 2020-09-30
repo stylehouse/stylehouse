@@ -187,7 +187,7 @@
                     #   helps to have %%direction symbols
                     $joincoli = xs&columns.indexOf(xs&groups[0])
                     joincoli < 0 and debugger
-                    row.left ||= vi < joincoli ? 'k:'+k : 2
+                    row.left ||= (vi < joincoli ? 1 : 2)
                 }
             }
             row.left == 2 and delete row.left
@@ -295,11 +295,10 @@
                 !isnode(z) and throw "unnode"
                 se ||= xy&stepcol(zy&path[0])
                 # < interesting, posited as not yet?
-                #   might be from the To..z when Know..K?
-                if (sey&step && sey&step != zy&path[0]) {
-                    se = xy&stepcol(zy&path[0])
-                    me&mtsc,se,"wrongleft:"+xs&row.left,"","y"
-                }
+                #   eg may el2 Travel..$t based on a To..$a (%%lost)
+                #    or Know..$K (%%lonely)
+                sey&step && sey&step != zy&path[0] 
+                    && me&mtsc,se,"wrongleft?"+xs&row.left,"","y"
                 
                 # pathy label K columns, the outsides
                 # < know better
