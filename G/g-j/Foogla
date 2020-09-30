@@ -847,7 +847,7 @@ me.openu = &acgtgtsc{
 # the general displayable
 me.opeolo = &acgttc{
     $R = Cy&R;
-    c ||= {};
+    c ||= {}
     
     # t can be implied from or takes over T.Mw
     isob(t) and c = t; t = null
@@ -857,7 +857,12 @@ me.opeolo = &acgttc{
     c.walls ||= 1;
     $g = me&opeology,t,c;
     
-    me&Mw,R,T.Mw .push(g);
+    # puts it somewhere in particular
+    c.se and ac(c.se,'z',g)
+    else {
+        # or just in R%M...
+        me&Mw,R,T.Mw .push(g)
+    }
     
     return g
 };

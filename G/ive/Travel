@@ -2353,14 +2353,45 @@ me.Sch_Travel = &acgt{ return [
           // get D of %%Goable
             
             $D = los&D
-            !D and debugger
             $oD = los&oD
+            !D and debugger
+            
+            $phase = xy&cean('phase')
+            $se = xy&cean('etc')
+            $dep = xy&cean('dep')
+            
+            # ▷▶+◼⏏ the %%Go
+            $ope = Dy&permit ? 1 : 0
+            $sym = ope ? "▶" : "▷"
+            $pla = me&mtsc,dep,"Go-control",sym,'g'
+            plas&fs = 16
+            me.nto(R,pla,&{
+                Dy&permit = Dy&permit ? 0 : 1
+            })
+            xy&cean('phase','i','Permit')
+            
+            $Pe = 0
+            !Pe
+                && Jx.ro('sure?')
+                && me&ha,R,{Permit:'sure',D},{dome:"Permit:"+D.t},c.q
+            
+            if (Pe) {
+                x.ro('stop') and Pec&drop = 1; return
+                me&nu,"Permit-fed",Pe
+                me&nodei,R,xs&Travel,{Go:t,tid}
+            }
+            
+            # what goes into it
+            $sixing = me&opeolo,'-six',{se}
+            me&mtsc,sixing,'Yel'
             
             $diffc = c.diff || {}
-            diffc.se = xy&cean('etc')
-            me&diffany,R,los&D,los&oD,diffc
+            diffc.se = se
+            ope and diffc.dont = 1
+            $di = me&diffany,R,los&D,los&oD,diffc
+            di && me&mnu,dep,dis&summary
             
-            if (Jx.ro("see?",{})) {
+            if (sixings&ope) {
                 $six = Dy&six
                 # displays
                 $ol = me&yology,six
@@ -2390,16 +2421,6 @@ me.Sch_Travel = &acgt{ return [
             
             los&el <6 and 'notice ~u: loses Permit with a new D'
             
-            !hak(jaa('Permit',{D}))
-                && Jx.ro('sure?')
-                && me&ha,R,{Permit:'sure',D},{dome:"Permit:"+D.t},Goable
-            
-            jaa('Permit',{D}) .map(&n{
-                x.ro('stop') and nc&drop = 1; return
-                #me&nu,"Permit-fed",n
-                me&nodei,R,xs&Travel,{Go:t,tid}
-            })
-          
           // etc      
             }
         }
