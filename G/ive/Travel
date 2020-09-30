@@ -2348,6 +2348,7 @@ me.Sch_Travel = &acgt{ return [
             $ph = wire(phase)
             $se = xy&cean('etc')
             $dep = xy&cean('dep')
+            $ed = wire(dep)
             
             $lo = h
             $tid = los&tid
@@ -2370,31 +2371,22 @@ me.Sch_Travel = &acgt{ return [
                 $ope = me&ypermit,R,{D,se:dep}
                 
                 ope and me&nodei,R,Tr,{Go:t,tid}
+                else
+                ope != null and hs&invalid = 1
                 
+                # what goes into it
+                me&sixing,R,{D,se}
+                jaa('Goners') .map(&n{
+                    me&nu,"Goners",{n,w:ns&n}
+                })
+                $diffc = c.diff || {}
+                diffc.se = se
+                ope != null and diffc.dont = 1
+                $di = me&diffany,R,los&D,los&oD,diffc
             
-            # what goes into it
-            $sixing = me&opeolo,'-six',{se}
-            if (sixings&ope) {
-                $six = Dy&six
-                # displays
-                $ol = me&yology,six
-                ac(R,'M', ol)
-                oly&cv = 0.7
-                me&nu,"D",D
-                Jx.ro("see-string?",{}) &&
-                n streng 7 $s:Ds&string %e:2,mh:30
-            }
-            jaa('Goners') .map(&n{
-                $w = ns&n
-                me&nu,"Goners",{n,w}
-            })
+                hs&invalid and ed("not","b")
             
-            $diffc = c.diff || {}
-            diffc.se = se
-            ope != null and diffc.dont = 1
-            $di = me&diffany,R,los&D,los&oD,diffc
             
-              
             }
             else {
                 ph("Thing",'b')
@@ -2411,6 +2403,22 @@ me.Sch_Travel = &acgt{ return [
                 Dy&permit = Dy&permit ? 0 : 1
             })
             return ope
+        }
+        # what goes into it
+        me.sixing = &acgtRc{
+            $D = c.D
+            $se = c.se
+            $sixing = me&opeolo,'-six',{se}
+            if (sixings&ope) {
+                $six = Dy&six
+                # displays
+                $ol = me&yology,six
+                ac(R,'M', ol)
+                oly&cv = 0.7
+                me&nu,"D",D
+                Jx.ro("see-string?",{}) &&
+                n streng 7 $s:Ds&string %e:2,mh:30
+            }
         }
         # for h that may be|produce hi%%historic
         #  c.shade/$k - delete hi%$k (only h %%lowel)
