@@ -2339,58 +2339,41 @@ me.Sch_Travel = &acgt{ return [
             
             # hist or not
             xy&cean('el','i',hs&el)
-
-            if (hs&historic) {
-
-            }
-            else {
-                $lo = h
-                if (xy&cean('el').sc.ope) {
-                    ah(te,'brackaft','lo',lo)
+            $wire = &se,{
+                return &tc{
+                    me&mtsc,se,t,0,c
                 }
-          
-          # may find $hi:
-          // get D of %%Goable
+            }
+            $phase = xy&cean('phase')
+            $ph = wire(phase)
+            $se = xy&cean('etc')
+            $dep = xy&cean('dep')
             
+            $lo = h
+            $tid = los&tid
             $D = los&D
             $oD = los&oD
             !D and debugger
             
-            $phase = xy&cean('phase')
-            $se = xy&cean('etc')
-            $dep = xy&cean('dep')
-            
-            # ▷▶+◼⏏ the %%Go
-            $ope = Dy&permit ? 1 : 0
-            $sym = ope ? "▶" : "▷"
-            $pla = me&mtsc,dep,"Go-control",sym,'g'
-            plas&fs = 16
-            me.nto(R,pla,&{
-                Dy&permit = Dy&permit ? 0 : 1
-            })
-            xy&cean('phase','i','Permit')
-            
-            $Pe = 0
-            !Pe
-                && Jx.ro('sure?')
-                && me&ha,R,{Permit:'sure',D},{dome:"Permit:"+D.t},c.q
-            
-            if (Pe) {
-                x.ro('stop') and Pec&drop = 1; return
-                me&nu,"Permit-fed",Pe
-                me&nodei,R,xs&Travel,{Go:t,tid}
-            }
+            if (hs&historic) {
+                # hist permits %%Go
+                if (xy&cean('el').sc.ope) {
+                    ah(te,'brackaft','lo',lo)
+                }
+                # < diff D <-> Dy&parent=oD
+                ph("Go",'b')
+                !me&fiu,Tr,t,8 and ph('el2','g')
+
+                los&el <6 and 'notice ~u: loses Permit with a new D'
+
+                # ▷▶+◼⏏ the %%Go
+                $ope = me&ypermit,R,{D,se:dep}
+                
+                ope and me&nodei,R,Tr,{Go:t,tid}
+                
             
             # what goes into it
             $sixing = me&opeolo,'-six',{se}
-            me&mtsc,sixing,'Yel'
-            
-            $diffc = c.diff || {}
-            diffc.se = se
-            ope and diffc.dont = 1
-            $di = me&diffany,R,los&D,los&oD,diffc
-            di && me&mnu,dep,dis&summary
-            
             if (sixings&ope) {
                 $six = Dy&six
                 # displays
@@ -2406,23 +2389,28 @@ me.Sch_Travel = &acgt{ return [
                 me&nu,"Goners",{n,w}
             })
             
-          // Going
-            # < diff D <-> Dy&parent=oD
-            me&tsc,"Go:",0,'b'
-            me&tsc,t
-            !me&fiu,Tr,t,8 and me&tsc,'(new)',0,'g'
-            me&tsc,"tid:",0,'b'
-            me&tsc,los&tid
+            $diffc = c.diff || {}
+            diffc.se = se
+            ope != null and diffc.dont = 1
+            $di = me&diffany,R,los&D,los&oD,diffc
             
-            $el = los&el
-            # this would become the four version
-            #  Jproto dome has the three version
-            $tid = los&tid
-            
-            los&el <6 and 'notice ~u: loses Permit with a new D'
-            
-          // etc      
+              
             }
+            else {
+                ph("Thing",'b')
+                
+            }
+        }
+        me.ypermit = &acgtRc{
+            $D = c.D
+            $ope = Dy&permit
+            $sym = ope ? "▶" : "▷"
+            $pla = me&mtsc,c.se,"ypermit-control",sym,'g'
+            plas&fs = 16
+            me.nto(R,pla,&{
+                Dy&permit = Dy&permit ? 0 : 1
+            })
+            return ope
         }
         # for h that may be|produce hi%%historic
         #  c.shade/$k - delete hi%$k (only h %%lowel)
