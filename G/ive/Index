@@ -102,7 +102,7 @@
         #$x = me&Jx,R
         #x.t = 'acolumning'
         $x = Cye(['acoluming',1])
-       // <- %%layout spec, y&inSteps()
+       // <- %%layout spec
         xs&columns = []
         $toname = n => isC(n) ? n.t : ""+n
         xs&groups = []
@@ -248,16 +248,16 @@
                 sey&coli = i
                 return se
             })
-            $te = row.te
            
            // is
             # + shows  source rows
+            $te = row.te
             lcs&ope and ac(te,'srcbyT',h)
             
             return gr
         }
         
-       // y&inSteps(z), y&stepcol(p), y&usun(z)
+       // y&inSteps(z), y&stepcol(p), y&cean(t,...), y&usun(z)
         # try to find a Travel..$t etc to hang off
         # < for all column
         xy&inSteps = &sqN{
@@ -286,6 +286,13 @@
             $se = row.col.filter(se => sey&step == p)[0]
             !se and debugger
             return se
+        }
+        xy&cean = &t{
+            $args = [...arguments].slice(1)
+            $se = xy&stepcol(t)
+            !se and debugger
+            !hak(args) and return se
+            return sey&can(...args)
         }
         # node gets label
         # se - which column modulat to put in

@@ -2308,42 +2308,58 @@ me.Sch_Travel = &acgt{ return [
                 s and ex(c,peel(s))
                 return me&jaa,R,ex(c,Goable)
             }
-            
+        
+        ex(c,{t,Tr,jaa})
+        c.diff = {labelimplied:'Gump/Gutago'}
         each ih rows {
             xy&arow(h,'Goable,tid')
             hs&Goable != t and debugger
             $te = xs&row.te
-            $cean = &t{
-                $args = [...arguments].slice(1)
-                $se = xy&stepcol(t)
-                !se and debugger
-                !hak(args) and return se
-                return sey&can(...args)
-            }
 
             $mo = xy&stepcol('tid')
             
-            if (hs&lowel) {
-                # hist or not
-                # < joinery
-                cean('tid','i',hs&tid)
-                
-                cean('el','i',hs&el)
-                
-                if (hs&historic) {
-                
-                }
-                else {
-            $lo = h
-            if (cean('el').sc.ope) {
-                ah(te,'brackaft','lo',lo)
+            hs&lowel and me&lowelrow,R,x,h,c
+            else {
+                # misc row
+                $ti = moy&can('i',(hs&tid||''))
+                me&tsc,mo,'misc-row','?','g'
             }
+            xy&arowed()
+        }
+        xy&arowgrouped()
+        })
+    },'ift,D'],
+    &{
+        me.lowelrow = &acgtRxhc{
+            $Jx = me&Jx,R
+            # &jaa using c.q={Goable:$t,mot}
+            $jaa = c.jaa
+            $t = c.t
+            $Tr = c.Tr
+            
+            # hist or not
+            xy&cean('el','i',hs&el)
+
+            if (hs&historic) {
+
+            }
+            else {
+                $lo = h
+                if (xy&cean('el').sc.ope) {
+                    ah(te,'brackaft','lo',lo)
+                }
+          
           # may find $hi:
           // get D of %%Goable
             
             $D = los&D
             !D and debugger
             $oD = los&oD
+            
+            $diffc = c.diff || {}
+            diffc.se = xy&cean('etc')
+            me&diffany,R,los&D,los&oD,diffc
+            
             if (Jx.ro("see?",{})) {
                 $six = Dy&six
                 # displays
@@ -2367,8 +2383,6 @@ me.Sch_Travel = &acgt{ return [
             me&tsc,"tid:",0,'b'
             me&tsc,los&tid
             
-            los&oD and me&diffany,R,los&D,los&oD
-            
             $el = los&el
             # this would become the four version
             #  Jproto dome has the three version
@@ -2385,20 +2399,10 @@ me.Sch_Travel = &acgt{ return [
                 #me&nu,"Permit-fed",n
                 me&nodei,R,xs&Travel,{Go:t,tid}
             })
+          
           // etc      
-                }
             }
-            else {
-                # misc row
-                $ti = moy&can('i',(hs&tid||''))
-                me&tsc,mo,'misc-row','?','g'
-            }
-            xy&arowed()
         }
-        xy&arowgrouped()
-        })
-    },'ift,D'],
-    &{
         # for h that may be|produce hi%%historic
         #  c.shade/$k - delete hi%$k (only h %%lowel)
         #  c.x - (&columns) hide current %%historic row

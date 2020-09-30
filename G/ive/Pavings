@@ -1272,17 +1272,27 @@ me.Sch_Pavings = &acgt{ return [
             $t = me&Qdiffthing,R,Q
             me&diffany,R,s,t
         }
-        me.diffany = &acgtRsz{
-            $g = me&opeolo,"diffany",{walls:1}
+        me.diffany = &acgtRszc{
+            c ||= {}
+            $g = c.se ? me&opeology,"Zif",{walls:1}
+                : me&opeolo,"diffany",{walls:1}
             $a = z || s
             $pa = gy&can('m',a.t)
             pas&mah = 30
+            
+            # puts it somewhere in particular
+            c.se and ac(c.se,'z',g)
+            # if a.t is implied (in that somewhere)
+            #  only label being Zif (gy&label)
+            if (c.labelimplied == pay&label.c.s) {
+                pay&label.sc.dis = 0
+            }
 
-            !z and me&mtsc,pa,'New!'
+            !gs&ope && !z and me&mtsc,pa,'New!'
             else {
-                $c = {t:z.t,Zif:1};
+                $c = {t:a.t,Zif:1};
                 c.got = s;
-                c.exp = z;
+                c.exp = z || Cye(['nothing',1,{},{string:''}]);
                 $di = me&Ret,R,c;
                 me&zN,di;
                 me&Ring,di,{und:di,ov:314};
