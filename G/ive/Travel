@@ -1545,29 +1545,6 @@ me.Sch_Travel = &acgt{ return [
   
   // 0 @Gump
     &{
-        # after page refresh (opo. Ying reset)
-        #  we seem to lose some laters[], or something
-        #  quiet_wakers never fires
-        me.extrainitbump = &acgtRs{
-            $s = Rc&s
-            $Yingwas = me.cbu(R,'Ying')
-            $first = &{
-                $Rnow = me&yfuture,R
-                $Yingnow = me&yfuture,me.cbu(R,'Ying')
-                # < some EXP & put syeverquiet = 'pseudo';
-                #        DO if put%el<3 || Re<3
-                #   put bareword function, makes column of one
-                #    has el:2 on creation
-                $wasnt = !sy&ever_quiet
-                $is = Yingnow == Yingwas
-                is and sy&ever_quiet = 'psuedo'
-                is && wasnt || Rnows&icount <6 and me&elvis,Rnow,'Bump'
-                else {
-                    ~>5 LostInitiar: R.t
-                }
-            }
-            G&yl,555,first
-        }
         # false, %%waitsing for named node
         me.Othersel2 = &acgtRt{
             $x = me&Jx,R
@@ -1577,39 +1554,51 @@ me.Sch_Travel = &acgt{ return [
             !Guy&R and me&waits,"Othersel2",0,'say'; return
             return Gu
         }
-        # observe %%quiet, wait for all p%%waits
-        #  may be guessed by a callback: &extrainitbump
-        me.aboutready = &acgtR{
+        me.quietready = &acgtR{
             $s = Rc&s
+            # while never quiet it matters, want to self,
+            #  even if too close to the last quiet,wake (loop avoidance)
+            $Y = me.cbu(R,'Ying').sc.Ying
+            $forothers = 0
+            Ys&quiet_wakers_too_recently = &R{
+                $v = sy&ever_quiet ? "Y" : 0
+                forothers and v += " forothers"
+                #~>5 Gump-quiet?: v
+                !v and return 1
+            }
             if (!sy&ever_quiet) {
                 if (me&quiet_waker,R) {
                     sy&ever_quiet = 1
                     me&tsc,"First"
                 }
             }
-            sy&ever_quiet and me&tsc,"quiet"
-
-            $waity = !sy&ever_quiet && "ever"
-            if (!waity) {
-                $N = me&ioty,me.cbu(R,'Ying')
-                    .filter(r => me&ja,r,'waits' )
-                waity = hak(N) && "early:"+joint(N,',')
-            }
-            if (waity) {
-                me&tsc,"..."+waity
-                me&extrainitbump,R
-                return 1
-            }
-            else {
-                # appear some time after we look ready,
-                # < %%waits,later:$actycv
-                if (1 && !sy&ever_quread) {
-                    sy&ever_quread = 1
-                    G&yl:333,&{ me&elvis,R,'Bump' }
-                    return 1
-                }
+            # can rely on another quiet_wake if any busy
+            #  but for some reason they are forgotten
+            $N = me&ioty,me.cbu(R,'Ying')
+                .filter(r => me&ja,r,'waits' )
+            if (hak(N)) {
+                $v = v
+                me&tsc,"early:"+joint(N,',')
+                #~>5 Le: v
+                # < for some reason they are forgotten
+                #  new desire to get there
+                N.map(&r{
+                    me&wants,R,"forgotten",rc&s
+                })
+                # also gently nudge Travel
+                $x = me&Jx,R
+                me&wants,R,'alsoTravel',xs&Travel
+                
+                delete sy&ever_quiet
+                #forothers = 1
             }
             
+            if (sy&ever_quiet) {
+                me&tsc,"quiet"
+            }
+            else {
+                return 1
+            }
         }
     },
     # receive %%chag, make updates
@@ -1624,7 +1613,7 @@ me.Sch_Travel = &acgt{ return [
         avoid and return me&tsc,"Story..."
         sy&Storymaystart = 1
         
-        me&aboutready,R and return
+        me&quietready,R and return
         me&baleg,'Goting'
         me&baleg,'Gutago'
         me&baleg,'Guten'

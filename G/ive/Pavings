@@ -3,8 +3,8 @@
 4s&Searchttl = 3600
 me.Sch_Pavings = &acgt{ return [
   
-  // communitic
-   // nodeplasm
+ // communitic
+  // nodeplasm
     # ephemeral: s not in R^^s:z (!z/s), see &bal
     ['eph',0.292,&acgtRs{
         me&reaw,R,'eph',1
@@ -24,7 +24,47 @@ me.Sch_Pavings = &acgt{ return [
         me&reaw,R,'Baleg,'+Rs&Baleg
     },'ift,D'],
     
-   // twin - making Q
+  // twin - making Q
+   // weird init
+    ['twin',0.299,&acgtRs{
+        $p = Ry&up
+        ps&twin and return
+        # the step, C above index
+        Rs&YingStep ||= 1
+        if (!Rc&b) {
+            # avoid initial everything %%broken
+            Rc&nofurther = 1
+            # while remotes gather their %%twmt
+            me&waits,"Loading..."
+            Rs&numberclicked = 1
+            return
+        }
+    },'ift,D'],
+    # later to give v.1 %%brokens a chance to re-zy&R
+    ['twin',0.699,&acgtRs{
+        $p = Ry&up
+        ps&twin and return
+        # after refresh (> reset) seems to need more:
+        # after receiving all %%broken
+        Rs&allbroken = me&jaa,R,'broken,efrom' .length
+            && !me&jaa,R,'tw,efrom' .length
+        # or if a bunch of brokens are v.1
+        Rs&allbroken ||= joint(me&jaa,R,'broken,efrom'
+            .map(n => ns&efrom)
+            .filter(z => zy&R.sc.icount == 1))
+        if (Rs&allbroken) {
+            if (!me&ollbs,R,'allbroken' ) {
+                # do it again, negating %onlyish
+                Rs&numberclicked = 1
+                me&waits,"Loading!"
+            }
+            else {
+                me&tsc,'allbroken:'+Rs&allbroken
+            }
+        }
+    },'ift,D'],
+    
+   // twinning
     # a join, C indexed, tw with multipliable specifics
     #  n Ghost 2 twin:Travel|Know#of/t
     # schema for Ghost/Travelt/Knowof/Knowt
@@ -97,34 +137,7 @@ me.Sch_Pavings = &acgt{ return [
             return Q
         }
     },
-    ['twin',0.299,&acgtRs{
-        $p = Ry&up
-        ps&twin and return
-        # the step, C above index
-        Rs&YingStep ||= 1
-        if (!Rc&b) {
-            # avoid initial everything %%broken
-            Rc&nofurther = 1
-            # while remotes gather their %%twmt
-            me&waits,"Loading..."
-            return
-        }
-        
-        # after refresh (> reset) seems to need more:
-        # after receiving all %%broken
-        Rs&allbroken = me&jaa,R,'broken,efrom' .length
-            && !me&jaa,R,'tw,efrom' .length
-        if (Rs&allbroken) {
-            if (!me&ollbs,R,'allbroken' ) {
-                # do it again, negating %onlyish
-                Rs&numberclicked = 1
-                me&waits,"Loading!"
-            }
-            else {
-                me&tsc,'allbroken'
-            }
-        }
-    },'ift,D'],
+    
     ['twin',0.3,&acgtRs{
         ah(R,'adhere','twin',2);
     },'ift,D'],
@@ -165,7 +178,7 @@ me.Sch_Pavings = &acgt{ return [
         !me&ja,R,qe and me&settle,R,hosty&R
     },'ift,D'],
     
-   // twmt - matching Q
+  // twmt - matching Q
     # they make a pile of names
     ['twmt',0.37,&acgtRs{
         me&reaw,R,'twmt,twmt_dl';
@@ -184,7 +197,7 @@ me.Sch_Pavings = &acgt{ return [
         me&ha,R,q,{eto};
     },'ift,D'],
     
-   // ordering peers
+  // ordering peers
     # do Some:n/First:m before Later:n/Some:m
     # < supposing they emerged as changing all at once
     # probably in order already
@@ -214,7 +227,8 @@ me.Sch_Pavings = &acgt{ return [
             }
         }
     },'ift,D'],
-   // adhere
+  
+  // adhere
     &{
     # < using Be.C.Pave.inheritsc(_tricks)
     me.adhere ||= {};
@@ -269,7 +283,7 @@ me.Sch_Pavings = &acgt{ return [
         });
     },'ift,D'],
   
-  // %Pavings
+ // %Pavings
     # contain %Paves, but aren't %tw themselves
     ['Pavings',0.301,&acgtRs{
         me&reaw,R,'Pavings';
@@ -736,8 +750,8 @@ me.Sch_Pavings = &acgt{ return [
         #!ps&Paving and me&ha,R,'stabilised','eto'
     },'ift,D'],
 
-  &{
-  // use
+ &{
+ // use
    
    
    // &Pave(Q|Live) - K%Paving lowlevel
@@ -1309,7 +1323,7 @@ me.Sch_Pavings = &acgt{ return [
             }
             return di
         }
-  },
+ },
    
 ]}
   // CB
