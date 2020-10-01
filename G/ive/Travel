@@ -223,81 +223,6 @@ me.Sch_Travel = &acgt{ return [
     
     },
 
-// Travel/$t may /%SummerCat
-    ['Travels',0.39,&acgtRs{
-        # < wants to cautiously inode while adhere-ing,
-        #   to see if we set up:
-        Rs&twmt_only = &jz{
-            return zs&W || 1
-        };
-        me&ha,R,"Travels,to:Morrocco";
-    },'ift,D'],
-    
-    # < a process similar to Travel itself,
-    #   acty:3 saving a W
-    # Travel
-    ['Travelables',0.297,&acgtRs{
-        me&bin,'Travelable'
-        me&jaa,R,'Go' .map(&n{
-            $t = ns&Go
-            $z = me&fiu,s,t,8
-            z ||= me&bal,t,'eph' .c.s
-            zy&path ? me&nodei,R,z,n : me&waits,"node.."
-        })
-    },'ift,D'],
-    # Travel/$t(%play?%SummerCat)
-    ['Travelable',0.2971,&acgtRs{
-        me&inode,R
-        if (!me&ja,R,'Go' && !Rs&play) {
-            delete Rs&SummerCat
-            Rs&Shouldbeempty = 1
-            return
-        }
-        me&tsc,"play"
-        Rs&playsia = 1
-        # %eph while %%Go-created, up permanence:
-        $x = me&Jx,R
-        $Tr = xs&Travel
-        Rs&eph && x.ro('%eph') and me&fiu,Tr,s
-    },'ift,D'],
-    ['Travelable+playsia',0.2972,&acgtRs{
-        $tid = Rs&tid || 'dunno'
-        Rs&tid = tid
-        me&bal,tid,'eph,SummerCat'
-    },'ift,D'],
-    
-    # noise
-    ['Travelty',0.39,&acgtRs{
-        $x = me&Jx,R
-        me&ha,R,"Travels,to:everywhere",{R};
-        #!me&za,R,'fodder' ? me&ha,R,'fodder,lamp' : me&ha,R,'lamp'
-        
-        me&ha,R,"Travels,to:everywhere",{R};
-        $le = me&zaa,R,"Travels",'to';
-        
-        # sends %pat as %%pat
-        $pat = ss&pat ||= 'ology';
-        me&nodei,R,xs&Duolish,{pat};
-        me&nodei,R,xs&Duolish,{pat:'ex'};
-        # returns %%raga
-        me&jaa,R,{efrom:xs&Duolish,raga:1} .map(&n{
-            le.push(ns&raga)
-        })
-        
-        # sends
-        me&ioty,s .map(z => me&nodei,R,z,{terspesia:"^"} )
-        me&nodei,R,xs&Ligno,{terspesia:"^"}
-        
-        each in le {
-            n = me&tsc,"land",n,'G';
-            ns&dis = 1;
-            ns&fs = 33;
-            
-            ns&hue = i*40;
-            ns&blr = 9;
-        }
-    },'ift,D'],
-
 // Story ext
  // %Nodar views
   // doc
@@ -2606,13 +2531,88 @@ me.Sch_Travel = &acgt{ return [
         me&reaw,R,'Gome'
         me&inode,R
         $n = me&jaa,R,'Go' [0]
-        me&nu,n||"disconnect"
+        !n and return me&tsc,"disconnect"
+        
         # while expecting %%quiet_wake
         #  aft everything but Duolish arrive
         #Rs&wakeful = 1
     },'ift,D'],
-  
-  
+
+// Travel/$t may /%SummerCat
+    ['Travels',0.39,&acgtRs{
+        # < wants to cautiously inode while adhere-ing,
+        #   to see if we set up:
+        Rs&twmt_only = &jz{
+            return zs&W || 1
+        };
+        me&ha,R,"Travels,to:Morrocco";
+    },'ift,D'],
+    
+    # < a process similar to Travel itself,
+    #   acty:3 saving a W
+    # Travel
+    ['Travelables',0.297,&acgtRs{
+        me&bin,'Travelable'
+        me&jaa,R,'Go' .map(&n{
+            $t = ns&Go
+            $z = me&fiu,s,t,8
+            z ||= me&bal,t,'eph' .c.s
+            zy&path ? me&nodei,R,z,n : me&waits,"node.."
+        })
+    },'ift,D'],
+    # Travel/$t(%play?%SummerCat)
+    ['Travelable',0.2971,&acgtRs{
+        me&inode,R
+        if (!me&ja,R,'Go' && !Rs&play) {
+            delete Rs&SummerCat
+            Rs&Shouldbeempty = 1
+            return
+        }
+        me&tsc,"play"
+        Rs&playsia = 1
+        # %eph while %%Go-created, up permanence:
+        $x = me&Jx,R
+        $Tr = xs&Travel
+        Rs&eph && x.ro('%eph') and me&fiu,Tr,s
+    },'ift,D'],
+    ['Travelable+playsia',0.2972,&acgtRs{
+        $tid = Rs&tid || 'dunno'
+        Rs&tid = tid
+        me&bal,tid,'eph,SummerCat'
+    },'ift,D'],
+    
+    # noise
+    ['Travelty',0.39,&acgtRs{
+        $x = me&Jx,R
+        me&ha,R,"Travels,to:everywhere",{R};
+        #!me&za,R,'fodder' ? me&ha,R,'fodder,lamp' : me&ha,R,'lamp'
+        
+        me&ha,R,"Travels,to:everywhere",{R};
+        $le = me&zaa,R,"Travels",'to';
+        
+        # sends %pat as %%pat
+        $pat = ss&pat ||= 'ology';
+        me&nodei,R,xs&Duolish,{pat};
+        me&nodei,R,xs&Duolish,{pat:'ex'};
+        # returns %%raga
+        me&jaa,R,{efrom:xs&Duolish,raga:1} .map(&n{
+            le.push(ns&raga)
+        })
+        
+        # sends
+        me&ioty,s .map(z => me&nodei,R,z,{terspesia:"^"} )
+        me&nodei,R,xs&Ligno,{terspesia:"^"}
+        
+        each in le {
+            n = me&tsc,"land",n,'G';
+            ns&dis = 1;
+            ns&fs = 33;
+            
+            ns&hue = i*40;
+            ns&blr = 9;
+        }
+    },'ift,D'],
+
 // Duolish push <- Travel
  # < de y&p %twin
    // %Releasor
