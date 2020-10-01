@@ -104,7 +104,7 @@
         $x = Cye(['acoluming',1])
        // <- %%layout spec
         xs&columns = []
-        $toname = n => isC(n) ? n.t : ""+n
+        $toname = &n{ return isC(n) ? n.t : ""+n }
         xs&groups = []
         # order doesn't matter to bracko
         me&jaa,R,'layout,outside,p,inside' .map(&ni{
@@ -192,39 +192,43 @@
             }
             row.left == 2 and delete row.left
             
+           // row.label, row.joining columns
             $t = row.join
             $indexing = []
-            each iv row.joiniv {
-                indexing.push(v => v ? toname(v) : "?")
+            each iS xs&groups {
+                i = xs&columns.indexOf(S)
+                $v = row.joiniv[i]
+                indexing.push(v ? toname(v) : "?")
             }
-            indexing = joint(indexing,'+') || "???"
+            indexing = joint(indexing,'+')
+            !indexing and debugger
             row.label = "h:"+indexing+" "+i
-           
-           // draw row
-            # Travel/$t:join, has $te modulat
+            
+            # usu Travel/$t joins
+            #  has row.te cell
             row.joining = {}
-            each iv row.joiniv {
+            each iS xs&groups {
+                i = xs&columns.indexOf(S)
+                $v = row.joiniv[i]
                 $vo = was && was.joiniv[i]
-                vo != v and continue
+                v == null || vo != v and continue
                 $te = row.joining[i] = was.col[i]
                 row.te ||= te
             }
-            # now, as the &arow-looper might have done,
-            #  mark row groups for uncommon joiniv
+            # now, (loop above &arow might have already)
+            #  row-span cells of row.joining-ness
             #   also space for large-ish items, spacer row
             was and xy&arowgrouped(row)
+           
+           // draw row
             
-            # ^v est. row
-            xs&row = row
-            hy&arow and throw "many arow per h"
-            hy&arow = row
             $g = xs&g
             $gr = row.gr = gy&can('w')
             $se = gry&can('c')
             $lc = sey&can('i','+')
             
             row.col = xs&columns.map(&Si{
-                if (row.joiniv[i]) {
+                if (xs&groups.includes(S)) {
                     # Travel..$t
                     $te = row.joining[i]
                     if (!te) {
@@ -250,8 +254,13 @@
             })
            
            // is
+            # ^v est. row
+            xs&row = row
+            hy&arow and throw "many arow per h"
+            hy&arow = row
             # + shows  source rows
             $te = row.te
+            !te and debugger
             lcs&ope and ac(te,'srcbyT',h)
             
             return gr
