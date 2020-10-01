@@ -2143,13 +2143,6 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
   
   // 4 @Goting
-    &{
-        # for #$Goable/#$tid=&versioning grouped rows,
-        #  
-        me.scratch = &acgtRc{
-            #c.inplas 
-        }
-    },
     # %%Go-ing Travel/$t
     ['Goting',0.4,&acgtRs{
         $Jx = me&Jx,R
@@ -2508,18 +2501,11 @@ me.Sch_Travel = &acgt{ return [
     ['Gomes',0.296,&acgtRs{
         $Jx = me&Jx,R
         me&bin,'Gome'
-        me&jaa,R,'Go' .map(&n{
-            ny&name = ns&Go+" v"+ns&tid
-            ny&node = me&bal,ny&name,'Gome' .c.s
-        })
-        
+        $namer = n => ns&Go+" v"+ns&tid
+        me&balforward,R,'Go',{t:namer}
     },'ift,D'],
     ['Gomes',0.6,&acgtRs{
         $Jx = me&Jx,R
-        me&jaa,R,'Go' .map(&n{
-            !ny&name || !ny&node and debugger
-            me&nodei,R,ny&node,n
-        })
         me&ioty,s .map(&z{
             $r = zy&R
             rs&wakeful and Rs&wakeful = 1
@@ -2531,7 +2517,7 @@ me.Sch_Travel = &acgt{ return [
         me&reaw,R,'Gome'
         me&inode,R
         $n = me&jaa,R,'Go' [0]
-        !n and return me&tsc,"disconnect"
+        !n and return me&tsc,Rc&b?"disconnect":"Loading..."
         
         # while expecting %%quiet_wake
         #  aft everything but Duolish arrive
@@ -2548,17 +2534,28 @@ me.Sch_Travel = &acgt{ return [
         me&ha,R,"Travels,to:Morrocco";
     },'ift,D'],
     
+    &{
+        # for Tr%%Go.../->$Go:t
+        me.balforward = &acgtRqc,balc{
+            c ||= {}
+            q = peel(q)
+            $s = Rc&s
+            me&jaa,R,q .map(&n{
+                isfu(c.t) and c.t = c.t(n)
+                # usu t=%%Go, if q='Go'
+                $t = c.t ||= n.sc[haks(q)[0]]
+                $z = me&fiu,s,t,8
+                z ||= me&bal,t,balc .c.s
+                zy&path ? me&nodei,R,z,n : me&waits,"node.."
+            })
+        }
+    },
     # < a process similar to Travel itself,
     #   acty:3 saving a W
     # Travel
     ['Travelables',0.297,&acgtRs{
         me&bin,'Travelable'
-        me&jaa,R,'Go' .map(&n{
-            $t = ns&Go
-            $z = me&fiu,s,t,8
-            z ||= me&bal,t,'eph' .c.s
-            zy&path ? me&nodei,R,z,n : me&waits,"node.."
-        })
+        me&balforward,R,'Go',{},'eph'
     },'ift,D'],
     # Travel/$t(%play?%SummerCat)
     ['Travelable',0.2971,&acgtRs{
