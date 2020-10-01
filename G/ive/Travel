@@ -1614,6 +1614,8 @@ me.Sch_Travel = &acgt{ return [
         sy&Storymaystart = 1
         
         me&quietready,R and return
+        
+        me&baleg,'Gomes'
         me&baleg,'Goting'
         me&baleg,'Gutago'
         me&baleg,'Guten'
@@ -1651,6 +1653,7 @@ me.Sch_Travel = &acgt{ return [
     # forward %%chag, now /* isnode
     ['Gumptio',0.6,&acgtRs{
         me&bewind,R and return
+        me&reaw,R,'bal_tw_s'
         $Gu = me&Othersel2,R,'Guten'
         !Gu and return
         # Know..$K <-> K%Thing
@@ -2358,8 +2361,8 @@ me.Sch_Travel = &acgt{ return [
 
                 # ▷▶+◼⏏ the %%Go
                 $ope = me&ypermit,R,{D,se:dep}
-                
-                ope and me&nodei,R,Tr,{Go:t,tid}
+                # to the supervisor
+                ope and me&nodei,R,Jxs&Gomes,{Go:t,tid,n:lo,Goting:Rc&s}
                 else
                 ope != null and hs&invalid = 1
                 
@@ -2575,6 +2578,40 @@ me.Sch_Travel = &acgt{ return [
             return lo
         }
     },
+  
+  // 5 @Gomes/@Gome per $tid
+    ['Gomes',0.296,&acgtRs{
+        $Jx = me&Jx,R
+        me&bin,'Gome'
+        me&jaa,R,'Go' .map(&n{
+            ny&name = ns&Go+" v"+ns&tid
+            ny&node = me&bal,ny&name,'Gome' .c.s
+        })
+        
+    },'ift,D'],
+    ['Gomes',0.6,&acgtRs{
+        $Jx = me&Jx,R
+        me&jaa,R,'Go' .map(&n{
+            !ny&name || !ny&node and debugger
+            me&nodei,R,ny&node,n
+        })
+        me&ioty,s .map(&z{
+            $r = zy&R
+            rs&wakeful and Rs&wakeful = 1
+        })
+    },'ift,D'],
+    
+    ['Gome',0.5,&acgtRs{
+        $Jx = me&Jx,R
+        me&reaw,R,'Gome'
+        me&inode,R
+        $n = me&jaa,R,'Go' [0]
+        me&nu,n||"disconnect"
+        # while expecting %%quiet_wake
+        #  aft everything but Duolish arrive
+        #Rs&wakeful = 1
+    },'ift,D'],
+  
   
 // Duolish push <- Travel
  # < de y&p %twin
