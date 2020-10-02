@@ -2571,14 +2571,14 @@ me.Sch_Travel = &acgt{ return [
                 # Gansp should also have a:
                 $wantpush = me&zaone,r,{wantpush:n}
                 if (wantpush) {
-                    me&tc,"+"
+                    me&tc,"+",'g'
                     $Pushable = me&zaone,nr,{s:n,Pushable:1}
                     Pushable and me&tc,'el:'+Pushables&el,6
                     continue
                 }
-                $ok = theone( me&zaa,r,'ok' )
+                $ok = theone( me&zaa,r,{ok:n} )
                 if (ok) {
-                    me&tc,"ok",6
+                    me&tc,"ok",'g'
                     continue
                 }
                 me&tc,"..?",6
@@ -2592,6 +2592,7 @@ me.Sch_Travel = &acgt{ return [
         me&diagno,'restless','twinebump'
             .map(n => me&wants,R,'twinebump',ns&Gansp )
         
+        !me&ja,R,'diagno' and 'push?'
         #me&nu,'Re',e
         
         # while expecting %%quiet_wake
