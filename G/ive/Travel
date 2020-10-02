@@ -2541,6 +2541,7 @@ me.Sch_Travel = &acgt{ return [
         # MayGhost
         o $e/twine/:Gansp
         $N = ays&Gansp || []
+        $twine = (ays&twine||[])[0]
         me&tc,"\n"
         N.map(&z{
             me&tsc,"t",z.t,'b'
@@ -2556,10 +2557,13 @@ me.Sch_Travel = &acgt{ return [
             # < &Accept these, have an observer mode
             each in all {
                 $nr = ny&R
-                $th = me&zaone,r,{thing:n}
                 $sp = ' '+n.t
                 me&tc,sp
+                $ohno = t => me&ha,R,{pre:t,Gansp:z,restless:n}
+                
+                $th = me&zaone,r,{thing:n}
                 if (!th) {
+                    ohno('sometwine')
                     me&tc,".."
                     continue
                 }
@@ -2578,15 +2582,16 @@ me.Sch_Travel = &acgt{ return [
                     continue
                 }
                 me&tc,"..?",6
-                me&ha,R,'pre:alltwin,restless'
+                ohno('alltwine')
             }
-            $gers = me&zaa,r,'thinger'
-            if (1) {
-                
-            }
+            
             me&nu,'Gansp',z
             me&tc,"\n"
         })
+        
+        me&diagno,'restless','twinebump'
+            .map(n => me&wants,R,'twinebump',ns&Gansp )
+        
         #me&nu,'Re',e
         
         # while expecting %%quiet_wake
@@ -2602,6 +2607,28 @@ me.Sch_Travel = &acgt{ return [
         })
     },'ift,D'],
     &{
+       // &diagno when to what why
+        # responds to each q=(%%fault),... once
+        #  and return true if we haven't tried t:fix
+        me.diagno = &acgtqt{
+            $R = Cy&R
+            q = peel(q)
+            $k = haks(q)[0]
+            $N = me&ja,R,q
+            !N and return []
+            # restate %%diagno:k,... every time,
+            #  until none, then reappearing faults re-fix
+            me&zaa,R,{diagno:k} .map(n => me&ha,R,n )
+            # each fault once
+            $fixable = N.filter(n => !me&ja,R,ex({diagno:k},n.sc) )
+            if (hak(fixable)) {
+                fixable.filter(n => me&ha,R,n,{},{diagno:k} )
+                return fixable
+            }
+            me&tc,"diagno:"+k+"%ataloss"
+            return []
+        }
+       // &lock
         # add e to lockedness of k
         me.lock = &acgtzke{
             ah(z,['y'],'lock',k,e)
@@ -2624,6 +2651,7 @@ me.Sch_Travel = &acgt{ return [
             }
         }
         
+       // &zaone, etc
         me.zaone = &acgtRq{
             $k = haks(q)[0]
             return theone( me&zaa,R,q ,R.t+'%%'+k )
@@ -2652,6 +2680,8 @@ me.Sch_Travel = &acgt{ return [
         }
         # < the enclosing line is more important to display
         window.theone = &Nk{
+            !N and return
+            !isar(N) and throw "theone "+k+" !isar: "+ki(N,2)
             N.length <= 1 and return N[0]
             k ||= ''
             throw "theone "+k+" is "+N.length
