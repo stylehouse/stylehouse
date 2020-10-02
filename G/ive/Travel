@@ -1580,8 +1580,10 @@ me.Sch_Travel = &acgt{ return [
         $Gu = me&Othersel2,R,'Guten'
         !Gu and return
         # Know..$K <-> K%Thing
+        me&locked,s,'twins' and return me&tc,"locked",6
+        me&dome_traction,R,'feels',{el:2}
         me&jaa,R,'chag' .map(&n{
-            me&nodei,R,Gu,n
+            me&nodei,R,Gu,n,{dome:'feels'}
         })
         # K <-> Ghost..$z (%%chat) gen from Gutwin
     },'ift,D'],
@@ -1595,13 +1597,14 @@ me.Sch_Travel = &acgt{ return [
     ['Gutwin',0.45,&acgtRs{
         
         me&sleepic,R and return
+        $x = me&Jx,R
         $Gu = me&Othersel2,R,'Guten'
         # awkward start. &bewind goes forever?
         # < more multiobject finding multimeanings
         #    when eg %wakeful = $waits
         !Gu and Rs&wakeful = 1; return
         #Rs&wakeful = 1
-        $x = me&Jx,R
+        me&locked,xs&Gump,'twins' and return me&tc,"locked",6
         
         $chaf = &t,c,mix{
             c = ex({cha:t},c)
@@ -1686,13 +1689,17 @@ me.Sch_Travel = &acgt{ return [
                         # Travel:inside,Ghost:p,Know:outside
                         'inside,p,outside'
                     )
-                    me&nodei,R,xs&Guten,'layout',{},mix
+                    me&nodei,R,xs&Guten,'layout',{dome:'feels'},mix
                     c = {}
                 }
             }
             
         })
         me&dome_traction,R,'feels'
+    },'ift,D'],
+    # %%locked:twins or not, ->
+    ['Gutwin',0.46,&acgtRs{
+        $x = me&Jx,R
         me&jaa,R,'cha' .map(&n{
             # %Paving passes %%n yet this inherits n
             #  they are handled differently, yet almost generic (p,z?,t|K)
@@ -2528,6 +2535,9 @@ me.Sch_Travel = &acgt{ return [
         
         # o Duolish... run
         $e = me&receivan,'Releasor'
+        # avoid Gu* changes
+        me&lock,Gump,'twins',e
+        
         # MayGhost
         o $e/twine/:Gansp
         $N = ays&Gansp || []
@@ -2592,6 +2602,28 @@ me.Sch_Travel = &acgt{ return [
         })
     },'ift,D'],
     &{
+        # add e to lockedness of k
+        me.lock = &acgtzke{
+            ah(z,['y'],'lock',k,e)
+        }
+        # if any for a k
+        me.locked = &acgtzk{
+            $R = Cy&R
+            $N = ahsk(z,'y','lock',k)
+            !hak(N) and return 0
+            N.map(by => me&ha,R,{locked:k,by},{} )
+            return 1
+        }
+        me.unlock = &acgtzke{
+            $N = ahsk(z,'y','lock',k)
+            hak(N) and grepout(N,e)
+            # < el9-ing, path-tidying
+            if (!hak(N)) {
+                $lock = zy&lock
+                lock and delete lock[k]
+            }
+        }
+        
         me.zaone = &acgtRq{
             $k = haks(q)[0]
             return theone( me&zaa,R,q ,R.t+'%%'+k )
