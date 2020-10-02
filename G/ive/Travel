@@ -1491,11 +1491,9 @@ me.Sch_Travel = &acgt{ return [
                 #~>5 Gump-quiet?: v
                 !v and return 1
             }
-            if (!sy&ever_quiet) {
-                if (me&quiet_waker,R) {
-                    sy&ever_quiet = 1
-                    me&tsc,"First"
-                }
+            if (me&quiet_waker,R) {
+                sy&ever_quiet = 1
+                !sy&ever_quiet and me&tsc,"First"
             }
             # can rely on another quiet_wake if any busy
             #  but for some reason they are forgotten
@@ -2508,22 +2506,125 @@ me.Sch_Travel = &acgt{ return [
             $r = zy&R
             rs&wakeful and Rs&wakeful = 1
         })
-    },'ift,D'],
+    },'ift,D,sleeping'],
     
     ['Gome',0.5,&acgtRs{
         $x = me&Jx,R
         me&reaw,R,'Gome'
         me&inode,R
         
+        # o Goting... permit
         $n = me&jaa,R,'Go' [0]
-        !n and return me&tsc,Rc&b?"disconnect":"Loading..."
+        !n and return me&tsc,sy&sometime?"disconnect":"Loading..."
+        sy&sometime = 1
         
+        # i Travel... run
         me&nodei,R,xs&Travel,n,{},{Gome:s}
+        
+        Rs&wakeful = 1
+        $Gump = isnode(s)
+        $quiet = me&is_quiet_now,Gump
+        quiet and me&tsc,'quiet'
+        
+        # o Duolish... run
+        $e = me&receivan,'Releasor'
+        # MayGhost
+        o $e/twine/:Gansp
+        $N = ays&Gansp || []
+        me&tc,"\n"
+        N.map(&z{
+            me&tsc,"t",z.t,'b'
+            # all of them asap
+            $all = zy&allthings
+            if (!all) {
+                hak(me&ioty,z ) and debugger
+                me&tc,'empty','y'
+                return
+            }
+            $r = zy&R
+            # gradually show up as push situation
+            # < &Accept these, have an observer mode
+            each in all {
+                $nr = ny&R
+                $th = me&zaone,r,{thing:n}
+                $sp = ' '+n.t
+                me&tc,sp
+                if (!th) {
+                    me&tc,".."
+                    continue
+                }
+                
+                # Gansp should also have a:
+                $wantpush = me&zaone,r,{wantpush:n}
+                if (wantpush) {
+                    me&tc,"+"
+                    $Pushable = me&zaone,nr,{s:n,Pushable:1}
+                    Pushable and me&tc,'el:'+Pushables&el,6
+                    continue
+                }
+                $ok = theone( me&zaa,r,'ok' )
+                if (ok) {
+                    me&tc,"ok",6
+                    continue
+                }
+                me&tc,"..?",6
+                me&ha,R,'pre:alltwin,restless'
+            }
+            $gers = me&zaa,r,'thinger'
+            if (1) {
+                
+            }
+            me&nu,'Gansp',z
+            me&tc,"\n"
+        })
+        #me&nu,'Re',e
         
         # while expecting %%quiet_wake
         #  aft everything but Duolish arrive
         #Rs&wakeful = 1
     },'ift,D'],
+    ['Gome',0.52,&acgtRs{
+        me&jaa,R,'pre' .map(&n{
+            ns&wakeful and '20s timer'
+            ns&restless and '4s timer'
+            # wakes us when ^^Gump%quiet_now
+            ns&restless || ns&wakeful and Rs&wakeful = 1
+        })
+    },'ift,D'],
+    &{
+        me.zaone = &acgtRq{
+            $k = haks(q)[0]
+            return theone( me&zaa,R,q ,R.t+'%%'+k )
+        }
+        me.tc = &acgttc{
+            return me&tsc,t,0,c
+        }
+        # for receiving one thing once, true if waiting
+        # < for multiples
+        me.receivan = &acgtqc{
+            $R = Cy&R
+            $say = isst(q) ? q : joint(haks(q))
+            $k = isst(q) ? q : haks(q)[0]
+            $oldk = 'old'+k
+            
+            # supposed to receive something, or fail
+            $e = theone( me&jaa,R,q,1 ,say)
+            !e and me&tsc,k+"..."; return 1
+            
+            # put %%old$k:$e when it changes
+            $be = theone( me&zaa,R,q,1 ,'had-'+say)
+            be && be != e and me&ha,R,hashkv(oldk,be),{},{dome:oldk}
+            theone( me&jaa,R,oldk,1 ) and me&tsc,"has("+oldk+")",0,'g'
+            
+            return e
+        }
+        # < the enclosing line is more important to display
+        window.theone = &Nk{
+            N.length <= 1 and return N[0]
+            k ||= ''
+            throw "theone "+k+" is "+N.length
+        }
+    },
 
 // Travel/$t may /%SummerCat
     ['Travels',0.39,&acgtRs{
@@ -2677,10 +2778,10 @@ me.Sch_Travel = &acgt{ return [
      < some even more complex Zave-tuition
     =cut 
     ['Releasor','298',&acgtRs{
-        me&reaw,R,'Releasor';
-        $S = me&inode,R;
+        me&reaw,R,'Releasor'
+        $S = me&inode,R
         # to %ball/* from y&tw over s&z
-        Rs&childy = 'tw';
+        Rs&childy = 'tw'
         # Travel is %twinned to other steps
         $p = sy&participant
         # Travel/$t == sy&client (the experience)
@@ -2975,7 +3076,8 @@ me.Sch_Travel = &acgt{ return [
         (Rs&boost||0) < 0 and Rs&thiding = me&ioty,s .map(z=>z.t)
     },'ift,D'],
    
-   // %MayGansp - %twin find
+   
+   // u|n%MayGansp - %twin find
     # %twin climb beings, to its idea of us
     ['MayGansp','298',&acgtRs{
     
@@ -3229,8 +3331,8 @@ me.Sch_Travel = &acgt{ return [
     }
     
     },
-    
-    
+   
+   
    // %MayTwine - %twin climber
     ['MayTwine','298',&acgtRs{
         
@@ -3253,7 +3355,11 @@ me.Sch_Travel = &acgt{ return [
         !h and me&ha,R,'extra'
         # a t/of/t, or any complete leg of index
         #  that we want to push a state to
-        !msy&structure[li+1] and me&ha,R,'thing'
+        if (!msy&structure[li+1]) {
+            me&ha,R,'thing'
+            $all = msy&allthings ||= []
+            !all.includes(s) and all.push(s)
+        }
         
         # $ms (MayGansp) knows about the Ghost/** structure
         #   ms%%found:$sz
@@ -3370,7 +3476,8 @@ me.Sch_Travel = &acgt{ return [
         #(Rs&boost||0) > 0 and me&zu,"MayTwine.s",s;
     },'ift,D'],
    
-   // %MayGansp unit of push
+   
+   // u|n%MayGansp unit of push
     ['MayGansp','299',&acgtRs{
         
         $x = me&Jx,R;

@@ -208,7 +208,7 @@
     }
   
    // nodes
-        window.isnode = s => s && isC(s) && sy&path
+        window.isnode = s => s && isC(s) && sy&path && sy&path[0]
         # as r/** wake up & want nodesing, give %wou
         me.inode = &acgtj{
             if (jy&R) {
@@ -2024,6 +2024,14 @@ me.settleblab = 1
         $is = delete sy&quiet_wake
         is and Rs&quiet_now = 1
         return is
+    }
+    # to see if eg Gump is quiet_now from Gump...Gome
+    #  Gome may be tunneled on its own (false)
+    #   or being %wakeful from Gump%quiet_now (true)
+    me.is_quiet_now = &acgts{
+        # to the latest R, possibly tunneled-through
+        $r = me&yfuture,s
+        return rs&quiet_now
     }
     # do something when nothing
     # < not before a slow wakers[], for async
