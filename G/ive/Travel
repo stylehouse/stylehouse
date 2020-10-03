@@ -2641,9 +2641,11 @@ me.Sch_Travel = &acgt{ return [
                 sy&startsavingonce = 1
             }
             else {
+                me&waits,R,"saving..."
                 return
             }
         }
+       
        // 4 Gens
         if (!sy&gotsavedd) {
             $Z = sy&startedsaving
@@ -2654,16 +2656,52 @@ me.Sch_Travel = &acgt{ return [
             me&tc,"\n"
             each tn Zs&Zaving {
                 me&tsc,"t",t,'b'
+                n = me&yfuture,n
+                ns&AutoSave and $mem = n
                 ns&Settled and me&tc,"Settled",6
+                !ns&Saveting and debugger
                 
-                ns&Unsure and me&tc,"Unsure",6
+                if (ns&Unsure) {
+                    # probably because it hasn't already pushed
+                    # < detect need to pull?
+                    # < easier want to pull to reset things:
+                    #   avoiding pull W, reself + dup node errors,
+                    #    then pushing mem, then reset
+                    #   if mem versioned for a while we could
+                    #    pull W, push mem auto
+                    #   then reset or reself
+                    #   this is why haul?
+                    me&tc,"Unsure",6
+                    $ha = me&tc,"haul?",'g'
+                    me.nto(R,ha,&{
+                        # hard pull There -> mem & reset
+                        !mem and debugger
+                        $There = ns&Saveting
+                        $Q = Theres&Q
+                        $P = Qs&P
+                        !Ps&string and debugger
+                        mems&AutoSave(Ps&string)
+                        # and reset
+                        $JRom = me&yfuture,me.cbu(R,'JRom')
+                        JRoms&reset = 1
+                        # will try to wake after this, but reset
+                        ~7 hauled: n.t, "over", mem.t
+                    })
+                    me&tc,'or',6
+                    $ha = me&tc,"push?",'g'
+                    me.nto(R,ha,&{
+                        # hard pull There -> mem & reset
+                        ns&Wantto = 'push'
+                        ns&Amountto = 2
+                        ~7 pushed: n.t, "over", mem.t
+                    })
+                }
             }
             #sy&gotsavedd = 1
             return
         }
         
         me&tc,'alldone'
-        me&nu,"Zis",Z
         me&tc,'alldone'
         
         
