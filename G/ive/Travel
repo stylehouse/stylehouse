@@ -2622,14 +2622,51 @@ me.Sch_Travel = &acgt{ return [
                 })
             return
         }
-            }
-            me&tc,'alldone'
+        # open the !
+        if (sy&pushedonce) {
+            delete sy&pushedonce
+            ~>7 Gome pushed: s.t
         }
-        #me&nu,'Re',e
+        # the R:Fingo%Peace=5,Gens,Zaving above W:Fingo%Peace=4
+        # isn't Zaving yet
+        if (!sy&startsavingonce) {
+            $Z = me.cbu(R,'Gens')
+            Zs&allope = s
+            me&elvis,R,'%Gens%allope',{wake:Z}
+            !sy&startedsaving and me&tc,'~saving..'
+            sy&startedsaving ||= Z
+            if (sy&startedsaving != Z && Zs&Zaving) {
+                # we 
+                me&tc,'~saving'
+                sy&startsavingonce = 1
+            }
+            else {
+                return
+            }
+        }
+       // 4 Gens
+        if (!sy&gotsavedd) {
+            $Z = sy&startedsaving
+            #Zs&allope = s
+            #me&elvis,R,'%Gens%allope',{wake:Z}
+            me&nu,"Sac",Z
+            $sa = me&tc,'~saving...'
+            me&tc,"\n"
+            each tn Zs&Zaving {
+                me&tsc,"t",t,'b'
+                ns&Settled and me&tc,"Settled",6
+                
+                ns&Unsure and me&tc,"Unsure",6
+            }
+            #sy&gotsavedd = 1
+            return
+        }
         
-        # while expecting %%quiet_wake
-        #  aft everything but Duolish arrive
-        #Rs&wakeful = 1
+        me&tc,'alldone'
+        me&nu,"Zis",Z
+        me&tc,'alldone'
+        
+        
     },'ift,D'],
     ['Gome',0.52,&acgtRs{
         me&jaa,R,'pre' .map(&n{
@@ -2639,8 +2676,20 @@ me.Sch_Travel = &acgt{ return [
             ns&restless || ns&wakeful and Rs&wakeful = 1
         })
     },'ift,D'],
+    
+    # remote R%Gome wants to push,
+    # < as long as all %Settled? ie, not just changed.
+    ['Zaving+allope','3141',&acgtRs{
+        # must be deleted from R by the remote
+        me&rollbs,R,'allope'
+        !Rs&allope and return
+        me&reaw,R,'allope',1
+        each ir Rs&Zaving {
+            rs&Describing = 1
+        }
+    },'ift,D'],
+    
     &{
-       // &diagno when to what why
        // &diagno, &receivan when to what why
         # responds to each q=(%%fault),... once
         #  and return true if we haven't tried t:fix
