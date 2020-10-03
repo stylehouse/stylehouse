@@ -2283,7 +2283,7 @@ me.Sch_Travel = &acgt{ return [
                 los&el <6 and 'notice ~u: loses Permit with a new D'
 
                 # ▷▶+◼⏏ the %%Go
-                $ope = me&ypermit,R,{D,se:dep}
+                $ope = me&ypermit,R,{D,se:dep,grant:tid==1}
                 # to the supervisor
                 ope and me&nodei,R,Jxs&Gomes,{Go:t,tid,n:lo,Goting:Rc&s}
                 else
@@ -2310,6 +2310,7 @@ me.Sch_Travel = &acgt{ return [
         }
         me.ypermit = &acgtRc{
             $D = c.D
+            c.grant && Dy&permit == null and Dy&permit = 1
             $ope = Dy&permit
             $sym = ope ? "▶" : "▷"
             $pla = me&mtsc,c.se,"ypermit-control",sym,'g'
@@ -2519,7 +2520,7 @@ me.Sch_Travel = &acgt{ return [
         $x = me&Jx,R
         me&reaw,R,'Gome'
         me&inode,R
-        
+       // 1 wait %%Releasor
         # o Goting... permit
         $n = me&jaa,R,'Go' [0]
         !n and return me&tsc,sy&sometime?"disconnect":"Loading..."
@@ -2535,9 +2536,11 @@ me.Sch_Travel = &acgt{ return [
         
         # o Duolish... run
         $e = me&receivan,'Releasor'
+        !e and return
         # avoid Gu* changes
         me&lock,Gump,'twins',e
         
+       // 2 Gansp
         # MayGhost
         o $e/twine/:Gansp
         $N = ays&Gansp || []
@@ -2604,11 +2607,21 @@ me.Sch_Travel = &acgt{ return [
         me&diagno,'restless','twinebump'
             .map(n => me&wants,R,'twinebump',ns&Gansp )
         
-        if (!me&ja,R,'diagno') {
-            $push = me&ja,R,'Pushable'
-            if (push) {
-                me&tc,'push?'
-                1 and return
+        me&ja,R,'pre' and return
+        
+       // 2 prepared -> Push, Save
+        $push = me&ja,R,'Pushable'
+        if (push) {
+            x.ro('push?')
+                && push.map(&n{
+                    $z = ns&s
+                    me&nodei,R,z,{maypush:1},{dome:'tilpushed-push'}
+                    sy&pushedonce and return
+                    me&wants,R,'tilpushed',z
+                    sy&pushedonce = 1
+                })
+            return
+        }
             }
             me&tc,'alldone'
         }
@@ -2628,25 +2641,50 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
     &{
        // &diagno when to what why
+       // &diagno, &receivan when to what why
         # responds to each q=(%%fault),... once
         #  and return true if we haven't tried t:fix
+        # < improvement in some faults makes others re-fix?
         me.diagno = &acgtqt{
             $R = Cy&R
             q = peel(q)
             $k = haks(q)[0]
-            $N = me&ja,R,q
-            !N and return []
+            $faults = me&ja,R,q
+            !faults and return []
             # restate %%diagno:k,... every time,
             #  until none, then reappearing faults re-fix
             me&zaa,R,{diagno:k} .map(n => me&ha,R,n )
             # each fault once
-            $fixable = N.filter(n => !me&ja,R,ex({diagno:k},n.sc) )
+            $fixable = faults.filter(n => !me&ja,R,ex({diagno:k},n.sc) )
             if (hak(fixable)) {
                 fixable.filter(n => me&ha,R,n,{},{diagno:k} )
                 return fixable
             }
             me&tc,"diagno:"+k+"%ataloss"
             return []
+        }
+        # for receiving one thing once, true if waiting
+        # < for multiples
+        me.receivan = &acgtqc{
+            $R = Cy&R
+            $say = isst(q) ? q : joint(haks(q))
+            $k = isst(q) ? q : haks(q)[0]
+            $oldk = 'old'+k
+            
+            # supposed to receive something, or fail
+            $e = theone( me&jaa,R,q,1 ,say)
+            if (!e) {
+                me&tsc,k+"..."
+                me&ha,R,{pre:k,receivan:1}
+                return 0
+            }
+            
+            # put %%old$k:$e when it changes
+            $be = theone( me&zaa,R,q,1 ,'had-'+say)
+            be && be != e and me&ha,R,hashkv(oldk,be),{},{dome:oldk}
+            theone( me&jaa,R,oldk,1 ) and me&tsc,"has("+oldk+")",0,'g'
+            
+            return e
         }
        // &lock
         # add e to lockedness of k
@@ -2678,25 +2716,6 @@ me.Sch_Travel = &acgt{ return [
         }
         me.tc = &acgttc{
             return me&tsc,t,0,c
-        }
-        # for receiving one thing once, true if waiting
-        # < for multiples
-        me.receivan = &acgtqc{
-            $R = Cy&R
-            $say = isst(q) ? q : joint(haks(q))
-            $k = isst(q) ? q : haks(q)[0]
-            $oldk = 'old'+k
-            
-            # supposed to receive something, or fail
-            $e = theone( me&jaa,R,q,1 ,say)
-            !e and me&tsc,k+"..."; return 1
-            
-            # put %%old$k:$e when it changes
-            $be = theone( me&zaa,R,q,1 ,'had-'+say)
-            be && be != e and me&ha,R,hashkv(oldk,be),{},{dome:oldk}
-            theone( me&jaa,R,oldk,1 ) and me&tsc,"has("+oldk+")",0,'g'
-            
-            return e
         }
         # < the enclosing line is more important to display
         window.theone = &Nk{

@@ -1615,7 +1615,8 @@ me.Ring = &acgtRq{
         hs&ov && hs&ov < ty&cv and continue
         q && q.ov && q.ov < ty&cv and continue
         
-        #c from here is going to accept the step as done
+    #c from here is going
+        #  to accept the step as done
         #  except if T.wide, late abort/comebacklater
         #   for when your dependencies haven't filled out
         #    < keeping loopage direct with TimeWaves,
@@ -1696,7 +1697,7 @@ me.Ring = &acgtRq{
         }
         if (T.wide) {
             Rs&widenings ||= 0;
-            Rs&widenings++ > 30 and debugger;
+            Rs&widenings++ > 30 and throw "Lot of wideness", R, T.wide
             delete T.wide;
             busy = 1;
             continue;
