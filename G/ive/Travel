@@ -2545,65 +2545,73 @@ me.Sch_Travel = &acgt{ return [
         me&tc,"\n"
         N.map(&z{
             me&tsc,"t",z.t,'b'
+            $ohno = &tn{
+                me&ha,R,{pre:t,Gansp:z,restless:n||z}
+            }
             # all of them asap
             $all = zy&allthings
             if (!all) {
                 hak(me&ioty,z ) and debugger
                 me&tc,'empty','y'
+                ohno('empty')
                 return
             }
             $r = zy&R
             # gradually show up as push situation
             # < &Accept these, have an observer mode
-            each in all {
+            all.map(&n{
                 $nr = ny&R
                 $sp = ' '+n.t
+                $ono = t => ohno(t,n)
                 me&tc,sp
-                $ohno = t => me&ha,R,{pre:t,Gansp:z,restless:n}
+                # generate a fault, to bump Gansp
                 
                 $th = me&zaone,r,{thing:n}
                 if (!th) {
-                    ohno('sometwine')
+                    ono('sometwine')
                     me&tc,".."
-                    continue
+                    return
                 }
-                me&tc,"Shing"
+                
                 # Gansp should also have a:
                 $wantpush = me&zaone,r,{wantpush:n}
                 if (wantpush) {
                     me&tc,"+",'g'
                     $Pushable = me&zaone,nr,{s:n,Pushable:1}
-                    Pushable and me&tc,'el:'+Pushables&el,6
-                    # < head -zif
+                    if (Pushable) {
+                        me&tc,'el:'+Pushables&el,6
+                        me&ha,R,Pushable
+                    }
+                    # < head a -zif
                     $sum = nrs&summary
-                    $sum = me&tc,"Sthing"
-                    me&mtsc,sum,"Glibbity"
-                    $ab = me&mtsc,sum,"Glirbbity"
-                    me&mtsc,ab,"Glibbity"
                     if (sum) {
                         $su = me&tc,'~sum:',6
                         i $su/@sum/** y o $sum:sum/**
-                        me&nu,su
                     }
-                    continue
+                    return
                 }
                 $ok = theone( me&zaa,r,{ok:n} )
                 if (ok) {
                     me&tc,"ok",'g'
-                    continue
+                    return
                 }
                 me&tc,"..?",6
-                ohno('alltwine')
-            }
-            
-            me&nu,'Gansp',z
+                ono('alltwine')
+            })
+            #me&nu,'Gansp',z
             me&tc,"\n"
         })
-        
         me&diagno,'restless','twinebump'
             .map(n => me&wants,R,'twinebump',ns&Gansp )
         
-        !me&ja,R,'diagno' and me&tc,'push?'
+        if (!me&ja,R,'diagno') {
+            $push = me&ja,R,'Pushable'
+            if (push) {
+                me&tc,'push?'
+                1 and return
+            }
+            me&tc,'alldone'
+        }
         #me&nu,'Re',e
         
         # while expecting %%quiet_wake
