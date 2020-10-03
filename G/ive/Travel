@@ -2641,7 +2641,7 @@ me.Sch_Travel = &acgt{ return [
                 sy&startsavingonce = 1
             }
             else {
-                me&waits,R,"saving..."
+                me&waits,"saving..."
                 return
             }
         }
@@ -2652,16 +2652,24 @@ me.Sch_Travel = &acgt{ return [
             #Zs&allope = s
             #me&elvis,R,'%Gens%allope',{wake:Z}
             me&nu,"Sac",Z
+            Rs&wakeful = 1
             $sa = me&tc,'~saving...'
             me&tc,"\n"
             each tn Zs&Zaving {
                 me&tsc,"t",t,'b'
                 n = me&yfuture,n
                 ns&AutoSave and $mem = n
-                ns&Settled and me&tc,"Settled",6
-                !ns&Saveting and debugger
                 
-                if (ns&Unsure) {
+                    me&nu,"Zave",n
+                !ns&Saveting and debugger
+                ns&Unsure and me&tc,"Unsure",6
+                ns&Settled and me&tc,"Settled",6
+                if (ns&Amountto) {
+                    if (ns&Amountto == 2) {
+                        # is about to come back?
+                        me&waits,"ispushing"
+                        return
+                    }
                     # probably because it hasn't already pushed
                     # < detect need to pull?
                     # < easier want to pull to reset things:
@@ -2671,7 +2679,6 @@ me.Sch_Travel = &acgt{ return [
                     #    pull W, push mem auto
                     #   then reset or reself
                     #   this is why haul?
-                    me&tc,"Unsure",6
                     $ha = me&tc,"haul?",'g'
                     me.nto(R,ha,&{
                         # hard pull There -> mem & reset
@@ -2687,17 +2694,23 @@ me.Sch_Travel = &acgt{ return [
                         # will try to wake after this, but reset
                         ~7 hauled: n.t, "over", mem.t
                     })
+                    
                     me&tc,'or',6
+                    
                     $ha = me&tc,"push?",'g'
                     me.nto(R,ha,&{
                         # hard pull There -> mem & reset
-                        ns&Wantto = 'push'
-                        ns&Amountto = 2
+                        ns&reallyWantsto = 'push'
+                        me&elvis,R,'reallyWantsto',{wake:Z}
                         ~7 pushed: n.t, "over", mem.t
+                        T.wake = 'not'
                     })
+                    me&ha,R,'pre:push'
+                }
+                else {
+                    sy&gotsavedd = 1
                 }
             }
-            #sy&gotsavedd = 1
             return
         }
         
