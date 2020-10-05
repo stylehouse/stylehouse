@@ -74,6 +74,7 @@
     # phenom comes in waves
     # waves have a skin
     # skins relate posture
+    # < for even ...arguments, like perl's {@kvs}
     window.hashkv = &kv{
         $c = {}
         c[k] = v != null ? v : 1
@@ -81,12 +82,17 @@
     }
     
     # hash from k:v, v=1 if not given
-    window.peel = &s,sep{
+    # < nestings of the : and , separators
+    window.peel = &s,sep,kep{
         s == null and return {}
         if (isst(s)) {
+            sep ||= ','
+            $kep = ':'
             # shortcut?
-            !s.includes(sep||',') and return hashkv(s)
-            # < sep?
+            if (!s.includes(sep) && !s.includes(kep)) {
+                return hashkv(s)
+            } 
+            # < sep|kep?
             # < rebuild for k:that:go:deeply,
             #   or that@link to indentedchunk later
             #    or link object anywhere, if A:L..A:peel

@@ -2664,13 +2664,101 @@ me.Sch_Travel = &acgt{ return [
         }
        
        // &SuperGens
-        me.supetime = &acgtRs{
+        # a process %%supe=$k
+        #  has steps %%sute=$t,supe,dome=$k-$t,...
+        me.supetime = &acgtRk{
             
+            # pseudo-lexicals, picking up %%arg,Z -> ar.Z
+            $ar = {}
+            $argon = &jaa,{
+                jaa('arg') .map(&n{
+                    $keys = haks(n.sc)
+                    $ki = keys.indexOf('arg')
+                    ki < 0 and debugger
+                    $k = keys[ki+1]
+                    ar[k] = n.sc[k]
+                })
+            }
+            
+            return &tc{
+                $inq = {supe:k,sute:t}
+                $inc = c => ex(ex({},inq),peel(c))
+                $dome = inq.supe+'-'+inq.sute
+                # see|input to %sute=$t...
+                $zaa = c => me&jaa,R,inc(c) .filter(n => nc&recycled)
+                $jaa = c => me&jaa,R,inc(c) .filter(n => !nc&recycled)
+                $ha = (c,s) => me&ha,R,ex({dome},inc(c)),{},s
+                
+                # < make this %%pre,
+                #    &diagno for a %%supe,sute
+                $tried = zaa('tried')[0]
+                $complete = tried && !hak(zaa('pur'))
+                if (complete) {
+                    me&tc,t+"-ok\n"
+                    # pickup ar from old time
+                    argon(zaa)
+                    return 1
+                }
+                
+                # doing it
+                $args = [zaa,jaa,ha,ar]
+                if (c.once) {
+                    if (!tried) {
+                        c.once (...args)
+                        argon(jaa)
+                    }
+                    else {
+                        argon(zaa)
+                    }
+                }
+                if (c.until) {
+                    c.until (...args)
+                }
+                
+                tried = (tried && trieds&tried||0)+1
+                ha({tried})
+                # %%rec... are permanent, psuedo-domed
+                # < dome within dome
+                zaa('rec') .map(n => ha(n.sc))
+                # pickup ar from new time, + any %%rec
+                argon(jaa)
+                $success = !hak(jaa('pur'))
+                success and return 1
+            }
         }
         me.SuperGens = &acgtRs{
+            $su = me&supetime,R,'SuperGens'
             # the R:Fingo%Peace=5,Gens,Zaving
             #  above W:Fingo%Peace=4,Ying
             # isn't Zaving yet
+            $startsavingok = su('startsaving',{once:&zaa,jaa,ha,ar{
+                $Z = me.cbu(R,'Gens')
+                ha('rec,arg',{Z})
+                #Zs&allope = s
+                #me&elvis,R,'%Gens%allope',{wake:Z}
+            },until:&zaa,jaa,ha,ar{
+                $Zb = ar.Z
+                !Zb and return ha('pur:noZ')
+                !Zb and debugger
+                $Z = me.cbu(R,'Gens')
+                if (Zb != Z && Zs&Zaving) {
+                    # we 
+                    me&tc,'~startsaving'
+                    sy&startsavingonce = 1
+                }
+                else {
+                    me&waits,"startsaving..."
+                    return
+                }
+                
+            }})
+            $moreok = startsavingok &&
+            su('moresaving',{until:&zaa,jaa,ha,ar{
+                ha('pur:lative')
+                me&nu,"moresaving-ar",ar
+            }})
+            me&nu,"moresaving-ar",{startsavingok,moreok}
+            
             if (!sy&startsavingonce) {
                 $Z = me.cbu(R,'Gens')
                 Zs&allope = s
@@ -2693,6 +2781,8 @@ me.Sch_Travel = &acgt{ return [
                 #Zs&allope = s
                 #me&elvis,R,'%Gens%allope',{wake:Z}
                 me&nu,"Sac",Z
+                $Zow = me.cbu(R,'Gens')
+                me&nu,"Zow",Zow
                 Rs&wakeful = 1
                 $sa = me&tc,'~saving...'
                 me&tc,"\n"
@@ -2725,7 +2815,7 @@ me.Sch_Travel = &acgt{ return [
                         $ha = me&tc,"haul?",'g'
                         me.nto(R,ha,&{
                             # hard pull There -> mem & reset
-                            me&Zaving_haul,R,n
+                            me&Zaving_haul,n
                             # will try to wake after this, but reset
                         })
 
