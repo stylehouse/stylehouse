@@ -2553,27 +2553,22 @@ me.Sch_Travel = &acgt{ return [
                 push.map(&n{
                     $z = ns&s
                     me&nodei,R,z,{maypush:1},{dome:'tilpushed-push'}
-                    sy&pushedonce and return
-                    me&wants,R,'tilpushed',z
-                    sy&pushedonce = 1
+                    # < could this be %%pre? %%n=%%maypush... ?
+                    #me&za,R,{eto:z,maypush:1} and return
+                    #me&wants,R,'tilpushed',z
                 })
                 # should become %%quiet once pushed,
                 # leading us through &SuperGansp without any %%Pushable
             }
             return
         }
+        
         # open the !
-        if (sy&pushedonce) {
-            delete sy&pushedonce
-            ~>7 Gome pushed: s.t
-        }
+        me&za,R,'Pushable' and ~>7 Gome pushed: s.t
         
-        me&SuperGansp,R,e
+        !me&SuperGens,R,s and return
         
-        me&tc,'alldone'
-        me&tc,'alldone'
-        
-        
+        me&tc,"\nalldone"
     },'ift,D'],
     ['Gome',0.52,&acgtRs{
         me&jaa,R,'pre' .map(&n{
@@ -2702,9 +2697,10 @@ me.Sch_Travel = &acgt{ return [
                 each tn Zs&Zaving {
                     me&tsc,"t",t,'b'
                     n = me&yfuture,n
+                    !ns&Zave and debugger
+                    me&nu,"Zave",n
                     ns&AutoSave and $mem = n
 
-                        me&nu,"Zave",n
                     
                     !ns&Saveting and debugger
                     ns&Unsure and me&tc,"Unsure",6
@@ -2727,17 +2723,8 @@ me.Sch_Travel = &acgt{ return [
                         $ha = me&tc,"haul?",'g'
                         me.nto(R,ha,&{
                             # hard pull There -> mem & reset
-                            !mem and debugger
-                            $There = ns&Saveting
-                            $Q = Theres&Q
-                            $P = Qs&P
-                            !Ps&string and debugger
-                            mems&AutoSave(Ps&string)
-                            # and reset
-                            $JRom = me&yfuture,me.cbu(R,'JRom')
-                            JRoms&reset = 1
+                            me&Zaving_haul,R,n
                             # will try to wake after this, but reset
-                            ~7 hauled: n.t, "over", mem.t
                         })
 
                         me&tc,'or',6
@@ -2759,9 +2746,27 @@ me.Sch_Travel = &acgt{ return [
                 }
                 return
             }
-
+            return 1
         }
-       
+        # hard pull There -> mem & reset
+        #  must be in a handler or so to:
+        #   try to wake after this, but reset
+        me.Zaving_haul = &acgtRn{
+            !ns&Zave and debugger
+            $Zaving = ny&up
+            $mem = Zavings&Zaving.mem
+            ns&Zave != 'W' and debugger
+            !mem || mems&Zave != 'mem' and debugger
+            $There = ns&Saveting
+            $Q = Theres&Q
+            $P = Qs&P
+            !Ps&string and debugger
+            mems&AutoSave(Ps&string)
+            # and reset
+            $JRom = me&yfuture,me.cbu(n,'JRom')
+            JRoms&reset = 1
+            ~7 hauled: Zaving.t, "mem<-W"
+        }
        
        // &diagno, &receivan when to what why
         # responds to each q=(%%fault),... once
