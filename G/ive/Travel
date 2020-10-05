@@ -2691,6 +2691,16 @@ me.Sch_Travel = &acgt{ return [
                 me.nto(R,n,y)
             }
         }
+        # make both $n/$label%styled
+        #  so &mtsc,n,... are outside of %styled
+        me.tcl = &acgttc{
+            # t may be n already, moving c&s to the label
+            $n = isC(t) ? t : me&tc,t
+            $t = delete nc&s
+            $l = ny&label = me&mtsc,n,t,0,c
+            ls&pa = 0.2
+            return n
+        }
         me.supetime = &acgtRk{
             
             # pseudo-lexicals, picking up %%arg,Z -> ar.Z
@@ -2703,7 +2713,7 @@ me.Sch_Travel = &acgt{ return [
                 })
             }
             
-            $n = me&tc,k+':','q'
+            $n = me&tcl,k+':','B'
             ns&dis = 1
             me&ty,n,'reset?' (&{
                 me&jaa,R,{supe:k} .map(n => nc&drop = 1)
@@ -2719,8 +2729,8 @@ me.Sch_Travel = &acgt{ return [
                 
                 $talk
                 $ta = &tc{
-                    talk ||= me&tc,"\n"+inq.sute,'y'
-                    t != null and t = me&mtsc,talk,t,0,c||'g'
+                    talk ||= me&tcl,inq.sute,'T'
+                    t != null and t = me&mtsc,talk,t,0,defor(c,'g')
                     ts&ma = 0.3
                     return t || talk
                 }
@@ -2771,15 +2781,18 @@ me.Sch_Travel = &acgt{ return [
                 else {
                     ta("...\n")
                     faults .map(&n{
-                        ta(ns&pur+": ")
+                        # 
+                        $l = ta(ns&pur+": ",'')
+                        me&tcl,l
+                        ls&dis = 1
                         $c = sex({}, n.sc, ksaf(n.sc,{aft:'pur'}))
                         c = hak(c) ? dis(c) : "..."
                         !c and c += 'mwow'
-                        $te =
-                        ta(c,6)
+                        me&mtsc,l,c,0,6
+                        #ta(c,6)
                         # < why no Display when c+"\n" above?
-                        ta("\n",6)
                     })
+                    ta("."+tried,6) .sc.dis = 1
                     # < ...
                 }
             }
