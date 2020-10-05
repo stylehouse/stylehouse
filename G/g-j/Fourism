@@ -3743,6 +3743,28 @@ me.Zavingness = &acgt{ return [
     #    within this javascript runtime/elvisability
     #     /insideness
     #    which may have time to process the request
+    &{
+        # hard pull There -> mem & reset
+        #  must be in a handler or so to:
+        #   try to wake after this, but reset
+        # on C+click of the < (to-local) symbol
+        me.Zaving_haul = &acgtn{
+            !ns&Zave and debugger
+            $Zaving = ny&up
+            $mem = Zavings&Zaving.mem
+            ns&Zave != 'W' and debugger
+            !mem || mems&Zave != 'mem' and debugger
+            $There = ns&Saveting
+            $Q = Theres&Q
+            $P = Qs&P
+            !Ps&string and debugger
+            mems&AutoSave(Ps&string)
+            # and reset
+            $JRom = me&yfuture,me.cbu(n,'JRom')
+            JRoms&reset = 1
+            ~>7 hauled: Zaving.t, "mem<-W"
+        }
+    },
     ['Zave','68',&acgtRs{
         # chop up a displaycase
         s&dis = 1;
@@ -3780,12 +3802,16 @@ me.Zavingness = &acgt{ return [
             #   and could open the git log etc
             if (!Rs&Whichto || (Rs&Wantsto && Rs&Amountto < 2)) {
                 # <> flop direction of the patch
-                $Wantingto = &s{
+                $Wantingto = &se{
+                    if (s == 'pull' && e.t == 'C+click') {
+                        # hard pull There -> mem & reset
+                        return me&Zaving_haul,R
+                    }
                     Rs&Wantsto == s and return Rs&Unsure = 1
                     Rs&Wantsto = s
                 };
-                me.nto(R,l,&s{ Wantingto('pull') });
-                me.nto(R,r,&s{ Wantingto('push') });
+                me.nto(R,l,&sTe{ Wantingto('pull',e) });
+                me.nto(R,r,&sTe{ Wantingto('push',e) });
             }
             else {
                 # single < once pulled
