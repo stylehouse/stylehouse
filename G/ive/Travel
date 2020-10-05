@@ -2549,14 +2549,17 @@ me.Sch_Travel = &acgt{ return [
        // 2 prepared -> Push, Save
         $push = me&ja,R,'Pushable'
         if (push) {
-            x.ro('push?')
-                && push.map(&n{
+            if (x.ro('push?')) {
+                push.map(&n{
                     $z = ns&s
                     me&nodei,R,z,{maypush:1},{dome:'tilpushed-push'}
                     sy&pushedonce and return
                     me&wants,R,'tilpushed',z
                     sy&pushedonce = 1
                 })
+                # should become %%quiet once pushed,
+                # leading us through &SuperGansp without any %%Pushable
+            }
             return
         }
         # open the !
@@ -2564,93 +2567,8 @@ me.Sch_Travel = &acgt{ return [
             delete sy&pushedonce
             ~>7 Gome pushed: s.t
         }
-        # the R:Fingo%Peace=5,Gens,Zaving above W:Fingo%Peace=4
-        # isn't Zaving yet
-        if (!sy&startsavingonce) {
-            $Z = me.cbu(R,'Gens')
-            Zs&allope = s
-            me&elvis,R,'%Gens%allope',{wake:Z}
-            !sy&startedsaving and me&tc,'~saving..'
-            sy&startedsaving ||= Z
-            if (sy&startedsaving != Z && Zs&Zaving) {
-                # we 
-                me&tc,'~saving'
-                sy&startsavingonce = 1
-            }
-            else {
-                me&waits,"saving..."
-                return
-            }
-        }
-       
-       // 4 Gens
-        if (!sy&gotsavedd) {
-            $Z = sy&startedsaving
-            #Zs&allope = s
-            #me&elvis,R,'%Gens%allope',{wake:Z}
-            me&nu,"Sac",Z
-            Rs&wakeful = 1
-            $sa = me&tc,'~saving...'
-            me&tc,"\n"
-            each tn Zs&Zaving {
-                me&tsc,"t",t,'b'
-                n = me&yfuture,n
-                ns&AutoSave and $mem = n
-                
-                    me&nu,"Zave",n
-                !ns&Saveting and debugger
-                ns&Unsure and me&tc,"Unsure",6
-                ns&Settled and me&tc,"Settled",6
-                if (ns&Amountto || ns&summary) {
-                    if (ns&Amountto == 2) {
-                        # is about to come back?
-                        me&waits,"ispushing"
-                        return
-                    }
-                    # probably because it hasn't already pushed
-                    # < detect need to pull?
-                    # < easier want to pull to reset things:
-                    #   avoiding pull W, reself + dup node errors,
-                    #    then pushing mem, then reset
-                    #   if mem versioned for a while we could
-                    #    pull W, push mem auto
-                    #   then reset or reself
-                    #   this is why haul?
-                    $ha = me&tc,"haul?",'g'
-                    me.nto(R,ha,&{
-                        # hard pull There -> mem & reset
-                        !mem and debugger
-                        $There = ns&Saveting
-                        $Q = Theres&Q
-                        $P = Qs&P
-                        !Ps&string and debugger
-                        mems&AutoSave(Ps&string)
-                        # and reset
-                        $JRom = me&yfuture,me.cbu(R,'JRom')
-                        JRoms&reset = 1
-                        # will try to wake after this, but reset
-                        ~7 hauled: n.t, "over", mem.t
-                    })
-                    
-                    me&tc,'or',6
-                    
-                    $ha = me&tc,"push?",'g'
-                    me.nto(R,ha,&{
-                        # hard pull There -> mem & reset
-                        ns&reallyWantsto = 'push'
-                        me&elvis,R,'reallyWantsto',{wake:Z}
-                        ~7 pushed: n.t, "over", mem.t
-                        T.wake = 'not'
-                    })
-                    me&ha,R,'pre:push'
-                }
-                else {
-                    me&tc,"Seemsoknow?"
-                    #sy&gotsavedd = 1
-                }
-            }
-            return
-        }
+        
+        me&SuperGansp,R,e
         
         me&tc,'alldone'
         me&tc,'alldone'
@@ -2751,6 +2669,100 @@ me.Sch_Travel = &acgt{ return [
             me&diagno,'restless','twinebump'
                 .map(n => me&wants,R,'twinebump',ns&Gansp )
         }
+       
+       // &SuperGens
+        me.SuperGens = &acgtRs{
+            # the R:Fingo%Peace=5,Gens,Zaving above W:Fingo%Peace=4
+            # isn't Zaving yet
+            if (!sy&startsavingonce) {
+                $Z = me.cbu(R,'Gens')
+                Zs&allope = s
+                me&elvis,R,'%Gens%allope',{wake:Z}
+                !sy&startedsaving and me&tc,'~saving..'
+                sy&startedsaving ||= Z
+                if (sy&startedsaving != Z && Zs&Zaving) {
+                    # we 
+                    me&tc,'~saving'
+                    sy&startsavingonce = 1
+                }
+                else {
+                    me&waits,"saving..."
+                    return
+                }
+            }
+       
+            if (!sy&gotsavedd) {
+                $Z = sy&startedsaving
+                #Zs&allope = s
+                #me&elvis,R,'%Gens%allope',{wake:Z}
+                me&nu,"Sac",Z
+                Rs&wakeful = 1
+                $sa = me&tc,'~saving...'
+                me&tc,"\n"
+                each tn Zs&Zaving {
+                    me&tsc,"t",t,'b'
+                    n = me&yfuture,n
+                    ns&AutoSave and $mem = n
+
+                        me&nu,"Zave",n
+                    
+                    !ns&Saveting and debugger
+                    ns&Unsure and me&tc,"Unsure",6
+                    ns&Settled and me&tc,"Settled",6
+                    if (ns&Amountto || ns&summary) {
+                        if (ns&Amountto == 2) {
+                            # is about to come back?
+                            me&waits,"ispushing"
+                            return
+                        }
+                        # probably because it hasn't already pushed
+                        # < detect need to pull?
+                        # < easier want to pull to reset things:
+                        #   avoiding pull W, reself + dup node errors,
+                        #    then pushing mem, then reset
+                        #   if mem versioned for a while we could
+                        #    pull W, push mem auto
+                        #   then reset or reself
+                        #   this is why haul?
+                        $ha = me&tc,"haul?",'g'
+                        me.nto(R,ha,&{
+                            # hard pull There -> mem & reset
+                            !mem and debugger
+                            $There = ns&Saveting
+                            $Q = Theres&Q
+                            $P = Qs&P
+                            !Ps&string and debugger
+                            mems&AutoSave(Ps&string)
+                            # and reset
+                            $JRom = me&yfuture,me.cbu(R,'JRom')
+                            JRoms&reset = 1
+                            # will try to wake after this, but reset
+                            ~7 hauled: n.t, "over", mem.t
+                        })
+
+                        me&tc,'or',6
+
+                        $ha = me&tc,"push?",'g'
+                        me.nto(R,ha,&{
+                            # hard pull There -> mem & reset
+                            ns&reallyWantsto = 'push'
+                            me&elvis,R,'reallyWantsto',{wake:Z}
+                            ~7 pushed: n.t, "over", mem.t
+                            T.wake = 'not'
+                        })
+                        me&ha,R,'pre:push'
+                    }
+                    else {
+                        me&tc,"Seemsoknow?"
+                        #sy&gotsavedd = 1
+                    }
+                }
+                return
+            }
+
+        }
+       
+       
        // &diagno, &receivan when to what why
         # responds to each q=(%%fault),... once
         #  and return true if we haven't tried t:fix
