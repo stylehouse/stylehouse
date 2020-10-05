@@ -2666,17 +2666,30 @@ me.Sch_Travel = &acgt{ return [
        // &SuperGens
         # a process %%supe=$k
         #  has steps %%sute=$t,supe,dome=$k-$t,...
+        window.ksaf = &sc{
+            $keys = haks(s)
+            $ki = keys.indexOf(c.aft||c.bow)
+            # slice arg2 is first one not to include
+            # splice arg2 is length of selection
+            $N = keys.slice(... c.aft ? [ki+1] : [0,ki])
+            c.aft ? c.rev : !c.rev and N.reverse()
+            return N
+        }
+        window.dis = &sc{
+            c ||= {}
+            # light over slope
+            c.dl = 4.23
+            return ki(s,c.dl)
+        }
         me.supetime = &acgtRk{
             
             # pseudo-lexicals, picking up %%arg,Z -> ar.Z
             $ar = {}
+            # < when jaa is jaa (is zaa when not tried)
+            #    suppose undef these should wait to become real?
             $argon = &jaa,{
                 jaa('arg') .map(&n{
-                    $keys = haks(n.sc)
-                    $ki = keys.indexOf('arg')
-                    ki < 0 and debugger
-                    $k = keys[ki+1]
-                    ar[k] = n.sc[k]
+                    sex(ar, n.sc, ksaf(n.sc,{aft:'arg'}))
                 })
             }
             
@@ -2689,31 +2702,41 @@ me.Sch_Travel = &acgt{ return [
                 $jaa = c => me&jaa,R,inc(c) .filter(n => !nc&recycled)
                 $ha = (c,s) => me&ha,R,ex({dome},inc(c)),{},s
                 
+                $talk
+                $ta = &tc{
+                    talk ||= me&tc,"\n"+inq.sute,'y'
+                    t != null and t = me&mtsc,talk,t,0,c||'g'
+                    ts&ma = 0.3
+                    return t || talk
+                }
+                
                 # < make this %%pre,
                 #    &diagno for a %%supe,sute
                 $tried = zaa('tried')[0]
                 $complete = tried && !hak(zaa('pur'))
                 if (complete) {
-                    me&tc,t+"-ok\n"
+                    ta("ok\n")
                     # pickup ar from old time
                     argon(zaa)
                     return 1
                 }
                 
                 # doing it
-                $args = [zaa,jaa,ha,ar]
+                $doing = &k{
+                    $y = c[k]
+                    !y and return
+                    y (zaa,jaa,ha,ar)
+                }
                 if (c.once) {
                     if (!tried) {
-                        c.once (...args)
+                        doing('once')
                         argon(jaa)
                     }
                     else {
                         argon(zaa)
                     }
                 }
-                if (c.until) {
-                    c.until (...args)
-                }
+                doing('until')
                 
                 tried = (tried && trieds&tried||0)+1
                 ha({tried})
@@ -2722,16 +2745,37 @@ me.Sch_Travel = &acgt{ return [
                 zaa('rec') .map(n => ha(n.sc))
                 # pickup ar from new time, + any %%rec
                 argon(jaa)
-                $success = !hak(jaa('pur'))
-                success and return 1
+                $faults = jaa('pur')
+                $success = !hak(faults)
+                if (success) {
+                    ta("ok\n")
+                    return 1
+                }
+                else {
+                    ta("...\n")
+                    faults .map(&n{
+                        ta(ns&pur+": ")
+                        $c = sex({}, n.sc, ksaf(n.sc,{aft:'pur'}))
+                        c = hak(c) ? dis(c) : "..."
+                        !c and c += 'mwow'
+                        $te =
+                        ta(c,6)
+                        me&nu,"Asupe+"+ns&pur,te
+                        # < why no Display when c+"\n" above?
+                        ta("\n",6)
+                    })
+                    # < ...
+                }
             }
         }
+        # < &voice must have an arg realiser, D%args ||= &arfgunc
+        # < waits_8 for bringing in 5s/20s non-quiet waker
         me.SuperGens = &acgtRs{
             $su = me&supetime,R,'SuperGens'
             # the R:Fingo%Peace=5,Gens,Zaving
             #  above W:Fingo%Peace=4,Ying
             # isn't Zaving yet
-            $startsavingok = su('startsaving',{once:&zaa,jaa,ha,ar{
+            su('startsaving',{once:&zaa,jaa,ha,ar{
                 $Z = me.cbu(R,'Gens')
                 ha('rec,arg',{Z})
                 #Zs&allope = s
@@ -2752,12 +2796,12 @@ me.Sch_Travel = &acgt{ return [
                 }
                 
             }})
-            $moreok = startsavingok &&
+            &&
             su('moresaving',{until:&zaa,jaa,ha,ar{
                 ha('pur:lative')
+                ha('pur:later,things:were')
                 me&nu,"moresaving-ar",ar
             }})
-            me&nu,"moresaving-ar",{startsavingok,moreok}
             
             if (!sy&startsavingonce) {
                 $Z = me.cbu(R,'Gens')

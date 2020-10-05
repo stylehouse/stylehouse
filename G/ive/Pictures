@@ -99,6 +99,7 @@
             #    < rebuild a subset of yaml mostly,
             return G&peel,s
         }
+        isar(s) and debugger
         isha(s) and return s
         throw "not peely", s
     }
@@ -236,10 +237,9 @@
     }
     # selective extend
     window.sex = &scq{
-        q = peel(q)
-        each kv q {
+        (isar(q) ? q : haks(peel(q))).map(&k{
             hak(c,k) and s [k] = c[k]
-        }
+        })
         return s
     }
     # merge s.* if hash|array
