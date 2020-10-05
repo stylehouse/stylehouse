@@ -2681,6 +2681,16 @@ me.Sch_Travel = &acgt{ return [
             c.dl = 4.23
             return ki(s,c.dl)
         }
+        me.ty = &acgtmt{
+            !isC(m) and t = m; m = 0
+            t = [t,0,'g']
+            $n = m ? me&mtsc,m,...t
+                : me&tsc,...t
+            $R = Cy&R
+            return &y{
+                me.nto(R,n,y)
+            }
+        }
         me.supetime = &acgtRk{
             
             # pseudo-lexicals, picking up %%arg,Z -> ar.Z
@@ -2693,6 +2703,11 @@ me.Sch_Travel = &acgt{ return [
                 })
             }
             
+            $n = me&tc,k+':','q'
+            ns&dis = 1
+            me&ty,n,'reset?' (&{
+                me&jaa,R,{supe:k} .map(n => nc&drop = 1)
+            })
             return &tc{
                 $inq = {supe:k,sute:t}
                 $inc = c => ex(ex({},inq),peel(c))
@@ -2733,6 +2748,7 @@ me.Sch_Travel = &acgt{ return [
                         argon(jaa)
                     }
                     else {
+                        # pickup ar from old time
                         argon(zaa)
                     }
                 }
@@ -2749,6 +2765,7 @@ me.Sch_Travel = &acgt{ return [
                 $success = !hak(faults)
                 if (success) {
                     ta("ok\n")
+                    ha("ok")
                     return 1
                 }
                 else {
@@ -2760,7 +2777,6 @@ me.Sch_Travel = &acgt{ return [
                         !c and c += 'mwow'
                         $te =
                         ta(c,6)
-                        me&nu,"Asupe+"+ns&pur,te
                         # < why no Display when c+"\n" above?
                         ta("\n",6)
                     })
@@ -2785,6 +2801,7 @@ me.Sch_Travel = &acgt{ return [
                 !Zb and return ha('pur:noZ')
                 !Zb and debugger
                 $Z = me.cbu(R,'Gens')
+                ha('arg',{laZ:2})
                 if (Zb != Z && Zs&Zaving) {
                     # we 
                     me&tc,'~startsaving'
