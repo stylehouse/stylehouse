@@ -2564,7 +2564,7 @@ me.Sch_Travel = &acgt{ return [
         }
         me&za,R,'Pushable' and ~>7 Gome pushed: s.t
         
-        !me&SuperGens,R,s and return
+        !me&SuperGens,R,s,{t:'Release'} and return
         
         me&tc,"\nalldone"
     },'ift,D'],
@@ -2695,10 +2695,10 @@ me.Sch_Travel = &acgt{ return [
        
        
        // &SuperGens
-        me.SupeGens = &acgtRsc,su{
+        me.SupeallopeGens = &acgtRsc,su{
             # check %Gens%Zaving state with %allope
             # push|reset|ignore then close
-            c.t ||= "SupeGens"
+            c.t ||= "allopeGens"
             c.k ||= 'Z'
             c.find ||= (R => me.cbu(R,'Gens'))
             # open, gets %Describing
@@ -2707,11 +2707,16 @@ me.Sch_Travel = &acgt{ return [
             c.like ||= (Z => Zs&Zaving)
             # && Zs&allope == s
             # < close, stop %Describing
+            #   at the completion
+            #   does it create another step for potential packdown?
+            #    there's maybe a sudden|steppy|laRealier finish,
+            #     and stuff to show when|while finished
             c.finish ||= (Z => delete Zs&allope)
             c.pur ||= {pur:'Zaving-ack',wait:1}
             return me&SupelaRealier,R,s,c,su
         }
-        # allowing time to pass
+        # allowing real|awake Z-time to pass since c.start(Z), etc
+        # < wake Z (&SupeGens does)
         # < case for easy access to latest woke other,
         #   Effect it and ack. show RingMap
         me.SupelaRealier = &acgtRsc,su{
@@ -2747,18 +2752,32 @@ me.Sch_Travel = &acgt{ return [
         }
         # < &voice must have an arg realiser, D%args ||= &arfgunc
         # < waits_8 for bringing in 5s/20s non-quiet waker
-        me.SuperGens = &acgtRs{
+        me.SuperGens = &acgtRsc{
             $x = me&Jx,R
-            $su = me&supetime,R,'SuperGens'
+            c.t = joint(['SuperGens',c.t],':')
+            $su = me&supetime,R,c.t
             # the R:Fingo%Peace=5,Gens,Zaving
             #  above W:Fingo%Peace=4,Ying
-            me&SupeGens,R,s,{t:'twinements'},su
+            me&SupeallopeGens,R,s,{},su
             &&
-            su('thesaving',{until:&zaa,jaa,ha,ar{
+            me&SupesavingGens,R,s,{},su
+            &&
+            su('donesaving',{until:&zaa,jaa,ha,ar{
+                x.ro("Done?") || ha('pur:Done,ready')
+                #me&nu,R.sc
+            }})
+            &&
+            su('moredone',{until:&zaa,jaa,ha,ar{
+                x.ro("moredone?") || ha('pur:Done,ready')
+                #me&nu,R.sc
+            }})
+            return su()
+        }
+        me.SupesavingGens = &acgtRsc,su{
+            return su('savingGens',{until:&zaa,jaa,ha,ar{
                 $Z = ar.Z
                 
                 Rs&wakeful = 1
-                $sa = me&tc,'~saving...'
                 me&tc,"\n"
                 each tn Zs&Zaving {
                     me&tsc,"t",t,'b'
@@ -2808,17 +2827,6 @@ me.Sch_Travel = &acgt{ return [
                     }
                 }
             }})
-            &&
-            su('donesaving',{until:&zaa,jaa,ha,ar{
-                x.ro("Done?") || ha('pur:Done,ready')
-                #me&nu,R.sc
-            }})
-            &&
-            su('moredone',{until:&zaa,jaa,ha,ar{
-                x.ro("moredone?") || ha('pur:Done,ready')
-                #me&nu,R.sc
-            }})
-            return su()
         }
        
        // &supetime
