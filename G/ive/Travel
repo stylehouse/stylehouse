@@ -2588,6 +2588,20 @@ me.Sch_Travel = &acgt{ return [
             rs&Describing = 1
         }
     },'ift,D'],
+    # %Tey&Real is too soon
+    # %Zaving doesn't exist while tunneling through,
+    #  but turns at commit?
+    # %JRom=c is like &reaw, R.sc recipe for this
+    ['Zaving','2918',&acgtRs{
+        Rs&laReal = R
+        $p = Ry&up
+        ps&JRom.laReal = R
+        #$c = Rs&JRomc
+        #c and c.laReal = R
+        me&tc,'laReal'
+        me&reaw,R,'laReal',1
+        ~>5 laReal:
+    },'ift,D'],
     
     &{
        // &SuperGansp
@@ -2675,16 +2689,19 @@ me.Sch_Travel = &acgt{ return [
             su('startsaving',{once:&zaa,jaa,ha,ar{
                 $Z = me.cbu(R,'Gens')
                 ha('rec,arg',{Z})
-                #Zs&allope = s
-                #me&elvis,R,'%Gens%allope',{wake:Z}
+                # open, gets %Describing
+                Zs&allope = s
+                me&elvis,R,'%Gens%allope',{wake:Z}
             },until:&zaa,jaa,ha,ar{
                 $Zb = ar.Z
-                !Zb and return ha('pur:noZ')
                 !Zb and debugger
                 $Z = me.cbu(R,'Gens')
-                ha('arg',{laZ:2})
-                if (Zb != Z && Zs&Zaving) {
-                    # we 
+                # must be Z after Zb, having %Described
+                # < and %Zaving, won't if now %sleeping?
+                
+                # Z must have Describing <- allope
+                if (Zb == Z && Zs&Zaving) {
+                    # %Ying tunneled to, .y.up = previous R?
                     me&tc,'~startsaving'
                     sy&startsavingonce = 1
                 }
@@ -2698,6 +2715,9 @@ me.Sch_Travel = &acgt{ return [
             su('moresaving',{until:&zaa,jaa,ha,ar{
                 ha('pur:lative')
                 ha('pur:later,things:were')
+                $Z = me.cbu(R,'Gens')
+                me&tc,"Having:"+joint(haks(Z.sc))
+                #me&nu,ar.Z
                 me&nu,"moresaving-ar",ar
             }})
             
