@@ -2588,9 +2588,11 @@ me.Sch_Travel = &acgt{ return [
             rs&Describing = 1
         }
     },'ift,D'],
-    # %Tey&Real is too soon
+    # make %laReal=R!%sleeping
+    #  so we can find the latest real %Zaving
+    # %Tey&Real=R includes R%sleeping
     # %Zaving doesn't exist while tunneling through,
-    #  but turns at commit?
+    #  or since Ying 2926 happens before much %Zaving
     # %JRom=c is like &reaw, R.sc recipe for this
     ['Zaving','2918',&acgtRs{
         Rs&laReal = R
@@ -2685,43 +2687,53 @@ me.Sch_Travel = &acgt{ return [
             $su = me&supetime,R,'SuperGens'
             # the R:Fingo%Peace=5,Gens,Zaving
             #  above W:Fingo%Peace=4,Ying
-            # isn't Zaving yet
+            # < case for easy access to latest woke other,
+            #   Effect it and ack. show RingMap
             su('startsaving',{once:&zaa,jaa,ha,ar{
                 $Z = me.cbu(R,'Gens')
                 ha('rec,arg',{Z})
                 # open, gets %Describing
                 Zs&allope = s
                 me&elvis,R,'%Gens%allope',{wake:Z}
-            },until:&zaa,jaa,ha,ar{
+            },perm:&zaa,jaa,ha,ar{
                 $Zb = ar.Z
                 !Zb and debugger
+                me&tc,"Zb:"+joint(haks(Zb.sc))+"\n"
                 $Z = me.cbu(R,'Gens')
                 # must be Z after Zb, having %Described
-                # < and %Zaving, won't if now %sleeping?
-                
-                # Z must have Describing <- allope
-                if (Zb == Z && Zs&Zaving) {
-                    # %Ying tunneled to, .y.up = previous R?
-                    me&tc,'~startsaving'
-                    sy&startsavingonce = 1
+                $Zo = Zs&laReal
+                if (Zo && Zo == Zb) {
+                    # also not awake this time,
+                    #  not having %Zaving completed yet
+                    me&tc,"^b"
+                    Z = Zoc&b
+                    Zo = Zs&laReal
                 }
-                else {
+                if (!Zo || Zb == Zo || !Zos&Zaving) {
+                    ha('pur:Zaving-ack,wait')
                     me&waits,"startsaving..."
                     return
                 }
-                
+                else {
+                    sy&startedsaving = Zo
+                    # redefine Z to the latest woke,
+                    #  we start with the Z from z.once
+                    ha('rec,arg',{Z:Zo})
+                }
             }})
             &&
             su('moresaving',{until:&zaa,jaa,ha,ar{
                 ha('pur:lative')
                 ha('pur:later,things:were')
+                $Zb = ar.Z
+                me&tc,"Zmore:"+joint(haks(Zb.sc))+"\n"
                 $Z = me.cbu(R,'Gens')
-                me&tc,"Having:"+joint(haks(Z.sc))
+                me&tc,"Having:"+joint(haks(Z.sc))+"\n"
                 #me&nu,ar.Z
                 me&nu,"moresaving-ar",ar
             }})
             
-            if (!sy&startsavingonce) {
+            if (!sy&startsavingonce && 0) {
                 $Z = me.cbu(R,'Gens')
                 Zs&allope = s
                 me&elvis,R,'%Gens%allope',{wake:Z}
@@ -2844,7 +2856,7 @@ me.Sch_Travel = &acgt{ return [
                 #    &diagno for a %%supe,sute
                 $tried = zaa('tried')[0]
                 $complete = tried && !hak(zaa('pur'))
-                if (complete) {
+                if (complete && !c.perm) {
                     ta("ok\n")
                     # pickup ar from old time
                     argon(zaa)
@@ -2867,7 +2879,8 @@ me.Sch_Travel = &acgt{ return [
                         argon(zaa)
                     }
                 }
-                doing('until')
+                !complete and doing('until')
+                doing('perm')
                 
                 tried = (tried && trieds&tried||0)+1
                 ha({tried})
