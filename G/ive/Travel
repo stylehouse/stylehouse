@@ -2579,6 +2579,9 @@ me.Sch_Travel = &acgt{ return [
     
     # remote R%Gome wants to push,
     # < as long as all %Settled? ie, not just changed.
+    ['Zaving','2918',&acgtRs{
+        me&rollbs,R,'allope'
+    },'ift,D'],
     ['Zaving+allope','3141',&acgtRs{
         # must be deleted from R by the remote
         me&rollbs,R,'allope'
@@ -2594,26 +2597,43 @@ me.Sch_Travel = &acgt{ return [
     # %Zaving doesn't exist while tunneling through,
     #  or since Ying 2926 happens before much %Zaving
     # %JRom=c is like &reaw, R.sc recipe for this
-    ['Zaving','2918',&acgtRs{
-        Rs&laReal = R
+    ['Gens+Zaving','78',&acgtRs{
         $p = Ry&up
+        !ps&JRom and return
+        me&tc,"la"
+        Rs&laReal == R and debugger
+        Rs&laReal = R
         ps&JRom.laReal = R
+        Rs&reallyreal = 1
+        $x = window.Wogra ||= {}
+        x[R.t] = R
+        R.t == "Fingo" and ~>4 Isreally:
         # < working via %JRom/R or &reaw
         #me&reaw,R,'laReal',1
     },'ift,D'],
+    ['Gens+Zaving+laReal','77',&acgtRs{
+        $p = Ry&up
+        ps&JRom.reallyreal = 1
+        Rs&reallyreal = 1
+    },'ift,D'],
+    
     &{
         # < perm. give any R %laReal (Te%Recipe?)
         # finding the latest real R
         # < should be obvious re Abit
+        # 
         me.laRealier = &acgtZ{
+            $Zn = Z
             $Zo = Zs&laReal
+            Zo == Zn and me&tc,"ZoZ"
             # must be before Z
-            if (Zo && Zo == Z) {
+            if (Zo && Zo == Zn) {
                 # also not awake this time,
                 #  not having %Zaving completed yet
                 me&tc,"^b"
                 Z = Zoc&b
                 Zo = Zs&laReal
+                Zo == Z and me&tc,"la2ZoZ"
             }
             return Zo
         }
@@ -2704,8 +2724,7 @@ me.Sch_Travel = &acgt{ return [
             # open, gets %Describing
             c.start ||= (Z => Zs&allope = s)
             # opened, is %Described
-            c.like ||= (Z => Zs&Zaving)
-            # && Zs&allope == s
+            c.like ||= (Z => Zs&Zaving && Zs&allope == s)
             # < close, stop %Describing
             #   at the completion
             #   does it create another step for potential packdown?
@@ -2726,26 +2745,56 @@ me.Sch_Travel = &acgt{ return [
             c.t ||= "laRealier"
             c.pur ||= {pur:c.t}
             c.k ||= 'Z'
+            c.kb ||= c.k+'b'
             
             su(c.t,{once:&zaa,jaa,ha,ar{
-                $Z = me.cbu(R,'Gens')
-                ha('rec,arg',hashkv(c.k,Z))
+                $Z = c.find(R)
+                
+                ha('rec,arg',hashkv(c.kb,Z))
+                
                 c.start and c.start(Z)
+                
                 me&elvis,R,c.t+'-start',{wake:Z}
             },perm:&zaa,jaa,ha,ar{
-                $Zb = ar[c.k]
+                $Zb = ar[c.kb]
                 !Zb and debugger
+                
                 # wait for a %Zaving after Zb, having %Described
-                $Z = me&laRealier,c.find(R)
-                Z && c.like && !c.like(Z) and debugger
-                if (!Z || Z == Zb || c.like && !c.like(Z)) {
-                    ha(c.pur || "pur:laRealier")
-                    return
-                }
+                $Zn = c.find(R)
+                $Zf = me&yfuture,Zn
+                Zf != Zn and ha('pur:Znow!futre')
+                
+                $Z = me&laRealier,Zn
+                #Z = ahsk(window,'Wogra','Fingo')
+                
+                $Zf = me&yfuture,Z
+                Zf == Z and ha('pur:Zfutre')
+                
+                Zn == Z and ha('pur:Z==now')
+                Z == Zb and ha('pur:Z..')
+                Rc&N.includes(Z) and ha('pur:ZRN')
+                me&tc,'ci:'+Zs&ci
+                
+                me&zu,Z
+                window.Wogra and me&zu,"Wogra",window.Wogra
+                
+                
+                !Z and ha('pur:!Z,wake')
+                else
+                !Zs&reallyreal and ha('pur:Z!real')
+                else
+                0 && Zns&reallyreal and ha('pur:Znreal')
+                else
+                Zn == Z and ha('pur:Z==now')
+                else
+                Z == Zb and ha('pur:Z..')
+                else
+                c.like && !c.like(Z) and ha('pur:Z!like')
                 else {
                     # redefine Z to the latest woke,
                     #  c.perm() always starts with the Z from c.once
                     ha('rec,arg',hashkv(c.k,Z))
+                    me&nu,"Real",Z
                 }
             }})
             return su()
@@ -2759,38 +2808,69 @@ me.Sch_Travel = &acgt{ return [
             # the R:Fingo%Peace=5,Gens,Zaving
             #  above W:Fingo%Peace=4,Ying
             me&SupeallopeGens,R,s,{},su
-            &&
-            me&SupesavingGens,R,s,{},su
-            &&
-            su('donesaving',{until:&zaa,jaa,ha,ar{
+            su() && me&SupesavingGens,R,s,{},su
+            su() && su('donesaving',{until:&zaa,jaa,ha,ar{
                 x.ro("Done?") || ha('pur:Done,ready')
+                $Z = ar.Z
+                delete Zs&allope
                 #me&nu,R.sc
             }})
-            &&
-            su('moredone',{until:&zaa,jaa,ha,ar{
+            su() && su('moredone',{until:&zaa,jaa,ha,ar{
                 x.ro("moredone?") || ha('pur:Done,ready')
                 #me&nu,R.sc
             }})
             return su()
         }
         me.SupesavingGens = &acgtRsc,su{
-            return su('savingGens',{until:&zaa,jaa,ha,ar{
+            su('savingGens',{until:&zaa,jaa,ha,ar{
                 $Z = ar.Z
+                ha('pur:3')
+                $fZ = ar.Zb
+                Zs&allope and me&tc,"allope"
+                fZ == Z and me&tc,"fZ==Z"
+                # < %%eph that become c&drop @Doming7
                 
                 Rs&wakeful = 1
                 me&tc,"\n"
                 each tn Zs&Zaving {
                     me&tsc,"t",t,'b'
-                    n = me&yfuture,n
+                    #n = me&yfuture,n
                     !ns&Zave and debugger
-                    me&nu,"Zave",n
+                    me&nu,"Zave:"+ns&Zave,n
                     ns&AutoSave and $mem = n
-
                     
-                    !ns&Saveting and debugger
-                    ns&Unsure and me&tc,"Unsure",6
-                    ns&Settled and me&tc,"Settled",6
-                    if (ns&Amountto || ns&summary) {
+                    # %Here=R%Ying now, %Described=R%Ying%string
+                    $De = ns&Described
+                    
+                    #Good ||= De == ns&Here && De == 
+                    # < want to see R%Ying==%Here==%Described
+                    #   and that Z 
+                    #   and that then %Settled=De%dige
+                    # < it would be easier
+                    
+                    $ting = ns&Saveting
+                    $Q = tings&Q
+                    $P = Qs&P
+                    
+                    !Ps&string and debugger
+                    ha('pur:stay')
+                    $equal = De && Des&string == Ps&string
+                    equal and me&tc,"=="
+                    
+                    $q = sex({},n.sc,'Unsure,Settled,Amountto',1)
+                    # < K resolves tings
+                    $stir = s => s && ss&string ? dig(ss&string) : "?"
+                    $more = ex({
+                        Here: stir(De),
+                        There: stir(P),
+                    },q)
+                    me&nu,"Ksc",more
+                    delete q.Settled
+                    $state = joint(haks(q))
+                    state and me&tc,"Something..."
+                    ns&summary and me&tc,"summary..."
+                    
+                    if (state) {
                         if (ns&Amountto == 2) {
                             # is about to come back?
                             return ha('pur:ispushing')
@@ -2823,10 +2903,12 @@ me.Sch_Travel = &acgt{ return [
                     }
                     else {
                         me&tc,"Seemsoknow?"
+                        #n.t.includes('W') and debugger
                         #sy&gotsavedd = 1
                     }
                 }
             }})
+            return su()
         }
        
        // &supetime
@@ -2863,8 +2945,7 @@ me.Sch_Travel = &acgt{ return [
             $faulty = 0
             return &tc{
                 if (t == null) {
-                    # when out of steps,
-                    # return to return
+                    # su() checks still ok, like su(...)
                     return !faulty
                 } 
                 $inq = {supe:k,sute:t}
