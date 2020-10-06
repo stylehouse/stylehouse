@@ -2663,140 +2663,8 @@ me.Sch_Travel = &acgt{ return [
                 .map(n => me&wants,R,'twinebump',ns&Gansp )
         }
        
+       
        // &SuperGens
-        # a process %%supe=$k
-        #  has steps %%sute=$t,supe,dome=$k-$t,...
-        window.ksaf = &sc{
-            $keys = haks(s)
-            $ki = keys.indexOf(c.aft||c.bow)
-            # slice arg2 is first one not to include
-            # splice arg2 is length of selection
-            $N = keys.slice(... c.aft ? [ki+1] : [0,ki])
-            c.aft ? c.rev : !c.rev and N.reverse()
-            return N
-        }
-        window.dis = &sc{
-            c ||= {}
-            # light over slope
-            c.dl = 4.23
-            return ki(s,c.dl)
-        }
-        me.ty = &acgtmt{
-            !isC(m) and t = m; m = 0
-            t = [t,0,'g']
-            $n = m ? me&mtsc,m,...t
-                : me&tsc,...t
-            $R = Cy&R
-            return &y{
-                me.nto(R,n,y)
-            }
-        }
-        # make both $n/$label%styled
-        #  so &mtsc,n,... are outside of %styled
-        me.tcl = &acgttc{
-            # t may be n already, moving c&s to the label
-            $n = isC(t) ? t : me&tc,t
-            $t = delete nc&s
-            $l = ny&label = me&mtsc,n,t,0,c
-            ls&pa = 0.2
-            return n
-        }
-        me.supetime = &acgtRk{
-            
-            # pseudo-lexicals, picking up %%arg,Z -> ar.Z
-            $ar = {}
-            # < when jaa is jaa (is zaa when not tried)
-            #    suppose undef these should wait to become real?
-            $argon = &jaa,{
-                jaa('arg') .map(&n{
-                    sex(ar, n.sc, ksaf(n.sc,{aft:'arg'}))
-                })
-            }
-            
-            $n = me&tcl,k+':','B'
-            ns&dis = 1
-            me&ty,n,'reset?' (&{
-                me&jaa,R,{supe:k} .map(n => nc&drop = 1)
-            })
-            return &tc{
-                $inq = {supe:k,sute:t}
-                $inc = c => ex(ex({},inq),peel(c))
-                $dome = inq.supe+'-'+inq.sute
-                # see|input to %sute=$t...
-                $zaa = c => me&jaa,R,inc(c) .filter(n => nc&recycled)
-                $jaa = c => me&jaa,R,inc(c) .filter(n => !nc&recycled)
-                $ha = (c,s) => me&ha,R,ex({dome},inc(c)),{},s
-                
-                $talk
-                $ta = &tc{
-                    talk ||= me&tcl,inq.sute,'T'
-                    t != null and t = me&mtsc,talk,t,0,defor(c,'g')
-                    ts&ma = 0.3
-                    return t || talk
-                }
-                
-                # < make this %%pre,
-                #    &diagno for a %%supe,sute
-                $tried = zaa('tried')[0]
-                $complete = tried && !hak(zaa('pur'))
-                if (complete) {
-                    ta("ok\n")
-                    # pickup ar from old time
-                    argon(zaa)
-                    return 1
-                }
-                
-                # doing it
-                $doing = &k{
-                    $y = c[k]
-                    !y and return
-                    y (zaa,jaa,ha,ar)
-                }
-                if (c.once) {
-                    if (!tried) {
-                        doing('once')
-                        argon(jaa)
-                    }
-                    else {
-                        # pickup ar from old time
-                        argon(zaa)
-                    }
-                }
-                doing('until')
-                
-                tried = (tried && trieds&tried||0)+1
-                ha({tried})
-                # %%rec... are permanent, psuedo-domed
-                # < dome within dome
-                zaa('rec') .map(n => ha(n.sc))
-                # pickup ar from new time, + any %%rec
-                argon(jaa)
-                $faults = jaa('pur')
-                $success = !hak(faults)
-                if (success) {
-                    ta("ok\n")
-                    ha("ok")
-                    return 1
-                }
-                else {
-                    ta("...\n")
-                    faults .map(&n{
-                        # 
-                        $l = ta(ns&pur+": ",'')
-                        me&tcl,l
-                        ls&dis = 1
-                        $c = sex({}, n.sc, ksaf(n.sc,{aft:'pur'}))
-                        c = hak(c) ? dis(c) : "..."
-                        !c and c += 'mwow'
-                        me&mtsc,l,c,0,6
-                        #ta(c,6)
-                        # < why no Display when c+"\n" above?
-                    })
-                    ta("."+tried,6) .sc.dis = 1
-                    # < ...
-                }
-            }
-        }
         # < &voice must have an arg realiser, D%args ||= &arfgunc
         # < waits_8 for bringing in 5s/20s non-quiet waker
         me.SuperGens = &acgtRs{
@@ -2915,9 +2783,110 @@ me.Sch_Travel = &acgt{ return [
             return 1
         }
        
-       // &diagno, &receivan when to what why
+       // &supetime
+        # a process %%supe=$k
+        #  has steps %%sute=$t,supe,dome=$k-$t,...
+        me.supetime = &acgtRk{
+            
+            # pseudo-lexicals, picking up %%arg,Z -> ar.Z
+            $ar = {}
+            # < when jaa is jaa (is zaa when not tried)
+            #    suppose undef these should wait to become real?
+            $argon = &jaa,{
+                jaa('arg') .map(&n{
+                    sex(ar, n.sc, ksaf(n.sc,{aft:'arg'}))
+                })
+            }
+            
+            $n = me&tcl,k+':','B'
+            ns&dis = 1
+            me&ty,n,'reset?' (&{
+                me&jaa,R,{supe:k} .map(n => nc&drop = 1)
+            })
+            return &tc{
+                $inq = {supe:k,sute:t}
+                $inc = c => ex(ex({},inq),peel(c))
+                $dome = inq.supe+'-'+inq.sute
+                # see|input to %sute=$t...
+                $zaa = c => me&jaa,R,inc(c) .filter(n => nc&recycled)
+                $jaa = c => me&jaa,R,inc(c) .filter(n => !nc&recycled)
+                $ha = (c,s) => me&ha,R,ex({dome},inc(c)),{},s
+                
+                $talk
+                $ta = &tc{
+                    talk ||= me&tcl,inq.sute,'T'
+                    t != null and t = me&mtsc,talk,t,0,defor(c,'g')
+                    ts&ma = 0.3
+                    return t || talk
+                }
+                
+                # < make this %%pre,
+                #    &diagno for a %%supe,sute
+                $tried = zaa('tried')[0]
+                $complete = tried && !hak(zaa('pur'))
+                if (complete) {
+                    ta("ok\n")
+                    # pickup ar from old time
+                    argon(zaa)
+                    return 1
+                }
+                
+                # doing it
+                $doing = &k{
+                    $y = c[k]
+                    !y and return
+                    y (zaa,jaa,ha,ar)
+                }
+                if (c.once) {
+                    if (!tried) {
+                        doing('once')
+                        argon(jaa)
+                    }
+                    else {
+                        # pickup ar from old time
+                        argon(zaa)
+                    }
+                }
+                doing('until')
+                
+                tried = (tried && trieds&tried||0)+1
+                ha({tried})
+                # %%rec... are permanent, psuedo-domed
+                # < dome within dome
+                zaa('rec') .map(n => ha(n.sc))
+                # pickup ar from new time, + any %%rec
+                argon(jaa)
+                $faults = jaa('pur')
+                $success = !hak(faults)
+                if (success) {
+                    ta("ok\n")
+                    ha("ok")
+                    return 1
+                }
+                else {
+                    ta("...\n")
+                    faults .map(&n{
+                        # 
+                        $l = ta(ns&pur+": ",'')
+                        me&tcl,l
+                        ls&dis = 1
+                        $c = sex({}, n.sc, ksaf(n.sc,{aft:'pur'}))
+                        c = hak(c) ? dis(c) : "..."
+                        !c and c += 'mwow'
+                        me&mtsc,l,c,0,6
+                        #ta(c,6)
+                        # < why no Display when c+"\n" above?
+                    })
+                    ta("."+tried,6) .sc.dis = 1
+                    # < ...
+                }
+            }
+        }
+       
+       // &diagno, &receivan, &zaone, theone() when to what why
         # responds to each q=(%%fault),... once
         #  and return true if we haven't tried t:fix
+        # restated on &diagno, not domed. re-fix also if none.
         # < improvement in some faults makes others re-fix?
         me.diagno = &acgtqt{
             $R = Cy&R
@@ -2960,6 +2929,18 @@ me.Sch_Travel = &acgt{ return [
             
             return e
         }
+        me.zaone = &acgtRq{
+            $k = haks(q)[0]
+            return theone( me&zaa,R,q ,R.t+'%%'+k )
+        }
+        # < the enclosing line is more important to display
+        window.theone = &Nk{
+            !N and return
+            !isar(N) and throw "theone "+k+" !isar: "+ki(N,2)
+            N.length <= 1 and return N[0]
+            k ||= ''
+            throw "theone "+k+" is "+N.length
+        }
        
        // &lock
         # add e to lockedness of k
@@ -2984,21 +2965,46 @@ me.Sch_Travel = &acgt{ return [
             }
         }
         
-       // &zaone, etc
-        me.zaone = &acgtRq{
-            $k = haks(q)[0]
-            return theone( me&zaa,R,q ,R.t+'%%'+k )
+       // &tc, &tcl, &ty, ksaf(s)
+        # slices hash keys
+        window.ksaf = &sc{
+            $keys = haks(s)
+            $ki = keys.indexOf(c.aft||c.bow)
+            # slice arg2 is first one not to include
+            # splice arg2 is length of selection
+            $N = keys.slice(... c.aft ? [ki+1] : [0,ki])
+            c.aft ? c.rev : !c.rev and N.reverse()
+            return N
+        }
+        window.dis = &sc{
+            c ||= {}
+            # light over slope
+            c.dl = 4.23
+            return ki(s,c.dl)
         }
         me.tc = &acgttc{
             return me&tsc,t,0,c
         }
-        # < the enclosing line is more important to display
-        window.theone = &Nk{
-            !N and return
-            !isar(N) and throw "theone "+k+" !isar: "+ki(N,2)
-            N.length <= 1 and return N[0]
-            k ||= ''
-            throw "theone "+k+" is "+N.length
+        # clickable callback
+        me.ty = &acgtmt{
+            !isC(m) and t = m; m = 0
+            t = [t,0,'g']
+            $n = m ? me&mtsc,m,...t
+                : me&tsc,...t
+            $R = Cy&R
+            return &y{
+                me.nto(R,n,y)
+            }
+        }
+        # make both $n/$label%styled
+        #  so &mtsc,n,... are outside of %styled
+        me.tcl = &acgttc{
+            # t may be n already, moving c&s to the label
+            $n = isC(t) ? t : me&tc,t
+            $t = delete nc&s
+            $l = ny&label = me&mtsc,n,t,0,c
+            ls&pa = 0.2
+            return n
         }
     },
 
