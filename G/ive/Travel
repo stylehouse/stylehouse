@@ -2163,7 +2163,6 @@ me.Sch_Travel = &acgt{ return [
         !xs&columns.length and return me&tsc,"columns..."
         
        // all Goable
-        
         $all = [
             # incoming on many %%mot...
             ... me&jaa,R,{Goable:1,eto:s} ,
@@ -2224,6 +2223,7 @@ me.Sch_Travel = &acgt{ return [
                 return me&jaa,R,ex(c,Goable)
             }
         
+       // tabulk
         ex(c,{t,Tr,jaa})
         c.diff = {labelimplied:'Gump/Gutago'}
         each ih rows {
@@ -2598,12 +2598,26 @@ me.Sch_Travel = &acgt{ return [
         Rs&laReal = R
         $p = Ry&up
         ps&JRom.laReal = R
-        #$c = Rs&JRomc
-        #c and c.laReal = R
-        me&tc,'laReal'
-        me&reaw,R,'laReal',1
-        ~>5 laReal:
+        # < working via %JRom/R or &reaw
+        #me&reaw,R,'laReal',1
     },'ift,D'],
+    &{
+        # < perm. give any R %laReal (Te%Recipe?)
+        # finding the latest real R
+        # < should be obvious re Abit
+        me.laRealier = &acgtZ{
+            $Zo = Zs&laReal
+            # must be before Z
+            if (Zo && Zo == Z) {
+                # also not awake this time,
+                #  not having %Zaving completed yet
+                me&tc,"^b"
+                Z = Zoc&b
+                Zo = Zs&laReal
+            }
+            return Zo
+        }
+    },
     
     &{
        // &SuperGansp
@@ -2684,11 +2698,14 @@ me.Sch_Travel = &acgt{ return [
         # < &voice must have an arg realiser, D%args ||= &arfgunc
         # < waits_8 for bringing in 5s/20s non-quiet waker
         me.SuperGens = &acgtRs{
+            
+            $x = me&Jx,R
             $su = me&supetime,R,'SuperGens'
             # the R:Fingo%Peace=5,Gens,Zaving
             #  above W:Fingo%Peace=4,Ying
             # < case for easy access to latest woke other,
             #   Effect it and ack. show RingMap
+            $ok =
             su('startsaving',{once:&zaa,jaa,ha,ar{
                 $Z = me.cbu(R,'Gens')
                 ha('rec,arg',{Z})
@@ -2698,65 +2715,25 @@ me.Sch_Travel = &acgt{ return [
             },perm:&zaa,jaa,ha,ar{
                 $Zb = ar.Z
                 !Zb and debugger
-                me&tc,"Zb:"+joint(haks(Zb.sc))+"\n"
-                $Z = me.cbu(R,'Gens')
-                # must be Z after Zb, having %Described
-                $Zo = Zs&laReal
-                if (Zo && Zo == Zb) {
-                    # also not awake this time,
-                    #  not having %Zaving completed yet
-                    me&tc,"^b"
-                    Z = Zoc&b
-                    Zo = Zs&laReal
-                }
-                if (!Zo || Zb == Zo || !Zos&Zaving) {
-                    ha('pur:Zaving-ack,wait')
+                # wait for a %Zaving after Zb, having %Described
+                $Z = me&laRealier,me.cbu(R,'Gens')
+                !Zs&Zaving and debugger
+                if (!Z || Z == Zb || !Zs&Zaving) {
+                    ha('pur:Zaving-ack')
                     me&waits,"startsaving..."
                     return
                 }
                 else {
-                    sy&startedsaving = Zo
+                    sy&startedsaving = Z
                     # redefine Z to the latest woke,
                     #  we start with the Z from z.once
-                    ha('rec,arg',{Z:Zo})
+                    ha('rec,arg',{Z})
                 }
             }})
             &&
-            su('moresaving',{until:&zaa,jaa,ha,ar{
-                ha('pur:lative')
-                ha('pur:later,things:were')
-                $Zb = ar.Z
-                me&tc,"Zmore:"+joint(haks(Zb.sc))+"\n"
-                $Z = me.cbu(R,'Gens')
-                me&tc,"Having:"+joint(haks(Z.sc))+"\n"
-                #me&nu,ar.Z
-                me&nu,"moresaving-ar",ar
-            }})
-            
-            if (!sy&startsavingonce && 0) {
-                $Z = me.cbu(R,'Gens')
-                Zs&allope = s
-                me&elvis,R,'%Gens%allope',{wake:Z}
-                !sy&startedsaving and me&tc,'~saving..'
-                sy&startedsaving ||= Z
-                if (sy&startedsaving != Z && Zs&Zaving) {
-                    # we 
-                    me&tc,'~saving'
-                    sy&startsavingonce = 1
-                }
-                else {
-                    me&waits,"saving..."
-                    return
-                }
-            }
-       
-            if (!sy&gotsavedd) {
-                $Z = sy&startedsaving
-                #Zs&allope = s
-                #me&elvis,R,'%Gens%allope',{wake:Z}
-                me&nu,"Sac",Z
-                $Zow = me.cbu(R,'Gens')
-                me&nu,"Zow",Zow
+            su('thesaving',{until:&zaa,jaa,ha,ar{
+                $Z = ar.Z
+                
                 Rs&wakeful = 1
                 $sa = me&tc,'~saving...'
                 me&tc,"\n"
@@ -2774,8 +2751,7 @@ me.Sch_Travel = &acgt{ return [
                     if (ns&Amountto || ns&summary) {
                         if (ns&Amountto == 2) {
                             # is about to come back?
-                            me&waits,"ispushing"
-                            return
+                            return ha('pur:ispushing')
                         }
                         # probably because it hasn't already pushed
                         # < detect need to pull?
@@ -2786,8 +2762,7 @@ me.Sch_Travel = &acgt{ return [
                         #    pull W, push mem auto
                         #   then reset or reself
                         #   this is why haul?
-                        $ha = me&tc,"haul?",'g'
-                        me.nto(R,ha,&{
+                        me&ty,"haul?" (&{
                             # hard pull There -> mem & reset
                             me&Zaving_haul,n
                             # will try to wake after this, but reset
@@ -2795,24 +2770,27 @@ me.Sch_Travel = &acgt{ return [
 
                         me&tc,'or',6
 
-                        $ha = me&tc,"push?",'g'
-                        me.nto(R,ha,&{
+                        me&ty,"push?" (&{
                             # hard pull There -> mem & reset
                             ns&reallyWantsto = 'push'
                             me&elvis,R,'reallyWantsto',{wake:Z}
                             ~7 pushed: n.t, "over", mem.t
                             T.wake = 'not'
                         })
-                        me&ha,R,'pre:push'
+                        ha('pur:push?')
                     }
                     else {
                         me&tc,"Seemsoknow?"
                         #sy&gotsavedd = 1
                     }
                 }
-                return
-            }
-            return 1
+            }})
+            &&
+            su('donesaving',{until:&zaa,jaa,ha,ar{
+                x.ro("Done?") || ha('pur:Done,ready')
+                #me&nu,R.sc
+            }})
+            return ok
         }
        
        // &supetime
