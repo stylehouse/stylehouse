@@ -2790,10 +2790,26 @@ me.Sch_Travel = &acgt{ return [
                 x.ro("Done?") || ha('pur:Done,ready')
                 #me&nu,R.sc
             }})
+            &&
+            su('moredone',{until:&zaa,jaa,ha,ar{
+                x.ro("moredone?") || ha('pur:Done,ready')
+                #me&nu,R.sc
+            }})
             return ok
         }
        
        // &supetime
+        # capture modulat (of &tc, x.ro, etc) into $m
+        me.Mwcap = &acgtRkm{
+            $was = T.Mw
+            T.Mw = k
+            return &{
+                T.Mw = was
+                !Rs&Mw and return
+                $N = delete Rs&Mw[k]
+                N && N.map(n => ac(m,'z',n))
+            }
+        }
         # a process %%supe=$k
         #  has steps %%sute=$t,supe,dome=$k-$t,...
         me.supetime = &acgtRk{
@@ -2822,9 +2838,8 @@ me.Sch_Travel = &acgt{ return [
                 $jaa = c => me&jaa,R,inc(c) .filter(n => !nc&recycled)
                 $ha = (c,s) => me&ha,R,ex({dome},inc(c)),{},s
                 
-                $talk
+                $talk = me&tcl,inq.sute,'T'
                 $ta = &tc{
-                    talk ||= me&tcl,inq.sute,'T'
                     t != null and t = me&mtsc,talk,t,0,defor(c,'g')
                     ts&ma = 0.3
                     return t || talk
@@ -2847,6 +2862,8 @@ me.Sch_Travel = &acgt{ return [
                     !y and return
                     y (zaa,jaa,ha,ar)
                 }
+                # all other modulat already in talk
+                $capture = me&Mwcap,R,dome,talk
                 if (c.once) {
                     if (!tried) {
                         doing('once')
@@ -2859,6 +2876,8 @@ me.Sch_Travel = &acgt{ return [
                 }
                 !complete and doing('until')
                 doing('perm')
+                capture()
+                
                 
                 tried = (tried && trieds&tried||0)+1
                 ha({tried})
