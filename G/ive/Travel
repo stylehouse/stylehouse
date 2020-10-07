@@ -2737,20 +2737,22 @@ me.Sch_Travel = &acgt{ return [
             # the R:Fingo%Peace=5,Gens,Zaving
             #  above W:Fingo%Peace=4,Ying
             me&SupeallopeGens,R,s,{},su
-            
-            && me&SupesavingGens,R,s,{},su
-            
-            && su('donesaving',{until:&zaa,jaa,ha,ar{
+            &&
+            me&SupesavingGens,R,s,{},su
+            &&
+            su('donesaving',{until:&zaa,jaa,ha,ar{
                 x.ro("Done?") || ha('pur:Done,ready')
                 $Z = ar.Z
                 #me&nu,Z.sc
             },finishline:1})
-            && su('moredone',{until:&zaa,jaa,ha,ar{
+            &&
+            su('moredone',{until:&zaa,jaa,ha,ar{
                 x.ro("moredone?") || ha('pur:Done,ready')
                 #me&nu,R.sc
             }})
             return su()
         }
+        
         # start (& finish) Z%allope
         #  allowing real|awake Z-time to pass
         me.SupeallopeGens = &acgtRsc,su{
@@ -2812,7 +2814,7 @@ me.Sch_Travel = &acgt{ return [
                 else
                 c.like && !c.like(Z) and wa("Z!like"); me&nu,"!like:"+Z
                 
-                jaa('wake').length and return
+                jaa('wait').length and return
                 
                 # these suppose Zn...R: we are inside Zn
                 #  so Zn is always most futuristic
