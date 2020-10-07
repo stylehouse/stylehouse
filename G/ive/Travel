@@ -2635,6 +2635,18 @@ me.Sch_Travel = &acgt{ return [
     },
     
     &{
+       // f
+        # < -head a -zif
+        me.Zifsum = &acgtr{
+            $sum = rs&summary
+            if (sum) {
+                $su = me&tc,'~sum:',6
+                i $su/@sum/** y o $sum:sum/**
+            }
+            else {
+                me&tc,'!sum',6
+            }
+        }
        // &SuperGansp
         # supervise %MayGansp/%MayTwine**
         #  ha waiting:
@@ -2685,12 +2697,7 @@ me.Sch_Travel = &acgt{ return [
                             me&tc,'el:'+Pushables&el,6
                             me&ha,R,Pushable
                         }
-                        # < head a -zif
-                        $sum = nrs&summary
-                        if (sum) {
-                            $su = me&tc,'~sum:',6
-                            i $su/@sum/** y o $sum:sum/**
-                        }
+                        me&Zifsum,nr
                         return
                     }
                     $ok = theone( me&zaa,r,{ok:n} )
@@ -2847,10 +2854,11 @@ me.Sch_Travel = &acgt{ return [
                     #me&nu,"Ksc",more
                     delete q.Settled
                     $state = joint(haks(q))
-                    ns&summary and me&tc,"summary..."
+                    ns&summary && !state and ha('pur:summary!state')
                     !equal && !state and ha('pur:!eq!state')
                     
                     if (state) {
+                        me&Zifsum,n
                         if (ns&Amountto == 2) {
                             # is about to come back?
                             return ha('pur:ispushing')
@@ -2882,9 +2890,7 @@ me.Sch_Travel = &acgt{ return [
                         ha('pur:push?')
                     }
                     else {
-                        me&tc,"Seemsoknow?"
-                        #n.t.includes('W') and debugger
-                        #sy&gotsavedd = 1
+                        
                     }
                 }
             }})
