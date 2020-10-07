@@ -2618,17 +2618,13 @@ me.Sch_Travel = &acgt{ return [
         # < should be obvious re Abit
         # 
         me.laRealier = &acgtZ{
-            $Zn = Z
             $Zo = Zs&laReal
-            Zo == Zn and me&tc,"ZoZ"
-            # must be before Z
-            if (Zo && Zo == Zn) {
+            # must be before Z (supposing we are in Z, see SupelaRealier)
+            if (Zo == Z) {
                 # also not awake this time,
                 #  not having %Zaving completed yet
-                me&tc,"^b"
-                Z = Zoc&b
+                Z = Zc&b
                 Zo = Zs&laReal
-                Zo == Z and me&tc,"la2ZoZ"
             }
             return Zo
         }
@@ -2766,6 +2762,17 @@ me.Sch_Travel = &acgt{ return [
                 $Zn = c.find(R)
                 # go back to the finished one
                 $Z = me&laRealier,Zn
+                Z != Zns&laReal and me&tc,"^b"
+                
+                $wa = t => ha({pur:t,wake:1})
+                # the main things:
+                !Z and wa("!Z")
+                else
+                Z == Zb and wa("Z..")
+                else
+                c.like && !c.like(Z) and wa("Z!like")
+                
+                jaa('wake').length and return
                 
                 # these suppose Zn...R: we are inside Zn
                 #  so Zn is always most futuristic
@@ -2776,17 +2783,12 @@ me.Sch_Travel = &acgt{ return [
                 Zn == Z and ha('pur:Z==now')
                 Rc&N.includes(Z) and ha('pur:ZRN')
                 
-                # the main things:
-                !Z and ha('pur:!Z,wake'); return
-                Z == Zb and ha('pur:Z..'); return
-                c.like && !c.like(Z) and ha('pur:Z!like')
-                
                 hak(jaa('pur')) and me&zu,"laReal",Z
                 else {
                     # redefine Z to the latest woke,
                     #  c.perm() always starts with the Zb from c.once
                     ha('rec,arg',hashkv(c.k,Z))
-                    me&nu,"laReal",Z
+                    #me&nu,"laReal",Z
                 }
             }})
             return su()
@@ -2816,6 +2818,7 @@ me.Sch_Travel = &acgt{ return [
         me.SupesavingGens = &acgtRsc,su{
             su('savingGens',{until:&zaa,jaa,ha,ar{
                 $Z = ar.Z
+                $Zb = ar.Zb
                 # < %%eph that become c&drop @Doming7
                 
                 Rs&wakeful = 1
@@ -2824,23 +2827,31 @@ me.Sch_Travel = &acgt{ return [
                     me&tsc,"t",t,'b'
                     #n = me&yfuture,n
                     !ns&Zave and debugger
-                    #me&nu,"Zave:"+ns&Zave,n
+                    #me&nu,"Zave:"+t,n
                     ns&AutoSave and $mem = n
                     
                     # %Here=R%Ying now, %Described=R%Ying%string
                     $De = ns&Described
-                    me&nu,'De',De
+                    #me&nu,"De:"+t,De
                     # < want to see when Z%Here==Z%Described, when it encodes
                     #   and that Zb < encZ <? Z, < meaning time-before
                     #   and that then %Settled=De%dige
-                    # < it would be easier
+                    $Zbla = me&laRealier,Zb
+                    if (Zblas&Zaving) {
+                        $nb = Zblas&Zaving[t]
+                        Zbla == Z
+                            && ha('pur:old==newZ')
+                        Zblas&Zaving == Zs&Zaving 
+                            && ha('pur:old==newZaving')
+                        nbs&Described && De == nbs&Described
+                            && ha('pur:oldDe')
+                    }
                     
                     $ting = ns&Saveting
                     $Q = tings&Q
                     $P = Qs&P
                     
                     !Ps&string and debugger
-                    ha('pur:stay')
                     $equal = De && Des&string == Ps&string
                     equal and me&tc,"=="
                     
