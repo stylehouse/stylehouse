@@ -2972,6 +2972,14 @@ me.Sch_Travel = &acgt{ return [
             })
             $faulty = 0
             $sutes = []
+            $talkat = &m{
+                return &tc{
+                    t == null and return m
+                    t = me&mtsc,m,t,0,defor(c,'g')
+                    ts&ma = 0.3
+                    return t || m
+                }
+            }
             return &tc{
                 # su() checks still ok, like su(...)
                 t == null and return !faulty
@@ -2987,11 +2995,10 @@ me.Sch_Travel = &acgt{ return [
                 
                 $talk = me&tcl,inq.sute,'T'
                 talks&dis = 1
-                $ta = &tc{
-                    t != null and t = me&mtsc,talk,t,0,defor(c,'g')
-                    ts&ma = 0.3
-                    return t || talk
-                }
+                $ta = talkat(talk)
+                # label container, next to the heading
+                $talklabel = ta('labelspace','s')
+                $tal = talkat(talklabel)
                 
                 # make c into a sute object...
                 ex(c,inq)
@@ -3077,7 +3084,13 @@ me.Sch_Travel = &acgt{ return [
                 }
                 !complete and doing('until')
                 doing('perm')
-                capture()
+                capture(&{
+                    # figure container
+                    $m = ta('figure','s1')
+                    delete mc&s
+                    ms&dis = 1
+                    return m
+                })
                 
               // 7 tried
                 tried = (tried && trieds&tried||0)+1
@@ -3101,22 +3114,22 @@ me.Sch_Travel = &acgt{ return [
                 $faults = jaa('pur')
                 $success = !hak(faults)
                 if (success) {
-                    ta("ok"+(c.perm?"...":""))
+                    tal("ok"+(c.perm?"...":""))
                     ha("ok")
                     return 1
                 }
                 else {
-                    ta("...\n")
+                    #debugger
+                    $fa = ta('faultspace','s1')
+                    $ta = talkat(fa)
                     faults .map(&n{
                         # 
-                        $l = ta(ns&pur+": ",'')
-                        me&tcl,l
-                        ls&dis = 1
+                        $l = ta(ns&pur+": ",'1')
                         $se = sex({}, n.sc, ksaf(n.sc,{aft:'pur'}))
                         se = hak(se) ? dis(se) : "..."
                         me&mtsc,l,se,0,6
-                        #ta(c,6)
-                        # < why no Display when c+"\n" above?
+                        # < why no Display when se+"\n"?:
+                        #ta(se,6)
                         
                         # also, respond a bit...
                         # < joining &diagno, or without T.diagno,
@@ -3125,7 +3138,7 @@ me.Sch_Travel = &acgt{ return [
                         else
                         ns&wait and debugger
                     })
-                    ta("."+tried,6) .sc.dis = 1
+                    tal("."+tried,6)
                     # < ...
                     faulty = 1
                 }
@@ -3230,11 +3243,15 @@ me.Sch_Travel = &acgt{ return [
         me.Mwcap = &acgtRkm{
             $was = T.Mw
             T.Mw = k
-            return &{
+            return &y{
                 T.Mw = was
                 !Rs&Mw and return
                 $N = delete Rs&Mw[k]
-                N && N.map(n => ac(m,'z',n))
+                !hak(N) and return
+                y and m = y ()
+                !m && !y and debugger
+                !m and return
+                N.map(n => ac(m,'z',n))
             }
         }
         # slices hash keys
