@@ -2631,18 +2631,6 @@ me.Sch_Travel = &acgt{ return [
     },
     
     &{
-       // f
-        # < -head a -zif
-        me.Zifsum = &acgtr{
-            $sum = rs&summary
-            if (sum) {
-                $su = me&tc,'~sum:',6
-                i $su/@sum/** y o $sum:sum/**
-            }
-            else {
-                me&tc,'!sum',6
-            }
-        }
        // &SuperGansp
         # supervise %MayGansp/%MayTwine**
         #  ha waiting:
@@ -2728,7 +2716,7 @@ me.Sch_Travel = &acgt{ return [
                 $Z = ar.Z
                 #delete Zs&allope
                 #me&nu,R.sc
-            }})
+            },finishline:1})
             && su('moredone',{until:&zaa,jaa,ha,ar{
                 x.ro("moredone?") || ha('pur:Done,ready')
                 #me&nu,R.sc
@@ -2767,7 +2755,7 @@ me.Sch_Travel = &acgt{ return [
             c.k ||= 'Z'
             c.kb ||= c.k+'b'
             
-            su(c.t,{once:&zaa,jaa,ha,ar{
+            su(c.t,{c,once:&zaa,jaa,ha,ar{
                 $Z = c.find(R)
                 
                 ha('rec:once,arg',hashkv(c.kb,Z))
@@ -2931,17 +2919,6 @@ me.Sch_Travel = &acgt{ return [
         }
        
        // &supetime
-        # capture modulat (of &tc, x.ro, etc) into $m
-        me.Mwcap = &acgtRkm{
-            $was = T.Mw
-            T.Mw = k
-            return &{
-                T.Mw = was
-                !Rs&Mw and return
-                $N = delete Rs&Mw[k]
-                N && N.map(n => ac(m,'z',n))
-            }
-        }
         # a process %%supe=$k
         #  has steps %%sute=$t,supe,dome=$k-$t,...
         me.supetime = &acgtRk{
@@ -2962,9 +2939,11 @@ me.Sch_Travel = &acgt{ return [
                 me&jaa,R,{supe:k} .map(n => nc&drop = 1)
             })
             $faulty = 0
+            $sutes = []
             return &tc{
                 # su() checks still ok, like su(...)
                 t == null and return !faulty
+                
               // 1 context
                 $inq = {supe:k,sute:t}
                 $inc = c => ex(ex({},inq),peel(c))
@@ -2985,7 +2964,32 @@ me.Sch_Travel = &acgt{ return [
                 #    &diagno for a %%supe,sute
                 $tried = zaa('tried')[0]
                 $complete = tried && !hak(zaa('pur'))
-                if (complete && !c.perm) {
+                $q = c.c
+                if (q) {
+                    # super (eg &SuperGens)
+                    #   calls &supetime, own $supe
+                    # suter (eg &SupelaRealier)
+                    #   asserts su(...)+, own each $sute
+                    # q instructs suter,
+                    #  mostly for itself,
+                    #   to api their sute codes
+                    #  yet we can see eg q.finish()
+                    # c instructs sute,
+                    #  c.finishline shall cause:
+                    #   earlier q.finish() to happen (once)
+                    #   no more c.perm()
+                    #   etc
+                    # q.finish means this $sute has something to do later
+                    q.finish and me&tc,"Yarlbeback"
+                    $finished = 0
+                }
+                if (c.finishline) {
+                    me&tc,"Isfin"
+                    
+                }
+                # c.c == &SupelaRealier,c:q
+                # if a later
+                if (complete && (!c.perm || finished)) {
                     ta("ok\n")
                     # pickup ar from old time
                     argon(zaa)
@@ -3149,7 +3153,29 @@ me.Sch_Travel = &acgt{ return [
             }
         }
         
-       // &tc, &tcl, &ty, ksaf(s)
+       // &tc, &tcl, &ty, ksaf(s), etc
+        # < -head a -zif
+        me.Zifsum = &acgtr{
+            $sum = rs&summary
+            if (sum) {
+                $su = me&tc,'~sum:',6
+                i $su/@sum/** y o $sum:sum/**
+            }
+            else {
+                me&tc,'!sum',6
+            }
+        }
+        # capture modulat (of &tc, x.ro, etc) into $m
+        me.Mwcap = &acgtRkm{
+            $was = T.Mw
+            T.Mw = k
+            return &{
+                T.Mw = was
+                !Rs&Mw and return
+                $N = delete Rs&Mw[k]
+                N && N.map(n => ac(m,'z',n))
+            }
+        }
         # slices hash keys
         window.ksaf = &sc{
             $keys = haks(s)
