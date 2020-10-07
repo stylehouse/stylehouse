@@ -2748,7 +2748,7 @@ me.Sch_Travel = &acgt{ return [
             su(c.t,{once:&zaa,jaa,ha,ar{
                 $Z = c.find(R)
                 
-                ha('rec,arg',hashkv(c.kb,Z))
+                ha('rec:once,arg',hashkv(c.kb,Z))
                 
                 c.start and c.start(Z)
                 
@@ -2941,10 +2941,9 @@ me.Sch_Travel = &acgt{ return [
             })
             $faulty = 0
             return &tc{
-                if (t == null) {
-                    # su() checks still ok, like su(...)
-                    return !faulty
-                } 
+                # su() checks still ok, like su(...)
+                t == null and return !faulty
+              // 1 context
                 $inq = {supe:k,sute:t}
                 $inc = c => ex(ex({},inq),peel(c))
                 $dome = inq.supe+'-'+inq.sute
@@ -2971,7 +2970,7 @@ me.Sch_Travel = &acgt{ return [
                     return 1
                 }
                 
-                # doing it
+              // 2 doing it
                 $doing = &k{
                     $y = c[k]
                     !y and return
@@ -2993,14 +2992,25 @@ me.Sch_Travel = &acgt{ return [
                 doing('perm')
                 capture()
                 
-                
+              // 7 tried
                 tried = (tried && trieds&tried||0)+1
                 ha({tried})
+                
                 # %%rec... are permanent, remain while going faulty
+                #  per %%supe,sute,rec
+                #   so the value of %%rec works like a %%dome
                 # < dome within dome
-                zaa('rec') .map(n => ha(n.sc))
+                zaa('rec')
+                    .filter(&n{
+                        $hasnew = hak(jaa({rec:ns&rec})
+                            .filter(n => !nc&recycled)
+                        )
+                        return !hasnew
+                    })
+                    .map(n => ha(n.sc))
                 # pickup %%arg from new time, + any %%rec,arg
                 argon(jaa)
+                
                 $faults = jaa('pur')
                 $success = !hak(faults)
                 if (success) {
@@ -3125,6 +3135,7 @@ me.Sch_Travel = &acgt{ return [
             # slice arg2 is first one not to include
             # splice arg2 is length of selection
             $N = keys.slice(... c.aft ? [ki+1] : [0,ki])
+            c.inc and c.aft ? N.unshift(keys[ki]) : N.push[keys[ki]]
             c.aft ? c.rev : !c.rev and N.reverse()
             return N
         }
