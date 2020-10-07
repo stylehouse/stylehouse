@@ -2525,23 +2525,30 @@ me.Sch_Travel = &acgt{ return [
         $n = me&jaa,R,'Go' [0]
         !n and return me&tsc,sy&sometime?"disconnect":"Loading..."
         sy&sometime = 1
-        
-        # i Travel... run
-        me&nodei,R,xs&Travel,n,{},{Gome:s}
-        
+        # in time %%quiet_wake:Gump
         Rs&wakeful = 1
         $Gump = isnode(s)
         $quiet = me&is_quiet_now,Gump
         quiet and me&tsc,'quiet'
         
+        # < &SuperGens:startTravel
+        #    commit unrelated changes for tidiness...
+        
+        # i Travel... run
+        me&nodei,R,xs&Travel,n,{},{Gome:s}
+        
         # o Duolish... run
         $e = me&receivan,'Releasor'
         !e and return
-        # avoid Gu* changes
-        me&lock,Gump,'twins',e
+        
+        # < &SuperGens:finishTravel
+        #    what run did in W:Fingo,
+        #     probably nothing, pushables are in $e
+        #    may subtract startTravel
         
        // 2 Gansp
-        # MayGhost
+        # avoid Gu* changes
+        me&lock,Gump,'twins',e
         me&SuperGansp,R,e
         
         me&ja,R,'pre' and return
@@ -2631,7 +2638,7 @@ me.Sch_Travel = &acgt{ return [
         }
     },
     
-   // SupeTimes etc etc
+   // &Supe*
     
     &{
        // &SuperGansp auto %MayGansp
@@ -2924,6 +2931,8 @@ me.Sch_Travel = &acgt{ return [
             return su()
         }
        
+   // &supetime etc
+       
        // &supetime
         # a process %%supe=$k
         #  has steps %%sute=$t,supe,dome=$k-$t,...
@@ -2981,7 +2990,12 @@ me.Sch_Travel = &acgt{ return [
                 finished && !complete and debugger
                 finished && !tried and debugger
                 $q = c.c
-                if (q) {
+                #q && !finished && q.finish and me&tc,"Yarlbeback"
+                if (c.finishline) {
+                    # < do this when $supe is all done, and stays done...
+                    #   dont know: su(...) calls might keep happening
+                    # earlier sutes are finished, stop c.perm, stay ok
+                    
                     # super (eg &SuperGens)
                     #   calls &supetime, own $supe
                     # suter (eg &SupelaRealier)
@@ -2996,12 +3010,7 @@ me.Sch_Travel = &acgt{ return [
                     #   no more c.perm()
                     #   etc
                     # q.finish means this $sute has something to do later
-                    !finished && q.finish and me&tc,"Yarlbeback"
-                }
-                if (c.finishline) {
-                    # < do this when $supe is all done, and stays done...
-                    #   dont know: su(...) calls might keep happening
-                    # earlier sutes are finished, stop c.perm, stay ok
+                    
                     sutes.map(&sute,{
                         sute == c and return
                         hak(sute.zaa('finished')) and return
@@ -3025,6 +3034,7 @@ me.Sch_Travel = &acgt{ return [
                 # if a later
                 if (complete && (!c.perm || finished)) {
                     ta("ok\n")
+                    talks&bri = 0.6
                     # pickup ar from old time
                     argon(zaa)
                     return 1
