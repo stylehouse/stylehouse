@@ -2576,7 +2576,8 @@ me.Sch_Travel = &acgt{ return [
             ns&restless || ns&wakeful and Rs&wakeful = 1
         })
     },'ift,D'],
-    
+   
+   // %Zaving etc
     # remote R%Gome wants to push,
     # < as long as all %Settled? ie, not just changed.
     ['Zaving','2918',&acgtRs{
@@ -2591,6 +2592,7 @@ me.Sch_Travel = &acgt{ return [
             rs&Describing = 1
         }
     },'ift,D'],
+    
     # make %laReal=R!%sleeping
     #  so we can find the latest real %Zaving
     # %Tey&Real=R includes R%sleeping
@@ -2611,7 +2613,6 @@ me.Sch_Travel = &acgt{ return [
         ps&JRom.reallyreal = 1
         Rs&reallyreal = 1
     },'ift,D'],
-    
     &{
         # < perm. give any R %laReal (Te%Recipe?)
         # finding the latest real R
@@ -2630,8 +2631,10 @@ me.Sch_Travel = &acgt{ return [
         }
     },
     
+   // SupeTimes etc etc
+    
     &{
-       // &SuperGansp
+       // &SuperGansp auto %MayGansp
         # supervise %MayGansp/%MayTwine**
         #  ha waiting:
         #   %%pre... and %%wants... via &diagno
@@ -2699,8 +2702,7 @@ me.Sch_Travel = &acgt{ return [
                 .map(n => me&wants,R,'twinebump',ns&Gansp )
         }
        
-       
-       // &SuperGens
+       // &SuperGens auto %Gens%Zaving
         # < &voice must have an arg realiser, D%args ||= &arfgunc
         # < waits_8 for bringing in 5s/20s non-quiet waker
         me.SuperGens = &acgtRsc{
@@ -2710,12 +2712,13 @@ me.Sch_Travel = &acgt{ return [
             # the R:Fingo%Peace=5,Gens,Zaving
             #  above W:Fingo%Peace=4,Ying
             me&SupeallopeGens,R,s,{},su
+            
             && me&SupesavingGens,R,s,{},su
+            
             && su('donesaving',{until:&zaa,jaa,ha,ar{
                 x.ro("Done?") || ha('pur:Done,ready')
                 $Z = ar.Z
-                #delete Zs&allope
-                #me&nu,R.sc
+                #me&nu,Z.sc
             },finishline:1})
             && su('moredone',{until:&zaa,jaa,ha,ar{
                 x.ro("moredone?") || ha('pur:Done,ready')
@@ -2723,6 +2726,8 @@ me.Sch_Travel = &acgt{ return [
             }})
             return su()
         }
+        # start (& finish) Z%allope
+        #  allowing real|awake Z-time to pass
         me.SupeallopeGens = &acgtRsc,su{
             # check %Gens%Zaving state with %allope
             # push|reset|ignore then close
@@ -2803,6 +2808,7 @@ me.Sch_Travel = &acgt{ return [
             }})
             return su()
         }
+        
         me.SupesavingGens = &acgtRsc,su{
             $abutton = &ty{
                 $auto = ahsk(c,'auto',t)
@@ -2855,7 +2861,7 @@ me.Sch_Travel = &acgt{ return [
                 })
                 $purb = theone(zaa('pur:push?'))
                 if (purb && purbs&wantsabutton == 'ignore') {
-                    me&tc,'ignoring...'
+                    me&tc,'ignoring...','y'
                     ignore = ha('rec:resol,ignore')
                     
                 }
@@ -2954,16 +2960,26 @@ me.Sch_Travel = &acgt{ return [
                 $ha = (c,s) => me&ha,R,ex({dome},inc(c)),{},s
                 
                 $talk = me&tcl,inq.sute,'T'
+                talks&dis = 1
                 $ta = &tc{
                     t != null and t = me&mtsc,talk,t,0,defor(c,'g')
                     ts&ma = 0.3
                     return t || talk
                 }
                 
+                # make c into a sute object...
+                ex(c,inq)
+                ex(c,{zaa,jaa,ha,ta})
+                sutes.push(c)
+                
+              // 2 when
                 # < make this %%pre,
                 #    &diagno for a %%supe,sute
                 $tried = zaa('tried')[0]
                 $complete = tried && !hak(zaa('pur'))
+                $finished = hak(zaa('finished'))
+                finished && !complete and debugger
+                finished && !tried and debugger
                 $q = c.c
                 if (q) {
                     # super (eg &SuperGens)
@@ -2980,12 +2996,30 @@ me.Sch_Travel = &acgt{ return [
                     #   no more c.perm()
                     #   etc
                     # q.finish means this $sute has something to do later
-                    q.finish and me&tc,"Yarlbeback"
-                    $finished = 0
+                    !finished && q.finish and me&tc,"Yarlbeback"
                 }
                 if (c.finishline) {
-                    me&tc,"Isfin"
-                    
+                    # < do this when $supe is all done, and stays done...
+                    #   dont know: su(...) calls might keep happening
+                    # earlier sutes are finished, stop c.perm, stay ok
+                    sutes.map(&sute,{
+                        sute == c and return
+                        hak(sute.zaa('finished')) and return
+                        # also, if multiple finishlines before jaa->zaa:
+                        sute.finished and return
+                        
+                        sute.ha('rec:finishline,finished')
+                        sute.finished = 1
+                        $care = 0
+                        sute.perm and care = 1
+                        $q = sute.c
+                        if (q) {
+                            q.k and $Z = ar[q.k]
+                            q.finish and q.finish(Z); care = 1
+                        }
+                        # note only if something seemed to matter
+                        care and sute.ta("finished",'y')
+                    })
                 }
                 # c.c == &SupelaRealier,c:q
                 # if a later
@@ -2996,7 +3030,7 @@ me.Sch_Travel = &acgt{ return [
                     return 1
                 }
                 
-              // 2 doing it
+              // 3 doing it
                 $doing = &k{
                     $y = c[k]
                     !y and return
@@ -3040,7 +3074,7 @@ me.Sch_Travel = &acgt{ return [
                 $faults = jaa('pur')
                 $success = !hak(faults)
                 if (success) {
-                    ta("ok\n")
+                    ta("ok"+(c.perm?"...":""))
                     ha("ok")
                     return 1
                 }
