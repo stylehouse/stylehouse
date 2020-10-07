@@ -2545,31 +2545,14 @@ me.Sch_Travel = &acgt{ return [
         #    what run did in W:Fingo,
         #     probably nothing, pushables are in $e
         #    may subtract startTravel
+        #   < then permit Releasor to begin
+        #     now, is starting already
         
        // 2 Gansp
         # avoid Gu* changes
         me&lock,Gump,'twins',e
-        me&SuperGansp,R,e
+        !me&SuperGansp,R,s,{},e and return
         
-        me&ja,R,'pre' and return
-        
-       // 2 prepared -> Push, Save
-        $push = me&ja,R,'Pushable'
-        if (push) {
-            if (x.ro('push?')) {
-                push.map(&n{
-                    $z = ns&s
-                    me&nodei,R,z,{maypush:1},{dome:'tilpushed-push'}
-                    # < could this be %%pre? %%n=%%maypush... ?
-                    #me&za,R,{eto:z,maypush:1} and return
-                    #me&wants,R,'tilpushed',z
-                })
-                # should become %%quiet once pushed,
-                # leading us through &SuperGansp without any %%Pushable
-            }
-            return
-        }
-        me&za,R,'Pushable' and ~>7 Gome pushed: s.t
         
         !me&SuperGens,R,s,{t:'Release'} and return
         
@@ -2647,66 +2630,101 @@ me.Sch_Travel = &acgt{ return [
         #   %%pre... and %%wants... via &diagno
         #  may ha
         #   %%Pushable
-        me.SuperGansp = &acgtRe{
+        # < ha n,{k:0} means delete %%$k, after inheriting
+        me.SuperGansp = &acgtRsce{
             o $e/twine/:Gansp
             $N = ays&Gansp || []
             $twine = (ays&twine||[])[0]
-            me&tc,"\n"
-            N.map(&z{
-                me&tsc,"t",z.t,'b'
-                $ohno = &tn{
-                    me&ha,R,{pre:t,Gansp:z,restless:n||z}
-                }
-                # all of them asap
-                $all = zy&allthings
-                if (!all) {
-                    hak(me&ioty,z ) and debugger
-                    me&tc,'empty','y'
-                    ohno('empty')
-                    return
-                }
-                $r = zy&R
-                # gradually show up as push situation
-                # < &Accept these, have an observer mode
-                all.map(&n{
-                    $nr = ny&R
-                    $sp = ' '+n.t
-                    $ono = t => ohno(t,n)
-                    me&tc,sp
-                    # generate a fault, to bump Gansp
-
-                    $th = me&zaone,r,{thing:n}
-                    if (!th) {
-                        ono('sometwine')
-                        me&tc,".."
+            !(twine && hak(N)) and debugger
+            
+            c.t ||= 'Gansp'
+            $su = me&supetime,R,c.t
+            su('twinethings',{perm:&zaa,jaa,ha,ar{
+                # scans the %MayTwine tree
+                #   that climbs the %twin tree
+                #  bringing back any %%Pushable
+                N.map(&z{
+                    me&tsc,"t",z.t,'b'
+                    $ohno = &tn{
+                        me&ha,R,{pre:t,Gansp:z,restless:n||z}
+                    }
+                    # all of them asap
+                    $all = zy&allthings
+                    if (!all) {
+                        hak(me&ioty,z ) and debugger
+                        me&tc,'empty','y'
+                        ohno('empty')
                         return
                     }
+                    $r = zy&R
+                    # gradually show up as push situation
+                    # < &Accept these, have an observer mode
+                    all.map(&n{
+                        $nr = ny&R
+                        $sp = ' '+n.t
+                        $ono = t => ohno(t,n)
+                        me&tc,sp
+                        # generate a fault, to bump Gansp
 
-                    # Gansp should also have a:
-                    $wantpush = me&zaone,r,{wantpush:n}
-                    if (wantpush) {
-                        me&tc,"+",'g'
-                        $Pushable = me&zaone,nr,{s:n,Pushable:1}
-                        if (Pushable) {
-                            me&tc,'el:'+Pushables&el,6
-                            me&ha,R,Pushable
+                        $th = me&zaone,r,{thing:n}
+                        if (!th) {
+                            ono('sometwine')
+                            me&tc,".."
+                            return
                         }
-                        me&Zifsum,nr
-                        return
-                    }
-                    $ok = theone( me&zaa,r,{ok:n} )
-                    if (ok) {
-                        me&tc,"ok",'g'
-                        return
-                    }
-                    me&tc,"..?",6
-                    ono('alltwine')
+
+                        # Gansp should also have a:
+                        $wantpush = me&zaone,r,{wantpush:n}
+                        if (wantpush) {
+                            me&tc,"+",'g'
+                            $Pushable = me&zaone,nr,{s:n,Pushable:1}
+                            if (Pushable) {
+                                me&tc,'el:'+Pushables&el,6
+                                me&ha,R,Pushable
+                            }
+                            me&Zifsum,nr
+                            return
+                        }
+                        $ok = theone( me&zaa,r,{ok:n} )
+                        if (ok) {
+                            me&tc,"ok",'g'
+                            return
+                        }
+                        me&tc,"..?",6
+                        ono('alltwine')
+                    })
+                    #me&nu,'Gansp',z
+                    me&tc,"\n"
                 })
-                #me&nu,'Gansp',z
-                me&tc,"\n"
-            })
-            me&diagno,'restless','twinebump'
-                .map(n => me&wants,R,'twinebump',ns&Gansp )
+                # solve any %%pre-vention
+                me&diagno,'restless','twinebump'
+                    .map(n => me&wants,R,'twinebump',ns&Gansp )
+                # %%pre-vention into %%pur
+                #  similar meaning, for &supetime
+                me&jaa,R,'pre' .map(&n{
+                    ha({pur:ns&pre,Gansp:ns&Gansp})
+                })
+            }})
+            &&
+            su('Pushable',{until:&zaa,jaa,ha,ar{
+                $push = me&ja,R,'Pushable'
+                !push and return
+                !x.ro('push?') and return ha('pur:push?')
+                ha('pur:pushing...')
+                # < seeing each one of these:
+                #    think it has pushed
+                #    have an e:elQup
+                push.map(&n{
+                    $z = ns&s
+                    me&nodei,R,z,{maypush:1},{dome:'tilpushed-push'}
+                    # < could this be %%pre? %%n=%%maypush... ?
+                    #me&za,R,{eto:z,maypush:1} and return
+                    #me&wants,R,'tilpushed',z
+                })
+                # should become %%quiet once pushed
+            }})
+            
+            return su()
         }
        
        // &SuperGens auto %Gens%Zaving
