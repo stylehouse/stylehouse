@@ -2600,14 +2600,9 @@ me.Sch_Travel = &acgt{ return [
     ['Gens+Zaving','78',&acgtRs{
         $p = Ry&up
         !ps&JRom and return
-        me&tc,"la"
         Rs&laReal == R and debugger
         Rs&laReal = R
         ps&JRom.laReal = R
-        Rs&reallyreal = 1
-        $x = window.Wogra ||= {}
-        x[R.t] = R
-        R.t == "Fingo" and ~>4 Isreally:
         # < working via %JRom/R or &reaw
         #me&reaw,R,'laReal',1
     },'ift,D'],
@@ -2760,41 +2755,31 @@ me.Sch_Travel = &acgt{ return [
                 !Zb and debugger
                 
                 # wait for a %Zaving after Zb, having %Described
+                # get the latest one
                 $Zn = c.find(R)
-                $Zf = me&yfuture,Zn
-                Zf != Zn and ha('pur:Znow!futre')
-                
+                # go back to the finished one
                 $Z = me&laRealier,Zn
-                #Z = ahsk(window,'Wogra','Fingo')
                 
-                $Zf = me&yfuture,Z
-                Zf == Z and ha('pur:Zfutre')
-                
+                # these suppose Zn...R: we are inside Zn
+                #  so Zn is always most futuristic
+                me&yfuture,Zn != Zn and ha('pur:Znow!futurist')
+                # < just not awake this time would do
+                #   though it's in a different Rc&N so shrug
+                me&yfuture,Z == Z and ha('pur:futurist')
                 Zn == Z and ha('pur:Z==now')
-                Z == Zb and ha('pur:Z..')
                 Rc&N.includes(Z) and ha('pur:ZRN')
-                me&tc,'ci:'+Zs&ci
                 
-                me&zu,Z
-                window.Wogra and me&zu,"Wogra",window.Wogra
-                
-                
-                !Z and ha('pur:!Z,wake')
-                else
-                !Zs&reallyreal and ha('pur:Z!real')
-                else
-                0 && Zns&reallyreal and ha('pur:Znreal')
-                else
-                Zn == Z and ha('pur:Z==now')
-                else
-                Z == Zb and ha('pur:Z..')
-                else
+                # the main things:
+                !Z and ha('pur:!Z,wake'); return
+                Z == Zb and ha('pur:Z..'); return
                 c.like && !c.like(Z) and ha('pur:Z!like')
+                
+                hak(jaa('pur')) and me&zu,"laReal",Z
                 else {
                     # redefine Z to the latest woke,
-                    #  c.perm() always starts with the Z from c.once
+                    #  c.perm() always starts with the Zb from c.once
                     ha('rec,arg',hashkv(c.k,Z))
-                    me&nu,"Real",Z
+                    me&nu,"laReal",Z
                 }
             }})
             return su()
@@ -2808,14 +2793,14 @@ me.Sch_Travel = &acgt{ return [
             # the R:Fingo%Peace=5,Gens,Zaving
             #  above W:Fingo%Peace=4,Ying
             me&SupeallopeGens,R,s,{},su
-            su() && me&SupesavingGens,R,s,{},su
-            su() && su('donesaving',{until:&zaa,jaa,ha,ar{
+            && me&SupesavingGens,R,s,{},su
+            && su('donesaving',{until:&zaa,jaa,ha,ar{
                 x.ro("Done?") || ha('pur:Done,ready')
                 $Z = ar.Z
                 delete Zs&allope
                 #me&nu,R.sc
             }})
-            su() && su('moredone',{until:&zaa,jaa,ha,ar{
+            && su('moredone',{until:&zaa,jaa,ha,ar{
                 x.ro("moredone?") || ha('pur:Done,ready')
                 #me&nu,R.sc
             }})
@@ -2824,10 +2809,6 @@ me.Sch_Travel = &acgt{ return [
         me.SupesavingGens = &acgtRsc,su{
             su('savingGens',{until:&zaa,jaa,ha,ar{
                 $Z = ar.Z
-                ha('pur:3')
-                $fZ = ar.Zb
-                Zs&allope and me&tc,"allope"
-                fZ == Z and me&tc,"fZ==Z"
                 # < %%eph that become c&drop @Doming7
                 
                 Rs&wakeful = 1
@@ -2836,15 +2817,14 @@ me.Sch_Travel = &acgt{ return [
                     me&tsc,"t",t,'b'
                     #n = me&yfuture,n
                     !ns&Zave and debugger
-                    me&nu,"Zave:"+ns&Zave,n
+                    #me&nu,"Zave:"+ns&Zave,n
                     ns&AutoSave and $mem = n
                     
                     # %Here=R%Ying now, %Described=R%Ying%string
                     $De = ns&Described
-                    
-                    #Good ||= De == ns&Here && De == 
-                    # < want to see R%Ying==%Here==%Described
-                    #   and that Z 
+                    me&nu,'De',De
+                    # < want to see when Z%Here==Z%Described, when it encodes
+                    #   and that Zb < encZ <? Z, < meaning time-before
                     #   and that then %Settled=De%dige
                     # < it would be easier
                     
@@ -2864,11 +2844,11 @@ me.Sch_Travel = &acgt{ return [
                         Here: stir(De),
                         There: stir(P),
                     },q)
-                    me&nu,"Ksc",more
+                    #me&nu,"Ksc",more
                     delete q.Settled
                     $state = joint(haks(q))
-                    state and me&tc,"Something..."
                     ns&summary and me&tc,"summary..."
+                    !equal && !state and ha('pur:!eq!state')
                     
                     if (state) {
                         if (ns&Amountto == 2) {
