@@ -2283,7 +2283,8 @@ me.Sch_Travel = &acgt{ return [
                 los&el <6 and 'notice ~u: loses Permit with a new D'
 
                 # ▷▶+◼⏏ the %%Go
-                $ope = me&ypermit,R,{D,se:dep,grant:tid==1}
+                $grant = 0 && tid == 1
+                $ope = me&ypermit,R,{D,se:dep,grant}
                 # to the supervisor
                 ope and me&nodei,R,Jxs&Gomes,{Go:t,tid,n:lo,Goting:Rc&s}
                 else
@@ -2322,6 +2323,7 @@ me.Sch_Travel = &acgt{ return [
         }
         # what goes into it
         me.sixing = &acgtRc{
+            $Jx = me&Jx,R
             $D = c.D
             $se = c.se
             $sixing = me&opeolo,'-six',{se}
@@ -2960,6 +2962,7 @@ me.Sch_Travel = &acgt{ return [
         #  has steps %%sute=$t,supe,dome=$k-$t,...
         me.supetime = &acgtRk{
             
+          // 1 context
             $supen = me&tcl,k+':','1B'
             supens&dis = 4
             me&walls,supen,'b:3.2h2'
@@ -2991,7 +2994,7 @@ me.Sch_Travel = &acgt{ return [
                 # su() checks still ok, like su(...)
                 t == null and return !faulty
                 
-              // 1 context
+          // 2 context
                 $inq = {supe:k,sute:t}
                 $inc = c => ex(ex({},inq),peel(c))
                 $dome = inq.supe+'-'+inq.sute
@@ -3013,7 +3016,7 @@ me.Sch_Travel = &acgt{ return [
                 ex(c,{zaa,jaa,ha,ta})
                 sutes.push(c)
                 
-              // 2 when
+          // 3 when
                 # < make this %%pre,
                 #    &diagno for a %%supe,sute
                 $tried = zaa('tried')[0]
@@ -3072,7 +3075,7 @@ me.Sch_Travel = &acgt{ return [
                     return 1
                 }
                 
-              // 3 doing it
+          // 6 doing it
                 $doing = &k{
                     $y = c[k]
                     !y and return
@@ -3100,7 +3103,7 @@ me.Sch_Travel = &acgt{ return [
                     return m
                 })
                 
-              // 7 tried
+          // 7 tried
                 tried = (tried && trieds&tried||0)+1
                 ha({tried})
                 
@@ -3127,7 +3130,6 @@ me.Sch_Travel = &acgt{ return [
                     return 1
                 }
                 else {
-                    #debugger
                     me&walls,talk,'b:1.2h6'
                     $fa = ta('faultspace','s1')
                     $ta = talkat(fa)
