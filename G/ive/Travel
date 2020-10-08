@@ -1764,7 +1764,19 @@ me.Sch_Travel = &acgt{ return [
             $qs = me&ootwin,K (&tz{
                 return {t,z,K}
             })
-            !qs.length and me&tsc,"no-ootwin:"+joint(haks(n.sc))
+            if (!qs.length) {
+                # eg Know..Bouree is nowhere else, yet may %%chag
+                # should have a %%chat:linkage,lonely to sort out first
+                $chat = me&jaa,R,{chat:'linkage',lonely:1,K}
+                if (hak(chat)) {
+                    # < attach note?
+                    seen.push(n)
+                }
+                else {
+                    me&tsc,"no-ootwin:"+dis(n.sc)
+                }
+                return
+            }
             $z = ns&z
             if (z) {
                 # linkage cha:dige have %%z
