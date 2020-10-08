@@ -2168,6 +2168,7 @@ me.Sch_Travel = &acgt{ return [
         me&ha,R,{layout:1,mostly:'Goable'}
         me&ha,R,{layout:1,mostly:'tid'}
         me&ha,R,{layout:1,also:'el'}
+        me&ha,R,{layout:1,also:'mot'}
         me&ha,R,{layout:1,also:'phase'}
         me&ha,R,{layout:1,also:'etc'}
         me&ha,R,{layout:1,also:'dep'}
@@ -2183,7 +2184,7 @@ me.Sch_Travel = &acgt{ return [
         ]
         # $tid increases or persists while %%lowel,el<6
         $tidgen = &c{
-            $t = c.q.Goable
+            $t = c.groure.Goable
             $was = ahsk(s,'y','ttid',t)
             !was and $now = 1
             else {
@@ -2206,7 +2207,7 @@ me.Sch_Travel = &acgt{ return [
             
             # generating current $lo
             # from @Gutago only, making $tid, about %%Goable,mot
-            $c = {fromone:1,tidgen,q:Goable}
+            $c = {fromone:1,tidgen,groure:Goable}
             # state as string|drawing over time, making:
             #  %%lowel,tid,el,D,oD? - the state of it
             #  %%current,wid,el,fromt - many efroms
@@ -2266,6 +2267,7 @@ me.Sch_Travel = &acgt{ return [
             
             # hist or not
             xy&cean('el','i',hs&el)
+            xy&cean('mot','i',hs&mot)
             $wire = &se,{
                 return &tc{
                     me&mtsc,se,t,0,c
@@ -2295,7 +2297,8 @@ me.Sch_Travel = &acgt{ return [
                 los&el <6 and 'notice ~u: loses Permit with a new D'
 
                 # ▷▶+◼⏏ the %%Go
-                $grant = 0 && tid == 1
+                $reasonable = hs&mot <3 || hs&mot >6
+                $grant = reasonable && tid == 1
                 $ope = me&ypermit,R,{D,se:dep,grant}
                 # to the supervisor
                 ope and me&nodei,R,Jxs&Gomes,{Go:t,tid,n:lo,Goting:Rc&s}
@@ -2381,12 +2384,12 @@ me.Sch_Travel = &acgt{ return [
         #  only what's in N (eg %%Goable:$t group) matters
         #   $current merely helps it sleep
         # < probably rename slep slip
-        me.version_efroms = &acgtRNcq{
+        me.version_efroms = &acgtRNc{
           // pool currents
             $s = Rc&s
             c = peel(c)
-            # grouping
-            $q = c.q
+            # grouping and where if !1
+            $groure = c.groure
             $to = Rc&s
             # efrom=node
             $efroms = uniq(N.map(n => ns&efrom))
@@ -2407,7 +2410,7 @@ me.Sch_Travel = &acgt{ return [
             
             # remembered
             # [w:old]
-            $old = me&zaa,R,ex({wid:1,fromt:1,current:1},q)
+            $old = me&zaa,R,ex({wid:1,fromt:1,current:1},groure)
             $collect = N.slice()
             $potent =
             currents .map(&c{
@@ -2434,10 +2437,16 @@ me.Sch_Travel = &acgt{ return [
             $lowel = potent.map(d => d.el).sort()[0]
             # called %%lowel even if %%el is not low,
             #  otherwise %%began=now(),prev=lo
-            $lo = me&zaa,R,ex({lowel:1},q)
+            $lo = me&zaa,R,ex({lowel:1},groure)
                 .filter(n => !ns&historic)
-            hak(lo) > 1 and debugger
-            lo = lo[0]
+            lo = theone(lo)
+            # any groure/*=1 shall aggregate to the lowest variety
+            #  ie N/%%mot=2,3 makes %%lowel,mot=2
+            each kv groure {
+                v != 1 and continue
+                $lowest = N.map(n => n.sc[k]).filter(d=>d).sort()[0]
+                groure[k] = lowest || "?"
+            }
             
             if (lowel <6) {
                 
@@ -2480,14 +2489,14 @@ me.Sch_Travel = &acgt{ return [
                 
           // usu %%lowel,tid... / %%current,wid...+
                 # lo may not change if -six compresses what &brackstill
-                lo = me&ha,R,d,{},q
+                lo = me&ha,R,d,{},groure
                 potent.map(&d{
                     $w = delete d.w
                     # re-$wid per w that supposedly changed
                     d.wid = d.el <6
                         ? (w && ws&wid || 0) + 1
                         : ws&wid
-                    me&ha,R,d,{},q
+                    me&ha,R,d,{},groure
                 })
             }
             else {
@@ -2503,14 +2512,14 @@ me.Sch_Travel = &acgt{ return [
             }
             !los&tid and debugger
             # old become %%Goners
-            old .map(w => me&ha,R,{Goners:1,wid:ws&wid,n:w},{},q )
+            old .map(w => me&ha,R,{Goners:1,wid:ws&wid,n:w},{},groure )
             # all noise collected
             hak(collect) and debugger
             
             #me&nu,"collectGo",collect
             #me&nu,"current",currents
             #me&nu,"tid",lo
-            #$now = me&jaa,R,ex({wid:1,fromt:1,current:1},q)
+            #$now = me&jaa,R,ex({wid:1,fromt:1,current:1},groure)
             #me&nu,"wids",now
             
             return lo
