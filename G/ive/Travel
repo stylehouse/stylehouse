@@ -2562,30 +2562,41 @@ me.Sch_Travel = &acgt{ return [
         # < &SuperGens:startTravel
         #    commit unrelated changes for tidiness...
         
-        # i Travel... run
-        me&nodei,R,xs&Travel,n,{},{Gome:s}
+        if (ns&mot <8) {
+            # i Travel... run
+            me&nodei,R,xs&Travel,n,{},{Gome:s}
+
+            # o Duolish... run
+            $e = me&receivan,'Releasor'
+            !e and return
+            
+            # < &SuperGens:finishTravel
+            #    what run did in W:Fingo,
+            #     probably nothing, pushables are in $e
+            #    may subtract startTravel
+            #   < then permit Releasor to begin
+            #     now, is starting already
         
-        # o Duolish... run
-        $e = me&receivan,'Releasor'
-        !e and return
+        }
         
-        # < &SuperGens:finishTravel
-        #    what run did in W:Fingo,
-        #     probably nothing, pushables are in $e
-        #    may subtract startTravel
-        #   < then permit Releasor to begin
-        #     now, is starting already
-        
-       // 2 Gansp
         # avoid Gu* changes
-        me&lock,Gump,'twins',e
+        me&lock,Gump,'twins',s
         
-        # < notice when Ghost..Bouree no longer used
-        !me&SuperGansp,R,s,{},e and return
+        if (ns&mot <8) {
+            # deal with Travel|Duolish
+            # < notice when Ghost..Bouree no longer used
+            !me&SuperGansp,R,s,{},e and return
+
+            !me&SuperGens,R,s,{t:'Release'} and return
+        }
+        elsif (ns&mot == 8) {
+            # just to update K to what they think they are
+            me&nu,"Ghosc-n",n
+            $N = me&zaa,xc&Goting,{Goable:ns&Go,Ghoscgk:1,K:1}
+            !me&SuperGhosc,R,s,{N} and return
+        }
         
-        !me&SuperGens,R,s,{t:'Release'} and return
-        
-        me&unlock,Gump,'twins',e
+        me&unlock,Gump,'twins',s
         
         me&tc,"\nalldone"
     },'ift,D'],
@@ -2652,9 +2663,54 @@ me.Sch_Travel = &acgt{ return [
         }
     },
     
-   // &Supe*
+  // &Supe*
     
     &{
+       // &SuperGhosc auto %Paving Thing believer
+        # supervise K%dige=%%Ghoscis
+        me.SuperGhosc = &acgtRsce{
+            c.t ||= 'Ghosc'
+            $NK = c.N
+            $su = me&supetime,R,c.t
+            su('Ghosc',{until:&zaa,jaa,ha,ar{
+                # group by $K, then
+                # < reconstitute objects that might have A
+                me&sortial,NK,'K' .map(&Ngk,{
+                    $K = Ngk[0].sc.K
+                    $Kl = me&tcl,K.t,'b'
+                    # should all be %%Ghoscis=dige
+                    # < Gotago should discover the same effect
+                    #    by multiple causes, span later rows...
+                    #    %%n points to one earlier row, of course...
+                    # < writing the sanity contigulisers so
+                    me&sortial,Ngk,'Ghoscgk' .map(&N{
+                        $g = N[0]
+                        $gk = gs&Ghoscgk
+                        $is = gs&Ghoscis
+                        $ises = uniq(N.map(g => gs&Ghoscis))
+                        hak(ises) > 1 and ha("pur:!oneval",{gk,ises,N})
+                        
+                        $gl = me&tcl,Kl,gk,'G'
+                        $was = K.sc[gk]
+                        # remember what it is now
+                        # < have a clue for how to undo
+                        #   besides resetting (parts of) W:Fingo
+                        ha({K,Ghoscgk:gk,Ghoscwas:was})
+                        ha({K,Ghoscgk:gk,Ghoscis:is})
+                        # should be different
+                        was == is and ha('pur:!different',{K,gk,was,is})
+                        # < perma was modulat
+                    })
+                })
+            }})
+            &&
+            su('change',{until:&zaa,jaa,ha,ar{
+                # jaa(c,i=1) selects either recycled or latest
+                # < 
+            }})
+            return su()
+        }
+       
        // &SuperGansp auto %MayGansp
         # supervise %MayGansp/%MayTwine**
         #  ha waiting:
@@ -2985,7 +3041,7 @@ me.Sch_Travel = &acgt{ return [
         #  has steps %%sute=$t,supe,dome=$k-$t,...
         me.supetime = &acgtRk{
             
-          // 1 context
+          // 1 supe
             $supen = me&tcl,k+':','1B'
             supens&dis = 4
             me&walls,supen,'b:3.2h2'
@@ -3017,13 +3073,16 @@ me.Sch_Travel = &acgt{ return [
                 # su() checks still ok, like su(...)
                 t == null and return !faulty
                 
-          // 2 context
+          // 2   sute
                 $inq = {supe:k,sute:t}
                 $inc = c => ex(ex({},inq),peel(c))
                 $dome = inq.supe+'-'+inq.sute
                 # see|input to %sute=$t...
+                # zaa,jaa meaning recycled or not
+                #  both &jaa underneath, %%dome reentered every time
+                #  jaa(c,i=1) selects either
                 $zaa = c => me&jaa,R,inc(c) .filter(n => nc&recycled)
-                $jaa = c => me&jaa,R,inc(c) .filter(n => !nc&recycled)
+                $jaa = (c,i) => me&jaa,R,inc(c) .filter(n => !nc&recycled || i)
                 $ha = (c,s) => me&ha,R,ex({dome},inc(c)),{},s
                 
                 $talk = me&mtsc,supen,'sute:'+t,0,'1'
@@ -3150,6 +3209,9 @@ me.Sch_Travel = &acgt{ return [
                 if (success) {
                     tal("ok"+(c.perm?"...":""))
                     ha("ok")
+                    # in case the next sutes select from this one via jaa(c,1),
+                    #  what would be in zaa(c) drops, to be as jaa(c)
+                    me&dome_traction,R,dome,{el:2}
                     return 1
                 }
                 else {
@@ -3305,8 +3367,10 @@ me.Sch_Travel = &acgt{ return [
             c.dl = 4.23
             return ki(s,c.dl)
         }
-        me.tc = &acgttc{
-            return me&tsc,t,0,c
+        me.tc = &acgtmtc{
+            !isC(m) and c = t; t = m; m = 0
+            return m ? me&mtsc,m,t,0,c
+                : me&tsc,t,0,c
         }
         # clickable callback
         me.ty = &acgtmt{
