@@ -2672,43 +2672,76 @@ me.Sch_Travel = &acgt{ return [
             c.t ||= 'Ghosc'
             $NK = c.N
             $su = me&supetime,R,c.t
-            su('Ghosc',{until:&zaa,jaa,ha,ar{
-                # group by $K, then
+            su('was',{perm:&zaa,jaa,ha,ar{
+                # group by $K, then $gk
                 # < reconstitute objects that might have A
-                me&sortial,NK,'K' .map(&Ngk,{
-                    $K = Ngk[0].sc.K
-                    $Kl = me&tcl,K.t,'b'
-                    # should all be %%Ghoscis=dige
-                    # < Gotago should discover the same effect
-                    #    by multiple causes, span later rows...
-                    #    %%n points to one earlier row, of course...
-                    # < writing the sanity contigulisers so
-                    me&sortial,Ngk,'Ghoscgk' .map(&N{
-                        $g = N[0]
-                        $gk = gs&Ghoscgk
-                        $is = gs&Ghoscis
-                        $ises = uniq(N.map(g => gs&Ghoscis))
-                        hak(ises) > 1 and ha("pur:!oneval",{gk,ises,N})
-                        
-                        $gl = me&tcl,Kl,gk,'G'
-                        $was = K.sc[gk]
-                        # remember what it is now
-                        # < have a clue for how to undo
-                        #   besides resetting (parts of) W:Fingo
-                        ha({K,Ghoscgk:gk,Ghoscwas:was})
-                        ha({K,Ghoscgk:gk,Ghoscis:is})
-                        # should be different
-                        was == is and ha('pur:!different',{K,gk,was,is})
-                        # < perma was modulat
-                    })
+                me&sortulat,NK,'K,Ghoscgk','firstonly' (&KkgN{
+                    $gk = k
+                    $is = gs&Ghoscis
+                    $ises = uniq(N.map(g => gs&Ghoscis))
+                    hak(ises) > 1 and ha("pur:!oneval",{gk,ises,N})
+                    
+                    $was = K.sc[gk]
+                    me&tc,was
+                    
+                    # remember what it is now
+                    # < have a clue for how to undo
+                    #   besides resetting (parts of) W:Fingo
+                    ha({K,Ghoscgk:gk,Ghoscwas:was})
+                    ha({K,Ghoscgk:gk,Ghoscis:is})
+                    # should be different
+                    was == is and ha('pur:!different',{K,gk,was,is})
+                    # < perma was modulat
                 })
-            }})
+                
+                #ha('pur:lala')
+            },permasay:1})
             &&
             su('change',{until:&zaa,jaa,ha,ar{
-                # jaa(c,i=1) selects either recycled or latest
-                # < 
+                # jaa(c,i=1) selects either recycled or latest, but not both
+                # from the previous sute (defaults to this one)
+                $N = jaa('sute:was,K,Ghoscgk,Ghoscis',1)
+                me&sortulat,N,'K,Ghoscgk','firstonly' (&KkgN{
+                    $is = gs&Ghoscis
+                    me&tc,is
+                    
+                })
+                ha('pur:dind')
             }})
             return su()
+        }
+        # make groups aggregating values
+        me.sortulat = &acgtNqc{
+            c = peel(c)||{}
+            if (!c.y) {
+                # < Babz like BlockQuote, for &trailing (&callback{...}
+                return &y{
+                    c.y = y
+                    me&sortulat,N,q,c
+                }
+            }
+            c.rows ||= []
+            q = ex({},peel(q))
+            $k = haks(q)[0]
+            $v = delete q [k]
+            $more = hak(q)
+            $cee = c
+            me&sortial,N,k .map(&Nk,{
+                c = ex({},cee)
+                c.y = cee.y
+                $K = Nk[0].sc[k]
+                $tc = [joint([K]),(more ? 'b' : 'G')]
+                c.into and tc.unshift(c.into)
+                c.into = me&tcl,...tc
+                c.args = [...(cee.args||[]),K]
+                if (more) {
+                    me&sortulat,Nk,q,c
+                }
+                else {
+                    $No = c.firstonly ? [Nk[0]] : Nk
+                    No.map(g => c.y (...c.args,g,Nk))
+                }
+            })
         }
        
        // &SuperGansp auto %MayGansp
