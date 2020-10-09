@@ -2586,8 +2586,6 @@ me.Sch_Travel = &acgt{ return [
             # deal with Travel|Duolish
             # < notice when Ghost..Bouree no longer used
             !me&SuperGansp,R,s,{},e and return
-
-            !me&SuperGens,R,s,{t:'Release'} and return
         }
         elsif (ns&mot == 8) {
             # just to update K to what they think they are
@@ -2595,6 +2593,8 @@ me.Sch_Travel = &acgt{ return [
             $N = me&zaa,xc&Goting,{Goable:ns&Go,Ghoscgk:1,K:1}
             !me&SuperGhosc,R,s,{N} and return
         }
+
+        !me&SuperGens,R,s,{t:'Release'} and return
         
         me&unlock,Gump,'twins',s
         
@@ -2672,7 +2672,7 @@ me.Sch_Travel = &acgt{ return [
             c.t ||= 'Ghosc'
             $NK = c.N
             $su = me&supetime,R,c.t
-            su('was',{perm:&zaa,jaa,ha,ar{
+            su('was',{until:&zaa,jaa,ha,ar{
                 # group by $K, then $gk
                 # < reconstitute objects that might have A
                 me&sortulat,NK,'K,Ghoscgk','firstonly' (&KkgN{
@@ -2690,11 +2690,11 @@ me.Sch_Travel = &acgt{ return [
                     ha({K,Ghoscgk:gk,Ghoscwas:was})
                     ha({K,Ghoscgk:gk,Ghoscis:is})
                     # should be different
+                    # < is the complaints process out of date?
+                    #   have to &unlock and see, etc
+                    #    demanding a return to this before @Goting changes
                     was == is and ha('pur:!different',{K,gk,was,is})
-                    # < perma was modulat
                 })
-                
-                #ha('pur:lala')
             },permasay:1})
             &&
             su('change',{until:&zaa,jaa,ha,ar{
@@ -2702,15 +2702,60 @@ me.Sch_Travel = &acgt{ return [
                 # from the previous sute (defaults to this one)
                 $N = jaa('sute:was,K,Ghoscgk,Ghoscis',1)
                 me&sortulat,N,'K,Ghoscgk','firstonly' (&KkgN{
+                    $gk = k
                     $is = gs&Ghoscis
-                    me&tc,is
                     
+                    me&tc,is
+                    K.sc[k] = is
+                    
+                    # want K to realise
+                    # < if &settle was more transient, that would do...
+                    #   then we'd have a picture of K%%* reacting
+                    $r = Ky&R
+                    ha({K,r})
                 })
-                ha('pur:dind')
+            },permasay:1})
+            &&
+            # < wants to reset from here if %%wants should fail
+            su('refresh',{once:&zaa,jaa,ha,ar{
+                jaa('sute:change,K,r',1) .map(&n{
+                    $K = ns&K
+                    me&wants,R,'K-refresh',K
+                })
+            }})
+            &&
+            su('refreshed',{until:&zaa,jaa,ha,ar{
+                $N = jaa('sute:change,K,r',1)
+                me&sortulat,N,'K' (&Kn{
+                    $r = ns&r
+                    # < until K has woken since r
+                    $not = me&notwokensince,R,r
+                    not and me&tc,'...','G'; ha('pur:'+not+'yet')
+                    else {
+                        me&tc,'ok'
+                    }
+                })
             }})
             return su()
         }
+        # for a given r, true if any yfuture since has really been
+        me.notwokensince = &acgtRr{
+            $i = 50
+            while (1) {
+                r = ry&future
+                i-- < 0 and return 'farout'
+                !r and return 'not'
+                Rc&N.includes(r) and return 'almost'
+                rs&sleeping and continue
+                return
+            }
+        }
         # make groups aggregating values
+        # < hooks for begin|end each grouped value
+        # < integrating with &columns...
+        #   the general modulat -> structure thing (KnowC?)
+        #    shall wrap titles into cells, so things can align
+        #     loosely, shove other says in spare rooms
         me.sortulat = &acgtNqc{
             c = peel(c)||{}
             if (!c.y) {
@@ -2730,7 +2775,8 @@ me.Sch_Travel = &acgt{ return [
                 c = ex({},cee)
                 c.y = cee.y
                 $K = Nk[0].sc[k]
-                $tc = [joint([K]),(more ? 'b' : 'G')]
+                # first or non-last get b-igger title
+                $tc = [joint([K]),((!c.into || more) ? 'b' : 'G')]
                 c.into and tc.unshift(c.into)
                 c.into = me&tcl,...tc
                 c.args = [...(cee.args||[]),K]
@@ -3187,6 +3233,11 @@ me.Sch_Travel = &acgt{ return [
                     talks&bri = 0.6
                     # pickup ar from old time
                     argon(zaa)
+                    if (c.permasay) {
+                        $n = theone(zaa('figure_container'))
+                        !n and debugger
+                        me&cloneinto,talk,ns&figure_container
+                    }
                     return 1
                 }
                 
@@ -3215,6 +3266,7 @@ me.Sch_Travel = &acgt{ return [
                     $m = ta('figure','s1')
                     delete mc&s
                     ms&dis = 1
+                    c.permasay and ha({figure_container:m})
                     return m
                 })
                 
@@ -3362,11 +3414,14 @@ me.Sch_Travel = &acgt{ return [
             $sum = rs&summary
             if (sum) {
                 $su = me&tc,'~sum:',6
-                i $su/@sum/** y o $sum:sum/**
+                me&cloneinto,su,sum
             }
             else {
                 me&tc,'!sum',6
             }
+        }
+        me.cloneinto = &acgtmn{
+            i $m/@sum/** y o $n:sum/**
         }
         # capture modulat (of &tc, x.ro, etc) into $m
         me.Mwcap = &acgtRkm{
