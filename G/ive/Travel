@@ -2301,7 +2301,7 @@ me.Sch_Travel = &acgt{ return [
                 $grant = reasonable && tid == 1
                 $ope = me&ypermit,R,{D,se:dep,grant}
                 # to the supervisor
-                ope and me&nodei,R,Jxs&Gomes,{Go:t,tid,n:lo,Goting:Rc&s}
+                ope and me&nodei,R,Jxs&Gomes,{Go:t,tid,n:lo,Goting:Rc&s,mot:los&mot}
                 else
                 ope != null and hs&invalid = 1
                 
@@ -2551,6 +2551,8 @@ me.Sch_Travel = &acgt{ return [
             me&tc,"disconnect"
         }
         sy&sometime = 1
+        $h = ns&n
+        !(h && hs&lowel) and return me&zu,"NOLOWEL",h
         # in time %%quiet_wake:Gump
         Rs&wakeful = 1
         $Gump = isnode(s)
