@@ -2729,26 +2729,70 @@ me.Sch_Travel = &acgt{ return [
                 me&sortulat,N,'K' (&Kn{
                     $r = ns&r
                     # < until K has woken since r
-                    $not = me&notwokensince,R,r
-                    not and me&tc,'...','G'; ha('pur:'+not+'yet')
+                    $c = {cb:(k,r) => ha('pur:'+k+'-yet',{r})}
+                    me&wokesince,R,r,c and me&tc,'ok'
                     else {
-                        me&tc,'ok'
+                        me&tc,'...','G'
                     }
                 })
             }})
             return su()
         }
-        # for a given r, true if any yfuture since has really been
-        me.notwokensince = &acgtRr{
-            $i = 50
-            while (1) {
-                r = ry&future
-                i-- < 0 and return 'farout'
-                !r and return 'not'
-                Rc&N.includes(r) and return 'almost'
-                rs&sleeping and continue
-                return
+        # find first+notnow (or c.last|all) real awake yfuture since r
+        me.wokesince = &acgtRrc{
+            c = peel(c) || {}
+            c.last and $all = c.last = c.notnow = 1
+            else
+            !c.all and c.first = c.notnow = 1
+            else {
+                $all = c.all
             }
+            $i = c.i || 50
+            
+            # list
+            c.all = []
+            c.sleep = []
+            c.wake = []
+            $ac = &k{
+                $N = c[k] ||= []
+                N.includes(r) and debugger
+                N.push(r)
+            }
+            # callback
+            $cb = &k{
+                c[k] and c[k] (r)
+                else
+                # usu into %%pur=${k}yet
+                c.cb and c.cb (k,r)
+            }
+            while (1) {
+                $was = r
+                r = ry&future
+                i-- < 0 and return cb('farout')
+                if (!r) {
+                    # &yfuture goes one further,
+                    #  using the uncommit X...
+                    r = me&yfuture,was
+                    if (!r) {
+                        all and break
+                        return cb('not')
+                    }
+                }
+                ac('all')
+                if (Rc&N.includes(r)) {
+                    c.now = r
+                    # supposedly the end?
+                    all and break
+                    c.notnow and return cb('now')
+                }
+                if (rs&sleeping) {
+                    ac('sleep')
+                    continue
+                }
+                ac('wake')
+                c.first and return r
+            }
+            c.last and return (c.wake||[]).slice(-1)[0]
         }
         # make groups aggregating values
         # < hooks for begin|end each grouped value
@@ -2936,6 +2980,7 @@ me.Sch_Travel = &acgt{ return [
         
         # start (& finish) Z%allope
         #  allowing real|awake Z-time to pass
+        #  %Describing -> %Described
         me.SupeallopeGens = &acgtRsc,su{
             # check %Gens%Zaving state with %allope
             # push|reset|ignore then close
@@ -2975,27 +3020,40 @@ me.Sch_Travel = &acgt{ return [
                 
                 c.start and c.start(Z)
                 
-                me&elvis,R,c.t+'-start',{wake:Z}
+                $et = c.t+'-start'
+                isnode(Z)
+                    ? me&wants,R,et,Z
+                    : me&elvis,R,et,{wake:Z}
             },perm:&zaa,jaa,ha,ar{
                 $Zb = ar[c.kb]
                 !Zb and debugger
-                
-                # wait for a %Zaving after Zb, having %Described
-                # get the latest one
+                $wa = t => ha({pur:t,wait:1})
+                # last|first since
+                $since = {}
+                since[c.first ? 'first' : 'last'] = 1
+                #debugger
+                $Z = me&wokesince,R,Zb,since
+                !Z and wa("!Z")
+                # get the curret one
                 $Zn = c.find(R)
+                Z == Zn and wa("Znow")
+                !since.all.includes(Zn) and wa("dontseeZn")
+                
+                
+                if (0) {
                 # go back to the finished one
                 $Z = me&laRealier,Zn
                 Z != Zns&laReal and me&tc,"^b"
                 
-                $wa = t => ha({pur:t,wait:1})
                 # the main things:
                 !Z and wa("!Z")
                 else
                 Z == Zb and wa("Z..")
                 else
                 c.like && !c.like(Z) and wa("Z!like"); me&nu,"!like:"+Z
+                }
                 
-                jaa('wait').length and return
+                jaa('wait').length and return me&nu,"Since",since
                 
                 # these suppose Zn...R: we are inside Zn
                 #  so Zn is always most futuristic
