@@ -2899,7 +2899,10 @@ me.Sch_Travel = &acgt{ return [
                 #    have an e:elQup
                 push.map(&n{
                     $z = ns&s
-                    me&nodei,R,z,{maypush:1},{dome:'tilpushed-push'}
+                    # sent to nearest R%MayTwine%%thing!%%extra
+                    #  so all the %%extra (eg .5) push with it
+                    $j = me&za,zy&R,'extra' ? zy&up : z
+                    me&nodei,R,j,{maypush:1},{dome:'tilpushed-push'}
                     # < could this be %%pre? %%n=%%maypush... ?
                     #me&za,R,{eto:z,maypush:1} and return
                     #me&wants,R,'tilpushed',z
@@ -3176,7 +3179,7 @@ me.Sch_Travel = &acgt{ return [
                 # see|input to %sute=$t...
                 # zaa,jaa meaning recycled or not
                 #  both &jaa underneath, %%dome reentered every time
-                #  jaa(c,i=1) selects either
+                #  jaa(c,i=1) selects either (weird)
                 $zaa = c => me&jaa,R,inc(c) .filter(n => nc&recycled)
                 $jaa = (c,i) => me&jaa,R,inc(c) .filter(n => !nc&recycled || i)
                 $ha = (c,s) => me&ha,R,ex({dome},inc(c)),{},s
@@ -3226,7 +3229,7 @@ me.Sch_Travel = &acgt{ return [
                     
                     sutes.map(&sute,{
                         sute == c and return
-                        hak(sute.zaa('finished')) and return
+                        hak(sute.jaa('finished',1)) and return
                         # also, if multiple finishlines before jaa->zaa:
                         sute.finished and return
                         
@@ -4329,7 +4332,6 @@ me.Sch_Travel = &acgt{ return [
             }
             else {
                 # < flavours of waiting for something
-        
                 # Ghost..z has the Travel'd version, K may ~
                 zs&dige = ss&dige;
                 # < or perhaps only if it's not as K implies,
@@ -4359,8 +4361,8 @@ me.Sch_Travel = &acgt{ return [
         }
         
         if (ja('extra')) {
-            # &toPave (uses %MayTwine of
-            #     |may %%wantpush,Q,s,eto=) the non-extra thing
+            # sent to nearest R%MayTwine%%thing!%%extra
+            #  so all the %%extra (eg .5) push with it
             $K = me&jaa,Ry&up,'yonder',1 [0]
             me&toPave,R,Ry&up,K,s,{species:s.t}
         }
