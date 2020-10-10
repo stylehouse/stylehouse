@@ -714,11 +714,7 @@ me.etoblab = 0
 me.settleblab = 1
 
 // 5 < Domes
-   # < nodeein
-   # < nodee test
-   
   // %%dome - residing state
-      
       // intro
         =pod %%dome:$t,... - a row that resurrects
          # not: another $z to seem in this one via bracko
@@ -805,16 +801,28 @@ me.settleblab = 1
                 nc&tractioned = 1
             })
             # everything must have been given
-            $says_drop = c.el == 2 && "el2";
+            $says_drop = c.el == 2 && "el2"
+            
+            # < making this block smaller fontsize
             # WEIRD drop by single %%dome
             $d = neu.filter(n => hak(n.sc) == 1);
             if (d.length) {
                 d.length > 1 and throw "drop+"
                 neu.length > 1 and throw "drop + replace"
                 d = d[0];
-                $says_drop = dc&drop = 'singular';
+                says_drop = dc&drop = 'singular'
             }
-            says_drop ||= neu.length && "neu";
+            
+            # el1 (default, implied)
+            #  its surroundings are implied to have been stated also
+            #  ie the set stated are complete and canonical
+            # el2 just adds this thing
+            #  supposed to recreate it...
+            #  perhaps el6 is the just-add thing?
+            #   finds like el3, forks a thing
+            # < sticks out. sha() and cel=2other variants of everything?
+            $some_new = neu.filter(n => !ns&el2 || nc&el2)
+            says_drop ||= some_new.length && "neu"
             says_drop and old.map(n => nc&drop = says_drop)
             
             #$hmm = says_drop && old.filter(
@@ -964,7 +972,6 @@ me.settleblab = 1
     }
    
   // %%settle - still state
-   
    // beginning
     # $from sees a version of each &settled,$to
     me.settle_o3 = &acgtrs{
