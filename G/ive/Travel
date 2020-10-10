@@ -2798,6 +2798,7 @@ me.Sch_Travel = &acgt{ return [
         #   %%Pushable
         # < ha n,{k:0} means delete %%$k, after inheriting
         me.SuperGansp = &acgtRsce{
+            
             $x = me&Jx,R
             o $e/twine/:Gansp
             $N = ays&Gansp || []
@@ -2810,8 +2811,42 @@ me.Sch_Travel = &acgt{ return [
                 # scans the %MayTwine tree
                 #   that climbs the %twin tree
                 #  bringing back any %%Pushable
+                $twinething = &r,n,ono,talk{
+                    $nr = ny&R
+                    
+                    # zy&allthings/* should all be %%thing
+                    $th = me&zaone,r,{thing:n}
+                    if (!th) {
+                        ono('sometwine')
+                        me&tc,".."
+                        return
+                    }
+
+                    # Gansp should also have a:
+                    $wantpush = me&zaone,r,{wantpush:n}
+                    if (wantpush) {
+                        talks&bgh = '000'
+                        $Pu = me&zaone,nr,{s:n,Pushable:1}
+                        if (Pu) {
+                            # from &readyok, only if el:2
+                            Pus&el && me&tc,'el:'+Pus&el,6
+                            me&ha,R,Pu
+                        }
+                        me&Zifsum,nr
+                        return
+                    }
+                    $ok = theone( me&zaa,r,{ok:n} )
+                    if (ok) {
+                        me&tc,"ok",'g'
+                        return
+                    }
+                    me&tc,"..?",6
+                    ono('alltwine')
+                }
+                
                 N.map(&z{
                     me&tsc,"t",z.t,'b'
+                    # make fault, to bump z%MayGansp
                     $ohno = &tn{
                         me&ha,R,{pre:t,Gansp:z,restless:n||z}
                     }
@@ -2827,38 +2862,19 @@ me.Sch_Travel = &acgt{ return [
                     # gradually show up as push situation
                     # < &Accept these, have an observer mode
                     all.map(&n{
-                        $nr = ny&R
-                        $sp = ' '+n.t
-                        $ono = t => ohno(t,n)
-                        me&tc,sp
-                        # generate a fault, to bump Gansp
-
-                        $th = me&zaone,r,{thing:n}
-                        if (!th) {
-                            ono('sometwine')
-                            me&tc,".."
-                            return
+                        # bubble per n %%thing
+                        $talk = me&tcl,n.t
+                        me&walls,talk,'b:1.2h2'
+                        $capture = me&Mwcap,R,'twinething-'+n.t,talk
+                        
+                        # make fault, to bump n%MayTwine
+                        $ono = &t{
+                            me&walls,talk,'b:1.2h6'
+                            ohno(t,n)
                         }
-
-                        # Gansp should also have a:
-                        $wantpush = me&zaone,r,{wantpush:n}
-                        if (wantpush) {
-                            me&tc,"+",'g'
-                            $Pushable = me&zaone,nr,{s:n,Pushable:1}
-                            if (Pushable) {
-                                me&tc,'el:'+Pushables&el,6
-                                me&ha,R,Pushable
-                            }
-                            me&Zifsum,nr
-                            return
-                        }
-                        $ok = theone( me&zaa,r,{ok:n} )
-                        if (ok) {
-                            me&tc,"ok",'g'
-                            return
-                        }
-                        me&tc,"..?",6
-                        ono('alltwine')
+                        twinething(r,n,ono,talk)
+                        
+                        capture()
                     })
                     #me&nu,'Gansp',z
                     me&tc,"\n"
@@ -3987,8 +4003,7 @@ me.Sch_Travel = &acgt{ return [
         }
         me&twin_nodeo,R,twin,host,c
         
-        $st = me&ollbs,R,'brackstable';
-        me&zu,"olst",st
+        $st = me&ollbs,R,'brackstable'
         
         me&ha,R,{twin}
         # bump Ghost when s/** settle
