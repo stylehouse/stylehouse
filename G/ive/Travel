@@ -2970,15 +2970,13 @@ me.Sch_Travel = &acgt{ return [
                     !x.ro('push?') and return ha('pur:push?')
                 }
                 me&tc,"pushing..."
-                # now twinethings: %%wantpush means %restless
                 # < seeing each one of these:
                 #    think it has pushed
                 #    have an e:elQup
-                $things = uniq(push
-                    .map(n => ns&s)
-                    # sent to nearest R%MayTwine%%thing!%%extra
-                    #  so all the %%extra (eg .5) push with it
-                    .map(z => me&za,zy&R,'extra' ? zy&up : z))
+                # sent to nearest R%MayTwine%%thing!%%extra
+                #  so all the %%extra (eg .5) push with it
+                $nonextra = z => me&za,zy&R,'extra' ? zy&up : z
+                $things = uniq(push.map(n => nonextra(ns&s)))
                 things .map(&z{
                     me&nodei,R,z,{maypush:1},{dome:'tilpushed-push'}
                 })
@@ -2986,7 +2984,7 @@ me.Sch_Travel = &acgt{ return [
                 # as detected every time:
                 jaa('sute:twinethings,notok') .map(&n{
                     n = ns&notok
-                    me&wants,R,'twinepushing',n
+                    me&wants,R,'twinepushing',nonextra(n)
                     ha('pur:pushing',{n})
                 })
             }})
