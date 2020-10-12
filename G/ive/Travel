@@ -2147,7 +2147,13 @@ me.Sch_Travel = &acgt{ return [
             each it ts {
                 # pipe all %%mot-ish for that $t,
                 #  to detect ~u
+                
                 me&jaa,R,{t,mot:1} .map(&h{
+                    $bl = sex({blockage:1},h.sc,'t,mot')
+                    if (me&ja,R,bl) {
+                        #me&tc,"blockage!"
+                        return
+                    }
                     $q = {Goable:t.t}
                     hs&mot != mot and q.anyway = 1
                     # -> @Goting
@@ -2560,6 +2566,7 @@ me.Sch_Travel = &acgt{ return [
         if (!n) {
             !sy&sometime and return me&tc,"Loading..."
             me&tc,"disconnect"
+            return
         }
         sy&sometime = 1
         $h = ns&n
