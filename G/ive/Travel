@@ -1719,7 +1719,11 @@ me.Sch_Travel = &acgt{ return [
         # xs&columns|pk <- %%layout
         
         $x = me&columns,R
+        # before others send %%layout or anything
         !xs&columns.length and return me&tsc,"columns..."
+        # stop exploring while Traveling
+        #  twin may change, usu becoming %%satis
+        me&locked,Jxs&Gump,'twins' and return me&tc,"locked",6
        
        // sprains <- %%cha*
         =sprains
@@ -2026,7 +2030,7 @@ me.Sch_Travel = &acgt{ return [
             $q = {t}
             K and q.K = K
             N.push(
-                me&nodei,R,Jxs&Gutago,n,{},q
+                me&nodei,R,Jxs&Gutago,n,{dome:'onward'},q
             )
         })
         $runable = me&sortial,N,'t' .length
