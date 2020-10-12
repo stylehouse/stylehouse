@@ -1587,9 +1587,11 @@ me.Sch_Travel = &acgt{ return [
         # Know..$K <-> K%Thing
         me&locked,s,'twins' and return me&tc,"locked",6
         me&dome_traction,R,'feels',{el:2}
+        # not %%chag,dome:feels, which we just emptied
         me&jaa,R,'chag' .map(&n{
             me&nodei,R,Gu,n,{dome:'feels'}
         })
+        me&nodei,R,Gu,'hello',{dome:'feels'}
         # K <-> Ghost..$z (%%chat) gen from Gutwin
     },'ift,D'],
     ['Gumptio',0.67,&acgtRs{
@@ -1700,7 +1702,7 @@ me.Sch_Travel = &acgt{ return [
             }
             
         })
-        me&dome_traction,R,'feels'
+        me&dome_traction,R,'feels',{el:2}
     },'ift,D'],
     # %%locked:twins or not, ->
     ['Gutwin',0.46,&acgtRs{
@@ -1902,7 +1904,7 @@ me.Sch_Travel = &acgt{ return [
             !seen.includes(n) and me&zu,"Unseen-input",n
         })
         
-        me&dome_traction,R,'byT'
+        me&dome_traction,R,'byT',{el:2}
         
        // sprains
         $N = me&jaa,R,{dome:'byT'}
@@ -2034,6 +2036,7 @@ me.Sch_Travel = &acgt{ return [
                 me&nodei,R,Jxs&Gutago,n,{dome:'onward'},q
             )
         })
+        me&dome_traction,R,'onward',{el:2}
         $runable = me&sortial,N,'t' .length
         me&tsc,"mot",0,'b'
         me&tsc,"x"+runable
@@ -2559,6 +2562,7 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D,sleeping'],
     
     ['Gome',0.5,&acgtRs{
+        me&sleepic,R and return
         $x = me&Jx,R
         me&reaw,R,'Gome'
         me&inode,R
@@ -2573,6 +2577,7 @@ me.Sch_Travel = &acgt{ return [
         sy&sometime = 1
         $h = ns&n
         !(h && hs&lowel) and return me&zu,"NOLOWEL",h
+        
         # in time %%quiet_wake:Gump
         Rs&wakeful = 1
         $Gump = isnode(s)
@@ -2997,6 +3002,7 @@ me.Sch_Travel = &acgt{ return [
        // &SuperGens auto %Gens%Zaving
         # < &voice must have an arg realiser, D%args ||= &arfgunc
         # < waits_8 for bringing in 5s/20s non-quiet waker
+        # < auto Gens patch looking like the %%Ghoscgk said it would
         me.SuperGens = &acgtRsc{
             $x = me&Jx,R
             c.t = joint(['SuperGens',c.t],':')
