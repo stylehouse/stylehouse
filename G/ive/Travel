@@ -2899,7 +2899,7 @@ me.Sch_Travel = &acgt{ return [
                     $ok = theone( me&zaa,r,{ok:n} )
                     if (ok) {
                         me&tc,"ok",'g'
-                        return
+                        return 1
                     }
                     me&tc,"..?",6
                     ono('alltwine')
@@ -2933,7 +2933,8 @@ me.Sch_Travel = &acgt{ return [
                             me&walls,talk,'b:1.2h6'
                             ohno(t,n)
                         }
-                        twinething(r,n,ono,talk)
+                        $ok = twinething(r,n,ono,talk)
+                        !ok and ha({notok:n})
                         
                         capture()
                     })
@@ -2953,8 +2954,21 @@ me.Sch_Travel = &acgt{ return [
             su('Pushable',{until:&zaa,jaa,ha,ar{
                 $push = me&ja,R,'Pushable'
                 !push and return
-                !x.ro('push?') and return ha('pur:push?')
-                ha('pur:pushing...')
+                $auto = 0
+                $specie = joint(uniq(push.map(n => ns&species||1)))
+                if (specie == '5') {
+                    #$auto = 
+                    ha('rec:speciefive,sayable,autopush:all5')
+                }
+                else {
+                    ha('rec:speciefive,sayable,autopush:notall5')
+                }
+                if (!auto) {
+                    !x.ro('push?') and return ha('pur:push?')
+                }
+                me&tc,"pushing..."
+                # now twinethings: %%wantpush means %restless
+                ha('sute:twinethings,getPushed,el2,rec:getPushed')
                 # < seeing each one of these:
                 #    think it has pushed
                 #    have an e:elQup
@@ -2969,6 +2983,16 @@ me.Sch_Travel = &acgt{ return [
                     #me&wants,R,'tilpushed',z
                 })
                 # should become %%quiet once pushed
+            }})
+            &&
+            su('Pushed',{until:&zaa,jaa,ha,ar{
+                # n|u all done
+                # as detected every time
+                jaa('sute:twinethings,notok') .map(&n{
+                    n = ns&notok
+                    me&wants,R,'twinepushing',n
+                    ha('pur:pushing',{n})
+                })
             }})
             
             return su()
@@ -3232,6 +3256,15 @@ me.Sch_Travel = &acgt{ return [
                     sex(ar, n.sc, ksaf(n.sc,{aft:'arg'}))
                 })
             }
+            # simple remarks, visible forever (if %%rec or etc)
+            $sayables = &jaa,talk{
+                jaa('sayable') .map(&n{
+                    $q = sex({}, n.sc, ksaf(n.sc,{aft:'sayable'}))
+                    $qs = G&depeel,q
+                    me&tc,talk,qs,'y'
+                })
+                
+            }
             
             $faulty = 0
             $sutes = []
@@ -3329,6 +3362,7 @@ me.Sch_Travel = &acgt{ return [
                     talks&bri = 0.6
                     # pickup ar from old time
                     argon(zaa)
+                    sayables(zaa,talk)
                     if (c.permasay) {
                         $n = theone(zaa('figure_container'))
                         !n and debugger
@@ -3384,6 +3418,7 @@ me.Sch_Travel = &acgt{ return [
                     .map(n => ha(n.sc))
                 # pickup %%arg from new time, + any %%rec,arg
                 argon(jaa)
+                sayables(jaa,talk)
                 
                 $faults = jaa('pur')
                 $success = !hak(faults)
@@ -3509,7 +3544,7 @@ me.Sch_Travel = &acgt{ return [
         me.Zifsum = &acgtr{
             $sum = rs&summary
             if (sum) {
-                $su = me&tc,'~sum:',6
+                $su = me&tc,'Zifsum','s6'
                 me&cloneinto,su,sum
             }
             else {
