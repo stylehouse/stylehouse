@@ -2646,6 +2646,7 @@ me.Sch_Travel = &acgt{ return [
     
     # make %laReal=R!%sleeping
     #  so we can find the latest real %Zaving
+    # GONER? soon as not needed for &Zaving_haul
     # %Tey&Real=R includes R%sleeping
     # %Zaving doesn't exist while tunneling through,
     #  or since Ying 2926 happens before much %Zaving
@@ -2668,7 +2669,6 @@ me.Sch_Travel = &acgt{ return [
         # < perm. give any R %laReal (Te%Recipe?)
         # finding the latest real R
         # < should be obvious re Abit
-        # 
         me.laRealier = &acgtZ{
             $Zo = Zs&laReal
             # must be before Z (supposing we are in Z, see SupelaRealier)
@@ -3008,9 +3008,6 @@ me.Sch_Travel = &acgt{ return [
             me&SupesavingGens,R,s,{},su
             &&
             su('donesaving',{until:&zaa,jaa,ha,ar{
-                x.ro("Done?") || ha('pur:Done,ready')
-                $Z = ar.Z
-                #me&nu,Z.sc
             },finishline:1})
             return su()
         }
@@ -3028,24 +3025,21 @@ me.Sch_Travel = &acgt{ return [
             c.start ||= (Z => Zs&allope = s)
             # opened, is %Described
             c.like ||= (Z => Zs&Zaving && Zs&allope == s)
-            # < close, stop %Describing
-            #   at the completion
-            #   does it create another step for potential packdown?
-            #    there's maybe a sudden|steppy|laRealier finish,
-            #     and stuff to show when|while finished
+            # < %allope should stop %Describing once %Described is got
+            #   needs some unique object to pass to it? is the @Gome for now
             c.finish ||= (Z => delete Zs&allope)
             c.pur ||= {pur:'Zaving-ack',wait:1}
-            return me&SupelaRealier,R,s,c,su
+            return me&Supewokesince,R,s,c,su
         }
         # allowing real|awake Z-time to pass since c.start(Z), etc
         # < wake Z (&SupeGens does)
         # < case for easy access to latest woke other,
         #   Effect it and ack. show RingMap
-        me.SupelaRealier = &acgtRsc,su{
+        me.Supewokesince = &acgtRsc,su{
             # $Z = c.find() current thing
             # then want a %laReal=Z after the first Z, 
             # c.like() extra Z check
-            c.t ||= "laRealier"
+            c.t ||= "wokesince"
             c.pur ||= {pur:c.t}
             c.k ||= 'Z'
             c.kb ||= c.k+'b'
@@ -3065,48 +3059,29 @@ me.Sch_Travel = &acgt{ return [
                 $Zb = ar[c.kb]
                 !Zb and debugger
                 $wa = t => ha({pur:t,wait:1})
-                # last|first since
+                
+                # last|first since, a finished one
                 $since = {}
                 since[c.first ? 'first' : 'last'] = 1
-                #debugger
                 $Z = me&wokesince,R,Zb,since
+                
                 !Z and wa("!Z")
                 # get the curret one
                 $Zn = c.find(R)
                 Z == Zn and wa("Znow")
                 !since.all.includes(Zn) and wa("dontseeZn")
-                
-                
-                if (0) {
-                # go back to the finished one
-                $Z = me&laRealier,Zn
-                Z != Zns&laReal and me&tc,"^b"
-                
-                # the main things:
-                !Z and wa("!Z")
-                else
-                Z == Zb and wa("Z..")
-                else
-                c.like && !c.like(Z) and wa("Z!like"); me&nu,"!like:"+Z
+                if (c.like && !jaa('wait').length) {
+                    !c.like(Z) and wa("Z!like"); me&nu,"!like:"+Z
                 }
                 
-                jaa('wait').length and return me&nu,"Since",since
-                
-                # these suppose Zn...R: we are inside Zn
-                #  so Zn is always most futuristic
-                me&yfuture,Zn != Zn and ha('pur:Znow!futurist')
-                # < just not awake this time would do
-                #   though it's in a different Rc&N so shrug
-                me&yfuture,Z == Z and ha('pur:futurist')
-                Zn == Z and ha('pur:Z==now')
-                Rc&N.includes(Z) and ha('pur:ZRN')
+                jaa('wait').length and return
+                #me&nu,"Since",since
                 
                 hak(jaa('pur')) and me&zu,"laReal",Z
                 else {
                     # redefine Z to the latest woke,
                     #  c.perm() always starts with the Zb from c.once
                     ha('rec,arg',hashkv(c.k,Z))
-                    #me&nu,"laReal",Z
                 }
             }})
             return su()
@@ -3188,17 +3163,7 @@ me.Sch_Travel = &acgt{ return [
                     #me&nu,"De:"+t,De
                     # < want to see when Z%Here==Z%Described, when it encodes
                     #   and that Zb < encZ <? Z, < meaning time-before
-                    #   and that then %Settled=De%dige
-                    $Zbla = me&laRealier,Zb
-                    if (Zblas&Zaving) {
-                        $nb = Zblas&Zaving[t]
-                        Zbla == Z
-                            && ha('pur:old==newZ')
-                        Zblas&Zaving == Zs&Zaving 
-                            && ha('pur:old==newZaving')
-                        nbs&Described && De == nbs&Described
-                            && ha('pur:oldDe')
-                    }
+                    #   and that eventually %Settled=De%dige
                     
                     $ting = ns&Saveting
                     $Q = tings&Q
@@ -3319,7 +3284,7 @@ me.Sch_Travel = &acgt{ return [
                     
                     # super (eg &SuperGens)
                     #   calls &supetime, own $supe
-                    # suter (eg &SupelaRealier)
+                    # suter (eg &Supewokesince)
                     #   asserts su(...)+, own each $sute
                     # q instructs suter,
                     #  mostly for itself,
@@ -3342,6 +3307,7 @@ me.Sch_Travel = &acgt{ return [
                         sute.finished = 1
                         $care = 0
                         sute.perm and care = 1
+                        # c.c == &Supewokesince,c:q
                         $q = sute.c
                         if (q) {
                             q.k and $Z = ar[q.k]
@@ -3351,7 +3317,6 @@ me.Sch_Travel = &acgt{ return [
                         care and sute.ta("finished",'y')
                     })
                 }
-                # c.c == &SupelaRealier,c:q
                 # if a later
                 if (complete && (!c.perm || finished)) {
                     ta("ok\n")
