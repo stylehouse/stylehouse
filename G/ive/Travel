@@ -2549,7 +2549,7 @@ me.Sch_Travel = &acgt{ return [
     ['Gomes',0.296,&acgtRs{
         me&bin,'Gome'
         $namer = n => ns&Go+" v"+ns&tid
-        me&balforward,R,'Go',{t:namer}
+        me&balforward,R,'Go',{namer}
     },'ift,D'],
     ['Gomes',0.6,&acgtRs{
         me&ioty,s .map(&z{
@@ -3635,9 +3635,10 @@ me.Sch_Travel = &acgt{ return [
             q = peel(q)
             $s = Rc&s
             me&jaa,R,q .map(&n{
-                isfu(c.t) and c.t = c.t(n)
                 # usu t=%%Go, if q='Go'
-                $t = c.t ||= n.sc[haks(q)[0]]
+                $t = c.t != null ? c.t
+                    : c.namer ? c.namer(n)
+                    : n.sc[haks(q)[0]]
                 $z = me&fiu,s,t,8
                 z ||= me&bal,t,balc .c.s
                 zy&path ? me&nodei,R,z,n : me&waits,"node.."
