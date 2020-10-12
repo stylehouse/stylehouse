@@ -73,7 +73,7 @@ me.Sch_Travel = &acgt{ return [
         me&reaw,R,'Outlog';
         $D = me&Outlog,R,'gate'
         Rs&Det = D;
-        # Story signals
+        # &t signals
         me&YingelQup_2,R
     }
     # Ying/** happens
@@ -222,6 +222,46 @@ me.Sch_Travel = &acgt{ return [
     }
     
     },
+  // about Qup
+    &{
+    # log but dont e:elQups !!
+    me.YingelQup_2 = &acgtR{
+        4s&noQup = &e{
+            # GONER?
+            ~>4 4%noQup: e.t
+            4s&lastnoQup = e
+        }
+        4s&noelQups = &e{
+            ~>4 4%noelQups: e.t
+            4s&lastnoelQups = e
+            $D = me&log,R,'no-e:'+e.t
+            me&Delvis,R,D,e
+        }
+    }
+    # catch e that wake:Ying
+    me.Yingwhen_e = &acgtRe{
+         if (e.t == 'elQups') {
+             $D = me&log,R,'e:elQups',{e}
+             me&Dtunneling,R,D
+             debugger;
+             return 1
+         }
+    }
+    me.PaveelQup_5 = &acgtRs{
+        $Q = Rs&Q
+        $was = me&jaa,R,'isready',1 [0]
+        $also = me&ja,R,'isready',0
+        also != was and throw "wasi"
+        $is = Qs&ready ? 1 : 0
+        !(was == null || was != is) and return
+        me&ha,R,{isready:is,dome:'isready'}
+        me&log,R,'Q~'+is,{Q,node:s}
+    }
+    },
+    ['noGump+Paving',0.55,&acgtRs{
+        me&PaveelQup_5,R,s
+    },'ift,D'],
+ 
 
 // Story ext
  // %Nodar views
@@ -319,6 +359,7 @@ me.Sch_Travel = &acgt{ return [
    
   // selfs
     ['Nodar',0.299,&acgtRs{
+        
         me&reaw,R,'Nodar'
         $x = me&Jx,R
         # these, we can tunnel/sleep
@@ -694,42 +735,6 @@ me.Sch_Travel = &acgt{ return [
         })
     },'ift,D'],
   
-  // about Qup
-    &{
-    # log but dont e:elQups
-    me.YingelQup_2 = &acgtR{
-        4s&noQup = &e{
-            ~>4 ige: e.t
-        }
-        4s&noelQups = &e{
-             $D = me&log,R,'no-e:'+e.t
-             me&Delvis,R,D,e
-        }
-    }
-    # catch e that wake:Ying
-    me.Yingwhen_e = &acgtRe{
-         if (e.t == 'elQups') {
-             $D = me&log,R,'e:elQups',{e}
-             me&Dtunneling,R,D
-             debugger;
-             return 1
-         }
-    }
-    me.PaveelQup_5 = &acgtRs{
-        $Q = Rs&Q
-        $was = me&jaa,R,'isready',1 [0]
-        $also = me&ja,R,'isready',0
-        also != was and throw "wasi"
-        $is = Qs&ready ? 1 : 0
-        !(was == null || was != is) and return
-        me&ha,R,{isready:is,dome:'isready'}
-        me&log,R,'Q~'+is,{Q,node:s}
-    }
-    },
-    ['noGump+Paving',0.55,&acgtRs{
-        me&PaveelQup_5,R,s
-    },'ift,D'],
- 
  // Plot/Point tie most thing together
     ['Plot',0.298,&acgtRs{
         
@@ -3238,7 +3243,8 @@ me.Sch_Travel = &acgt{ return [
                 # see|input to %sute=$t...
                 # zaa,jaa meaning recycled or not
                 #  both &jaa underneath, %%dome reentered every time
-                #  jaa(c,i=1) selects either (weird)
+                #  jaa(c,i=1) selects either
+                #   weird - usu one column mode (see &bracko)
                 $zaa = c => me&jaa,R,inc(c) .filter(n => nc&recycled)
                 $jaa = (c,i) => me&jaa,R,inc(c) .filter(n => !nc&recycled || i)
                 $ha = (c,s) => me&ha,R,ex({dome},inc(c)),{},s
@@ -3574,6 +3580,8 @@ me.Sch_Travel = &acgt{ return [
             return zs&W || 1
         };
         me&ha,R,"Travels,to:Morrocco";
+        4s&lastnoQup and me&nu,'4s&lastnoQup',4s&lastnoQup
+        4s&lastnoelQups and me&nu,'4s&lastnoelQups',4s&lastnoelQups
     },'ift,D'],
     
     &{
