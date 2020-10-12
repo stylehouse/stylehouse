@@ -2187,8 +2187,8 @@ me.Sch_Travel = &acgt{ return [
         me&ha,R,{layout:1,also:'el'}
         me&ha,R,{layout:1,also:'mot'}
         me&ha,R,{layout:1,also:'phase'}
-        me&ha,R,{layout:1,also:'etc'}
         me&ha,R,{layout:1,also:'dep'}
+        me&ha,R,{layout:1,also:'etc'}
         $x = me&columns,R
         !xs&columns.length and return me&tsc,"columns..."
         
@@ -2969,15 +2969,13 @@ me.Sch_Travel = &acgt{ return [
                 # < seeing each one of these:
                 #    think it has pushed
                 #    have an e:elQup
-                push.map(&n{
-                    $z = ns&s
+                $things = uniq(push
+                    .map(n => ns&s)
                     # sent to nearest R%MayTwine%%thing!%%extra
                     #  so all the %%extra (eg .5) push with it
-                    $j = me&za,zy&R,'extra' ? zy&up : z
-                    me&nodei,R,j,{maypush:1},{dome:'tilpushed-push'}
-                    # < could this be %%pre? %%n=%%maypush... ?
-                    #me&za,R,{eto:z,maypush:1} and return
-                    #me&wants,R,'tilpushed',z
+                    .map(z => me&za,zy&R,'extra' ? zy&up : z))
+                things .map(&z{
+                    me&nodei,R,z,{maypush:1},{dome:'tilpushed-push'}
                 })
                 # should become %%quiet once pushed
                 # as detected every time:
