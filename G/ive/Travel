@@ -2225,6 +2225,7 @@ me.Sch_Travel = &acgt{ return [
             # and current %%mot-ivation to Travel/$t
             $mots = N
             
+            $rows = []
             # generating current $lo
             # from @Gutago only, making $tid, about %%Goable,mot
             $c = {fromone:1,tidgen,groure:Goable}
@@ -2232,24 +2233,25 @@ me.Sch_Travel = &acgt{ return [
             #  %%lowel,tid,el,D,oD? - the state of it
             #  %%current,wid,el,fromt - many efroms
             $lo = me&version_efroms,R,mots,c
-            # this would become the four version
-            #  Jproto dome has the three version
-            $tid = los&tid
-            # maybe have $lo-ish hist
-            $hi = grepout(historic,hi => his&tid == tid)[0]
-            # to recycle or create
-            hi = me&historicalise,R,{lo,hi}
-            hiy&latest = 1
-            # $lo, its $hi, and history
-            $rows = [
-                lo,
-                hi,
+            if (lo) {
+                # this would become the four version
+                #  Jproto dome has the three version
+                $tid = los&tid
+                # maybe have $lo-ish hist
+                $hi = grepout(historic,hi => his&tid == tid)[0]
+                # to recycle or create
+                hi = me&historicalise,R,{lo,hi}
+                hiy&latest = 1
+                rows.push(lo, hi)
+            }
+            # and history, not including hi - lo's first impression
+            rows.push(
                 ... me&sortial,historic,'tid','sort,flat'
                     # first|newer have greater $tid
                     .reverse()
                     # recycle
                     .map(hi => me&historicalise,R,{hi})
-            ]
+            )
             $jaa = &cs{
                 isst(c) and c = peel(c)
                 s and ex(c,peel(s))
@@ -2257,24 +2259,24 @@ me.Sch_Travel = &acgt{ return [
             }
         
        // tabulk
-        ex(c,{t,Tr,jaa})
-        c.diff = {labelimplied:'Gump/Gutago'}
-        each ih rows {
-            xy&arow(h,'Goable,tid')
-            hs&Goable != t and debugger
-            $te = xs&row.te
+            ex(c,{t,Tr,jaa})
+            c.diff = {labelimplied:'Gump/Gutago'}
+            each ih rows {
+                xy&arow(h,'Goable,tid')
+                hs&Goable != t and debugger
+                $te = xs&row.te
 
-            $mo = xy&stepcol('tid')
-            
-            hs&lowel and me&lowelrow,R,x,h,c
-            else {
-                # misc row
-                $ti = moy&can('i',(hs&tid||''))
-                me&tsc,mo,'misc-row','?','g'
+                $mo = xy&stepcol('tid')
+
+                hs&lowel and me&lowelrow,R,x,h,c
+                else {
+                    # misc row
+                    $ti = moy&can('i',(hs&tid||''))
+                    me&tsc,mo,'misc-row','?','g'
+                }
+                xy&arowed()
             }
-            xy&arowed()
-        }
-        xy&arowgrouped()
+            xy&arowgrouped()
         })
     },'ift,D'],
     &{
@@ -2462,6 +2464,10 @@ me.Sch_Travel = &acgt{ return [
             $lo = me&zaa,R,ex({lowel:1},groure)
                 .filter(n => !ns&historic)
             lo = theone(lo)
+            
+            # stops being sent:
+            !lowel and return
+            
             # any groure/*=1 shall aggregate to the lowest variety
             #  ie N/%%mot=2,3 makes %%lowel,mot=2
             each kv groure {
