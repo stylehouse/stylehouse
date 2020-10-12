@@ -2014,6 +2014,7 @@ me.Sch_Travel = &acgt{ return [
         me&jaa,R,'mot' .map(&n{
             $t = ns&t
             $K = ns&K
+            ns&dome == 'onward' and return
             if (!t || !K) {
                 # look &nward for t,K to attach
                 $h = xy&nward(n)[0]
@@ -2149,6 +2150,7 @@ me.Sch_Travel = &acgt{ return [
                 #  to detect ~u
                 
                 me&jaa,R,{t,mot:1} .map(&h{
+                    hs&blockage and return
                     $bl = sex({blockage:1},h.sc,'t,mot')
                     if (me&ja,R,bl) {
                         #me&tc,"blockage!"
@@ -2210,7 +2212,7 @@ me.Sch_Travel = &acgt{ return [
             return now
         }
         me&sortial,all,'Goable' .map(&Ni{
-            0 < i and debugger
+            #0 < i and debugger
             # grouped by %%Goable:$t
             $t = N[0].sc.Goable
             # related rows mix $Goable to group
@@ -2957,18 +2959,13 @@ me.Sch_Travel = &acgt{ return [
                 $auto = 0
                 $specie = joint(uniq(push.map(n => ns&species||1)))
                 if (specie == '5') {
-                    #$auto = 
-                    ha('rec:speciefive,sayable,autopush:all5')
-                }
-                else {
-                    ha('rec:speciefive,sayable,autopush:notall5')
+                    $auto = ha('rec:speciefive,sayable,autopush:all5')
                 }
                 if (!auto) {
                     !x.ro('push?') and return ha('pur:push?')
                 }
                 me&tc,"pushing..."
                 # now twinethings: %%wantpush means %restless
-                ha('sute:twinethings,getPushed,el2,rec:getPushed')
                 # < seeing each one of these:
                 #    think it has pushed
                 #    have an e:elQup
@@ -2983,16 +2980,17 @@ me.Sch_Travel = &acgt{ return [
                     #me&wants,R,'tilpushed',z
                 })
                 # should become %%quiet once pushed
-            }})
-            &&
-            su('Pushed',{until:&zaa,jaa,ha,ar{
-                # n|u all done
-                # as detected every time
+                # as detected every time:
                 jaa('sute:twinethings,notok') .map(&n{
                     n = ns&notok
                     me&wants,R,'twinepushing',n
                     ha('pur:pushing',{n})
                 })
+            }})
+            &&
+            su('Pushed',{until:&zaa,jaa,ha,ar{
+                # n|u all done
+                me&tc,"all-done"
             }})
             
             return su()
