@@ -224,7 +224,7 @@ me.Sch_Travel = &acgt{ return [
     },
   // about Qup
     &{
-    # log but dont e:elQups !!
+    # log but dont e:elQups !!!!!!!!!!!
     me.YingelQup_2 = &acgtR{
         4s&noQup = &e{
             # GONER?
@@ -234,6 +234,11 @@ me.Sch_Travel = &acgt{ return [
         4s&noelQups = &e{
             ~>4 4%noelQups: e.t
             4s&lastnoelQups = e
+            $Tr = 4s&Travels
+            if (Tr) {
+                Tr = me&yfuture,Tr
+                me&elvis,R,"doelQups",{wake:Tr}
+            }
             $D = me&log,R,'no-e:'+e.t
             me&Delvis,R,D,e
         }
@@ -1586,7 +1591,7 @@ me.Sch_Travel = &acgt{ return [
         $Gu = me&Othersel2,R,'Guten'
         !Gu and return
         # Know..$K <-> K%Thing
-        me&locked,s,'twins' and return me&tc,"locked",6
+        me&locked,s,'twins' and return
         me&dome_traction,R,'feels',{el:2}
         # not %%chag,dome:feels, which we just emptied
         me&jaa,R,'chag' .map(&n{
@@ -1594,9 +1599,6 @@ me.Sch_Travel = &acgt{ return [
         })
         me&nodei,R,Gu,'hello',{dome:'feels'}
         # K <-> Ghost..$z (%%chat) gen from Gutwin
-    },'ift,D'],
-    ['Gumptio',0.67,&acgtRs{
-        
     },'ift,D'],
   
   // 1 @Gutwin
@@ -1612,7 +1614,7 @@ me.Sch_Travel = &acgt{ return [
         #    when eg %wakeful = $waits
         !Gu and Rs&wakeful = 1; return
         #Rs&wakeful = 1
-        me&locked,xs&Gump,'twins' and return me&tc,"locked",6
+        me&locked,xs&Gump,'twins' and return
         
         $chaf = &t,c,mix{
             c = ex({cha:t},c)
@@ -2558,7 +2560,7 @@ me.Sch_Travel = &acgt{ return [
   
   // 5 @Gomes/@Gome per $tid
     ['Gomes',0.293,&acgtRs{
-        Rs&onlyish = 1
+        #Rs&onlyish = 1
     },'ift,D'],
     ['Gomes',0.296,&acgtRs{
         me&bin,'Gome'
@@ -2578,11 +2580,13 @@ me.Sch_Travel = &acgt{ return [
         $x = me&Jx,R
         me&reaw,R,'Gome'
         me&inode,R
+        $Gump = isnode(s)
        // 1 wait %%Releasor
         # o Goting... permit
         $n = theone(me&jaa,R,'Go' )
         if (!n) {
             !sy&sometime and return me&tc,"Loading..."
+            me&unlock,Gump,'twins',s
             me&tc,"disconnect"
             return
         }
@@ -2592,7 +2596,6 @@ me.Sch_Travel = &acgt{ return [
         
         # in time %%quiet_wake:Gump
         Rs&wakeful = 1
-        $Gump = isnode(s)
         $quiet = me&is_quiet_now,Gump
         quiet and me&tsc,'quiet'
         me&tc,"\n"
@@ -3439,6 +3442,7 @@ me.Sch_Travel = &acgt{ return [
             }
         }
        
+  // funcs
        // &diagno, &receivan, &zaone, theone() when to what why
         # responds to each q=(%%fault),... once
         #  and return true if we haven't tried t:fix
@@ -3509,6 +3513,7 @@ me.Sch_Travel = &acgt{ return [
             $N = ahsk(z,'y','lock',k)
             !hak(N) and return 0
             N.map(by => me&ha,R,{locked:k,by},{} )
+            return me&ty,"(locked)" (&{ delete zy&lock[k] })
             return 1
         }
         me.unlock = &acgtzke{
@@ -3673,8 +3678,29 @@ me.Sch_Travel = &acgt{ return [
             return zs&W || 1
         };
         me&ha,R,"Travels,to:Morrocco";
-        4s&lastnoQup and me&nu,'4s&lastnoQup',4s&lastnoQup
-        4s&lastnoelQups and me&nu,'4s&lastnoelQups',4s&lastnoelQups
+        # subscribe:
+        4s&Travels = s
+        # to changes in:
+        $e = 4s&lastnoelQups
+        !e || ey&Travelsed and return
+        each in ec&Qz {
+            $l = me&tcl,nc&of,'G'
+            ly&cv = 0.76
+            ls&dis = 1
+            me&tcl,l,n.t,'b'
+            $r = ny&R
+            if (rs&Pave) {
+                $z = ry&up
+                !zs&Paving and debugger
+                z = zc&s
+                $tp = me&tpath,z
+                me&tc,"->"+tp
+                me&wants,R,'elQupsPave',z
+            }
+        }
+        ey&Travelsed = 1
+        #4s&lastnoQup and me&nu,'4s&lastnoQup',4s&lastnoQup
+        #4s&lastnoelQups and me&nu,'4s&lastnoelQups',4s&lastnoelQups
     },'ift,D'],
     
     &{
