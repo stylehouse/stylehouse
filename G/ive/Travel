@@ -1543,6 +1543,7 @@ me.Sch_Travel = &acgt{ return [
         
         me&quietready,R and return
         
+        #me&baleg,'Gwatch'
         me&baleg,'Gomes'
         me&baleg,'Goting'
         me&baleg,'Gutago'
@@ -2556,6 +2557,9 @@ me.Sch_Travel = &acgt{ return [
     },
   
   // 5 @Gomes/@Gome per $tid
+    ['Gomes',0.293,&acgtRs{
+        Rs&onlyish = 1
+    },'ift,D'],
     ['Gomes',0.296,&acgtRs{
         me&bin,'Gome'
         $namer = n => ns&Go+" v"+ns&tid
@@ -2564,12 +2568,13 @@ me.Sch_Travel = &acgt{ return [
     ['Gomes',0.6,&acgtRs{
         me&ioty,s .map(&z{
             $r = zy&R
-            rs&wakeful and Rs&wakeful = 1
+            !rs&wakeful and return
+            Rs&wakeful = 1
+            me&tc,"wake:"+r.t
         })
     },'ift,D,sleeping'],
     
     ['Gome',0.5,&acgtRs{
-        me&sleepic,R and return
         $x = me&Jx,R
         me&reaw,R,'Gome'
         me&inode,R
@@ -2629,8 +2634,7 @@ me.Sch_Travel = &acgt{ return [
         
         me&unlock,Gump,'twins',s
         
-        ss&alldone = 1
-        me&nodei,R,hy&R,{finished:s}
+        me&nodei,R,hy&R,sex({finished:s},n.sc,'Go,tid')
         delete Rs&wakeful
     },'ift,D'],
     ['Gome',0.52,&acgtRs{
@@ -2770,7 +2774,7 @@ me.Sch_Travel = &acgt{ return [
                     }
                 })
             }})
-            return su()
+            return su('done')
         }
         # find first+notnow (or c.last|all) real awake yfuture since r
         me.wokesince = &acgtRrc{
@@ -2807,7 +2811,7 @@ me.Sch_Travel = &acgt{ return [
                     # &yfuture goes one further,
                     #  using the uncommit X...
                     r = me&yfuture,was
-                    if (!r) {
+                    if (!r || r == was) {
                         all and break
                         return cb('not')
                     }
@@ -3004,7 +3008,7 @@ me.Sch_Travel = &acgt{ return [
                 me&tc,"all-done"
             }})
             
-            return su()
+            return su('done')
         }
        
        // &SuperGens auto %Gens%Zaving
@@ -3023,7 +3027,7 @@ me.Sch_Travel = &acgt{ return [
             &&
             su('donesaving',{until:&zaa,jaa,ha,ar{
             },finishline:1})
-            return su()
+            return su('done')
         }
         
         # start (& finish) Z%allope
@@ -3069,7 +3073,9 @@ me.Sch_Travel = &acgt{ return [
                 isnode(Z)
                     ? me&wants,R,et,Z
                     : me&elvis,R,et,{wake:Z}
-            },perm:&zaa,jaa,ha,ar{
+            }})
+            &&
+            su('since',{perm:&zaa,jaa,ha,ar{
                 $Zb = ar[c.kb]
                 !Zb and debugger
                 $wa = t => ha({pur:t,wait:1})
@@ -3166,8 +3172,8 @@ me.Sch_Travel = &acgt{ return [
                 # < %%eph that become c&drop @Doming7
                 
                 Rs&wakeful = 1
-                me&tc,"\n"
                 each tn Zs&Zaving {
+                    De and me&tc,"\n"
                     me&tsc,"t",t,'b'
                     !ns&Zave and debugger
                     #me&nu,"Zave:"+t,n
@@ -3252,6 +3258,7 @@ me.Sch_Travel = &acgt{ return [
                 }
             }
             return &tc{
+                t == 'done' and t = null
                 # su() checks still ok, like su(...)
                 t == null and return !faulty
                 
@@ -3291,7 +3298,7 @@ me.Sch_Travel = &acgt{ return [
                 finished && !tried and debugger
                 $q = c.c
                 #q && !finished && q.finish and me&tc,"Yarlbeback"
-                if (c.finishline) {
+                if (c.finishline && !tried) {
                     # < do this when $supe is all done, and stays done...
                     #   dont know: su(...) calls might keep happening
                     # earlier sutes are finished, stop c.perm, stay ok
@@ -3340,8 +3347,8 @@ me.Sch_Travel = &acgt{ return [
                     sayables(zaa,talk)
                     if (c.permasay) {
                         $n = theone(zaa('figure_container'))
-                        !n and debugger
-                        me&cloneinto,talk,ns&figure_container
+                        !n and ta("!permasay",'q')
+                        else me&cloneinto,talk,ns&figure_container
                     }
                     return 1
                 }
@@ -3592,6 +3599,71 @@ me.Sch_Travel = &acgt{ return [
             return n
         }
     },
+  
+  // 6 @Gwatch things happen
+    ['Gwatch',0.6,&acgtRs{
+        $x = me&Jx,R
+        $la = me&ioty,xs&Gomes [0]
+        !la and return
+        la = lay&R
+        #la = las&wou.y.R
+        x.ro('●') and ss&from = la; delete ss&lives
+        if (ss&from && x.ro('◼')) {
+            $since = {all:1}
+            me&wokesince,R,ss&from,since
+            ss&lives = since.all
+        }
+        !ss&lives and return
+        me&nu,'lives',ss&lives
+        
+        me&ha,R,{layout:1,mostly:'icount'}
+        me&ha,R,{layout:1,also:'etc'}
+        $x = me&columns,R
+        
+        $la = null
+        $lar = null
+        each ir ss&lives {
+            # clone r since y&arow = xs&row
+            xy&arow(Cye(r),'icount')
+            $N = me&bracko,R,rs&wou,{sute:'since'}
+            $D = ry&Dsix = me&bracksix,rs&icount,N
+            
+            $se = xy&cean('etc')
+            rc&b != lar and me&tc,se,"^!"
+            $six = Dy&six
+            # displays
+            #ac(se,'z', me&yology,Dy&six )
+            me&pibrackology,R,D,{D,se}
+            me&mnu,se,r
+            ac(se,'z', me&yology,Dy&brackology )
+            #me&sixing,R,{D,se}
+            
+            $diffc = {}
+            diffc.se = se
+            #ope != null and diffc.dont = 1
+            #$di = me&diffany,R,D,la,diffc
+            
+            xy&arowed()
+            la = D
+            lar = r
+            #xy&arowgrouped()
+        }
+        
+        # ▶+◼
+    },'ift,D'],
+    &{
+        # convert noise to D%string/-row/-vat
+        me.bracksix = &acgttN{
+            $D = Cye([t,1])
+            Ds&z = me&ioty,N
+            #  creating on this D:brack means no history
+            $sev = me&pisix,R,D,{D}
+            !Ds&string || !Ds&dige and debugger
+            return D
+        }
+                
+    },
+        
 
 // Travel/$t may /%SummerCat
     ['Travels',0.39,&acgtRs{

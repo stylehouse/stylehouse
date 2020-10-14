@@ -821,7 +821,10 @@ me.settleblab = 1
             #  perhaps el6 is the just-add thing?
             #   finds like el3, forks a thing
             # < sticks out. sha() and cel=2other variants of everything?
-            $some_new = neu.filter(n => !ns&el2 || nc&el2)
+            $some_new = neu.filter(&n{
+                !ns&el2 and return 1
+                delete ns&el2
+            })
             says_drop ||= some_new.length && "neu"
             says_drop and old.map(n => nc&drop = says_drop)
             
