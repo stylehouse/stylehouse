@@ -1,5 +1,6 @@
 # < fun bits
 yoyosce!!!!!
+navigator.clipboard.writeText("some text");
 
 =vectoria
 
@@ -25,6 +26,21 @@ the edgy image pile:
  clip to shapes near the edge
 
 https://blog.scottlogic.com/2020/03/19/offscreen-canvas.html
+=sound
+
+let audio = new (AudioContext() || webkitAudioContext);
+let gain = audio.createGain();
+let osc = audio.createOscillator();
+osc.type = 'square';
+osc.connect(gain);
+gain.connect(audio.destination);
+osc.start();
+
+  osc.frequency.setValueAtTime(65.4 * 2 ** (n / 12), t);
+  gain.gain.setValueAtTime((~k & 8) >> 3, t);
+  gain.gain.setValueAtTime(0, t);
+
+
 =cut
 
 $N = [1,2,3,4,5,6,4,7,8];
