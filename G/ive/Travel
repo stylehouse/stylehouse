@@ -3688,6 +3688,9 @@ me.Sch_Travel = &acgt{ return [
         s&bg = 312
         # subscribe:
         4s&Travels = s
+        # enable:
+        $x = me&Jx,R
+        !x.ro("Intro?",{}) and delete 4s&lastnoelQups; return
         # to changes in:
         $e = 4s&lastnoelQups
         !e and return
@@ -3706,6 +3709,24 @@ me.Sch_Travel = &acgt{ return [
                 $tp = me&tpath,z
                 me&tc,"->"+tp
                 
+                ac(e,'wantup',n)
+                if (!es&gotup || !es&gotup.includes(n)) {
+                    ~>5 wantup: n.t
+                    if (!es&gotup) {
+                        # just this, then wake:z
+                        #  would have %Paving call &t, go async
+                        #  bothering Gump with empty then something again
+                        # < not nodei between steps until all ready?
+                        ns&Want_Check = 1
+                        nc&ready_instead = &{
+                            delete nc&ready_instead
+                            ~>5 gotready: n.t
+                            me&elvis,R,'elQupsPave',{wake:zy&R}
+                        }
+                        me&t,r,n
+                        ac(e,'gotup',n)
+                    }
+                }
                 
                 $la = ahsk(s,'y','versh',n.t)
                 $las = ahsk(s,'y','vershs',n.t)
@@ -3719,7 +3740,7 @@ me.Sch_Travel = &acgt{ return [
                 me&tc,"Line0:"+line,1
                 
                 ey&Travelsed and continue
-                me&wants,R,'elQupsPave',z
+                #me&wants,R,'elQupsPave',z
             }
         }
         ey&Travelsed = 1

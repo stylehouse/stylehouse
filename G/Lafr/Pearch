@@ -182,7 +182,9 @@ Rs&_ting = &Qr{
     #  per Q that we listened up
     Qc&ready = &CP{
         ~>3 Qcready: Q.t
-        Rs&Qready(Q);
+        $cb = Qc&ready_instead
+        cb and cb(Q)
+        else Rs&Qready(Q)
     }
     
     $s = upting(Q);
