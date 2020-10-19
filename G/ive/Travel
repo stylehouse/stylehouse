@@ -3754,13 +3754,13 @@ me.Sch_Travel = &acgt{ return [
     # Travel/$t(%play?%SummerCat)
     ['Travelable',0.2971,&acgtRs{
         me&inode,R
-        $n = me&jaa,R,'Go' [0]
-        if (!n && !Rs&play) {
+        $N = me&ja,R,'Go'
+        if (!N && !Rs&play) {
             delete Rs&SummerCat
             Rs&Shouldbeempty = 1
             return
         }
-        Rs&Gorow = n
+        Rs&Gorows = N || [Cye(['dunno',1])]
         me&tsc,"play"
         Rs&playsia = 1
         # %eph while %%Go-created, up permanence:
@@ -3769,10 +3769,11 @@ me.Sch_Travel = &acgt{ return [
         Rs&eph && x.ro('%eph') and me&fiu,Tr,s
     },'ift,D'],
     ['Travelable+playsia',0.2972,&acgtRs{
-        $n = Rs&Gorow
-        $tid = ns&tid || 'dunno'
-        $r = me&bal,tid,'eph,SummerCat'
-        rc&s.y.Gorow = n
+        each in Rs&Gorows {
+            $tid = ns&tid || 'dunno'
+            $r = me&bal,tid,'eph,SummerCat'
+            rc&s.y.Gorow = n
+        }
     },'ift,D'],
     
     # noise
