@@ -1263,6 +1263,11 @@ me.Sch_Pavings = &acgt{ return [
                 # < to get there exactly when Q ready
                 c && K && !c.species &&
                     me&nodei,R,K,{commit:ss&dige},{dome:'someone'}
+                Qc&ready_also = &{
+                    ~>5 gotpushPave: K.t
+                    # < batch every so often...
+                    me&elvis,R,'pushPave-ready',{wake:K}
+                }
                 # < check extras have commit
                 # < let other users block updates, negotiate, pub
             }
