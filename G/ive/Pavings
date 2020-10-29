@@ -1266,7 +1266,8 @@ me.Sch_Pavings = &acgt{ return [
                 Qc&ready_also = &{
                     ~>5 gotpushPave: K.t
                     # < batch every so often...
-                    me&elvis,R,'pushPave-ready',{wake:K}
+                    $Kr = me&yfuture,K
+                    me&elvis,R,'pushPave-ready',{wake:Kr}
                 }
                 # < check extras have commit
                 # < let other users block updates, negotiate, pub

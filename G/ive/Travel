@@ -3671,7 +3671,7 @@ me.Sch_Travel = &acgt{ return [
     },
         
 // @Introtivity A tool hovers
-   # to feed the outside in (&t notify)
+   # to feed the outside in (&t notify) !!
    #  notice everything, a -seven
    #  has things its doing (warm &t cache)
    #  then may point paths into J
@@ -3683,15 +3683,17 @@ me.Sch_Travel = &acgt{ return [
         4s&Athing and me&nu,'A',4s&Athing
         4s&Bthing and me&nu,'B',4s&Bthing
         me&tc,"La"
-        Rs&wakeful = 1
+        #Rs&wakeful = 1
         # subscribe:
-        #4s&Travels = s
+        4s&Travels = s
         # enable:
         $x = me&Jx,R
         !x.ro("Intro?",{}) and delete 4s&lastnoelQups; return
         # to changes in:
         $e = 4s&lastnoelQups
         !e and return
+        ec&looki ||= 0
+        ec&looki ++
         me&tc,"Athing:"+e.t
         me&nu,"ething",e
         each in ec&Qz {
@@ -3723,19 +3725,22 @@ me.Sch_Travel = &acgt{ return [
                             ~>5 gotready: n.t
                             me&elvis,R,'elQupsPave',{wake:zy&R}
                         }
+                        T.asyncQs = [];
                         me&t,r,n
+                        delete T.asyncQs
                         ac(e,'gotup',n)
                     }
                 }
                 
+                $str = ns&P.sc.string
+                str == null and continue
+                #!
                 $la = ahsk(s,'y','versh',n.t)
                 $las = ahsk(s,'y','vershs',n.t)
                 ah(s,'y','versh',n.t,ns&P)
-                $str = ns&P.sc.string || "???"
-                ah(s,'y','vershs',n.t,ns&P.sc.string)
+                ah(s,'y','vershs',n.t,str)
                 
-                la and me&diffany,R,ns&P,Cye(['l',1,{},{string:las+"\n\nBol"}])
-                la and me&diffany,R,ns&P,la
+                la and me&diffany,R,ns&P,Cye(['l',1,{},{string:las}]),{se}
                 la && la == ns&P and me&tc,"SameP"
                 $line = str.split("\n")[0]
                 me&tc,"Line0:"+line,1
@@ -3801,14 +3806,11 @@ me.Sch_Travel = &acgt{ return [
             # gets a $tid, returns as %%Go
             $Gu = xc&Gump
             $Got = Gu && me&ioty,Gu,'Goting' [0]
-            me&nu,"Got",Got
             Got and me&nodei,R,Got,q
             else me&waits,"$tid..."
-            me&tc,"$tid.."
-            !N and return
+            !N and return me&tc,"$tid.."
         }
         Rs&Gorows = N || [Cye(['dunno',1])]
-        me&tsc,"play"
         Rs&playsia = 1
         # %eph while %%Go-created, up permanence:
         $Tr = xs&Travel
@@ -3817,7 +3819,7 @@ me.Sch_Travel = &acgt{ return [
     ['Travelable+playsia',0.2972,&acgtRs{
         each in Rs&Gorows {
             $tid = ns&tid || 'dunno'
-            $r = me&bal,tid,'eph,SummerCat'
+            $r = me&bal,"v"+tid,'eph,SummerCat'
             rc&s.y.Gorow = n
         }
     },'ift,D'],
