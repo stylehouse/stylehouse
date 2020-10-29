@@ -2233,7 +2233,7 @@ me.Sch_Travel = &acgt{ return [
             $rows = []
             # generating current $lo
             # from @Gutago only, making $tid, about %%Goable,mot
-            $c = {fromone:1,tidgen,groure:Goable}
+            $c = {tidgen,groure:Goable}
             # state as string|drawing over time, making:
             #  %%lowel,tid,el,D,oD? - the state of it
             #  %%current,wid,el,fromt - many efroms
@@ -3683,14 +3683,17 @@ me.Sch_Travel = &acgt{ return [
         4s&Athing and me&nu,'A',4s&Athing
         4s&Bthing and me&nu,'B',4s&Bthing
         me&tc,"La"
+        Rs&wakeful = 1
         # subscribe:
-        4s&Travels = s
+        #4s&Travels = s
         # enable:
         $x = me&Jx,R
         !x.ro("Intro?",{}) and delete 4s&lastnoelQups; return
         # to changes in:
         $e = 4s&lastnoelQups
         !e and return
+        me&tc,"Athing:"+e.t
+        me&nu,"ething",e
         each in ec&Qz {
             $se = 
             n t 76  %dib
@@ -3698,7 +3701,7 @@ me.Sch_Travel = &acgt{ return [
             me&walls,se,'b:2.2h5';
             me&tcl,se,n.t,'b'
             $r = ny&R
-            me&nu,n
+            me&mnu,se,n
             # K%Pave or %SummerCat/%Jrunto 
             if (rs&Pave || rs&Jrunto) {
                 $z = ry&up
@@ -3728,16 +3731,18 @@ me.Sch_Travel = &acgt{ return [
                 $la = ahsk(s,'y','versh',n.t)
                 $las = ahsk(s,'y','vershs',n.t)
                 ah(s,'y','versh',n.t,ns&P)
+                $str = ns&P.sc.string || "???"
                 ah(s,'y','vershs',n.t,ns&P.sc.string)
                 
                 la and me&diffany,R,ns&P,Cye(['l',1,{},{string:las+"\n\nBol"}])
                 la and me&diffany,R,ns&P,la
                 la && la == ns&P and me&tc,"SameP"
-                $line = ns&P.sc.string.split("\n")[0]
+                $line = str.split("\n")[0]
                 me&tc,"Line0:"+line,1
                 
                 ey&Travelsed and continue
                 #me&wants,R,'elQupsPave',z
+                me&tc,"\n",1
             }
         }
         ey&Travelsed = 1
@@ -3753,8 +3758,6 @@ me.Sch_Travel = &acgt{ return [
             return zs&W || 1
         };
         me&ha,R,"Travels,to:Morrocco";
-        
-        me&baleg,'Introtivity'
     },'ift,D'],
     
     &{
@@ -3784,17 +3787,30 @@ me.Sch_Travel = &acgt{ return [
     # Travel/$t(%play?%SummerCat)
     ['Travelable',0.2971,&acgtRs{
         me&inode,R
+        $x = me&Jx,R
         $N = me&ja,R,'Go'
         if (!N && !Rs&play) {
             delete Rs&SummerCat
             Rs&Shouldbeempty = 1
             return
         }
+        if (Rs&play && xc&Gump) {
+            # tell Goting to run this
+            $q = {Goable:s.t,mot:1}
+            # -> @Goting
+            # gets a $tid, returns as %%Go
+            $Gu = xc&Gump
+            $Got = Gu && me&ioty,Gu,'Goting' [0]
+            me&nu,"Got",Got
+            Got and me&nodei,R,Got,q
+            else me&waits,"$tid..."
+            me&tc,"$tid.."
+            !N and return
+        }
         Rs&Gorows = N || [Cye(['dunno',1])]
         me&tsc,"play"
         Rs&playsia = 1
         # %eph while %%Go-created, up permanence:
-        $x = me&Jx,R
         $Tr = xs&Travel
         Rs&eph && x.ro('%eph') and me&fiu,Tr,s
     },'ift,D'],
