@@ -86,10 +86,10 @@
     window.peel = &s,sep,kep{
         s == null and return {}
         if (isst(s)) {
-            sep ||= ','
-            $kep = ':'
             # shortcut?
-            if (!s.includes(sep) && !s.includes(kep)) {
+            sep ||= ','
+            kep ||= ':'
+            if (!peelish(s,sep,kep)) {
                 return hashkv(s)
             } 
             # < sep|kep?
@@ -102,6 +102,13 @@
         isar(s) and debugger
         isha(s) and return s
         throw "not peely", s
+    }
+    # looks like something to peel,
+    #  supposing it will always be 
+    window.peelish = &s,sep,kep{
+        sep ||= ','
+        kep ||= ':'
+        return isst(s) && (s.includes(sep) || s.includes(kep))
     }
    // arq()
     # departmentalise c if not already
@@ -212,6 +219,14 @@
         return c
     }
    // ex*()
+    # may peel non-c.$name looking isst(c) 
+    # < peeled into s, not into s.$K
+    #   if c.$K is present+string, into c.$K.$k (string)
+    window.expets = &scqk{
+        isst(c) && peelish(c) and c = peel(c)
+        return exts(s,c,q,k)
+    }
+    
     # s=k:v hash copy after arq()
     #  c can stay string if ^ takes it beyond c.*.*
     # v merges if both hash
@@ -328,7 +343,7 @@
     # eg la:{ya:2} + la:three -> la:{ya:2,s:three} (K="la")
     window.exts = &scqk{
         if (k) {
-            # specifying a pair
+            # specifying a pair: c.$label.$s = 'the label'
             !isst(q) and throw "q+k"
             q = {qk:hashkv(q,k)}
         }
