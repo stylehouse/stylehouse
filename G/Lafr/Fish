@@ -202,6 +202,7 @@ $fi = self.fi = {}
     # us doing stuff
     fi.live = &acgt{
         $i = 5
+        $c = exts({},'sit','t')
         c.oth = 1
         #4s&Bthing = Gc&B
         4s&Bthing = eny(c)
@@ -223,7 +224,8 @@ $fi = self.fi = {}
         return fi&Xstru,fi.Xo,X,s,c,q,e
     }
     # CRUDJ(oin)D(iffer) on indexes
-    self.isA = A => A.y == A && A.c && A.sc
+    self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
+    # < q may make this into an iterator around here
     fi.Xstru = &acgtIXscqe{
         # specify X.Xq.$Xqt as q='word', q.Xq='word' or q.Xq.t
         # < expets() almost does this. or is it mightexpe(), mightpeel()?
@@ -235,6 +237,9 @@ $fi = self.fi = {}
         
         # we become A&X
         isA(X) and X = Xc&X ||= {A:X}
+        else {
+            debugger
+        }
         
         # s is the unknown, used
         # c is mostly talking to the Itivity, may c.where, c.sort etc
@@ -246,7 +251,7 @@ $fi = self.fi = {}
         #  maybe sorting|weighting
         # an Itivity (Xint|Xout) interprets per structure
         isst(I) and I = fi[I]
-        $y = q.Xq && !I[q.Xq.t] 
+        $y = q.Xq && I[q.Xq.t] 
         !y and throw "!q.Xq.t:"+q.Xq.t
         return y (A,C,G,T,X,s,c,q)
     }
@@ -324,17 +329,40 @@ $fi = self.fi = {}
     # est org for highlevel $stru-cture (Xq)
     #  it .has.$k = xq
     #  observe|comply to parameters of the index
-    fi.qas = &acgtXscqhu{
+    fi.qas = &acgtXscq{
         X.Xq ||= {}
+        !q.Xq.t and throw "!q.Xq.t"
         $Xq = X.Xq[q.Xq.t] ||= {}
         # may bump into e pointers from here
-        # hu are cq for Xq|xq
-        #  some culture|habit can org there
-        Q.has ||= {}
-        Q.has.k ||= {}
-        # values in refs, rows with them in ref
-        #  which only happens inside k: X/$k/$ref
-        Q.has.ref ||= {per:'k',refers:'refs'}
+        # A.1.Te%catch.A.Xqt[Xq.t]
+        #  which we would then go and find out more about
+        #  every time we begin to ... at X space
+        # pointering Te to things begins with the Xq we found it in
+        #  probably finds the attachment type satisfied
+        #   by a higher level connection|trigger than Xqt
+        #    eg &ha would Te%catch.h.ha = Tq
+        #     Tq then has indexing matching $n
+        #   be used to notice how many whats are going on
+        return &hu{
+            # hu are cq for Xq+xq
+            u = peel(u)
+            # you wouldn't randomly name an Xq.t as h:
+            isst(h) and u.t = h; h = {}
+            h = peel(h)
+            # some culture|habit can org there
+            Xq.has ||= {}
+            $xq = Xq.has[u.t] ||= {}
+            
+            # < must-bes, etc
+            # array merging, eg Xq|h.via=[one|two] = [one,two]
+            h = exable(h,Xq)
+            ex(Xq,h)
+            
+            u = exable(u,xq)
+            ex(xq,u)
+            
+            return xq
+        }
     }
     # Itivity of s+c
     fi.Xi = {}
@@ -409,7 +437,7 @@ $fi = self.fi = {}
         }
         
         # have a row, even for questions
-        $n = q.n = Cye([q.rowt||'abrack',1])
+        $n = s.n = Cye([q.rowt||'abrack',1])
         n.sc = s.sc || {}
         # mix shade -> n.sc for a while
         s.shade || s.src and me&brackshade,n,s.shade,s.src
@@ -467,9 +495,15 @@ $fi = self.fi = {}
         #    instruments producing brack when acted on
         #     other bracks below the line
         
-        fi&qas,X,q,'k'
-        # 
-        X ||= {}
+        $qas = fi&qas,X,s,c,q
+        $k = qas('k',{})
+        # all via different xo are to the same xo
+        $r = qas('ref',{via:[k]})
+        $N = s.N
+        N ||= s.n && [s.n]
+        # < objects coming through throw to %Jrunto er
+        !N and throw 'brackin?'
+        
         each in N {
             each kv n.sc {
                 # the keys
