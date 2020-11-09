@@ -353,6 +353,10 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         # < does anything ny&R?
         ny&A = A
         T.act and ny&act = T.act
+        # < el:2 makes its %%dome not expect redo,
+        #    can replace it into there, certainly if el:3
+        #     curently only if s.src'd from a c&recycled one:
+                # < indexes enough to conclude that it's that
         ns&dome and me&dome_bracki,j,n
         
         # enter|rummage
@@ -410,21 +414,18 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         
         # each .sc.$gk as a name had
         $Xk = qas('k','t')
-         # all via different xo are to the same xo
+         # all via different xo are to the same xo-space?
          $Xv = qas('v',{via:[Xk]})
         
         $N = s.N
         N ||= s.n && [s.n]
         !N and throw 'brackin?'
         each in N {
-            # < el:2 makes its %%dome not expect redo,
-            #    can replace it into there, certainly if el:3
-            #     curently only if s.src'd from a c&recycled one:
-                    # < indexes enough to conclude that it's that
-
+            Xn.i({n})
             each kv n.sc {
                 # the keys
-                $kx = me&X_t,X,k,n,'k'
+                $kx = Xk.i({t:k},{r:n})
+                #$kx = me&X_t,X,k,n,'k'
                 # have their values via unique id
                 me&X_s,kx,v,n,'v'
             }
@@ -521,13 +522,28 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
     # est org at X.Xq.$Xqt = Xq
     #   for highlevel $stru-cture sharing (Xq)
     #  Xq.has.$k = xq, about X.$k
-    # returns an Xq creator,
+    # returns an xq creator with Xq context
     #  
     #  observe|comply to parameters of the index
+    
+    # ex with array merge
+    #  eg s|c.via=[one|two] -> s.via=[one,two]
+    self.mex = &scq{
+        q ||= {}
+        if (q.ek) {
+            # fatal to want change
+            
+        }
+        c = exable(c,s)
+        return ex(s,c)
+    }
     fi.qas = &acgtXscq{
         X.Xq ||= {}
         !q.Xq.t and throw "!q.Xq.t"
         $Xq = X.Xq[q.Xq.t] ||= {}
+        # < Xq beyond just {t:'brack',has:...}
+        hak(q.Xq) > 1 and throw "&qas...q.Xq.* instruction"
+        q.Xq = Xq
         # may bump into e pointers from here
         # A.1.Te%catch.A.Xqt[Xq.t]
         #  which we would then go and find out more about
@@ -538,46 +554,80 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         #    eg &ha would Te%catch.h.ha = Tq
         #     Tq then has indexing matching $n
         #   be used to notice how many whats are going on
-        return &hu{
-            # hu are cq for Xq+xq
-            u = peel(u)
-            # you wouldn't randomly name an Xq.t as h:
-            isst(h) and u.t = h; h = {}
-            h = peel(h)
+        return &hum{
+            # already inside Xq.t, eg 'brack'
+            #  h.t -> u.t, X.$xqt base name for index bits
+            #  u.t -> u.type, &X_$type index building function
+            # both are required
+            isst(h) and h = {t:h}
+            isst(u) and u = {type:u}
+            # hu are cq, for Xq+xq
+            u.t && h.t and debugger
+            u.t = delete h.t
+            !u.t and throw "qas()!u.t"
+            !u.type and throw "qas()!u.type"
+            
             # some culture|habit can org there
             Xq.has ||= {}
             $xq = Xq.has[u.t] ||= {}
+            # < find same xq.t amongst Xq.t
             
-            # < must-bes, etc
-            # array merging, eg Xq|h.via=[one|two] = [one,two]
-            h = exable(h,Xq)
-            ex(Xq,h)
+            # xq.type may be known
             
-            u = exable(u,xq)
-            ex(xq,u)
+            # m more for xq
+            m and mex(u,peel(m))
+            
+            # array merging, for Xq.via
+            # < immutables: mex() q.ek, etc
+            mex(Xq,h)
+            
+            mex(xq,u)
             
             # value entry
-            xq.i = &cs{
-                fi&qis,X,Xq,xq,c,s
+            # at Xq+xq, micro to the &Xint|out s|c|q
+            $context = 
+            xq.i = &sc{
+                fi&qis,X,Xq,xq,s,c
             }
             
             return xq
         }
     }
-    # est user of 
-    fi.qis = &acgtX,Xq,xq,c,s{
+    # what can be known about fi.Xf.t|s|z
+    #  mix xq.* for xq.type
+    #  xq.hashy|array - index material
+    #   length of ^ based on:
+    #  xq.sc - what qis(s.$k) (arks) to want
+    #   default s[xq.t], eg s.t=$t
+    #  xq.refers
+    fi.types ||= {}
+    fi.types.t = {hashy:1}
+    fi.types.s = {array:1,refers:1}
+    fi.types.z = {array:1,selfin:'multix'}
+    fi.Xtype = &acgtXsc{
+        # 
+    }
+    # context of Xk.i({t:k},{r:n})
+    #  s.t is input to qt.type='t', etc
+    #   < s.sc.$ark=$v
+    #  c.r is what to est there
+    fi.qis = &acgtX,Xq,xq,s,c{
         # }
         s ||= {}
         # just ['onecell']
         isar(c) and s.N = c; c = {}
         isar(s) and s = {N:s}
         
-        $depth = xq.d || 1
+        $depth = xq.d || xq.sc && hak(xq.sc) || 1
         # hash keys ordered?
         # some xo.t.xo.t, which is 2* d=1
         #  indexing for things connected in this way and others
         depth != N.length
         c == 1 and c = {}
+        # here is where we climb X..x*..X between As
+        # and need to hang up a line to be able to call them back
+        #  ie the self|other task
+        
     }
   
   // &X_t|s|z lowlevels
