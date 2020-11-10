@@ -280,8 +280,8 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         # c is mostly talking to the Itivity, may c.where, c.sort etc
         # q.Xq for the ongoing structure,
         # q.* talks lower-level Itivity and to &X_* (storage mechanics)
-        #  q.for.t={el:9} should delete the X.t.*.z/$r?
-        #   you should provide deletes about * + $r,
+        #  q.for.t={el:9} should delete the X.t.*.z/$n?
+        #   you should provide deletes about * + $n,
         #    over an interface that can receive el:6 (moves) etc
         #  maybe sorting|weighting
         # an Itivity (Xint|Xout) interprets per structure
@@ -384,6 +384,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         c.el <3 and fi&Xint,A,s,c,'brack',q; return n
         else fi&Xout,A,s,c,'brack',q; return q.N
     }
+   // modes of
     # resolving s.* (esp sc) for a &bracki
     fi.apprehension_1 = &acgtscq{
         s.shade && isst(s.shade) and s.shade = peel(s.shade)
@@ -409,6 +410,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         
         q.rowt ||= 'apprehension'
     }
+   // Xi brack
     # index n by n%*
     #  X/k/ref(s) enumerate columns and their values
     # ongoingly to index N-news into X
@@ -426,8 +428,6 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         #    instruments producing brack when acted on
         #     other bracks below the line
         
-        # inflating an A with billions of 'string'.length
-        
         $qas = fi&qas,X,s,c,q
         
         # z all rows, in order
@@ -436,22 +436,24 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         # each .sc.$gk as a name had
         $Xk = qas('k','t')
          # all via different xo are to the same xo-space?
-         $Xv = qas('v',{via:[Xk]})
+         $Xv = qas('v','s',{via:[Xk]})
         
+        # < inflating an A with millions of 'string'.length
         $N = s.N
         N ||= s.n && [s.n]
         !N and throw 'brackin?'
         each in N {
-            Xn.i({n})
+            Xn.i({n},{n})
             each kv n.sc {
                 # the keys
-                $kx = Xk.i({t:k},{r:n})
+                $kx = Xk.i({k},{n})
                 #$kx = me&X_t,X,k,n,'k'
                 # have their values via unique id
-                me&X_s,kx,v,n,'v'
+                $vx = Xv.i({v},{n},kx)
+                #me&X_s,kx,v,n,'v'
             }
-            # all our _t x.z/$r anded might lead us to similar sets
-            # so will _s, earlier use might get to know about later
+            # all our t x.z/$n anded might lead us to similar sets
+            # so will s, earlier use might get to know about later
             X.z && X.z.length > 1000 and throw "Giant brack",s
         }
         return X
@@ -554,6 +556,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         # < Xq beyond just {t:'brack',has:...}
         hak(q.Xq) > 1 and throw "&qas...q.Xq.* instruction"
         q.Xq = Xq
+        Xq.up = X
         # may bump into e pointers from here
         # A.1.Te%catch.A.Xqt[Xq.t]
         #  which we would then go and find out more about
@@ -564,7 +567,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         #    eg &ha would Te%catch.h.ha = Tq
         #     Tq then has indexing matching $n
         #   be used to notice how many whats are going on
-        return &hum{
+        return &hue{
             # already inside Xq.t, eg 'brack'
             #  h.t -> u.t, X.$xqt base name for index bits
             #  u.t -> u.type, &X_$type index building function
@@ -580,29 +583,49 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
             # some culture|habit can org there
             Xq.has ||= {}
             $xq = Xq.has[u.t] ||= {}
+            xq.Xq && xq.Xq != Xq and debugger
+            xq.t && xq.t != u.t and debugger
+            xq.Xq = Xq
+            xq.up = X
             # < find same xq.t amongst Xq.t
+            # < hook up data smush patterns|memory for these *->u->xq
             
-            # xq.type may be known
+            # xq.type may be known, may compose many?
+            # isfu(is) made more complex if %Te wants
+            $is = fi.xqtypes[u.type]
+            is and ex(u,is)
             
-            # m more for xq
-            m and mex(u,peel(m))
+            # e more for xq
+            if (e)
+                ex(u,peel(e))
             
             # array merging, for Xq.via
             # < immutables: mex() q.ek, etc
+            mex(xq,u)
             mex(Xq,h)
             
-            mex(xq,u)
+            # compute how it is
+            # xq.sc - ordered hash of arks,
+            #  to qis() s.sc, which may then be out of order
+            isst(xq.sc) and xq.sc = peel(xq.sc)
+            # xq.N - list of arks
+            xq.N and xq.sc = hashkv(xq.N)
+            # usual depth of one, must be keyed by xq.t
+            xq.sc ||= hashkv(xq.t)
+            xq.d = hak(xq.sc)
+            !xq.d and throw "no size for xq:"+xq.t
             
             # value entry
             # at Xq+xq, micro to the &Xint|out s|c|q
-            $context = 
-            xq.i = &sc{
-                fi&qis,X,Xq,xq,s,c
+            $o = {Xq,xq,s,c,q}
+            xq.i = &scx{
+                return fi&qis,X,o,s,c,x
             }
             
             return xq
         }
     }
+    
     # what can be known about fi.Xf.t|s|z
     #  mix xq.* for xq.type
     #  xq.hashy|array - index material
@@ -610,15 +633,13 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
     #  xq.sc - what qis(s.$k) (arks) to want
     #   default s[xq.t], eg s.t=$t
     #  xq.refers
-    fi.types ||= {}
-    fi.types.t = {hashy:1}
-    fi.types.s = {array:1,refers:1}
-    fi.types.z = {array:1,selfin:'multix'}
-    fi.Xtype = &acgtXsc{
-        # 
-    }
+    fi.xqtypes ||= {}
+    fi.xqtypes.t = {hashy:1}
+    fi.xqtypes.s = {array:1,refers:1}
+    fi.xqtypes.z = {array:1,selfin:'multix'}
+    
     =pod qis(..bits)
-         supplied arks as s.sc is io usual?
+         supplied arks as s.sc is io usual
           doing without the odd one should work
           having the index in a few shapes
           so a row can have gaps, wildcarded at x|X
@@ -666,7 +687,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
                 shuffling the fronds:
                
                X..$xy/$x connects another X..$x to there
-                ie xy.z/$x, as opposed to $r
+                ie xy.z/$x, as opposed to $n
                  meta X.xqy[xy.t] = $xo
                   $xo informing of:
                    $xy having $x separating from its origin
@@ -674,7 +695,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
                    ie xo.zis='x' means xy.z/$x
                     all x having z index to the real item
                     might involve replacing all [old_x+] with [new_x+]
-                   < have|index where clauses for the found $x(.z/$r, etc)
+                   < have|index where clauses for the found $x(.z/$n, etc)
                  and|or:
                  meta X.xepart..$xo,$xy,$x for more complex vec
                   $xo must track places $x propagates into $xy
@@ -699,7 +720,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
                  might have some traces of processes involved, why not.
                   they may be findable via x they leave around...
                  eg
-                 so X.t.$t = x, x.z/$r
+                 so X.t.$t = x, x.z/$n
                   is primary (C.t index)
                   the x.up=X and x.xq describes X..x
                  so X.allx.$i = $xy, xy.z/$x = X.t.$t
@@ -739,7 +760,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
                        is for X.t/$t/$xa, has all the intent in $xc
                         which may not include any r (smush-config)
                        just to inflate to $xb gets us $xa,
-                        $xb.reason, simple or complex: to $r:D joining this
+                        $xb.reason, simple or complex: to $n:D joining this
                         $xb.positions of $xc involved, maybe classes in between
                         $xb.voicing of anything climbable with &voice
                         $xb.ioing of A&op - should from A:S climb into
@@ -765,8 +786,8 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
                     for which index can deduplicate others
                  
                  correlating variations on the path:
-                  to thing, x.z/$r
-                   $r (row, $n) may be in many x
+                  to thing, x.z/$n
+                   $n (row) may be in many x
                     per its traces of stuff in Xspace
                   to complement,
                    eg X.align.abc.ac looking at Xspaces (rowspace?) to align
@@ -782,10 +803,10 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
                      adding dimensions|layers of X perceiving X+
                    that there is a meaning possible
                     to be believed in
-                    eg X.dome[r%dome].z/$r partitions $r
+                    eg X.dome[r%dome].z/$n partitions $n elsewhere
                      making groupable how they are available through X.*
                      by aft-X..x filtering of x.z
-                     this maybe-$r, ever-$x awareness
+                     this maybe-$n, ever-$x awareness
                       must line up with:
                        eg expecting to find history for structures
                         we have started taking apart or replacing
@@ -818,7 +839,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
                      redo $whole for $parts (new X..x hashes)
                      delete $whole/$parts (X.. tidied)
                     depending on mergibility (Dome@3)
-                   you must figure that by some x.z/$r being %domed 
+                   you must figure that by some x.z/$n being %domed 
                     and knowing its a certain X..x from before,
                      possibly amongst a set of dupes (hak(x.z)>1)
                       that arent duping anymore (due to sleepy processing)
@@ -896,32 +917,128 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
             and mergeselect your way out of
            might often return the nearest selection to something
     =cut
-        
-    # context of Xk.i({t:k},{r:n})
-    #  s.t is input to qt.type='t', etc
-    #   < s.sc.$ark=$v
-    #  c.r is what to est there
-    fi.qis = &acgtX,Xq,xq,s,c{
-        # }
+    # defor... inverted
+    self.oneor = &ckv{
+        $is = c [k]
+        is == null || !is and return v
+        return is
+    }
+    # context of Xk.i({t},{n})
+    #  s.t->s.sc.t is input to xq.type='t', etc
+    #   as the only ark, usually named after xq.type
+    #  c.n is what to est there
+    fi.qis = &acgtXoscx{
+        $xq = o.xq
         s ||= {}
-        # just ['onecell']
-        isar(c) and s.N = c; c = {}
+        c ||= {}
+        # s.N might be either if array
         isar(s) and s = {N:s}
-        $depth = xq.d || xq.sc && hak(xq.sc) || 1
-        # hash keys ordered?
-        # some xo.t.xo.t, which is 2* d=1
-        #  indexing for things connected in this way and others
-        depth != N.length
-        c == 1 and c = {}
-        # here is where we climb X..x*..X between As
-        # and need to hang up a line to be able to call them back
-        #  ie the self|other task
+        else
+        isar(c) and s.N = c; c = {}
+        else
+        # scoops s.* into s.sc.* if vague
+        !s.N && !s.sc and s = {sc:s}
+        # s.x = x to x..x
+        x and s.x = x
+        # s gets us there, c arrives with...
         
+        $depth = xq.d
+        $keys = xq.N || haks(xq.sc)
+        s.N && s.N.length != keys.length and throw "key length"
+        
+        # while xq belongs to X,
+        #  our notion of Xspace (where to build X.*)
+        #  is subject to starting at $x,
+        #   and xq.via.includes(x.xq)
+        if (s.x) {
+            $x = s.x
+            !x.xq || !x.z and throw "s.x !x"
+            !xq.via.includes(x.xq) and throw "s.x not via "+xq.t,{x,xq}
+            $Xspace = x
+        }
+        else {
+            $Xspace = X
+        }
+        # by name
+        $index = Xspace[xq.t] ||= xq.array ? [] : {}
+        $nx = index
+        # the housing thinks everything is a key
+        each ik keys {
+            xq.N && s.N and $key = s.N[i]
+            else
+            s.sc and $key = s.sc[k]
+            else {
+                throw "qis() s.* vague", s
+            }
+            if (xq.array) {
+                # array allows keying by values, may uniquely
+                $value = key
+                nx != index and throw "array d>1"
+                # mirror eg xq.t='ref'
+                #  X.ref[vi]=x <-> X.refs[vi]=s
+                $refst = oneor(xq,'refers', xq.t+'s')
+                $refs = Xspace[refst] ||= []
+                # corresponding array to hold x per value
+                # < should probably index={refs[v+]<->ref[x+]}
+                #   other array schemes|tools might live there
+                $is = refs.indexOf(value)
+                if (xq.refers && is >= 0) {
+                    # uniquely, find same x
+                    $vi = is
+                }
+                else {
+                    # repeat, new x
+                    $vi = refs.push(value)-1
+                }
+                $nex = nx[vi] ||= {}
+                nx = nex
+                
+                # link many x by value
+                if (is >= 0 && is < vi) {
+                    $ox = nx[is]
+                    # share array of same-valued x
+                    # usu must join X.** with point-nested pointers
+                    x.multix =
+                    ox.multix ||= [ox]
+                    x.multix.push(x)
+                }
+            }
+            else {
+                # may travel multiple layers of hashes
+                !iskeyish(key) and throw "keying !string"
+                $nex = nx[key] ||= {}
+            }
+            typeof nex != 'object' and throw "X{!object", {xq,i,key,keys,nx,nex}
+            nx = nex
+        }
+        
+        $x = nx
+        # always:
+        x.z ||= []
+        x.up && x.up != Xspace and throw "x.up ~"
+        x.xq && x.xq != xq and throw "x.xq ~"
+        # < x.top? of a group of dimensiona
+        x.up = Xspace
+        x.xq = xq
+        
+        # magic relationising atoms (C)
+        c.n and x.z.push(c.n)
+        else {
+            throw "no qis c to put"
+        }
+        
+        # some x.t.$t.x.t.$t, which is 2* d=1
+        #  carry on from x nowish, while playing loop with others
+        #  indexing for things connected in this way and others
+        #  here is where we climb X..x*..X between As
+        #  and need to hang up a line to be able to call them back
+        #  ie the self|other task
+        return x
     }
   
   // &X_t|s|z lowlevels
       =write or read (autovivificatorialy)
-        X.$someindex ||= x += $r
+        X.$someindex ||= x += $n
        leading to x, another|inside X via $someindex
        x remembering what indexes it is in?
         joins|varies by x.z/r,

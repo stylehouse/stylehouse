@@ -75,10 +75,34 @@
     # waves have a skin
     # skins relate posture
     # < for even ...arguments, like perl's {@kvs}
+    window.iskeyish = &k{
+        return typeof k == 'string' || typeof k == 'number'
+    }
     window.hashkv = &kv{
-        $c = {}
-        c[k] = v != null ? v : 1
-        return c
+        $args = [...arguments]
+        if (args.length == 1) {
+            $first = args[0]
+            # hashkv('it') -> {it:1}
+            !isar(first) and args.push(1)
+            else {
+                # hashkv(['it','es']) -> {it:1,es:1}
+                args = []
+                each in first {
+                    args.push(n)
+                    args.push(1)
+                }
+            }
+        }
+        $c = null
+        while (args.length) {
+            $k = args.shift()
+            c && args.length < 1 and throw "odd hashkv"
+            $v = args.shift()
+            c ||= {}
+            isk(k)
+            c[k] = v 
+        }
+        return c || {}
     }
     
     # hash from k:v, v=1 if not given
