@@ -12,6 +12,12 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         c = exable(c,s)
         return ex(s,c)
     }
+    # defor... inverted
+    self.oneor = &ckv{
+        $is = c [k]
+        is == null || !is || is == 1 and return v
+        return is
+    }
     
     
     
@@ -230,10 +236,39 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
        meaning catching the first letter type event,
         multiple times (el2,el3+)
        the oscillator decides to i,-i based on o
+      smudge over time to sing
    =cut
     
   // frontend
    =pod
+   lang has instances of cultures at levels
+   they share s,c,q, q mostly, which talks of the whole trip:
+    use: &ha|&ja|... sc,shade,mix
+     perspectives, for most local expressions of truthseeking
+     configures probably one:
+    front: &a A,s,c,q||={}
+     handles that family of types doing what they do
+     < knowing &Xio,{i:'brack'},A,s,c,q
+       q.Xio='i', q.Xt='brack'
+     as many:
+    middle: &bracki X,s,c,q
+     defining with each &qas, climbing them 
+      may be merging with another Xt.t here,
+       to connect various o to the i
+       so we can assert|check index is how we expect (down to a point)
+       and be Xqt
+      ie i.brack() supplies later o.bracklink()
+     and climbing whatever it needsqas
+     
+    middle: 
+     &bracki|o define+do climbing, 
+      &qas defined (Xt)
+      returning x, stuff in q
+    back:
+     qis(Xoscx) <- many $s,$c travel x|X
+      
+     
+   
     these all take Xscq...
       search|thing (what we implant+excavate)
       configurance (&Xint level)
@@ -270,7 +305,39 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
             ~>5 Fiseh: 3
         fi&a,{fuselage:3}
     }
-   // &Xint|&Xout,X|A,s,c,q||$t:Xqt,q (&middle is $Xqt)
+    
+    # {i|o:$Xqt...} {thing} {how} {}
+    # could be any medium|indexing
+    # per direction (write+read)
+    fi.Xios ||= {}
+    fi.Xio = &acgtescq{
+        # q.Xio|Xq.t <- e = {i:'brack'} || 'brack'
+        typeof e == 'string' and e = {i:e}
+        !e.Xio and e.Xio = haks(e)[0]; e.Xq = e[e.Xio]
+        isst(e.Xq) and e.Xq = {t:e.Xq}
+        q ||= {}
+        
+        $X = delete e.X
+        X ||= delete e.A
+        X ||= A
+        
+        # become A&X
+        isA(X) and X = Xc&X ||= {A:X}
+        
+        # < ac q.allXio.$Xqt
+        ex2(q,e)
+        
+        # know Xq.t by name
+        $Xqf = fi.Xios[q.Xq.t]
+        !Xqf and throw "!Xqt:"+q.Xq.t
+        # of the ways (i|o|etc) at the ground
+        $Xqfio = Xqf[e.Xio]
+        !Xqfio and throw "!Xio:"+q.Xq.t+"."+e.Xio
+        
+        return Xqfio (A,C,G,T,X,s,c,q)
+    }
+    
+   // GOING &Xint|&Xout,X|A,s,c,q||$t:Xqt,q (&middle is $Xqt)
     # Itivity of s+c
     fi.Xi = {}
     fi.Xo = {}
@@ -404,9 +471,13 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         ns&dome and me&dome_bracki,j,n
         
         # enter|rummage
-        c.el <3 and fi&Xint,A,s,c,'brack',q; return n
-        else fi&Xout,A,s,c,'brack',q; return q.N
+        # < fi&oi,s,c,q ({i:brack}) develop a query with multiple mediums
+        #   s,c,q making waves of conversions, for arks deduced from pi
+        #   these are sc,c,y of course
+        c.el <3 and fi&Xio,{i:'brack'},s,c,q; return n
+        else fi&Xio,{o:'brack'},s,c,q; return q.N
     }
+   
    // modes of
     # resolving s.* (esp sc) for a &bracki
     fi.apprehension_1 = &acgtscq{
@@ -433,10 +504,13 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         
         q.rowt ||= 'apprehension'
     }
+   
    // Xi brack
     # index n by n%*
     #  X/k/ref(s) enumerate columns and their values
     # ongoingly to index N-news into X
+    fi.Xios.brack ||= {}
+    fi.Xios.brack.i =
     fi.Xi.brack = &acgtXscq{
         # some &bracki:
         #  we create a new $n picturing:
@@ -451,6 +525,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         #    instruments producing brack when acted on
         #     other bracks below the line
         
+        # binds to q.Xt
         $qas = fi&qas,X,s,c,q
         
         # z all rows, in order
@@ -494,7 +569,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         
     }
     
-  // &qas enters|uses an X schematic for &Xstru for $Xqt
+  // &qas enters|uses an X schematic for &Xio for $Xqt
    =pod &qas,...context -> qas(..schema) -> qis(..bits)
      ' entering an X schematic
      when the thing is as vague as it gets
@@ -941,15 +1016,8 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
             and mergeselect your way out of
            might often return the nearest selection to something
     =cut
-    # defor... inverted
-    self.oneor = &ckv{
-        $is = c [k]
-        is == null || !is || is == 1 and return v
-        return is
-    }
-    # context of Xk.i({t},{n})
-    #  s.t->s.sc.t is input to xq.type='t', etc
-    #   as the only ark, usually named after xq.type
+    # context: Xk.i({t},{n})
+    #  s.sc.$key=$value, along X..x, only ark usu xq.t
     #  c.n is what to est there
     # off the end of $x if provided
     #  is s.x, separate since s.* scooped into s.sc.*
@@ -1046,6 +1114,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         # < x.top? of a group of dimensiona
         x.up = Xspace
         x.xq = xq
+        xq.lastq = q
         
         # magic relationising atoms (C)
         c.n and x.z.push(c.n)
