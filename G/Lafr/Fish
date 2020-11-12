@@ -248,9 +248,11 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
      configures probably one:
     front: &a A,s,c,q||={}
      handles that family of types doing what they do
-     < knowing &Xio,{i:'brack'},A,s,c,q
-       q.Xio='i', q.Xt='brack'
-     as many:
+     make many calls, each get  to something like:
+      &Xio,{i:'brack',X||=A},s,c,q
+       each spec q.Xio|Xq.t, source X|A
+       may change s,c,q completely
+       each &Xio translates to:
     middle: &bracki X,s,c,q
      defining with each &qas, climbing them 
       may be merging with another Xt.t here,
@@ -262,27 +264,48 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
      
     middle: 
      &bracki|o define+do climbing, 
-      &qas defined (Xt)
-      returning x, stuff in q
+      $qas = &qas...(mostly in q already)
+       makes $X.Xq.brack = $Xq
+      $xt = qas($t,$type,e)
+       makes $Xq.has.$t = $xt
+      per-$xt s,c 
+      each $xt.i(s,c,x?) forwarding to:
     back:
-     qis(Xoscx) <- many $s,$c travel x|X
-      
-     
+     &qis,X,o,s,c,x <- many $s,$c travel x|X
+      read+write X..x as per $xt, with $s, for $c
+       s.sc are the bind params
+      these s,c are new, at the $xq level now:
+      o.xq|Xq...
+       middle|macro level now o.s|c|q..
+       < o.c|q might hook by $xt to ex &qis..c, etc
+      are individual to the $xt
    
-    these all take Xscq...
-      search|thing (what we implant+excavate)
-      configurance (&Xint level)
-       i|o parameters, mostly for q.Xo
-      question (&X_* level)
-        may el:9?
-        limit|replace certain x
-    &Xint|out
-     individual i|o parts of:
+   the theme of everything taking s,c,q (y,c,sc reversed)
+    they may compile as they cross each layer, esp middle
+     s.. is likely to be iterated by the middle,
+     c+q are likely
+      search|thing (what, reality)
+       what we implant+excavate
+      configurance (how to)
+       io spec, complex WHERE, etc
+      question
+       shared over all layers,
+        per use or at least frontend lifecycle
+        < track each other over time
+          frontend doesnt know what use it is for
+          unless they are &h calls (G.h(acgt...)) which G&B...
+       may make arbitrary lowlevelations
+        may be copying (translating) to another X|x
+        may el:9 everything at the backend
+        may want to check all X/$n.sc same asap
+         see 'the q.still variation'
+       limit|replace certain x, who knows what.
     &t
      write search down - Qish as brack c
      find any things (rows) matching c
       go for the smallest set as the one
      write what we read, inc nothing
+      do things to get, keep thing
      reads a thing!
 
     leads you to describe the thing you are in
@@ -307,8 +330,8 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
     }
     
     # {i|o:$Xqt...} {thing} {how} {}
-    # could be any medium|indexing
-    # per direction (write+read)
+    # could be any medium|indexing (Xqt)
+    # per direction (write+read) (Xio)
     fi.Xios ||= {}
     fi.Xio = &acgtescq{
         # q.Xio|Xq.t <- e = {i:'brack'} || 'brack'
@@ -316,6 +339,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         !e.Xio and e.Xio = haks(e)[0]; e.Xq = e[e.Xio]
         isst(e.Xq) and e.Xq = {t:e.Xq}
         q ||= {}
+        # q.Xq already may know a previous &Xio
         
         $X = delete e.X
         # < Babz
@@ -381,7 +405,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         !y and throw "!q.Xq.t:"+q.Xq.t
         return y (A,C,G,T,X,s,c,q)
     }
-  
+ 
   // &t
     # Tthing that can wait for it various ways
     # c.modes of async
@@ -414,6 +438,177 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
     # throw if no
 
   // apprehend (&ha, &ja...)
+   =pod brackio
+    do as &bracki|o do
+    also:
+      the q.still variation on any middle:
+       &Xio:i:brack s.N/$n q.still=1
+        we would pass all our rows
+         to refresh the index,
+          either in place or by making X:diff
+         like &brackstill, simple as for speed?
+          each X/$n (row) remembers the many {k,v} it had
+          each $n again:
+           resolving $n is easy (ref)
+           alt xq.i(...) makes list of new {k,v}
+           if cha,
+            T.whack out of &bracki to:
+       &Xio:i:brack s.N/$n q.still=2
+        checks bunch of $n for re-read
+        resolving $n is easy (ref)
+         starting with more specific X/$ks
+           there is usu a way to refer to an exact $n
+            as '%%what,it,is', and more expressions
+             anything &brackology can make string
+            this pressumes light into places
+             to be passing qualities between $n in its conscious mode
+              the seeming cellular exchanges of %these
+               and their depths and approximate shapes
+               play identity swaps
+              vectorial qualia like things
+               make infinite fields of X:diff for C
+          anyway
+          usu find one $n:old for each $n:new
+           X/$ks may do this if keys arent moving
+           X/$k can find+sort the 
+          based simply on the ideal name for a thing
+          one usu matches for each thing, un
+          or X/$k|v more loosely
+          can probably sort a thing into entirely different 
+         or if not, case a sub X:diff each possible $n match
+          
+           $ks has a few codified names for the thing (strings)
+         finding a match for $n
+          happens while we
+          since any X/$n = xeln
+           that x.z/$n, like the other X.** grouped by $n
+          know all X..x for x.z/$n supposed to know X/**/x
+          : ambiguous X/$n would know X/$ks
+          try all combinations of old+new $nwe could add more $n-variations
+          then pick the least X:diff-icult
+           
+          some spaces will have things to reset
+           when boundary conditions on the k,v etc
+        as above,
+         having an $n before,
+          so having all 
+         
+         we have an X:old and an X:diff to throw it into
+          X:diff might inherit to X:new at the end of this
+           X:new/others/$Xpath = X:old
+            search|o X..x per $n in X:new
+             if no trace of $n, then X:old
+            grouped by $n
+             making X:new/** come out in sequence
+             though it is mostly X:old
+             some $n and everything thats X:new about them
+             , allowing those $n to be replaced in that
+          X:diff:
+            
+         equal thing for key|value of X.**,+ making the standard X:diff
+         for Xqt=
+         alt xq.i(...) finds|compares X/$n|$k
+          
+          finding $n usu same ref easy,
+           may have to find ny&up=$n by the time X:old
+           they can be checked while held in a dome etc
+           they get lost every time they exists
+           have to know a unique name for them
+            perhaps X/$ks - a pile of autogen names for nodes
+             they could divide themselves by adding to their names
+              ~ what &brackology is supposed to display a field of
+             they could easily find themselves apart,
+              with a sequence number after envelope
+           yet like linear sequences,
+            would call a stream of them wanderable
+           anyway
+           we probably have x.z=$n still,
+           or resolve $ks to an $n
+            < or go by homology,
+             another dimension of similarities in deeper ..x sprung?
+             or sequence conservation
+          
+          compares may be expressed with X.variations
+           sets of meaning
+            like &a Xq.t='brackdiff'
+           X.eln/$n = xeln
+            xeln is the x in X.eln
+            it occurs for each $n as we arrive
+            groups a bunch of:
+           X.el9/$ks|n|k|v = xel
+            xel/$n = xelnot
+             index only, clues:
+            X.eln/$n = xeln
+             each $n
+            xel = X/$el*/$*
+             el type of change, of index, 
+            
+            group by xel/$n = X.el8/$n = xeln
+             xeln/$el/$ks|n|k|v
+             
+             xeln knows them all
+            to form a 
+             so X.anyel9.$ks|n|k|v = xel
+              $k=thingo 
+            
+          
+           of some types of x:
+            o $xel/$n 
+          X.el2/$ks = xel
+           meaning it got a name unique to it
+          X.el3/$ks = xel
+           one of its names changed
+          X.el3/$k = xel
+           one of its keys changed, maybe independent to:
+          X.el8/$v = xel
+           one of its names changed
+          
+          composite el modes and the &bracki X.*:
+           X.el9/$ks|n|k|v = xel
+            an inclusivity per $n ($ks resolved)
+            every $n with el9-ing anything fully loads its X.*
+             since the x.z=$n, they can be found...
+            eg
+             X.el9/$k=thingo = xel
+              xel/$n+ = xeln
+               xeln.the = X.el9/$n = xel
+                 all $n with a $k=thingo
+                $n:xel/$ks|n|k|v = xeld
+                 xeld.x = X:old/
+                 disappearing 
+                
+              # compares
+               xeln.n is X.elhas $n
+            those X.* pointed to
+            xel.*..x link X...x that are no more
+            only X.el9/$n
+             sparse X.ref understood?
+             from the X:old or pointers was|is as it was
+        
+           compare to $old after|domed-by each $n
+          
+          and each X/$v (value anywhere) remembers the X/$n having it
+         this could be superlinear, like a &brackstill, for speed
+          then fallback to generating X/$dometime/X..x with x.dif
+           so the changes are in the same structured format (X)
+           the $k|$v 
+           with more for $dometime at x.dif, etc
+         
+         against X.$k and X.$v
+          for this X,
+           re-indexing C users might have altered
+            should e if A far away (that we wont see it)
+            usu Dome_7 do so? warn when cha surprise
+            everything should use a thing that X|A interacts
+            ie you osc in remote things,
+             change them,
+             have changes returned
+          for another X eg %wou_accepted last complete X
+           
+           basically how &brackstill works
+          &za for %wou_accepted)
+         this would be like 
+   =cut
     # &ha el:1, &ja el:7 (this-time), &za|da el:8 (the-time)
     # &da should emit nearly lv
     # < &bracki|&bracko
@@ -453,23 +648,15 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         # have a row, even for questions
         $n = s.n = Cye([q.rowt||'abrack',1])
         n.sc = s.sc || {}
-        # mix mix -> n.sc
-        each kv s.mix {
-            n.sc[k] = v
-        }
-        # mix shade -> n.sc for a while
-        s.shade || s.src and me&brackshade,n,s.shade,s.src
+        
         # row pipelined around
         s.src and ny&up = s.src
         ny&brack = A
         # < does anything ny&R?
         ny&A = A
         T.act and ny&act = T.act
-        # < el:2 makes its %%dome not expect redo,
-        #    can replace it into there, certainly if el:3
-        #     curently only if s.src'd from a c&recycled one:
-                # < indexes enough to conclude that it's that
-        ns&dome and me&dome_bracki,j,n
+        
+        c.el <3 and fi&apprehension_2,s,c,q
         
         # enter|rummage
         # < fi&oi,s,c,q ({i:brack}) develop a query with multiple mediums
@@ -478,7 +665,6 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         c.el <3 and fi&Xio,{i:'brack'},s,c,q; return n
         else fi&Xio,{o:'brack'},s,c,q; return q.N
     }
-   
    // modes of
     # resolving s.* (esp sc) for a &bracki
     fi.apprehension_1 = &acgtscq{
@@ -504,6 +690,20 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         }
         
         q.rowt ||= 'apprehension'
+    }
+    fi.apprehension_2 = &acgtscq{
+        $n = s.n
+        # mix mix -> n.sc
+        each kv s.mix {
+            n.sc[k] = v
+        }
+        # mix shade -> n.sc for a while
+        s.shade || s.src and me&brackshade,n,s.shade,s.src
+        # < el:2 makes its %%dome not expect redo,
+        #    can replace it into there, certainly if el:3
+        #     curently only if s.src'd from a c&recycled one:
+                # < indexes enough to conclude that it's that
+        ns&dome and me&dome_bracki,j,n
     }
    
    // Xi brack
@@ -561,6 +761,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
     =pod
      e
     =cut
+    fi.Xios.brack.o =
     fi.Xo.brack = &acgtXscq{
         # s.n - u-ward, what has this as n
         # s.u - n-ward, what has this as u
@@ -652,6 +853,8 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         X.Xq ||= {}
         !q.Xq.t and throw "!q.Xq.t"
         $Xq = X.Xq[q.Xq.t] ||= {}
+        Xq.t = q.Xq.t
+        Xq.has ||= {}
         # < Xq beyond just {t:'brack',has:...}
         hak(q.Xq) > 1 and throw "&qas...q.Xq.* instruction"
         q.Xq = Xq
