@@ -2576,33 +2576,53 @@ me.Sch_Travel = &acgt{ return [
             me&tc,"wake:"+r.t
         })
     },'ift,D,sleeping'],
-    
+    &{
+        me.Gome_permit = &acgtRs{
+            me&reaw,R,'Gome'
+            me&inode,R
+            $Gump = isnode(s)
+            # o Goting... permit
+            $n = theone(me&jaa,R,'Go' )
+            if (!n) {
+                if (!sy&sometime) {
+                    # early
+                    me&tc,"Loading..."
+                    return
+                }
+                me&unlock,Gump,'twins',s
+                me&tc,"disconnect"
+                return
+            }
+        
+            # avoid Gu* changes
+            me&lock,Gump,'twins',s
+            sy&sometime = 1
+            
+            $h = ns&n
+            if (!(h && hs&lowel)) {
+                # not from @Goting's historicising?
+                #  @Intro circumvents tracking inputs there
+                me&zu,"NOLOWEL",h
+                return
+            }
+
+            # in time %%quiet_wake:Gump
+            Rs&wakeful = 1
+            $quiet = me&is_quiet_now,Gump
+            quiet and me&tsc,'quiet'
+            me&tc,"\n"
+            # < &SuperGens:startTravel
+            #    commit unrelated changes for tidiness...
+            return n
+        }
+    },
     ['Gome',0.5,&acgtRs{
         $x = me&Jx,R
-        me&reaw,R,'Gome'
-        me&inode,R
         $Gump = isnode(s)
-       // 1 wait %%Releasor
-        # o Goting... permit
-        $n = theone(me&jaa,R,'Go' )
-        if (!n) {
-            !sy&sometime and return me&tc,"Loading..."
-            me&unlock,Gump,'twins',s
-            me&tc,"disconnect"
-            return
-        }
-        sy&sometime = 1
-        $h = ns&n
-        !(h && hs&lowel) and return me&zu,"NOLOWEL",h
-        
-        # in time %%quiet_wake:Gump
-        Rs&wakeful = 1
-        $quiet = me&is_quiet_now,Gump
-        quiet and me&tsc,'quiet'
-        me&tc,"\n"
-        # < &SuperGens:startTravel
-        #    commit unrelated changes for tidiness...
-        
+        # receive %%Go
+        $n = me&Gome_permit,R,s
+        !n and return
+        # 
         if (ns&mot <8) {
             # i Travel... run
             me&nodei,R,xs&Travel,n,{},{Gome:s}
@@ -2619,9 +2639,6 @@ me.Sch_Travel = &acgt{ return [
             #     now, is starting already
         
         }
-        
-        # avoid Gu* changes
-        me&lock,Gump,'twins',s
         
         if (ns&mot <8) {
             # deal with Travel|Duolish
