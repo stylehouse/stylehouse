@@ -206,7 +206,22 @@ me.Sch_Comm = &acgt{ return [
         !S and debugger
         !S and return me&waits,'node'
         
-        Rs&client = Ry&up
+        $tr = Rs&client = Ry&up
+        $t = trc&s
+        
+        if (ts&caut || 1) {
+            # give our @Gome a chance to configure $SC
+            $n = sy&Gorow
+            !n and return me&tc,"caut!Gorow"
+            !ns&Gome and return me&tc,"Gorow!Gome"
+            me&nodei,R,ns&Gome,{Travelable:t,Cat:s}
+            # reply
+            me&ja,R,{Control:1,efrom:ns&Gome} and 1
+            else
+            # must wait for controller
+            ts&caut and return me&tc,"Gome->%%Control..."
+        }
+        # $s known as $SC to these routines
         
         $testmode = 0 ? '' : ',testmode'
         me&bal,'Inc','Aearch,eph'
@@ -450,6 +465,8 @@ me.Sch_Comm = &acgt{ return [
         me&reaw,R,'Jproto,eph';
         $S = me&inode,R;
         $x = me&Jx,R;
+        $SC = xs&clienting
+        !SC and debugger
         
         # %Jhost prepares &t
         me&settle_prev,R and return
@@ -583,7 +600,8 @@ me.Sch_Comm = &acgt{ return [
             $le = gry&can('c');
             me&jaa,R,{dome:'plans',plan:k} .map(&n{
                 plans.push(n)
-                lcs&ope and ha('now',n)
+                $keeprunning = lcs&ope || SCs&keeprunning
+                keeprunning and ha('now',n)
                 
                 $ro = ley&can('w');
                 ros&hue = 38;
@@ -614,6 +632,8 @@ me.Sch_Comm = &acgt{ return [
         if (plans.length && plans.length == done.length) {
             each in done {
                 ns&e and continue
+                $noDuo = SCs&noautoDuo && !me&ja,R,'mayDuolish'
+                noDuo and continue
                 # plans from Jproto
                 # < sort by plan
                 $D = ns&C;

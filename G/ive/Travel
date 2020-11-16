@@ -2622,14 +2622,38 @@ me.Sch_Travel = &acgt{ return [
         # receive %%Go
         $n = me&Gome_permit,R,s
         !n and return
-        # 
-        if (ns&mot <8) {
+        
+        # Gome, being a macro Dome,
+        #  can incorporate sleeping content
+        if (ns&mot == 8) {
+            # just to update K to what they think they are
+            $N = me&zaa,xc&Goting,{Goable:ns&Go,Ghoscgk:1,K:1}
+            !me&SuperGhosc,R,s,{N} and return
+        }
+        else {
+            # fully doing
             # i Travel... run
             me&nodei,R,xs&Travel,n,{},{Gome:s}
-
+            
+            # receive %%Travelable,Cat from Travel/$t/$s
+            $t = me&receivan,'Travelable,Cat'
+            $SC = me&receivan,'Cat,Travelable'
+            !t || !SC and return
+            
+            # put modes on Cat (keep goingness)
+            SCs&keeprunning = 1
+            # send %%mayDuolish to 
+            SCs&noautoDuo = 1
+            # send back %%Control to begin
+            me&nodei,R,SC,{Control:1}
+        
             # o Duolish... run
             $e = me&receivan,'Releasor'
             !e and return
+            
+            # deal with Travel|Duolish
+            # < notice when Ghost..Bouree no longer used
+            !me&SuperGansp,R,s,{},e and return
             
             # < &SuperGens:finishTravel
             #    what run did in W:Fingo,
@@ -2637,17 +2661,6 @@ me.Sch_Travel = &acgt{ return [
             #    may subtract startTravel
             #   < then permit Releasor to begin
             #     now, is starting already
-        }
-        
-        if (ns&mot <8) {
-            # deal with Travel|Duolish
-            # < notice when Ghost..Bouree no longer used
-            !me&SuperGansp,R,s,{},e and return
-        }
-        elsif (ns&mot == 8) {
-            # just to update K to what they think they are
-            $N = me&zaa,xc&Goting,{Goable:ns&Go,Ghoscgk:1,K:1}
-            !me&SuperGhosc,R,s,{N} and return
         }
 
         !me&SuperGens,R,s,{t:'Release'} and return
@@ -3827,11 +3840,6 @@ me.Sch_Travel = &acgt{ return [
             !N and return me&tc,"$tid.."
         }
         Rs&Gorows = N || [Cye(['dunno',1])]
-        if (ss&caut) {
-            me&tc,"Caut!?"
-            
-            return
-        }
         Rs&playsia = 1
         # %eph while %%Go-created, up permanence:
         $Tr = xs&Travel
