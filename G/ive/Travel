@@ -2637,7 +2637,6 @@ me.Sch_Travel = &acgt{ return [
             #    may subtract startTravel
             #   < then permit Releasor to begin
             #     now, is starting already
-        
         }
         
         if (ns&mot <8) {
@@ -3828,6 +3827,11 @@ me.Sch_Travel = &acgt{ return [
             !N and return me&tc,"$tid.."
         }
         Rs&Gorows = N || [Cye(['dunno',1])]
+        if (ss&caut) {
+            me&tc,"Caut!?"
+            
+            return
+        }
         Rs&playsia = 1
         # %eph while %%Go-created, up permanence:
         $Tr = xs&Travel
