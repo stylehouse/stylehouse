@@ -2640,9 +2640,11 @@ me.Sch_Travel = &acgt{ return [
             $SC = me&receivan,'Cat,Travelable'
             !t || !SC and return
             
-            # put modes on Cat (keep goingness)
+            # enable @Intro
+            me&nodei,R,xs&Introtivity,{Intro:1,Cat:SC}
+            # put modes on Cat
             SCs&keeprunning = 1
-            # send %%mayDuolish to 
+            # send %%mayDuolish to :
             SCs&noautoDuo = 1
             # send back %%Control to begin
             me&nodei,R,SC,{Control:1}
@@ -3700,7 +3702,8 @@ me.Sch_Travel = &acgt{ return [
     },
         
 // @Introtivity A tool hovers
-   # to feed the outside in (&t notify) !!
+   # to feed the outside in (&t notify)
+   #  breaks once Fingo reset (e -> v1 spring from somewhere?)
    #  notice everything, a -seven
    #  has things its doing (warm &t cache)
    #  then may point paths into J
@@ -3708,23 +3711,30 @@ me.Sch_Travel = &acgt{ return [
    # each &supetime is a Dome, have X!
    # ja %%climb may say things
     ['Introtivity',0.39,&acgtRs{
+        me&reaw,R,'Introtivity'
+        $x = me&Jx,R
         s&bg = 312
-        4s&Athing and me&nu,'A',4s&Athing
-        4s&Bthing and me&nu,'B',4s&Bthing
-        me&tc,"La"
+        #4s&Athing and me&nu,'A',4s&Athing
+        #4s&Bthing and me&nu,'B',4s&Bthing
         #Rs&wakeful = 1
+        
         # subscribe:
         4s&Travels = s
         # enable:
-        $x = me&Jx,R
-        !x.ro("Intro?",{}) and delete 4s&lastnoelQups; return
-        # to changes in:
+        $Cating = me&ja,R,'Intro,Cat'
+        Cating ||= x.ro("Intro?",{})
+        !Cating and delete 4s&lastnoelQups; return
+        # for changes in:
         $e = 4s&lastnoelQups
         !e and return
+        me&IntroelQups,R,s,e
+    },'ift,D'],
+    &{
+    me.IntroelQups = &acgtRse{
         ec&looki ||= 0
         ec&looki ++
-        me&tc,"Athing:"+e.t
-        me&nu,"ething",e
+        ~>5 Intro..:
+        me&nu,"e-thing",e
         each in ec&Qz {
             $se = 
             n t 76  %dib
@@ -3732,10 +3742,17 @@ me.Sch_Travel = &acgt{ return [
             me&walls,se,'b:2.2h5';
             me&tcl,se,n.t,'b'
             $r = ny&R
-            me&mnu,se,n
-            # K%Pave or %SummerCat/%Jrunto 
-            if (rs&Pave || rs&Jrunto) {
-                $z = ry&up
+            #me&mnu,se,n
+            # K/%Pave or %SummerCat/%Jrunto !
+            if (rs&Pave || rc&Cat) {
+                if (rc&Cat) {
+                    # might be in a %Doming Yingbal
+                    r = me.cbu(r,'Jrunto')
+                    $z = r
+                }
+                else {
+                    $z = ry&up
+                }
                 z = zc&s
                 $tp = me&tpath,z
                 me&tc,"->"+tp
@@ -3751,8 +3768,8 @@ me.Sch_Travel = &acgt{ return [
                         ns&Want_Check = 1
                         nc&ready_instead = &{
                             delete nc&ready_instead
-                            ~>5 gotready: n.t
-                            me&elvis,R,'elQupsPave',{wake:zy&R}
+                            ~>5 goatready: n.t
+                            me&elvis,R,'elIntro',{wake:zy&R}
                         }
                         T.asyncQs = [];
                         me&t,r,n
@@ -3763,26 +3780,24 @@ me.Sch_Travel = &acgt{ return [
                 
                 $str = ns&P.sc.string
                 str == null and continue
-                #!
                 $la = ahsk(s,'y','versh',n.t)
                 $las = ahsk(s,'y','vershs',n.t)
                 ah(s,'y','versh',n.t,ns&P)
                 ah(s,'y','vershs',n.t,str)
                 
-                la and me&diffany,R,ns&P,Cye(['l',1,{},{string:las}]),{se}
+                #la and me&diffany,R,ns&P,Cye(['l',1,{},{string:las}]),{se}
                 la && la == ns&P and me&tc,"SameP"
                 $line = str.split("\n")[0]
-                me&tc,"Line0:"+line,1
                 
                 ey&Travelsed and continue
-                #me&wants,R,'elQupsPave',z
-                me&tc,"\n",1
+                # see &elvis:elIntro above
             }
         }
         ey&Travelsed = 1
         #4s&lastnoQup and me&nu,'4s&lastnoQup',4s&lastnoQup
         #4s&lastnoelQups and me&nu,'4s&lastnoelQups',4s&lastnoelQups
-    },'ift,D'],
+    }
+    },
     
 // Travel/$t may /%SummerCat
     ['Travels',0.39,&acgtRs{
