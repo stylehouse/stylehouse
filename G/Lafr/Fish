@@ -1,5 +1,6 @@
 # A emixer!!!!3131
 $fi = self.fi = {}
+ 
  // f
     self.isA = &A{
         return A && A.c && A.sc
@@ -29,17 +30,48 @@ $fi = self.fi = {}
         is == null || !is || is == 1 and return v
         return is
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // sion
+ 
+ // A
+    =pod
+     just creation
+     
+     &A create+wind?
+       if too other to wind
+        create to merge later (e)
+       
+       
+       
+       widely used self|othering portal:
+         A self|other creation|winding
+          self - inside the A we are now (V)
+          other - outside V**/A or V.1 == A.1
+          creation - spawn A
+          winding - which &voice to c.ov
+         &voices separately?
+         args are ...
+          &A,Y,{ov:3} - wind another
+          &A,{ov:3} - wind self
+          &A,{import:1},{ov:3} - wind self
+           and acquire A.sc.import?
+          &A,3,{t:'floor'} - wind self
+           and acquire A&t = $mind_to_voice
+          &A,C,'n' - create Cy&A, A&t = 'n'
+    =cut
+    fi.A = &acgtV{
+        V ||= A
+        !isA(V) and throw "!A"
+        $A = ex({},V)
+        A.y = A
+        A.up = V
+        # incremental
+        A&ip = [...(Vc&ip||[])]
+        A&ip.push(upA&ipi++)
+        A&sip = A&ip.join(' ')
+        return A
+    }
+ 
+ // live
+ 
  // X
    =pod
     the new X
@@ -48,7 +80,7 @@ $fi = self.fi = {}
      
      each X is for an A: X.A=A, A&X=X
      < merge X into A?
-     < make X C, X now being X.sc
+     < make X C, X -> X.sc, X.Xq -> X.c?
      
      a beach where traces hang up ways in
       a photographic field where A can know itself,
@@ -249,7 +281,8 @@ $fi = self.fi = {}
        the oscillator decides to i,-i based on o
       smudge over time to sing
    =cut
-    
+   # &Xio uses mediums and with i|o|etc
+   fi.Xios ||= {}
   // frontend
    =pod
    lang has instances of cultures at levels
@@ -325,47 +358,6 @@ $fi = self.fi = {}
         fi&a,{fuselage:3}
     }
     
-    # {i|o:$Xqt...} {thing} {how} {}
-    # could be any medium|indexing (Xqt)
-    # per direction (write+read) (Xio)
-    fi.Xios ||= {}
-    fi.Xio = &acgtescq{
-        # q.Xio|Xq.t <- e = {i:'brack'} || 'brack'
-        typeof e == 'string' and e = {i:e}
-        !e.Xio and e.Xio = haks(e)[0]; e.Xq = e[e.Xio]
-        isst(e.Xq) and e.Xq = {t:e.Xq}
-        q ||= {}
-        # q.Xq already may know a previous &Xio
-        
-        $X = delete e.X
-        # < Babz
-        #X ||= delete e.A
-        X ||= A
-        
-        # become A&X
-        isA(X) and X = Xc&X ||= {A:X}
-        
-        # < ac q.allXio.$Xqt
-        ex2(q,e)
-        
-        # know medium by name Xq.t (a=brack,t=quest,etc) 
-        $Xqf = fi.Xios[q.Xq.t]
-        !Xqf and throw "!Xqt:"+q.Xq.t
-        # of the ways  at the ground (i|o|etc)
-        $Xqfio = Xqf[e.Xio]
-        !Xqfio and throw "!Xio:"+q.Xq.t+"."+e.Xio
-        # s is the unknown, used
-        # c is mostly talking to the medium
-        #   may c.where, c.sort etc
-        # < q.Xq becomes the ongoing structure
-        # q.* talks lower-level storage mechanics
-        #  c.where compiled for xt-matching
-        #   maybe sorting|weighting also
-        #  q.for.t={el:9} should delete the X.t.*.z/$n?
-        #   you should provide deletes about * + $n,
-        #    over an interface that can receive el:6 (moves) etc
-        return Xqfio (A,C,G,T,X,s,c,q)
-    }
     
  
   // &t
@@ -465,7 +457,8 @@ $fi = self.fi = {}
         c.t != null and s.t = delete c.t
         # s{of,t} c{el:2}
         $I = A.I || A.1.I || A.4.I
-        $t = fi&Xint,s,{},'quest'
+        $q = {}
+        $N = fi&Xio,{i:'quest',X:I},s,c,q
     }
     # Itivity of s+c
     # s is Qish quest - look for a thing
@@ -483,6 +476,7 @@ $fi = self.fi = {}
     }
     fi.Xios.quest.o = &acgtXscq{
     }
+  
   // way
     # throw if no
 
@@ -1206,7 +1200,49 @@ $fi = self.fi = {}
         
         
     }
-    
+  
+  // &Xio for &Xio for $Xqt
+    # {i|o:$Xqt...}:q {thing} {how} {}:q
+    # could be any medium|indexing (Xqt)
+    # per direction (write+read) (Xio)
+    fi.Xio = &acgtescq{
+        # q.Xio|Xq.t <- e = {i:'brack'} || 'brack'
+        typeof e == 'string' and e = {i:e}
+        !e.Xio and e.Xio = haks(e)[0]; e.Xq = e[e.Xio]
+        isst(e.Xq) and e.Xq = {t:e.Xq}
+        q ||= {}
+        # q.Xq already may know a previous &Xio
+        
+        $X = delete e.X
+        # < Babz
+        #X ||= delete e.A
+        X ||= A
+        
+        # become A&X
+        isA(X) and X = Xc&X ||= {A:X}
+        
+        # < ac q.allXio.$Xqt
+        ex2(q,e)
+        
+        # know medium by name Xq.t (a=brack,t=quest,etc)
+        $Xqf = fi.Xios[q.Xq.t]
+        !Xqf and throw "!Xqt:"+q.Xq.t
+        # of the ways  at the ground (i|o|etc)
+        $Xqfio = Xqf[e.Xio]
+        !Xqfio and throw "!Xio:"+q.Xq.t+"."+e.Xio
+        # s is the unknown, used
+        # c is mostly talking to the medium
+        #   may c.where, c.sort etc
+        # < q.Xq becomes the ongoing structure
+        # q.* talks lower-level storage mechanics
+        #  c.where compiled for xt-matching
+        #   maybe sorting|weighting also
+        #  q.for.t={el:9} should delete the X.t.*.z/$n?
+        #   you should provide deletes about * + $n,
+        #    over an interface that can receive el:6 (moves) etc
+        return Xqfio (A,C,G,T,X,s,c,q)
+    }
+  
   // &qas enters|uses an X schematic for &Xio for $Xqt
    =pod &qas,...context -> qas(..schema) -> qis(..bits)
      ' entering an X schematic
@@ -1376,8 +1412,17 @@ $fi = self.fi = {}
     fi.xqtypes.s = {array:1,refers:1}
     fi.xqtypes.z = {array:1,selfin:'multix'}
     
-  // &qis climbs X for $s for $xq, doing $c
+  //  &qis climbs X for $s for $xq, doing $c
     =pod qis(..bits)
+      write or read (autovivificatorialy)
+        X.$someindex ||= x += $n
+       leading to x, another|inside X via $someindex
+       x remembering what indexes it is in?
+        joins|varies by x.z/r,
+         the members being added to x locatable space
+      
+      similar to io.input()
+      
          supplied arks as s.sc is io usual
           doing without the odd one should work
           having the index in a few shapes
@@ -1754,6 +1799,7 @@ $fi = self.fi = {}
         # < x.top? of a group of dimensiona
         x.up = Xspace
         x.xq = xq
+        # < run into each other
         xq.lastq = q
         
         # magic relationising atoms (C)
@@ -1771,104 +1817,6 @@ $fi = self.fi = {}
         return x
     }
   
-  // &X_t|s|z lowlevels
-      =write or read (autovivificatorialy)
-        X.$someindex ||= x += $n
-       leading to x, another|inside X via $someindex
-       x remembering what indexes it is in?
-        joins|varies by x.z/r,
-         the members being added to x locatable space
-      =cut 
-        
-        # the X/$t += r
-        # t must be string, r could be anything
-        # in &RbitXarrive it is R, &brackX it is a row
-        fi.X_t = &acgtXtrk{
-            k ||= 't'
-            X[k] ||= {}
-            
-            $x = X[k][t] ||= {};
-            x.z ||= [];
-            r && x.z.push(r)
-            return x
-        }
-        # the X/uniq($s) += r
-        fi.X_s = &acgtXsr,kf,kfs{
-            kf ||= 's'
-            kfs ||= kf+'s'
-            # by id of the value
-            $fs = X[kfs] ||= [];
-            $vi = fs.indexOf(s);
-            vi < 0 and vi = fs.push(s)-1
-            $f = X[kf] ||= {};
-            $x = f[vi] ||= {};
-            x.z ||= [];
-            r && x.z.push(r);
-            return x
-        }
-        # the X/$s += r, $s repeatable
-        #  no x will have more than one r
-        fi.X_z = &acgtXsr,kf,kfs{
-            # to avoid conflict with x.z
-            kf ||= 'lizt'
-            kfs ||= kf+'s'
-            # by id of the value, each time it occurs
-            $fs = X[kfs] ||= []
-            $vi = fs.push(s)-1
-            $f = X[kf] ||= {};
-            $x = f[vi] ||= {};
-            # each x knows the others
-            # looser matches for others may be done above
-            $is = fs.indexOf(s)
-            if (is < vi) {
-                $ox = f[is]
-                # usu must join X.** with point-nested pointers
-                x.multix =
-                ox.multix ||= [ox]
-                x.multix.push(x)
-            }
-            x.z ||= [];
-            r && x.z.push(r);
-            return x
-        }
-        
-  // tues
- // A
-    =pod
-     just creation
-     
-     create+wind:
-       if too other to wind, create to merge later.
-       widely used self|othering portal:
-         A self|other creation|winding
-          self - inside the A we are now (V)
-          other - outside V**/A or V.1 == A.1
-          creation - spawn A
-          winding - which &voice to c.ov
-         &voices separately?
-         args are ...
-          &A,Y,{ov:3} - wind another
-          &A,{ov:3} - wind self
-          &A,{import:1},{ov:3} - wind self
-           and acquire A.sc.import?
-          &A,3,{t:'floor'} - wind self
-           and acquire A&t = $mind_to_voice
-          &A,C,'n' - create Cy&A, A&t = 'n'
-    =cut
-    fi.A = &acgtV{
-        V ||= A
-        !isA(V) and throw "!A"
-        $A = ex({},V)
-        A.y = A
-        A.up = V
-        # grow a nothing incremental
-        A&ip = [...(Vc&ip||[])]
-        A&ip.push(upA&ipi++)
-        A&sip = A&ip.join(' ')
-        return A
-    }
- 
- // live
   
 # < see Bscape
 fi&live,1
