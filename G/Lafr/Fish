@@ -1,7 +1,18 @@
 # A emixer!!!!3131
 $fi = self.fi = {}
-self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
  // f
+    self.isA = &A{
+        return A && A.c && A.sc
+            && (A.y && A.y.A == A || A.y == A)
+    }
+    self.ex = &sc{
+        !s || typeof s != 'object' and throw "ex!s"
+        !c || typeof c != 'object' and throw "ex!c"
+        each kv c {
+            s [k] = v
+        }
+        return s
+    }
     # ex with array merge
     #  eg s|c.via=[one|two] -> s.via=[one,two]
     self.mex = &scq{
@@ -337,71 +348,37 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         # < ac q.allXio.$Xqt
         ex2(q,e)
         
-        # know Xq.t by name
+        # know medium by name Xq.t (a=brack,t=quest,etc) 
         $Xqf = fi.Xios[q.Xq.t]
         !Xqf and throw "!Xqt:"+q.Xq.t
-        # of the ways (i|o|etc) at the ground
+        # of the ways  at the ground (i|o|etc)
         $Xqfio = Xqf[e.Xio]
         !Xqfio and throw "!Xio:"+q.Xq.t+"."+e.Xio
-        
-        return Xqfio (A,C,G,T,X,s,c,q)
-    }
-    
-   // GOING &Xint|&Xout,X|A,s,c,q||$t:Xqt,q (&middle is $Xqt)
-    # Itivity of s+c
-    fi.Xi = {}
-    fi.Xo = {}
-    # i|o {thing} {how} {}
-    # could be any medium|indexing
-    fi.Xint = &acgtXscqe{
-        return fi&Xstru,fi.Xi,X,s,c,q,e
-    }
-    fi.Xout = &acgtXscqe{
-        return fi&Xstru,fi.Xo,X,s,c,q,e
-    }
-    # CRUDJ(oin)D(iffer) on indexes
-    # < q may make this into an iterator around here
-    fi.Xstru = &acgtIXscqe{
-        # specify X.Xq.$Xqt as q='word', q.Xq='word' or q.Xq.t
-        # < expets() almost does this. or is it mightexpe(), mightpeel()?
-        isst(q) && !peelish(q) and q = {Xq:{t:q}}
-        q = peel(q)
-        isst(q.Xq) and q.Xq = {t:q.Xq}
-        # also
-        e and ext2(q,peel(e))
-        
-        # we become A&X
-        isA(X) and X = Xc&X ||= {A:X}
-        else {
-            debugger
-        }
-        
         # s is the unknown, used
-        # c is mostly talking to the Itivity, may c.where, c.sort etc
-        # q.Xq for the ongoing structure,
-        # q.* talks lower-level Itivity and to &X_* (storage mechanics)
+        # c is mostly talking to the medium
+        #   may c.where, c.sort etc
+        # < q.Xq becomes the ongoing structure
+        # q.* talks lower-level storage mechanics
+        #  c.where compiled for xt-matching
+        #   maybe sorting|weighting also
         #  q.for.t={el:9} should delete the X.t.*.z/$n?
         #   you should provide deletes about * + $n,
         #    over an interface that can receive el:6 (moves) etc
-        #  maybe sorting|weighting
-        # an Itivity (Xint|Xout) interprets per structure
-        isst(I) and I = fi[I]
-        $y = q.Xq && I[q.Xq.t] 
-        !y and throw "!q.Xq.t:"+q.Xq.t
-        return y (A,C,G,T,X,s,c,q)
+        return Xqfio (A,C,G,T,X,s,c,q)
     }
+    
  
   // &t
-   =pod
-    &t
-     write search down - Qish as brack c
-     find any things (rows) matching c
-      go for the smallest set as the one
-     write what we read, inc nothing
-      do things to get, keep thing
-     reads a thing!
+    =pod
+        &t
+         write search down - Qish as brack c
+         find any things (rows) matching c
+          go for the smallest set as the one
+         write what we read, inc nothing
+          do things to get, keep thing
+         reads a thing!
      
-    //    for &t - little X:parts relativity
+     //   for &t - little X:parts relativity
           see X:new/$reks
           
           < intro to &clusp?
@@ -476,9 +453,8 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
            from a distance|angle
             n means production
             u means consumption
-             
-            
-   =cut
+     
+    =cut
     # Tthing that can wait for it various ways
     # c.modes of async
     fi.t = &acgtsc{
@@ -494,7 +470,8 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
     # Itivity of s+c
     # s is Qish quest - look for a thing
     # c can el:9, el:2...
-    fi.Xi.quest = &acgtXscq{
+    fi.Xios.quest ||= {}
+    fi.Xios.quest.i = &acgtXscq{
         fi&qas,X,q,'k'
         each kv s {
             # the keys
@@ -504,7 +481,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
             
         }
     }
-    fi.Xo.quest = &acgtXscq{
+    fi.Xios.quest.o = &acgtXscq{
     }
   // way
     # throw if no
@@ -1185,8 +1162,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
     #  X/k/ref(s) enumerate columns and their values
     # ongoingly to index N-news into X
     fi.Xios.brack ||= {}
-    fi.Xios.brack.i =
-    fi.Xi.brack = &acgtXscq{
+    fi.Xios.brack.i = &acgtXscq{
         # binds to q.Xt
         $qas = fi&qas,X,s,c,q
         
@@ -1222,8 +1198,7 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
     =pod
      e
     =cut
-    fi.Xios.brack.o =
-    fi.Xo.brack = &acgtXscq{
+    fi.Xios.brack.o = &acgtXscq{
         # s.n - u-ward, what has this as n
         # s.u - n-ward, what has this as u
         # are two types of row-row linkage,
@@ -1859,6 +1834,41 @@ self.isA = A => (A.y && A.y.A == A || A.y == A) && A.c && A.sc
         
   // tues
  // A
+    =pod
+     just creation
+     
+     create+wind:
+       if too other to wind, create to merge later.
+       widely used self|othering portal:
+         A self|other creation|winding
+          self - inside the A we are now (V)
+          other - outside V**/A or V.1 == A.1
+          creation - spawn A
+          winding - which &voice to c.ov
+         &voices separately?
+         args are ...
+          &A,Y,{ov:3} - wind another
+          &A,{ov:3} - wind self
+          &A,{import:1},{ov:3} - wind self
+           and acquire A.sc.import?
+          &A,3,{t:'floor'} - wind self
+           and acquire A&t = $mind_to_voice
+          &A,C,'n' - create Cy&A, A&t = 'n'
+    =cut
+    fi.A = &acgtV{
+        V ||= A
+        !isA(V) and throw "!A"
+        $A = ex({},V)
+        A.y = A
+        A.up = V
+        # grow a nothing incremental
+        A&ip = [...(Vc&ip||[])]
+        A&ip.push(upA&ipi++)
+        A&sip = A&ip.join(' ')
+        return A
+    }
+ 
+ // live
   
 # < see Bscape
 fi&live,1
