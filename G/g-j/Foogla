@@ -850,12 +850,16 @@ me.opeolo = &acgttc{
     c ||= {}
     
     # t can be implied from or takes over T.Mw
-    isob(t) and c = t; t = null
-    t == null and t = T.Mw || C.t;
-    !T.Mw and T.Mw = t;
+    if (isob(t)) {
+        # isob() allows hash that is C, isha() doesnt
+        isC(t) and t = t.t
+        else c = t; t = null
+    }
+    t ||= T.Mw || C.t
+    !T.Mw and T.Mw = t
     
-    c.walls ||= 1;
-    $g = me&opeology,t,c;
+    c.walls ||= 1
+    $g = me&opeology,t,c
     
     # puts it somewhere in particular
     c.se and ac(c.se,'z',g)
@@ -909,8 +913,7 @@ me.opeKn = &acgtgtc{
 # applies tsc/walls as per c or d(efault)
 # < use for rolltog taking .tsc, 
 me.applystylec = &acgtncd{
-    d = ex(d||{},c||{})
-    ex(d,c);
+    d = ex(peel(d),peel(c))
     d.tsc and me&tsc,n,0,d.tsc
     d.walls and me&walls,n,d.walls
     # inherits
