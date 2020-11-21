@@ -159,13 +159,28 @@ fi.Xios ||= {}
  // live
     # us doing stuff as J:Fish
     =pod
-      A:n arrive beyond $At with $Ct
+      A:n arrive, $At with $Ct
        maintaining a path to things
         through osc - which may rename|route them
          eg e:more@BakedGoods -> e:again@Bakery
+      A:J hold A, wait completion
+       in J&X, the last 5-min|30 changes hang in $At+$sip etc,
+        including (up to 15?) A for the future
+        these might redo from $C pointers
+         discarding unfinished A each time, until done sync
+          eg so A.4 &t loads can get back to it,
+           yet having fresh A:n experience when ready
+        wanting to merge together e**?
+        may be mutex if changing same data
+         same data: probably grouped by $n
+         return to senders to ffwd if ~situation since e
+       
+       they A.1.up = A.2, a parallel A fall
+       the up-most A to est A.1 = someJ is JA, usu A:n c&J|W
+        osc puts J%top = C&A:n
        so:
         &t of=res,t=thing
-         comes from a $dome, etc
+         comes from a $dome, etc of some J&X..$A
        giving us pointers to relive for new &t input
         (opo. more &t input, an interation)
        causing osc to zip things together efficiently
@@ -373,39 +388,54 @@ fi.Xios ||= {}
            
         
     =cut
-    fi.live = &acgtJs,ar{
+   // aspects
+    fi.Atopleast = &acgt{
         $Y = A
-        
         $A = {t:'top',c:{},sc:{}}
         A.7 = Y.7
         A.4 = Y.4
         A.y = A
-        $Atop = A
+        A.top = A
         
-        $Al = fi&At,'least'
-        $A = Al
+        $A = fi&At,'least'
         delete A.up
         A&X = {A}
+        # it would usually 
+        A&again = &{
+            A&V = A&X
+            A&X = {A}
+        }
+        return A
+    }
+    
+   // live
+    fi.live = &acgtJs,ar{
+        $Y = A
+        $a = &{
+            each in arguments {
+                isA(n) and $A = n
+                else
+                isar(n) and $a = fi[n[0]](A,C,G,T, ...n.slice(1))
+                else
+                isfu(n) and $a = n(A)
+                else
+                debugger
+                isA(a) and A = a; a = null
+            }
+            return A
+        }
         
-        $Am1 = fi&At,'more'
-        $A = Am1
-        fi&Ariv,{}
+        $Al = fi&Atopleast
         
-        # again
-        $A = Al
-        A&V = A&X
-        A&X = {A}
-        
-        $Am2 = fi&At,'more'
-        $A = Am2
-        fi&Ariv,{}
-        
-        $A = Al
-        $Am = fi&At,'more'
-        $A = Am
-        fi&Ariv,{}
+        $Am1 = a(Al,['At','more'],['Ariv',{}])
+        # V<-X
+        Alc&again()
+        $Am2 = a(Al,['At','more'],['Ariv',{}])
+        $Am = a(Al,['At','more'],['Ariv',{}])
         
         Ys&Ina = [Al,Am1,Am2,Am]
+        Ys&Ina.map((n,i) => me&zu,"Aump:"+i,n )
+        
         n abovst  s:vefge
         n tassely 3 s:brackets
         n soilesoezc 3 s:brackets
