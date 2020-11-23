@@ -82,6 +82,7 @@ fi.Xios ||= {}
         isst(c) and c = {t:c}
         c.t and A.t = delete c.t
         ex(A.c,c)
+        A&X = {A}
         return A
     }
     self.pex = &sc{
@@ -116,14 +117,35 @@ fi.Xios ||= {}
         $b = Nld[sequence]
         return b
     }
-    # 2-sphere, after 
+    # 1-spheres in X..
+    fi.Xsimp = &acgtXscq{
+        q ||= {}
+        # X..x..x..x is long,
+        #  X..x + X..x + X..x is wide
+        q.long = 1
+        # without t=[], X.$k as each s.$k
+        $x = fi&Xsim,X,'X',[],s,c,q
+        return x
+    }
+    fi.Xsomp = &acgtXscq{
+        q ||= {}
+        q.long = 1
+        $vx = fi&Xsim,X,'X',[],s,c,q
+        # q.ask returns possible values for the last s.$k
+        return vx
+    }
+    # 2-sphere, in k='X' named|after t=[...]
     fi.Xsim = &acgtXktscq{
         isA(X) and X = X.c[k] ||= {A:X}
+        q ||= {}
         $N = []
+        $lak = haks(s).slice(-1)[0]
         each kv s {
             $ok = typeof v == 'string' || typeof v == 'number'
             !ok and throw "Xsim!string:",k,s,c
-            $hs = X
+            # long builds x..x
+            $hs = q.long && x || X
+            $ux = hs
             each il t {
                 hs = hs[l] ||= {}
             }
@@ -132,14 +154,23 @@ fi.Xios ||= {}
             #   grepping for $n in: x.had.have.k.v=x
             #q and hs[k] = v; continue
             $vs = hs[k] ||= {}
+            q.ask == k and return vs
             $x = vs[v] ||= {}
             x.z ||= []
-            x.up ||= X
-            x.up != X and throw "xup!X"
+            x.up ||= ux
+            x.up != ux and throw "xup!X"
+            
+            # long puts only the final ..x/$n
+            q.long && lak != k and continue
             c.n and x.z.push(c.n)
             N.push(x)
         }
-        # $n:A with everything we s.*
+        q.long && N.length > 1 and debugger
+        q.long and return N[0]
+        # $n:A at everything we s.*
+        return fi&xzand,N
+    }
+    fi.xzand = &acgtN{
         $M = []
         each ix N {
             each ii,v x.z {
@@ -385,15 +416,14 @@ fi.Xios ||= {}
            whole loop of that, using only things in here...
         output benice:
          a list of A in Cit...
-           
         
     =cut
-   // aspects
+   // Aspecting
     fi.Atopleast = &acgt{
         $Y = A
         $A = {t:'top',c:{},sc:{}}
-        A.7 = Y.7
-        A.4 = Y.4
+        #A.7 = Y.7
+        #A.4 = Y.4
         A.y = A
         A.top = A
         
@@ -406,6 +436,42 @@ fi.Xios ||= {}
             A&X = {A}
         }
         return A
+    }
+    fi.AtopJ = &acgtAt{
+        # make J:Four
+        $J = fi&At,t||'Four'
+        
+        J.1 = J.2 = J.3 = J.4 = J
+        A.1 = A.2 = A.3 = A.4 = J
+        return J
+    }
+    
+    fi.Atsomewhere = &acgtAt{
+        A = fi&At,t
+        fi&Ariv,{}
+        return A
+    }
+    fi.AtJ = &acgtAt{
+        # acquire J:Four...J:$t
+        $J = fi&At,t||'Three'
+        # have A needing? commit
+        return J
+    }
+    
+   // Attention
+    # want to have a thing
+    #  A/$t+$of float upwards
+    #   pointing thence also to ..A
+    fi.Ath = &acgtAs{
+        # A questions: may dup A/$of/$t/$n=A
+        $x = fi&Xsimp,A,s,{n:A}
+        # may have the answer, from somewhere
+        #  that may be further up the slope
+        #   waiting to be towed in by the resyncing A:more
+        A&Athx = x
+        
+        # and looking, engaging with quest handler
+        # have item ready or tell enclosing scope to bail
     }
     
    // live
@@ -425,13 +491,25 @@ fi.Xios ||= {}
             return A
         }
         
-        $Al = fi&Atopleast
         
-        $Am1 = a(Al,['At','more'],['Ariv',{}])
+        # &t:
+        # to i A^^X/$of,$t/$A
+        #  then:
+        #   auto J^^X/$of,$t/$At
+        #   there is o J**/$At
+        $Al = fi&Atopleast,1
+        $Am1 = fi&Atsomewhere,Al,'more'
         # V<-X
         Alc&again()
-        $Am2 = a(Al,['At','more'],['Ariv',{}])
-        $Am = a(Al,['At','more'],['Ariv',{}])
+        $Am2 = fi&Atsomewhere,Al,'more'
+        $Am = fi&Atsomewhere,Al,'more'
+        
+        # try get something
+        $got = fi&Ath,Am2,{of:'w',t:'random'}
+        got and throw "got first"
+        
+        # look at awaiting of+t, group by $At|$sip
+        
         
         Ys&Ina = [Al,Am1,Am2,Am]
         Ys&Ina.map((n,i) => me&zu,"Aump:"+i,n )
