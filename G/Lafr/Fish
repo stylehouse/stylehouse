@@ -119,32 +119,75 @@ fi.Xios ||= {}
     }
     # 1-spheres in X..
     fi.Xsimp = &acgtXscq{
-        q ||= {}
+        c ||= {}
         # X..x..x..x is long,
         #  X..x + X..x + X..x is wide
-        q.long = 1
+        c.long = 1
         # without t=[], X.$k as each s.$k
         $x = fi&Xsim,X,'X',[],s,c,q
         return x
     }
+    # rowing arks
     fi.Xsomp = &acgtXscq{
-        q ||= {}
-        q.long = 1
-        $vx = fi&Xsim,X,'X',[],s,c,q
-        # q.ask returns possible values for the last s.$k
-        return vx
+        c ||= {}
+        c.long = 1
+        $N = [X]
+        $arkN = [{}]
+        $ks = haks(s)
+        while (ks.length) {
+            $k = ks.shift()
+            $v = s [k]
+            v == 1 and c.wild = k
+            else delete c.wild
+            $M = []
+            $arkM = []
+            each ix N {
+                $arkx = arkN[i]
+                !arkx and debugger
+                # each possible x continued along path
+                $vx = fi&Xsim,x,'X',[],hashkv(k,v),c,q
+                if (!vx) {
+                    # doesnt x/$k:v...
+                    continue
+                }
+                # non-wild completes path into point (x)
+                !c.wild and vx = hashkv(v,vx)
+                # always X|x.$k(.$v=$x)+
+                each vx vx {
+                    $arkv = ex(arkx,hashkv(k,v))
+                    M.push(x)
+                    arkM.push(arkv)
+                }
+            }
+            # tos become froms
+            N = M
+            arkN = arkM
+            !N.length and return []
+        }
+        # arks + final x from eg x/$src/$version(/$n)?
+        $M = []
+        each ix N {
+            $arkx = arkN[i]
+            !arkx and debugger
+            each in x.z {
+                # eg {src,version,n,x}+
+                $xc = ex(arkx,{n,x})
+                M.push(xc)
+            }
+        }
+        return M
     }
     # 2-sphere, in k='X' named|after t=[...]
     fi.Xsim = &acgtXktscq{
         isA(X) and X = X.c[k] ||= {A:X}
-        q ||= {}
+        c ||= {}
         $N = []
         $lak = haks(s).slice(-1)[0]
         each kv s {
             $ok = typeof v == 'string' || typeof v == 'number'
             !ok and throw "Xsim!string:",k,s,c
             # long builds x..x
-            $hs = q.long && x || X
+            $hs = c.long && x || X
             $ux = hs
             each il t {
                 hs = hs[l] ||= {}
@@ -154,19 +197,19 @@ fi.Xios ||= {}
             #   grepping for $n in: x.had.have.k.v=x
             #q and hs[k] = v; continue
             $vs = hs[k] ||= {}
-            q.ask == k and return vs
+            c.wild == k and return vs
             $x = vs[v] ||= {}
             x.z ||= []
             x.up ||= ux
             x.up != ux and throw "xup!X"
             
             # long puts only the final ..x/$n
-            q.long && lak != k and continue
+            c.long && lak != k and continue
             c.n and x.z.push(c.n)
             N.push(x)
         }
-        q.long && N.length > 1 and debugger
-        q.long and return N[0]
+        c.long && N.length > 1 and debugger
+        c.long and return N[0]
         # $n:A at everything we s.*
         return fi&xzand,N
     }
@@ -462,17 +505,61 @@ fi.Xios ||= {}
     # want to have a thing
     #  A/$t+$of float upwards
     #   pointing thence also to ..A
+    # we eventually request creation of:
+    #  5/$t+$of/believe/$src/$version/$n=Q
+    #   you must sort all $src and $version
+    #   5/$src/$t+$of/$version also is (two x linked?)
     # see Coffle '#I'
-    fi.Ath = &acgtAs{
-        # A questions: may dup A/$of/$t/$n=A
-        $x = fi&Xsimp,A,s,{n:A}
+    fi.Ath = &acgtAsc{
+        $xc = fi&wantbelieve,A,s,{}
+        if (!xc) {
+        
+        }
         # may have the answer, from somewhere
         #  that may be further up the slope
         #   waiting to be towed in by the resyncing A:more
-        A&Athx = x
+        A&Athx = xc
         
         # and looking, engaging with quest handler
         # have item ready or tell enclosing scope to bail
+    }
+    # over slope
+    fi.wantbelieve = &acgtAsc{
+        # put outA/$of+$t = x, x/$n=inA
+        #  may dup, having $n==inA already is not required
+        $inA = c.Y || A
+        $wantx = fi&Xsimp,A,s,{n:inA}
+        # < belief-lockin may reuse V/$t+$of/believe...
+        #   lots of things are and
+        #   you must read the code
+        # x/believe/$src/$version/$n=Q
+        $beliefc = {believe:1,src:1,version:1}
+        $N = fi&Xsomp,wantx,beliefc
+        # later greater $version, most relevant $src
+        $xc = N.pop()
+        if (!xc) {
+            # go further upwards
+            if (A.up) {
+                xc = fi&wantbelieve,A.up,s,{Y:A}
+            }
+            else {
+                # we must be at the gateway
+                xc = Ac&oftserve(s,wantx)
+                # < it may now /believe if sync read
+                #   eg localStorage
+                xc and debugger
+            }
+            if (xc) {
+                # threading back down to ..A
+                $es = sex({},xc,beliefc)
+                !xc.n and debugger
+                $N = fi&Xsimp,x,es,{n:xc.n}
+                es.x = N[0]
+                es.n = xc.n
+                xc = es
+            }
+        }
+        return xc
     }
     
    // live
@@ -506,6 +593,10 @@ fi.Xios ||= {}
         $Am = fi&Atsomewhere,Al,'more'
         
         # try get something
+        $todo = []
+        Alc&oftserve = &sc{
+            todo.push(s)
+        }
         $got = fi&Ath,Am2,{of:'w',t:'random'}
         got and throw "got first"
         
