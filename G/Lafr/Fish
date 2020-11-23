@@ -502,6 +502,15 @@ fi.Xios ||= {}
     }
     
    // Attention
+    fi.Acom = &acgtAsc{
+        return fi&com,s,c
+    }
+    fi.com = &acgtsc{
+        $Al = me.cbu(A, A => !A.up, A => A.up)
+        $big = haks(c).map(k => k+":"+dis(c[k])).join("  ")
+        $m = A.t+"#"+Ac&sip+" "+s+": "+big
+        ac(Al,'log',m)
+    }
     # want to have a thing
     #  A/$t+$of float upwards
     #   pointing thence also to ..A
@@ -512,8 +521,9 @@ fi.Xios ||= {}
     # see Coffle '#I'
     fi.Ath = &acgtAsc{
         $xc = fi&wantbelieve,A,s,{}
-        if (!xc) {
         
+        if (!xc) {
+            fi&com,"none",{s}
         }
         # may have the answer, from somewhere
         #  that may be further up the slope
@@ -561,6 +571,44 @@ fi.Xios ||= {}
         }
         return xc
     }
+    # takes strings to things
+    # may happen in or outside of &Ath + &oftserve
+    # usu:
+    #  just the $of+$t
+    #  the request for a thing could be a dialecting
+    #  A.up's many $s={of,t} with work to do
+    #  so in async (eg http reply) handler we get back to here,
+    #  to fill in that thingness for the current A.up
+    fi.Athinger = &acgtANc{
+       # for A.up, who has /$of+$t/$n:A to resume belief
+       # we don't have to go looking for lack of /believe
+       $Y = A.up
+       each is N {
+           if (s.of == 'w') {
+               =pod
+               have a Q
+                send request
+                  or maybe not yet
+                   A may check itself for cachedness
+                get response
+                 causes batched &Athinger
+                  ie xhr.done() -> G.and[c] -> G.tick()
+               =cut
+               $Q = fi&haveaQ,ex({string:"yardial"},s)
+               $C = G&Cye,[s.t||'?',1,{},{string:s.string}]
+           }
+           
+       }
+    }
+    # requests fill out to response
+    # $of+$t -> $of+$t+$string+$dige+$s
+    fi.haveaQ = &acgts{
+        # < s.string and later properties -> Q.sc
+        $Q = G&Cye,[s.t||'?',1,{},{string:s.string}]
+        Qy&A = A
+        # < decode
+        return Q
+    }
     
    // live
     fi.live = &acgtJs,ar{
@@ -595,15 +643,22 @@ fi.Xios ||= {}
         # try get something
         $todo = []
         Alc&oftserve = &sc{
+            # c=wantx is Al's
+            fi&Acom,Al,'oftserve',{s}
             todo.push(s)
         }
         $got = fi&Ath,Am2,{of:'w',t:'random'}
         got and throw "got first"
         
+        $Ag = fi&Atsomewhere,Al,'loading'
+        fi&Athinger,Ag,todo
+        # supposing ^ wakes A:more:
+        $got = fi&Ath,Am2,{of:'w',t:'random'}
+        $Am = fi&Atsomewhere,Al,'more'
         # look at awaiting of+t, group by $At|$sip
         
         
-        Ys&Ina = [Al,Am1,Am2,Am]
+        Ys&Ina = [Al,Ag,Am1,Am2,Am,got]
         Ys&Ina.map((n,i) => me&zu,"Aump:"+i,n )
         
         n abovst  s:vefge
