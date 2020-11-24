@@ -14,6 +14,7 @@ fi.Xios ||= {}
         each kv c {
             s [k] = v
         }
+        arguments[2] && [...arguments].slice(2).map(c => ex(s,c))
         return s
     }
     # ex with array merge
@@ -643,7 +644,7 @@ fi.Xios ||= {}
         $Y = A
         
         $s = {ja:1,temp:2,lala:3,ratio:1}
-        $ks = ksaf(s,{bow:'lala'})
+        $ks = ex(s,{ja:3},{temp:3},{ratio:3,red:3})
         me&nu,"keys",ks
         
         # &t:
