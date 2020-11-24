@@ -23,21 +23,6 @@
         me&zuct,g,nu;
     };
   // misc()
-    # selective ex, taking out (unless $k:0)
-    #  as in consuming arguments from a c
-    window.tax = &s,c,take{
-        !c and return s
-        !isha(s) || isC(s) || !isha(c) || isC(c) and throw "tax"
-        isst(take) and take = G&peel,take
-        else
-        isar(take) and take = hashkv(take)
-        each k,remove take {
-            !hak(c,k) and continue
-            remove and s[k] = delete c[k]
-            else { s[k] = c[k] }
-        }
-        return s
-    }
     # "$t1-$t2" for [C,C,C{.t==not}]
     window.joint = &N,join,not{
         # ioty may N=C/*
@@ -54,6 +39,12 @@
     }
     window.defor = &sc{
         return s != null ? s : c
+    }
+    # defor... inverted
+    self.oneor = &ckv{
+        $is = c [k]
+        is == null || !is || is == 1 and return v
+        return is
     }
     # y(v,k) for s
     window.hav = &sy{
@@ -105,6 +96,7 @@
         return c || {}
     }
     
+  // peel(), arq()
     # hash from k:v, v=1 if not given
     # < nestings of the : and , separators
     window.peel = &s,sep,kep{
@@ -134,7 +126,6 @@
         kep ||= ':'
         return isst(s) && (s.includes(sep) || s.includes(kep))
     }
-  // arq()
     # departmentalise c if not already
     #  for s sublating its namespace
     # q.K=1:        c=v -> s.K=v
@@ -147,7 +138,6 @@
     # smallest totality?
     #  people fall in a ditch that triangle will not fix
     window.arq = &cq{
-        
         $origin = c
         # c fated to mix into s.$K, not s
         #  unless it knows any of these $k
@@ -243,26 +233,58 @@
         return c
     }
   // ex*()
-    window.pex = &sc{
-        return ex(peel(s),peel(c))
+    self.ex = &sc{
+        !s || typeof s != 'object' and throw "ex!s"
+        !c || typeof c != 'object' and throw "ex!c"
+        each kv c {
+            s [k] = v
+        }
+        arguments[2] && [...arguments].slice(2).map(c => ex(s,c))
+        return s
+    }
+    # ex with array merge
+    #  eg s|c.via=[one|two] -> s.via=[one,two]
+    self.mex = &scq{
+        q ||= {}
+        if (q.ek) {
+            # fatal to want change
+        }
+        c = exable(c,s)
+        return ex(s,c)
     }
     # selective extend
     window.sex = &scqe{
         # < Babz for parsing arguments
         e == 1 and $y = k => c[k] && 1
-        q = isar(q) ? q : haks(peel(q))
-        q .map(&k{
+        q = peli(q)
+        each kv q {
             hak(c,k) && (!y || y(k)) and s [k] = c[k]
-        })
-        return s
-    }
-    # selective move
-    window.sexo = &scqe{
-        $h = sex({},c,q,e)
-        each kv h {
-            s [k] = delete c[k]
         }
         return s
+    }
+    # selective ex, taking out (unless $k:0)
+    #  as in consuming arguments from a c
+    window.tax = &s,c,take{
+        !c and return s
+        !isha(s) and throw "tax s?",s
+        !isha(c) and throw "tax c?",c
+        take = peli(take)
+        each k,remove take {
+            !hak(c,k) and continue
+            remove and s[k] = delete c[k]
+            else { s[k] = c[k] }
+        }
+        return s
+    }
+    # should be a hash, coerced from list of keys or peel
+    window.peli = &l{
+        isst(l) and return peel(l)
+        isar(l) and return hashkv(l)
+        isha(l) and return l
+        throw "!peli", l
+    }
+    window.pex = &sc{
+        return ex(peel(s),peel(c))
     }
     # merge s.* if hash|array
     window.ex2 = &scq{

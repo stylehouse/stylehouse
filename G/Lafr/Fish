@@ -8,31 +8,6 @@ fi.Xios ||= {}
         return A && A.c && A.sc
             && (A.y && A.y.A == A || A.y == A)
     }
-    self.ex = &sc{
-        !s || typeof s != 'object' and throw "ex!s"
-        !c || typeof c != 'object' and throw "ex!c"
-        each kv c {
-            s [k] = v
-        }
-        arguments[2] && [...arguments].slice(2).map(c => ex(s,c))
-        return s
-    }
-    # ex with array merge
-    #  eg s|c.via=[one|two] -> s.via=[one,two]
-    self.mex = &scq{
-        q ||= {}
-        if (q.ek) {
-            # fatal to want change
-        }
-        c = exable(c,s)
-        return ex(s,c)
-    }
-    # defor... inverted
-    self.oneor = &ckv{
-        $is = c [k]
-        is == null || !is || is == 1 and return v
-        return is
-    }
  
  // A
     =pod
@@ -597,10 +572,14 @@ fi.Xios ||= {}
     fi.haveaQ = &acgts{
         # s.string and later properties -> Q.sc
         $c = tax({},s,ksaf(s,{bow:'string'}))
-        
         $Q = G&Cye,[c.t||'?',1,c,s]
         Qy&A = A
         # < decode
+        # < may %digs be supplied via http header,
+        #   is the version of the source that compiled this string
+        #    ie /ghost/ %dige are /w/ %digs,
+        #     /w/ having compiled and argumented to %dige
+        Qs&dige = dig(Qs&string)
         return Q
     }
    
