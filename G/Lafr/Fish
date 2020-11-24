@@ -85,9 +85,7 @@ fi.Xios ||= {}
         A&X = {A}
         return A
     }
-    self.pex = &sc{
-        return ex(peel(s),peel(c))
-    }
+  // &Ariv X*
     # Ac&b = old life
     fi.Ariv = &acgtc{
         $b = fi&had,pex(c,{At:A.t}),{n:A}
@@ -502,15 +500,6 @@ fi.Xios ||= {}
     }
     
    // Attention
-    fi.Acom = &acgtAsc{
-        return fi&com,s,c
-    }
-    fi.com = &acgtsc{
-        $Al = me.cbu(A, A => !A.up, A => A.up)
-        $big = haks(c).map(k => k+":"+dis(c[k])).join("  ")
-        $m = A.t+"#"+Ac&sip+" "+s+": "+big
-        ac(Al,'log',m)
-    }
     # want to have a thing
     #  A/$t+$of float upwards
     #   pointing thence also to ..A
@@ -609,24 +598,45 @@ fi.Xios ||= {}
         # < decode
         return Q
     }
-    
-   // live
-    fi.live = &acgtJs,ar{
-        $Y = A
-        $a = &{
+   
+   // com
+    fi.Acom = &acgtAsc{
+        return fi&com,s,c
+    }
+    fi.com = &acgtsc{
+        $Al = me.cbu(A, A => !A.up, A => A.up)
+        $big = haks(c).map(k => k+":"+dis(c[k])).join("  ")
+        $m = A.t+"#"+Ac&sip+" "+s+": "+big
+        ac(Al,'log',m)
+    }
+    # to script for many A, getting A = particulars
+    # < switching A etc with B on any &h:
+    #   Babz: fi&Thing,A:Al,la,ca
+    #    -> G.h(A,C,G,T,{t:'Thing',A:Al},la,ca)
+    fi.Adoer = &acgtY{
+        Y ||= A
+        return &{
+            # start each call with the A from &Adoer
+            A = Y
             each in arguments {
-                isA(n) and $A = n
+                isA(n) and A = n
                 else
                 isar(n) and $a = fi[n[0]](A,C,G,T, ...n.slice(1))
                 else
                 isfu(n) and $a = n(A)
                 else
                 debugger
+                # assumes any A returned from that
                 isA(a) and A = a; a = null
             }
             return A
         }
         
+    }
+    
+   // live
+    fi.live = &acgtJs,ar{
+        $Y = A
         
         # &t:
         # to i A^^X/$of,$t/$A
