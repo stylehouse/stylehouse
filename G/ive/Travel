@@ -3591,12 +3591,15 @@ me.Sch_Travel = &acgt{ return [
         # slices hash keys
         window.ksaf = &sc{
             $keys = haks(s)
+            !isob(c) and c = {aft:c,inc:1}
             $ki = keys.indexOf(c.aft||c.bow)
+            ki < 0 and throw "no ksaf",c
             # slice arg2 is first one not to include
             # splice arg2 is length of selection
             $N = keys.slice(... c.aft ? [ki+1] : [0,ki])
             c.inc and c.aft ? N.unshift(keys[ki]) : N.push[keys[ki]]
-            c.aft ? c.rev : !c.rev and N.reverse()
+            # c.near for closest to ki first (reverse the bow)
+            c.aft ? c.rev : c.near && !c.rev and N.reverse()
             return N
         }
         window.dis = &sc{

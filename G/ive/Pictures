@@ -23,14 +23,14 @@
         me&zuct,g,nu;
     };
   // misc()
-    # selective ex, removing
+    # selective ex, taking out (unless $k:0)
     #  as in consuming arguments from a c
-    window.tax = &s,take,c{
+    window.tax = &s,c,take{
         !c and return s
         !isha(s) || isC(s) || !isha(c) || isC(c) and throw "tax"
         isst(take) and take = G&peel,take
         else
-        isar(take) and throw "{map{k:1}take}"
+        isar(take) and take = hashkv(take)
         each k,remove take {
             !hak(c,k) and continue
             remove and s[k] = delete c[k]
@@ -408,7 +408,7 @@
         !isst(t) and throw "which -pi"
         # takes c.t,el (< etc) into a new c
         #  leaving the &pi* with c.ov, etc
-        c = tax({},'t,el',c)
+        c = tax({},c,'t,el')
         c.el ||= 2
         $b = s.y [t]
         if (!b || c.el <3) {
