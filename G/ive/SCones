@@ -210,21 +210,22 @@ me.Sch_Comm = &acgt{ return [
         !S and return me&waits,'node'
         
         $tr = Rs&client = Ry&up
+        # Travel/$t
         $t = trc&s
         
-        if (ts&caut || 1) {
-            # give our @Gome a chance to configure $SC
-            $n = sy&Gorow
-            !n and return me&tc,"caut!Gorow"
+        # must Gorow
+        $n = sy&Gorow
+        !n and return me&tc,"caut!Gorow"
+        # may Gome-Control, must if t%Con
+        if (ns&Gome || ts&Con) {
             !ns&Gome and return me&tc,"Gorow!Gome"
+            # give our @Gome a chance to configure $SC
             me&nodei,R,ns&Gome,{Travelable:t,Cat:s}
             # reply
             me&ja,R,{Control:1,efrom:ns&Gome} and 1
-            else
-            # must wait for controller
-            ts&caut and return me&tc,"Gome->%%Control..."
+            else return me&tc,"Gome->%%Control..."
         }
-        # $s known as $SC to these routines
+        # this $s known as $SC in these routines
         
         me&baleg,'Inc','Aearch'
         if (0) {
