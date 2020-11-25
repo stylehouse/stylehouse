@@ -490,11 +490,16 @@ fi.Xios ||= {}
         
         if (!xc) {
             fi&com,"none",{s}
+            return
         }
-        # may have the answer, from somewhere
-        #  that may be further up the slope
-        #   waiting to be towed in by the resyncing A:more
-        A&Athx = xc
+        else {
+            # have the answer, from somewhere
+            #  that may be further up the slope
+            #   waiting to be towed in by the resyncing A:more
+            A&Athx = xc
+            $Q = xc.n
+            fi&com,"got",{s,Q}
+        }
         
         # and looking, engaging with quest handler
         # have item ready or tell enclosing scope to bail
@@ -529,7 +534,7 @@ fi.Xios ||= {}
                 # threading back down to ..A
                 $es = sex({},xc,beliefc)
                 !xc.n and debugger
-                $N = fi&Xsimp,x,es,{n:xc.n}
+                $N = fi&Xsimp,wantx,es,{n:xc.n}
                 es.x = N[0]
                 es.n = xc.n
                 xc = es
@@ -537,35 +542,82 @@ fi.Xios ||= {}
         }
         return xc
     }
+   // Attendance
     # takes strings to things
-    # may happen in or outside of &Ath + &oftserve
-    # usu:
-    #  just the $of+$t
-    #  the request for a thing could be a dialecting
-    #  A.up's many $s={of,t} with work to do
-    #  so in async (eg http reply) handler we get back to here,
-    #  to fill in that thingness for the current A.up
+    #  N[s] - Qish states to become
+    #   splits into Q.c (name) and Q.sc (qua)
+    #  c - specifics on the becoming
+    # the requests|responses for a thing dial through here
+    #  &oftserve
+    #   may send the request immediately
+    #    or via 4s&todo[], which is like:
+    #  or
+    #   some xhr.done() -> G.and[C] -> G.tick()
+    #   that C instructing to &Athinger a batch
+    #    < N-merge &Athinger calls with the same c
+    # for A.up
+    #  who has /$of+$t = wantx
+    #   wantx/$n=inA
+    #    lead to users, who inA/.../$n=Q
+    #   wantx/believe/.../$n=Q
+    #    fills in a thing, on top of others in ...
+    # < then A.up
+    #  chases affected $n=inA
+    #  having a bunch of rows of */believe/* change
+    #   each thing, here and there and down the slope
+    #    for a src-connected differable pipe thinging
+    #   that can wander through A:n** applying itself
+    #    being stretched with news before completion
+    #     and present that as loop hazard, etc
     fi.Athinger = &acgtANc{
-       # for A.up, who has /$of+$t/$n:A to resume belief
-       # we don't have to go looking for lack of /believe
-       $Y = A.up
-       each is N {
-           if (s.of == 'w') {
-               =pod
-               have a Q
-                send request
-                  or maybe not yet
-                   A may check itself for cachedness
-                get response
-                 causes batched &Athinger
-                  ie xhr.done() -> G.and[c] -> G.tick()
-               =cut
-               $Q = fi&haveaQ,ex({},s,{string:"yardial"})
-               Qc&code = &acgts{
-                   return Qs&string
-               }
-               Ys&Que = Q
-           }
+        $Y = A.up
+        each is N {
+            s.string ||= "yardial"
+            if (s.string == null) {
+                # ask for it,
+                #  generate s=Qc* + string=such + etc
+            }
+            else {
+                # a response to decode
+                # < decide el:8 asap
+                $Q = fi&haveaQ,s
+                Ys&Que = Q
+                
+                # when to have a Q we already have?
+                # A:least/Q.c should be
+                $wantx = fi&Xsimp,Y,Q.c
+                # A:loading/Q.c creating, no /$n=A
+                $havex = fi&Xsimp,A,Q.c
+                
+                # Q.c/beliefc/$n=Q
+                $beliefc = {believe:1,src:'1812',version:Qs&dige}
+                $beliefx = fi&Xsimp,havex,beliefc,{n:Q}
+                
+                # having the latest belief
+                # < allowing a previous $version to come back
+                #   new Q will go into an earlier x.version...
+                #   do we sort by A:loading/Q.c/$n=Q?
+                #    this could give us gc,
+                #     by limiting that $n=Q list
+                #     removing their /believe/...
+                # < also el:9?
+                $wildc = hashkv(haks(beliefc))
+                $believedN = fi&Xsomp,wantx,wildc
+                me&nu,"beliefsitch",{wantx,believedN,havex,beliefx}
+                
+                # < compare N-M, put more todo
+                $el = !hak(believedN) ? 2 : 3
+                fi&com,"Q",{el,c:Q.c,sc:Q.sc}
+                
+                # put where it will be believed:
+                $believingN = fi&Xsimp,wantx,beliefc,{n:Q}
+                me&nu,"beliefing",{believingN}
+                
+                # constitutes a state change
+                #  supposing A:least keeps everything we set up
+                #   and we are called in to update things whenever
+            }
+               
        }
     }
     # requests fill out to response
@@ -648,10 +700,13 @@ fi.Xios ||= {}
         
         $Ag = fi&Atsomewhere,Al,'loading'
         fi&Athinger,Ag,todo
-        # supposing ^ wakes A:more:
-        $got = fi&Ath,Am2,{of:'w',t:'random'}
-        $Am = fi&Atsomewhere,Al,'more'
-        # look at awaiting of+t, group by $At|$sip
+            # supposing ^ wakes A:more:
+            $got = fi&Ath,Am2,{of:'w',t:'random'}
+            $got = fi&Ath,Am2,{of:'w',t:'random'}
+            $Am = fi&Atsomewhere,Al,'more'
+            # look at awaiting of+t, group by $At|$sip
+        
+        fi&Athinger,Ag,[{of:'w',t:'random',string:'changesing'}]
         
         
         Ys&Ina = [Al,Ag,Am1,Am2,Am,got]
