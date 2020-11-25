@@ -543,32 +543,85 @@ fi.Xios ||= {}
         return xc
     }
    // Attendance
-    # takes strings to things
-    #  N[s] - Qish states to become
-    #   splits into Q.c (name) and Q.sc (qua)
-    #  c - specifics on the becoming
-    # the requests|responses for a thing dial through here
-    #  &oftserve
-    #   may send the request immediately
-    #    or via 4s&todo[], which is like:
-    #  or
-    #   some xhr.done() -> G.and[C] -> G.tick()
-    #   that C instructing to &Athinger a batch
-    #    < N-merge &Athinger calls with the same c
-    # for A.up
-    #  who has /$of+$t = wantx
-    #   wantx/$n=inA
-    #    lead to users, who inA/.../$n=Q
-    #   wantx/believe/.../$n=Q
-    #    fills in a thing, on top of others in ...
-    # < then A.up
-    #  chases affected $n=inA
-    #  having a bunch of rows of */believe/* change
-    #   each thing, here and there and down the slope
-    #    for a src-connected differable pipe thinging
-    #   that can wander through A:n** applying itself
-    #    being stretched with news before completion
-    #     and present that as loop hazard, etc
+    =pod
+     takes strings to things
+      N[s] - Qish states to become
+       s.* splits into Q.c (name) and Q.sc (qua)
+      c - specifics on the becoming
+     making requests|responses for a thing
+      &oftserve may send requests sync
+        or via 4s&todo[], which is like:
+      or
+       some xhr.done() -> G.and[C] -> G.tick()
+       that C instructing to &Athinger a batch
+        < N-merge &Athinger calls with the same c?
+     
+     so A:most &Ath A:least &oftserve... A:loading
+      then comes back in reverse
+     structure mirrors around:
+     A (loading)
+      /$of+$t = havex
+       havex/believe/$src/$version = habe /$n=Q
+        places the latest Q
+     A.up (least)
+      /$of+$t = wantx
+       wantx/$n=inA
+       wantx/believe/$src/$version = habe /$n=Q
+        given by A:loading
+     inA (most)
+      /$of+$t = wantx
+       wantx/$n=furtherinA
+       wantx/believe/$src/$version = wabe /$n=Q
+        &Ath latest Q (from A.up)
+     
+     note that A.up...wantx...habe
+      because A:least <- A:loading
+       applying new habe while A:loading
+        or possibly when waking A:least via 'e:Xlv'
+      A:least|A.4 comes back (wakes after A:loading)
+       having new habe
+        since A:loading isnt on the climb in &Ath
+       and:
+      'e:Xlv' spools up a coherent A:least intro
+       a rowing of old|new ...habe:$Q
+       inc $versions skipped over since the last A:least wake
+        ie cluing possibly downloadable versions between old-new
+       locates inA:
+      A:most also wakes by 'e:Xlv'
+       still has wabe
+       add to (diving) 'e:Xlv' about what ~
+       which must figure out what to dome
+       &Ath from doming should replace wabe with habe
+     
+     so Q initially just asks:
+      A:loading:
+       havex/believe/$P any in progress, have|get Pc&src etc
+        when complete they spread to:
+       havex/believe/$src(/$P)/$version(/$P)
+      
+      also:
+       havex/believe(/$Q)/$src(/$Q)/$version - all wabe/$Q
+        to order $Q over any $src|$version
+         certainly over any $version
+          so branches ($src) can revert etc
+        we are always adding to the last in a list
+         ie always having the latest+best info
+      
+      and any /$P or /$Q list limits to 10?
+      P|Q might be only beginning, partly filled out
+       P for pieces of speech transmitting
+        they may appear from websockets
+       Q the whole speech bubble
+        interpolation of what was said
+     
+     chases affected $n=inA
+      having a bunch of rows of */believe/* change
+       each thing, here and there and down the slope
+        for a src-connected differable pipe thinging
+       that can wander through A:n** applying itself
+        being stretched with news before completion
+         and present that as loop hazard, etc
+    =cut
     fi.Athinger = &acgtANc{
         $Y = A.up
         each is N {
@@ -584,9 +637,12 @@ fi.Xios ||= {}
                 Ys&Que = Q
                 
                 # when to have a Q we already have?
-                # A:least/Q.c should be
-                $wantx = fi&Xsimp,Y,Q.c
-                # A:loading/Q.c creating, no /$n=A
+                
+                # A:least/Q.c should be (has /$n=inA)
+                $wants = fi&Xsomp,Y,Q.c
+                wants.length > 1 and debugger
+                $wantx = wants[0].x
+                # A:loading/Q.c creating, no /$n
                 $havex = fi&Xsimp,A,Q.c
                 
                 # Q.c/beliefc/$n=Q
@@ -603,7 +659,7 @@ fi.Xios ||= {}
                 # < also el:9?
                 $wildc = hashkv(haks(beliefc))
                 $believedN = fi&Xsomp,wantx,wildc
-                me&nu,"beliefsitch",{wantx,believedN,havex,beliefx}
+                me&zu,"sitch:"+Qs&dige,{wantx,believedN,havex,beliefx}
                 
                 # < compare N-M, put more todo
                 $el = !hak(believedN) ? 2 : 3
@@ -611,7 +667,7 @@ fi.Xios ||= {}
                 
                 # put where it will be believed:
                 $believingN = fi&Xsimp,wantx,beliefc,{n:Q}
-                me&nu,"beliefing",{believingN}
+                me&zu,"belief:"+Qs&dige,{believingN}
                 
                 # constitutes a state change
                 #  supposing A:least keeps everything we set up
@@ -622,8 +678,8 @@ fi.Xios ||= {}
     }
     # requests fill out to response
     # $of+$t -> $of+$t+$string+$dige+$s
-    #  Q.c.* is bunch of namespace, s.* before s.string
     fi.haveaQ = &acgts{ 
+        # Q.c.* is bunch of namespace, before s.string
         $c = tax({},s,ksaf(s,{bow:'string'}))
         $Q = G&Cye,[c.t||'?',1,c,s]
         Qy&A = A
@@ -704,9 +760,11 @@ fi.Xios ||= {}
             $got = fi&Ath,Am2,{of:'w',t:'random'}
             $got = fi&Ath,Am2,{of:'w',t:'random'}
             $Am = fi&Atsomewhere,Al,'more'
-            # look at awaiting of+t, group by $At|$sip
+            # < look at awaiting of+t, group by $At|$sip
         
-        fi&Athinger,Ag,[{of:'w',t:'random',string:'changesing'}]
+        #fi&Athinger,Ag,[{of:'w',t:'random',string:'changesing'}]
+        
+        
         
         
         Ys&Ina = [Al,Ag,Am1,Am2,Am,got]
