@@ -12,7 +12,6 @@ fi.Xios ||= {}
  // A
     =pod
      just creation
-     
      &A create+wind?
        if too other to wind
         create to merge later (e)
@@ -35,6 +34,7 @@ fi.Xios ||= {}
            and acquire A&t = $mind_to_voice
           &A,C,'n' - create Cy&A, A&t = 'n'
     =cut
+   // &A
     fi.A = &acgtV{
         V ||= A
         !isA(V) and throw "!A"
@@ -48,8 +48,19 @@ fi.Xios ||= {}
         Vc&ipi ||= 0
         A&ip.push(Vc&ipi++)
         A&sip = A&ip.join(' ')
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         return A
     }
+   // &At, &Ariv, &had Xsim
     # as above with c -> A.t, A.c.*
     # < pronounced acgtivic. extra intellectual suffixualism
     fi.At = &acgtVc{
@@ -61,8 +72,6 @@ fi.Xios ||= {}
         A&X = {A}
         return A
     }
- 
- // &Ariv X*
     # Ac&b = old life
     fi.Ariv = &acgtc{
         $b = fi&had,pex(c,{At:A.t}),{n:A}
@@ -92,6 +101,18 @@ fi.Xios ||= {}
         $b = Nld[sequence]
         return b
     }
+   // believe Xsim
+    # look up believe/src/version/$Q, ordered by believe/$Q
+    #  &Xsomp with $version.z limiting to one
+    # see Attendance: 'to order $Q over any $src|$version'
+    fi.believeoQ = &acgtxc{
+        $beliefc = {believe:1,src:1,version:1}
+        $N = fi&Xsomp,x,beliefc
+        
+    }
+    fi.believeiQ = &acgtxc{
+    }
+   // Xsim middle
     # 1-spheres in X..
     fi.Xsimp = &acgtXscq{
         c ||= {}
@@ -106,6 +127,7 @@ fi.Xios ||= {}
     fi.Xsomp = &acgtXscq{
         c ||= {}
         c.long = 1
+        q ||= {}
         $N = [X]
         $arkN = [{}]
         $ks = haks(s)
@@ -129,7 +151,10 @@ fi.Xios ||= {}
                 !c.wild and vx = hashkv(v,vx)
                 # always X|x.$k(.$v=$x)+
                 each vx vx {
-                    $arkv = ex(arkx,hashkv(k,v))
+                    $arkv = ex({},arkx,hashkv(k,v))
+                    # also each x on the way
+                    arkv.arkx = ex({},arkv.arkx||{})
+                    arkv.arkx[k] = x
                     M.push(x)
                     arkM.push(arkv)
                 }
@@ -139,6 +164,7 @@ fi.Xios ||= {}
             arkN = arkM
             !N.length and return []
         }
+        
         # arks + final x from eg x/$src/$version(/$n)?
         $M = []
         each ix N {
@@ -150,8 +176,58 @@ fi.Xios ||= {}
                 M.push(xc)
             }
         }
+        N = M
+        
+        # order the single expanse of rows
+        q.norder and N = fi&Nxcnorder,N,q
+        
+        return N
+    }
+    # order a single expanse of rows
+    #  higher(/$n)/$over/$other/$n 
+    # < rename xc r, so Nr?
+    fi.Nxcnorder = &acgtNq{
+        !q.norder and throw "!q.norder"
+        $M = []
+        # each believe (xords) has many /... (xordz)
+        $xords = []
+        $xordz = []
+        each ik q.norder {
+            each i,xc N {
+                $xord = xc.arkx[k]
+                !xord and continue
+                $xi = xords.indexOf(xord)
+                xi < 0 and xi = xords.push(xord)
+                xordz[xi] ||= []
+                xordz[xi].push(xc)
+            }
+        }
+        !hak(xords) and throw "!norder"
+        each ix xords {
+            # in the order of believe/$n
+            $norder = x.z.slice().reverse()
+            $xcorder = xordz[i].slice().reverse()
+            $inside = []
+            each in norder {
+                each i,xc xcorder {
+                    # suck out believe/.../$n rows
+                    xc.n != n and continue
+                    inside.push(xc)
+                }
+            }
+            # starts from the end|newest, which matter more
+            each i,xc inside {
+                M.includes(xc) and throw "test multiple q.norder.*"
+                M.unshift(xc)
+            }
+        }
+        # any not in believe/$n, meaning very historic?
+        #  see $n...$n gc
+        N.filter(xc => !M.includes(xc)).reverse()
+            .map(xc => M.unshift(xc))
         return M
     }
+   // Xsim back
     # 2-sphere, in k='X' named|after t=[...]
     fi.Xsim = &acgtXktscq{
         isA(X) and X = X.c[k] ||= {A:X}
@@ -435,7 +511,6 @@ fi.Xios ||= {}
            whole loop of that, using only things in here...
         output benice:
          a list of A in Cit...
-        
     =cut
    // Aspecting
     fi.Atopleast = &acgt{
@@ -515,7 +590,7 @@ fi.Xios ||= {}
         #   you must read the code
         # x/believe/$src/$version/$n=Q
         $beliefc = {believe:1,src:1,version:1}
-        $N = fi&Xsomp,wantx,beliefc
+        $N = fi&Xsomp,wantx,beliefc,{norder:{believe:1}}
         # later greater $version, most relevant $src
         $xc = N.pop()
         if (!xc) {
@@ -541,10 +616,6 @@ fi.Xios ||= {}
             }
         }
         return xc
-    }
-    # see to order $Q over any $src|$version
-    fi.believeQ = &acgt{
-    
     }
    // Attendance
     =pod
