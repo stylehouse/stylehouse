@@ -12,6 +12,11 @@ fi.Xios ||= {}
  // A
     =pod
      just creation
+     whatever it takes to load the rest of the fish
+      there is a microfish inside:
+       &Xsim co prototype &Xio
+        to merge when both testable
+     < Aspecting -> &A
      &A create+wind?
        if too other to wind
         create to merge later (e)
@@ -110,9 +115,13 @@ fi.Xios ||= {}
         $N = fi&Xsomp,x,beliefc
         
     }
-    fi.believeiQ = &acgtxc{
+    # first and last s.* have x/$n=Q
+    fi.believeiQ = &acgtxsQ{
+        $first = sex({},s,haks(s)[0])
+        fi&Xsimp,x,first,{n:Q}
+        fi&Xsimp,x,s,{n:Q}
     }
-   // Xsim middle
+   // Xsomp middle
     # 1-spheres in X..
     fi.Xsimp = &acgtXscq{
         c ||= {}
@@ -179,20 +188,20 @@ fi.Xios ||= {}
         N = M
         
         # order the single expanse of rows
-        q.norder and N = fi&Nxcnorder,N,q
+        c.norder and N = fi&Nxcnorder,N,c
         
         return N
     }
     # order a single expanse of rows
-    #  higher(/$n)/$over/$other/$n 
+    #  higher(/$n)/$over/$other/$n (over turns out to mean later)
     # < rename xc r, so Nr?
-    fi.Nxcnorder = &acgtNq{
-        !q.norder and throw "!q.norder"
+    fi.Nxcnorder = &acgtNc{
+        !c.norder and throw "!c.norder"
         $M = []
         # each believe (xords) has many /... (xordz)
         $xords = []
         $xordz = []
-        each ik q.norder {
+        each kv c.norder {
             each i,xc N {
                 $xord = xc.arkx[k]
                 !xord and continue
@@ -205,8 +214,9 @@ fi.Xios ||= {}
         !hak(xords) and throw "!norder"
         each ix xords {
             # in the order of believe/$n
-            $norder = x.z.slice().reverse()
-            $xcorder = xordz[i].slice().reverse()
+            
+            $norder = (x.z||[]).slice().reverse()
+            $xcorder = (xordz[i]||[]).slice().reverse()
             $inside = []
             each in norder {
                 each i,xc xcorder {
@@ -227,6 +237,7 @@ fi.Xios ||= {}
             .map(xc => M.unshift(xc))
         return M
     }
+    
    // Xsim back
     # 2-sphere, in k='X' named|after t=[...]
     fi.Xsim = &acgtXktscq{
@@ -516,8 +527,10 @@ fi.Xios ||= {}
     fi.Atopleast = &acgt{
         $Y = A
         $A = {t:'top',c:{},sc:{}}
-        A.7 = Y.7
-        #A.4 = Y.4
+        if (Y) {
+            A.7 = Y.7
+            #A.4 = Y.4
+        }
         A.y = A
         A.top = A
         
@@ -542,6 +555,7 @@ fi.Xios ||= {}
     
     fi.Atsomewhere = &acgtAt{
         A = fi&At,t
+        !A.up.up and ac(A.up,'z',A)
         fi&Ariv,{}
         return A
     }
@@ -589,8 +603,8 @@ fi.Xios ||= {}
         #   lots of things are and
         #   you must read the code
         # x/believe/$src/$version/$n=Q
-        $beliefc = {believe:1,src:1,version:1}
-        $N = fi&Xsomp,wantx,beliefc,{norder:{believe:1}}
+        $beliefs = {believe:1,src:1,version:1}
+        $N = fi&Xsomp,wantx,beliefs,{norder:{believe:1}}
         # later greater $version, most relevant $src
         $xc = N.pop()
         if (!xc) {
@@ -607,7 +621,7 @@ fi.Xios ||= {}
             }
             if (xc) {
                 # threading back down to ..A
-                $es = sex({},xc,beliefc)
+                $es = sex({},xc,beliefs)
                 !xc.n and debugger
                 $N = fi&Xsimp,wantx,es,{n:xc.n}
                 es.x = N[0]
@@ -812,39 +826,18 @@ fi.Xios ||= {}
         #  then:
         #   auto J^^X/$of,$t/$At
         #   there is o J**/$At
-        $Al = fi&Atopleast,1
-        $Am1 = fi&Atsomewhere,Al,'more'
-        # V<-X
-        Alc&again()
-        $Am2 = fi&Atsomewhere,Al,'more'
-        $Am = fi&Atsomewhere,Al,'more'
+        A = fi&Atopleast,1
+        fi&Acom,A,'yaya',{}
         
-        # try get something
-        $todo = []
-        Alc&oftserve = &sc{
-            # c=wantx is Al's
-            fi&Acom,Al,'oftserve',{s}
-            todo.push(s)
-        }
-        $got = fi&Ath,Am2,{of:'w',t:'random'}
-        got and throw "got first"
-        
-        $Ag = fi&Atsomewhere,Al,'loading'
-        fi&Athinger,Ag,todo
-            # supposing ^ wakes A:more:
-            $got = fi&Ath,Am2,{of:'w',t:'random'}
-            $got = fi&Ath,Am2,{of:'w',t:'random'}
-            $Am = fi&Atsomewhere,Al,'more'
-            # < look at awaiting of+t, group by $At|$sip
-        
-        #fi&Athinger,Ag,[{of:'w',t:'random',string:'changesing'}]
+        fi&test_Attention
+        #fi&test_Nxcnorder
         
         
-        
-        
-        Ys&Ina = [Al,Ag,Am1,Am2,Am,got]
+        Ys&Ina = [A,...(As&z||[])]
+        #,Am1,Am2,Am,got]
+        # &zu attaches to CyR-space, above Y of Cat
         Ys&Ina.map((n,i) => me&zu,"Aump:"+i,n )
-        Als&log.map((n,i) => me&zu,"Log:"+i,n .sc.rowish = 1 )
+        As&log.map((n,i) => me&zu,"Log:"+i,n .sc.rowish = 1 )
         
         n abovst  s:vefge
         n tassely 3 s:brackets
@@ -860,9 +853,69 @@ fi.Xios ||= {}
         #4s&Athing = A
         #As&selfpin = me&t,R,{of:'wjs',args:'ar,J,s'},'Fish'
         #As&selfpin = me&t,R,{of:'wjs',args:'flonk,J,s'},'Fish'
-        while (i--)
-            ~>5 Fiseh: 3
+        #while (i--)
+        #    ~>5 Fiseh: 3
         #fi&a,{fuselage:3}
+    }
+   // t A
+    # roll b->A
+    # rota A->b
+    fi.test_Attention = &acgt{
+        $Am1 = fi&Atsomewhere,A,'more'
+        # V<-X
+        Ac&again()
+        $Am2 = fi&Atsomewhere,A,'more'
+        $Am = fi&Atsomewhere,A,'more'
+        
+        # try get something
+        $todo = []
+        A&oftserve = &sc{
+            # c=wantx is Al's
+            fi&Acom,A,'oftserve',{s}
+            todo.push(s)
+        }
+        $got = fi&Ath,Am2,{of:'w',t:'random'}
+        got and throw "got first"
+        
+        $Ag = fi&Atsomewhere,A,'loading'
+        fi&Athinger,Ag,todo
+        
+        # supposing ^ wakes A:more:
+        $got = fi&Ath,Am2,{of:'w',t:'random'}
+        $got = fi&Ath,Am2,{of:'w',t:'random'}
+        Am2s&got = got
+        $Am = fi&Atsomewhere,A,'more'
+        # < look at awaiting of+t, group by $At|$sip
+        
+        #fi&Athinger,Ag,[{of:'w',t:'random',string:'changesing'}]
+        
+    }
+    # &Xsomp $n...$n ordering
+    fi.test_Nxcnorder = &acgt{
+        A = fi&Atsomewhere,A,'test_Nxcnorder'
+        
+        $s = {of:'w',t:'leaks'}
+        $x = fi&Xsimp,A,s
+        $enQ = &s{
+            $Q = Cye([s.src+' v'+s.version,1])
+            fi&believeiQ,x,s,Q
+            return Q
+        }
+        $got = a&got = {}
+        $see = &t{
+            $beliefs = {believe:1,src:1,version:1}
+            $N = fi&Xsomp,x,beliefs,{norder:{believe:1}}
+            $M = got[t] = []
+            M.push(N.map(xc => xc.n))
+        }
+        enQ({believe:1,src:'1812',version:1})
+        see('first')
+        enQ({believe:1,src:'1812',version:2})
+        see('2nd')
+        enQ({believe:1,src:'1812',version:1})
+        see('first again')
+        
+        return A
     }
     
  
