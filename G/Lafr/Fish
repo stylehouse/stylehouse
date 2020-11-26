@@ -164,6 +164,7 @@ fi.Xios ||= {}
             # long builds x..x
             $hs = c.long && x || X
             $ux = hs
+            # t keys X.[ex.tra.lev.els]
             each il t {
                 hs = hs[l] ||= {}
             }
@@ -506,9 +507,8 @@ fi.Xios ||= {}
     }
     # over slope
     fi.wantbelieve = &acgtAsc{
-        # put outA/$of+$t = x, x/$n=inA
-        #  may dup, having $n==inA already is not required
-        $inA = c.Y || A
+        # put A/$of+$t/$n=inA|A
+        $inA = c.inA || A
         $wantx = fi&Xsimp,A,s,{n:inA}
         # < belief-lockin may reuse V/$t+$of/believe...
         #   lots of things are and
@@ -521,7 +521,7 @@ fi.Xios ||= {}
         if (!xc) {
             # go further upwards
             if (A.up) {
-                xc = fi&wantbelieve,A.up,s,{Y:A}
+                xc = fi&wantbelieve,A.up,s,{inA:A}
             }
             else {
                 # we must be at the gateway
@@ -541,6 +541,10 @@ fi.Xios ||= {}
             }
         }
         return xc
+    }
+    # see to order $Q over any $src|$version
+    fi.believeQ = &acgt{
+    
     }
    // Attendance
     =pod
@@ -579,8 +583,8 @@ fi.Xios ||= {}
        applying new habe while A:loading
         or possibly when waking A:least via 'e:Xlv'
       A:least|A.4 comes back (wakes after A:loading)
-       having new habe
-        since A:loading isnt on the climb in &Ath
+       having new habe for A:more to &Ath
+        since A:loading isnt on the &Ath climb
        and:
       'e:Xlv' spools up a coherent A:least intro
        a rowing of old|new ...habe:$Q
