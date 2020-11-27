@@ -8,6 +8,16 @@ fi.Xios ||= {}
         return A && A.c && A.sc
             && (A.y && A.y.A == A || A.y == A)
     }
+    self.isJ = &J{
+        return isA(J) && J.1 == J
+    }
+    # all values set to 1
+    # < rename ksaf ksat?
+    self.allone = &sc{
+        !isob(s) and throw "allone!hash"
+        c and throw "< ksaf"
+        return hashkv(haks(s))
+    }
  
  // A
     =pod
@@ -147,20 +157,25 @@ fi.Xios ||= {}
     }
   
   // &X*
-   // believe Xsim
-    # look up believe/src/version/$Q, ordered by believe/$Q
-    #  &Xsomp with $version.z limiting to one
+   // believe-ish Xsim
+    # look up believe/src/version/$Q
+    # sort by believe/$Q, usu return latest one
     # see Attendance: 'to order $Q over any $src|$version'
-    fi.believeoQ = &acgtxc{
-        $beliefc = {believe:1,src:1,version:1}
-        $N = fi&Xsomp,x,beliefc
-        
+    fi.believeoQ = &acgtxsc{
+        s ||= {believe:1,src:1,version:1}
+        c ||= {}
+        $first = hashkv(haks(s)[0])
+        $N = fi&Xsomp,x,s,{norder:first}
+        c.rows and return N
+        $xc = N.pop()
+        c.row and return xc
+        # Q
+        return xc.n
     }
-    # first and last s.* have x/$n=Q
     fi.believeiQ = &acgtxsQ{
         $first = sex({},s,haks(s)[0])
         fi&Xsimp,x,first,{n:Q}
-        fi&Xsimp,x,s,{n:Q}
+        return fi&Xsimp,x,s,{n:Q}
     }
    // Xsomp middle
     # 1-spheres in X..
@@ -336,7 +351,6 @@ fi.Xios ||= {}
     }
  
  // live
-    # us doing stuff as J:Fish
     =pod
       A:n arrive, $At with $Ct
        maintaining a path to things
@@ -365,7 +379,7 @@ fi.Xios ||= {}
        causing osc to zip things together efficiently
       
       so using this to trace &t
-        sidenote: species of &t:
+       sidenote: species of &t:
          &Jt t=given looks around A^^<3, also of:J ($Jt?), or die
           roughly equivalent to &Jx, with a name patchbay
        what you &t
@@ -490,26 +504,28 @@ fi.Xios ||= {}
             maybe missing separation of what-is to a specific us
             so as to make cannonical domings
             for a cannonical doming of 
-        
-      V-layer
-       refers to the entire network of X at the end of time-1
-       for recycling sleeping things from
-        finding yourselves in
-        transfiguring X-networked truth systems
-      V is the X&A&b&X
-        ie it is the space your A&b is in
-       their new life (X) builds up
-       eventually supplanting it somewhere as "now" (1s&top&A&X etc)
-        which immediately becomes "then" (A&V to you) when you redo
-       has more or less of the same stuff as X now
       
-      V below here in this write means osc,
-       an agent of history collapsing down to a point
-       a book keeper
-       the outward relating A:n&X into A:osc&X
-        A:n&V was only beginning to suspect
-       confuse
-        should The Fish be <>< ?
+      V
+          V-layer
+           refers to the entire network of X at time-1
+            that it made and finished the last time
+           for recycling sleeping things from
+            finding yourselves in
+            transfiguring X-networked truth systems
+          V is the X&A&b&X
+            ie it is the space your A&b is in
+           their new life (X) builds up
+           eventually supplanting it somewhere as "now" (1s&top&A&X etc)
+            which immediately becomes "then" (A&V to you) when you redo
+           has more or less of the same stuff as X now
+
+          V below here in this write means osc,
+           an agent of history collapsing down to a point
+           a book keeper
+           the outward relating A:n&X into A:osc&X
+            A:n&V was only beginning to suspect
+           confuse
+            should The Fish be <>< ?
         
       The Fish:
           begin, middle, end acts:
@@ -555,7 +571,7 @@ fi.Xios ||= {}
        figures out what to do
        outputs what is
        
-       anyway
+      anyway
         no I, only fi
         serve &t
           which means:
@@ -567,29 +583,23 @@ fi.Xios ||= {}
     =cut
    // Attention
     # want to have a thing
-    #  A/$t+$of float upwards
-    #   pointing thence also to ..A
-    # we eventually request creation of:
+    #  A/$t+$of/$n=..A percolates, trailing:
+    # we eventually request+receive creation of:
     #  5/$t+$of/believe/$src/$version/$n=Q
-    #   you must sort all $src and $version
-    #   5/$src/$t+$of/$version also is (two x linked?)
     # see Coffle '#I'
     fi.Ath = &acgtAsc{
         $xc = fi&wantbelieve,A,s,{}
         
         if (!xc) {
+            # haven't got a Qlue
             fi&com,"none",{s}
-            return
         }
         else {
-            # have the answer, from somewhere
-            #  that may be further up the slope
-            #   waiting to be towed in by the resyncing A:more
+            # have the answer, 
             A&Athx = xc
             $Q = xc.n
             fi&com,"got",{s,Q}
         }
-        
         # and looking, engaging with quest handler
         # have item ready or tell enclosing scope to bail
     }
@@ -598,14 +608,14 @@ fi.Xios ||= {}
         # put A/$of+$t/$n=inA|A
         $inA = c.inA || A
         $wantx = fi&Xsimp,A,s,{n:inA}
+        
         # < belief-lockin may reuse V/$t+$of/believe...
         #   lots of things are and
         #   you must read the code
         # x/believe/$src/$version/$n=Q
-        $beliefs = {believe:1,src:1,version:1}
-        $N = fi&Xsomp,wantx,beliefs,{norder:{believe:1}}
         # later greater $version, most relevant $src
-        $xc = N.pop()
+        $beliefs = {believe:1,src:1,version:1}
+        $xc = fi&believeoQ,wantx,beliefs,{row:1}
         if (!xc) {
             # go further upwards
             if (A.up) {
@@ -620,11 +630,12 @@ fi.Xios ||= {}
             }
             if (xc) {
                 # threading back down to ..A
+                #  towed in by the resyncing A:more
                 $es = sex({},xc,beliefs)
-                !xc.n and debugger
-                $N = fi&Xsimp,wantx,es,{n:xc.n}
-                es.x = N[0]
-                es.n = xc.n
+                $Q = xc.n
+                !isC(Q) and debugger
+                es.x = fi&believeiQ,wantx,es,Q
+                es.n = Q
                 xc = es
             }
         }
@@ -714,50 +725,44 @@ fi.Xios ||= {}
         $Y = A.up
         each is N {
             s.string ||= "yardial"
+            # s made into Q, may have only the question so far
             if (s.string == null) {
                 # ask for it,
                 #  generate s=Qc* + string=such + etc
             }
             else {
-                # a response to decode
                 # < decide el:8 asap
+                # < when to have a Q we already have? and the P?
+                # < Qc&el and other knowns not for /$oft
+                
+                # s|P decodes to Q
                 $Q = fi&haveaQ,s
                 Ys&Que = Q
                 
-                # when to have a Q we already have?
+                # A:loading /$of+$t from Qc
+                $oftx = fi&Xsimp,A,Q.c
+                # /believe/.../$Q from Qs becomes latest
+                $beliefs = {believe:1,src:'1812',version:Qs&dige}
+                $belx = fi&believeiQ,oftx,beliefs,Q
+                # < gc the oftx/$Q when its belx/$Q is time-3
                 
-                # A:least/Q.c should be (has /$n=inA)
-                $wants = fi&Xsomp,Y,Q.c
-                wants.length > 1 and debugger
-                $wantx = wants[0].x
-                # A:loading/Q.c creating, no /$n
-                $havex = fi&Xsimp,A,Q.c
-                
-                # Q.c/beliefc/$n=Q
-                $beliefc = {believe:1,src:'1812',version:Qs&dige}
-                $beliefx = fi&Xsimp,havex,beliefc,{n:Q}
-                
-                # having the latest belief
-                # < allowing a previous $version to come back
-                #   new Q will go into an earlier x.version...
-                #   do we sort by A:loading/Q.c/$n=Q?
-                #    this could give us gc,
-                #     by limiting that $n=Q list
-                #     removing their /believe/...
-                # < also el:9?
-                $wildc = hashkv(haks(beliefc))
-                $believedN = fi&Xsomp,wantx,wildc
-                me&zu,"sitch:"+Qs&dige,{wantx,believedN,havex,beliefx}
-                
-                # < compare N-M, put more todo
-                $el = !hak(believedN) ? 2 : 3
-                fi&com,"Q",{el,c:Q.c,sc:Q.sc}
+                # A:least /$of+$t for Qc, wantedness
+                $curx = theone( fi&Xsomp,Y,Q.c ).x
+                    # /believe/.../$Q
+                    #  any current beliefs of all A:least**
+                    #  < they gc, domily
+                    #    recompositing X from X, de-row by inA
+                    $curN = fi&Xsomp,curx,allone(beliefs)
+                    me&zu,"sitch:"+Qs&dige,{curx,curN,oftx,belx}
+
+                    # < compare N-M, put more todo
+                    $el = !hak(curN) ? 2 : 3
+                    fi&com,"Q",{el,c:Q.c,sc:Q.sc}
                 
                 # put where it will be believed:
-                $believingN = fi&Xsimp,wantx,beliefc,{n:Q}
-                me&zu,"belief:"+Qs&dige,{believingN}
+                fi&believeiQ,curx,beliefs,Q
                 
-                # constitutes a state change
+                # constitutes a state change for all consuming Q
                 #  supposing A:least keeps everything we set up
                 #   and we are called in to update things whenever
             }
@@ -859,6 +864,7 @@ fi.Xios ||= {}
     # roll b->A
     # rota A->b
     fi.test_Attention = &acgt{
+        A.4 = A
         $Am1 = fi&Atsomewhere,A,'more'
         # V<-X
         Ac&again()
@@ -880,6 +886,7 @@ fi.Xios ||= {}
         
         # supposing ^ wakes A:more:
         $got = fi&Ath,Am2,{of:'w',t:'random'}
+        #4s&deborg = 1
         $got = fi&Ath,Am2,{of:'w',t:'random'}
         Am2s&got = got
         $Am = fi&Atsomewhere,A,'more'
@@ -901,10 +908,7 @@ fi.Xios ||= {}
         }
         $got = a&got = {}
         $see = &t{
-            $beliefs = {believe:1,src:1,version:1}
-            $N = fi&Xsomp,x,beliefs,{norder:{believe:1}}
-            $M = got[t] = []
-            M.push(N.map(xc => xc.n))
+            got[t] = fi&believeoQ,x
         }
         enQ({believe:1,src:'1812',version:1})
         see('first')
