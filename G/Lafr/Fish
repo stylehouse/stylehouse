@@ -731,43 +731,56 @@ fi.Xios ||= {}
                 #  generate s=Qc* + string=such + etc
             }
             else {
-                # < decide el:8 asap
                 # < when to have a Q we already have? and the P?
-                # < Qc&el and other knowns not for /$oft
+                # < Qc&el and other knowns not for /$oft?
                 
                 # s|P decodes to Q
                 $Q = fi&haveaQ,s
-                Ys&Que = Q
                 
-                # A:loading /$of+$t from Qc
-                $oftx = fi&Xsimp,A,Q.c
-                # /believe/.../$Q from Qs becomes latest
-                $beliefs = {believe:1,src:'1812',version:Qs&dige}
-                $belx = fi&believeiQ,oftx,beliefs,Q
-                # < gc the oftx/$Q when its belx/$Q is time-3
+                # i A:loading/$of+$t/believe/.../$Q
+                fi&AiQ,A,Q
                 
-                # A:least /$of+$t for Qc, wantedness
-                $curx = theone( fi&Xsomp,Y,Q.c ).x
-                    # /believe/.../$Q
-                    #  any current beliefs of all A:least**
-                    #  < they gc, domily
-                    #    recompositing X from X, de-row by inA
-                    $curN = fi&Xsomp,curx,allone(beliefs)
-                    me&zu,"sitch:"+Qs&dige,{curx,curN,oftx,belx}
-
-                    # < compare N-M, put more todo
-                    $el = !hak(curN) ? 2 : 3
-                    fi&com,"Q",{el,c:Q.c,sc:Q.sc}
+                # o A:least may clue el2|3|8-ness
+                # may have current /believe/ of all A:least**
+                #  < they gc, domily
+                #    recompositing X from X, de-row by inA
+                $curN = fi&AoQ,Y,Q
+                # < decide el:8 when Q =~ curN/Q
+                $el = !hak(curN) ? 2 : 3
+                fi&com,"Q",{el,c:Q.c,sc:Q.sc,curN}
                 
-                # put where it will be believed:
-                fi&believeiQ,curx,beliefs,Q
+                # i A:least, where it will be believed
+                fi&AiQ,Y,Q
                 
                 # constitutes a state change for all consuming Q
-                #  supposing A:least keeps everything we set up
-                #   and we are called in to update things whenever
+                fi&elvis,{fi:'Athinging',A:Y,N:[Q],c:{}}
+                # and we are called in to update things whenever
             }
-               
-       }
+        }
+    }
+    fi.AoQ = &acgtAQ{
+        # < handles many|no $n=inA?
+        $curx = theone( fi&Xsomp,A,Q.c ).x
+        # some of these xc.n=Q, if some are updated
+        $N = fi&believeoQ,curx,0,{rows:1}
+        return N
+    }
+    fi.AiQ = &acgtAQ{
+        # wantedness /$of+$t
+        $oftx = fi&Xsimp,A,Q.c
+        # become latest /believe/.../$Q
+        $bel = fi&Qbel,Q
+        $belx = fi&believeiQ,oftx,bel,Q
+    }
+    # the /believe/... path for $Q, from Q.sc
+    fi.Qbel = &acgtQ{
+        $bel = {
+            believe: 1,
+            src: Qs&src,
+            version: Qs&vers||Qs&dige
+        }
+        !bel.src || !bel.version and throw "Q!bits"
+        return bel
     }
     # requests fill out to response
     # $of+$t -> $of+$t+$string+$dige+$s
@@ -782,9 +795,23 @@ fi.Xios ||= {}
         #    ie /ghost/ %dige are /w/ %digs,
         #     /w/ having compiled and argumented to %dige
         Qs&dige = dig(Qs&string)
+        Qs&src ||= '1812'
         return Q
     }
-   
+   // Elvis
+    # i 4%todo/...
+    fi.elvis = &acgtc{
+        c.fi and e = Cye([c.fi,8,c])
+        else {
+            throw "whate"
+        }
+        ac(A.4,'todo',e)
+    }
+    # o {do()} 4%todo/*:do
+    fi.elvising = &acgt{
+        $N = a&todo || []
+        
+    }
    // live
     fi.live = &acgtJs,ar{
         $Y = A
@@ -865,6 +892,8 @@ fi.Xios ||= {}
     # rota A->b
     fi.test_Attention = &acgt{
         A.4 = A
+        $Ag = fi&Atsomewhere,A,'loading'
+        
         $Am1 = fi&Atsomewhere,A,'more'
         # V<-X
         Ac&again()
@@ -872,22 +901,24 @@ fi.Xios ||= {}
         $Am = fi&Atsomewhere,A,'more'
         
         # try get something
-        $todo = []
         A&oftserve = &sc{
             # c=wantx is Al's
             fi&Acom,A,'oftserve',{s}
-            todo.push(s)
+            fi&elvis,{fi:'Athinger',A:Ag,N:[s],c:{}}
         }
-        $got = fi&Ath,Am2,{of:'w',t:'random'}
+        $oft = {of:'w',t:'random'}
+        $got = fi&Ath,Am2,oft
         got and throw "got first"
         
-        $Ag = fi&Atsomewhere,A,'loading'
-        fi&Athinger,Ag,todo
+        fi&
+        $Xlv = fi&Athinger,Ag,todo
         
         # supposing ^ wakes A:more:
-        $got = fi&Ath,Am2,{of:'w',t:'random'}
+        $got = fi&Ath,Am2,oft
         #4s&deborg = 1
-        $got = fi&Ath,Am2,{of:'w',t:'random'}
+        $got = fi&Ath,Am2,oft
+        
+        
         Am2s&got = got
         $Am = fi&Atsomewhere,A,'more'
         # < look at awaiting of+t, group by $At|$sip
