@@ -19,7 +19,7 @@ fi.Xios ||= {}
         return hashkv(haks(s))
     }
  
- // A
+// A
     =pod
      just creation
      whatever it takes to load the rest of the fish
@@ -50,8 +50,8 @@ fi.Xios ||= {}
            and acquire A&t = $mind_to_voice
           &A,C,'n' - create Cy&A, A&t = 'n'
     =cut
+ // &A
   // &A
-   // &A
     fi.A = &acgtV{
         V ||= A
         !isA(V) and throw "!A"
@@ -77,7 +77,7 @@ fi.Xios ||= {}
         return A
     }
    
-   // etc, &J
+  // etc, &J
     fi.Atopleast = &acgt{
         $Y = A
         $A = {t:'top',c:{},sc:{}}
@@ -114,7 +114,7 @@ fi.Xios ||= {}
         return J
     }
    
-   // &At, &Ariv, &had Xsim
+  // &At, &Ariv, &had Xsim
     # as above with c -> A.t, A.c.*
     # < pronounced acgtivic. extra intellectual suffixualism
     fi.At = &acgtVc{
@@ -156,14 +156,59 @@ fi.Xios ||= {}
         return b
     }
   
-  // &X*
-   // believe-ish Xsim
+ // &X*
+  // Q
+   // Q act
+    # requests fill out to response
+    # $of+$t -> $of+$t+$string+$dige+$s
+    fi.haveaQ = &acgts{ 
+        # Q.c.* is bunch of namespace, before s.string
+        $c = tax({},s,ksaf(s,{bow:'string'}))
+        $Q = G&Cye,[c.t||'?',1,c,s]
+        Qy&A = A
+        # < decode, get wjs script|function?
+        # < a %digs may be supplied via http header,
+        #   is the version of the source that compiled to this
+        #    ie /ghost/ %dige are /w/ %digs,
+        #     /w/ having compiled and argumented to %dige
+        Qs&dige = dig(Qs&string)
+        Qs&src ||= '1812'
+        return Q
+    }
+    
+   // Q believe-ish Xsim
+    fi.AoQ = &acgtAQ{
+        # < handles many|no $n=inA?
+        $curx = theone( fi&Xsomp,A,Q.c ).x
+        # some of these xc.n=Q, if some are updated
+        $N = fi&believeoQ,curx,0,{rows:1}
+        return N
+    }
+    fi.AiQ = &acgtAQ{
+        # wantedness /$of+$t
+        $oftx = fi&Xsimp,A,Q.c
+        # become latest /believe/.../$Q
+        $bel = fi&Qbel,Q
+        $belx = fi&believeiQ,oftx,bel,Q
+    }
+    # the /believe/... path for $Q, from Q.sc
+    fi.Qbel = &acgtQ{
+        $bel = {
+            believe: 1,
+            src: Qs&src,
+            version: Qs&vers||Qs&dige
+        }
+        !bel.src || !bel.version and throw "Q!bits"
+        return bel
+    }
+    
     # look up believe/src/version/$Q
     # sort by believe/$Q, usu return latest one
     # see Attendance: 'to order $Q over any $src|$version'
     fi.believeoQ = &acgtxsc{
         s ||= {believe:1,src:1,version:1}
         c ||= {}
+        # wildcarding hash slice, usu believe:1 anyway
         $first = hashkv(haks(s)[0])
         $N = fi&Xsomp,x,s,{norder:first}
         c.rows and return N
@@ -177,7 +222,8 @@ fi.Xios ||= {}
         fi&Xsimp,x,first,{n:Q}
         return fi&Xsimp,x,s,{n:Q}
     }
-   // Xsomp middle
+   
+  // Xsomp middle
     # 1-spheres in X..
     fi.Xsimp = &acgtXscq{
         c ||= {}
@@ -294,7 +340,7 @@ fi.Xios ||= {}
         return M
     }
     
-   // Xsim back
+  // Xsim back
     # 2-sphere, in k='X' named|after t=[...]
     fi.Xsim = &acgtXktscq{
         isA(X) and X = X.c[k] ||= {A:X}
@@ -721,6 +767,7 @@ fi.Xios ||= {}
         being stretched with news before completion
          and present that as loop hazard, etc
     =cut
+    # on A.4/A:loading
     fi.Athinger = &acgtANc{
         $Y = A.up
         each is N {
@@ -758,45 +805,9 @@ fi.Xios ||= {}
             }
         }
     }
-    fi.AoQ = &acgtAQ{
-        # < handles many|no $n=inA?
-        $curx = theone( fi&Xsomp,A,Q.c ).x
-        # some of these xc.n=Q, if some are updated
-        $N = fi&believeoQ,curx,0,{rows:1}
-        return N
-    }
-    fi.AiQ = &acgtAQ{
-        # wantedness /$of+$t
-        $oftx = fi&Xsimp,A,Q.c
-        # become latest /believe/.../$Q
-        $bel = fi&Qbel,Q
-        $belx = fi&believeiQ,oftx,bel,Q
-    }
-    # the /believe/... path for $Q, from Q.sc
-    fi.Qbel = &acgtQ{
-        $bel = {
-            believe: 1,
-            src: Qs&src,
-            version: Qs&vers||Qs&dige
-        }
-        !bel.src || !bel.version and throw "Q!bits"
-        return bel
-    }
-    # requests fill out to response
-    # $of+$t -> $of+$t+$string+$dige+$s
-    fi.haveaQ = &acgts{ 
-        # Q.c.* is bunch of namespace, before s.string
-        $c = tax({},s,ksaf(s,{bow:'string'}))
-        $Q = G&Cye,[c.t||'?',1,c,s]
-        Qy&A = A
-        # < decode, get wjs script|function?
-        # < a %digs may be supplied via http header,
-        #   is the version of the source that compiled to this
-        #    ie /ghost/ %dige are /w/ %digs,
-        #     /w/ having compiled and argumented to %dige
-        Qs&dige = dig(Qs&string)
-        Qs&src ||= '1812'
-        return Q
+    # from above, on A.4 heading to A:n for ~Q
+    fi.Athinging = &acgtANc{
+        # 
     }
    // Elvis
     # i 4%todo/...
@@ -807,9 +818,35 @@ fi.Xios ||= {}
         }
         ac(A.4,'todo',e)
     }
-    # o {do()} 4%todo/*:do
+    # o 4%todo/*
+    # called outside anything
+    # < A:elvisings transacts off do() we finish
+    #   errors|more-async cause a traffic jam
     fi.elvising = &acgt{
         $N = a&todo || []
+        $began = N.slice()
+        each ie began {
+            # < mergible ec&N amongst c.*+c.c.*-same
+            if (ec&fi) {
+                # {fi:'Athinging',A:Y,N:[Q],c:{}}
+                fi&com,'elvising',{e}
+                $args = haks(e.c).slice(1).map(k => e.c[k])
+                fi[ec&fi](A,C,G,T, ...args)
+            }
+            else {
+                throw "what todo", c
+            }
+            if (hak(N) > hak(began)) {
+                # this e emits more todo/e
+                # before or after the rest of what we're doing?
+                $neu = N.filter(n => !began.includes(n))
+                es&spawns and debugger
+                es&spawns = neu
+            }
+        }
+        $finished = grepout(N,n => began.includes(n))
+        !hak(N.length) and '8 still'
+        #$Xlv = fi&Athinger,Ag,N
         
     }
    // live
@@ -907,16 +944,20 @@ fi.Xios ||= {}
             fi&elvis,{fi:'Athinger',A:Ag,N:[s],c:{}}
         }
         $oft = {of:'w',t:'random'}
-        $got = fi&Ath,Am2,oft
+        $anoft = ex({},oft)
+        $got = fi&Ath,Am2,anoft
         got and throw "got first"
+        me&nu,"beganoft",oft
+        me&nu,"aftanoft",anoft
         
-        fi&
-        $Xlv = fi&Athinger,Ag,todo
-        
+        me&nu,"Florro",a&todo.slice()
+        fi&elvising
+        me&nu,"Flogo",a&todo.slice()
+        fi&elvising
         # supposing ^ wakes A:more:
-        $got = fi&Ath,Am2,oft
+        $got = fi&Ath,Am2,ex({},oft)
         #4s&deborg = 1
-        $got = fi&Ath,Am2,oft
+        $got = fi&Ath,Am2,ex({},oft)
         
         
         Am2s&got = got
