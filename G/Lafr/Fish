@@ -158,7 +158,7 @@ fi.Xios ||= {}
   
  // &X*
   // Q
-   // Q act
+   // Q action
     # requests fill out to response
     # $of+$t -> $of+$t+$string+$dige+$s
     fi.haveaQ = &acgts{ 
@@ -175,11 +175,10 @@ fi.Xios ||= {}
         Qs&src ||= '1812'
         return Q
     }
-    
-   // Q believe-ish Xsim
     fi.AoQ = &acgtAQ{
         # < handles many|no $n=inA?
         $curxc = theone( fi&Xsomp,A,Q.c )
+        #me&nu,"somp",{curx,N}
         !hak(curxc) and return []
         $curx = curxc.x
         # some of these xc.n=Q, if some are updated
@@ -193,6 +192,8 @@ fi.Xios ||= {}
         $bel = fi&Qbel,Q
         $belx = fi&believeiQ,oftx,bel,Q
     }
+    
+   // Q believe-ish Xsim
     # the /believe/... path for $Q, from Q.sc
     fi.Qbel = &acgtQ{
         $bel = {
@@ -212,7 +213,11 @@ fi.Xios ||= {}
         c ||= {}
         # wildcarding hash slice, usu believe:1 anyway
         $first = hashkv(haks(s)[0])
-        $N = fi&Xsomp,x,s,{norder:first}
+        
+        fi&bug,'bel-somp' and $un = fi&ibug,'somp'
+            $N = fi&Xsomp,x,s,{norder:first}
+        un && un()
+        
         c.rows and return N
         $xc = N.pop()
         c.row and return xc
@@ -236,7 +241,8 @@ fi.Xios ||= {}
         $x = fi&Xsim,X,'X',[],s,c,q
         return x
     }
-    # rowing arks
+    # rowing arks, returns [r+]
+    # < rename xc r, have r.sc for arkv, rc&io=o
     fi.Xsomp = &acgtXscq{
         c ||= {}
         c.long = 1
@@ -255,6 +261,7 @@ fi.Xios ||= {}
                 $arkx = arkN[i]
                 !arkx and debugger
                 # each possible x continued along path
+                fi&bug,'somp' and debugger
                 $vx = fi&Xsim,x,'X',[],hashkv(k,v),c,q
                 if (!vx) {
                     # doesnt x/$k:v...
@@ -629,6 +636,7 @@ fi.Xios ||= {}
         output benice:
          a list of A in Cit...
     =cut
+   
    // Attention
     # want to have a thing
     #  A/$t+$of/$n=..A percolates, trailing:
@@ -689,6 +697,7 @@ fi.Xios ||= {}
         }
         return xc
     }
+   
    // Attendance
     =pod
      takes strings to things
@@ -814,15 +823,18 @@ fi.Xios ||= {}
             fi&com,"Thinging",{Q}
             # children of A.4
             # < are A.3, with Q for any A they are working on
-            $AN = fi&Xsomp,A,{At:1}
-            me&nu,"An",{AN}
-            each iV AN {
-                # these might be repeat()-able
+            fi&Xsomp,A,{At:1} .map(&ri{
+                $V = r.n
+                #$un = !i ? fi&ibug,'somp-bel' : &{}
                 $bN = fi&AoQ,V,Q
-                me&nu,"Mightbe",{V,bN}
-            }
+                #un()
+                me&zu,"Mightbe"+i,{r,V,bN}
+            
+                # these might be Vc&repeat()-able
+            })
         }
     }
+   
    // Elvis
     # i 4%todo/...
     fi.elvis = &acgtc{
@@ -862,6 +874,26 @@ fi.Xios ||= {}
         !hak(N.length) and '8 still'
         #$Xlv = fi&Athinger,Ag,N
     }
+   
+   // Travel
+    # catchable expr and debugger
+    #  shows how $t/$n may dedup by sequence
+    fi.ibug = &acgtti{
+        G.bugs ||= {}
+        i ||= 1
+        G.bugs[t] = i
+        return &{
+            $still = G.bugs[t]
+            still and throw "bug!catch", t, {still,i}
+        }
+    }
+    fi.bug = &acgtt{
+        G.bugs ||= {}
+        !G.bugs[t] and return
+        G.bugs[t]--
+        !G.bugs[t] and return 1
+    }
+   
    // live
     fi.live = &acgtJs,ar{
         $Y = A
@@ -880,7 +912,12 @@ fi.Xios ||= {}
         Ys&Ina = [A,...(As&z||[])]
         #,Am1,Am2,Am,got]
         # &zu attaches to CyR-space, above Y of Cat
-        Ys&Ina.map((n,i) => me&zu,"Aump:"+i,n )
+        # < use $Ati - sequence having $At path
+        $Atw = {}
+        each in Ys&Ina {
+            Atw[nc&sip] = n
+        }
+        me&zu,"Aump",Atw
         As&log.map((n,i) => me&zu,"Log:"+i,n .sc.rowish = 1 )
         
         n abovst  s:vefge
@@ -901,6 +938,7 @@ fi.Xios ||= {}
         #    ~>5 Fiseh: 3
         #fi&a,{fuselage:3}
     }
+   
    // test
     fi.Acom = &acgtAsc{
         return fi&com,s,c
@@ -937,6 +975,7 @@ fi.Xios ||= {}
         }
         
     }
+   
    // t A
     # roll b->A
     # rota A->b
@@ -948,7 +987,7 @@ fi.Xios ||= {}
         # V<-X
         Ac&again()
         $Am2 = fi&Atsomewhere,A,'more'
-        $Am = fi&Atsomewhere,A,'more'
+        #$Am = fi&Atsomewhere,A,'more'
         
         # try get something
         A&oftserve = &sc{
@@ -967,6 +1006,7 @@ fi.Xios ||= {}
         fi&elvising
         me&nu,"Flogo",a&todo.slice()
         fi&elvising
+        return
         # supposing ^ wakes A:more:
         $got = fi&Ath,Am2,ex({},oft)
         #4s&deborg = 1
