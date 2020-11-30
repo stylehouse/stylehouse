@@ -179,7 +179,9 @@ fi.Xios ||= {}
    // Q believe-ish Xsim
     fi.AoQ = &acgtAQ{
         # < handles many|no $n=inA?
-        $curx = theone( fi&Xsomp,A,Q.c ).x
+        $curxc = theone( fi&Xsomp,A,Q.c )
+        !hak(curxc) and return []
+        $curx = curxc.x
         # some of these xc.n=Q, if some are updated
         $N = fi&believeoQ,curx,0,{rows:1}
         return N
@@ -283,7 +285,7 @@ fi.Xios ||= {}
             !arkx and debugger
             each in x.z {
                 # eg {src,version,n,x}+
-                $xc = ex(arkx,{n,x})
+                $xc = ex({},arkx,{n,x})
                 M.push(xc)
             }
         }
@@ -727,7 +729,7 @@ fi.Xios ||= {}
        having new habe for A:more to &Ath
         since A:loading isnt on the &Ath climb
        and:
-      'e:Xlv' spools up a coherent A:least intro
+     < 'e:Xlv' spools up a coherent A:least intro
        a rowing of old|new ...habe:$Q
        inc $versions skipped over since the last A:least wake
         ie cluing possibly downloadable versions between old-new
@@ -740,9 +742,9 @@ fi.Xios ||= {}
      
      so Q initially just asks:
       A:loading:
-       havex/believe/$P any in progress, have|get Pc&src etc
-        when complete they spread to:
-       havex/believe/$src(/$P)/$version(/$P)
+       < havex/believe/$P any in progress, have|get Pc&src etc
+         when complete they spread to:
+         havex/believe/$src(/$P)/$version(/$P)
       
       also:
        havex/believe(/$Q)/$src(/$Q)/$version - all wabe/$Q
@@ -767,7 +769,7 @@ fi.Xios ||= {}
         being stretched with news before completion
          and present that as loop hazard, etc
     =cut
-    # on A.4/A:loading
+    # on A.4/A:loading, Q gathering into /believe/
     fi.Athinger = &acgtANc{
         $Y = A.up
         each is N {
@@ -807,7 +809,19 @@ fi.Xios ||= {}
     }
     # from above, on A.4 heading to A:n for ~Q
     fi.Athinging = &acgtANc{
-        # 
+        each iQ N {
+            !Qc&of || !Qs&dige and throw "Athinging!Q"
+            fi&com,"Thinging",{Q}
+            # children of A.4
+            # < are A.3, with Q for any A they are working on
+            $AN = fi&Xsomp,A,{At:1}
+            me&nu,"An",{AN}
+            each iV AN {
+                # these might be repeat()-able
+                $bN = fi&AoQ,V,Q
+                me&nu,"Mightbe",{V,bN}
+            }
+        }
     }
    // Elvis
     # i 4%todo/...
@@ -847,7 +861,6 @@ fi.Xios ||= {}
         $finished = grepout(N,n => began.includes(n))
         !hak(N.length) and '8 still'
         #$Xlv = fi&Athinger,Ag,N
-        
     }
    // live
     fi.live = &acgtJs,ar{
@@ -961,7 +974,7 @@ fi.Xios ||= {}
         
         
         Am2s&got = got
-        $Am = fi&Atsomewhere,A,'more'
+        #$Am = fi&Atsomewhere,A,'more'
         # < look at awaiting of+t, group by $At|$sip
         
         #fi&Athinger,Ag,[{of:'w',t:'random',string:'changesing'}]
