@@ -18,6 +18,25 @@ fi.Xios ||= {}
         c and throw "< ksaf"
         return hashkv(haks(s))
     }
+    # < make uniq()
+    self.uniqe = &Nc{
+        c ||= {}
+        isfu(c) and c.y = c
+        $ref = []
+        $refs = []
+        each iv N {
+            $bit = c.y ? c.y (v) : v
+            # see 'arrefs'
+            $mi = refs.indexOf(bit)
+            mi < 0 and mi = refs.push(bit)-1
+            $l = ref[mi] ||= []
+            l.push(v)
+        }
+        # in order of appearance: [[v+]+]
+        return c.all ? ref
+        # reduced to first appearance: [v+]
+            : ref.map(l => l[0])
+    }
  
 // A
     =pod
@@ -242,6 +261,7 @@ fi.Xios ||= {}
         return x
     }
     # rowing arks, returns [r+]
+    #  simpler (no arrefs, qas...) prototype of Xio
     # < rename xc r, have r.sc for arkv, rc&io=o
     fi.Xsomp = &acgtXscq{
         c ||= {}
@@ -825,9 +845,13 @@ fi.Xios ||= {}
             # < are A.3, with Q for any A they are working on
             fi&Xsomp,A,{At:1} .map(&ri{
                 $V = r.n
-                #$un = !i ? fi&ibug,'somp-bel' : &{}
+                
+                # < want left outer join, grouping by n
                 #$bN = fi&AoQ,V,Q
+                #$un = !i ? fi&ibug,'somp-bel' : &{}
                 $bN = fi&Xsomp,V,Q.c
+                #un()
+                
                 # < shades of uniq() by .n
                 #   they may|not have believe/...
                 #   no telling which of/t/n were there
@@ -835,8 +859,21 @@ fi.Xios ||= {}
                 #     might x/$near:n/believe
                 #      a x/$n-aligned map of other places with /$n
                 #      which would reveal that one of these was async
-                #un()
-                me&zu,"Mightbe"+i,{r,V,bN}
+                $uN = bN
+                bN = uniqe(bN, br => br.n)
+                # < notice if uniq by r.x
+                # if we dont uniq by r.n,
+                #  we find the same /believe... for each (two) of/t/n
+                
+                # <<<
+                # so they &believeoQ or not, wrt Q el<3?
+                me&zu,"Mightbe"+i,{r,V,uN,bN}
+                each i,br bN {
+                    $QN = fi&believeoQ,br.x,0,{rows:1}
+                    me&zu,"believing"+i,{br,QN}
+                }
+                
+                # they might be A or not
             
                 # these might be Vc&repeat()-able
             })
@@ -2706,7 +2743,7 @@ fi.Xios ||= {}
                 throw "qis() s.* vague", s
             }
             if (xq.array) {
-                # array allows keying by values, may uniquely
+                # arrefs: array allows keying by values, may uniquely
                 $value = key
                 nx != index and throw "array d>1"
                 # mirror eg xq.t='ref'
