@@ -22,6 +22,7 @@ fi.Xios ||= {}
     self.uniqe = &Nc{
         c ||= {}
         isfu(c) and c.y = c
+        c.map and c.y = c.map
         $ref = []
         $refs = []
         each iv N {
@@ -32,9 +33,13 @@ fi.Xios ||= {}
             $l = ref[mi] ||= []
             l.push(v)
         }
-        # in order of appearance: [[v+]+]
-        return c.all ? ref
-        # reduced to first appearance: [v+]
+        # 
+        # in order of appearance
+        # {bit:[v+]+} - must iskeyish(bit)
+        return c.map ? hashkv(ref.map((l,i) => [refs[i],l]))
+            # [[v+]+]
+            : c.all ? ref
+            # reduced to first: [v+]
             : ref.map(l => l[0])
     }
  
@@ -195,14 +200,23 @@ fi.Xios ||= {}
         return Q
     }
     fi.AoQ = &acgtAQ{
-        # < handles many|no $n=inA?
-        $curxc = theone( fi&Xsomp,A,Q.c )
-        #me&nu,"somp",{curx,N}
-        !hak(curxc) and return []
-        $curx = curxc.x
-        # some of these xc.n=Q, if some are updated
-        $N = fi&believeoQ,curx,0,{rows:1}
-        return N
+        $oftN = fi&Xsomp,A,Q.c
+        # < shades of uniq() by .n
+        #   they may|not have believe/...
+        #   no telling which of/t/n were there
+        #    before|after of/t/believe/... was attached
+        #     might x/$near:n/believe
+        #      a x/$n-aligned map of other places with /$n
+        #      which would reveal that one of these was async
+        oftN = uniqe(oftN, xc => xc.n)
+        # < notice if uniq by r.x
+        # if we dont uniq by r.n,
+        #  we find the same /believe... for each (two) of/t/n
+        oftN.map(&xc,{
+            # if got via &Ath, these xc.n=Q
+            xc.N = fi&believeoQ,xc.x,0,{rows:1}
+        })
+        return oftN
     }
     fi.AiQ = &acgtAQ{
         # wantedness /$of+$t
@@ -823,10 +837,11 @@ fi.Xios ||= {}
                 # may have current /believe/ of all A:least**
                 #  < they gc, domily
                 #    recompositing X from X, de-row by inA
-                $curN = fi&AoQ,Y,Q
-                # < decide el:8 when Q =~ curN/Q
-                $el = !hak(curN) ? 2 : 3
-                fi&com,"Q",{el,c:Q.c,sc:Q.sc,curN}
+                $oftN = fi&AoQ,Y,Q
+                $belN = flatten(oftN.map(xc => xc.N))
+                # < decide el:8 when Q =~ belN/Q
+                $el = !hak(belN) ? 2 : 3
+                fi&com,"Q",{el,c:Q.c,sc:Q.sc,belN}
                 
                 # i A:least, where it will be believed
                 fi&AiQ,Y,Q
@@ -838,6 +853,7 @@ fi.Xios ||= {}
         }
     }
     # from above, on A.4 heading to A:n for ~Q
+    # < 
     fi.Athinging = &acgtANc{
         each iQ N {
             !Qc&of || !Qs&dige and throw "Athinging!Q"
@@ -845,34 +861,16 @@ fi.Xios ||= {}
             # children of A.4
             # < are A.3, with Q for any A they are working on
             fi&Xsomp,A,{At:1} .map(&ri{
-                $V = r.n
+                $n = r.n
                 
-                # < want left outer join, grouping by n
-                #$bN = fi&AoQ,V,Q
-                #$un = !i ? fi&ibug,'somp-bel' : &{}
-                $bN = fi&Xsomp,V,Q.c
-                #un()
-                
-                # < shades of uniq() by .n
-                #   they may|not have believe/...
-                #   no telling which of/t/n were there
-                #    before|after of/t/believe/... was attached
-                #     might x/$near:n/believe
-                #      a x/$n-aligned map of other places with /$n
-                #      which would reveal that one of these was async
-                $uN = bN
-                bN = uniqe(bN, br => br.n)
-                # < notice if uniq by r.x
-                # if we dont uniq by r.n,
-                #  we find the same /believe... for each (two) of/t/n
-                
+                # < want left outer join
+                # having of/t, grouping by n
+                $oftN = fi&AoQ,n,Q
+                # with maybe /believe/...
+                $belN = oftN.map(xc => xc.N.slice(-1)[0])
                 # <<<
                 # so they &believeoQ or not, wrt Q el<3?
-                me&zu,"Mightbe"+i,{r,V,uN,bN}
-                each i,br bN {
-                    $QN = fi&believeoQ,br.x,0,{rows:1}
-                    me&zu,"believing"+i,{br,QN}
-                }
+                me&zu,"Mightbe"+i,{r,n,oftN,belN}
                 
                 # they might be A or not
             
@@ -897,6 +895,7 @@ fi.Xios ||= {}
     fi.elvising = &acgt{
         $N = a&todo || []
         $began = N.slice()
+        $known = N.slice()
         each ie began {
             # < mergible ec&N amongst c.*+c.c.*-same
             if (ec&fi) {
@@ -908,17 +907,17 @@ fi.Xios ||= {}
             else {
                 throw "what todo", c
             }
-            if (hak(N) > hak(began)) {
+            if (hak(N) > hak(known)) {
                 # this e emits more todo/e
                 # before or after the rest of what we're doing?
-                $neu = N.filter(n => !began.includes(n))
+                $neu = N.filter(n => !known.includes(n))
                 es&spawns and debugger
                 es&spawns = neu
+                known.push(...neu)
             }
         }
         $finished = grepout(N,n => began.includes(n))
-        !hak(N.length) and '8 still'
-        #$Xlv = fi&Athinger,Ag,N
+        !hak(N) and fi&com,'8-still'
     }
    
    // Travel
@@ -1028,7 +1027,8 @@ fi.Xios ||= {}
         # V<-X
         Ac&again()
         $Am2 = fi&Atsomewhere,A,'more'
-        #$Am = fi&Atsomewhere,A,'more'
+        $Am = fi&Atsomewhere,A,'more'
+        $Ae = fi&Atsomewhere,Am,'even'
         
         # try get something
         A&oftserve = &sc{
@@ -1038,16 +1038,16 @@ fi.Xios ||= {}
         }
         $oft = &{ return {of:'w',t:'random'} }
         $got = fi&Ath,Am2,oft()
+        $got = fi&Ath,Ae,oft()
         got and throw "got first"
         
         me&nu,"Florro",a&todo.slice()
         fi&elvising
         me&nu,"Flogo",a&todo.slice()
-        fi&elvising
-        return
         # supposing ^ wakes A:more:
         $got = fi&Ath,Am2,oft()
-        #4s&deborg = 1
+        fi&elvising
+        return
         $got = fi&Ath,Am2,oft()
         
         
