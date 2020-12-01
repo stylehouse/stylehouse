@@ -23,24 +23,37 @@ fi.Xios ||= {}
         c ||= {}
         isfu(c) and c.y = c
         c.map and c.y = c.map
-        $ref = []
-        $refs = []
+        arrefs(c)
         each iv N {
             $bit = c.y ? c.y (v) : v
-            # see 'arrefs'
-            $mi = refs.indexOf(bit)
-            mi < 0 and mi = refs.push(bit)-1
-            $l = ref[mi] ||= []
-            l.push(v)
+            c.addref(bit,v)
         }
         # 
         # in order of appearance
         # {bit:[v+]+} - must iskeyish(bit)
-        return c.map ? hashkv(ref.map((l,i) => [refs[i],l]))
+        return c.map ? hashkv(c.ref.map((l,i) => [c.refs[i],l]))
             # [[v+]+]
-            : c.all ? ref
+            : c.all ? c.ref
             # reduced to first: [v+]
-            : ref.map(l => l[0])
+            : c.ref.map(l => l[0])
+    }
+    # see 'arrefs'
+    # organise many v by bit (may be object)
+    self.arrefs = &c{
+        c ||= {}
+        c.ref = []
+        c.refs = []
+        c.addref = &bit,v{
+            $mi = c.refs.indexOf(bit)
+            mi < 0 and $first = 1; mi = c.refs.push(bit)-1
+            $l = c.ref[mi] ||= []
+            l.push(v)
+            return first
+        }
+        c.maprefs = &y{
+            c.ref.map((l,i) => y(c.refs[i],l))
+        }
+        return c
     }
  
 // A
@@ -853,30 +866,72 @@ fi.Xios ||= {}
         }
     }
     # from above, on A.4 heading to A:n for ~Q
-    # < 
-    fi.Athinging = &acgtANc{
-        each iQ N {
-            !Qc&of || !Qs&dige and throw "Athinging!Q"
-            fi&com,"Thinging",{Q}
-            # children of A.4
-            # < are A.3, with Q for any A they are working on
-            fi&Xsomp,A,{At:1} .map(&ri{
-                $n = r.n
-                
-                # < want left outer join
-                # having of/t, grouping by n
+    # < almost an &indo user
+    fi.Athinging = &acgtVNc{
+        c ||= {}
+        c.d ||= 1
+        # c avoids loops
+        c.refs || arrefs(c)
+        # starting with V=A.4, finding V/V
+        # < J: are A.3, with Q for any A they are working on
+        $M = []
+        fi&Xsomp,V,{At:1} .map(&r,eye{
+            $n = r.n
+            $lv = Cye([n.t,1,{n}])
+            # < brack reduction: %%V,Vn,Q,Qwas +
+            $into = arrefs()
+            each iQ N {
+                !Qc&of || !Qs&dige and throw "Athinging!Q"
+                # < io left outer join
+                # wanting of/t, grouping by n
                 $oftN = fi&AoQ,n,Q
-                # with maybe /believe/...
+                !hak(oftN) and continue
+                
+                # having maybe /believe/...
                 $belN = oftN.map(xc => xc.N.slice(-1)[0])
+                
+                each i,oft oftN {
+                    $n = oft.n
+                    
+                    # oft may be up to date
+                    # assuming only latest /believe/ is in use
+                    # < J: recreating and merging A|X
+                    $la = oft.N.slice(-1)[0]
+                    if (la) {
+                        $Qwas = la.n
+                        heq(Qwas.sc,Q.sc) and continue
+                    }
+                    
+                    into.addref(n,Q)
+                }
                 # <<<
                 # so they &believeoQ or not, wrt Q el<3?
-                me&zu,"Mightbe"+i,{r,n,oftN,belN}
-                
-                # they might be A or not
-            
-                # these might be Vc&repeat()-able
+                #me&zu,"Mightbe"+eye,{r,n:r.n,oftN,belN,Q}
+
+
+            }
+            into.maprefs(&n,QN{
+                # they might be for V or V/V
+                $lvn = n == r.n ? lv : Cye([n.t,1,{n}])
+                lvn != lv and ac(lv,'z',lvn)
+                QN = uniqe(QN)
+                lvns&QN = QN
+                lvc&el ||= 8
+                lvnc&el = 6
+            })
+            lvc&el and M.push(lv)
+        })
+        c.d > 1 and return M
+        each i,lv M {
+            me&ioty,lv .map(&lvn,{
+                $M = fi&Athinging,lvnc&n,lvns&QN,ex({},c,{d:c.d+1})
+                M.map(lvnn => ac(lvn,'z',lvnn))
             })
         }
+        me&nu,"Athinging",M
+        # these might be Vc&repeat()-able
+        #fi&com,"Thinging",{Q}
+        
     }
    
    // Elvis
@@ -1029,6 +1084,7 @@ fi.Xios ||= {}
         $Am2 = fi&Atsomewhere,A,'more'
         $Am = fi&Atsomewhere,A,'more'
         $Ae = fi&Atsomewhere,Am,'even'
+        $Au = fi&Atsomewhere,A,'unrelated'
         
         # try get something
         A&oftserve = &sc{
@@ -1041,13 +1097,13 @@ fi.Xios ||= {}
         $got = fi&Ath,Ae,oft()
         got and throw "got first"
         
-        me&nu,"Florro",a&todo.slice()
+        #me&nu,"Florro",a&todo.slice()
         fi&elvising
-        me&nu,"Flogo",a&todo.slice()
-        # supposing ^ wakes A:more:
-        $got = fi&Ath,Am2,oft()
+        #me&nu,"Flogo",a&todo.slice()
         fi&elvising
         return
+        # supposing ^ wakes A:more:
+        $got = fi&Ath,Am2,oft()
         $got = fi&Ath,Am2,oft()
         
         
