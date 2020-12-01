@@ -76,11 +76,14 @@
             # hashkv('it') -> {it:1}
             !isar(first) and args.push(1)
             else {
+                # hashkv(N.map(n => [nc&sip,n]) -> {'0 1 2':n}
+                #  !N.length -> {}
+                $array = isar(first[0])
                 # hashkv(['it','es']) -> {it:1,es:1}
                 args = []
                 each in first {
-                    args.push(n)
-                    args.push(1)
+                    args.push(array ? n[0] : n)
+                    args.push(array ? n[1] : 1)
                 }
             }
         }
