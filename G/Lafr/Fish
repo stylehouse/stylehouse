@@ -872,25 +872,39 @@ fi.Xios ||= {}
         each is N {
             s = ex({},s)
             
-            s.string ||= "yardial"
+            # request P +%src
+            # response P +%version
+            # decode -> Q
+            
+            #s.string ||= "yardial"
             # s made into Q, may have only the question so far
             if (s.string == null) {
                 # ask for it, with $P
                 #  generate s=Qc* + string=such + etc
                 $q = {believe:'asked',novers:1}
                 $P = fi&haveaQ,s
+                # < they might have specified the version
                 Ps&src ||= '1812'
                 
+                $O = fi&Qubsist,A,P,q
+                if (O) {
+                    # can prevent creating identical .../$P
+                    #  check ~ P.sc.* other than src
+                    if (heq(O.sc,P.sc)) {
+                        fi&com,"Psame",{c:P.c,sc:P.sc}
+                        return
+                    }
+                    else {
+                        me&nu,"Pchange",{P,O}
+                        debugger
+                    }
+                }
                 
                 $PN = fi&AoQ,A,P,q
-                if (!hak(PN)) {
-                    # must be a $oft/$n
-                    #  unclear how that ends up in A:loading
-                    fi&Xsimp,A,P.c,{n:A}
-                    # i A:loading/$of+$t/asked/.../$P
-                    fi&AiQ,A,P,q
-                    $PN = fi&AoQ,A,P,q
-                }
+                
+                # i A:loading/$of+$t/asked/$src/$P
+                fi&AiQ,A,P,q
+                
                 me&nu,"Asked"+i,{PN,P,O}
             }
             else {
