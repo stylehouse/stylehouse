@@ -826,7 +826,15 @@ fi.Xios ||= {}
     fi.haveaQ = &acgts{ 
         # Q.c.* is the namespace, before s.string|el
         $lastcgk = ['string','el'].filter(k => hak(s,k))[0]
-        $c = lastcgk ? tax({},s,ksaf(s,{bow:lastcgk})) : ex({},s)
+        $c = {}
+        s = ex({},s)
+        
+        !lastcgk and c = s; s = {}
+        else tax(c,s,ksaf(s,{bow:lastcgk}))
+        each kv c {
+            !iskeyish(v) and s[k] = delete c[k]
+        }
+        
         $Q = Cye([c.t||'?',1,c,s])
         Qy&A = A
         return Q
@@ -837,9 +845,15 @@ fi.Xios ||= {}
         q ||= {}
         $bel = hashkv(q.believe||'believe')
         bel.src = Q ? Qs&src : 1
-        !q.novers and bel.version = Q ? Qs&vers||Qs&dige : 1
+        if (!q.novers) {
+            bel.version = Q ? fi&Qversion,Q : 1
+        }
         !bel.src || !q.novers && !bel.version and throw "Q!bits"
         return bel
+    }
+    # derive a $version
+    fi.Qversion = &acgtQ{
+        return Qs&vers||Qs&dige
     }
     # this allows &Xsomp to make xc (row) at $oft
     #  as &AoQ joins it to /believe/ etc
@@ -865,28 +879,56 @@ fi.Xios ||= {}
         #me&nu,"oQN",{fore,QN}
         return O
     }
-    
+    fi.Asyncrequest = &acgtANc{
+        each is N {
+            s = ex({},s)
+            s.string ||= "yardial"
+            fi&elvis,{fi:'Athinger',A,N:[s],c:{}}
+        }
+    }
     # on A.4/A:loading, Q gathering into /believe/
     fi.Athinger = &acgtANc{
+        A&thinger and A = A&thinger
         $Y = A.up
         each is N {
             s = ex({},s)
             
+            # we can push+pull, usu pull:
             # request P +%src
-            # response P +%version
-            # decode -> Q
+            # response P +%version,string
+            #  may keep P-ing for stages of decoding, search...
+            #   relating them to each other somehow
+            #  finally resolve to an s.P=$P, which becomes:
+            # believe -> Q %string,P,src,version
             
-            #s.string ||= "yardial"
             # s made into Q, may have only the question so far
-            if (s.string == null) {
-                # ask for it, with $P
-                #  generate s=Qc* + string=such + etc
-                $q = {believe:'asked',novers:1}
+            if (!hak(s,'P')) {
+                # ask for it or keep receiving it
+                $q = {believe:'asked'}
                 $P = fi&haveaQ,s
-                # < they might have specified the version
+                # +%string puts on the response side
+                # < may be done without (/wjs/)
+                if (Ps&string != null) {
+                    # < a %digs may be supplied via http header etc
+                    #   is the version of the source that compiled to this
+                    #    ie /ghost/ %dige are /w/ %digs,
+                    #     /w/ having compiled and argumented to %dige
+                    $dige = dig(Ps&string)
+                    Ps&dige != null && Ps&dige != dige and debugger
+                    Ps&dige = dige
+                    # < decode, get wjs script|function?
+                    Ps&act ||= 'decode'
+                }
+                # user|remote might have specified the version
+                #  or just computed it from %string
+                # if there is O for what we want to push
+                #  we can send trees only, reuse the objects, a la git
+                fi&Qversion,P == null and q.novers = 1
                 Ps&src ||= '1812'
                 
-                $O = fi&Qubsist,A,P,q
+                # previous $P
+                $O = delete Ps&oO
+                O ||= fi&Qubsist,A,P,q
                 if (O) {
                     # can prevent creating identical .../$P
                     #  check ~ P.sc.* other than src
@@ -896,14 +938,25 @@ fi.Xios ||= {}
                     }
                     else {
                         me&nu,"Pchange",{P,O}
-                        debugger
                     }
+                }
+                if (!Ps&act) {
+                    # just asking
+                    # i A:loading/$of+$t/asked/$src(/$version)?/$P
+                    fi&AiQ,A,P,q
+                    # link to previous P, when it +$version
+                    s.oO = P
+                    fi&elvis,{fi:'Asyncrequest',A,N:[s],c:{}}
+                }
+                else {
+                    me&nu,"Gotether",q
+                    # ~Q into A**
+                    ex(s,P.sc)
+                    s.P = P
+                    fi&elvis,{fi:'Athinger',A,N:[s],c:{}}
                 }
                 
                 $PN = fi&AoQ,A,P,q
-                
-                # i A:loading/$of+$t/asked/$src/$P
-                fi&AiQ,A,P,q
                 
                 me&nu,"Asked"+i,{PN,P,O}
             }
@@ -913,13 +966,6 @@ fi.Xios ||= {}
                 
                 # s|P decodes to Q
                 $Q = fi&haveaQ,s
-                # < decode, get wjs script|function?
-                # < a %digs may be supplied via http header,
-                #   is the version of the source that compiled to this
-                #    ie /ghost/ %dige are /w/ %digs,
-                #     /w/ having compiled and argumented to %dige
-                Qs&dige = dig(Qs&string)
-                Qs&src ||= '1812'
                 
                 $O = fi&Qubsist,A,Q
                 if (O) {
@@ -1191,7 +1237,7 @@ fi.Xios ||= {}
     # rota A->b
     fi.test_Attention = &acgt{
         A.4 = A
-        $Ag = fi&Atsomewhere,A,'loading'
+        $Ag = A&thinger = fi&Atsomewhere,A,'loading'
         
         $Am1 = fi&Atsomewhere,A,'more'
         # V<-X
@@ -1205,7 +1251,8 @@ fi.Xios ||= {}
         A&oftserve = &sc{
             # c=wantx is Al's
             fi&Acom,A,'oftserve',{s}
-            fi&elvis,{fi:'Athinger',A:Ag,N:[s],c:{}}
+            
+            fi&elvis,{fi:'Athinger',A,N:[s],c:{}}
         }
         $oft = &{ return {of:'w',t:'random'} }
         $got = fi&Ath,Am2,oft()
@@ -1219,6 +1266,15 @@ fi.Xios ||= {}
         
         fi&emergible,a&todo
         me&nu,"Flogo",a&todo.slice()
+        fi&elvising
+        
+        fi&emergible,a&todo
+        me&nu,"Flogort",a&todo.slice()
+        fi&elvising
+        
+        fi&emergible,a&todo
+        me&nu,"Flogart",a&todo.slice()
+        
         fi&elvising
         return
         # supposing ^ wakes A:more:
