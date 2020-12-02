@@ -196,24 +196,9 @@ fi.Xios ||= {}
  // &X*
   // Q
    // Q action
-    # requests fill out to response
-    # $of+$t -> $of+$t+$string+$dige+$s
-    fi.haveaQ = &acgts{ 
-        # Q.c.* is bunch of namespace, before s.string
-        $c = tax({},s,ksaf(s,{bow:'string'}))
-        $Q = G&Cye,[c.t||'?',1,c,s]
-        Qy&A = A
-        # < decode, get wjs script|function?
-        # < a %digs may be supplied via http header,
-        #   is the version of the source that compiled to this
-        #    ie /ghost/ %dige are /w/ %digs,
-        #     /w/ having compiled and argumented to %dige
-        Qs&dige = dig(Qs&string)
-        Qs&src ||= '1812'
-        return Q
-    }
-    fi.AoQ = &acgtAQ{
-        $oftN = fi&Xsomp,A,Q.c
+    fi.AoQ = &acgtAQq{
+        q ||= {}
+        $oftN = fi&Xsomp,A,Q.c,q
         # < shades of uniq() by .n
         #   they may|not have believe/...
         #   no telling which of/t/n were there
@@ -227,35 +212,25 @@ fi.Xios ||= {}
         #  we find the same /believe... for each (two) of/t/n
         oftN.map(&xc,{
             # if got via &Ath, these xc.n=Q
-            xc.N = fi&believeoQ,xc.x,0,{rows:1}
+            xc.N = fi&believeoQ,xc.x,0,{rows:1},q
         })
         return oftN
     }
-    fi.AiQ = &acgtAQ{
+    fi.AiQ = &acgtAQq{
+        q ||= {}
         # wantedness /$of+$t
-        $oftx = fi&Xsimp,A,Q.c
+        $oftx = fi&Xsimp,A,Q.c,q
         # become latest /believe/.../$Q
-        $bel = fi&Qbel,Q
-        $belx = fi&believeiQ,oftx,bel,Q
+        $belx = fi&believeiQ,oftx,0,Q,q
     }
     
    // Q believe-ish Xsim
-    # the /believe/... path for $Q, from Q.sc
-    fi.Qbel = &acgtQ{
-        $bel = {
-            believe: 1,
-            src: Qs&src,
-            version: Qs&vers||Qs&dige
-        }
-        !bel.src || !bel.version and throw "Q!bits"
-        return bel
-    }
-    
     # look up believe/src/version/$Q
     # sort by believe/$Q, usu return latest one
     # see Attendance: 'to order $Q over any $src|$version'
-    fi.believeoQ = &acgtxsc{
-        s ||= {believe:1,src:1,version:1}
+    fi.believeoQ = &acgtxscq{
+        q ||= {}
+        s ||= fi&Qbel,0,q
         c ||= {}
         # wildcarding hash slice, usu believe:1 anyway
         $first = hashkv(haks(s)[0])
@@ -270,7 +245,9 @@ fi.Xios ||= {}
         # Q
         return xc.n
     }
-    fi.believeiQ = &acgtxsQ{
+    fi.believeiQ = &acgtxsQq{
+        q ||= {}
+        s ||= fi&Qbel,Q,q
         $first = sex({},s,haks(s)[0])
         fi&Xsimp,x,first,{n:Q}
         return fi&Xsimp,x,s,{n:Q}
@@ -754,13 +731,14 @@ fi.Xios ||= {}
       takes strings to things
        N[s] - Qish states to become
         s.* splits into Q.c (name) and Q.sc (qua)
+         see 'Q lifecycles'
        c - specifics on the becoming
       making requests|responses for a thing
        &oftserve may send requests sync
         or via 4s&todo[], which is like:
        or
         some xhr.done() -> G.and[C] -> G.tick()
-     
+      
      &Athinging,A,N[Q+],c
       make lv to chase ~Q into A**
       nodes above|with el:8|6 and %QN=[Q+] affected
@@ -772,32 +750,41 @@ fi.Xios ||= {}
        which must figure out what to dome
         which is just more A** chasing in disguise
        &Ath in doming should wabe to habe
+      
+      chases affected $n=inA
+      having a bunch of rows of */believe/* change
+       each thing, here and there and down the slope
+        for a src-connected differable pipe thinging
+       that can wander through A:n** applying itself
+        being stretched with news before completion
+         and present that as loop hazard, etc
+         
      
      so A:most &Ath A:least &oftserve... A:loading
       then comes back in reverse
      
      structure mirrors around:
-     A (loading)
-      /$of+$t = havex
-       havex/believe/$src/$version = habe /$n=Q
-        places the latest Q
-     A.up (least)
-      /$of+$t = wantx
-       wantx/$n=inA
-       wantx/believe/$src/$version = habe /$n=Q
-        given by A:loading
-     inA (most)
-      /$of+$t = wantx
-       wantx/$n=furtherinA
-       wantx/believe/$src/$version = wabe /$n=Q
-        &Ath latest Q (from A.up)
+         A (loading)
+          /$of+$t = havex
+           havex/believe/$src/$version = habe /$n=Q
+            places the latest Q
+         A.up (least)
+          /$of+$t = wantx
+           wantx/$n=inA
+           wantx/believe/$src/$version = habe /$n=Q
+            given by A:loading
+         inA (most)
+          /$of+$t = wantx
+           wantx/$n=furtherinA
+           wantx/believe/$src/$version = wabe /$n=Q
+            &Ath latest Q (from A.up)
+
+         note that A:loading gives A:least habe
+          or possibly when &Athinging
+          since A:loading isnt on the &Ath climb
+         A/** stay having wabe
      
-     note that A:loading gives A:least habe
-      or possibly when &Athinging
-      since A:loading isnt on the &Ath climb
-     A/** stay having wabe
-     
-     so Q lifecycles:
+     'Q lifecycles'
       starts as s, in &Athinger:
        made $Q-ish
        decide if:
@@ -828,24 +815,49 @@ fi.Xios ||= {}
        Q the whole speech bubble
         interpolation of what was said
      
-     chases affected $n=inA
-      having a bunch of rows of */believe/* change
-       each thing, here and there and down the slope
-        for a src-connected differable pipe thinging
-       that can wander through A:n** applying itself
-        being stretched with news before completion
-         and present that as loop hazard, etc
+     nearing &elvising:
+      go via G.click[0][e+] for fast callback
+      also G.click[8] for slow checkup
     =cut
+    # requests fill out to response
+    # $of+$t -> $of+$t+$string+$dige+$s
+    fi.haveaQ = &acgts{ 
+        # Q.c.* is the namespace, before s.string|el
+        $lastcgk = ['string','el'].filter(k => hak(s,k))[0]
+        $c = lastcgk ? tax({},s,ksaf(s,{bow:lastcgk})) : ex({},s)
+        $Q = Cye([c.t||'?',1,c,s])
+        Qy&A = A
+        return Q
+    }
+    # the /believe/...$Q path, wildcard or from a Q.sc
+    # believe may be another word, eg /asked/...$P
+    fi.Qbel = &acgtQq{
+        q ||= {}
+        $bel = hashkv(q.believe||'believe')
+        bel.src = Q ? Qs&src : 1
+        !q.novers and bel.version = Q ? Qs&vers||Qs&dige : 1
+        !bel.src || !q.novers && !bel.version and throw "Q!bits"
+        return bel
+    }
+    
     # on A.4/A:loading, Q gathering into /believe/
     fi.Athinger = &acgtANc{
         $Y = A.up
         each is N {
             s = ex({},s)
-            s.string ||= "yardial"
+            
+            #s.string ||= "yardial"
             # s made into Q, may have only the question so far
             if (s.string == null) {
-                # ask for it,
+                # ask for it, with $P
                 #  generate s=Qc* + string=such + etc
+                $q = {believe:'asked',novers:1}
+                $P = fi&haveaQ,s
+                Ps&src ||= '1812'
+                $eN = fi&AoQ,A,P,q
+                me&nu,"Asked"+i,eN
+                # i A:loading/$of+$t/asked/.../$P
+                #fi&AiQ,A,P,q
             }
             else {
                 # < when to have a Q we already have? and the P?
@@ -853,6 +865,13 @@ fi.Xios ||= {}
                 
                 # s|P decodes to Q
                 $Q = fi&haveaQ,s
+                # < decode, get wjs script|function?
+                # < a %digs may be supplied via http header,
+                #   is the version of the source that compiled to this
+                #    ie /ghost/ %dige are /w/ %digs,
+                #     /w/ having compiled and argumented to %dige
+                Qs&dige = dig(Qs&string)
+                Qs&src ||= '1812'
                 
                 # i A:loading/$of+$t/believe/.../$Q
                 fi&AiQ,A,Q
