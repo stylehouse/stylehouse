@@ -923,10 +923,9 @@ fi.Xios ||= {}
                 M.map(lvnn => ac(lvn,'z',lvnn))
             })
         }
-        me&nu,"Athinging",{V,N,M}
         # these might be Vc&repeat()-able
         #fi&com,"Thinging",{Q}
-        
+        me&nu,"Athinging",{V,N,M}
     }
    
    // Elvis
@@ -968,6 +967,36 @@ fi.Xios ||= {}
         }
         $finished = grepout(N,n => began.includes(n))
         !hak(N) and fi&com,'8-still'
+    }
+    # merge ec&N when ec&*, ec&c.*, etc same
+    fi.emergible = &acgtN{
+        $fiz = uniqe(N,{map:n => nc&fi})
+        $nonNcc = &c{
+            $fc = ex({},c)
+            !fc.N || !fc.c and return
+            delete fc.N
+            delete fc.c
+            return fc
+        }
+        $merged = []
+        each fit,z fiz {
+            $f = z[0]
+            $fc = nonNcc(f.c)
+            !fc and continue
+            each in z {
+                i *= 1
+                !i and continue
+                $nc = nonNcc(n.c)
+                $not = !nc
+                    || !heq(nc,fc) || !heq(nc&c,fc&c)
+                    || !heq(n.y,f.y) || !heq(n.sc,f.sc)
+                not and continue
+                merged.push(n)
+                fc&N.push(...nc&N)
+            }
+        }
+        grepout(N,merged)
+        #me&nu,"Fiz",{N,merged}
     }
    
    // Travel
@@ -1093,8 +1122,11 @@ fi.Xios ||= {}
         $got = fi&Ath,Ae,oft()
         got and throw "got first"
         
+        fi&emergible,a&todo
         me&nu,"Florro",a&todo.slice()
         fi&elvising,1
+        
+        fi&emergible,a&todo
         me&nu,"Flogo",a&todo.slice()
         fi&elvising
         return
