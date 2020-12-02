@@ -198,7 +198,7 @@ fi.Xios ||= {}
    // Q action
     fi.AoQ = &acgtAQq{
         q ||= {}
-        $oftN = fi&Xsomp,A,Q.c,q
+        $oftN = fi&Xsomp,A,Q.c,{},q
         # < shades of uniq() by .n
         #   they may|not have believe/...
         #   no telling which of/t/n were there
@@ -219,7 +219,7 @@ fi.Xios ||= {}
     fi.AiQ = &acgtAQq{
         q ||= {}
         # wantedness /$of+$t
-        $oftx = fi&Xsimp,A,Q.c,q
+        $oftx = fi&Xsimp,A,Q.c,{},q
         # become latest /believe/.../$Q
         $belx = fi&believeiQ,oftx,0,Q,q
     }
@@ -410,6 +410,7 @@ fi.Xios ||= {}
         c.long && N.length > 1 and debugger
         c.long and return N[0]
         # $n:A at everything we s.*
+        # < used for brack
         return fi&xzand,N
     }
     fi.xzand = &acgtN{
@@ -750,9 +751,10 @@ fi.Xios ||= {}
        which must figure out what to dome
         which is just more A** chasing in disguise
        &Ath in doming should wabe to habe
-      
-      chases affected $n=inA
-      having a bunch of rows of */believe/* change
+      $Q lead to:
+      $R chasing affected $n=inA, big rollout
+       having a bunch of $r:
+        rows of */believe/* change
        each thing, here and there and down the slope
         for a src-connected differable pipe thinging
        that can wander through A:n** applying itself
@@ -839,6 +841,30 @@ fi.Xios ||= {}
         !bel.src || !q.novers && !bel.version and throw "Q!bits"
         return bel
     }
+    # this allows &Xsomp to make xc (row) at $oft
+    #  as &AoQ joins it to /believe/ etc
+    fi.Qubsist = &acgtAQq{
+        # fun fact:
+        # an $oft/$n must exist for &AoQ to join off
+        # for A:loading, puts an $oft/$n
+        #  A:least gets such from &Ath/&wantbelieve
+        $fore = fi&Xsimp,A,Q.c
+        !hak(fore.z) and fi&Xsimp,A,Q.c,{n:A}
+        
+        # see what Q can find, down /asked/ etc
+        $QN = fi&AoQ,A,Q,q
+        $O
+        QN.map(&r{
+            r.n != A and debugger
+            O and debugger
+            $bel = r.N.slice(-1)[0]
+            bel and O = bel.n
+        })
+        # they probably reuse their asked|believe
+        # < may find and en-version $P this way
+        #me&nu,"oQN",{fore,QN}
+        return O
+    }
     
     # on A.4/A:loading, Q gathering into /believe/
     fi.Athinger = &acgtANc{
@@ -846,7 +872,7 @@ fi.Xios ||= {}
         each is N {
             s = ex({},s)
             
-            #s.string ||= "yardial"
+            s.string ||= "yardial"
             # s made into Q, may have only the question so far
             if (s.string == null) {
                 # ask for it, with $P
@@ -854,10 +880,18 @@ fi.Xios ||= {}
                 $q = {believe:'asked',novers:1}
                 $P = fi&haveaQ,s
                 Ps&src ||= '1812'
-                $eN = fi&AoQ,A,P,q
-                me&nu,"Asked"+i,eN
-                # i A:loading/$of+$t/asked/.../$P
-                #fi&AiQ,A,P,q
+                
+                
+                $PN = fi&AoQ,A,P,q
+                if (!hak(PN)) {
+                    # must be a $oft/$n
+                    #  unclear how that ends up in A:loading
+                    fi&Xsimp,A,P.c,{n:A}
+                    # i A:loading/$of+$t/asked/.../$P
+                    fi&AiQ,A,P,q
+                    $PN = fi&AoQ,A,P,q
+                }
+                me&nu,"Asked"+i,{PN,P,O}
             }
             else {
                 # < when to have a Q we already have? and the P?
@@ -872,6 +906,16 @@ fi.Xios ||= {}
                 #     /w/ having compiled and argumented to %dige
                 Qs&dige = dig(Qs&string)
                 Qs&src ||= '1812'
+                
+                $O = fi&Qubsist,A,Q
+                if (O) {
+                    # can prevent creating identical .../$Q
+                    #  check ~ Q.sc.* other than src+version
+                    if (heq(O.sc,Q.sc)) {
+                        fi&com,"Qsame",{c:Q.c,sc:Q.sc}
+                        return
+                    }
+                }
                 
                 # i A:loading/$of+$t/believe/.../$Q
                 fi&AiQ,A,Q
