@@ -870,7 +870,7 @@ fi.Xios ||= {}
     fi.Athinging = &acgtVNc{
         c ||= {}
         c.d ||= 1
-        # c avoids loops
+        # avoids V loops
         c.refs || arrefs(c)
         # starting with V=A.4, finding V/V
         # < J: are A.3, with Q for any A they are working on
@@ -887,13 +887,11 @@ fi.Xios ||= {}
                 $oftN = fi&AoQ,n,Q
                 !hak(oftN) and continue
                 
-                # having maybe /believe/...
-                $belN = oftN.map(xc => xc.N.slice(-1)[0])
                 
                 each i,oft oftN {
                     $n = oft.n
                     
-                    # oft may be up to date
+                    # oft may !/believe/ yet, wrt Q el<3?
                     # assuming only latest /believe/ is in use
                     # < J: recreating and merging A|X
                     $la = oft.N.slice(-1)[0]
@@ -904,11 +902,8 @@ fi.Xios ||= {}
                     
                     into.addref(n,Q)
                 }
-                # <<<
-                # so they &believeoQ or not, wrt Q el<3?
+                #$belN = oftN.map(xc => xc.N.slice(-1)[0])
                 #me&zu,"Mightbe"+eye,{r,n:r.n,oftN,belN,Q}
-
-
             }
             into.maprefs(&n,QN{
                 # they might be for V or V/V
@@ -928,7 +923,7 @@ fi.Xios ||= {}
                 M.map(lvnn => ac(lvn,'z',lvnn))
             })
         }
-        me&nu,"Athinging",M
+        me&nu,"Athinging",{V,N,M}
         # these might be Vc&repeat()-able
         #fi&com,"Thinging",{Q}
         
@@ -1094,12 +1089,13 @@ fi.Xios ||= {}
         }
         $oft = &{ return {of:'w',t:'random'} }
         $got = fi&Ath,Am2,oft()
+        $got = fi&Ath,Am,oft()
         $got = fi&Ath,Ae,oft()
         got and throw "got first"
         
-        #me&nu,"Florro",a&todo.slice()
-        fi&elvising
-        #me&nu,"Flogo",a&todo.slice()
+        me&nu,"Florro",a&todo.slice()
+        fi&elvising,1
+        me&nu,"Flogo",a&todo.slice()
         fi&elvising
         return
         # supposing ^ wakes A:more:
