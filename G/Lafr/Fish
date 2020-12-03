@@ -792,12 +792,12 @@ fi.Xios ||= {}
        decide if:
         a question:
          $P requests it
-        a statement:
+        < a statement:
          $Q fabricated about who pushes
          $P may push it to $src
        have a pile
        
-       havex/believe/$P any in progress
+       havex/asked/$P any in progress
          have|get Pc&src etc
          when complete they spread to:
          havex/believe/$src(/$P)/$version(/$P)
@@ -938,6 +938,9 @@ fi.Xios ||= {}
                     }
                     else {
                         me&nu,"Pchange",{P,O}
+                        !heq(O.c,P.c) and debugger
+                        O.sc = P.sc
+                        P = O
                     }
                 }
                 if (!Ps&act) {
@@ -1080,6 +1083,7 @@ fi.Xios ||= {}
     #   errors|more-async cause a traffic jam
     fi.elvising = &acgt{
         $N = a&todo || []
+        fi&emergible,N
         $began = N.slice()
         $known = N.slice()
         each ie began {
@@ -1139,6 +1143,7 @@ fi.Xios ||= {}
    // Travel
     # catchable expr and debugger
     #  shows how $t/$n may dedup by sequence
+    
     fi.ibug = &acgtti{
         G.bugs ||= {}
         i ||= 1
@@ -1148,6 +1153,7 @@ fi.Xios ||= {}
             still and throw "bug!catch", t, {still,i}
         }
     }
+    
     fi.bug = &acgtt{
         G.bugs ||= {}
         !G.bugs[t] and return
@@ -1260,20 +1266,13 @@ fi.Xios ||= {}
         $got = fi&Ath,Ae,oft()
         got and throw "got first"
         
-        fi&emergible,a&todo
-        me&nu,"Florro",a&todo.slice()
-        fi&elvising,1
-        
-        fi&emergible,a&todo
-        me&nu,"Flogo",a&todo.slice()
         fi&elvising
         
-        fi&emergible,a&todo
-        me&nu,"Flogort",a&todo.slice()
         fi&elvising
         
-        fi&emergible,a&todo
-        me&nu,"Flogart",a&todo.slice()
+        fi&elvising
+        
+        fi&elvising
         
         fi&elvising
         return
