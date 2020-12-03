@@ -938,11 +938,11 @@ fi.Xios ||= {}
         return O
     }
     fi.Asyncrequest = &acgtANc{
-        each is N {
-            s = ex({},s)
+        each iP N {
             # send+receive callbacks, could proxy to @Aearch
-            s.string ||= "yardial"
-            fi&elvis,{fi:'Athinger',A,N:[s],c:{}}
+            Ps&string = "yardial"
+            Py&cv = 0.3
+            fi&elvis,{fi:'Athinger',A,N:[P],c:{}}
         }
     }
     fi._P = &acgtANc{
@@ -964,9 +964,9 @@ fi.Xios ||= {}
     fi.Athinger = &acgtANc{
         A&thinger and A = A&thinger
         $Y = A.up
-        each is N {
-            s = ex({},s)
-            
+        each iP N {
+            # P before Q
+            $q = {believe:'asked'}
             # we can push+pull, usu pull:
             # request P +%src
             # response P +%version,string
@@ -974,21 +974,14 @@ fi.Xios ||= {}
             #   relating them to each other somehow
             #  finally resolve to an s.P=$P, which becomes:
             # believe -> Q %string,P,src,version
+            # ask for it, keep receiving it
             
-            # s made into Q, may have only the question so far
-            # < -P prototype S ways with an A:P voice
-            if (!hak(s,'P')) {
-                # 1
-                # ask for it or keep receiving it
-                $q = {believe:'asked'}
-                $P = fi&haveaQ,s
-                # 12
-                if (Ps&string != null) {
-                    Ps&push
-                }
-                # 2
-                # +%string puts on the response side
-                # < may be done without (/wjs/)
+            if (Py&cv <= 0.1) {
+                Ps&string != null and 'isapush'
+            }
+            elsif (Py&cv == 0.3) {
+                # on the response side
+                # may be done without %string (/wjs/)
                 if (Ps&string != null) {
                     # < a %digs may be supplied via http header etc
                     #   is the version of the source that compiled to this
@@ -1000,13 +993,27 @@ fi.Xios ||= {}
                     # < decode, get wjs script|function?
                     Ps&act ||= 'decode'
                 }
+            }
+            
+            # arrive $P
+            # to .../$version when possible, eg once +%string
+            #  if there is O for what we want to push
+            #   we can send trees only, reuse the objects, a la git
+            fi&Qversion,P == null and q.novers = 1
+            Ps&src ||= '1812'
+            # <<<
+            
+            # s made into Q, may have only the question so far
+            # < -P prototype S ways with an A:P voice
+            if (!hak(s,'P')) {
+                # 1
+                $P = fi&haveaQ,s
+                # 12
+                if (Ps&string != null) {
+                    Ps&push
+                }
+                # 2
                 # 3
-                # user|remote might have specified the version
-                #  or just computed it from %string
-                # if there is O for what we want to push
-                #  we can send trees only, reuse the objects, a la git
-                fi&Qversion,P == null and q.novers = 1
-                Ps&src ||= '1812'
                 
                 # previous $P
                 $O = delete Ps&oO
