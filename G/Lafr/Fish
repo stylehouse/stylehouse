@@ -35,7 +35,7 @@ fi.Xios ||= {}
        sidenote: species of &t:
          &Jt t=given looks around A^^<3, also of:J ($Jt?), or die
           roughly equivalent to &Jx, with a name patchbay
-       what you &t
+       what you &t (&Ath)
         must relay onto A.1-5 if from|to A.5
         eg 1c&X/$dome/$Ct/$pip+$At/..$t/$A
          $dome|$Ct may none-many, any order
@@ -233,6 +233,7 @@ fi.Xios ||= {}
            whole loop of that, using only things in here...
         output benice:
          a list of A in Cit...
+        S
     =cut
    
  // f
@@ -457,6 +458,7 @@ fi.Xios ||= {}
     }
     
    // Q believe-ish Xsim
+    # o /believe.../$Q
     # look up believe/src/version/$Q
     # sort by believe/$Q, usu return latest one
     # see Attendance: 'to order $Q over any $src|$version'
@@ -477,11 +479,16 @@ fi.Xios ||= {}
         # Q
         return xc.n
     }
+    # i /believe/$Q/.../$Q
     fi.believeiQ = &acgtxsQq{
         q ||= {}
         s ||= fi&Qbel,Q,q
-        $first = sex({},s,haks(s)[0])
-        fi&Xsimp,x,first,{n:Q}
+        if (hak(s) > 1) {
+            # i /believe/$Q - asserts overall ordering
+            $first = sex({},s,haks(s)[0])
+            fi&Xsimp,x,first,{n:Q}
+        }
+        # i /believe.../$Q 
         return fi&Xsimp,x,s,{n:Q}
     }
    
@@ -663,50 +670,84 @@ fi.Xios ||= {}
     }
  
   // Attention
-    # user wants A/$of+$t/$Q want to have a thing
-    #  A/$t+$of/$n=..A percolates, trailing:
-    # we eventually request+receive creation of:
-    #  5/$t+$of/believe/$src/$version/$n=Q
-    # see Coffle '#I'
-    fi.Ath = &acgtAsc{
-        $xc = fi&wantbelieve,A,s,{}
+    =pod
+     o A/$oft/believe/$Q
+      Q may be more specific ie /$src/$version/$Q
+        which will never change, except:
+         to be marked %ood={src,version} ?
+          if it loses the /believe/$Q spot
+           if Q made into W maps, leading users
+           they would ask for latest Q+src
+           and consider the %ood version
+            which was the next thing to happen
+            in the situation we were interested in
+         to re-decode Qc&s=C**
+     imports it across the slope
+      i A/$oft/$n=A /believe/.../$Q
+     may involve creation at:
+      5/$oft/believe/.../$Q
+     which A:loading involves first being:
+      5/$oft/asked/.../$P
+     see Coffle '#I'
+    =cut
+    fi.Ath = &acgtAscq{
+        c ||= {}
+        q ||= {}
+        $xc = fi&wantbelieve,A,s,c,q
         
         if (!xc) {
-            fi&com,"Ath-not",{s}
+            fi&com,"Ath-not",{s,c,q}
         }
         else {
-            # have the answer, 
+            # have the answer
             A&Athx = xc
             $Q = xc.n
-            fi&com,"Ath",{s,Q}
+            !isC(Q) and debugger
+            fi&com,"Ath",{s,c,q,Q}
         }
     }
-    # over slope
-    fi.wantbelieve = &acgtAsc{
-        $n = c.inA ||= A
-        $wantx = fi&Xsimp,A,s,{n}
+    # over sloper $d (dip)
+    # < rebuild inside out in &Ath, with me.cby()?
+    fi.wantbelieve = &acgtAscqd{
+        c ||= {}
+        q ||= {}
+        d ||= {}
+        $n = d.A || A
+        d.A = A
+        # s is a Q.c.* set, eg $of+$t ($oft)
+        #  init. Qx has only demand for a Q:
+        # dup i /$n, next lower|est A:n**
+        $Qx = fi&Xsimp,A,s,{n}
+        # < uniq map of $ofts etc at X.th.'of+t'/$n=Qx
+        #    then you could X.of.*.t.*=Qx join it
         
-        # < belief-lockin may reuse V/$t+$of/believe...
-        #   lots of things are and
-        #   you must read the code
-        # x/believe/$src/$version/$n=Q
-        # later greater $version, most relevant $src
-        $beliefs = {believe:1,src:1,version:1}
-        $xc = fi&believeoQ,wantx,beliefs,{row:1}
+        # /believe/... as a wildcard
+        # q.believe='anything' makes /anything/
+        #  may be /contentions/ or so? locking in Qx space
+        $beliefs = fi&Qbel,0,q
+        # c may specify some ...
+        # < ifs, wheres
+        # < T belief-lockin may reuse V/.../believe...
+        $wants = sex({},c,beliefs)
+        # o /believe/...[-1]/$Q
+        #  later greater
+        $xc = fi&believeoQ,Qx,wants,{row:1}
         if (!xc) {
             # go further upwards
-            A.up and xc = fi&wantbelieve,A.up,s,{inA:A,down:c}
+            A.up and xc = fi&wantbelieve,A.up,s,c,q,{A,d}
             else {
                 # gateway, or sync read (as A:P) eg localStorage
-                xc = Ac&oftserve(s,wantx)
+                xc = Ac&oftserve(s,c,q,d)
             }
-            if (xc) {
-                # threading back down to ..A
+            if (xc && !q.cas) {
+                # thing brung
+                # threading back down to ..A:n
+                # /believe/... pseudo-xc returned
                 #  towed in by the resyncing A:more
+                # es is xc is a rowing, what we would have
                 $es = sex({},xc,beliefs)
                 $Q = xc.n
-                !isC(Q) and debugger
-                es.x = fi&believeiQ,wantx,es,Q
+                es.x = fi&believeiQ,Qx,es,Q
                 es.n = Q
                 xc = es
             }
@@ -715,11 +756,19 @@ fi.Xios ||= {}
     }
     fi.isAthinger = &acgt{
         # try get something
-        A&oftserve = &sc{
-            # c=wantx is Al's
-            fi&com,'oftserve',{s}
-            
-            fi&elvis,{fi:'Athinger',A,N:[s],c:{}}
+        A&oftserve = &scqd{
+            # is &Ath,s,c,q after d climb
+            $Ac = {}
+            $Qs = {}
+            if (hak(c)) {
+                # c.* divides &Athinger batches, might .el
+                Ac = ex({},c)
+                # c.* might also be believables, eg spec $version
+                tax(Qs,Ac,fi&Qbel,0,q)
+            }
+            # Q to find P(roof), then be $Q
+            $Q = fi&aQ,s,Qs
+            fi&elvis,{fi:'Athinger',A,N:[Q],c:Ac}
         }
     }
    
@@ -823,7 +872,29 @@ fi.Xios ||= {}
       go via G.click[0][e+] for fast callback
       also G.click[8] for slow checkup
     =cut
+    # the /believe/... index, wildcard or from Q
+    # believe may be another word, eg /asked/...$P
+    fi.Qbel = &acgtQq{
+        q ||= {}
+        $bel = hashkv(q.believe||'believe')
+        bel.src = Q ? Qs&src : 1
+        if (!q.novers) {
+            bel.version = Q ? fi&Qversion,Q : 1
+        }
+        !bel.src || !q.novers && !bel.version and throw "Q!bits"
+        return bel
+    }
+    # derive a $version
+    fi.Qversion = &acgtQ{
+        return Qs&vers||Qs&dige
+    }
     # requests fill out to response
+    fi.aQ = &acgtsc{
+        $Q = Cye([c.t||'?',1,c,s])
+        Qy&A = A
+        return Q
+    }
+    # more complicated ^, lets not mix s+c
     # $of+$t -> $of+$t+$string+$dige+$s
     fi.haveaQ = &acgts{ 
         # Q.c.* is the namespace, before s.string|el
@@ -841,27 +912,7 @@ fi.Xios ||= {}
         Qy&A = A
         return Q
     }
-    # the /believe/...$Q path, wildcard or from a Q.sc
-    # believe may be another word, eg /asked/...$P
-    fi.Qbel = &acgtQq{
-        q ||= {}
-        $bel = hashkv(q.believe||'believe')
-        bel.src = Q ? Qs&src : 1
-        if (!q.novers) {
-            bel.version = Q ? fi&Qversion,Q : 1
-        }
-        !bel.src || !q.novers && !bel.version and throw "Q!bits"
-        return bel
-    }
-    # derive a $version
-    fi.Qversion = &acgtQ{
-        return Qs&vers||Qs&dige
-    }
-    # we make a new $Q|$P every time,
-    #  as it wants to:
-    # arrive at X/$oft/$Q
-    #  
-    #  produ
+    # arrive at X/$oft/$Q, which it may already be
     # this allows &Xsomp to make xc (row) at $oft
     #  as &AoQ joins it to /believe/ etc
     fi.Qubsist = &acgtAQq{
