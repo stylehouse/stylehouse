@@ -430,8 +430,90 @@ fi.Xios ||= {}
   
   // Q
    // Q id
+    =pod
+     $Q made by oftserve(), see Attention
+      usu wants (to become) A/$oft/believe/...$Q
+      structure mirrors around
+      $P (on A:loading) are similar to $Q
+       use &AoQ etc, separate into $Q when ready
+     they &elvis -> &Athinger
+     /asked/...$P requests, decodes, sec
+     /believe/...$Q turns up -> &Athinging -> &Aredo
+     
+     Q becomes a P somewhere if not Proofed enough
+     P could carry out a push
+     P spread|specifate when +$version, they spread to:
+       havex/asked/$src(/$P)/$version(/$P)
+     
+      P|Q might be only beginning, partly filled out
+       P for pieces of speech transmitting
+        they may appear from websockets
+       Q the whole speech bubble
+        interpolation of what was said
+     
+     &AoQ/&believeoQ
+      gets you the latest Q
+      given another Q to model eg $oft, 
+       havex/believe(/$Q)/$src(/$Q)/$version(/$Q)
+        to order $Q over any $src|$version
+         certainly over any $version
+          so branches ($src) can revert etc
+        we are always adding them to the end of a list
+         ie always having the latest+best info
+          < may not be right, needs a strategy build
+            about this phenomenon of last-is-all
+      
+      and any /$P or /$Q list limits to 10?
+     
+    =cut
+    # &Ath,s,c -> &aQ,s,c -> Q{c:s,sc:c}
+    fi.aQ = &acgtcs{
+        $Q = Cye([c.t||'?',1,c,s])
+        Qy&A = A
+        return Q
+    }
+    # the /believe/... index, wildcard or from Q
+    # believe may be another word, eg /asked/...$P
+    fi.Qbel = &acgtQq{
+        q ||= {}
+        $bel = {}
+        # /believe|asked/
+        bel[q.believe||'believe'] = 1
+        # /$src/
+        bel.src = Q ? Qs&src : 1
+        !bel.src and throw "Q!%src"
+        if (!q.novers) {
+            # /$version/
+            bel.version = Q ? fi&Qversion,Q : 1
+            !bel.version and throw "Q!version"
+        }
+        return bel
+    }
+    # derive a $version
+    fi.Qversion = &acgtQ{
+        return Qs&vers||Qs&dige
+    }
+    # see what Q can find, down /asked|believe/...
+    #  which it may be already, unless gaining eg $version
+    #   they would have their previous namespace on Ps&O (once)
+    fi.Qubsist = &acgtAQq{
+        # for A:loading, ensure an $oft/$n, for &AoQ/&Xsomp to join off
+        # for A:least** this is an A:n from &Ath/&wantbelieve
+        $fore = fi&Xsimp,A,Q.c
+        !hak(fore.z) and fi&Xsimp,A,Q.c,{n:A}
+        
+        $QN = fi&AoQ,A,Q,q
+        $O
+        QN.map(&r{
+            r.n != A and debugger
+            O and debugger
+            $bel = r.N.slice(-1)[0]
+            bel and O = bel.n
+        })
+        return O
+    }
    
-   // Q action
+   // Q io
     fi.AoQ = &acgtAQq{
         q ||= {}
         $oftN = fi&Xsomp,A,Q.c,{},q
@@ -452,15 +534,6 @@ fi.Xios ||= {}
         })
         return oftN
     }
-    fi.AiQ = &acgtAQq{
-        q ||= {}
-        # wantedness /$of+$t
-        $oftx = fi&Xsimp,A,Q.c,{},q
-        # become latest /believe/.../$Q
-        $belx = fi&believeiQ,oftx,0,Q,q
-    }
-    
-   // Q believe-ish Xsim
     # o /believe.../$Q
     # look up believe/src/version/$Q
     # sort by believe/$Q, usu return latest one
@@ -481,6 +554,14 @@ fi.Xios ||= {}
         c.row and return xc
         # Q
         return xc.n
+    }
+    
+    fi.AiQ = &acgtAQq{
+        q ||= {}
+        # wantedness /$of+$t
+        $oftx = fi&Xsimp,A,Q.c,{},q
+        # become latest /believe/.../$Q
+        $belx = fi&believeiQ,oftx,0,Q,q
     }
     # i /believe/$Q/.../$Q
     fi.believeiQ = &acgtxsQq{
@@ -693,10 +774,14 @@ fi.Xios ||= {}
      atop the slope is creation by A:loading
       5/$oft/asked/.../$P - proofs from peers
       5/$oft/believe/.../$Q - fully ready items
-       which could also just say nothing: el:9
+       could say nothing, Ps&el=9?
+       are put into A:least
+        since A:loading isnt on the &Ath climb
      
+     see Q id
      see Coffle '#I'
     =cut
+   // &Ath front
     fi.Ath = &acgtAscq{
         c ||= {}
         q ||= {}
@@ -784,15 +869,18 @@ fi.Xios ||= {}
     =pod
      as &elvising handlers
       N merge for same c, see &emergible
+      no use of c yet?
+       it could have cv|ov, prioritise lower per A
      
-     &Athinger,A,N[s],c
-      takes strings to things
-       N[s] - Qish states to become
-        s.* splits into Q.c (name) and Q.sc (qua)
-         see 'Q lifecycles'
-       c - specifics on the becoming
+     so far much driven to|by Q from &Ath:
+     so A:most &Ath A:least &oftserve... A:loading
+      then comes back in reverse
      
-     &Amess,A,N[s],c
+     &Athinger,A,N[Q->P],c
+      P lifecycle before Q
+      based on Q, about forming a Q
+       
+     &Amess,A,N[P],c
       making requests|responses for a thing
        &oftserve may send requests sync
         or via 4s&todo[], which is like:
@@ -800,132 +888,64 @@ fi.Xios ||= {}
         some xhr.done() -> G.and[C] -> G.tick()
       
      &Athinging,A,N[Q+],c
-      make lv to chase ~Q into A**
-      nodes above|with el:8|6 and %QN=[Q+] affected
-      < inc $versions skipped over since the last A:least wake
-        ie cluing possibly downloadable versions between old-new
-         for chat scrollback
-      A/** wake still having wabe (see below)
-       yet having the Q their &Ath will get
-       which must figure out what to dome
-        which is just more A** chasing in disguise
-       &Ath in doming should wabe to habe
-      $Q lead to:
-      $R chasing affected $n=inA, big rollout
-       having a bunch of $r:
-        rows of */believe/* change
+      make $R lv about ~Q over A**
+       c&n=A**
+       c&el=8 above ~
+       c&el=6 with ~ as %QN=[Q+] affected
+        < %QN mirror %ON=[O+] we last believed
+          the bubble no longer being spoken
+      to &Aredo
+       c&el=7 once %QN effected and A commit
+        which might release a bunch more ~Q on top of this
+     
+     &Aredo,A,N[R+],c
+      $R-edo sessions, big messy rollouts
        each thing, here and there and down the slope
         for a src-connected differable pipe thinging
        that can wander through A:n** applying itself
         being stretched with news before completion
          and present that as loop hazard, etc
+      chase ~Q
+      in t edges
+      # 6
+      redo A** 
+       just sorta do() each one
+        they &Ath, get new Q, etc
+       or
+        figure out what to dome
+         which is just more A**
+         that you may divide ~ into
+          eg rebuild only the affected Textl chunks
+       c&el=7 once %QN effected and A commit
+      # 7
+      more ~Q
+       can happen, merges $R**
+        c&el=6<-7 should do the trick
+        and %QN|%ON can have multiple revisions of a $Q
+         these might be empty so far or not
+         the A might want to pick them up
+          eg blog|chat scrollback
+         the Q might have some way of extending somewhere
+          eg %species=3, the last 15 bits of tree: %1,4,5,7?
+             %species=7, rotating lv pileup
+              %species=8 in both directions
+        %ON[Q] may be mocked up
+         based on W.5 customs tickets
+          eg could begin a %Compiling** with &Aredo from @Gump
+      # 8
+      so $R**
+       is doing A**
+        prefering to start+finish things, allowing more ~Q
+         where one thing (eg W:SourceMush) completes
+          and may push more ~Q to integrate in our travels
+         before getting to W:Together, etc
+      
          
-     
-     so A:most &Ath A:least &oftserve... A:loading
-      then comes back in reverse
-     
-     structure mirrors around:
-         A (loading)
-          /$of+$t = havex
-           havex/believe/$src/$version = habe /$n=Q
-            places the latest Q
-         A.up (least)
-          /$of+$t = wantx
-           wantx/$n=inA
-           wantx/believe/$src/$version = habe /$n=Q
-            given by A:loading
-         inA (most)
-          /$of+$t = wantx
-           wantx/$n=furtherinA
-           wantx/believe/$src/$version = wabe /$n=Q
-            &Ath latest Q (from A.up)
-
-         note that A:loading gives A:least habe
-          or possibly when &Athinging
-          since A:loading isnt on the &Ath climb
-         A/** stay having wabe
-     
-     'Q lifecycles'
-      starts as s, in &Athinger:
-       made $Q-ish
-       decide if:
-        a question:
-         $P requests it
-        < a statement:
-         $Q fabricated about who pushes
-         $P may push it to $src
-       have a pile
-       
-       havex/asked/$P any in progress
-         have|get Pc&src etc
-         when complete they spread to:
-         havex/asked/$src(/$P)/$version(/$P)
-      
-      also:
-       havex/believe(/$Q)/$src(/$Q)/$version - all wabe/$Q
-        to order $Q over any $src|$version
-         certainly over any $version
-          so branches ($src) can revert etc
-        we are always adding to the last in a list
-         ie always having the latest+best info
-      
-      and any /$P or /$Q list limits to 10?
-      P|Q might be only beginning, partly filled out
-       P for pieces of speech transmitting
-        they may appear from websockets
-       Q the whole speech bubble
-        interpolation of what was said
      
      nearing &elvising:
       go via G.click[0][e+] for fast callback
       also G.click[8] for slow checkup
     =cut
-    # the /believe/... index, wildcard or from Q
-    # believe may be another word, eg /asked/...$P
-    fi.Qbel = &acgtQq{
-        q ||= {}
-        $bel = {}
-        # /believe|asked/
-        bel[q.believe||'believe'] = 1
-        # /$src/
-        bel.src = Q ? Qs&src : 1
-        !bel.src and throw "Q!%src"
-        if (!q.novers) {
-            # /$version/
-            bel.version = Q ? fi&Qversion,Q : 1
-            !bel.version and throw "Q!version"
-        }
-        return bel
-    }
-    # derive a $version
-    fi.Qversion = &acgtQ{
-        return Qs&vers||Qs&dige
-    }
-    # requests fill out to response
-    fi.aQ = &acgtcs{
-        $Q = Cye([c.t||'?',1,c,s])
-        Qy&A = A
-        return Q
-    }
-    # see what Q can find, down /asked|believe/...
-    #  which it may be already, unless gaining eg $version
-    #   they would have their previous namespace on Ps&O (once)
-    fi.Qubsist = &acgtAQq{
-        # for A:loading, ensure an $oft/$n, for &AoQ/&Xsomp to join off
-        # for A:least** this is an A:n from &Ath/&wantbelieve
-        $fore = fi&Xsimp,A,Q.c
-        !hak(fore.z) and fi&Xsimp,A,Q.c,{n:A}
-        
-        $QN = fi&AoQ,A,Q,q
-        $O
-        QN.map(&r{
-            r.n != A and debugger
-            O and debugger
-            $bel = r.N.slice(-1)[0]
-            bel and O = bel.n
-        })
-        return O
-    }
     fi._P = &acgtANc{
         # arrival at various /$P, present an other:
         # /asked/$P - <3 and while waiting
