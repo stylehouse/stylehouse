@@ -428,6 +428,8 @@ fi.Xios ||= {}
   
  // &X*
   // Q
+   // Q id
+   
    // Q action
     fi.AoQ = &acgtAQq{
         q ||= {}
@@ -725,10 +727,11 @@ fi.Xios ||= {}
         # q.believe='anything' makes /anything/
         #  may be /contentions/ or so? locking in Qx space
         $beliefs = fi&Qbel,0,q
+        $wants = ex({},beliefs)
         # c may specify some ...
         # < ifs, wheres
         # < T belief-lockin may reuse V/.../believe...
-        $wants = sex({},c,beliefs)
+        sex(wants,c,beliefs)
         # o /believe/...[-1]/$Q
         #  later greater
         $xc = fi&believeoQ,Qx,wants,{row:1}
@@ -876,12 +879,17 @@ fi.Xios ||= {}
     # believe may be another word, eg /asked/...$P
     fi.Qbel = &acgtQq{
         q ||= {}
-        $bel = hashkv(q.believe||'believe')
+        $bel = {}
+        # /believe|asked/
+        bel[q.believe||'believe'] = 1
+        # /$src/
         bel.src = Q ? Qs&src : 1
+        !bel.src and throw "Q!%src"
         if (!q.novers) {
+            # /$version/
             bel.version = Q ? fi&Qversion,Q : 1
+            !bel.version and throw "Q!version"
         }
-        !bel.src || !q.novers && !bel.version and throw "Q!bits"
         return bel
     }
     # derive a $version
@@ -889,41 +897,20 @@ fi.Xios ||= {}
         return Qs&vers||Qs&dige
     }
     # requests fill out to response
-    fi.aQ = &acgtsc{
+    fi.aQ = &acgtcs{
         $Q = Cye([c.t||'?',1,c,s])
         Qy&A = A
         return Q
     }
-    # more complicated ^, lets not mix s+c
-    # $of+$t -> $of+$t+$string+$dige+$s
-    fi.haveaQ = &acgts{ 
-        # Q.c.* is the namespace, before s.string|el
-        $lastcgk = ['string','el'].filter(k => hak(s,k))[0]
-        $c = {}
-        s = ex({},s)
-        
-        !lastcgk and c = s; s = {}
-        else tax(c,s,ksaf(s,{bow:lastcgk}))
-        each kv c {
-            !iskeyish(v) and s[k] = delete c[k]
-        }
-        
-        $Q = Cye([c.t||'?',1,c,s])
-        Qy&A = A
-        return Q
-    }
-    # arrive at X/$oft/$Q, which it may already be
-    # this allows &Xsomp to make xc (row) at $oft
-    #  as &AoQ joins it to /believe/ etc
+    # see what Q can find, down /asked|believe/...
+    #  which it may be already, unless gaining eg $version
+    #   they would have their previous namespace on Ps&O (once)
     fi.Qubsist = &acgtAQq{
-        # fun fact:
-        # an $oft/$n must exist for &AoQ to join off
-        # A:loading, puts an $oft/$n
-        # A:least gets A:n from &Ath/&wantbelieve
+        # for A:loading, ensure an $oft/$n, for &AoQ/&Xsomp to join off
+        # for A:least** this is an A:n from &Ath/&wantbelieve
         $fore = fi&Xsimp,A,Q.c
         !hak(fore.z) and fi&Xsimp,A,Q.c,{n:A}
         
-        # see what Q can find, down /asked/ etc
         $QN = fi&AoQ,A,Q,q
         $O
         QN.map(&r{
@@ -932,35 +919,27 @@ fi.Xios ||= {}
             $bel = r.N.slice(-1)[0]
             bel and O = bel.n
         })
-        # they probably reuse their asked|believe
-        # < may find and en-version $P this way
-        #me&nu,"oQN",{fore,QN}
         return O
     }
-    fi.Asyncrequest = &acgtANc{
-        each iP N {
-            # send+receive callbacks, could proxy to @Aearch
-            Ps&string = "yardial"
-            Py&cv = 0.3
-            fi&elvis,{fi:'Athinger',A,N:[P],c:{}}
-        }
-    }
     fi._P = &acgtANc{
-        # arrival
-        # changes against the O - normal|latest at each:
+        # arrival at various /$P, present an other:
         # /asked/$P - <3 and while waiting
-        #  an O if asking a different $src already
+        #   locking P from other interactions til response?
+        #  asking any $src already
         # /asked/$src/$P - 2 considers who to ask
-        #  an O if already sending $src something about $P
-        # /asked/$src/$version/$P - 6
-        #  an O if asking
-        # O == P where est.
-        #  eg. /show/$P can cursor through %time etc
+        #  asking $src already
+        # /asked/$src/$version/$P - 3
+        #  is exactly who we purport to become
+        #   are we rewinding a branch or something?
+        # etc
+        #  eg. /show/$time/$P can cursor through %time etc
         #   collecting that distribution
+        #   to|from C
     }
     fi._S = &acgtANc{
     }
-    # on A.4/A:loading, Q gathering into /believe/
+    # on A.4/A:loading, Q seed P to be /asked/ about
+    # < multiple P per Q, as in agreement
     fi.Athinger = &acgtANc{
         A&thinger and A = A&thinger
         $Y = A.up
@@ -977,6 +956,7 @@ fi.Xios ||= {}
             # ask for it, keep receiving it
             
             if (Py&cv <= 0.1) {
+                # < Qc&el and other knowns not for /$oft?
                 Ps&string != null and 'isapush'
             }
             elsif (Py&cv == 0.3) {
@@ -996,102 +976,138 @@ fi.Xios ||= {}
             }
             
             # arrive $P
-            # to .../$version when possible, eg once +%string
-            #  if there is O for what we want to push
-            #   we can send trees only, reuse the objects, a la git
-            fi&Qversion,P == null and q.novers = 1
+            # < spool on /asked/$P while asking (cv 3-6)
+            #   and centrally at A/t_asked/$oft/$P ?
             Ps&src ||= '1812'
-            # <<<
+            # the ... acquires $version when possible, eg once +%string
+            fi&Qversion,P == null and q.novers = 1
             
-            # s made into Q, may have only the question so far
-            # < -P prototype S ways with an A:P voice
-            if (!hak(s,'P')) {
-                # 1
-                $P = fi&haveaQ,s
-                # 12
-                if (Ps&string != null) {
-                    Ps&push
-                }
-                # 2
-                # 3
-                
-                # previous $P
-                $O = delete Ps&oO
-                O ||= fi&Qubsist,A,P,q
-                if (O) {
-                    # can prevent creating identical .../$P
-                    #  check ~ P.sc.* other than src
-                    if (heq(O.sc,P.sc)) {
-                        fi&com,"Psame",{c:P.c,sc:P.sc}
-                        return
-                    }
-                    else {
-                        me&nu,"Pchange",{P,O}
-                        !heq(O.c,P.c) and debugger
-                        O.sc = P.sc
-                        P = O
-                    }
-                }
-                if (!Ps&act) {
-                    # just asking
-                    # i A:loading/$of+$t/asked/$src(/$version)?/$P
-                    fi&AiQ,A,P,q
-                    # link to previous P, when it +$version
-                    s.oO = P
-                    fi&elvis,{fi:'Asyncrequest',A,N:[s],c:{}}
+            # on itself, a clone of P at the end of last time
+            $O = Ps&O
+            # in namespace (in A:loading/$oft/asked/.../$P)
+            # may On == P
+            $On = fi&Qubsist,A,P,q
+            if (O) {
+                # O clone of P before
+                if (!On) {
+                    # new naming, as O is
+                    # P acquires eg $version
+                    Py&cv < 0.3 and debugger
                 }
                 else {
-                    # ~Q into A**
-                    ex(s,P.sc)
-                    s.P = P
-                    fi&elvis,{fi:'Athinger',A,N:[s],c:{}}
+                    # same naming
                 }
-                
-                $PN = fi&AoQ,A,P,q
-                
-                me&nu,"Asked"+i,{PN,P,O}
-                fi&com,"Asked",{PN,P,O}
             }
             else {
-                # < when to have a Q we already have? and the P?
-                # < Qc&el and other knowns not for /$oft?
-                
-                # s|P decodes to Q
-                $Q = fi&haveaQ,s
-                
-                $O = fi&Qubsist,A,Q
-                if (O) {
-                    # can prevent creating identical .../$Q
-                    #  check ~ Q.sc.* other than src+version
-                    if (heq(O.sc,Q.sc)) {
-                        fi&com,"Qsame",{c:Q.c,sc:Q.sc}
-                        return
-                    }
+                Py&cv > 0.1 and debugger
+                if (!On) {
+                    # new P
                 }
-                
-                # i A:loading/$of+$t/believe/.../$Q
-                fi&AiQ,A,Q
-                
-                # o A:least may clue el2|3|8-ness
-                # may have current /believe/ of all A:least**
-                #  < they gc, domily
-                #    recompositing X from X, de-row by inA
-                $oftN = fi&AoQ,Y,Q
-                $belN = flatten(oftN.map(xc => xc.N))
-                # < decide el:8 when Q =~ belN/Q
-                $el = !hak(belN) ? 2 : 3
-                fi&com,"Q",{el,c:Q.c,sc:Q.sc,belN}
-                
-                # i A:least, where it will be believed
-                fi&AiQ,Y,Q
-                
-                # constitutes a state change for all consuming Q
-                fi&elvis,{fi:'Athinging',A:Y,N:[Q],c:{}}
-                # and we are called in to update things whenever
+                else {
+                    # new P finds P already
+                    #  done or in progress
+                    #   want to know it has &elvising active
+                    #  rarely happens?
+                    #   only while keeping on &t-ing same things prior to async
+                    #    then once a /believe/...Q, no &Athinger-ing is required
+                    #    ie we are de-duping oftserve(s), until it caches a Q
+                    fi&com,"DupP",{On}
+                    # drops elvising of P?
+                    return
+                }
             }
+            
+            if (On && On != P) {
+                $kd = hakd(On.sc,P.sc)
+                hak(kd) and fi&com,"OnP",{kd}
+                # < same naming sans that we want to push,
+                #   we can send trees only, reuse the objects, a la git
+            }
+            if (O) {
+                # what was set by an async handler prior to &elvising back here
+                $kd = hakd(O.sc,P.sc)
+                hak(kd) and fi&com,"OP",{kd}
+            }
+            
+            On != P and fi&AiQ,A,P,q
+            
+            if (Py&cv == 0.1) {
+                fi&elvis,{fi:'Asyncrequest',A,N:[P],c:{}}
+            }
+            elsif (Py&cv == 0.3) {
+                q.novers and debugger
+                # +Q
+                $Q = Cye([P.t,1])
+                ex(Q.c,P.c)
+                each kv P.sc {
+                    !isob(v) and Q.sc[k] = v
+                }
+                sex(Q.sc,P.sc,'Live')
+                Qs&P = P
+                fi&elvis,{fi:'Abelieve',A,N:[Q],c:{}}
+            }
+            
+            # a clone of P at the end of each time
+            Ps&O = Cye(P)
+            # < -P prototype S ways with an A:P voice
+            $PN = fi&AoQ,A,P,q
+            fi&com,"Asked",{PN,P}
         }
     }
-    # from above, on A.4 heading to A:n for ~Q
+    # A:loading messaging
+    # < proxy to @Aearch
+    # < &elvis must be coming back to %Cat sometimes
+    #  < rebuilding whichever 
+    fi.Asyncrequest = &acgtANc{
+        each iP N {
+            # sent
+            Py&cv = 0.2
+            # receive callbacks
+            Py&cv = 0.3
+            Ps&string = "yardial"
+            fi&elvis,{fi:'Athinger',A,N:[P],c:{}}
+        }
+    }  
+    # A:loading, Q gathering into /believe/
+    fi.Abelieve = &acgtANc{
+        A&thinger and A = A&thinger
+        $Y = A.up
+        each iQ N {
+            $O = fi&Qubsist,A,Q
+            if (O) {
+                # can prevent creating identical .../$Q
+                #  check ~ Q.sc.* other than src+version
+                if (heq(O.sc,Q.sc)) {
+                    fi&com,"Qsame",{c:Q.c,sc:Q.sc}
+                    return
+                }
+                else {
+                    debugger
+                }
+            }
+
+            # i A:loading/$of+$t/believe/.../$Q
+            fi&AiQ,A,Q
+
+            # o A:least may clue el2|3|8-ness
+            # may have current /believe/ of all A:least**
+            #  < they gc, domily
+            #    recompositing X from X, de-row by inA
+            $oftN = fi&AoQ,Y,Q
+            $belN = flatten(oftN.map(xc => xc.N))
+            # < decide el:8 when Q =~ belN/Q
+            $el = !hak(belN) ? 2 : 3
+            fi&com,"Q",{el,c:Q.c,sc:Q.sc,belN}
+
+            # i A:least, where it will be believed
+            fi&AiQ,Y,Q
+
+            # constitutes a state change for all consuming Q
+            fi&elvis,{fi:'Athinging',A:Y,N:[Q],c:{}}
+            # and we are called in to update things whenever
+        }
+    }
+    # aft A:loading, on A.4 heading to A:n** for ~Q
     # < almost an &indo user
     fi.Athinging = &acgtVNc{
         c ||= {}
