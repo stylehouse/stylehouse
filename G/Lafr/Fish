@@ -1088,17 +1088,24 @@ fi.Xios ||= {}
     # < proxy to @Aearch
     # &elvis must be coming back to %Cat sometimes
     fi.Amess = &acgtANc{
-        each iP N {
+        # ! this must not be a for (each) loop, or we ack the same later
+        N.map(&P{
             # sent
             Py&cv = 0.2
-            $ack = fi&syncopation,{P}
-            fi&yl,0.3 (&{ack(&{
+            $back = &{
                 # receive callbacks
                 Py&cv = 0.3
-                Ps&string = "yardial"
+                Ps&string = P.t[0] == 'r' ? "yardial" : '3 * 3'
                 fi&elvis,{fi:'Athinger',A,N:[P],c:{}}
-            })})
-        }
+                ~>3 Amess back: P.t
+            }
+            0 and back(); return
+            $ack = fi&syncopation,{P}
+            $delay = 0.3
+            P.t[0] == 'r' and delay -= 0.1
+            ~sat
+            fi&yl,delay (&{ack(back)})
+        })
     }  
     # A:loading, Q gathering into /believe/
     fi.Abelieve = &acgtANc{
@@ -1278,6 +1285,7 @@ fi.Xios ||= {}
         #me&nu,"Fiz",{N,merged}
         grepout(N,merged)
     }
+   
    // &syncopation
     # < fit most delays into &syncopation
     fi.yl = &acgt,seconds{
@@ -1293,7 +1301,7 @@ fi.Xios ||= {}
         c.timeout and c.timeout = c.timeout + Gtime()
         c.n ||= A
         $name = A.t+"'s "+joint(haks(s))
-        $later = Cye([name,8,c])
+        $later = Cye([name,8,c,s])
         # < A.4 should linger %Cat on this %plan
         #  < involving A.4/A.3/A:loading and /asked/$P
         ac(A.4,'synco',later)
@@ -1303,9 +1311,10 @@ fi.Xios ||= {}
         return &y{
             laterc&do = y
             laterc&ready = Gtime()
-            delete laters&waiting
+            !laters&waiting and throw "notwaiting", later
+            $ok = delete laters&waiting
             # to get all "loading's P", then engage them all
-            $others = 4s&synco.filter(l => l.t == later.t)
+            $others = 4s&synco.filter(l => l.t == later.t && l != later)
             if (hak(others.filter(l => ls&waiting))) {
                 laters&pending = 1
                 return
@@ -1314,14 +1323,17 @@ fi.Xios ||= {}
             # if these &elvis, a plan
             # < as one big+individual B, try-catch
             #  < going into Atime just to go into Atime
-            $don = fi&poolfour,later
+            $done = fi&poolfour,later
             each il all {
                 lc&do()
                 delete ls&pending
+                delete lc&timeout
                 lc&done = Gtime()
             }
             # convert many ^ &elvis into one wake:R%Cat
-            don()
+            $pts = joint(all.map(l => ls&P.t))
+            fi&com,'re-live:',ex(hashkv(later.t,'x'+hak(all)),{pts})
+            done()
         }
     }
     # get 4's attention
@@ -1346,7 +1358,6 @@ fi.Xios ||= {}
             $wake = fc&otherer
             !R || !wake and debugger; return
             A = fc&otherA
-            fi&Acom,f,'re-live:',{l}
             me&elvis,R,'re-live',{wake}
         }
     }
@@ -1525,7 +1536,7 @@ fi.Xios ||= {}
     # rota A->b
     # ~Q
     fi.test_Attention = &acgts{
-        $oft = &{ return {of:'w',t:'random'} }
+        $oft = &{ return {of:'w',t:'reandom'} }
         if (s == 1) {
             A.4 = A
             $Ag = A&thinger = fi&Atsomewhere,A,'loading'
@@ -1542,6 +1553,8 @@ fi.Xios ||= {}
 
             $got = fi&Ath,Am2,oft()
             #$got = fi&Ath,Am,oft()
+            # < ! put one line further down and it doesnt work
+            $got = fi&Ath,Am2,ex(oft(),{t:'klum'})
             $got = fi&Ath,Ae,oft()
             got and throw "got first"
 
@@ -1560,6 +1573,7 @@ fi.Xios ||= {}
             $Am2 = A&more
             $got = fi&Ath,Am2,oft()
             $got = fi&Ath,Am2,oft()
+            $got = fi&Ath,Am2,ex(oft(),{t:'klum'})
 
             Am2s&goat = got
         }
