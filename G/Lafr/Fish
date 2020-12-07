@@ -1091,12 +1091,13 @@ fi.Xios ||= {}
         each iP N {
             # sent
             Py&cv = 0.2
-            fi&yl,0.3 (&{
+            $ack = fi&syncopation,{P}
+            fi&yl,0.3 (&{ack(&{
                 # receive callbacks
                 Py&cv = 0.3
                 Ps&string = "yardial"
                 fi&elvis,{fi:'Athinger',A,N:[P],c:{}}
-            })
+            })})
         }
     }  
     # A:loading, Q gathering into /believe/
@@ -1212,31 +1213,8 @@ fi.Xios ||= {}
         else {
             throw "whate"
         }
-        $f = A.4
-        ac(f,'todo',e)
-        if (!fc&live) {
-            fi&Acom,f,'re-live:',{e}
-            $R = Cy&R
-            !R and debugger
-            $wake = fc&otherer
-            !wake and debugger; return
-            A = fc&otherA
-            me&elvis,R,'re-live',{wake}
-        }
-    }
-    # < fit most delays into the requestIdleCallback stream
-    fi.yl = &acgtsc{
-        c == 'draw' and 'or requestAnimationFrame'
-        return &y{
-            # < A.4 should linger
-            #  < all A.4/A.3/A:loading and /asked/$P
-            #    such that Jproto plan will linger, timeout
-            $back = &{
-                # < drop lingerance
-                y ()
-            }
-            return G&delay,s,back
-        }
+        ac(A.4,'todo',e)
+        !4c&live and fi&wantfour,e
     }
     # o 4%todo/*
     # called outside anything
@@ -1299,6 +1277,78 @@ fi.Xios ||= {}
         }
         #me&nu,"Fiz",{N,merged}
         grepout(N,merged)
+    }
+   // &syncopation
+    # < fit most delays into &syncopation
+    fi.yl = &acgt,seconds{
+        return &y{ return G&delay,seconds,y }
+    }
+    # the requestIdleCallback stream
+    #  and other things
+    fi.syncopation = &acgtsc{
+        # A + s identifies where+what
+        c == 'draw' and 'or requestAnimationFrame'
+        c ||= {timeout:5}
+        c.began = Gtime()
+        c.timeout and c.timeout = c.timeout + Gtime()
+        c.n ||= A
+        $name = A.t+"'s "+joint(haks(s))
+        $later = Cye([name,8,c])
+        # < A.4 should linger %Cat on this %plan
+        #  < involving A.4/A.3/A:loading and /asked/$P
+        ac(A.4,'synco',later)
+        laters&waiting = 1
+        # called in async time, see &Amess
+        # < which we may not want to suddenly &elvis from
+        return &y{
+            laterc&do = y
+            laterc&ready = Gtime()
+            delete laters&waiting
+            # to get all "loading's P", then engage them all
+            $others = 4s&synco.filter(l => l.t == later.t)
+            if (hak(others.filter(l => ls&waiting))) {
+                laters&pending = 1
+                return
+            }
+            $all = [...others.filter(l => ls&pending),later]
+            # if these &elvis, a plan
+            # < as one big+individual B, try-catch
+            #  < going into Atime just to go into Atime
+            $don = fi&poolfour,later
+            each il all {
+                lc&do()
+                delete ls&pending
+                lc&done = Gtime()
+            }
+            # convert many ^ &elvis into one wake:R%Cat
+            don()
+        }
+    }
+    # get 4's attention
+    fi.wantfour = &acgte{
+        $N = 4c&forfour
+        !N and throw "no poolfour"
+        N.push(e)
+    }
+    fi.poolfour = &acgtl{
+        $f = A.4
+        $ol = 4c&forfourvor
+        ol and throw "double poolfour",{l,ol}
+        !l and throw "!object"
+        4c&forfourvor = l
+        4c&forfour = []
+        return &{
+            delete 4c&forfourvor
+            $N = delete 4c&forfour
+            !hak(N) and fi&com,"pool!elvis",{l}
+            # one wake:R%Cat, from whereever hopefully
+            $R = Cy&R
+            $wake = fc&otherer
+            !R || !wake and debugger; return
+            A = fc&otherA
+            fi&Acom,f,'re-live:',{l}
+            me&elvis,R,'re-live',{wake}
+        }
     }
    
    // Travel
