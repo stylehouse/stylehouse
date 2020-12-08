@@ -118,6 +118,7 @@ me.Sch_Travel = &acgt{ return [
         me&Dwakers,R,D,c
         me&Dtunneling,R,D
     }
+  
   // &log -> %Outlog/$D
     # D -log
     me.log = &acgtRtqc{
@@ -152,6 +153,7 @@ me.Sch_Travel = &acgt{ return [
         Ying != R and Dy&R = R
         return D
     }
+  
   // &Dwakers, &wokerecently
     # detects looping wakers
     me.wokerecently = &acgtRsdq{
@@ -180,6 +182,7 @@ me.Sch_Travel = &acgt{ return [
         })
         quiet.length && c.wakers.length == quiet.length and throw "all!q"
     }
+  
   // &Dtunneling
     # < merge in &Yingwhen, early sense e, how to %onlyish
     #  < how to gradually work when fed A leash
@@ -222,6 +225,7 @@ me.Sch_Travel = &acgt{ return [
     }
     
     },
+  
   // about Qup
     &{
     # log but dont e:elQups !!!!!!!!!!!
@@ -3737,6 +3741,7 @@ me.Sch_Travel = &acgt{ return [
         ec&looki ||= 0
         ec&looki ++
         ~>5 Intro..:
+        $what = me&rollbs,R,'tdige',{}
         me&nu,"e-thing",e
         each in ec&Qz {
             $se = 
@@ -3744,9 +3749,12 @@ me.Sch_Travel = &acgt{ return [
             n of  $s:nc&of %c:G
             me&walls,se,'b:2.2h5';
             me&tcl,se,n.t,'b'
-            $r = ny&R
+            
+            what[n.t] == ns&dige and return ~>3 goated: n.t
+            
             #me&mnu,se,n
-            # K/%Pave or %SummerCat/%Jrunto !
+            # K%Pave or %SummerCat/%Jrunto !
+            $r = ny&R
             if (rs&Pave || rc&Cat) {
                 if (rc&Cat) {
                     # might be in a %Doming Yingbal
@@ -3770,9 +3778,12 @@ me.Sch_Travel = &acgt{ return [
                         # < not nodei between steps until all ready?
                         ns&Want_Check = 1
                         nc&ready_instead = &{
+                            !ns&dige and debugger
+                            what[n.t] == ns&dige and return ~>3 goated: n.t
                             delete nc&ready_instead
                             ~>5 goatready: n.t
-                            me&elvis,R,'elIntro',{wake:zy&R}
+                            what[n.t] = ns&dige
+                            me&elvis,R,'elIntro',{wake:zy&R,e:n}
                         }
                         T.asyncQs = [];
                         me&t,r,n
