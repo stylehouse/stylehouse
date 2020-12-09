@@ -267,18 +267,27 @@ me.Sch_Pavings = &acgt{ return [
             each tn Rs&adhere {
                 rs&noadhere && rs&noadhere[t] and continue
                 
+                # renegotiates its identity
+                rs&reneg and continue
+                # depth limit ^^^%adhere
                 $tdl = R.sc[t+'_dl'];
                 if (tdl != null) {
                     tdl == 0 and continue
                     r.sc[t+'_dl'] = tdl-1
                 }
                 
-                rs&reneg and continue
+                # sc parameter(s) adhered
+                # a function
                 mad[t] and mad[t](R,r) and continue
+                # auto carryover
                 r.sc[t] ||= n;
+                
+                # now whether to tell them to keep adhere-ing
                 # leave eg Stories/Stori%adhere.twmt=Stori
                 #  Stori%twmt=Stories, Stori/**%twmt=Stori
                 rs&adhere && rs&adhere[t] and continue
+                # eg %Travelables/r+%twmt but not %adhere.twmt
+                Rs&stopsadhere and continue
                 ah(r,'adhere',t,n)
             }
         });
