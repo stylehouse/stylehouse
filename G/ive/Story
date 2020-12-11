@@ -853,6 +853,16 @@ me.Sch_Story = &acgt{ return [
  
  // %Fish(This|Eight|Seven) for -seven etc to happen within
    // This
+    # interface to have R/r that return r@295
+    ['doRbales',0.294,&acgtRs{
+        sy&balein = &sc{
+            return fi&balein,s,c
+        }
+    },'ift,D'],
+    ['doRbales',0.296,&acgtRs{
+        fi&Rbales
+    },'ift,D'],
+    
     ['FishThis',0.293,&acgtRs{
         me&reaw,R,'FishThis,wakeful,onlyish'
         me&inode,R
@@ -861,26 +871,17 @@ me.Sch_Story = &acgt{ return [
         Rs&wakeful = 1
         # sleep r when R%onlyish/r!%wakeful
         Rs&onlyish = 1
+        # resume %FishThis when %ball-created
         ah(R,'nextlifesc','FishThis',1)
         
         me&tsc,"FishThis"
-        sy&balein = &sc{
-            return fi&balein,s,c
-        }
+        Rs&doRbales = 1
     },'ift,D'],
     # any This/-eight, tend to sleep
     ['FishThis',0.296,&acgtRs{
         # draw the story, probably chunked per &live
-        fi&Rbales
-        return
-        each im ss&z {
-            #mc&pi ||= 'eight'
-            # %onlyish 294 has made these if sleeping them
-            $r = me&bal,m.t,m,'FishEight'
-            rc&s != m and throw 'crae'
-        }
         # leaves current -gate streaming
-        r and rs&wakeful = 1
+        #r and rs&wakeful = 1
     },'ift,D'],
    // Eight
     ['FishEight',0.293,&acgtRs{
@@ -889,34 +890,16 @@ me.Sch_Story = &acgt{ return [
         $x = me&Jx,R
         Rs&rowish = 1
         Rs&onlyish = 1
-        # R/* become %Yingate!%ball
-        #Rs&noRsync = 1
+        
         me&tsc,"FishEight"
-        sy&balein = &sc{
-            return fi&balein,s,c
-        }
+        Rs&doRbales = 1
     },'ift,D'],
     ['FishEight',0.296,&acgtRs{
-        
+        # before|after Rbales?
         $E = Rs&eight = me&pieight,R,s,1
-        fi&Rbales
-        return
         
-        $L = sy&Point
-        
-        if (Rs&wakeful) {
-            # no -eight, yes -seven
-            # < or -eight without &enL?
-            me&tsc,"wakeful",0,'g'
-        }
-        else {
-            # complete -eight
-            Rs&Fin = 1
-        }
-        
-        each in ss&z {
-            $r = me&Ret,R,{t:"n:"+i,s:n,FishSeven:1}
-        }
+        # complete -eight
+        #!Rs&wakeful and Rs&Fin = 1
     },'ift,D'],
    
    
@@ -936,8 +919,8 @@ me.Sch_Story = &acgt{ return [
         $p = Ry&up
         $z = pc&s
         
-        n t 01 $s:s.t %fs:8
         me&tsc,"FishSeven"
+        
         sc&pi ||= 'ugh'
         s&hue = 138
         # -seven...-ologise also colours it
