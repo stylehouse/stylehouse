@@ -1456,7 +1456,8 @@ fi.Xios ||= {}
         n soilesoezc 3 s:brackets
     }
    // Pictures: -seven, read into another
-    me.Sopi = &acgtRstcq{
+    me.Sopi = &acgtstcq{
+        num(q) and c.ov = scaf(c); q = {}
         num(c) and c = {ov:scaf(c)}
         c.ov ||= 0.9
         c.ov > 0.1 and c.el ||= 3
@@ -1473,8 +1474,8 @@ fi.Xios ||= {}
             return E
         }
     }
-    me.piEight = &acgtRsc{
-        me&Sopi,s,'Eight',c,{} ({
+    me.piEight = &acgtscq{
+        return me&Sopi,s,'Eight',c,q ({
             1: &Ecq{
                 Es&lint = 1
             },
@@ -1489,10 +1490,19 @@ fi.Xios ||= {}
             }
         })
     }
-    me.piSeven = &acgtRsc{
+    me.piSeven = &acgtscq{
     }
-    me.piLog = &acgtRsc{
+    me.piLog = &acgtscq{
         # being in this Seven
+        return me&Sopi,s,'log',c,q ({
+            1: &Ecq{
+                sc&pi != 'log' and debugger
+                each i,sev c.sevens {
+                    # taking &togcon...
+                }
+                Es&lint = 1
+            },
+        })
     }
    // Story
        =pod state
@@ -1639,13 +1649,13 @@ fi.Xios ||= {}
         # < X mark makers:
         s.Asip = Ac&sip
         s.At = A.t
-        # log makes &bracki: D-log/$n.sc<-s
-        #  D open to more drawing on
+        # &log makes &bracki: D-log/$n.sc<-s
+        #  D open to more drawing on /$n
         #  which should alive Seven@7 to refresh -log
         #   or sooner if max lighting
         # D -log shall Dy&log=E-log
         $D = me&log,R,t,s,c
-        # &log|&Outlog sets:
+        # also, &log|&Outlog sets:
         #  Dc&pi ||= 'log'
         #  Dc&fe_time
         #  Dy&inside = -gate of R%Ying
@@ -1662,7 +1672,9 @@ fi.Xios ||= {}
         ac(Al,'log',D)
         
         # any -seven-ish thing collecting -log
-        fi&Gstaco,'log' .map(sev => ac(D,'logs',sev))
+        $sevens = fi&Gstaco,'-log'
+        # -log
+        me&piLog,D,{sevens},3
         
         return D
     }
@@ -1681,10 +1693,9 @@ fi.Xios ||= {}
         # z -seven
         $i = hak(eights&z)
         $seven = eighty&balein('sev'+i,'FishSeven')
-        Gc&stac = {}
+        
         $done_Gstac = fi&Gstaci,'-log',seven
         
-        me&nu,"Esing",{C,This,eight,seven,stac:Gc&stac}
         # and this first -log
         #  notices all Gc&logs/-seven active
         #  each have ^-eight then ^%This ?
@@ -1693,18 +1704,28 @@ fi.Xios ||= {}
         
         # and it starts with a start
         $D = fi&com,s,c
-        me&fiu,seven,D,2
-        # in a a wider time
-        $Outlog = me&theOutlog,R
-        $Di = Outlog.indexOf(D)
-        Di < 0 and debugger
         
+        $stac = ex({},Gc&stac)
         
+        me&nu,"Esing",{C,This,eight,seven,D,stac}
+        
+        $done_comless = fi&comlesslogs
         return &{
+            done_comless()
             done_Gstac()
-            $since = Outlog.slice(Di+1)
-            #since.map(D => log(D))
             
+        }
+    }
+    # watch for things calling &log as opposed to &com
+    fi.comlesslogs = &acgts{
+        $Outlog = me&theOutlog,R
+        $Di = Outlog.length
+        return &{
+            $since = Outlog.slice(Di)
+            $miss = since.filter(D => !ss&z.includes(D))
+            !hak(miss) and return
+            # < intersperse
+            fi&com,"non-com-logs",{miss}
         }
     }
     # name -eight by &complace c.*, eg c.A -> "A:"+A.t
@@ -1833,6 +1854,7 @@ fi.Xios ||= {}
         ba [s.t] = cwas
         # Jrunto must &Rbales, in case nobody &complace's
         c.eph and z.y [s.t] = s
+        ss&z ||= []
         return s
     }
     fi.baleinr = &acgtRsc{
