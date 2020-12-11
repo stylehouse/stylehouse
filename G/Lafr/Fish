@@ -1633,7 +1633,6 @@ fi.Xios ||= {}
         !Rs&Jrunto and throw "!Jrunto"
         $z = Rc&s
         $This = zy&balein('This','FishThis')
-        
         # z -eight
         $Ct = fi&complaceCt,c
         eight = Thisy&balein(Ct,'FishEight')
@@ -1641,8 +1640,10 @@ fi.Xios ||= {}
         # z -seven
         $i = hak(eights&z)
         $seven = eighty&balein('sev'+i,'FishSeven')
+        Gc&stac = {}
+        $done_Gstac = fi&Gstaci,'-log',seven
         
-        me&nu,"Esing",{C,This,eight,seven}
+        me&nu,"Esing",{C,This,eight,seven,stac:Gc&stac}
         # and this first -log
         #  notices all Gc&logs/-seven active
         #  each have ^-eight then ^%This ?
@@ -1652,9 +1653,54 @@ fi.Xios ||= {}
         # and it starts with a start
         $D = fi&com,s,c
         me&fiu,seven,D,2
+        # in a a wider time
+        $Outlog = me&theOutlog,R
+        $Di = Outlog.indexOf(D)
+        Di < 0 and debugger
+        
         
         return &{
-        
+            done_Gstac()
+            $since = Outlog.slice(Di+1)
+            #since.map(D => log(D))
+            
+        }
+    }
+   // &Gstaci|o|_reset
+    # like the B-stack, Gc&stac.$t=[$s+]
+    fi.Gstaci = &acgtts{
+        !isst(t) || !isC(s) and throw "!Gstac"
+        ah(G,['c'],'stac',t,s)
+        return &{
+            # takes (all of) this s back out
+            $stact = ahsk(G,'c','stac',t)
+            $got = grepout(stact,s)
+            !hak(got) and debugger
+        }
+    }
+    # [$s+] for $t, eg the $s-seven accumulating a $t='-log'
+    fi.Gstaco = &acgtt{
+        return (ahsk(G,'c','stac',t) || []).slice()
+    }
+    # prepare to be reset on catch
+    fi.Gstac_reset = &acgt{
+        $stac = {}
+        each tN Gc&stac {
+            stac[t] = N.slice()
+        }
+        return &{
+            $aborts = {}
+            each tM Gc&stac {
+                # put as it was
+                $N = Gc&stac[t] = stac[t] || []
+                # those that weren't
+                grepout(M,N)
+                hak(M) and aborts[t] = M
+            }
+            each tis aborts {
+                me&yyt,s,'onabort'
+            }}
+            return aborts
         }
     }
     # name -eight by &complace c.*, eg c.A -> "A:"+A.t
@@ -1667,6 +1713,91 @@ fi.Xios ||= {}
         $Ct = k+':'+v.t
         return Ct
     }
+   // test, R
+    fi.Acom = &acgtAsc{
+        return fi&com,s,c
+    }
+    fi.com = &acgttsc{
+        $R = fi&R
+        s ||= {}
+        c ||= {}
+        # < -log in here, the details in the moment
+        if ('proto -log' && 0) {
+            # dis() now and after might revealiate
+            # < hakv() value changer, hakk() key changer
+            $disc = hashkv(haks(c).map(k => [k,dis(s[k])]))
+        }
+        # < X mark makers:
+        s.Asip = Ac&sip
+        s.At = A.t
+        # log makes &bracki: D-log/$n.sc<-s
+        #  D open to more drawing on
+        #  which should alive Seven@7 to refresh -log
+        #   or sooner if max lighting
+        # D -log shall Dy&log=E-log
+        $D = me&log,R,t,s,c
+        # &log|&Outlog sets:
+        #  Dc&pi ||= 'log'
+        #  Dc&fe_time
+        #  Dy&inside = -gate of R%Ying
+        #  Dy&Ying=R%Ying
+        #  Dy&R if not R%Ying
+        # D%X%z brack the sc=s
+        #  if this could keep going into sc.*.*
+        #   we could have a -vat
+        #  the way it decides to capture A
+        Dy&A ||= A
+        
+        # A:least%log
+        $Al = me.cbu(A, A => !A.up, A => A.up)
+        ac(Al,'log',D)
+        
+        # any -seven-ish thing collecting -log
+        fi&Gstaco,'log' .map(sev => ac(D,'logs',sev))
+        
+        return D
+    }
+    # get R%Jrunto, or %Yingbal?
+    #  can %Yingbal be made a node, so we can &nodei into the Fish?
+    fi.R = &acgt{
+        # they will go Cy&A.1
+        # A.7 = Y
+        $R = Cy&R
+        !R and debugger
+        return R
+    }
+    # see what R%tunnel=e is, for proto ein
+    fi.eis = &acgtc{
+        c.R ||= fi&R
+        $e = me&Dtunneling,c.R
+        !e and return
+        c.t && c.t != e.t and return
+        return 1
+    }
+    # to script for many A, getting A = particulars
+    fi.Adoer = &acgtY{
+        # < switching A etc with B on any &h:
+        #   Babz: fi&Thing,A:Al,la,ca
+        #    -> G.h(A,C,G,T,{t:'Thing',A:Al},la,ca)
+        Y ||= A
+        return &{
+            # start each call with the A from &Adoer
+            A = Y
+            each in arguments {
+                isA(n) and A = n
+                else
+                isar(n) and $a = fi[n[0]](A,C,G,T, ...n.slice(1))
+                else
+                isfu(n) and $a = n(A)
+                else
+                debugger
+                # assumes any A returned from that
+                isA(a) and A = a; a = null
+            }
+            return A
+        }
+    }
+   
    // R This/*/*
     # < on Story or %%C
     fi.Storier = &acgt{
@@ -1751,74 +1882,6 @@ fi.Xios ||= {}
                 })
         }
         delete zy&bales
-    }
-   
-   // test, R
-    fi.Acom = &acgtAsc{
-        return fi&com,s,c
-    }
-    fi.com = &acgtsc{
-        $R = fi&R
-        c ||= {}
-        # < -log in here, the details in the moment
-        if ('proto -log' && 0) {
-            # dis() now and after might revealiate
-            # < hakv() value changer, hakk() key changer
-            $disc = hashkv(haks(c).map(k => [k,dis(c[k])]))
-        }
-        # < X mark makers:
-        c.Asip = Ac&sip
-        c.At = A.t
-        # log bracki C
-        # D tend to have a c&pi, which we might do...
-        $D = me&log,R,s,c
-        # etc
-        disc and Dc&disc = disc
-        Dy&A ||= A
-        
-        $Al = me.cbu(A, A => !A.up, A => A.up)
-        ac(Al,'log',D)
-        return D
-    }
-    # get R%Jrunto, or %Yingbal?
-    #  can %Yingbal be made a node, so we can &nodei into the Fish?
-    fi.R = &acgt{
-        # they will go Cy&A.1
-        # A.7 = Y
-        $R = Cy&R
-        !R and debugger
-        return R
-    }
-    # see what R%tunnel=e is, for proto ein
-    fi.eis = &acgtc{
-        c.R ||= fi&R
-        $e = me&Dtunneling,c.R
-        !e and return
-        c.t && c.t != e.t and return
-        return 1
-    }
-    # to script for many A, getting A = particulars
-    fi.Adoer = &acgtY{
-        # < switching A etc with B on any &h:
-        #   Babz: fi&Thing,A:Al,la,ca
-        #    -> G.h(A,C,G,T,{t:'Thing',A:Al},la,ca)
-        Y ||= A
-        return &{
-            # start each call with the A from &Adoer
-            A = Y
-            each in arguments {
-                isA(n) and A = n
-                else
-                isar(n) and $a = fi[n[0]](A,C,G,T, ...n.slice(1))
-                else
-                isfu(n) and $a = n(A)
-                else
-                debugger
-                # assumes any A returned from that
-                isA(a) and A = a; a = null
-            }
-            return A
-        }
     }
    
    // t Y
