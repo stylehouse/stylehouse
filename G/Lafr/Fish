@@ -1395,6 +1395,7 @@ fi.Xios ||= {}
         # hang A off the Jrunto %%C
         fi&eis,{t:'elIntro'} and Rs&el2 = 1
         x.ro('el2') and delete Cy&Fish
+        Rs&nlist = [Rc&s]
         
         #me&nu,"Jx",x.sc
         # &t:
@@ -1502,10 +1503,74 @@ fi.Xios ||= {}
                 each i,sev c.sevens {
                     # taking &togcon...?
                     # anything in s=D/$n%*.* we want to -vat...
+                    me&nu,sev
                 }
-                Es&lint = 1
+            },
+            2: &Ecq{
+                # < stream: ss&z should be in X.rows.z
+                #   X/rows/$k/$n subset of X/$k, including Dy|c&*
+                # E/-row/-vat
+                each in ss&z {
+                    $row = me&fiu,E,i,2
+                    rowy&row = n
+                    rowc&pi = 'row'
+                    each kv n.sc {
+                        $vat = me&fiu,row,k
+                        vatc&s = v
+                        vatc&pi = 'vat'
+                    }
+                }
+            },
+            3: &Ecq{
+                c.nlist ||= fi&getat,'nlist'
+                # -n for things as pathed from thing in the node list
+                $comp_log = fi&comp_log,['log','row','n']
+                $d = {compLines: &DdC{
+                    me&dopi,D,d,C,c
+                    Cc&pi = Dc&pi
+                    comp_log(D,d,C)
+                } }
+                me&Linets,s,E,d
             },
         })
+    }
+   // f
+    fi.getat = &acgtk{
+        $R = fi&R
+        return me&Rsc,R,k
+    }
+    # expect -these/-pi/-here
+    fi.comp_log = &acgtN{
+        return &DdC{
+            $i = d.d*1-1
+            !N[i] and return
+            $s = C
+            while (i >= 0 && s) {
+                # Dc&pi copied back to Cc&pi, so deleted show
+                N[i] != sc&pi and return
+                s = sy&up
+                i --
+            }
+            delete Dc&pi
+        }
+    }
+    # < impose what we expect
+    fi.decomp_log = &acgtN{
+        return &DdC{
+            Dc&pi and return
+            $i = d.d*1-1
+            $pi = N[i]
+            !pi and return
+            $s = D
+            while (i >= 0 && s) {
+                # things above should be set by now
+                $Dnopi = s == D && !sc&pi
+                !Dnopi && N[i] != sc&pi and return
+                s = sy&up
+                i --
+            }
+            Dc&pi = pi
+        }
     }
    // Story
        =pod state
@@ -1715,7 +1780,7 @@ fi.Xios ||= {}
         
         me&nu,"Esing",{C,This,eight,seven,D,stac}
         
-        $done_comless = fi&comlesslogs
+        $done_comless = fi&comlesslogs,seven
         return &{
             done_comless()
             done_Gstac()
@@ -1723,6 +1788,7 @@ fi.Xios ||= {}
         }
     }
     # watch for things calling &log as opposed to &com
+    # < and using ~message: not,a,tion -> 4s&log
     fi.comlesslogs = &acgts{
         $Outlog = me&theOutlog,R
         $Di = Outlog.length
