@@ -154,6 +154,46 @@ me.Sch_Travel = &acgt{ return [
         return D
     }
   
+  // &Gstaci|o|_reset
+    # like the B-stack, Gc&stac.$t=[$s+]
+    me.Gstaci = &acgtts{
+        !isst(t) || !isC(s) and throw "!Gstac"
+        ah(G,['c'],'stac',t,s)
+        return &{
+            # takes (all of) this s back out
+            $stact = ahsk(G,'c','stac',t)
+            $got = grepout(stact,s)
+            !hak(got) and debugger
+        }
+    }
+    # [$s+] for $t, eg the $s-seven accumulating a $t='-log'
+    me.Gstaco = &acgtt{
+        return (ahsk(G,'c','stac',t) || []).slice()
+    }
+    # prepare to be reset on catch
+    me.Gstac_reset = &acgt{
+        $stac = {}
+        each tN Gc&stac {
+            stac[t] = N.slice()
+        }
+        $done = 0
+        return &{
+            done++ and return
+            $aborts = {}
+            each tM Gc&stac {
+                # put as it was
+                $N = Gc&stac[t] = stac[t] || []
+                # those that weren't
+                grepout(M,N)
+                hak(M) and aborts[t] = M
+            }
+            each tis aborts {
+                me&yyt,s,'onabort'
+            }}
+            return aborts
+        }
+    }
+    
   // &Dwakers, &wokerecently
     # detects looping wakers
     me.wokerecently = &acgtRsdq{

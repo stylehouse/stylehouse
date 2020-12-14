@@ -1397,6 +1397,7 @@ fi.Xios ||= {}
         x.ro('el2') and delete Cy&Fish
         Rs&nlist = [Rc&s]
         
+        
         #me&nu,"Jx",x.sc
         # &t:
         # to i A^^X/$of,$t/$A
@@ -1500,10 +1501,10 @@ fi.Xios ||= {}
         return me&Sopi,s,'log',c,q ({
             1: &Ecq{
                 sc&pi != 'log' and debugger
+                me&nu,{E,c}
                 each i,sev c.sevens {
                     # taking &togcon...?
                     # anything in s=D/$n%*.* we want to -vat...
-                    me&nu,sev
                 }
             },
             2: &Ecq{
@@ -1535,6 +1536,7 @@ fi.Xios ||= {}
         })
     }
    // f
+    # lookup R^^%nlist
     fi.getat = &acgtk{
         $R = fi&R
         return me&Rsc,R,k
@@ -1743,7 +1745,7 @@ fi.Xios ||= {}
         ac(Al,'log',D)
         
         # any -seven-ish thing collecting -log
-        $sevens = fi&Gstaco,'-log'
+        $sevens = me&Gstaco,'-log'
         # -log
         me&piLog,D,{sevens},3
         
@@ -1765,7 +1767,7 @@ fi.Xios ||= {}
         $i = hak(eights&z)
         $seven = eighty&balein('sev'+i,'FishSeven')
         
-        $done_Gstac = fi&Gstaci,'-log',seven
+        $done_Gstac = me&Gstaci,'-log',seven
         
         # and this first -log
         #  notices all Gc&logs/-seven active
@@ -1788,7 +1790,7 @@ fi.Xios ||= {}
         }
     }
     # watch for things calling &log as opposed to &com
-    # < and using ~message: not,a,tion -> 4s&log
+    # < and the ''~message: not,a,tion' -> 4s&log
     fi.comlesslogs = &acgts{
         $Outlog = me&theOutlog,R
         $Di = Outlog.length
@@ -1809,45 +1811,6 @@ fi.Xios ||= {}
         !isC(v) and throw "!C"
         $Ct = k+':'+v.t
         return Ct
-    }
-   // &Gstaci|o|_reset
-    # like the B-stack, Gc&stac.$t=[$s+]
-    fi.Gstaci = &acgtts{
-        !isst(t) || !isC(s) and throw "!Gstac"
-        ah(G,['c'],'stac',t,s)
-        return &{
-            # takes (all of) this s back out
-            $stact = ahsk(G,'c','stac',t)
-            $got = grepout(stact,s)
-            !hak(got) and debugger
-        }
-    }
-    # [$s+] for $t, eg the $s-seven accumulating a $t='-log'
-    fi.Gstaco = &acgtt{
-        return (ahsk(G,'c','stac',t) || []).slice()
-    }
-    # prepare to be reset on catch
-    fi.Gstac_reset = &acgt{
-        $stac = {}
-        each tN Gc&stac {
-            stac[t] = N.slice()
-        }
-        $done = 0
-        return &{
-            done++ and return
-            $aborts = {}
-            each tM Gc&stac {
-                # put as it was
-                $N = Gc&stac[t] = stac[t] || []
-                # those that weren't
-                grepout(M,N)
-                hak(M) and aborts[t] = M
-            }
-            each tis aborts {
-                me&yyt,s,'onabort'
-            }}
-            return aborts
-        }
     }
    // test, R
     # get R%Jrunto, or %Yingbal?
@@ -2082,6 +2045,7 @@ fi.Xios ||= {}
         #fi&Athinger,Ag,[{of:'w',t:'random',string:'changesing'}]
         
     }
+   // littler tests
     # &Xsomp $n...$n ordering
     fi.test_Nxcnorder = &acgt{
         A = fi&Atsomewhere,A,'test_Nxcnorder'
@@ -2106,7 +2070,7 @@ fi.Xios ||= {}
         
         return A
     }
-    # 
+    # < little functions
     fi.test_Pictures = &acgt{
         $i = 5
         $c = exts({},'sit','t')
@@ -2121,6 +2085,22 @@ fi.Xios ||= {}
         #while (i--)
         #    ~>5 Fiseh: 3
         #fi&a,{fuselage:3}
+    }
+    # < &Gstac_reset
+    fi.test_Gstac = &acgts{
+        $ja = Cs&jabla ||= Cye(['Jable',1])
+        if (!jas&did) {
+            debugger
+            $done_Gstac = me&Gstaci,'-log',ja
+            jas&did = 1
+            # < somehow expect this, for instant comeback
+            throw "should undo the stack"
+        }
+        else {
+            $ol = me&Gstaco,'-log'
+            me&nu,"stac:-log",ol
+        }
+        
     }
     
  
