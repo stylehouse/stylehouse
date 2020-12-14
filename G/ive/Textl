@@ -367,13 +367,17 @@
                 part = 'scan';
                 !isC(s) and throw "Not C"
                 sc&N and throw "mightbe R"
+                
                 part = 'clone';
                 $D = d.D = Cye(s);
                 d.up && d.up.D and Dy&up = d.up.D
+                
                 part = 'Compress';
                 me&Compress,D
                 Y && Ys&compLines and Ys&compLines(D,d,s)
-                d.compLines and d.compLines(D,d,s)
+                d.compLines and $already = d.compLines(D,d,s)
+                already and return already
+                
                 part = 'toLines';
                 d.toLines = d.jsony ? enj(D) : me&enL,D
                 Ds&H && !d.toLines.match(/(H):(\w+)\b/) and throw "%H not so gc will see it"
