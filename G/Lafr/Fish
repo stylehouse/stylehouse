@@ -1397,14 +1397,6 @@ fi.Xios ||= {}
         x.ro('el2') and delete Cy&Fish
         Rs&nlist = [Rc&s]
         
-        
-        #me&nu,"Jx",x.sc
-        # &t:
-        # to i A^^X/$of,$t/$A
-        #  then:
-        #   auto J^^X/$of,$t/$At
-        #   there is o J**/$At
-        
         A =
         Cy&Fish ||= fi&Atopleast,1
         
@@ -1461,19 +1453,28 @@ fi.Xios ||= {}
     }
    // Pictures: -seven, read into another
     me.Sopi = &acgtstcq{
-        num(q) and c.ov = scaf(c); q = {}
-        num(c) and c = {ov:scaf(c)}
-        c.ov ||= 0.9
+        num(q) and c.ov = q; q = {}
+        num(c) and c = {ov:c}
+        c ||= {}
+        c.ov ||= 9
+        $negate = c.ov < 0
+        negate and c.ov *= -1
+        c.ov = scaf(c.ov)
+        
         c.ov > 0.1 and c.el ||= 3
         $E = me&Api,s,t,c
+        negate and Ec&cv = c.ov - 0.001
+        sc&pi ||= Ec&pi
         
         q = peel(q)
         
         return &h{
             each ky h {
                 $cv = scaf(k)
+                cv < 0.6 && Ec&cv >= cv and continue
                 c.ov < cv and break
                 y (E,c,q)
+                Ec&cv = cv
             }
             return E
         }
@@ -1481,13 +1482,14 @@ fi.Xios ||= {}
     me.piEight = &acgtscq{
         return me&Sopi,s,'Eight',c,q ({
             1: &Ecq{
-                Es&lint = 1
+                Es&lirnt = 1
             },
             7: &Ecq{
                 $d = {compLines: &DdC{
-                    me&dopi,D,d,C,c
-                    # normal -vat -> -n, talk of ground things
-                    Dc&pi == 'n' and delete Dc&pi
+                    $t = Cy&thing
+                    #t and
+                    #me&dopi,D,d,C,c
+                    
                 } }
                 # s+%string
                 me&Linets,s,E,d
@@ -1495,17 +1497,25 @@ fi.Xios ||= {}
         })
     }
     me.piSeven = &acgtscq{
+        return me&Sopi,s,'seven',c,q ({
+            1: &Ecq{
+                Es&lont = 1
+                fi&putinto,E,c
+            },
+            7: &Ecq{
+                
+            },
+        })
     }
     me.piLog = &acgtscq{
         # being in this Seven
         return me&Sopi,s,'log',c,q ({
             1: &Ecq{
                 sc&pi != 'log' and debugger
-                me&nu,{E,c}
-                each i,sev c.sevens {
-                    # taking &togcon...?
-                    # anything in s=D/$n%*.* we want to -vat...
-                }
+                # < taking &togcon...?
+                #   for anything in s=D/$n%*.* we want to -vat...
+                fi&putinto,E,c
+                #me&nu,{E,c}
             },
             2: &Ecq{
                 # < stream: ss&z should be in X.rows.z
@@ -1524,6 +1534,7 @@ fi.Xios ||= {}
             },
             3: &Ecq{
                 c.nlist ||= fi&getat,'nlist'
+                $t = Ey&thing ||= Cye([E.t,1])
                 # -n for things as pathed from thing in the node list
                 $comp_log = fi&comp_log,['log','row','n']
                 $d = {compLines: &DdC{
@@ -1531,11 +1542,30 @@ fi.Xios ||= {}
                     Cc&pi = Dc&pi
                     comp_log(D,d,C)
                 } }
-                me&Linets,s,E,d
+                me&Linets,t,E,d
             },
         })
     }
    // f
+    # s -> E: s%FishEight has sc&pi="Eight", so sy&Eight=E
+    fi.getpi = &acgts{
+        !sc&pi and throw "dont know"
+        $E = s.y [sc&pi]
+        !E and throw "un1"
+        return E
+    }
+    # &pi* c.into=[other-pi]
+    fi.putinto = &acgtEc{
+        !c.into and throw "nowhere to put",E
+        each in c.into {
+            # eg E-log put into usu one -seven
+            # the first gives E.t=sequence number
+            #$p = 
+            $En = fi&getpi,n
+            0 == i and E.t = Ens&z.length+""
+            Ens&z.push(E)
+        }
+    }
     # lookup R^^%nlist
     fi.getat = &acgtk{
         $R = fi&R
@@ -1574,7 +1604,7 @@ fi.Xios ||= {}
             Dc&pi = pi
         }
     }
-   // Story
+   // Story &com
        =pod state
        $Ct-eight are about an object,
          eg $Ct = v1%SummerCat/*%%C
@@ -1745,13 +1775,13 @@ fi.Xios ||= {}
         ac(Al,'log',D)
         
         # any -seven-ish thing collecting -log
-        $sevens = me&Gstaco,'-log'
+        $into = me&Gstaco,'-log'
         # -log
-        me&piLog,D,{sevens},3
+        me&piLog,D,{into},3
         
         return D
     }
-    # &complace adds a $Ct perception (-seven)
+    # &complace adds a -seven (time) to an -eight ($Ct perception)
     #  a place to send &log
     #  they may happen inside each other, etc
     fi.complace = &acgtsc{
@@ -1863,11 +1893,6 @@ fi.Xios ||= {}
         !Rs&Jrunto and throw "!Jrunto"
         # Rc&s != %%C
         $s = Rc&s
-        $C = s
-        #$This =
-        #sy&This ||= Cye(['This',9])
-        sy&inital ||= 0 
-        sy&inital++
         $Thi = 
         sy&balein('This','FishThis')
         return Thi
