@@ -244,6 +244,10 @@ fi.Xios ||= {}
     self.isJ = &J{
         return isA(J) && J.1 == J
     }
+    self.mustC = &s{
+        !isC(s) and throw "!C"
+        return s
+    }
     # < hakv() value changer, hakk() key changer
     #$disc = hashkv(haks(c).map(k => [k,dis(s[k])]))
     # < rename ksaf ksat?
@@ -1385,7 +1389,7 @@ fi.Xios ||= {}
    
  // live
  
-   // itself!
+  // itself!
     fi.live = &acgtJs,ar{
         
         $Y = A
@@ -1452,36 +1456,9 @@ fi.Xios ||= {}
         n tassely 3 s:brackets
         n soilesoezc 3 s:brackets
     }
-   // Pictures: -seven, read into another!
-    # pushing interested
-    me.Sopi = &acgtstcq{
-        num(q) and c.ov = q; q = {}
-        num(c) and c = {ov:c}
-        c ||= {}
-        c.ov ||= 9
-        $negate = c.ov < 0
-        negate and c.ov *= -1
-        c.ov = scaf(c.ov)
-        
-        c.ov > 0.1 and c.el ||= 3
-        $E = me&Api,s,t,c
-        negate and Ec&cv = c.ov - 0.001
-        sc&pi ||= Ec&pi
-        E.y [Ec&pi] = E
-        
-        q = peel(q)
-        
-        return &h{
-            each ky h {
-                $cv = scaf(k)
-                cv < 0.6 && Ec&cv >= cv and continue
-                c.ov < cv and break
-                y (E,c,q)
-                Ec&cv = cv
-            }
-            return E
-        }
-    }
+  // Pictures: -seven, read into another!
+   // -eight/-seven
+    fi.pi_eight =
     me.piEight = &acgtscq{
         return me&Sopi,s,'Eight',c,q ({
             1: &Ecq{
@@ -1500,6 +1477,7 @@ fi.Xios ||= {}
             }
         })
     }
+    fi.pi_seven =
     me.piSeven = &acgtscq{
         return me&Sopi,s,'seven',c,q ({
             1: &Ecq{
@@ -1515,8 +1493,23 @@ fi.Xios ||= {}
             },
         })
     }
+   // &pi_row|vat
+    fi.pi_row = &acgtscq{
+        return me&Sopi,s,'row',c,q ({
+            1: &Ecq{
+                
+            }
+        })
+    }
+    fi.pi_vat = &acgtscq{
+        return me&Sopi,s,'vat',c,q ({
+            1: &Ecq{
+                
+            }
+        })
+    }
    // pi f
-    # 1: D,E-log c.into n,En-seven etc
+    # 1: rearrange Ey&up (before &tapepi)
     fi.putinto = &acgtEc{
         !c.into and throw "nowhere to put",E
         each in c.into {
@@ -1552,7 +1545,7 @@ fi.Xios ||= {}
         }
     }
     
-   // pi_row|vat
+   // &pii
     # E(s) means sy&$pi == E, both c&pi==$pi
     #  the E is the pi, the s talks it outside
     # s -> E: s%FishEight has sc&pi="Eight", so sy&Eight=E
@@ -1567,10 +1560,6 @@ fi.Xios ||= {}
     #   Zy&up == z, zy&up == s
     # s may be E, so zy&up == E
     #  nesting E/z, not in s/**
-    self.mustC = &s{
-        !isC(s) and throw "!C"
-        return s
-    }
     fi.pii = &acgtscq{
         c.t == null and throw "!c.t"
         c.pi == null and throw "!c.pi"
@@ -1582,10 +1571,11 @@ fi.Xios ||= {}
         zc&pi = c.pi
         
         Ec&ov and fi&tapepi,z
-        fi&piing,z,{el:2}
+        fi&piing,z,1
         
         return z
     }
+   // &piing
     # adds it to a tape somewhere y&up...
     fi.tapepi = &acgtsq{
         # may once for a batch
@@ -1600,22 +1590,45 @@ fi.Xios ||= {}
         
     }
     fi.piing = &acgtscq{
-        # wind that tape
+        # wind through that tape
         
+        # may others first, ideally get back to:
+        return me&Sopiing,s,c,q
     }
-    fi.pi_row = &acgtEs{
-        return me&Sopi,s,'row',c,q ({
-            1: &Ecq{
-                
-            }
-        })
+    # adapt to a fi.pi_routine
+    me.Sopiing = &acgtscq{
+        $pi = sc&pi
+        $pin = 'pi_'+pi
+        return fi[pin] (A,C,G,T,s,c,q)
     }
-    fi.pi_vat = &acgtEs{
-        return me&Sopi,s,'vat',c,q ({
-            1: &Ecq{
-                
+    # pushing interested to a fi.pi_routine
+    me.Sopi = &acgtstcq{
+        num(q) and c.ov = q; q = {}
+        num(c) and c = {ov:c}
+        c ||= {}
+        c.ov ||= 9
+        $negate = c.ov < 0
+        negate and c.ov *= -1
+        c.ov = scaf(c.ov)
+        
+        c.ov > 0.1 and c.el ||= 3
+        $E = me&Api,s,t,c
+        negate and Ec&cv = c.ov - 0.001
+        sc&pi ||= Ec&pi
+        E.y [Ec&pi] = E
+        
+        q = peel(q)
+        
+        return &h{
+            each ky h {
+                $cv = scaf(k)
+                cv < 0.6 && Ec&cv >= cv and continue
+                c.ov < cv and break
+                y (E,c,q)
+                Ec&cv = cv
             }
-        })
+            return E
+        }
     }
     
    // -Log
