@@ -704,9 +704,13 @@ fi.Xios ||= {}
     }
     
   // Xsim back
-    # 2-sphere, in k='X' named|after t=[...]
+    # 2-sphere, in k='X', named|after t=[...]
+    fi.XfromA = &acgtXk{
+        X = X.c[k] ||= {A:X}
+        return X
+    }
     fi.Xsim = &acgtXktscq{
-        isA(X) and X = X.c[k] ||= {A:X}
+        isA(X) and X = fi&XfromA,X,k
         c ||= {}
         $N = []
         $lak = haks(s).slice(-1)[0]
@@ -1544,7 +1548,64 @@ fi.Xios ||= {}
             or what the test assertion says + its exp
           
       =cut
- 
+  
+    # E%X writeup attracts E^^%TX to E%RX
+    fi.pio = &acgtEc{
+        $N = me.cby(E,E => Ec&top).reverse()
+        # everyone:
+        c.t = E.t
+        c.pi = Ec&pi
+        # rowing, or arq+
+        $M = []
+        each in N {
+            # TX, RX.TX = TX over RX
+            $search = [nc&TX, nc&RX && nc&RX.TX]
+            each ark,v c {
+                each ii,TX search {
+                    !TX and continue
+                    # would have some of these indexes
+                    # < matching string appearing in ark|v|t|etc
+                    $fora = TX.for && TX.for[ark]
+                    if (fora) {
+                        # < (/$where)?/$Tt
+                        #   may wildcard the v of this ark
+                        
+                    }
+                    !TX[ark] and continue
+                    $atch = TX[ark][v]
+                    !atch and continue
+                    $match = atch.match
+                    !match and continue
+                    each tx match {
+                        hak(x.z) > 1 and throw "dup Tt",t,atch
+                        each ii,aq x.z {
+                            M.push(aq)
+                        }
+                    }
+                    
+                }
+            }
+        }
+        
+        # now we have all aq
+        # < with rowing-ness to $Tt via &Xsomp?
+        #   with transmitor n and transmission aq
+        
+        # knock out any any $ignore
+        each in N {
+            # TX, RX.TX = TX over RX
+            $search = [nc&TX, nc&RX && nc&RX.TX]
+            each ii,TX search {
+                !TX and continue
+                !TX.ignore and continue
+                !isar(TX.ignore) and throw "ignore![aq+]"
+                grepout(M,TX.ignore)
+            }
+        }
+        
+        # < want to satisfy $Tt as its own exp
+        # <<<
+    }
    
  // live
  
@@ -1689,6 +1750,8 @@ fi.Xios ||= {}
                 #  E.t = i++ there
                 c.piinto_sequines = 1
                 fi&piinto,E,c
+                # mentions being a -seven, E.t
+                
             },
             2: &Ecq{
                 # D/$rows have set(s) of .sc that mostly define it
@@ -1738,7 +1801,7 @@ fi.Xios ||= {}
                     each in ss&z {
                         ns&says and me&tcl,la,ns&says,'g'
                     }
-                    $N = me.cby(E)
+                    $N = me.cby(E,E => Ec&top)
                     me&nu,'Louge+'+E.t,{s,E,c,q,N}
                 }
                 
@@ -1772,6 +1835,7 @@ fi.Xios ||= {}
         return me&Sopi,s,'row',c,q ({
             1: &Ecq{
                 # the row number is a brittle pointer
+                # this may slep /rows/$n
             },
             2: &Ecq{
                 # E/-vat@1.t are better pointers
@@ -1783,6 +1847,8 @@ fi.Xios ||= {}
     fi.pi_vat = &acgtscq{
         return me&Sopi,s,'vat',c,q ({
             1: &Ecq{
+                fi&pio,E,{k:E.t,v:Ec&s}
+                
                 # has more types,
                 #  sees C.*.*
                 #  dives data til C (or d.d == 9)
