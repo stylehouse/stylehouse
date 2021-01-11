@@ -2425,6 +2425,7 @@ me.Fourismness = &acgt{ return [
         d.cbfirst and one = y(s,d)
         d.not and return
         d.nofurther and return one
+        d.for_string and $for_string = delete d.for_string
         
         if (d.s != s) {
             !i.refin(d,d.s) and throw "switched s dup ref"
@@ -2498,13 +2499,18 @@ me.Fourismness = &acgt{ return [
             out.push( me&ind,s.y.next,y,od );
         }
 
-        !d.cbfirst and one = y(s,d)
+        if (!d.cbfirst) {
+            one = y(s,d)
+            d.for_string and $for_string = delete d.for_string
+        }
         d.not and return
         out.unshift(one);
 
         out = out.filter(&s{ return 1 && s });
         !out.length and return
         $retrefs = out.filter(&s{ return typeof s != 'string' }).length > 0;
+        for_string && retrefs and throw "!string"
+        for_string and for_string(s,d,out)
 
         if (d.d == 1 && !retrefs) {
             d.wantarray and return out
