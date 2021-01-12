@@ -2658,6 +2658,13 @@ me.Sch_Travel = &acgt{ return [
             $SC = me&receivan,'Cat,Travelable'
             !t || !SC and return
             
+            if (ts&Con) {
+                # load Story/$t
+                # informs Cat modes
+                # observe !now not over finishline
+                # when quiet
+            }
+            
             # enable @Intro
             me&nodei,R,xs&Introtivity,{Intro:1,Cat:SC}
             # put modes on Cat
@@ -2666,6 +2673,8 @@ me.Sch_Travel = &acgt{ return [
             SCs&noautoDuo = 1
             # send back %%Control to begin
             me&nodei,R,SC,{Control:1}
+            
+            me&nu,"Fins",{t,SC}
         
             # o Duolish... run
             $e = me&receivan,'Releasor'
