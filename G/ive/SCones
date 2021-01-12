@@ -590,7 +590,7 @@ me.Sch_Comm = &acgt{ return [
         # < tell brackope about dome - more tension
         #  < plan can be like dome
         # < program cursor: goto time, inc clear run into
-        #   any differing/meta aggreg.
+        #   any differing/meta aggreg.!
         $g = me&opeolo,R,'plans';
         $plans = [];
         uniq(me&jaa,R,'dome:plans','plan' ).map(&k{
@@ -602,7 +602,7 @@ me.Sch_Comm = &acgt{ return [
             me&jaa,R,{dome:'plans',plan:k} .map(&n{
                 
                 plans.push(n)
-                $keeprunning = lcs&ope || SCs&keeprunning
+                $keeprunning = lcs&ope || me&ja,R,'keeprunning'
                 keeprunning and ha('now',n)
                 keeprunning && !lcs&ope and ha('finishline',n)
                 
@@ -635,7 +635,8 @@ me.Sch_Comm = &acgt{ return [
         if (plans.length && plans.length == done.length) {
             each in done {
                 ns&e and continue
-                $noDuo = SCs&noautoDuo && !me&ja,R,'mayDuolish'
+                # %%keeprunning also prevents getting here (is nc&active)
+                $noDuo = me&ja,R,'noautoDuolish' && !me&ja,R,'mayDuolish'
                 noDuo and continue
                 # plans from Jproto
                 # < sort by plan
@@ -807,8 +808,12 @@ me.Sch_Comm = &acgt{ return [
      // 1
         # %Jproto prepares run!!
         me&settle_prev,R and return
-        
         $x = me&Jx,R
+        $SC = xs&clienting
+        if (SCs&Con) {
+            # wants to control:
+            !me&ja,R,'mayRun' and return me&tc,"!mayRun..."
+        }
         $log = &tch{
             $Story = xs&Story
             !Story || !Storyy&running and return

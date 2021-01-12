@@ -2628,6 +2628,7 @@ me.Sch_Travel = &acgt{ return [
             Rs&wakeful = 1
             $quiet = me&is_quiet_now,Gump
             quiet and me&tsc,'quiet'
+            quiet and Rs&Gump_quiet = 1
             me&tc,"\n"
             # < &SuperGens:startTravel
             #    commit unrelated changes for tidiness...
@@ -2659,22 +2660,43 @@ me.Sch_Travel = &acgt{ return [
             !t || !SC and return
             
             if (ts&Con) {
-                # load Story/$t
-                # informs Cat modes
-                # observe !now not over finishline
-                # when quiet
+                # Jrunto waits for %%mayRun
+                SCs&Con = 1
+                # < load Story/$t
             }
             
             # enable @Intro
             me&nodei,R,xs&Introtivity,{Intro:1,Cat:SC}
-            # put modes on Cat
-            SCs&keeprunning = 1
-            # send %%mayDuolish to :
-            SCs&noautoDuo = 1
-            # send back %%Control to begin
+            # send SC %%Control
             me&nodei,R,SC,{Control:1}
+            # to begin SC/*
+            $Pro = me&ioty,SCy&R,'','Jproto' [0]
+            $Run = me&ioty,SCy&R,'','Jrunto' [0]
             
-            me&nu,"Fins",{t,SC}
+            if (ts&Con) {
+                # < Story/$t informs Cat modes:
+                # stays %%now until tests satisfied
+                !Pro and return me&tc,"!Jproto..."
+                !Run and return me&tc,"!Jrunto..."
+                
+                me&nodei,R,Pro,'noautoDuolish'
+                x.ro('looksdone',{}) and me&nodei,R,Pro,'mayDuolish'
+                # < should keep the main thing awaking (dome:now)
+                #   redoing elvising every so often, keepalive duty
+                else me&nodei,R,Pro,'keeprunning'
+                # after we %%mayRun, we get here via:
+                if (Rs&Gump_quiet) {
+                    #!me&ja,R,'went_quiet' 
+                }
+                
+                # and may begin:
+                !x.ro('maynotRun',{}) and me&nodei,R,Run,'mayRun'
+                
+                # we then expect to go quiet
+                # observe Proto !now not over finishline
+            }
+            
+            me&nu,"Fins",{t,SC,Pro}
         
             # o Duolish... run
             $e = me&receivan,'Releasor'
@@ -2696,7 +2718,8 @@ me.Sch_Travel = &acgt{ return [
         
         me&unlock,Gump,'twins',s
         
-        me&nodei,R,hy&R,sex({finished:s},n.sc,'Go,tid')
+        # go back
+        me&nodei,R,ny&R,sex({finished:s},n.sc,'Go,tid')
         delete Rs&wakeful
     },'ift,D'],
     ['Gome',0.52,&acgtRs{
