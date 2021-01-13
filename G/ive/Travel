@@ -2654,7 +2654,7 @@ me.Sch_Travel = &acgt{ return [
             # i Travel... run
             me&nodei,R,xs&Travel,n,{},{Gome:s}
             
-            # receive %%Travelable,Cat from Travel/$t/$s
+            # receive %%Travelable:t,Cat:SC from Travel/$t/$SC
             $t = me&receivan,'Travelable,Cat'
             $SC = me&receivan,'Cat,Travelable'
             !t || !SC and return
@@ -2663,6 +2663,15 @@ me.Sch_Travel = &acgt{ return [
                 # Jrunto waits for %%mayRun
                 SCs&Con = 1
                 # < load Story/$t
+                $F = me&bal,'Fories','Fories,eph'
+                me&fiu,Fc&s,t.t
+                # < into The/$t, fully as...
+                #   they might be Tings (controls SC)
+                #    and things to exp (results to match)
+                #   we make eight/seven into a thing, in order...
+                #   The.. picks up things from This..
+                #    already resulting as exp...
+                me&Ring,R,{inside:R,ov:0.295};
             }
             
             # enable @Intro
@@ -2788,6 +2797,29 @@ me.Sch_Travel = &acgt{ return [
   // &Supe*
     
     &{
+       // &SuperSCCon inter %SummerCat
+        # sync Ting, play|pause|rewind|stop, re tests
+        # goes on to Duolish, remarking on u used
+        me.SuperSCCon = &acgtRsce{
+            
+            $x = me&Jx,R
+            
+            c.t ||= 'SCCon'
+            $su = me&supetime,R,c.t
+            su('twinethings',{perm:&zaa,jaa,ha,ar{
+            }})
+            &&
+            su('Pushable',{until:&zaa,jaa,ha,ar{
+            }})
+            &&
+            su('Pushed',{until:&zaa,jaa,ha,ar{
+                # n|u all done
+                me&tc,"all-done"
+            }})
+            
+            return su('done')
+        }
+       
        // &SuperGhosc auto %Paving Thing believer
         # supervise K%dige=%%Ghoscis
         me.SuperGhosc = &acgtRsce{
