@@ -956,7 +956,7 @@ me.Sch_Story = &acgt{ return [
         Rs&acceptables = 1
         $go = me&acting,R,'Fine'
         $x = me&Gome_Jx,R;
-        !x and return me&waits,"Gome_Jx",'later'
+        !x and return me&wants,R,"Gome_Jx",xs&Gome
         #$cl = me.cbu(R,'client')
         #me&nu,"Everyone",{x,cl}
         
@@ -968,18 +968,8 @@ me.Sch_Story = &acgt{ return [
         
         if (sy&autoviv && !me&ioty,s .length) {
             ac(xs&TheF,'autovivNine',s.t)
-            if (0 && ss&firstNine) {
-                # init something for &Plot_Default to begin on
-                #  usu tests grow off the end of others and never:
-                # need to ignore startup (2 Pages, by the time Plot&init)
-                me&fiu,s,['beginning',1,{},{L:'startup',ignore:'start'}]
-                # and then this will turn into something
-                me&fiu,s,['le-3',1,{},{L:'further'}]
-            }
-            else {
-                # the next Test, Pages probably renumbered like so:
-                me&fiu,s,[s.t+'-1',1,{},{L:'intoit'}]
-            }
+            # the next Test, Pages probably renumbered like so:
+            me&fiu,s,[s.t+'-1',1,{},{L:'intoit'}]
         }
         # $Nine cloned from a Stories/Stori
         # $Nine/* become Eigh%exp (have %dige, instructions)
@@ -987,12 +977,14 @@ me.Sch_Story = &acgt{ return [
         # < %%Having,eight come in order?
         $gotN = me&jaa,R,"eight,Having,L",1
         
-        # < Jx is supposed to know we $t,$SC/*
-        $SC = xs&clienting
-        $r = SCy&R
-        o $r/Jrunto/This
-        $This = ays&s
-        me&nu,"SCthis",{SC,This,aysc:ay.sc}
+        # -This
+        $This = me&Gome_This,R
+        !This and return me&wants,R,"Gome_This",xs&Gome
+        
+        o $This/:Eight/:Seven
+        
+        me&nu,"SCthis",{This,aysc:ay.sc}
+        $gotN = ays&Eight
         #$Run = me&ioty,SCy&R,'','Jrunto' [0]
         
         
