@@ -792,11 +792,13 @@ me.Sch_Story = &acgt{ return [
   // 7 %ReNine reselfs <- %TheNine
     # < i $t... ytia o %%acceptia:t
     ['TheTest',0.294,&acgtRs{
+        $x = me&Jx,R
         $h = {
             ytag: 'origin',
             self: &acgtnt{
                 $r = me&bal,"Re:"+t.t,'ReNine,unity,eph'
                 $z = rc&s
+                zy&store = xs&Stories
                 return z
             },
             other: &acgtntzlm{
@@ -826,7 +828,7 @@ me.Sch_Story = &acgt{ return [
                     $z = rc&s
                     $ze = zy&origin
                     return zey&Point
-            })).map(L => me&ReNine_pushed_Point,R,L )
+            })).map(L => L && me&ReNine_pushed_Point,R,L )
     },'ift,D'],
     # ReNine** difference and flock apply again
     ['ReNine',0.33,&acgtRs{
@@ -834,10 +836,19 @@ me.Sch_Story = &acgt{ return [
         $x = me&Jx,R;
         # the got, being pushed, is 
         $The = sy&origin
+        # < de-dupe meaning of 'origin'
         # into the enclosing Stories or /Stori**
+        $store
+        me.cby(R,&r{
+            !rs&ReNine and return 1
+            !rs&unity and return 0
+            $z = rc&s
+            z && zy&store and store = zy&store
+        })
+        #!store and throw "^^^ReNine!y&store"
         # < because pipe can go back through Nine &reother,
         #    and Test/Nine &reself
-        $t = me&twineThat,R,The,{origin:xs&Stories}
+        $t = me&twineThat,R,The,{store}
         # < ReNine species
         t and me&toPave,R,R,t,The
 
@@ -944,6 +955,22 @@ me.Sch_Story = &acgt{ return [
         
         me&ha,R,'selfReady'
     },'ift,D'],
+    ['TheFest',0.294,&acgtRs{
+        $x = me&Jx,R
+        $h = {
+            ytag: 'origin',
+            self: &acgtnt{
+                $r = me&bal,"Re:"+t.t,'ReNine,unity,eph'
+                $z = rc&s
+                zy&store = xs&Fories
+                return z
+            },
+            other: &acgtntzlm{
+                return me&fiu,z,l.t
+            },
+        }
+        me&acceptables_reother,R,h
+    },'ift,D'],
     # Nine/$exp <-> -eight...
     #  the $exp are a storable -eight or -seven
     #   as a complete instance
@@ -962,7 +989,7 @@ me.Sch_Story = &acgt{ return [
         
         sc&pi = 'nine'
         # roll the invention of Eigh s
-        me&sleepic,R and me&rollbs,R,'bal_tw_s'; return
+        #me&sleepic,R and me&rollbs,R,'bal_tw_s'; return
         
         
         
@@ -984,11 +1011,13 @@ me.Sch_Story = &acgt{ return [
         o $This/:Eight/:Seven
         
         me&nu,"SCthis",{This,aysc:ay.sc}
-        $gotN = ays&Eight
-        #$Run = me&ioty,SCy&R,'','Jrunto' [0]
+        $gotN = ays&Eight .map(s => sy&C)
         
+        #$Run = me&ioty,SCy&R,'','Jrunto' [0]
+        me&nu,"Gotn",gotN
         
         me&twlic,gotN,s (&lzct{
+            t = t.replace(/[^A-Z\d_-]+/gi,'_')
             $r = c.surprise ? me&bal,t,'eph'
                 : me&bal,t,l
             
@@ -1000,6 +1029,7 @@ me.Sch_Story = &acgt{ return [
             z and rs&got = z
         })
     },'ift,D'],
+    # accepting Fe**, a bunch of test data
     ['TheFine',0.67,&acgtRs{
         $N = me&ioty,R,'TheFe'
         # -nine settles the -eights, see &sleepic
@@ -1048,7 +1078,7 @@ me.Sch_Story = &acgt{ return [
         me&reaw,R,'TheFe,exp,got,now_missing'
         $x = me&Jx,R
         $go = me&acting,R,'Fe'
-        
+        # may %string or not
         $t = Rs&exp
         $z = Rs&got
         $L = z && zy&Point
