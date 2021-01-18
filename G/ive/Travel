@@ -2862,7 +2862,7 @@ me.Sch_Travel = &acgt{ return [
         #   so how -> $SC/Jproto|Jrunto
         #  else|then, plans are run...
         #  wakes on quiet
-        #   This** fed to Fories**
+        #   This** fed to TheFc&Into=TheFine**
         #   < This/Eight%dige diff to Fest...
         #   %%Releasor exits:
         #    runtime over (-%%Control)
@@ -2908,16 +2908,21 @@ me.Sch_Travel = &acgt{ return [
                     # we then expect to go quiet
                     # observe Proto !now not over finishline
                     $This = me&Gome_This,R
-                    
+                    !This and return ha('pur:This')
                     $F = xs&TheF
-                    # 
-
+                    me&FasyncThis,F,{This} .map(&z{
+                        # wake TheFc&Into=%TheFine
+                        $name = "~This->"+z.t
+                        me&wants,R,name,z
+                        ha({pur:name})
+                    })
+                    #
                     me&nu,"Fins",{t,SC,Pro,This,F}
                 }
                 
                 # o Duolish... run
                 $e = me&receivan,'Releasor'
-                !e and return ha('pur:!Releasor')
+                !e and return ha('pur:Releasor')
             }})
             &&
          // 7 Push
