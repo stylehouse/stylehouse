@@ -2811,54 +2811,64 @@ me.Sch_Travel = &acgt{ return [
         # anything capable of -eight/$Ting
         #  which compiles to $Tt, resolving in &log
         
-        # we slowly wind up the runlevel:
+        me.SuperSCCon = &acgtRsce{
         # 1:
         #  %%Go -> Travel +/$t/$SC - what to control
         #  Gome/Fories/$t Resides - how to control
         # 2:
         #  knowing how by now, %%Control -> $SC +/*
-        # 3:
-        #  if $t%Con, $SC/Jrunto waits for %%mayRun
-        #   so how -> $SC/*
-        #  else|then, plans are run...
-        # 4:
-        #  wakes on quiet
-        #  < This/Eight%dige diff to Fest...
-        me.SuperSCCon = &acgtRsce{
-            
+         // 1,2
             $x = me&Jx,R
             # the %%Go,+Gome
             $Go = c.n
             
             c.t ||= 'SCCon'
             $su = me&supetime,R,c.t
+            # we slowly wind up the runlevel
+            # allowing eg $SC to +%Con before R:SC/*
+            # 1
             su('Go-t/SC',{perm:&zaa,jaa,ha,ar{
-                # i Travel/$t
+                # %%Go -> Travel +/$t/$SC - what to control
                 me&nodei,R,xs&Travel,Go,{},{Gome:s}
-                # o Travel/$t/$SC
                 x = me&Gome_Jx,R
-                !x and return ha('pur:tSC?')
+                !x and return ha('pur:t+SC')
+                # < assign t+SC to ar
             }})
             &&
+            # 2
             su('Gome/*',{perm:&zaa,jaa,ha,ar{
                 $t = xs&t
+                $SC = xs&SC
+                # only The for Travel/$t we want to test
                 !ts&Con and return
+                # Run waits for %%mayRun
+                SCs&Con = 1
                 
-                # Gome/* know what
+                # Gome/Fories/$t Resides - how to control
+                # Gome/TheF/$t** - perception of testrun
                 me&Gome_Resides,R
-                # want ever_quiet once here to continue
+                
+                # < want ever_quiet once here to continue
+                #   meaning Gome/* are ready
                 ha('Resides')
                 zaa('Resides') && Rs&Gump_quiet and ha('Resided')
                 else
                 zaa('Resided') and ha('Resided')
                 else return ha('pur:Resides')
-                
-                # i $SC
-                $SC = xs&SC
-                # Jrunto will wait for %%mayRun
-                SCs&Con = 1
             }})
             &&
+        # 3:
+        #  if $t%Con, $SC/Jrunto waits for %%mayRun
+        #   so how -> $SC/Jproto|Jrunto
+        #  else|then, plans are run...
+        #  wakes on quiet
+        #   This** fed to Fories**
+        #   < This/Eight%dige diff to Fest...
+        #   %%Releasor exits:
+        #    runtime over (-%%Control)
+        #    < should only have to pause until pushed:
+        #    to store J osc via Duolish** con &SuperGansp
+         // 3 see things
             su('SC/*',{until:&zaa,jaa,ha,ar{
                 $t = xs&t
                 $SC = xs&SC
@@ -2870,14 +2880,10 @@ me.Sch_Travel = &acgt{ return [
                 me&nodei,R,SC,{Control:1}
                 
                 x = me&Gome_Jx,R
-                !x and return ha('pur:tSC?')
+                !x and debugger
                 !xs&Jrunto and return ha('pur:Jrunto?')
-                
-                return ha('pur:noJrun')
                 $Pro = xs&Jproto
-                # since SC%Con, Run%mayRun required
                 $Run = xs&Jrunto
-            
                 if (ts&Con) {
                     # < Story/$t informs Cat modes:
                     # stays %%now until tests satisfied
@@ -2888,30 +2894,33 @@ me.Sch_Travel = &acgt{ return [
                     x.ro('looksdone',{}) and me&nodei,R,Pro,'mayDuolish'
                     # < should keep the main thing awaking (dome:now)
                     #   redoing elvising every so often, keepalive duty
+                    # development mode
                     else me&nodei,R,Pro,'keeprunning'
                     # after we %%mayRun, we get here via:
                     if (Rs&Gump_quiet) {
                         #!me&ja,R,'went_quiet' 
+                        me&tc,"YerQuiet"
                     }
 
-                    # and may begin:
+                    # and may begin if SC%Con (if t%Con)
                     !x.ro('maynotRun',{}) and me&nodei,R,Run,'mayRun'
 
                     # we then expect to go quiet
                     # observe Proto !now not over finishline
+                    $This = me&Gome_This,R
+                    
+                    $F = xs&TheF
+                    # 
+
+                    me&nu,"Fins",{t,SC,Pro,This,F}
                 }
                 
-                me&Gome_This,R
-                
-                me&nu,"Fins",{t,SC,Pro}
-
                 # o Duolish... run
                 $e = me&receivan,'Releasor'
                 !e and return ha('pur:!Releasor')
-                #ha('pur:Realeasor')
-
             }})
             &&
+         // 7 Push
             su('Push?',{until:&zaa,jaa,ha,ar{
                 # n|u all done
                 me&tc,"Push?"
