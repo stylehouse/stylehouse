@@ -310,7 +310,6 @@ me.Sch_Story = &acgt{ return [
     },'ift,D'],
  
  // %Stories/Stori/Eighi Live
-   
   // %Stories%Pavings
     ['Stories',0.297,&acgtRs{
         
@@ -541,7 +540,6 @@ me.Sch_Story = &acgt{ return [
     },'ift,D'],
  
  // %The/Test/Nine/Eigh pos
-  
   // 1 %TheTest o Stori
     ['The',0.292,&acgtR,The{
         me&reaw,R,'The'
@@ -863,6 +861,7 @@ me.Sch_Story = &acgt{ return [
     },'ift,D'],
  
  // %Fish(This|Eight|Seven) for -seven etc to happen within
+ 
    // F(ishSt)ories
     ['Fories',0.297,&acgtRs{
         
@@ -964,6 +963,7 @@ me.Sch_Story = &acgt{ return [
         me&acceptables_reother,R,h
     },'ift,D'],
    // TheFine(-nine)/-Ness
+    # similar to various out of date talk of Story:
     # Nine/$exp <-> -eight...
     #  the $exp are a storable -eight or -seven
     #   as a complete instance
@@ -971,30 +971,38 @@ me.Sch_Story = &acgt{ return [
     #   trailing bits become for 
     #  = Nine/Eigh%exp+%got
     &{
-        me.getNesses = &acgts{
-            $N = me&ioty,s .filter(n => nc&pi == 'Ness')
-            return N
-        }
         me.iNess = &acgtsc{
-            c ||= {}
-            if (!c.t) {
-                c.i ||= me&getNesses,s
-                c.t = s.t+'-'+c.i
-            }
-            $z = me&fiu,s,[c.t,'-Ness',{},{}]
+            !c.t and debugger
+            # may have already...
+            # < almost &clinto: pull the outsphere per -Ness
+            $z = me&fiu,s,c.t,8 || me&fiu,s,[c.t,'-Ness']
             return z
         }
-        # Nine/*-Ness -> E/Ness/*
+        # s-nine/*-Ness -> E/Ness/*
         me.EsyncNess = &acgtEsc{
-            # i $E/Ness/#@n o $s/-Ness:n
-            #  with sequence, from nothing
-            $N = me&getNesses,s
+            # < fix this
+            $N = [... me&pity,s,'-Ness' , ... me&pity,s,'-eight' ]
             $Ness = me&fiu,E,'Ness'
-            !N.length and me&iNess,Ness,{t:E.t+'-'+1}
-            else {
-                N.map(n => me&iNess,Ness,{t:n.t} )
+            $M = me&pity,Ness,'-Ness'
+            # -nine/* autoviv
+            !hak(N) && !hak(M) and me&iNess,Ness,{t:E.t+'-1'}
+            # -nine/* from Fine/*
+            else N.map(n => me&iNess,Ness,{t:n.t} )
+            
+            # sets next Ec&Into beyond any Es&Is
+            $M = me&pity,Ness,'-Ness'
+            each iz M {
+                (Es&Is||[]).includes(z) and continue
+                Ec&Into = z
+                break
             }
-            Ec&Into = me&getNesses,Ness .slice(-1)[0]
+            if (Ec&Into != z) {
+                # new -Ness (to E...)
+                $t = E.t+'-'+(M.length+1)
+                me&fiu,Ness,t,8 and throw "!Guessnew"
+                $z = me&iNess,Ness,{t}
+                Ec&Into = z
+            }
         }
     // -nine/This
      // io-adapti
@@ -1107,7 +1115,7 @@ me.Sch_Story = &acgt{ return [
             #o $This/:Eight
            #Ey&Fri = ay.sc
         }
-    // -nine/-Ness
+    // -nine/-Ness%string
         # < outsphere (W:$t%Fine) wants:
         #    Fine/-Ness/-Eight/-seven
         #   ie toc hoisted from each W:$t/-Ness
@@ -1129,20 +1137,27 @@ me.Sch_Story = &acgt{ return [
                     # c.This/*%dige slep
                     $NessN = me&EsyncThis,E,s,c
                     
+                    # -Ness those with This** to receive
                     # < o E/Ness/-Ness{el<7}
                     #  < el there being a famous c&el
                     $Ness = me&fiu,E,'Ness'
+                    $any = 0
                     me&pity,Ness,'-Ness' .map(&z{
                         zc&el = hak(grepout(NessN,z)) ? 3 : 8
                         if (zc&el < 7) {
                             me&piNess,z
                             Ey&Fri = z
+                            any = 1
                         }
                     })
                     NessN.length and debugger
                     
                     # Is: -Ness that looks done
                     Es&Is = me&pity,Ness,'-Ness' .filter(z => zy&Ness)
+                    #!any and return
+                    
+                    # seeks Ec&Into beyond any Es&Is
+                    me&EsyncNess,E,s,c
                 },
                 7: &Ecq{
                     # hows it going
@@ -1165,7 +1180,7 @@ me.Sch_Story = &acgt{ return [
                                 # stops, %string trusted
                                 !ts&string and throw "!string"
                                 d.nofurther = 1
-                                return ts&string
+                                return me&unfixstring,ts&string
                             }
                             elsif (0) {
                                 # < where does the new %string go? C+D?
@@ -1182,6 +1197,15 @@ me.Sch_Story = &acgt{ return [
                     me&Linets,s,s,d
                 }
             })
+        }
+        # turn %string back into y&toLines
+        # huh
+        me.unfixstring = &acgts{
+            return s.replace(/\n$/,'')
+        }
+        # < migrate -Ness o Linets d.reuse climby ifspression
+        me.reuse_string = &acgtDdC{
+            
         }
     },
     ['EFine',0.295,&acgtRs{
@@ -1225,7 +1249,7 @@ me.Sch_Story = &acgt{ return [
         # < %%Having,eight come in order?
         #$gotN = me&jaa,R,"eight,Having,L",1
         
-        me&nu,"SCthis",{This,Fri:Ey&Fri}
+        me&nu,"SCthis",{This,Fri:Ey&Fri,E,Einto:Ec&Into}
         $gotN = Es&Is || []
         
         #$Run = me&ioty,SCy&R,'','Jrunto' [0]
@@ -1270,7 +1294,9 @@ me.Sch_Story = &acgt{ return [
                 # Nine/$z links /$eight
                 $Z = G&Cye,z
                 me&fiu,O,Z,2
-                Zc&pi = 'eight'
+                # already -Ness or so
+                !Zc&pi and debugger
+                #Zc&pi = 'eight'
                 Zs&dige = dige
             },
             # an Eigh still
