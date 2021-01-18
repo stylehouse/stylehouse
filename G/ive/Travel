@@ -2595,6 +2595,46 @@ me.Sch_Travel = &acgt{ return [
         })
     },'ift,D,sleeping'],
     &{
+    },
+    ['Gome',0.5,&acgtRs{
+        $x = me&Jx,R
+        $Gump = isnode(s)
+        # receive %%Go
+        $n = me&Gome_permit,R,s
+        !n and return
+        
+        # Gome, being a macro Dome,
+        #  can incorporate sleeping content
+        if (ns&mot == 8) {
+            # just to update K to what they think they are
+            $N = me&zaa,xc&Goting,{Goable:ns&Go,Ghoscgk:1,K:1}
+            !me&SuperGhosc,R,s,{N} and return
+        }
+        else {
+            # fully doing
+            !me&SuperSCCon,R,s,{n} and return
+            # contains &SuperGansp
+        }
+
+        !me&SuperGens,R,s,{t:'Release'} and return
+        
+        me&unlock,Gump,'twins',s
+        
+        # go back
+        me&nodei,R,ny&R,sex({finished:s},n.sc,'Go,tid')
+        delete Rs&wakeful
+    },'ift,D'],
+    ['Gome',0.52,&acgtRs{
+        me&jaa,R,'pre' .map(&n{
+            ns&wakeful and '20s timer'
+            ns&restless and '4s timer'
+            # wakes us when ^^Gump%quiet_now
+            ns&restless || ns&wakeful and Rs&wakeful = 1
+        })
+    },'ift,D'],
+   
+   // Control, @Gome**
+    &{
         # o %%Go, one Gome per Gump
         me.Gome_permit = &acgtRs{
             me&reaw,R,'Gome,client'
@@ -2635,46 +2675,67 @@ me.Sch_Travel = &acgt{ return [
             #    commit unrelated changes for tidiness...
             return n
         }
-    },
-    ['Gome',0.5,&acgtRs{
-        $x = me&Jx,R
-        $Gump = isnode(s)
-        # receive %%Go
-        $n = me&Gome_permit,R,s
-        !n and return
-        
-        # Gome, being a macro Dome,
-        #  can incorporate sleeping content
-        if (ns&mot == 8) {
-            # just to update K to what they think they are
-            $N = me&zaa,xc&Goting,{Goable:ns&Go,Ghoscgk:1,K:1}
-            !me&SuperGhosc,R,s,{N} and return
+        # Gome** namespace, must t,SC
+        me.Gome_Jx = &acgtR{
+            $cl = Rs&Gome ? R : me.cbu(R,'client')
+            !cl and throw "!client"
+            # will get a thing of params
+            $pa = theone( me&ja,cl,'Travelable,Cat' )
+                || theone( me&za,cl,'Travelable,Cat' )
+            !pa and return
+            $t = pas&Travelable
+            $SC = pas&Cat
+            !isnode(SC) and return
+            Rs&Gome and Rs&client = t
+            
+            $SCr = SCy&R
+            !SCr and return
+            !isR(SCr) and debugger
+            # sees $SC/* (eg Jrunto)
+            # sees %client/* (eg Fories)
+            $x = me&Jx,R,{c:{SC:SCr,Gome:cl}}
+            xs&t = t
+            Rs&Gomex = x
+            return x
         }
-        else {
-            # fully doing
-            !me&SuperSCCon,R,s,{n} and return
-            # contains &SuperGansp
+        # Gome** gets E-This
+        me.Gome_This = &acgtR{
+            $x = Rs&Gomex
+            $Run = xs&Jrunto
+            !Run and return
+            o $Run/This
+            $This = theone(ays&s)
+            !This and return
+            $EThis = fi&getpi,This
+            !EThis and return
+            
+            #o $EThis/:Eight/:Seven
+            #me&nu,"SCthis",{This,EThis,aysc:ay.sc,xsc:x.sc}
+            
+            return EThis
+            1
         }
+        # Gome/Fories for W:**
+        # Gome/TheF/%TheFest-Accept/%TheFine-nine/%TheFe-Ness
+        me.Gome_Resides = &acgtR{
+            $x = Rs&Gomex
+            $t = xs&t
+            # < s/ies/y/
+            me&bal,'Fories','Fories,eph'
+            # < TheF defaults to $t.t
+            $r = me&bal,'TheF','TheF,eph'
+            $TF = rc&s
+            TFs&about ||= [t.t]
 
-        !me&SuperGens,R,s,{t:'Release'} and return
-        
-        me&unlock,Gump,'twins',s
-        
-        # go back
-        me&nodei,R,ny&R,sex({finished:s},n.sc,'Go,tid')
-        delete Rs&wakeful
-    },'ift,D'],
-    ['Gome',0.52,&acgtRs{
-        me&jaa,R,'pre' .map(&n{
-            ns&wakeful and '20s timer'
-            ns&restless and '4s timer'
-            # wakes us when ^^Gump%quiet_now
-            ns&restless || ns&wakeful and Rs&wakeful = 1
-        })
-    },'ift,D'],
-   
-   // Control
-    
+            # < into The/$t, fully as...
+            #   they might be Tings (controls SC)
+            #    and things to exp (results to match)
+            #   we make eight/seven into a thing, in order...
+            #   The.. picks up things from This..
+            #    already resulting as exp...
+            me&Ring,R,{inside:R,ov:0.4};
+        }
+    },
    
    // @Gome -> %Zaving
     # remote R%Gome wants to push,
@@ -2745,70 +2806,24 @@ me.Sch_Travel = &acgt{ return [
         #    eg about to commit, check work was suchy
         # check Eighty&C%dige -> Fe
         # how Nine/Thing-Run/Time/Etc/$exp
+        
         # with Nine/$exp (or others) picked up - shared
         # anything capable of -eight/$Ting
         #  which compiles to $Tt, resolving in &log
         
-        # Gome** namespace, must t,SC
-        me.Gome_Jx = &acgtR{
-            $cl = Rs&Gome ? R : me.cbu(R,'client')
-            !cl and throw "!client"
-            # will get a thing of params
-            $pa = theone( me&ja,cl,'Travelable,Cat' )
-                || theone( me&za,cl,'Travelable,Cat' )
-            !pa and return
-            $t = pas&Travelable
-            $SC = pas&Cat
-            !isnode(SC) and return
-            Rs&Gome and Rs&client = t
-            
-            $SCr = SCy&R
-            !SCr and return
-            !isR(SCr) and debugger
-            # sees $SC/* (eg Jrunto)
-            # sees %client/* (eg Fories)
-            $x = me&Jx,R,{c:{SC:SCr,Gome:cl}}
-            xs&t = t
-            Rs&Gomex = x
-            return x
-        }
-        # Gome** gets E-This
-        me.Gome_This = &acgtR{
-            $x = Rs&Gomex
-            $Run = xs&Jrunto
-            !Run and return
-            o $Run/This
-            $This = theone(ays&s)
-            !This and return
-            $EThis = fi&getpi,This
-            !EThis and return
-            
-            #o $EThis/:Eight/:Seven
-            #me&nu,"SCthis",{This,EThis,aysc:ay.sc,xsc:x.sc}
-            
-            return EThis
-            1
-        }
-        # Gome/Fories for W:**
-        # Gome/TheF/%TheFest-Accept/%TheFine-nine/%TheFe-Ness
-        me.Gome_Resides = &acgtR{
-            $x = Rs&Gomex
-            $t = xs&t
-            # < s/ies/y/
-            me&bal,'Fories','Fories,eph'
-            # < TheF defaults to $t.t
-            $r = me&bal,'TheF','TheF,eph'
-            $TF = rc&s
-            TFs&about ||= [t.t]
-
-            # < into The/$t, fully as...
-            #   they might be Tings (controls SC)
-            #    and things to exp (results to match)
-            #   we make eight/seven into a thing, in order...
-            #   The.. picks up things from This..
-            #    already resulting as exp...
-            me&Ring,R,{inside:R,ov:0.4};
-        }
+        # we slowly wind up the runlevel:
+        # 1:
+        #  %%Go -> Travel +/$t/$SC - what to control
+        #  Gome/Fories/$t Resides - how to control
+        # 2:
+        #  knowing how by now, %%Control -> $SC +/*
+        # 3:
+        #  if $t%Con, $SC/Jrunto waits for %%mayRun
+        #   so how -> $SC/*
+        #  else|then, plans are run...
+        # 4:
+        #  wakes on quiet
+        #  < This/Eight%dige diff to Fest...
         me.SuperSCCon = &acgtRsce{
             
             $x = me&Jx,R
@@ -2858,6 +2873,7 @@ me.Sch_Travel = &acgt{ return [
                 !x and return ha('pur:tSC?')
                 !xs&Jrunto and return ha('pur:Jrunto?')
                 
+                return ha('pur:noJrun')
                 $Pro = xs&Jproto
                 # since SC%Con, Run%mayRun required
                 $Run = xs&Jrunto
