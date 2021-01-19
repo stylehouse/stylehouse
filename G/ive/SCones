@@ -12,6 +12,13 @@ me.SCones = &acgt{ return [
     ... me&Sch_Travel ,
 ]};
 me.Yingmind ||= [];
+# is destined to reset the variables ACGT:
+# get R from C
+me.R = &acgt{
+    $R = Cy&R
+    !R and debugger
+    return R
+}
 
 =pod reintroduce MindInto
  GONE are %ting, %tracting, %Gracto, %folder
@@ -307,12 +314,10 @@ me.Sch_Comm = &acgt{ return [
         Rs&_ting = &Qr{
             return me&Aearch_ting,R,Q,r
         }
-        
     },'ift,D'],
     &{
         # _ting - a many arg'd entrypoint
         #  ting becomes the reduce for io's map
-        # 
         me.Aearch_ting = &acgtRQr{
             !isC(Q) and throw "ting !C"
             
@@ -338,7 +343,7 @@ me.Sch_Comm = &acgt{ return [
         }
     },
    
-   // &%Yingbal, &thiding %ball - A** breakdowns
+   // &%Yingbal A** breakdowns
     &{
     # things to appear as ball
     # < uniquely bal anything Yong'd 01 return cv==3
@@ -400,16 +405,18 @@ me.Sch_Comm = &acgt{ return [
         sy&R and return
         #$S = me&inode,R;
     },'ift,D'],
-    
+   // &thiding %ball
     &{
         # to toc when boost<0, default to unless easy
         me.thide = &acgt,easy{
-            $R = fi&R
+            $R = me&R
             $s = Rc&s
             !easy && Rs&boost == null and Rs&boost = -1
-            if ((Rs&boost||0) < 0) {
+            $boost = (Rs&boost||0)
+            if (boost < 0) {
                 Rs&thiding = me&ioty,s .map(z=>z.t)
             }
+            return boost
         }
     },
     ['ball+thiding',0.33,&acgtRs{
