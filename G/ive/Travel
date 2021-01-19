@@ -2910,12 +2910,14 @@ me.Sch_Travel = &acgt{ return [
                     $This = me&Gome_This,R
                     !This and return ha('pur:This')
                     $F = xs&TheF
-                    me&FasyncThis,F,{This} .map(&z{
+                    $Thisc = {This}
+                    me&FasyncThis,F,Thisc .map(&z{
                         # wake TheFc&Into=%TheFine
                         $name = "~This->"+z.t
                         me&wants,R,name,z
                         ha({pur:name})
                     })
+                    Thisc.unready and ha('pur:unreadyThis')
                     #
                     me&nu,"Fins",{t,SC,Pro,This,F}
                 }

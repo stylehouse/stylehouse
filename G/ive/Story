@@ -1021,14 +1021,20 @@ me.Sch_Story = &acgt{ return [
             M and debugger
             return N
         }
+        # you or your yC having dige
+        me.digeward = &acgtn,easy{
+            # set up some linearity
+            $nt = ns&dige && n || ny&C
+            nts&dige and return nt
+            else
+            !easy and debugger
+        }
         # i $z/@n y- o $s/*:n%$k
         me.clinto = &acgtszk{
             return me&pity,s,k .map(&n{
                 $Eig = me&fiu,z,n.t
                 $el = 8
-                # set up some linearity
-                $nt = ns&dige && n || ny&C
-                !nts&dige and debugger
+                $nt = me&digeward,n
                 Eigs&dige != nts&dige and el = 3
                 Eigy&C != n and el = 2
                 Eigy&C = n
@@ -1043,10 +1049,7 @@ me.Sch_Story = &acgt{ return [
                 $Eig = me&fiu,z,n.t,8
                 $el = 8
                 !Eig and return el = 2
-                # set up some linearity
-                $nt = ns&dige && n || ny&C
-                # 
-                !nts&dige and debugger
+                $nt = me&digeward,n
                 Eigs&dige != nts&dige and el = 3
                 Eigy&C != n and el = 2
                 # returns el+
@@ -1073,12 +1076,22 @@ me.Sch_Story = &acgt{ return [
             !Eis and debugger
             
             # -nine/This/*%dige slep
+            !me&Thislooksready,This and return c.unready = []
             # as a stream of c&el
             $Thisel = me&clonto,This,Eis,'-Eight'
             $Thisactel = Thisel.filter(el => el <8)
             hak(Thisactel) and return [s]
             # has no way to identify un
             return []
+        }
+        me.Thislooksready = &acgt,This{
+            # it must be a complete This
+            # < Ying_8 mutex Gome + SC
+            $N = me&pity,This,'-Eight'
+            each in N {
+                !me&digeward,n,'easy' and return 0
+            }
+            return 1
         }
         # pull This/** into E/Ness/**
         me.EsyncThis = &acgtEsc{
