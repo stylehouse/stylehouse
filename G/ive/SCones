@@ -13,6 +13,7 @@ me.SCones = &acgt{ return [
 ]};
 me.Yingmind ||= [];
 # is destined to reset the variables ACGT:
+#  and A.ground, T.*
 # get R from C
 me.R = &acgt{
     $R = Cy&R
@@ -420,12 +421,13 @@ me.Sch_Comm = &acgt{ return [
         }
     },
     ['ball+thiding',0.33,&acgtRs{
+        $N = Rs&thiding
+        !N.length and return
         $n = me&tsc,"more","<";
-        me&mtsc,n,'count',Rs&thiding.length,'y' .sc.ma = 0.4
-        me&mtsc,n,'titles',{s:joint(Rs&thiding,'\t')},'g' .sc.fs = 8;
-        ns&dis = 1;
-        ny&cv = 0.754;
-        
+        me&mtsc,n,'count',N.length,'y' .sc.ma = 0.4
+        me&mtsc,n,'titles',{s:joint(N,'\t')},'g' .sc.fs = 8
+        ns&dis = 1
+        ny&cv = 0.754
     },'ift,D'],
    
    // @Jhost - prepare I

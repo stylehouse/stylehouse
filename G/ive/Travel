@@ -2598,6 +2598,7 @@ me.Sch_Travel = &acgt{ return [
     },
     ['Gome',0.5,&acgtRs{
         $x = me&Jx,R
+        me&acting,R,'Gome'
         $Gump = isnode(s)
         # receive %%Go
         $n = me&Gome_permit,R,s
@@ -2917,6 +2918,12 @@ me.Sch_Travel = &acgt{ return [
                         me&wants,R,name,z
                         ha({pur:name})
                     })
+                    if (Thisc.pull) {
+                        # < &Effect to maybe unexistent places...
+                        # reself F&Into=Fine
+                        me&tc,"pull:This",'y'
+                        
+                    }
                     Thisc.unready and ha('pur:unreadyThis')
                     #
                     me&nu,"Fins",{t,SC,Pro,This,F}

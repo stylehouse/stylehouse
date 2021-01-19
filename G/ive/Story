@@ -891,7 +891,7 @@ me.Sch_Story = &acgt{ return [
    // TheF* # < funcout
     ['TheF',0.292,&acgtRs{
         me&reaw,R,'TheF,bal_tw_s'
-        me&inode,R
+        me&acting,R,'TheF'
         me&sleepic,R and me&rollbs,R,'bal_tw_s'; return
         $x = me&Jx,R
         ah(R,'inheritscif','ball','TheFest',1)
@@ -997,11 +997,13 @@ me.Sch_Story = &acgt{ return [
             
             # sets next Ec&Into beyond any Es&Is
             $M = me&pity,Ness,'-Ness'
+            
             each iz M {
                 (Es&Is||[]).includes(z) and z = 0; continue
                 Ec&Into = z
                 break
             }
+            Ec&Into && !M.includes(Ec&Into) and debugger
             if (Ec&Into != z) {
                 # new -Ness (to E...)
                 $t = E.t+'-'+(M.length+1)
@@ -1058,30 +1060,40 @@ me.Sch_Story = &acgt{ return [
         }
      // Gome..-nine re This
         # from Gome, notices ~This, returns TheFine+ to wake
+        
         me.FasyncThis = &acgtFc{
-            $This = c.This
-            !This and debugger
             $r = me&yfuture,F
             !rs&TheF and debugger
-            
-            # This** routes via c&Into:
-            #  TheFc&Into -> TheFine(-nine)
+            $This = c.This
+            !This and debugger
+            # This** -> c&Into=TheFine(-nine)
             $s = Fc&Into
+            # too new
+            # < could [F] in this case? make too busy? if !b?
+            #   wants what is currently happening? since Gome..TheF
+            #   so just Ring inside TheF until got?
+            #    or shallow comeback here later
+            #   the waits_8|Ying_8 do-over...
+            #   the A:Gome vs A:Fine
             !s and return c.unready = []
-            !sc&pi == 'nine' and debugger
-            # if it never knew This, it will be %%wanting
+            sc&pi != 'nine' and debugger
             !sy&nine and return [s]
+            
+            # into the -nine's &EsyncThis
             $E = fi&getpi,s
-            $Eis = me&fiu,E,'This'
-            !Eis and debugger
+            $Eis = me&fiu,E,'This',7
+            # checks curret F%Into=-nine/This
+            Eisy&C != This and c.pull = 1; return []
             
             # -nine/This/*%dige slep
             !me&Thislooksready,This and return c.unready = []
-            # as a stream of c&el
-            $Thisel = me&clonto,This,Eis,'-Eight'
-            $Thisactel = Thisel.filter(el => el <8)
-            hak(Thisactel) and return [s]
-            # has no way to identify un
+            
+            # stream when acty c&el
+            # < never set everything to el:8?
+            $N = me&clonto,This,Eis,'-Eight'
+                .filter(el => el <8)
+            hak(N) and return [s]
+            
             return []
         }
         me.Thislooksready = &acgt,This{
@@ -1097,6 +1109,9 @@ me.Sch_Story = &acgt{ return [
         me.EsyncThis = &acgtEsc{
             $This = c.This
             $Eis = me&fiu,E,'This'
+            # This follows the This
+            # < with &Xio
+            Eisy&C = This
             # E/Ness/-Ness:Into - current -seven receiver
             !Ec&Into and debugger
             # wake-needy -Ness
@@ -1108,6 +1123,7 @@ me.Sch_Story = &acgt{ return [
                     $en = ey&C
                     if (!es&inNess || ec&el <8) {
                         # make -Ness/-Eight/-seven
+                        # < with &Xio
                         $Ei = me&fiu,Ec&Into,g.t
                         # directly to E-Eight, which yC%string
                         Eiy&C = n
@@ -1252,11 +1268,13 @@ me.Sch_Story = &acgt{ return [
         # -This
         $This = me&Gome_This,R
         !This and return me&wants,R,"Gome_This",xs&Gome
+        sy&This = This
         
         # roll the invention of Eigh s
         #me&sleepic,R and me&rollbs,R,'bal_tw_s'; return
         $E = me&pinine,s,{This},-2
-        me&bal,"_E",E,'eph,EFine'
+        me&bal,"-nine",E,'eph,EFine'
+        
         
         
         # the last -Ness grows by stray sevens
@@ -1269,7 +1287,7 @@ me.Sch_Story = &acgt{ return [
         # < %%Having,eight come in order?
         #$gotN = me&jaa,R,"eight,Having,L",1
         
-        me&nu,"SCthis",{This,Fri:Ey&Fri,E,Einto:Ec&Into}
+        go and me&nu,"SCthis",{This,Fri:Ey&Fri,E,Einto:Ec&Into}
         $gotN = Es&Is || []
         me&twlic,gotN,s (&lzct{
             t = t.replace(/[^A-Z\d_-]+/gi,'_')
@@ -1414,7 +1432,8 @@ me.Sch_Story = &acgt{ return [
         # < to &brackology
         # < mergible
     },'ift,D'],
-   // FeRel, EFine, etc # < E-nine/*/* lum from E-nine/OK/*
+   // FeRel, EFine, etc
+    # < E-nine/*/* lum from E-nine/OK/*
     # for &bal,E-nine**
     # < is a %Cit-like cloud of self-reference
     ['EFine',0.295,&acgtRs{
