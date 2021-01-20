@@ -1166,10 +1166,13 @@ me.Sch_Story = &acgt{ return [
                         es&inNess = Es
                     }
                     $Es = es&inNess
-                    if (ec&el <8) {
+                    if (c.DIY || ec&el <8) {
                         $Ness = me.cbu(Es,s=>sc&pi=='Ness')
                         !Ness and debugger
-                        Ness != Ec&Into and debugger
+                        if (ec&el <8) {
+                            # only latest -Ness should ~
+                            Ness != Ec&Into and debugger
+                        }
                         NessN.push(Ness)
                         # or:
                         Nessc&el = 3
@@ -1194,6 +1197,8 @@ me.Sch_Story = &acgt{ return [
         me.pinine = &acgtscq{
             return me&Sopi,s,'nine',c,q ({
                 2: &Ecq{
+                    # < have the E-nine%EFine, button for:
+                    # c.DIY - redo every -Ness
                     # Nine/-Ness attract Sevens
                     #  virtual Eight is between, may storable
                     #  the -Ness becomes storable
@@ -1234,7 +1239,7 @@ me.Sch_Story = &acgt{ return [
             return me&Sopi,s,'Ness',c,q ({
                 6: &Ecq{
                     # compress the entirety
-                    $reuse = {tah:['yC','yC'],if_pi:'Eight'}
+                    $reuse = {tah:['yC','yC'],notif:1,if_pi:'Eight'}
                     $d = {compLines: &DdC{
                         if (me&reuse_string,d,C,reuse)
                             return d.reuse_string
@@ -1277,7 +1282,9 @@ me.Sch_Story = &acgt{ return [
             }
             !ts&dige and return
             if (c.if_pi) {
-                tc&pi != c.if_pi and return
+                $is = tc&pi == c.if_pi
+                c.notif and is = !is
+                !is and return
             }
             # expected to
             !c.easy && !ts&string and throw "!string"
@@ -1329,6 +1336,7 @@ me.Sch_Story = &acgt{ return [
         # roll the invention of Eigh s
         #me&sleepic,R and me&rollbs,R,'bal_tw_s'; return
         $E = me&pinine,s,{This},-2
+        # < tow inside ^, use for interactivity...
         me&bal,"-nine",E,'eph,EFine'
         
         
