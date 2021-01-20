@@ -864,7 +864,6 @@ me.Sch_Story = &acgt{ return [
    
    // F(ishSt)ories # < &thide if normal, wordpres
     ['Fories',0.297,&acgtRs{
-        
         me&reaw,R,'Fories,bal_tw_s'
         me&inode,R;
         $x = me&Jx,R;
@@ -1269,20 +1268,8 @@ me.Sch_Story = &acgt{ return [
         me.piNess = &acgtscq{
             return me&Sopi,s,'Ness',c,q ({
                 6: &Ecq{
-                    # Fine/Part%dige = insphere
-                    #  reuse -seven encoding already
-                    #  may include more|less verbose Troom stuff
-                    #   to diff Troom result as groked from The
-                    $reuse = {tah:['yC','yC'],if_pi:'seven'}
-                    $d = {compLines: &DdC{
-                        if (me&reuse_string,d,C,reuse)
-                            return d.reuse_string
-                        # < clearer
-                        delete Ds&string
-                        delete Ds&dige
-                        delete Dc&el
-                    }}
-                    me&Linets,s,s,d
+                    # TheFe $got=Part%dige inspheres
+                    #  $got=Party&thing%dige outsphere
                     
                     # Fine/Part%tige = outsphere
                     #  /Part-Ness/-Eight/-seven usually
@@ -1291,11 +1278,37 @@ me.Sch_Story = &acgt{ return [
                     #  preserved, made available again
                     # ~ %tige:
                     #  &accept for Fine/Part** <- Ness/-Ness**
-                    #   the Fine self Linets reuse_string from here
+                    #   the Fine self Linets reuse_string from:
+                    # storable encoding, -Ness outphere
+                    $t = me&reusable_thing,s
+                    $d = {compLines: &DdC{
+                        d.d == 2 and me&reusable_thing_string,d,C
+                        me&usucompD,D
+                    }}
+                    me&Linets,t,s,d
+                    
+                    # Fine/Part%dige = insphere
+                    #  reuse -seven encoding already
+                    #  may include more|less verbose Troom stuff
+                    #   to diff Troom result as groked from The
+                    $reuse = {tah:['yC','yC'],if_pi:'seven'}
+                    $d = {compLines: &DdC{
+                        if (me&reuse_string,d,C,reuse)
+                            return d.reuse_string
+                        me&usucompD,D
+                    }}
+                    me&Linets,s,s,d
+                    
                 }
             })
         }
     //  %string
+        me.usucompD = &acgtD{
+            # < clearer
+            delete Ds&string
+            delete Ds&dige
+            delete Dc&el
+        }
         # turn %string back into y&toLines
         # huh
         me.unfixstring = &acgts{
@@ -1340,17 +1353,18 @@ me.Sch_Story = &acgt{ return [
                 d.reuse_string = me&unfixstring,ts&string
                 return 1
             }
-            if (c.regen) {
-                # < where does the new %string go? C+D?
-                # %string made here
-                d.for_string = &CdN{
-                    ts&string = N.join("\n")+"\n"
-                    ts&dige = dig(ts&string)
-                    # and percolated to the out-C
-                    Cy&C and sex(Cy&C.sc,t.sc,'string,dige')
-                }
-            }
             return 1
+        }
+        me.reusable_thing = &acgts{
+            return sy&thing ||= Cye([s.t,2])
+        }
+        # %string made here (on Cy&thing)
+        me.reusable_thing_string = &acgtdC{
+            $t = me&reusable_thing,C
+            d.for_string = &CdN{
+                ts&string = N.join("\n")+"\n"
+                ts&dige = dig(ts&string)
+            }
         }
    
     },
@@ -1414,6 +1428,7 @@ me.Sch_Story = &acgt{ return [
             z and rs&got = z
         })
     },'ift,D'],
+   // Fine &acceptables
     # accepting Fe**, a bunch of test data
     ['TheFine',0.67,&acgtRs{
         $N = me&ioty,R,'TheFe'
@@ -1437,29 +1452,62 @@ me.Sch_Story = &acgt{ return [
             accept: &acgtsOrznt{
                 me&accept,R,t
                 $dige = me&storable,t
-                # Nine/$z links /$eight
-                $Z = G&Cye,z
+                # z got for Fine/-Ness
+                # links to W:Fine/-Ness
+                $Z = Cye(z)
                 me&fiu,O,Z,2
                 # already -Ness or so
                 !Zc&pi and debugger
-                #Zc&pi = 'eight'
                 Zs&dige = dige
+                me&acceptFinePart,Z,z,t
             },
             # an Eigh still
             sleep: &acgtsOrz{
                 !rs&exp and return
                 rs&exp != z and debugger
-                $Z = G&Cye,z
+                $Z = Cye(z)
                 me&fiu,O,Z,2
             },
             # the Nine itself
             self: &acgtsO{
-                me&Linets,s,O
+                # picking up s/-Ness/*yCything
+                $reuse = {tah:['yC','ything']}
+                $seenapath = []
+                $d = {compLines: &DdC{
+                    $path = joint(d.path)
+                    seenapath.includes(path) and return d.not = 1
+                    seenapath.push(path)
+                    if (me&reuse_string,d,C,reuse) {
+                        return d.reuse_string
+                    }
+                    #me&usucompD,D
+                }}
+                me&Linets,s,O,d
                 me&accept,R,s
             }
         }
         me&acceptables_reself,R,N,c
     },'ift,D'],
+    &{
+        # inside the reself accept{} hook,
+        #  ie taking Part:z with $got:t to outsphere Part:Z
+        me.acceptFinePart = &acgtZzt{
+            $th = ty&thing
+            !th and return
+            # it might have encodings for the outsphere
+            #  must spread string reuse to -Ness/*
+            me&ioty,t .map(&n{
+                # they also:
+                !ny&thing and debugger
+                $Zn = me&fiu,Z,n.t,8
+                Zn and debugger
+                $Zn = me&fiu,Z,n.t
+                Zny&C = n
+            })
+            #  so we can include the Part dige on itself:
+            Zs&tige = ths&dige
+        }
+    },
    // /TheFe(ature) differencing
     ['TheFe',0.299,&acgtRs{
         me&bin,'TheFe'
