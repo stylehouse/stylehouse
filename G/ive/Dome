@@ -115,6 +115,34 @@
         me.node_accept = &acgtRrs{
             rs&wou_accepted = rs&wou
         }
+        
+        # &zaa it when it might not be entered yet
+        #  or when j%sleeping
+        # oddness... Xio time to straighten?
+        #  see also &supetime's ja, has similar
+        # < perhaps &sa means &ja even if sleeping?
+        # < try to make all from-to wake separately?
+        #   Ring und Story/* sequentially?
+        #  or the more complex:
+        # < Dome_7 check from (j)
+        #    it may still wake up or alter (noiseloop)
+        #   to re-&Effected wake if ~
+        #    (besides %%Eto:-eight)
+        me.jaaz = &acgtjq{
+            $R = Cy&R
+            $N = me&jaa,j,q
+            # reasons to trust this R's brackstate:
+            # something
+            N.length and return N
+            # nothing from yourself
+            R == j and return N
+            # nothing, not happening (in R-time, see 'may still wake up')
+            !Rc&N.includes(j) && !js&sleeping and return N
+            # use the commit brack
+            $N = me&zaa,j,q
+            # there's a chance we dont wake up to notice a vanish
+            return N
+        }
    
    // bracktools
     # display brackology
@@ -1162,7 +1190,9 @@ me.settleblab = 1
   
   // &Effect, their -Effect receives faster than %%eto
    // < doc
+    # < tidy, test...
     =Effect
+      Used by Story to:
        shrink minor eights, with &togcon,
        $eight wants to use -eight to avoid -eight:
         < E:acheck: L%checking and !%%Checkable
@@ -1270,7 +1300,7 @@ me.settleblab = 1
         #     unless it's otherable (%ope=0 -> dis:0)
         'ya'
     }
-   // &Effected out
+   // -Effect io
     # at both ends of the deal
     me.piEffect = &acgtRsc{
         c ||= {}
@@ -1342,31 +1372,6 @@ me.settleblab = 1
         })
         return M
     }
-    # &zaa it when it might not be entered yet
-    #  or when j%sleeping
-    # < perhaps &sa means &ja even if sleeping?
-    # < try to make all from-to wake separately?
-    #   Ring und Story/* sequentially?
-    #  or the more complex:
-    # < Dome_7 check from (j)
-    #    it may still wake up or alter (noiseloop)
-    #   to re-&Effected wake if ~
-    #    (besides %%Eto:-eight)
-    me.jaaz = &acgtjq{
-        $R = Cy&R
-        $N = me&jaa,j,q
-        # reasons to trust this R's brackstate:
-        # something
-        N.length and return N
-        # nothing from yourself
-        R == j and return N
-        # nothing, not happening (in R-time, see 'may still wake up')
-        !Rc&N.includes(j) && !js&sleeping and return N
-        # use the commit brack
-        $N = me&zaa,j,q
-        # there's a chance we dont wake up to notice a vanish
-        return N
-    }
     
    // &Effected out
     # to: user wants qualia computed
@@ -1388,15 +1393,16 @@ me.settleblab = 1
         !M.length and return
         
         c = peel(c)
-        if (c.verbose) {
+        if (c.go) {
             me&nu,'-Effect',E
             $Ms = M.map(m => m.sc)
             me&nu,'Ms',Ms
         }
-        # qua:lav overall
-        $qua = haks(c)[0]
-        $mode = 'num'
-        $lav = me.Effectsum[mode](A,C,G,T,qua,M)
+        # all modes take many values of gk=ope
+        #  and eg mode=num makes lav=most-wanted-%ope
+        c.gk ||= haks(c)[0]
+        c.mode ||= 'num'
+        $lav = me.Effectsum[c.mode](A,C,G,T,c,M)
         
         # <
         
@@ -1430,10 +1436,13 @@ me.settleblab = 1
     }
    // &Effectsum conclude 
     me.Effectsum ||= {}
-    me.Effectsum.num = &acgt,qua,M{
+    me.Effectsum.num = &acgtcM{
+        $qua = c.gk
+        !qua and throw "Effectsum.num: !c.gk"
         $lav = null
         $votes = {}
         each in M {
+            # v is the posited qua for lav
             $v = n.sc[qua]
             v == null and continue
             !num(v) and throw "Effectsum!num"
@@ -1454,6 +1463,12 @@ me.settleblab = 1
             }
         }
         return lav * 1
+    }
+    me.Effectsum.includes = &acgtcM{
+        $s = c.s
+        !s and throw "Effectsum.includes: !c.s"
+        $N = M.map(n => n.sc[c.gk])
+        return N.includes(s)
     }
   
   // < &nodei|o|e - makes %%eto..., going somewhere
