@@ -927,8 +927,11 @@ me.Sch_Story = &acgt{ return [
             # the self we have been using
             # anyone can Ef%%curse=this_self
             $Ec = {curse:1,mode:'includes',s:Rs&shelf,go}
-            $cursed = me&Effected,E,Ec
-            cursed and c.pull = 1
+            $cursed = me&Effected,s,Ec
+            if (cursed) {
+                me&nu,"Cursed?",Ec
+                cursed and c.pull = 1
+            }
         }
         # < a buttoner|Effector that can glow 'Leave' because c.pull
         # then harness %Live into TheNine
@@ -1068,13 +1071,13 @@ me.Sch_Story = &acgt{ return [
         }
      // Gome..-nine re This
         # from Gome, notices ~This, returns TheFine+ to wake
-        
         me.FasyncThis = &acgtFc{
             $r = me&yfuture,F
             !rs&TheF and debugger
             $This = c.This
             !This and debugger
             # This** -> c&Into=TheFine(-nine)
+            # < s/Into/InFine/
             $s = Fc&Into
             # too new
             # < could [F] in this case? make too busy? if !b?
@@ -1086,12 +1089,18 @@ me.Sch_Story = &acgt{ return [
             !s and return c.unready = []
             sc&pi != 'nine' and debugger
             !sy&nine and return [s]
-            
+            c.InFine = s
             # into the -nine's &EsyncThis
             $E = fi&getpi,s
             $Eis = me&fiu,E,'This',7
             # checks curret F%Into=-nine/This
-            Eisy&C != This and c.pull = 1; return []
+            !Eisy&C and debugger
+            if (Eisy&C != This) {
+                # for Gome to pull a new Fine
+                me&Fineiscursed,s
+                c.pull = 1
+                return []
+            }
             
             # -nine/This/*%dige slep
             !me&Thislooksready,This and return c.unready = []
@@ -1103,6 +1112,10 @@ me.Sch_Story = &acgt{ return [
             hak(N) and return [s]
             
             return []
+        }
+        me.Fineiscursed = &acgtzn{
+            n ||= 1
+            zs&cursed = (zs&cursed||0) + n
         }
         me.Thislooksready = &acgt,This{
             # it must be a complete This
@@ -1117,8 +1130,19 @@ me.Sch_Story = &acgt{ return [
         me.EsyncThis = &acgtEsc{
             $This = c.This
             $Eis = me&fiu,E,'This'
-            # This follows the This
+            # Fine follows only one This
             # < with &Xio
+            if (Eisy&C && Eisy&C != This) {
+                me&Fineiscursed,s,0.001
+                # let Gome decide to Leave Fine, via &FsyncThis
+                $R = me&R
+                $x = me&Gome_Jx,R
+                me&Effect,s,xs&Gome,'Finecursed',{curse:s}
+                # dont sync a leaving This
+                # < syncThis while|post Leave Fine?
+                #   cancelled Fine+This may stack up somewhere
+                return []
+            }
             Eisy&C = This
             # E/Ness/-Ness:Into - current -seven receiver
             !Ec&Into and debugger
@@ -1154,9 +1178,6 @@ me.Sch_Story = &acgt{ return [
             })
             
             return NessN
-            #o $E/This/:Ei
-            #o $This/:Eight
-           #Ey&Fri = ay.sc
         }
     // -nine
         # < outsphere (W:$t%Fine) wants:
@@ -1296,7 +1317,8 @@ me.Sch_Story = &acgt{ return [
         !F and debugger
         # acty Fine(-nine) attract This**
         # Gome wakes the inner when ~This
-        Fc&Into ||= s
+        me&must_newnodesamepath,Fc&Into,s
+        Fc&Into = s
         
         sc&pi = 'nine'
         # -This

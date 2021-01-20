@@ -271,6 +271,7 @@
         };
         
         # see &Yingwhen for misc sleep functions
+        # see Pictures climbing
         
         # should we not Doming_7 due to %sleep*
         me.node_issleeping = &acgtRs{
@@ -338,6 +339,12 @@
             #    .filter(r => rs&ball)
             return N.map(r => r.t).join('/')
         };
+        # < better sanity, with &Yingate_8 stutters
+        me.must_newnodesamepath = &acgtsz{
+            !s || s == z and return
+            !isnode(s) || !isnode(z) and debugger
+            joint(sy&path) != joint(zy&path) and debugger
+        }
         # < order of Sy&N
         me.nodes_below = &acgts{
             $j = sy&R;
@@ -1192,6 +1199,29 @@ me.settleblab = 1
    // < doc
     # < tidy, test...
     =Effect
+    
+       i &Effect,from,to,t,c
+        from - node
+        to - node(..$E)?
+        t - name of the cause, eg t='togcon' for qua='ope'
+        c - first key is qua, sc.$gk to be aggregated
+        
+         e gets an -Effects @1
+          z+c put into it, like nodey&efroms
+           including distance to node from pi
+         to has a timeframe to compute -Effects @6
+          %%waits for it unless node is this-timed, not yet &Effected
+          < robusticise that (Dome_7 checkup)
+          < able to have an 'otherable outcome'
+
+       o &Effected,to,c
+        as above - receiving to as self
+         eg -eight wants state of %ope, etc
+        < other can receive ~ for it,
+          if it has set up some thing to do,
+           -pipe, %ein, A?, see 'othering wanted by Story'
+        
+        
       Used by Story to:
        shrink minor eights, with &togcon,
        $eight wants to use -eight to avoid -eight:
@@ -1229,19 +1259,7 @@ me.settleblab = 1
        < see 'otherable outcome',
          know when to visit $eight
 
-       &Effect,from,to,t,c
-         e gets an -Effects @1
-          z+c put into it, like nodey&efroms
-           including distance to node from pi
-         to has a timeframe to compute -Effects @6
-          %%waits for it unless node is this-timed, not yet &Effected
-          < robusticise that (Dome_7 checkup)
-          < able to have an 'otherable outcome'
-
-       &Effected,to,c
-        self
-         -eight wants state of %ope, etc
-        < other
+       &Effected othering wanted by Story to:
          $Test has state of %wobbly,
            from $Eigh or whatever notices etc
           but isnt &Effected by it,
@@ -1322,7 +1340,7 @@ me.settleblab = 1
      # E/fpath:node/fpith/t
      me.Effect_i = &acgtE,fpath,fnode,fpith,t{
         $Ef = me&fiu,E,fpath
-        Efc&node && Efc&node != fnode and debugger
+        me&must_newnodesamepath,Efc&node,fnode
         Efc&node = fnode
         # < from pi, would put onto:
         $Ep = me&fiu,Ef,fpith
@@ -1374,7 +1392,7 @@ me.settleblab = 1
     }
     
    // &Effected out
-    # to: user wants qualia computed
+    # to: user wants qualia computed !
     me.Effected = &acgtec{
         
         # someone Ringing and awake
@@ -1388,6 +1406,7 @@ me.settleblab = 1
         #  on to, self to j (unless other)
         $E = me&piEffect,j,e
         $M = me&Effect_o,E
+        c.M = M
         
         self and Ey&R = R
         !M.length and return
@@ -1403,10 +1422,9 @@ me.settleblab = 1
         c.gk ||= haks(c)[0]
         c.mode ||= 'num'
         $lav = me.Effectsum[c.mode](A,C,G,T,c,M)
+        c.v = lav
         
         # <
-        
-        
         if (self) {
             # -Effect visiting
         }
@@ -1434,7 +1452,7 @@ me.settleblab = 1
         
         return lav
     }
-   // &Effectsum conclude 
+   // &Effectsum reckon 
     me.Effectsum ||= {}
     me.Effectsum.num = &acgtcM{
         $qua = c.gk

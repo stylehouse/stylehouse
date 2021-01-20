@@ -451,21 +451,24 @@
         Ey&up != s && Ey&up.c.pi == sc&pi and debugger
         return E
     }
-    # s:node(...):z remembers zy&$pi = b
+    # s%node remembers ...z b by &pipath
     #  to b el:3 inside a z el:2
+    # < to hang b on s^^%higherground
     me.pisurrect = &acgtRzc{
+        # the $pi we are about to do, Api c.t
         isst(c) and c = {t:c}
-        # < pi we are about to make is called c.thispi
-        !c.t and throw "b!path"
         c ||= {}
+        !c.t and throw "b!c.t=$pi"
+        # < dubious :
+        #  < pi we are about to make is called c.thispi
         
         # via ^^nodey&surrect, for existing z
         $s = me&uptonode,z,c
         $re = me&Api,s,'surrect',{el:3}
         
-        # with pipath + c.t to maybe existing b
+        # any ($t-$pi/)+ || ""
         $tpith = c.tpith = me&pipath,z,c
-        !tpith and debugger
+        # may just be /-$pi if isnode(z)
         tpith += '/-'+c.t
         $ber = me&fiu,re,tpith,8
         
