@@ -1059,8 +1059,13 @@ me.Sch_Story = &acgt{ return [
         me.EnextNess = &acgtEsc{
             $Ness = me&fiu,E,'Ness'
             $M = me&pity,Ness,'-Ness'
+            $completeNess = &z{
+                # the almost Ec&Is
+                (Es&Is||[]).includes(z) and return 1
+                (c.almostIs||[]).includes(z) and return 1
+            }
             each iz M {
-                (Es&Is||[]).includes(z) and z = 0; continue
+                completeNess(z) and z = 0; continue
                 Ec&Into = z
                 break
             }
@@ -1207,6 +1212,30 @@ me.Sch_Story = &acgt{ return [
             return 1
         }
      // &EsyncThis: Fine-nine <- This
+        # does -Ness..Es-seven complete that -Ness?
+        me.Egotseven = &acgtEsc,Es{
+            $Ei = Esy&up
+            Esc&pi != 'seven' and debugger
+            # if -Eight/-seven were from Fine
+            #  otherwise they fill in one -Ness per -nine
+            !(Eiy&Outs && Esy&Outs) and return
+            # < doing a looser what-looks-good
+            #   where serial numbering is different etc...
+            $lastEs = me&pity,Ei,'-seven' .slice(-1)[0]
+            if (Es == lastEs) {
+                # the almost Ec&Is, not to be Ec&Into
+                $almost = c.almostIs ||= []
+                almost.push( me&suptoNess,Es )
+                me&EnextNess,E,s,c
+            }
+        }
+        # E/Ness/-Ness from /**
+        # < merge with &uptopi?
+        me.suptoNess = &acgtz{
+            $Ness = me.cbu(z,s=>sc&pi=='Ness')
+            !Ness and debugger
+            return Ness
+        }
         # pull This/** into E/Ness/**
         me.EsyncThis = &acgtEsc{
             
@@ -1238,10 +1267,13 @@ me.Sch_Story = &acgt{ return [
                 $n = gy&C
                 me&clinto,n,g,'-seven' .map(&e{
                     $en = ey&C
+                    # the current -Ness=Ec&Into
+                    # selected and may fill up per -seven
+                    $Ness = Ec&Into
                     if (!es&inNess || ec&el <8) {
                         # make -Ness/-Eight/-seven
                         # < with &Xio
-                        $Ei = me&fiu,Ec&Into,g.t
+                        $Ei = me&fiu,Ness,g.t
                         # directly to E-Eight, which yC%string
                         Eiy&C = n
                         Eic&pi = 'Eight'
@@ -1249,14 +1281,17 @@ me.Sch_Story = &acgt{ return [
                         Esy&C = en
                         Esc&pi = 'seven'
                         es&inNess = Es
+                        # next -Ness?
+                        me&Egotseven,E,s,c,Es
                     }
                     $Es = es&inNess
                     if (c.DIY || ec&el <8) {
-                        $Ness = me.cbu(Es,s=>sc&pi=='Ness')
-                        !Ness and debugger
+                        $Ness = me&suptoNess,Es
                         if (ec&el <8) {
                             # only latest -Ness should ~
-                            Ness != Ec&Into and debugger
+                            $justdid = Ness == Ec&Into
+                                || (c.almostIs||[]).includes(Ness)
+                            !justdid and debugger
                         }
                         NessN.push(Ness)
                         # or:
@@ -1292,7 +1327,7 @@ me.Sch_Story = &acgt{ return [
                     #  virtual Eight is between, may storable
                     #  the -Ness becomes storable
                     me&EsyncThe,E,s,c
-                    return
+                    
                     # c.This/*%dige slep
                     $NessN = me&EsyncThis,E,s,c
                     
