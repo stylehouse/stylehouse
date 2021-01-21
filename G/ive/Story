@@ -1409,6 +1409,7 @@ me.Sch_Story = &acgt{ return [
         # < tow inside ^, use for interactivity...
         me&bal,"-nine",E,'eph,EFine'
         
+        go and me&nu,"SCthis",{This,Fri:Ey&Fri,E,Einto:Ec&Into}
         
         
         # the last -Ness grows by stray sevens
@@ -1421,7 +1422,6 @@ me.Sch_Story = &acgt{ return [
         # < %%Having,eight come in order?
         #$gotN = me&jaa,R,"eight,Having,L",1
         
-        go and me&nu,"SCthis",{This,Fri:Ey&Fri,E,Einto:Ec&Into}
         $gotN = Es&Is || []
         me&twlic,gotN,s (&lzct{
             t = t.replace(/[^A-Z\d_-]+/gi,'_')
@@ -1473,7 +1473,7 @@ me.Sch_Story = &acgt{ return [
             sleep: &acgtsOrz{
                 !rs&exp and return
                 rs&exp != z and debugger
-                $Z = Cye(z)
+                $Z = G&Cye,z
                 me&fiu,O,Z,2
             },
             # the Nine itself
@@ -1519,87 +1519,92 @@ me.Sch_Story = &acgt{ return [
    // /TheFe(ature) differencing
     ['TheFe',0.299,&acgtRs{
         me&bin,'TheFe'
-    },'ift,D'],
-    ['TheFe',0.33,&acgtRs{
         me&reaw,R,'TheFe,exp,got,now_missing'
         $x = me&Jx,R
-        $go = me&acting,R,'Fe'
-        # may %string or not
         $t = Rs&exp
         $z = Rs&got
-        $L = z && zy&Point
-        #me&nu,"XSC",x.sc
-        
-        # z-eight is already Lineso:
-        $Dige = z && zs&dige
-        $cha = !Dige || !me&za,R,{Dige}
-        Dige and me&ha,R,{Dige}
-        !cha && me&sleepic,R and return
-        if (go) {
-            me&zu,"TheEigh",s
-            me&zu,"Exp",t
-            me&zu,"Got",z
-            me&zu,"Point",L
-        }
+        !t && !z and return Rs&FeRel = 1
+        $go = me&acting,R,'Fe'
+        # < concealments
+        # < clearer rowing to the outsphere from -nine from This
+        # < &acceptable** for same atoms in different 9s
+        !x.ro('Outs',{}) and Rs&noRsync = 1
+        # may %string or just %dige
+        go and me&nu,"expgot",{t,z}
+        me&FeDigestill,R,z and return
     },'ift,D'],
     ['TheFe',0.36,&acgtRs{
         $t = Rs&exp
         $z = Rs&got
+        # < distribute diff chunks to -Ness**
         !t && !z and return Rs&FeRel = 1
-        me&Pointness
-        # < clearer rowing to the outsphere from -nine from This
+        # init being from $got, then Fine 
         sc&pi = t && tc&pi || z && zc&pi
-        # < &acceptable**
-        
-        # has -eight happened (got got)
-        !z || !zs&dige || !zs&string and return me&ha,R,'unready'
-        # < exp ||= surprise?
-        
-        # from here, it's a &toPave that doesn't pushPave at the end,
-        #  instead sending the flock of storables onward
-        me&acceptable,R,z,t
-        
-        # < probably want Qdiff,z,t=null
-        #    or know t is a link, do &moreThat
-        #    or t could be this step's part of another &Linets
-        #     and need to other it there and then commit that,
-        #      staging chunk regroup for commit essential
-        #     lots of slightly different %%$word...,
-        #      iterating commissions on 
-        if (me&ja,R,'ok' ) {
-            s&bgh = '041'
-            # &Effect needs to be permanent (or %%dome)
-            #me&Effect,s,zy&eight,'isok',{ok:1,ope:0}
-            if (!me&za,R,'ok' ) {
-                me&yyt,z,'on_ok',R,s
-            }
-            return
-        }
-        # when Story is recording itself,
-        # these all cause that -eight to show the failing, etc
-        if (!t) {
-            me&log,R,"Unexpected",{got:z}
-            return
-        }
-        if (me&za,R,'unready' ) {
-            me&log,R,"Failing",{got:z}
-            if (Rs&trailing) {
-                # beyond last expected thing
-                me&log,R,"Trailing"
-            }
-        }
-        # receive the got into a diff against the full self
-        !(tc&pi && ts&dige) and return me&tsc,"Nine/!-eight"
-        
-        $self = me&moreThat,R,t,t
-        !self and return me&waits,"Nine/.."
-        
-        $Q = me&PaveQ,R,selfy&That
-        
-        me&Qdiff,R,z,Q
-        # < to &brackology
-        # < mergible
+        # for merge
+        me&Feacceptable,R,s,t,z
     },'ift,D'],
+    &{
+        # %TheFe stills got:z%dige
+        me.FeDigestill = &acgtRz{
+            $Dige = z && zs&dige
+            $cha = !Dige || !me&za,R,{Dige}
+            Dige and me&ha,R,{Dige}
+            !cha && me&sleepic,R and return 1
+        }
+        # from %%unready to %%ok || &Qdiff
+        me.Feacceptable = &acgtRstz{
+            # has -eight happened (got:z)
+            !z || !zs&dige || !zs&string and return me&ha,R,'unready'
+            # < exp ||= surprise?
+
+            # from here, it's a &toPave that doesn't pushPave at the end,
+            #  instead sending the flock of storables onward
+            me&acceptable,R,z,t
+
+            # < probably want Qdiff,z,t=null
+            #    or know t is a link, do &moreThat
+            #    or t could be this step's part of another &Linets
+            #     and need to other it there and then commit that,
+            #      staging chunk regroup for commit essential
+            #     lots of slightly different %%$word...,
+            #      iterating commissions on 
+            if (me&ja,R,'ok' ) {
+                s&bgh = '041'
+                # &Effect needs to be permanent (or %%dome)
+                #me&Effect,s,zy&eight,'isok',{ok:1,ope:0}
+                if (!me&za,R,'ok' ) {
+                    me&yyt,z,'on_ok',R,s
+                }
+                return
+            }
+            # when Story is recording itself,
+            # these all cause that -eight to show the failing, etc
+            if (!t) {
+                debugger
+                me&log,R,"Unexpected",{got:z}
+                return
+            }
+            if (me&za,R,'unready' ) {
+                me&log,R,"Failing",{got:z}
+                if (Rs&trailing) {
+                    # beyond last expected thing
+                    me&log,R,"Trailing"
+                }
+            }
+            # receive the got into a diff against the full self
+            !(tc&pi && ts&dige) and return me&tsc,"Nine/!-eight"
+
+            $self = me&moreThat,R,t,t
+            !self and return me&waits,"Nine/.."
+
+            $Q = me&PaveQ,R,selfy&That
+
+            me&Qdiff,R,z,Q
+            # < to &brackology
+            # < mergible
+        }
+    },
+   
    // FeRel, EFine, etc
     # < E-nine/*/* lum from E-nine/OK/*
     # for &bal,E-nine**
@@ -1618,7 +1623,8 @@ me.Sch_Story = &acgt{ return [
     # some otherish thing
     ['FeRel',0.361,&acgtRs{
         me&reaw,R,'FeRel'
-        me&tc,"HaveTH"
+        me&bin,'FeRel'
+        me&tc,"FeRel"
     },'ift,D'],
     &{
     },
