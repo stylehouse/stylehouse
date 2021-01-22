@@ -1517,7 +1517,7 @@ me.Sch_Travel = &acgt{ return [
             Ys&quiet_wakers_too_recently = &R{
                 $v = sy&ever_quiet ? "Y" : 0
                 forothers and v += " forothers"
-                #~>5 Gump-quiet?: v
+                ~>5 Gump-quiet?: v
                 !v and return 1
             }
             if (me&quiet_waker,R) {
@@ -2601,28 +2601,28 @@ me.Sch_Travel = &acgt{ return [
         me&acting,R,'Gome'
         $Gump = isnode(s)
         # receive %%Go
-        $n = me&Gome_permit,R,s
-        !n and return
+        $Go = me&Gome_permit,R,s
+        !Go and return
         
         # Gome, being a macro Dome,
         #  can incorporate sleeping content
-        if (ns&mot == 8) {
+        if (Gos&mot == 8) {
             # just to update K to what they think they are
-            $N = me&zaa,xc&Goting,{Goable:ns&Go,Ghoscgk:1,K:1}
+            $N = me&zaa,xc&Goting,{Goable:Gos&Go,Ghoscgk:1,K:1}
             !me&SuperGhosc,R,s,{N} and return
         }
         else {
             # fully doing
-            !me&SuperGome,R,s,{n} and return
-            # contains &SuperGansp
+            !me&SuperGome,R,s,{Go} and return
+            # contains &SuperGansp etc
         }
-
+        # push W:Fingo
         !me&SuperGens,R,s,{t:'Release'} and return
         
         me&unlock,Gump,'twins',s
         
         # go back
-        me&nodei,R,ny&R,sex({finished:s},n.sc,'Go,tid')
+        me&nodei,R,Goy&R,sex({finished:s},Go.sc,'Go,tid')
         delete Rs&wakeful
     },'ift,D'],
     ['Gome',0.52,&acgtRs{
@@ -2702,20 +2702,16 @@ me.Sch_Travel = &acgt{ return [
         }
         # Gome** gets E-This
         me.Gome_This = &acgtR{
+            # < o @Jrunto/-This
             $x = Rs&Gomex
             $Run = xs&Jrunto
             !Run and return
-            o $Run/This
-            $This = theone(ays&s)
+            $This = me&fiu,Run,'This',8
             !This and return
+            !Thisc&pi and return
             $EThis = fi&getpi,This
             !EThis and return
-            
-            #o $EThis/:Eight/:Seven
-            #me&nu,"SCthis",{This,EThis,aysc:ay.sc,xsc:x.sc}
-            
             return EThis
-            1
         }
         # Gome/Fories for W:**
         # Gome/TheF/%TheFest-Accept/%TheFine-nine/%TheFe-Ness
@@ -2816,14 +2812,16 @@ me.Sch_Travel = &acgt{ return [
         # 1:
         #  %%Go -> Travel +/$t/$SC - what to control
         #  Gome/Fories/$t Resides - how to control
+        #  Gome/TheF/$t** - receiver of testrun
          // 1
             $x = me&Jx,R
             # the %%Go,+Gome
-            $Go = c.n
+            $Go = c.Go
+            $n = 'notanobject'
             
             c.t ||= 'Gome'
             $su = me&supetime,R,c.t
-            # we slowly wind up the runlevel
+            # we slowly wind up the runlevel !
             # allowing eg $SC to +%Con before R:SC/*
             # 1
             su('Go-SC',{perm:&zaa,jaa,ha,ar{
@@ -2884,9 +2882,9 @@ me.Sch_Travel = &acgt{ return [
                 
                 x = me&Gome_Jx,R
                 !x and debugger
-                !xs&Jrunto and return ha('pur:Jrunto?')
                 $Pro = xs&Jproto
                 $Run = xs&Jrunto
+                !Run and return ha('pur:Jrunto')
                 if (ts&Con) {
                     # < Story/$t informs Cat modes:
                     # stays %%now until tests satisfied
@@ -2933,7 +2931,6 @@ me.Sch_Travel = &acgt{ return [
                         # < &Effect to maybe unexistent places...
                         # reself Fc&InFine=Fine
                         me&tc,"pullThis",'y'
-                        
                     }
                     Thisc.unready and ha('pur:unreadyThis')
                     #
