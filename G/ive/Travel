@@ -2613,7 +2613,7 @@ me.Sch_Travel = &acgt{ return [
         }
         else {
             # fully doing
-            !me&SuperSCCon,R,s,{n} and return
+            !me&SuperGome,R,s,{n} and return
             # contains &SuperGansp
         }
 
@@ -2719,15 +2719,15 @@ me.Sch_Travel = &acgt{ return [
         }
         # Gome/Fories for W:**
         # Gome/TheF/%TheFest-Accept/%TheFine-nine/%TheFe-Ness
-        me.Gome_Resides = &acgtR{
-            $x = Rs&Gomex
-            $t = xs&t
+        me.Gome_Resides = &acgtRc{
+            $t = c.t
+            !t and debugger
             # < s/ies/y/
             me&bal,'Fories','Fories,eph'
             # < TheF defaults to $t.t
             $r = me&bal,'TheF','TheF,eph'
             $TF = rc&s
-            TFs&about ||= [t.t]
+            TFs&about ||= [t]
 
             # < into The/$t, fully as...
             #   they might be Tings (controls SC)
@@ -2796,7 +2796,7 @@ me.Sch_Travel = &acgt{ return [
   // &Supe*
     
     &{
-       // &SuperSCCon inter %SummerCat
+       // &SuperGome inter %SummerCat
         # sync Ting, play|pause|rewind|stop, re tests
         # goes on to Duolish, remarking on u used
         # at quiet,
@@ -2812,53 +2812,54 @@ me.Sch_Travel = &acgt{ return [
         # anything capable of -eight/$Ting
         #  which compiles to $Tt, resolving in &log
         
-        me.SuperSCCon = &acgtRsce{
+        me.SuperGome = &acgtRsce{
         # 1:
         #  %%Go -> Travel +/$t/$SC - what to control
         #  Gome/Fories/$t Resides - how to control
-        # 2:
-        #  knowing how by now, %%Control -> $SC +/*
-         // 1,2
+         // 1
             $x = me&Jx,R
             # the %%Go,+Gome
             $Go = c.n
             
-            c.t ||= 'SCCon'
+            c.t ||= 'Gome'
             $su = me&supetime,R,c.t
             # we slowly wind up the runlevel
             # allowing eg $SC to +%Con before R:SC/*
             # 1
-            su('Go-t/SC',{perm:&zaa,jaa,ha,ar{
+            su('Go-SC',{perm:&zaa,jaa,ha,ar{
                 # %%Go -> Travel +/$t/$SC - what to control
                 me&nodei,R,xs&Travel,Go,{},{Gome:s}
+                # have Travel/$t/$SC looking ready
+                # set R:Gome%client, other &Jx will see Gome/*
                 x = me&Gome_Jx,R
                 !x and return ha('pur:t+SC')
-                # < assign t+SC to ar
-            }})
-            &&
-            # 2
-            su('Gome/*',{perm:&zaa,jaa,ha,ar{
+                
                 $t = xs&t
                 $SC = xs&SC
-                # only The for Travel/$t we want to test
-                !ts&Con and return
-                # Run waits for %%mayRun
-                SCs&Con = 1
-                
-                # Gome/Fories/$t Resides - how to control
-                # Gome/TheF/$t** - perception of testrun
-                me&Gome_Resides,R
-                
-                # < want ever_quiet once here to continue
-                #   meaning Gome/* are ready
-                ha('Resides')
-                zaa('Resides') && Rs&Gump_quiet and ha('Resided')
-                else
-                zaa('Resided') and ha('Resided')
-                else return ha('pur:Resides')
+                if (ts&Con) {
+                    # something we test
+                    # Run waits for %%mayRun
+                    SCs&Con = 1
+                    
+                    # Gome/Fories/$t Resides - how to control
+                    # Gome/TheF/$t** - receiver of testrun
+                    # < &Effect each $t in there, to create it?
+                    me&Gome_Resides,R,{t:t.t}
+                    # < meaning Gome/* are ready
+                    # want ever_quiet once here to continue
+                    ha('Resides')
+                    zaa('Resides') && Rs&Gump_quiet and ha('Resided')
+                    else
+                    zaa('Resided') and ha('Resided')
+                    else ha('pur:Resides')
+                    
+                    x = me&Gome_Jx,R
+                    !xs&Fories and ha('pur:!Fories')
+                }
             }})
             &&
-        # 3:
+        # 2:
+        #  knowing how by now, %%Control -> $SC +/*
         #  if $t%Con, $SC/Jrunto waits for %%mayRun
         #   so how -> $SC/Jproto|Jrunto
         #  else|then, plans are run...
@@ -2869,9 +2870,10 @@ me.Sch_Travel = &acgt{ return [
         #    runtime over (-%%Control)
         #    < should only have to pause until pushed:
         #    to store J osc via Duolish** con &SuperGansp
-         // 3 see things
+         // 2 see things
             su('SC/*',{until:&zaa,jaa,ha,ar{
                 $t = xs&t
+                # $tid versioning:
                 $SC = xs&SC
                 
                 # enable @Intro
