@@ -1,4 +1,4 @@
-# pile movie!!
+# pile movie!!!
 me.Sch_Travel = &acgt{ return [
     =pod todo
     cm.getModeAt(pos
@@ -1508,17 +1508,17 @@ me.Sch_Travel = &acgt{ return [
             !Guy&R and me&waits,"Othersel2",0,'say'; return
             return Gu
         }
+        # ugly combo of 'Gump/* ready' and quiet wake sub
         me.quietready = &acgtR{
             $s = Rc&s
             # while never quiet it matters, want to self,
             #  even if too close to the last quiet,wake (loop avoidance)
             $Y = me.cbu(R,'Ying').sc.Ying
             $forothers = 0
-            Ys&quiet_wakers_too_recently = &R{
-                $v = sy&ever_quiet ? "Y" : 0
-                forothers and v += " forothers"
-                ~>5 Gump-quiet?: v
-                !v and return 1
+            Ys&quiet_wakers_too_recently = &r{
+                # r is Fingo (not in time)
+                !sy&ever_quiet and return "forself"
+                me&Gump_any_quiet_wake,R and return "forothers"
             }
             if (me&quiet_waker,R) {
                 sy&ever_quiet = 1
@@ -1542,15 +1542,18 @@ me.Sch_Travel = &acgt{ return [
                 me&wants,R,'alsoTravel',xs&Travel
                 
                 delete sy&ever_quiet
-                #forothers = 1
             }
             
-            if (sy&ever_quiet) {
-                me&tsc,"quiet"
-            }
-            else {
-                return 1
-            }
+            !sy&ever_quiet and return me&tsc,"quiet..."
+        }
+        # Gump...Gomp quiet wake sub
+        me.Gump_any_quiet_wake = &acgtR{
+            return me&zaa,R,'by,locked',1 .filter(&z{
+                $r = zy&R
+                !rs&Gome and debugger
+                # they also must bs&wakeful to get there
+                return me&yyt,z,'want_quiet_wake'
+            }) .length
         }
     },
     # receive %%chag, make updates
@@ -2910,18 +2913,28 @@ me.Sch_Travel = &acgt{ return [
                     !x.ro('maynotRun',{}) and me&nodei,R,Run,'mayRun'
 
                     # we then expect to go quiet
+                    # allow Gump to quiet wake while ~This**
+                    sy&want_quiet_wake = &{
+                        $This = me&Gome_This,R
+                        !This and return 1
+                        $Thisc = {This}
+                        me&FasyncThis,xs&TheF,Thisc
+                        return Thisc.el <4
+                    }
                     # observe Proto !now not over finishline
                     $This = me&Gome_This,R
                     !This and return ha('pur:This')
                     $F = xs&TheF
                     $Thisc = {This}
-                    me&FasyncThis,F,Thisc .map(&z{
+                    me&FasyncThis,F,Thisc
+                    Thisc.wake.map(&z{
                         # wake TheFc&InFine=%TheFine
                         $name = "~This->"+z.t
                         me&wants,R,name,z
                         ha({pur:name})
                     })
-                    if (Thisc.pull) {
+                    Thisc.el < 2 and ha('pur:unreadyThis')
+                    if (Thisc.el == 2) {
                         # suppose only current Fine needs reselfing
                         #  this forgets|resets|rebuilds Fine** R+s
                         $z = Thisc.InFine
@@ -2935,7 +2948,6 @@ me.Sch_Travel = &acgt{ return [
                         # reself Fc&InFine=Fine
                         me&tc,"pullThis",'y'
                     }
-                    Thisc.unready and ha('pur:unreadyThis')
                     #
                     Rs&goGome and me&nu,"Fins",{t,SC,Pro,This,F}
                 }

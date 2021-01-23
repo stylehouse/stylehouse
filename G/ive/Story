@@ -1169,6 +1169,9 @@ me.Sch_Story = &acgt{ return [
             !This and debugger
             # This** -> TheFc&InFine=TheFine(-nine)
             $s = Fc&InFine
+            # may be on the wake
+            c.wake = []
+            c.el = 8
             # too new
             # < could [F] in this case? make too busy? if !b?
             #   wants what is currently happening? since Gome..TheF
@@ -1176,9 +1179,9 @@ me.Sch_Story = &acgt{ return [
             #    or shallow comeback here later
             #   the waits_8|Ying_8 do-over...
             #   the A:Gome vs A:Fine
-            !s and return c.unready = []
+            !s and c.el = 1; return c.unready = []
             sc&pi != 'nine' and debugger
-            !sy&nine and return [s]
+            !sy&nine and c.el = 1; return c.wake = [s]
             c.InFine = s
             # into the -nine's &EsyncThis
             $E = fi&getpi,s
@@ -1188,7 +1191,7 @@ me.Sch_Story = &acgt{ return [
             if (Eisy&C != This) {
                 # for Gome to pull a new Fine
                 me&Fineiscursed,s
-                c.pull = 1
+                c.el = 2
                 return []
             }
             
@@ -1199,7 +1202,7 @@ me.Sch_Story = &acgt{ return [
             # < never set everything to el:8?
             $N = me&clonto,This,Eis,'-Eight'
                 .filter(el => el <8)
-            hak(N) and return [s]
+            hak(N) and c.el = 3; return c.wake = [s]
             
             return []
         }
