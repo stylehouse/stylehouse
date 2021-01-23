@@ -2638,6 +2638,7 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
   // Control, @Gome**
     &{
+      // Residents
         # o %%Go, one Gome per Gump
         me.Gome_permit = &acgtRs{
             me&reaw,R,'Gome,client'
@@ -2748,6 +2749,24 @@ me.Sch_Travel = &acgt{ return [
             #    already resulting as exp...
             me&Ring,R,{inside:R,ov:0.4};
         }
+      // f
+        # waits for (a later)? perception of true
+        me.Superwaits = &acgtRc{
+            $past = {swaited:c.t}
+            $present = {swaiting:c.t}
+            c.until and c.ha(past)
+            else
+            c.until_next && c.zaa(present) and c.ha(past)
+            else {
+                c.zaa(past) and c.ha(past)
+                else {
+                    return 0
+                }
+            }
+            return 1
+        }
+        
+      // Dialectics
         # < sync with TheFine
         me.Gome_SC_SetTings = &acgtRF,ha{
             $x = Rs&Gomex
@@ -2864,21 +2883,51 @@ me.Sch_Travel = &acgt{ return [
     
     &{
        // &SuperGome inter %SummerCat
-        # sync Ting, play|pause|rewind|stop, re tests
-        # goes on to Duolish, remarking on u used
-        # at quiet,
-        #  which may have been a result of %Jproto
-        #   waiting for @Gome to OK its work
-        #    some async -log progress check is possible
-        #    to keep sync and check peripheral sanity
-        #    eg about to commit, check work was suchy
-        # check Eighty&C%dige -> Fe
-        # how Nine/Thing-Run/Time/Etc/$exp
+        =pod
+         sync Ting, play|pause|rewind|stop, re tests
+          dealing @Fine/-Do auto|not
+           these usually wake @Run,
+            it or @Pro may wait for iteration via @Gome
+         goes on to Duolish, remarking on u used
+         at quiet,
+          which may have been a result of %Jproto
+           waiting for @Gome to OK its work
+            some async -log progress check is possible
+            to keep sync and check peripheral sanity
+            eg about to commit, check work was suchy
+         
+         checks This** into @Fine
+         and @Fine into This/$Ting
+          so A:becoming -Eight (&complace) pick up its awareness
+          which helps it anything at &com or -Eight**
+         how Nine/Thing-eight/Time-seven/Etc/$exp
         
-        # with Nine/$exp (or others) picked up - shared
-        # anything capable of -eight/$Ting
-        #  which compiles to $Tt, resolving in &log
+         with Nine/$exp (or others) picked up - shared
+         anything capable of -eight/$Ting
+          which compiles to $Tt, resolving in &log
         
+           &SuperGome middle has:
+            &SuperIntro - ~u/time
+             Ting-able responder
+              be synth ghostups from -Do-ing
+             and init wait for @Inc?
+              to avoid the er:async we know are coming
+            &SuperSC - controls SC, ~This/time
+             seeing @Pro
+              as put into This/A:Pro
+             putting @Pro
+              as ~Fine pointers to things it wants
+               hopefully resume at any point passed
+                drop -sevens to do so?
+                or simply revert This&X back to there
+            &SuperFine - ~Fine/time
+         
+         past Fine (or so) of the same name (or so)
+          may lend their -log%string (or so)
+           for similar chunk finding
+           for a 'looks like last time'
+           
+        =cut
         me.SuperGome = &acgtRsce{
         # 1:
         #  %%Go -> Travel +/$t/$SC - what to control
@@ -2897,11 +2946,12 @@ me.Sch_Travel = &acgt{ return [
             su('Go-SC',{perm:&zaa,jaa,ha,ar{
                 # %%Go -> Travel +/$t/$SC - what to control
                 me&nodei,R,xs&Travel,Go,{},{Gome:s}
+                
                 # have Travel/$t/$SC looking ready
                 # set R:Gome%client, other &Jx will see Gome/*
                 x = me&Gome_Jx,R
+                # they are required to form the x
                 !x and return ha('pur:t+SC')
-                
                 $t = xs&t
                 $SC = xs&SC
                 if (ts&Con) {
@@ -2915,11 +2965,7 @@ me.Sch_Travel = &acgt{ return [
                     me&Gome_Resides,R,{t:t.t}
                     # < meaning Gome/* are ready
                     # want ever_quiet once here to continue
-                    ha('Resides')
-                    zaa('Resides') && Rs&Gump_quiet and ha('Resided')
-                    else
-                    zaa('Resided') and ha('Resided')
-                    else ha('pur:Resides')
+                    me&Superwaits,R,{ha,zaa,t:'Resides',until_next:Rs&Gump_quiet}
                     
                     x = me&Gome_Jx,R
                     !xs&Fories and ha('pur:!Fories')
