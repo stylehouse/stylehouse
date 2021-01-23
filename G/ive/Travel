@@ -2697,8 +2697,11 @@ me.Sch_Travel = &acgt{ return [
             !SCr and return
             !isR(SCr) and debugger
             # sees $SC/* (eg Jrunto)
-            # sees %client/* (eg Fories)
+            # sees %client%Gome/* (eg Fories)
             $x = me&Jx,R,{c:{SC:SCr,Gome:cl}}
+            xs&Pro = xs&Jproto
+            xs&Run = xs&Jrunto
+            xs&F = xs&TheF
             xs&t = t
             Rs&Gomex = x
             return x
@@ -2707,7 +2710,7 @@ me.Sch_Travel = &acgt{ return [
         me.Gome_This = &acgtR{
             # < o @Jrunto/-This
             $x = Rs&Gomex
-            $Run = xs&Jrunto
+            $Run = xs&Run
             !Run and return
             #$This = me&fiu,Run,'This',8
             # < put in Runy&tw? only in Runs&z
@@ -2718,7 +2721,12 @@ me.Sch_Travel = &acgt{ return [
             !Thisc&pi and return
             $EThis = fi&getpi,This
             !EThis and return
-            return EThis
+            return xs&This = EThis
+        }
+        # gets x with This etc
+        me.Gome_xThis = &acgtR{
+            $x = Rs&Gomex
+            return x && me&Gome_This,R && x
         }
         # Gome/Fories for W:**
         # Gome/TheF/%TheFest-Accept/%TheFine-nine/%TheFe-Ness
@@ -2739,6 +2747,62 @@ me.Sch_Travel = &acgt{ return [
             #   The.. picks up things from This..
             #    already resulting as exp...
             me&Ring,R,{inside:R,ov:0.4};
+        }
+        # < sync with TheFine
+        me.Gome_SC_SetTings = &acgtRF,ha{
+            $x = Rs&Gomex
+            me&nodei,R,xs&Pro,'noautoDuolish'
+            x.ro('looksdone',{}) and me&nodei,R,xs&Pro,'mayDuolish'
+            # < should keep the main thing awaking (dome:now)
+            #   redoing elvising every so often, keepalive duty
+            # development mode
+            else me&nodei,R,xs&Pro,'keeprunning'
+            # after we %%mayRun, we get here via:
+            if (Rs&Gump_quiet) {
+                #!me&ja,R,'went_quiet' 
+                me&tc,"YerQuiet"
+            }
+
+            # and may begin if SC%Con (if t%Con)
+            !x.ro('maynotRun',{}) and me&nodei,R,xs&Run,'mayRun'
+        }
+        # Gome <- This wanted
+        me.Gome_Thischa_other = &acgtRF{
+            $This = me&Gome_This,R
+            !This and return 1
+            $c = {This}
+            me&FasyncThis,F,c
+            return c.el <4
+        }
+        # Gome <- This wanted and applied
+        me.Gome_Thischa_self = &acgtRF,ha{
+            $x = me&Gome_xThis,R
+            !x and return ha('pur:This')
+            $This = xs&This
+            $s = xs&Gome
+            $c = {This}
+            me&FasyncThis,F,c
+            c.wake.map(&z{
+                # wake TheFc&InFine=%TheFine
+                $name = "~This->"+z.t
+                me&wants,R,name,z
+                ha({pur:name})
+            })
+            c.el < 2 and ha('pur:unreadyThis')
+            if (c.el == 2) {
+                # suppose only current Fine needs reselfing
+                #  this forgets|resets|rebuilds Fine** R+s
+                $z = c.InFine
+                # < io: climb s|R til R%TheFest, return s
+                $zr = me&yfuture,z
+                $Festr = me.cbu(zr,'TheFest')
+                $Fest = Festrc&s
+                me&nu,"Zin",{Fest,z}
+                me&Effect,s,Fest,'pullThis',{curse:z}
+                # < &Effect to maybe unexistent places...
+                # reself Fc&InFine=Fine
+                me&tc,"pullThis",'y'
+            }
         }
     },
   // @Gome -> %Zaving
@@ -2888,68 +2952,34 @@ me.Sch_Travel = &acgt{ return [
                 
                 x = me&Gome_Jx,R
                 !x and debugger
+                # < should stay
                 $Pro = xs&Jproto
                 $Run = xs&Jrunto
-                !Run and return ha('pur:Jrunto')
+                $F = xs&TheF
+                !Pro and return ha('pur:!Jproto')
+                !Run and return ha('pur:!Jrunto')
+                !F and return ha('pur:!F')
                 if (ts&Con) {
                     # < Story/$t informs Cat modes:
                     # stays %%now until tests satisfied
-                    !Pro and return ha('pur:!Jproto')
-                    !Run and return ha('pur:!Jrunto')
-
-                    me&nodei,R,Pro,'noautoDuolish'
-                    x.ro('looksdone',{}) and me&nodei,R,Pro,'mayDuolish'
-                    # < should keep the main thing awaking (dome:now)
-                    #   redoing elvising every so often, keepalive duty
-                    # development mode
-                    else me&nodei,R,Pro,'keeprunning'
-                    # after we %%mayRun, we get here via:
-                    if (Rs&Gump_quiet) {
-                        #!me&ja,R,'went_quiet' 
-                        me&tc,"YerQuiet"
-                    }
-
-                    # and may begin if SC%Con (if t%Con)
-                    !x.ro('maynotRun',{}) and me&nodei,R,Run,'mayRun'
+                    
+                    me&Gome_SC_SetTings,R,F,ha
+                    
+                    # puts xs&This
+                    $This = me&Gome_This,R
 
                     # we then expect to go quiet
                     # allow Gump to quiet wake while ~This**
-                    sy&want_quiet_wake = &{
-                        $This = me&Gome_This,R
-                        !This and return 1
-                        $Thisc = {This}
-                        me&FasyncThis,xs&TheF,Thisc
-                        return Thisc.el <4
-                    }
+                    sy&want_quiet_wake =
+                        () => me&Gome_Thischa_other,R,F
+                    
+                    !This and return ha('pur:!This')
+                    
+                    me&Gome_Thischa_self,R,F,ha
+                    
                     # observe Proto !now not over finishline
-                    $This = me&Gome_This,R
-                    !This and return ha('pur:This')
-                    $F = xs&TheF
-                    $Thisc = {This}
-                    me&FasyncThis,F,Thisc
-                    Thisc.wake.map(&z{
-                        # wake TheFc&InFine=%TheFine
-                        $name = "~This->"+z.t
-                        me&wants,R,name,z
-                        ha({pur:name})
-                    })
-                    Thisc.el < 2 and ha('pur:unreadyThis')
-                    if (Thisc.el == 2) {
-                        # suppose only current Fine needs reselfing
-                        #  this forgets|resets|rebuilds Fine** R+s
-                        $z = Thisc.InFine
-                        # < io: climb s|R til R%TheFest, return s
-                        $zr = me&yfuture,z
-                        $Festr = me.cbu(zr,'TheFest')
-                        $Fest = Festrc&s
-                        me&nu,"Zin",{Fest,z}
-                        me&Effect,s,Fest,'pullThis',{curse:z}
-                        # < &Effect to maybe unexistent places...
-                        # reself Fc&InFine=Fine
-                        me&tc,"pullThis",'y'
-                    }
-                    #
-                    Rs&goGome and me&nu,"Fins",{t,SC,Pro,This,F}
+                    
+                    Rs&goGome and me&nu,"Fins",{t,SC,Pro,This,F,xsc:x.sc}
                 }
                 
                 # o Duolish... run
