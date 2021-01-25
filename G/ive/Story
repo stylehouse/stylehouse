@@ -909,7 +909,6 @@ me.Sch_Story = &acgt{ return [
         ])
         each it about {
             $n = me&fiu,s,t
-            i == 0 and ns&firstNine = 1
         }
     },'ift,D'],
     # -nine being Zavable
@@ -1180,6 +1179,7 @@ me.Sch_Story = &acgt{ return [
             $el = &vs{
                 c.el = v
                 s && c.wake.push(s)
+                return c
             }
             # too new
             # < could [F] in this case? make too busy? if !b?
@@ -1212,7 +1212,7 @@ me.Sch_Story = &acgt{ return [
                 .filter(el => el <8)
             hak(N) and return el(3,s)
             
-            return []
+            return el(8)
         }
         me.Fineiscursed = &acgtzn{
             n ||= 1
@@ -1556,12 +1556,6 @@ me.Sch_Story = &acgt{ return [
         # tracks all -sevens ever
         # < Leave causes a scope-out
         
-        # $Nine cloned from a Stories/Stori
-        # $Nine/* become Eigh%exp (have %dige, instructions)
-        # these eight -> Eigh%got (have %dige%string, y&Point=$L)
-        # < %%Having,eight come in order?
-        #$gotN = me&jaa,R,"eight,Having,L",1
-        
         $gotN = Es&Is || []
         me&twlic,gotN,s (&lzct{
             t = t.replace(/[^A-Z\d_-]+/gi,'_')
@@ -1666,13 +1660,20 @@ me.Sch_Story = &acgt{ return [
         $z = Rs&got
         !t && !z and return Rs&FeRel = 1
         $go = me&acting,R,'Fe'
-        # < concealments
-        # < clearer rowing to the outsphere from -nine from This
-        # < &acceptable** for same atoms in different 9s
-        !x.ro('Outs',{}) and Rs&noRsync = 1
+        if (!x.ro('Outs',{})) {
+            # < concealments, similar to compressions:
+            #    Normal's TheFine/TheFe tends to ...
+            # < clearer rowing to the outsphere from -nine from This
+            # < &acceptable** for same atoms in different 9s
+            Rs&noRsync = 1
+            if (sc&pi == 'Ness' && ss&dige && ss&tige) {
+                Rs&nofixfor = peel('pi,dige,tige')
+            }
+        }
         # may %string or just %dige
         go and me&nu,"expgot",{t,z}
-        me&FeDigestill,R,z and return
+        me&FeDigestill_sleeps,R,z and return
+        
     },'ift,D'],
     ['TheFe',0.36,&acgtRs{
         $t = Rs&exp
@@ -1686,7 +1687,7 @@ me.Sch_Story = &acgt{ return [
     },'ift,D'],
     &{
         # %TheFe stills got:z%dige
-        me.FeDigestill = &acgtRz{
+        me.FeDigestill_sleeps = &acgtRz{
             $Dige = z && zs&dige
             $cha = !Dige || !me&za,R,{Dige}
             Dige and me&ha,R,{Dige}
@@ -1763,7 +1764,7 @@ me.Sch_Story = &acgt{ return [
     ['FeRel',0.361,&acgtRs{
         me&reaw,R,'FeRel'
         me&bin,'FeRel'
-        me&tc,"FeRel"
+        me&acting,R,'FeRel'
     },'ift,D'],
     &{
     },
