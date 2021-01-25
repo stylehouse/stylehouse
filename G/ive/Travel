@@ -2802,7 +2802,7 @@ me.Sch_Travel = &acgt{ return [
             $c = {This}
             me&FasyncThis,F,c
             c.wake.map(&z{
-                # wake TheFc&InFine=%TheFine
+                # wake Fc&InFine=%TheFine, or sometimes This...
                 $name = "~This->"+z.t
                 me&wants,R,name,z
                 ha({pur:name})
@@ -2812,11 +2812,9 @@ me.Sch_Travel = &acgt{ return [
                 # suppose only current Fine needs reselfing
                 #  this forgets|resets|rebuilds Fine** R+s
                 $z = c.InFine
-                # < io: climb s|R til R%TheFest, return s
-                $zr = me&yfuture,z
-                $Festr = me.cbu(zr,'TheFest')
-                $Fest = Festrc&s
-                me&nu,"Zin",{Fest,z}
+                Fc&InFine != z and debugger
+                # Fest generates /Fine
+                $Fest = zy&up
                 me&Effect,s,Fest,'pullThis',{curse:z}
                 # < &Effect to maybe unexistent places...
                 # reself Fc&InFine=Fine
@@ -2892,9 +2890,9 @@ me.Sch_Travel = &acgt{ return [
          at quiet,
           which may have been a result of %Jproto
            waiting for @Gome to OK its work
-            some async -log progress check is possible
-            to keep sync and check peripheral sanity
-            eg about to commit, check work was suchy
+           > some async -log progress check is possible
+             to keep sync and check peripheral sanity
+             eg about to commit, check work was suchy
          
          checks This** into @Fine
          and @Fine into This/$Ting

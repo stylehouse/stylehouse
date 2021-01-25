@@ -933,14 +933,18 @@ me.Sch_Story = &acgt{ return [
             $Ec = {curse:1,mode:'includes',s:Rs&shelf,go}
             $cursed = me&Effected,s,Ec
             if (cursed) {
-                me&nu,"Cursed?",Ec
-                cursed and c.pull = 1
+                # < refer to this @This in &SuperSC
+                me&tc,"cursed:",'b'
+                # light up the Leave button
+                # < call this tied-e?
+                ah(R,'c','b','sc','Leave',1)
             }
         }
         # < a buttoner|Effector that can glow 'Leave' because c.pull
         # then harness %Live into TheNine
         # < harness self (TheNine<->...) <-> other (Paving)
         x.ro('Leave') and c.pull = 1
+        cursed && c.pull != 1 and debugger
         $self = me&selfThat,R,that,c
         
         # doesn't reload Nine/Eigh
@@ -984,6 +988,7 @@ me.Sch_Story = &acgt{ return [
     },'ift,D'],
   
   // TheFine-nine
+    
     =pod
      -nine/* binds The + This
       The=Fine, specifically its s/-Ness** (outsphere)
@@ -1172,6 +1177,10 @@ me.Sch_Story = &acgt{ return [
             # may be on the wake
             c.wake = []
             c.el = 8
+            $el = &vs{
+                c.el = v
+                s && c.wake.push(s)
+            }
             # too new
             # < could [F] in this case? make too busy? if !b?
             #   wants what is currently happening? since Gome..TheF
@@ -1179,9 +1188,9 @@ me.Sch_Story = &acgt{ return [
             #    or shallow comeback here later
             #   the waits_8|Ying_8 do-over...
             #   the A:Gome vs A:Fine
-            !s and c.el = 1; return c.unready = []
+            !s and return el(1)
             sc&pi != 'nine' and debugger
-            !sy&nine and c.el = 1; return c.wake = [s]
+            !sy&nine and return el(1,s)
             c.InFine = s
             # into the -nine's &EsyncThis
             $E = fi&getpi,s
@@ -1191,18 +1200,17 @@ me.Sch_Story = &acgt{ return [
             if (Eisy&C != This) {
                 # for Gome to pull a new Fine
                 me&Fineiscursed,s
-                c.el = 2
-                return []
+                return el(2)
             }
             
             # -nine/This/*%dige slep
-            !me&Thislooksready,This and return c.unready = []
+            !me&Thislooksready,This and return el(1,This)
             
             # stream when acty c&el
             # < never set everything to el:8?
             $N = me&clonto,This,Eis,'-Eight'
                 .filter(el => el <8)
-            hak(N) and c.el = 3; return c.wake = [s]
+            hak(N) and return el(3,s)
             
             return []
         }
