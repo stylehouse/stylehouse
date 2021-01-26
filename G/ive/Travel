@@ -2776,12 +2776,6 @@ me.Sch_Travel = &acgt{ return [
             #   redoing elvising every so often, keepalive duty
             # development mode
             else me&nodei,R,xs&Pro,'keeprunning'
-            # after we %%mayRun, we get here via:
-            if (Rs&Gump_quiet) {
-                #!me&ja,R,'went_quiet' 
-                me&tc,"YerQuiet"
-            }
-
             # and may begin if SC%Con (if t%Con)
             !x.ro('maynotRun',{}) and me&nodei,R,xs&Run,'mayRun'
         }
@@ -2883,30 +2877,58 @@ me.Sch_Travel = &acgt{ return [
        // &SuperGome inter %SummerCat
         =doc
          sync Ting, play|pause|rewind|stop, re tests
-          dealing @Fine/-Do auto|not
-           these usually wake @Run,
-            it or @Pro may wait for iteration via @Gome
+          sync @Fine, solving:
+           /Step-Ness <- This**
+            if 'OK', deal the next bunch of:
+           /Act-Do -> @Run
+            interactions, e:something, @Pro-pulsion?
+             usu just wake:@Run for iteration via @Gome
+           /View-Ting -> The
+            a Fish Te. usu how This** should ope
+          at quiet,
+           usu when @Pro out of immediacy
+           eg wait for @Gome to 'OK' its work
          goes on to Duolish, remarking on u used
-         at quiet,
-          which may have been a result of %Jproto
-           waiting for @Gome to OK its work
-           > some async -log progress check is possible
-             to keep sync and check peripheral sanity
-             eg about to commit, check work was suchy
+          which needs to hoist from A:loading now...
          
-         checks This** into @Fine
-         and @Fine into This/$Ting
+         > 'OK'ing async, in &com...
+            involves an async &EsyncThis
+             to assign who is what?
+            to keep sync and check peripheral sanity
+            eg about to commit, check work was suchy
+         anyway,
+           /Step-Ness
+            checks @Run/This** into @Fine/**
+             /-Ness/Thing-Eight
+              arranging the in-time|&com:
+              /Time-seven/Event-log/-row/-vat**
+               their how by @Run/The
+            'OK' etc
+         trigger:
+           /Act-Do dealing
+            @Run or @Pro wait for @Gome|the-outside-world
+             eg could reply to A:mess in some way
+            either could expect any kind of reply
+             inc a bunch of e to bring another kind of reply in
+             eg @Pro takes e to %%C on %%Four
+           /View-Ting lighting
+            adjustments to This**/-log**
+          ->
+           @Run/The
+            taken by various users as inputs
+             eg Fish %TX, matching $Tt
+            versioned, each -Eight/* note use on Outs
+           
+           
+          checks @Run/This** into @Fine/**
+         and @Fine/-Ting into This/$Ting
           so A:becoming -Eight (&complace) pick up its awareness
           which helps it anything at &com or -Eight**
-         how -Ness/Thing-Eight/Time-seven/Etc/$exp
         
          with Nine/$exp (or others) picked up - shared
          anything capable of -eight/$Ting
           which compiles to $Tt, resolving in &log
         
-           < &receivan should make its own %%pur if T.SC,
-             which should join every &Super* context once est.
-             they are almost a u mix
              they might have things to version control
               esp. &SuperGhosc|Gens: push versions
               any remarkables for this @Goting-ing
@@ -3038,7 +3060,7 @@ me.Sch_Travel = &acgt{ return [
                     
                     # observe Proto !now not over finishline
                     
-                    Rs&goGome and me&nu,"Fins",{t,SC,Pro,This,F,xsc:x.sc}
+                    Rs&goGome and me&nu,"Fins",{t,SC,Pro,This,F}
                 }
                 
                 x.ro('end') and return
@@ -3657,6 +3679,7 @@ me.Sch_Travel = &acgt{ return [
                 # make c into a sute object...
                 ex(c,inq)
                 ex(c,{zaa,jaa,ha,ta})
+                T.sute = c
                 sutes.push(c)
                 
           // 3 when
@@ -3845,8 +3868,15 @@ me.Sch_Travel = &acgt{ return [
             # supposed to receive something, or fail
             $e = theone( me&jaa,R,q,1 ,say)
             if (!e) {
-                me&tsc,k+"..."
-                me&ha,R,{pre:k,receivan:1}
+                if (T.sute) {
+                    # channel to &supetime
+                    T.sute.ha({pre:'%%'+k})
+                }
+                else {
+                    # look like &supetime would
+                    me&tsc,k+"..."
+                    me&ha,R,{pre:k,receivan:1}
+                }
                 return 0
             }
             
