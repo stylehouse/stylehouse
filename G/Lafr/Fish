@@ -1963,7 +1963,8 @@ fi.Xios ||= {}
         hak(c,'s') and zc&s = c.s
         zc&pi = c.pi
         
-        fi&piing,z,1,q
+        c.ov ||= 1
+        fi&piing,z,c,q
         q.meish and fi&tapepi,z
         
         return z
@@ -1978,19 +1979,20 @@ fi.Xios ||= {}
         $up = sy&up
         # < and where on the tape from sy&up
         #   earlier neigh etc
+        toc&N.includes(s) and debugger
         toc&N.push(s)
         
     }
    // &piing continue
+    # < wind through that tape
     fi.piing = &acgtscq{
-        # wind through that tape
-        
         # may others first, ideally get back to:
         return me&Sopiing,s,c,q
     }
     # adapt to a fi.pi_routine
     me.Sopiing = &acgtscq{
-        $pi = sc&pi
+        $pi = c.pi || sc&pi
+        !pi and debugger
         $y = fi['pi_'+pi]
         !y and y = me['pi'+pi]; q.meish = 1
         return y (A,C,G,T,s,c,q)
@@ -2006,7 +2008,7 @@ fi.Xios ||= {}
         c.ov = scaf(c.ov)
         
         c.ov > 0.1 and c.el ||= 3
-        $E = me&Api,s,t,c
+        $E = c.E || me&Api,s,t,c
         negate and Ec&cv = c.ov - 0.001
         E.y [Ec&pi] = E
         sc&pi ||= Ec&pi

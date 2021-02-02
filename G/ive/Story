@@ -2118,18 +2118,20 @@ me.Sch_Story = &acgt{ return [
                 each kv hash {
                     hash[k+i] = {le:v}
                 }
+                hash['water'+i] = 'par importo'
                 })
+                
                 # the redo:
                 $sd = me&disp_suit,s
                 Ec&N = []
-                me&fiu,E,'hash',9
+                me&fiu,E,'topval',9
                 # do:
-                $f = fi&pii,E,{t:"hash",pi:'hash',s:hash}
+                $f = fi&pii,E,{t:"topval",pi:'val',s:hash}
                 # some kind of chase out (do at depth)
                 $seen = 0
                 while (Ec&N.length > seen) {
                     seen = Ec&N.length
-                    Ec&N.map(e => fi&piing,e,7,q )
+                    Ec&N.map(e => fi&piing,e,9,q )
                 }
                 # uplink del modulata
                 each in Ec&N {
@@ -2149,11 +2151,13 @@ me.Sch_Story = &acgt{ return [
                     pdy&yond(d)
                     n.t == 'fig12' and me&nu,"sea",n
                 }
+                me&nu,"Slu",E
                 $R = me&R
                 ac(R,'M',sy&disp)
             },
         })
     }
+   // misc
     me.disp_suit = &acgts{
         $d = sy&disp = Cye([s.t,8])
         dy&up = s
@@ -2225,23 +2229,42 @@ me.Sch_Story = &acgt{ return [
      < -log will have the tape
        usu @6 $D will 'OK', no modulat default
        tape length and depth limits
-      
     =cut
+    =works
+     wants a straight up &pii,
+      duplicate the $D only,
+    =cut
+    me.pival = &acgtscq{
+        return me&Sopi,s,'val',c,q ({
+            2: &Ecq{
+                if (isob(sc&s)) {
+                    fi&piing,s,{E,pi:'hash',ov:1},q
+                }
+                else {
+                    ss&insideEnd = 3
+                    Es&Leafit = 3
+                    $M = ss&z
+                    $di = dis(sc&s)
+                    m thinking  $s:di %fs:8,hs:584
+                }
+            },
+        })
+    }
     me.pihash = &acgtscq{
         return me&Sopi,s,'hash',c,q ({
             2: &Ecq{
                 $M = ss&z
                 m thinking  s:{ %deco,fs:8
                 each kv sc&s {
-                    $row = fi&pii,E,{t:k,pi:'val',s:v}
+                    $row = fi&pii,E,{t:k,pi:'valend',s:v}
                     rows&seenity = 3
                 }
                 m thinking 7 s:} %deco,fs:8
             },
         })
     }
-    me.pival = &acgtscq{
-        return me&Sopi,s,'val',c,q ({
+    me.pivalend = &acgtscq{
+        return me&Sopi,s,'valend',c,q ({
             2: &Ecq{
                 ss&insideEnd = 3
                 Es&Leafit = 3
