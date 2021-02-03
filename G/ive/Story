@@ -2122,6 +2122,7 @@ me.Sch_Story = &acgt{ return [
    // R:$pi
     &{
     me.PiRet = &acgtRc{
+        Rc&nofurther and return
         c.Top and c.refpool = 1
         $r = me&Ret,R,c
         if (c.Top) {
@@ -2134,9 +2135,65 @@ me.Sch_Story = &acgt{ return [
             rc&nl = 300
             
         }
-        rc&N.push(r)
+        me&R_togo,r
         return r
     }
+    me.R_togo = &acgtR{
+        $s = Rc&s
+        
+        # limits want workarounds
+        $limit = &s{ me&Rec,R,s };
+
+        !Rc&refs and Rc&refs = []; Rc&refR = [];
+        if (s && typeof s == 'object') {
+            # soft dup limit, sets Rc&nofurther=1
+            me&R_reflimit,R,s,limit
+        }
+        # sprawl limits
+        Rc&dl && Rc&dl < Rc&d and return limit('dl')
+        Rc&nl && Rc&N && Rc&nl < Rc&N.length and return limit('nl')
+        
+        
+        Rc&N.push(R)
+    }
+    me.R_reflimit = &acgtRs,limit{
+        # dedupe/limit objects already in this pool
+        $ri = Rc&refs.indexOf(s);
+        if (ri < 0) {
+            ri = Rc&refs.push(s) - 1;
+            Rc&refR ||= {};
+            Rc&refR[ri] ||= [];
+            Rc&refR[ri].push(R);
+        }
+        else {
+            $h = Rc&N[0];
+            # see the per-ref R table
+            $RN = Rc&refR[ri];
+            Rs&refR = RN;
+            RN.push(R);
+            # in this pool
+            $RhN = RN.filter(r => h && rc&N == hc&N);
+            $nvm;
+            if (Rs&dupup) {
+                # when -known also -unknown inside itself
+                RhN.indexOf(Ry&up) >= 0 and nvm = 1
+            }
+            if (!nvm) {
+                $dupl = Rc&dupl || 0;
+                if (RhN.length > dupl) {
+                    limit('dup');
+                    Rc&nofurther = 1;
+                }
+                else {
+
+                }
+                !Rc&nofurther and limit('dub')
+            }
+            # < to know circular links, converge
+        }
+    }
+    
+   // R:$pi: &Pi_The
     me.Pi_The = &acgt{ return [
         ['Pier',0.2,&acgtRs{
             # disp
