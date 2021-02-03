@@ -2077,7 +2077,11 @@ me.Sch_Story = &acgt{ return [
         
         # receivable
         me.FishElvising = R
-        go and me&nu,"FishElvis",me.Lastev
+        $ev = me.Lastev
+        if (go && ev) {
+            me&nu,"FishElvis",ev
+            me&nu,"FishElvis.N",ev.N
+        }
         
         # art busier
         me&rollbs,"Fishtivity"
@@ -2097,7 +2101,71 @@ me.Sch_Story = &acgt{ return [
         $del = me&modelta
         me&pihat,s,7
         del()
+        
+        me&tc,"---"
+        # or as R:
+        $del = me&modelta
+        $c = {t:"hat"}
+        c.task = 'Pi_The'
+        c.Pier = 1
+        c.Hash = 1
+        c.Top = 1
+        c.s = sy&data
+        $r = me&PiRet,R,c
+        me&Ring,r
+
+        del()
+        
+        me&nu,"hat",r
+        #$r = me&Ret,sy&data,'Thybit,Pier'
     },'ift,D'],
+   // R:$pi
+    &{
+    me.PiRet = &acgtRc{
+        c.Top and c.refpool = 1
+        $r = me&Ret,R,c
+        if (c.Top) {
+            $h = Rc&N[0]
+            ry&I = 1
+            ry&cv = 0
+            rc&N = []
+            rc&d = 0
+            rc&dl = 15
+            rc&nl = 300
+            
+        }
+        rc&N.push(r)
+        return r
+    }
+    me.Pi_The = &acgt{ return [
+        ['Pier',0.2,&acgtRs{
+            # disp
+            Rs&C = Cye([R.t,1])
+            # D
+            Rs&D = Cye([R.t,1])
+        },'ift,D'],
+        ['Hash',0.263,&acgtRs{
+            $D = Rs&D
+            Rc&dl <= Rc&d+2 and return me&tc,"<*"
+            each kv s {
+                $d = me&fiu,D,k
+                dy&data = v
+            }
+        },'ift,D'],
+        ['Pier',0.3,&acgtRs{
+            $D = Rs&D
+            each in Ds&z {
+                $r = me&Ret,R,{t:n.t,s:ny&data,Pier:1}
+            }
+        },'ift,D'],
+        ['Top',0.9,&acgtRs{
+            # disp
+            Rs&C = Cye([R.t,1])
+            # D
+            Rs&D = Cye([R.t,1])
+        },'ift,D'],
+    ] }
+    },
    // -hat - top thing
     &{
     me.pihat = &acgtscq{
@@ -2123,6 +2191,7 @@ me.Sch_Story = &acgt{ return [
                     }
                     hash['water'+i] = 'par importo'
                 })
+                sy&data = hash
                 
                 # the redo:
                 $sd = me&disp_suit,s
