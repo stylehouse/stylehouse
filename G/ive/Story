@@ -2073,11 +2073,11 @@ me.Sch_Story = &acgt{ return [
     ['TheThy',0.361,&acgtRs{
         me&reaw,R,'TheThy'
         $x = me&Jx,R
-        me&acting,R,'Thy'
+        $go = me&acting,R,'Thy'
         
         # receivable
         me.FishElvising = R
-        me&nu,"FishElvis",me.Lastev
+        go and me&nu,"FishElvis",me.Lastev
         
         # art busier
         me&rollbs,"Fishtivity"
@@ -2095,11 +2095,25 @@ me.Sch_Story = &acgt{ return [
         Rs&elvis = 'FishElvis'
         # for Thy C:
         #delete sy&hat
+        $del = me&modelta
         me&pihat,s,7
+        del()
     },'ift,D'],
+    &{
+    me.modelta = &acgt{
+        $R = me&R
+        $start = Gtime()
+        return &{
+            $delta = Gtime(start)
+            me&tc,"~"+delta,'b'
+        }
+    }
+    },
    // -hat - top thing
     &{
     me.pihat = &acgtscq{
+        $R = me&R
+        $go = Rs&goThy
         return me&Sopi,s,'hat',c,q ({
             1: &Ecq{
                 Ec&top = 1
@@ -2149,9 +2163,9 @@ me.Sch_Story = &acgt{ return [
                     $pd = pny&disp
                     !pd and debugger
                     pdy&yond(d)
-                    n.t == 'fig12' and me&nu,"sea",n
+                    go && n.t == 'fig12' and me&nu,"sea",n
                 }
-                me&nu,"Slu",E
+                go and me&nu,"Slu",E
                 $R = me&R
                 ac(R,'M',sy&disp)
             },
@@ -2238,7 +2252,7 @@ me.Sch_Story = &acgt{ return [
         return me&Sopi,s,'val',c,q ({
             2: &Ecq{
                 if (isob(sc&s)) {
-                    fi&piing,s,{E,pi:'hash',ov:1},q
+                    fi&piing,s,{E,pi:'hash',ov:2},q
                 }
                 else {
                     ss&insideEnd = 3
