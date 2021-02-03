@@ -2091,7 +2091,6 @@ me.Sch_Story = &acgt{ return [
     ['Thybit',0.361,&acgtRs{
         me&acting,R,'Thy'
         me&bin,'Thybit'
-        # new collectron:
         Rs&elvis = 'FishElvis'
         # for Thy C:
         #delete sy&hat
@@ -2099,16 +2098,6 @@ me.Sch_Story = &acgt{ return [
         me&pihat,s,7
         del()
     },'ift,D'],
-    &{
-    me.modelta = &acgt{
-        $R = me&R
-        $start = Gtime()
-        return &{
-            $delta = Gtime(start)
-            me&tc,"~"+delta,'b'
-        }
-    }
-    },
    // -hat - top thing
     &{
     me.pihat = &acgtscq{
@@ -2129,49 +2118,64 @@ me.Sch_Story = &acgt{ return [
                 }
                 $N = [1,2,3,4]
                 N.map(&i{
-                each kv hash {
-                    hash[k+i] = {le:v}
-                }
-                hash['water'+i] = 'par importo'
+                    each kv hash {
+                        hash[k+i] = {le:v}
+                    }
+                    hash['water'+i] = 'par importo'
                 })
                 
                 # the redo:
                 $sd = me&disp_suit,s
                 Ec&N = []
                 me&fiu,E,'topval',9
+                
                 # do:
                 $f = fi&pii,E,{t:"topval",pi:'val',s:hash}
-                # some kind of chase out (do at depth)
-                $seen = 0
-                while (Ec&N.length > seen) {
-                    seen = Ec&N.length
-                    Ec&N.map(e => fi&piing,e,9,q )
-                }
-                # uplink del modulata
-                each in Ec&N {
-                    # n:s - outsphere
-                    $d = me&disp_suit,n
-                    each iz ns&z {
-                        dy&here(z)
-                    }
-                    # ny$pi = E - insphere, has others
-                    $nE = me&mustpis,n
-                    # n up to some E
-                    $pE = ny&up
-                    $pn = me&mustpiE,pE
-                    # here inside higher middle
-                    $pd = pny&disp
-                    !pd and debugger
-                    pdy&yond(d)
-                    go && n.t == 'fig12' and me&nu,"sea",n
-                }
+                me&windup_tape,E,6,q
+                me&disp_tape,E
+                
                 go and me&nu,"Slu",E
                 $R = me&R
-                ac(R,'M',sy&disp)
+                ac(R,'M',sd)
             },
         })
     }
    // misc
+    # chase <ov on tape
+    me.windup_tape = &acgtEcq{
+        num(c) and c = {ov:c}
+        c.ov = scaf(c.ov || 9)
+        $seen = 0
+        while (Ec&N.length > seen) {
+            seen = Ec&N.length
+            each ie Ec&N {
+                ec&cv == c.ov and continue
+                fi&piing,e,c.ov,q
+                # sets cv=ov even if no mindbit is there
+                ec&cv = c.ov
+            }
+        }
+    }
+    me.disp_tape = &acgtEcq{
+        # uplink del modulata
+        each in Ec&N {
+            # n:s - outsphere
+            $d = me&disp_suit,n
+            each iz ns&z {
+                dy&here(z)
+            }
+            # ny$pi = E - insphere, has others
+            $nE = me&mustpis,n
+            # n up to some E
+            $pE = ny&up
+            $pn = me&mustpiE,pE
+            # here inside higher middle
+            $pd = pny&disp
+            !pd and debugger
+            pdy&yond(d)
+        }
+    }
+    # housing for stuff around stuff inside
     me.disp_suit = &acgts{
         $d = sy&disp = Cye([s.t,8])
         dy&up = s
@@ -2182,8 +2186,8 @@ me.Sch_Story = &acgt{ return [
         mis&ma = 0.2
         $en = me&fiu,d,'end'
         
+        # heres on either side of yond
         dy&here = &z{
-            # here wraps middle
             $to = zy&cv < 0.67 ? be : en
             ac(to,'z',z)
         }
@@ -2203,6 +2207,14 @@ me.Sch_Story = &acgt{ return [
         $e = fi&getpi,s
         E != e and debugger
         return s
+    }
+    me.modelta = &acgt{
+        $R = me&R
+        $start = Gtime()
+        return &{
+            $delta = Gtime(start)
+            me&tc,"~"+delta,'b'
+        }
     }
    // -hash etc
     =neupi
