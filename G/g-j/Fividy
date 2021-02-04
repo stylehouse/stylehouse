@@ -234,8 +234,8 @@ me.fiu = &acgtstc{
     isnu(c) and c = {el:c}
     # read only
     $n = fio(s,t,0);
-    # 2 must be new (see lv el:2 == only such t)
-    c.el == 2 && n and throw "already i", n
+    # 2 must be new or same (see lv el:2 == only such t)
+    c.el == 2 && n && n != t and throw "already i", n
     c.el == 2 and c.el = 1
     # 7 must be there, 8 read only
     c.el == 7 && !n and throw "No "+s.t+"/"+t
