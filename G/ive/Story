@@ -2109,9 +2109,7 @@ me.Sch_Story = &acgt{ return [
         # or as R:
         $del = me&modelta
         $c = {t:"hat"}
-        c.task = 'Pi_The'
         c.Pier = 1
-        c.Hash = 1
         c.Top = 1
         c.s = sy&data
         $r = me&PiRet,R,c
@@ -2127,18 +2125,21 @@ me.Sch_Story = &acgt{ return [
     &{
     me.PiRet = &acgtRc{
         Rc&nofurther and return
-        c.Top and c.refpool = 1
+        c.Pier = 1
+        if (c.Top) {
+            c.task = 'Pi_The'
+            c.refpool = 1
+        }
         $r = me&Ret,R,c
         if (c.Top) {
             $h = Rc&N[0]
             #ry&I = 1
-            ry&cv = 0
             rc&N = []
             rc&d = 0
             rc&dl = 15
             rc&nl = 300
-            
         }
+        ry&cv = 0
         me&R_togo,r
         return r
     }
@@ -2233,7 +2234,8 @@ me.Sch_Story = &acgt{ return [
         ['Pier',0.3,&acgtRs{
             $D = Rs&D
             each in Ds&z {
-                $r = me&Ret,R,{t:n.t,s:ny&data,Pier:1}
+                $r = me&PiRet,R,{t:n.t,s:ny&data}
+                #$r = me&Ret,R,{t:n.t,s:ny&data,Pier:1}
             }
         },'ift,D'],
         ['Top',0.12,&acgtRs{
