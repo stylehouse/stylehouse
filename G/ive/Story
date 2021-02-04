@@ -2218,7 +2218,6 @@ me.Sch_Story = &acgt{ return [
             s&dis = 1
             s&ml = 1
             Rc&dl <= Rc&d+2 and return me&tc,"<*"
-            me&tc,"()"
             n begin 2 s:{
             each kv s {
                 $d = me&fiu,D,k
@@ -2237,15 +2236,20 @@ me.Sch_Story = &acgt{ return [
                 $r = me&Ret,R,{t:n.t,s:ny&data,Pier:1}
             }
         },'ift,D'],
+        ['Top',0.12,&acgtRs{
+            me&arriveRbitX,R,R.t
+        },'ift,D'],
         ['Top',0.9,&acgtRs{
             # disp
             s&dis = 1
             me&walls,C,"b:2.2"
             me&scroll,28
-            Rs&noDisplay and return
-            $d = me&Display,R
-            # < appears twice unless:
-            Rs&noDisplay = 1
+            if (!Rs&noDisplay) {
+                $d = me&Display,R
+                # < appears twice unless:
+                Rs&noDisplay = 1
+            }
+            me&applyRbitX,R
         },'ift,D'],
     ] }
     },
