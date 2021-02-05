@@ -716,7 +716,7 @@ fi.Xios ||= {}
         $lak = haks(s).slice(-1)[0]
         each kv s {
             
-            $ok = typeof v == 'string' || typeof v == 'number'
+            $ok = c.array || typeof v == 'string' || typeof v == 'number'
             !ok and throw "Xsim!string:",k,s,c
             # long builds x..x
             $hs = c.long && x || X
@@ -731,6 +731,14 @@ fi.Xios ||= {}
             #q and hs[k] = v; continue
             $vs = hs[k] ||= {}
             c.wild == k and return vs
+            if (c.array) {
+                # lifted from &qis xq.array
+                # index values in an array
+                $refs = hs[k+'s'] ||= []
+                $vi = refs.indexOf(v)
+                vi < 0 and vi = refs.push(v)-1
+                v = vi
+            }
             $x = vs[v] ||= {}
             x.z ||= []
             x.up ||= ux
@@ -747,6 +755,7 @@ fi.Xios ||= {}
         # < used for brack
         return fi&xzand,N
     }
+    # union /$n (x.z=[$n+])
     fi.xzand = &acgtN{
         $M = []
         each ix N {
@@ -1502,8 +1511,8 @@ fi.Xios ||= {}
                   only in this -seven (can put higher)
                   < may (not)? match on the -log already matching
               
-              is it so simple?
-               or are all %TX readonly?
+              is it so simple? no:
+               all %TX are readonly?
                must we project %TX over %RX somewhere we A,
                 scoped domily to the process doing the matching
                  our grasp, which may disconnect,
@@ -1550,13 +1559,29 @@ fi.Xios ||= {}
             or what the test assertion says + its exp
           
       =cut
-  
+    
+    # adapt to &Xsim...
+    #  expects A, give it E, as in R:$pi%E
+    fi.EXsim = &acgtEscq{
+        c ||= {}
+        $X = E.c[c.Xcgk||'X'] ||= {A:E}
+        # always expect refs
+        c.array = 1
+        # arg 2,3 do nothing
+        return fi&Xsim,X,'X',[],s,c,q
+    }
+    
     # E%X writeup attracts E^^%TX to E%RX
     fi.pio = &acgtEc{
+        # writing stuff down
+        each ark,v c {
+            fi&EXsim,E,hashkv(ark,v)
+        }
+        # triggering awareness
+        return fi&TX_awareness,E,c
+    }
+    fi.TX_awareness = &acgtEc{
         $N = me.cby(E,E => Ec&top).reverse()
-        # everyone:
-        c.t = E.t
-        c.pi = Ec&pi
         # rowing, or arq+
         $M = []
         each in N {
@@ -1574,8 +1599,13 @@ fi.Xios ||= {}
                         
                     }
                     !TX[ark] and continue
-                    $atch = TX[ark][v]
-                    !atch and continue
+                    # all refs
+                    $arks = ark+'s'
+                    !TX[arks] and debugger
+                    $vi = TX[arks].indexOf(v)
+                    vi < 0 and continue
+                    $atch = TX[ark][vi]
+                    # datum has a bunch of matches
                     $match = atch.match
                     !match and continue
                     each tx match {
@@ -1605,8 +1635,9 @@ fi.Xios ||= {}
             }
         }
         
-        # < want to satisfy $Tt as its own exp
-        # <<<
+        # < want to satisfy $Tt as its own exp,
+        #   setting up %RX to progress it, etc
+        return M
     }
    
  // live
@@ -1893,7 +1924,7 @@ fi.Xios ||= {}
     fi.pi_vat = &acgtscq{
         return me&Sopi,s,'vat',c,q ({
             1: &Ecq{
-                fi&pio,E,{k:E.t,v:Ec&s}
+                #fi&pio,E,{k:E.t,v:Ec&s}
                 
                 # has more types,
                 #  sees C.*.*
