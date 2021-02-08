@@ -2125,16 +2125,21 @@ me.Sch_Story = &acgt{ return [
         Rs&Thex && c and throw "const"
         Rs&Thex and return Rs&Thex
         Rs&Thex = x
+        c ||= {}
+        # believing something
+        if (c.default) {
+            $s = Rc&s
+            sc&pi ||= c.default
+            Rs&Piering = 1
+        }
         # receivable somewhere
         Rs&elvis = 'FishElvis'
-        c ||= {}
+        
         c.long ||= T.act.t
-        c.long and me&reaw,R,c.long+',elvis,tow'
+        c.long and me&reaw,R,c.long+',elvis,tow,Piering'
         c.short ||= c.long
         c.short and xy&go = me&acting,R,c.short
         c.in and me&bin,c.in
-        
-        c.etow
         
         return x
     }
@@ -2151,46 +2156,49 @@ me.Sch_Story = &acgt{ return [
         me&tc,"TheeThy"
     },'ift,D'],
    
-   // %TheThis/%TheTh** see eg -nine
+   // This/Th** see eg -nine
     ['TheThis',0.295,&acgtRs{
         $x = me&Theing,{in:'TheTh'}
         
         # many things c&pi=...
-        me&bal,'This','tow'
+        me&bal,'Bowler'
     },'ift,D'],
     # 3 
     ['TheTh',0.296,&acgtRs{
-        $x = me&Theing,{in:'TheTh'}
+        $x = me&Theing,{in:'TheTh',default:'hat'}
+        # also default:
+        sc&s ||= me&PiRet_data
         
         me&tivity
     },'ift,D'],
-    # 6 innard avoided unless scheduled for redo
-    ['TheTh',0.6,&acgtRs{
-        me&Piering
-    },'ift,D'],
    
-   // %TheThe/%TheTt** see eg -nine $Tt-pile elvis
+   // The/Tt** see eg -nine $Tt-pile elvis
     # bay of storable thing, maybe in something else
     # with a recording elvis function
     ['TheThe',0.295,&acgtRs{
         me&Theing,{in:'TheTt'}
         
+        # ~ev may wake something
+        #  tend 
         me&tevet
         
         # many things c&pi=...
-        me&bal,'Bowler','tow,Pier:Bat'
+        me&bal,'Bowler','tow'
     },'ift,D'],
     ['TheTt',0.296,&acgtRs{
-        $x = me&Theing,R,{in:'TheTt'}
-        # where|how elvising goes
-        # is itself a space that could have elvis going a further step
-        
+        $x = me&Theing,{in:'TheTt',default:'Bat'}
         me&tivity
     },'ift,D'],
-    # innard avoided unless scheduled for redo
-    ['TheTt',0.361,&acgtRs{
+    
+    # 6 innard avoided unless scheduled for redo
+    ['Piering',0.6,&acgtRs{
         me&Piering
+        #s&dis = 1
+        #s&float = 'right'
     },'ift,D'],
+        # <<<
+        # where|how elvising goes
+        # is itself a space that could have elvis going a further step
    
    // &Acontext
     &{
@@ -2217,22 +2225,27 @@ me.Sch_Story = &acgt{ return [
             me&walla,la,'4.2'
             $r = me&nu,"FishElvis",ev
             $rC = rs&C
-            me&nu,"FishElvis.N",ev.N
-            me&nu,"FishElvis.M",ev.M
+            $int = {N:1,M:1}
+            each kv ev {
+                !isar(v) and continue
+                each in v {
+                    ev[k+'_'+i] = n
+                }
+            }
         }
     }
     # art function
     me.Piering = &acgt{
         $R = me&R
         $x = me&Theing
+        $s = Rc&s
         me&tc,"---"
         # or as R:
         $del = me&modelta
-        $data = me&PiRet_data
-        $c = {t:"hat"}
-        c.Pier = 1
+        $c = {t:"Piering"}
+        c.Pier = sc&pi
         c.Top = 1
-        c.s = data
+        c.s = sc&s
         $r = me&PiRet,R,c
         x.ro('noD') and rs&noDisplay = 1
         me&Ring,r
@@ -2247,7 +2260,9 @@ me.Sch_Story = &acgt{ return [
     &{
     me.PiRet = &acgtRc{
         Rc&nofurther and return
-        c.Pier = 1
+        # spreads base type
+        c.Pier ||= Rs&Pier || 'blank'
+        
         if (c.Top) {
             c.task = 'Pi_The'
             c.refpool = 1
@@ -2378,13 +2393,10 @@ me.Sch_Story = &acgt{ return [
        // %Pier,C,E,D types @2, i E/** @3
         ['Pier',0.2,&acgtRs{
             me&CED,R
-            
             $name = R.t
             n At 1 $s:name %deco,fs:6,ma:0.4
             
-            # diverges into types
-            isob(s) and me&typeup,R,'Hash'
-            else me&typeup,R,'String'
+            R.sc[Rs&Pier] = 1
         },'ift,D'],
         # E/** expands
         ['Pier',0.3,&acgtRs{
@@ -2408,6 +2420,21 @@ me.Sch_Story = &acgt{ return [
         },'ift,D'],
         
        // %Pier%* @263 types posit furthers
+        ['hat',0.21,&acgtRs{
+            # diverges into types
+            isob(s) and me&typeup,R,'Hash'
+            else me&typeup,R,'String'
+        },'ift,D'],
+        ['Bat',0.21,&acgtRs{
+            # diverges into types
+            ~>5 Bat happens:
+            me&tc,'Bat','q'
+        },'ift,D'],
+        ['blank',0.21,&acgtRs{
+            # diverges into types
+            me&tc,'blankBat','q'
+        },'ift,D'],
+        
         ['Hash',0.263,&acgtRs{
             $D = Rs&D
             $E = Rs&E
