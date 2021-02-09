@@ -4093,10 +4093,15 @@ me.Sch_Travel = &acgt{ return [
             c.dl = 4.23
             return ki(s,c.dl)
         }
-        me.tc = &acgtmtc{
-            !isC(m) and c = t; t = m; m = 0
-            return m ? me&mtsc,m,t,0,c
-                : me&tsc,t,0,c
+        me.tc = &acgtmtcb{
+            !isC(m) and b = c; c = t; t = m; m = 0
+            $args = [t]
+            # t+s can be split if b is c-ish (inc '')
+            b and args.push({s:c},b)
+            else args.push(0,c)
+            
+            !m and return me&tsc,...args
+            return me&mtsc,m,...args
         }
         # clickable callback
         me.ty = &acgtmt{
