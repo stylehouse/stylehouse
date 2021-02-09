@@ -2110,7 +2110,6 @@ me.Sch_Story = &acgt{ return [
         
         $c = {A,C,R,s,N,M}
         me&Thetower,R,c
-        T.wake = me.FishElvising
         
         me.Lastev = c
         }
@@ -2176,22 +2175,36 @@ me.Sch_Story = &acgt{ return [
         $es = may.slice(-1)[0]
         $join = up[0]
         # This/$t** <-> The/$r**
-        $ThisN = up.slice(2)
+        $ThisN = up.slice(1)
         c.ThisN = ThisN
         $TheN = [es]
         c.TheN = TheN
         each it ThisN {
+            # skip This itself
+            0 == i and continue
             $r = TheN.slice(-1)[0]
             # try route
             $z = rc&s
             !z and break
-            $n = me&fiu,r,t.t,7
-            debugger
-            !n || !ny&R and break
+            # ! not tw indexed
+            #$n = me&fiu,z,t.t,8
+            each in zs&z {
+                n.t == t.t and break
+                else n = 0
+            }
+            !n || !ny&R || !(ny&ein||ny&Todo) and break
             TheN.push(ny&R)
-            
-            ii <3 and debugger
         }
+        $es = TheN.slice(-1)[0]
+        $n = esc&s
+        !n and debugger
+        c&tower = c
+        c.es = n
+        T.wake = es
+        ny&ein and ny&ein(C,T)
+        else
+        ny&Todo and ny&Todo.push(C)
+        else debugger
     }
     },
     # some events, to|from the book
@@ -2229,16 +2242,16 @@ me.Sch_Story = &acgt{ return [
     ['TheThe',0.295,&acgtRs{
         me&Theing,{in:'TheTt'}
         
-        # ~ev may wake something
-        #  tend 
-        me&tevet
-        
         # many things c&pi=...
         me&bal,'Bowler','tow'
     },'ift,D'],
     ['TheTt',0.296,&acgtRs{
         $x = me&Theing,{in:'TheTt',default:'Bat'}
         me&tivity
+        
+        # ~ev may wake something
+        #  tend 
+        me&proto_Bat
     },'ift,D'],
     
     # 6 innard avoided unless scheduled for redo
@@ -2261,18 +2274,22 @@ me.Sch_Story = &acgt{ return [
             me&waits,"ForItivity"+Rs&Fishtivity
         }
     }
-    # receivable somewhere
-    me.tevet = &acgt{
+    # receive e somewhere
+    me.proto_Bat = &acgt{
         $R = me&R
         $x = me&Theing
-        me.FishElvising = R
-        $ev = me.Lastev
-        !ev and return
+        $s = Rc&s
+        !sy&Todo and return
+        $e = sy&Todo.slice(-1)[0]
+        !e and return
+        # 
+        $ev = ec&tower
         if (1 || xy&go) {
             $la = me&tc,'FishElvis'
             me&walla,la,'4.2'
-            $r = me&nu,"FishElvis",ev
-            $rC = rs&C
+            me&nu,"e",e
+            $ev = ex({},ev)
+            me&nu,"tower",ev
             $int = {N:1,M:1}
             each kv ev {
                 !isar(v) and continue
@@ -2295,6 +2312,7 @@ me.Sch_Story = &acgt{ return [
         c.t ||= "R-"+c.Pier
         c.Top = 1
         c.s = sc&s
+        c.V = s
         $r = me&PiRet,R,c
         x.ro('noD') and rs&noDisplay = 1
         me&Ring,r
@@ -2475,9 +2493,13 @@ me.Sch_Story = &acgt{ return [
             else me&typeup,R,'String'
         },'ift,D'],
         ['Bat',0.21,&acgtRs{
+            # outsphere (s of R%TheTt)
+            $V = Rs&V
             # diverges into types
-            me&tc,'Bat','q'
             n begin 2 s:-Bat
+            # enables popping events in, waking R%TheTt
+            $N = Vy&Todo ||= []
+            me&tc,"Todo:"+hak(N)
             
         },'ift,D'],
         ['blank',0.21,&acgtRs{
