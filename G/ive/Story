@@ -2286,7 +2286,7 @@ me.Sch_Story = &acgt{ return [
         $ev = ec&tower
         if (1 || xy&go) {
             $la = me&tc,'FishElvis'
-            me&walla,la,'4.2'
+            me&walls,la,'b:4.2'
             me&nu,"e",e
             $ev = ex({},ev)
             me&nu,"tower",ev
@@ -2491,13 +2491,7 @@ me.Sch_Story = &acgt{ return [
        // %Pier%* @263 types posit furthers
         ['blank',0.21,&acgtRs{
             # diverges into types
-            me&tc,'blankBat','q'
             Rs&hat = 1
-        },'ift,D'],
-        ['hat',0.21,&acgtRs{
-            # diverges into types
-            isob(s) and me&typeup,R,'Hash'
-            else me&typeup,R,'String'
         },'ift,D'],
         ['Bat+V',0.21,&acgtRs{
             # outsphere (s of R%TheTt)
@@ -2515,9 +2509,9 @@ me.Sch_Story = &acgt{ return [
             each in N {
                 n != N.slice(-1)[0] and continue
                 $c = nc&tower
-                $en = me&tc,"e"+i,'1g'
-                me&tc,en,"e:",'1g'
-                me&walla,en,'b:2.2'
+                $en = me&tc,"e"+i,'1b'
+                me&tc,en,"e:",'g'
+                me&walls,en,'b:4.2'
                 each ii,t c.N {
                     $tn = me&tc,en,t.t
                     me&tc,tn,'.','b'
@@ -2532,8 +2526,8 @@ me.Sch_Story = &acgt{ return [
                     ds&ma = 0.5
                     
                         me&tc,tn,"t.sc",dis(t.sc),'1b'
-                        $d = me&fiu,E,'t.sc'
-                        dy&data = t.sc
+                        $d = me&fiu,E,'thee'
+                        dy&data = n
                         dc&dl = 1
                         dc&pi = 'hat'
                     
@@ -2553,10 +2547,16 @@ me.Sch_Story = &acgt{ return [
             #me&mnu,mn,"Dhe",n
         },'ift,D'],
         
-       // Hash etc
+       // -hat -> -Hash etc
+        ['hat',0.21,&acgtRs{
+            # diverges into types
+            isob(s) and me&typeup,R,'Hash'
+            else me&typeup,R,'String'
+        },'ift,D'],
         ['Hash',0.263,&acgtRs{
             $D = Rs&D
             $E = Rs&E
+            me&walls,C,'b:2.2'
             n begin 2 s:{
             each kv s {
                 $d = me&fiu,E,k
