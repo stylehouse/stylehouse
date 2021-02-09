@@ -2098,8 +2098,7 @@ me.Sch_Story = &acgt{ return [
         ~FishElvis
         !Rs&ball and debugger
         try {
-        $N = ksaf(c&slope,{aft:R})
-        N.unshift(Rc&s)
+        $N = ksaf(c&slope,{aft:R,inc:0})
         
         # expect R%elvis...R:$pi
         $pi = hak(N.filter(z => isR(z)))
@@ -2109,9 +2108,11 @@ me.Sch_Story = &acgt{ return [
         $M = ps&z
         #ksaf(ps&z,{aft:R})
         
+        $c = {A,C,R,s,N,M}
+        me&Thetower,R,c
         T.wake = me.FishElvising
         
-        me.Lastev = {A,C,R,s,N,M}
+        me.Lastev = c
         }
         catch(er){
             ~>3 noFish: ""+er
@@ -2134,6 +2135,8 @@ me.Sch_Story = &acgt{ return [
         }
         # receivable somewhere
         Rs&elvis = 'FishElvis'
+        # we might bal to receive em
+        Rs&tow and 'check Ec&N?'
         
         c.long ||= T.act.t
         c.long and me&reaw,R,c.long+',elvis,tow,Piering'
@@ -2143,10 +2146,57 @@ me.Sch_Story = &acgt{ return [
         
         return x
     }
+    # 
+    # <<<
+    # where|how elvising goes
+    # is itself a space that could have elvis going a further step
+    # 
+    me.Thetower = &acgtRc{
+        $ii = 30
+        $r = R
+        $up = c.uptow = [R]
+        $may = c.maytow = []
+        while (ii--) {
+            # o R^^^%elvis=R%elvis
+            rs&elvis != Rs&elvis and break
+            # o r - may not %elvis
+            r = ry&up
+            !r and break
+            up.unshift(r)
+            # o >%tow
+            each iz rs&z {
+                !zs&tow and continue
+                may.unshift(z)
+                break
+            }
+            ii <3 and debugger
+        }
+        # interesting stack of them
+        # take first|deepest
+        $es = may.slice(-1)[0]
+        $join = up[0]
+        # This/$t** <-> The/$r**
+        $ThisN = up.slice(2)
+        c.ThisN = ThisN
+        $TheN = [es]
+        c.TheN = TheN
+        each it ThisN {
+            $r = TheN.slice(-1)[0]
+            # try route
+            $z = rc&s
+            !z and break
+            $n = me&fiu,r,t.t,7
+            debugger
+            !n || !ny&R and break
+            TheN.push(ny&R)
+            
+            ii <3 and debugger
+        }
+    }
     },
     # some events, to|from the book
     ['TheeThy',0.291,&acgtRs{
-        me&Theing
+        me&reaw,R,'TheeThy'
         
         # the -eight remotely
         me&bal,'This','TheThis,eph'
@@ -2168,6 +2218,7 @@ me.Sch_Story = &acgt{ return [
         $x = me&Theing,{in:'TheTh',default:'hat'}
         # also default:
         sc&s ||= me&PiRet_data
+        me&Piering,{Pier:'Bat'}
         
         me&tivity
     },'ift,D'],
@@ -2196,9 +2247,6 @@ me.Sch_Story = &acgt{ return [
         #s&dis = 1
         #s&float = 'right'
     },'ift,D'],
-        # <<<
-        # where|how elvising goes
-        # is itself a space that could have elvis going a further step
    
    // &Acontext
     &{
@@ -2235,15 +2283,16 @@ me.Sch_Story = &acgt{ return [
         }
     }
     # art function
-    me.Piering = &acgt{
+    me.Piering = &acgtc{
         $R = me&R
         $x = me&Theing
         $s = Rc&s
         me&tc,"---"
         # or as R:
         $del = me&modelta
-        $c = {t:"Piering"}
-        c.Pier = sc&pi
+        c ||= {}
+        c.Pier ||= sc&pi
+        c.t ||= "R-"+c.Pier
         c.Top = 1
         c.s = sc&s
         $r = me&PiRet,R,c
@@ -2419,7 +2468,7 @@ me.Sch_Story = &acgt{ return [
             fi&Xsim,x,'x',[],{match:aq.t},{n:aq}
         },'ift,D'],
         
-       // %Pier%* @263 types posit furthers
+       // %Pier%* @263 %hat|%Bat|%blank types posit furthers
         ['hat',0.21,&acgtRs{
             # diverges into types
             isob(s) and me&typeup,R,'Hash'
@@ -2427,8 +2476,9 @@ me.Sch_Story = &acgt{ return [
         },'ift,D'],
         ['Bat',0.21,&acgtRs{
             # diverges into types
-            ~>5 Bat happens:
             me&tc,'Bat','q'
+            n begin 2 s:-Bat
+            
         },'ift,D'],
         ['blank',0.21,&acgtRs{
             # diverges into types
