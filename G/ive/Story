@@ -2418,7 +2418,7 @@ me.Sch_Story = &acgt{ return [
             me&tc,"~"+delta,'b'
         }
     }
-   // f R $pi
+   // &CED, typing up...f R $pi
     # three spheres
     me.CED = &acgtR{
         $p = Ry&up
@@ -2467,11 +2467,34 @@ me.Sch_Story = &acgt{ return [
         $R = me&R
         $E = Rs&E
         !c.t and throw "!t"
+        c.t = ""+c.t
         me&t_tpi,c
         $t = delete c.t
         $d = me&dupfiu,E,t
         ex(d.c,c)
         return d
+    }
+    # maintains an infinite list
+    me.Nserial = &acgtNc{
+        # assign serial numbers, continuing from last
+        c.nk ||= 'sc'
+        c.back = reverse(N)
+        c.serial ||= 0
+        c.neu = []
+        each ie c.back {
+            $Bati = e[c.nk][c.gk]
+            Bati != null and c.serial = Bati; break
+            c.neu.unshift(e)
+        }
+        each ie c.neu {
+            e[c.nk][c.gk] = ++c.serial
+        }
+        # length limit
+        while (c.ll && hak(N) > c.ll) {
+            N.shift()
+            c.back.pop()
+        }
+        return c
     }
    // R'The'
     
@@ -2479,6 +2502,7 @@ me.Sch_Story = &acgt{ return [
        // %Pier,C,E,D types @2, i E/** @3
         ['Pier',0.2,&acgtRs{
             me&CED,R
+            $C = Rs&C
             $E = Rs&E
             # config via Ec&*
             Ec&dl and Rc&dl = Rc&d + Ec&dl
@@ -2489,6 +2513,7 @@ me.Sch_Story = &acgt{ return [
             if (!pE || pEc&pi != Ec&pi) {
                 $n = me&tc,'new:Ec&pi','-'+Ec&pi,'G'
                 ny&cv = 0.11
+                s&dis = 1
             }
             
             $name = R.t
@@ -2513,53 +2538,58 @@ me.Sch_Story = &acgt{ return [
             # diverges into types
             Rs&hat = 1
         },'ift,D'],
+        # many e
         ['Bat+V',0.21,&acgtRs{
             # outsphere (s of R%TheTt)
             $V = Rs&V
             $D = Rs&D
             $E = Rs&E
-            # diverges into types
-            n begin 2 s:-Bat
             # enables popping events in, waking R%TheTt
             $N = Vy&Todo ||= []
-            me&tc,"Todo:"+hak(N)
-            while (hak(N) > 5)
-                N.shift()
-            
-            each in N {
-                
-                #n != N.slice(-1)[0] and continue
-                $c = nc&tower
-                $en = me&tc,"e"+i,'1b'
-                me&tc,en,"e:",'g'
-                me&walls,en,'b:4.2'
-                each ii,t c.N {
-                    $tn = me&tc,en,t.t
-                    me&tc,tn,'.','b'
-                    
-                    ty&R == t and me&tc,tn,"R",'y'
-                    else
-                    ty&R and me&tc,tn,"r",'y'
-                    
-                    t != c.N.slice(-1)[0] and continue
-                    $d = me&tc,tn,"t",dis(t),'1y'
-                    ds&ma = 0.5
-                    
-                        me&tc,tn,"t.sc",dis(t.sc),'1b'
-                        me&Ei,{t:'thee-hat',dl:1,s:n}
-                    
-                    $M = me.cby(t)
-                    me&tc,tn,"x"+hak(M),6
-                }
+            $c = me&Nserial,N,{gk:'Bati',ll:5}
+            each ie c.back {
+                $n = me&Ei,{t:es&Bati,pi:'Bet',s:e}
+                c.neu.includes(e) and nc&el = 2
             }
-            !n and return
-            
-            
-                        $d = me&fiu,E,'ablank'
-                        dy&data = {aba:3,di:{abel:'ity',chot:{ohm:6}}}
-                        dc&dl = 1
-                        dc&pi = 'blank'
-            
+        },'ift,D'],
+        # the e itself
+        ['Bet',0.21,&acgtRs{
+            me&walls,C,'bd:3.1'
+            # < mutey picture of the C
+            $en = me&tc,"e:"+s.t,'g'
+            #   pulling up the sc&tower.N
+            $c = sc&tower
+            me&Ei,{t:'tower.N',pi:'Belt',s:c.N}
+            me&walls,en,'b:5.2'
+        },'ift,D'],
+        # a slope
+        ['Belt',0.21,&acgtRs{
+            $N = s
+            !isar(N) and return me&tc,"Strange"
+            # < the pushing a presentation,
+            #   to be turned into an entirety if willed...
+            #   well, the closed brack sc object (&slabeline)
+            #   is what we are drawing here:
+            each it N {
+                $tn = me&tc,t.t
+                me&tc,tn,'.','b'
+
+                ty&R == t and me&tc,tn,"R",'y'
+                else
+                ty&R and me&tc,tn,"r",'y'
+
+                t != N.slice(-1)[0] and continue
+                
+                $d = me&tc,tn,"t",dis(t),'1y'
+                ds&ma = 0.5
+
+                me&tc,tn,"t.sc",dis(t.sc),'1b'
+                
+                me&Ei,{t:'thee-hat',dl:2,s:t}
+
+                $M = me.cby(t)
+                me&tc,tn,"x"+hak(M),6
+            }
         },'ift,D'],
         
        // -hat -> -Hash etc
