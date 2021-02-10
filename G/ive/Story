@@ -2445,6 +2445,34 @@ me.Sch_Story = &acgt{ return [
         Dc&pi = pi
         R.sc[pi] = 1
     }
+    # c.t may say $t-$pi
+    me.t_tpi = &acgtc{
+        $tpi = c.t.match(/^(.+)-(\w+)$/)
+        tpi and c.t = tpi[1]; c.pi = tpi[2]
+    }
+    # dedupe same t
+    me.dupfiu = &acgtEt{
+        $du = me&fiu,E,t,8
+        if (du) {
+            duc&dupfiu ||= 1
+            t = t+' '+(++duc&dupfiu)
+            $du = me&fiu,E,t,8
+            du and throw "dupdup"
+        }
+        $d = me&fiu,E,t
+        return d
+    }
+    # like &pii
+    me.Ei = &acgtc{
+        $R = me&R
+        $E = Rs&E
+        !c.t and throw "!t"
+        me&t_tpi,c
+        $t = delete c.t
+        $d = me&dupfiu,E,t
+        ex(d.c,c)
+        return d
+    }
    // R'The'
     
     me.Pi_The = &acgt{ return [
@@ -2513,16 +2541,12 @@ me.Sch_Story = &acgt{ return [
                     else
                     ty&R and me&tc,tn,"r",'y'
                     
-                    continue
                     t != c.N.slice(-1)[0] and continue
                     $d = me&tc,tn,"t",dis(t),'1y'
                     ds&ma = 0.5
                     
                         me&tc,tn,"t.sc",dis(t.sc),'1b'
-                        $d = me&fiu,E,'thee'
-                        dy&data = n
-                        dc&dl = 1
-                        dc&pi = 'hat'
+                        me&Ei,{t:'thee-hat',dl:1,s:n}
                     
                     $M = me.cby(t)
                     me&tc,tn,"x"+hak(M),6
@@ -2550,8 +2574,7 @@ me.Sch_Story = &acgt{ return [
             me&walls,C,'b:2.2'
             n begin 2 s:{
             each kv s {
-                $d = me&fiu,E,k
-                dy&data = v
+                me&Ei,{t:k,s:v}
             }
             n end 7 s:}
         },'ift,D'],
@@ -2591,7 +2614,7 @@ me.Sch_Story = &acgt{ return [
                 rc&not = 1
             }
             each in Es&z {
-                $c = {t:n.t,s:ny&data,E:n}
+                $c = {t:n.t,s:nc&s,E:n}
                 $r = me&PiRet,R,c
                 !r || !Rc&N.includes(r) and toomuch(r,n)
                 
