@@ -2587,7 +2587,7 @@ me.Sch_Story = &acgt{ return [
        // -hat -> -Hash etc
         ['isC',0.21,&acgtRs{
             Rs&hat = 1
-            isC(s) and return Rs&cool = 1
+            isC(s) and return Rs&tiny = 1
             # was supposed to be C but isn't
             # < central fault aggregator
             me&tc,"!C",'b'
@@ -2598,7 +2598,7 @@ me.Sch_Story = &acgt{ return [
                 isC(s) ? "C" : 0
             sym &&
                 n sym 11 $s:sym fs:13,lh:0.8,hs:757
-            if (Rs&cool) {
+            if (Rs&tiny) {
                 # C display whittles down to symbol + name
                 # < by adopting ranges of sub-R types
                 n t 12 $s:s.t label
@@ -2684,12 +2684,19 @@ me.Sch_Story = &acgt{ return [
             me&walls,C,"b:2.2"
             me&scroll,28
             if (!Rs&noDisplay) {
+                # apply special effects pre-Display
                 each ir Rc&N {
-                    hak(rs&z) <= 1 and continue
-                    each in rs&z {
-                        nc&not and continue
+                    if (rs&tiny) {
+                        delete rs&Mw.Pier
+                    }
+                    !rs&z and continue
+                    $N = rs&z.filter(n => !nc&not)
+                    hak(N) <= 1 and continue
+                    # < properly sizing it for:
+                    $larger = N.filter(n => !ns&tiny)
+                    !hak(larger) and continue
+                    each in N {
                         $C = ns&C
-                        
                         s&dis = 1
                         s&ml = 1
                     }
