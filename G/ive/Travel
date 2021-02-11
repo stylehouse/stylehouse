@@ -4097,7 +4097,7 @@ me.Sch_Travel = &acgt{ return [
             !isC(m) and b = c; c = t; t = m; m = 0
             $args = [t]
             # t+s can be split if b is c-ish (inc '')
-            b and args.push({s:c},b)
+            b and args.push((c && isst(c.s) ? c : {s:c}),b)
             else args.push(0,c)
             
             !m and return me&tsc,...args

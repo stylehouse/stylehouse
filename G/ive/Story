@@ -2337,6 +2337,10 @@ me.Sch_Story = &acgt{ return [
         }
         ry&cv = 0
         me&R_togo,r
+        
+        # no r at all if R%nofurther (above)
+        !c.Top and !Rc&N.includes(r) and rc&not = 1
+        
         return r
     }
     me.R_togo = &acgtR{
@@ -2512,12 +2516,11 @@ me.Sch_Story = &acgt{ return [
             $pE = ps&E
             if (!pE || pEc&pi != Ec&pi) {
                 $n = me&tc,'new:Ec&pi','-'+Ec&pi,'G'
-                ny&cv = 0.11
-                s&dis = 1
+                ny&cv = 0.105
             }
             
             $name = R.t
-            n At 1 $s:name %deco,fs:6,ma:0.4
+            n At 101 $s:name %deco,fs:6
             
             R.sc[Rs&Pier] = 1
         },'ift,D'],
@@ -2533,7 +2536,7 @@ me.Sch_Story = &acgt{ return [
             fi&Xsim,x,'x',[],{match:aq.t},{n:aq}
         },'ift,D'],
         
-       // %Pier%* @263 types posit furthers
+       // -Bat
         ['blank',0.21,&acgtRs{
             # diverges into types
             Rs&hat = 1
@@ -2571,30 +2574,36 @@ me.Sch_Story = &acgt{ return [
             #   well, the closed brack sc object (&slabeline)
             #   is what we are drawing here:
             each it N {
-                $tn = me&tc,t.t
-                me&tc,tn,'.','b'
-
-                ty&R == t and me&tc,tn,"R",'y'
-                else
-                ty&R and me&tc,tn,"r",'y'
-
+                me&Ei,{t:i,pi:'isC',dl:1,s:t}
+                
                 t != N.slice(-1)[0] and continue
                 
-                $d = me&tc,tn,"t",dis(t),'1y'
-                ds&ma = 0.5
-
-                me&tc,tn,"t.sc",dis(t.sc),'1b'
-                
-                me&Ei,{t:'thee-hat',dl:2,s:t}
-
-                $M = me.cby(t)
-                me&tc,tn,"x"+hak(M),6
+                # < how each thing relates to others
+                #$M = me.cby(t)
+                #me&tc,tn,"x"+hak(M),6
             }
         },'ift,D'],
         
        // -hat -> -Hash etc
+        ['isC',0.21,&acgtRs{
+            Rs&hat = 1
+            isC(s) and return Rs&cool = 1
+            # was supposed to be C but isn't
+            # < central fault aggregator
+            me&tc,"!C",'b'
+        },'ift,D'],
         ['hat',0.21,&acgtRs{
             # diverges into types
+            $sym = isR(s) ? "R" :
+                isC(s) ? "C" : 0
+            sym &&
+                n sym 11 $s:sym fs:13,lh:0.8,hs:757
+            if (Rs&cool) {
+                # C display whittles down to symbol + name
+                # < by adopting ranges of sub-R types
+                n t 12 $s:s.t label
+                return
+            }
             isob(s) and me&typeup,R,'Hash'
             else me&typeup,R,'String'
         },'ift,D'],
@@ -2602,17 +2611,17 @@ me.Sch_Story = &acgt{ return [
             $D = Rs&D
             $E = Rs&E
             me&walls,C,'b:2.2'
-            n begin 2 s:{
+            n begin 23 s:{
             each kv s {
                 me&Ei,{t:k,s:v}
             }
-            n end 7 s:}
+            n end 77 s:}
         },'ift,D'],
         ['String',0.263,&acgtRs{
             $D = Rs&D
             $E = Rs&E
             $di = dis(s)
-            n thinking  $s:di %fs:8,hs:584
+            n thinking 12 $s:di %fs:8,hs:584
         },'ift,D'],
         
        // %Pier** @264 ground finds trips
@@ -2632,21 +2641,30 @@ me.Sch_Story = &acgt{ return [
             $D = Rs&D
             $E = Rs&E
             $toomuch = &rn{
+                # limitation department
                 if (!Rs&toomuch) {
                     $tm = Rs&toomuch = me&tc,"toomuch",'b'
                     tms&ma = 0.4
                 }
                 $tm = Rs&toomuch
-                $th = me&tc,tm,n.t,'g'
+                # the individual
+                isC(n) and $th = me&tc,tm,n.t,'g'
+                else
+                isst(n) and $th = me&tc,tm,n,'y'
+                else debugger
                 ths&ma = 0.2
-                # no r at all if R%nofurther
-                !r and return
-                rc&not = 1
             }
+            $limit = hak(Es&z) > 30 ? 20 : 0
             each in Es&z {
                 $c = {t:n.t,s:nc&s,E:n}
                 $r = me&PiRet,R,c
-                !r || !Rc&N.includes(r) and toomuch(r,n)
+                
+                !r || rc&not and toomuch(r,n)
+                
+                if (limit && i > limit) {
+                    toomuch(r,'..'+hak(Es&z))
+                    break
+                }
                 
             }
         },'ift,D'],
