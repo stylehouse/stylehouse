@@ -2566,7 +2566,7 @@ me.Sch_Story = &acgt{ return [
             $en = me&tc,"e:"+s.t,'g'
             #   pulling up the sc&tower.N
             $c = sc&tower
-            me&Ei,{t:'tower.N',pi:'Belt',s:c.N}
+            me&Ei,{t:'tow',pi:'Belt',s:c.N}
             me&walls,en,'b:5.2'
         },'ift,D'],
         # a slope
@@ -2584,7 +2584,17 @@ me.Sch_Story = &acgt{ return [
                 $e = me&Ei,{t:i,pi:'isC',s:t}
                 pEc&i > 0 and continue
                 # once that -isC is ok, spawn further:
-                # < /E/X, t=X being strongly typed -X
+                me&REX_spawning,e
+                
+                # < how each thing relates to others
+                #$M = me.cby(t)
+                #me&tc,tn,"x"+hak(M),6
+            }
+        },'ift,D'],
+        # R/E/X
+        &{
+            me.REX_spawning = &acgte{
+                # < /E/X, ark=X being strongly typed -X
                 #   R/E/X then are arks, wideness on a single depth of the belt
                 ec&ifgood = &CREs{
                     $tE = ss&E
@@ -2594,21 +2604,53 @@ me.Sch_Story = &acgt{ return [
                         $e = me&Ei,{t:'X',pi:'isX',s:X,dl:2}
                     }
                 }
-                
-                # < how each thing relates to others
-                #$M = me.cby(t)
-                #me&tc,tn,"x"+hak(M),6
             }
-        },'ift,D'],
+            me.E_neighbours = &acgtE{
+                $Ep = Ey&up
+                Ep and return me&ioty,Ep
+                # out the top of E space:
+                $R = Ey&R
+                $p = Ry&up
+                $N = []
+                each in ps&z {
+                    ns&E and N.push(ns&E)
+                }
+                return N
+            }
+            # find the X/* most identifying X amongst N[X]
+            me.X_necessary = &acgtXN{
+                $M = []
+                each kv X {
+                    $sk = k+'s'
+                    $refs = X [sk]
+                    !refs and continue
+                    each iv refs {
+                        $others = hak(N.filter(&V{
+                            return V != X && V[sk]
+                                && V[sk].includes(v)
+                        }))
+                        M.push({k,v,others})
+                    }
+                }
+                $most_iding = vsortz(M,a => a.others)
+                $necessary = []
+                each ic most_iding {
+                    necessary.push(c)
+                    !c.others and break
+                }
+                return necessary
+            }
+        },
         ['isX',0.21,&acgtRs{
-            me&tc,"AnX!"
             # look for the most identifying classifications
-            # 
             $iE = Ry&up.c.s
             $iC = Ry&up.y.up.c.s
-            iC.t == 'lw1' and me&Ei,{t:'Es',pi:'hat',s:iEy&up,dl:2,dupl:2}
-            me&tc,"keys",joint(haks(s)),'y'
-            s&dis = 1
+            # amongst its neighbours
+            $N = me&E_neighbours,iE
+            !N.includes(iE) and me&tc,"!N/iE",'b'
+            $NX = N.map(E => Ec&X)
+            $nec = me&X_necessary,s,NX
+            me&Ei,{t:'Es',pi:'hat',s:nec,dl:2}
         },'ift,D'],
         
        // -hat -> -Hash etc
