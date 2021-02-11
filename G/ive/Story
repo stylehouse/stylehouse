@@ -2336,6 +2336,10 @@ me.Sch_Story = &acgt{ return [
             rc&nl = 300
         }
         ry&cv = 0
+        $E = c.E
+        if (E) {
+            sex(r.sc,E.c,'dupl')
+        }
         me&R_togo,r
         
         # no r at all if R%nofurther (above)
@@ -2384,13 +2388,13 @@ me.Sch_Story = &acgt{ return [
                 RhN.indexOf(Ry&up) >= 0 and nvm = 1
             }
             if (!nvm) {
-                $dupl = Rc&dupl || 0;
+                $dupl = Rc&dupl || Rs&dupl || 0;
                 if (RhN.length > dupl) {
                     limit('dup');
                     Rc&nofurther = 1;
                 }
                 else {
-
+                    
                 }
                 !Rc&nofurther and limit('dub')
             }
@@ -2551,7 +2555,7 @@ me.Sch_Story = &acgt{ return [
             $N = Vy&Todo ||= []
             $c = me&Nserial,N,{gk:'Bati',ll:5}
             each ie c.back {
-                $n = me&Ei,{t:es&Bati,pi:'Bet',s:e}
+                $n = me&Ei,{t:es&Bati,pi:'Bet',s:e,i}
                 c.neu.includes(e) and nc&el = 2
             }
         },'ift,D'],
@@ -2567,6 +2571,9 @@ me.Sch_Story = &acgt{ return [
         },'ift,D'],
         # a slope
         ['Belt',0.21,&acgtRs{
+            $p = Ry&up
+            $pE = ps&E
+            
             $N = s
             !isar(N) and return me&tc,"Strange"
             # < the pushing a presentation,
@@ -2574,23 +2581,45 @@ me.Sch_Story = &acgt{ return [
             #   well, the closed brack sc object (&slabeline)
             #   is what we are drawing here:
             each it N {
-                me&Ei,{t:i,pi:'isC',dl:1,s:t}
-                
-                t != N.slice(-1)[0] and continue
+                $e = me&Ei,{t:i,pi:'isC',s:t}
+                pEc&i > 0 and continue
+                # once that -isC is ok, spawn further:
+                # < /E/X, t=X being strongly typed -X
+                #   R/E/X then are arks, wideness on a single depth of the belt
+                ec&ifgood = &CREs{
+                    $tE = ss&E
+                    $e = me&Ei,{t:'E',pi:'isC',s:tE}
+                    ec&ifgood = &CREs{
+                        $X = sc&X
+                        $e = me&Ei,{t:'X',pi:'isX',s:X,dl:2}
+                    }
+                }
                 
                 # < how each thing relates to others
                 #$M = me.cby(t)
                 #me&tc,tn,"x"+hak(M),6
             }
         },'ift,D'],
+        ['isX',0.21,&acgtRs{
+            me&tc,"AnX!"
+            # look for the most identifying classifications
+            # 
+            $iE = Ry&up.c.s
+            $iC = Ry&up.y.up.c.s
+            iC.t == 'lw1' and me&Ei,{t:'Es',pi:'hat',s:iEy&up,dl:2,dupl:2}
+            me&tc,"keys",joint(haks(s)),'y'
+            s&dis = 1
+        },'ift,D'],
         
        // -hat -> -Hash etc
         ['isC',0.21,&acgtRs{
+            me&walls,C,'bd:1.5'
             Rs&hat = 1
             isC(s) and return Rs&tiny = 1
             # was supposed to be C but isn't
             # < central fault aggregator
             me&tc,"!C",'b'
+            Rs&strange = 1
         },'ift,D'],
         ['hat',0.21,&acgtRs{
             # diverges into types
@@ -2640,6 +2669,10 @@ me.Sch_Story = &acgt{ return [
         ['Pier',0.3,&acgtRs{
             $D = Rs&D
             $E = Rs&E
+            if (!Rs&strange && Ec&ifgood) {
+                Ec&ifgood(C,R,E,s)
+            }
+            
             $toomuch = &rn{
                 # limitation department
                 if (!Rs&toomuch) {
