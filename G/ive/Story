@@ -2505,7 +2505,7 @@ me.Sch_Story = &acgt{ return [
         ex(d.c,c)
         return d
     }
-    # R generation and Ringing:
+    # E/** and Ringing, in or out of time
     me.Eing = &acgtc{
         $R = me&R
         $s = Rc&s
@@ -2542,6 +2542,14 @@ me.Sch_Story = &acgt{ return [
                 toomuch(r,'..'+hak(Es&z))
                 break
             }
+        }
+        if (c) {
+            num(c) and c = {ov:c}
+            c.ov = scaf(c.ov)
+            me&Ring,R,{inside:R,ov:c.ov}
+            !hak(Rs&z) and me&strange,"!Rz"; return
+            $allok = !hak(Rs&z.filter(r => rs&strange))
+            return allok
         }
     }
     # when schema goes strange
@@ -2610,6 +2618,7 @@ me.Sch_Story = &acgt{ return [
             me&walls,C,'bd:3.1'
             # < mutey picture of the C
             $en = me&tc,"e:"+s.t,'g'
+            
             #   pulling up the sc&tower.N
             $c = sc&tower
             me&Ei,{t:'tow',pi:'Belt',s:c.N}
@@ -2621,11 +2630,7 @@ me.Sch_Story = &acgt{ return [
             $pE = ps&E
             
             $N = s
-            !isar(N) and return me&tc,"Strange",'b'
-            # < the pushing a presentation,
-            #   to be turned into an entirety if willed...
-            #   well, the closed brack sc object (&slabeline)
-            #   is what we are drawing here:
+            !isar(N) and return me&strange,"!array"
             each it N {
                 $e = me&Ei,{t:i,pi:'Bit',s:t,noref:1}
                 pEc&i > 0 and continue
@@ -2637,25 +2642,45 @@ me.Sch_Story = &acgt{ return [
         },'ift,D'],
        // -Bit of slope
         ['Bit',0.21,&acgtRs{
-            $e = me&Ei,{t:'s',pi:'isC',s:s,dupl:2}
-            # once that -isC is ok, spawn further:
-            me&REX_spawning,e
+            # < /E/X, ark=X being strongly typed -X
+            #   R/E/X then are arks, wideness
+            #    at one point along the -Belt
+            $e = me&Ei,{t:'s',pi:'isC',s:s}
+            !me&Eing,4 and return
+            if (isR(s)) {
+                # < whittle down, pushing presentation,
+                #   to be turned into an entirety if willed...
+                #   or just R+E+X in the first -isC minimality
+                # once that -isC is ok, spawn further:
+                $tE = ss&E
+                if (!isC(tE)) {
+                    $e = me&Ei,{t:'E',pi:'isC',s:tE}
+                    !me&Eing,4 and return
+                }
+                $X = tEc&X
+                $e = me&Ei,{t:'X',pi:'isX',s:X}
+                !me&Eing,4 and return me&strange,"Xnolike"
+                $r = ey&R
+                $nec = rs&nec
+                !nec and me&strange,"!nec"
+                if (rs&nec_simple) {
+                    me&tc,"t-will-do",'t','8y'
+                    rs&noDisplay = 1
+                    Rs&inline = 1
+                    Rs&tiny = 1
+                }
+                Rs&nec = nec
+            }
+            else {
+                # modulat, might something?
+                Rs&tiny = 1
+            }
+            
+            #me&REX_spawning,e
             
         },'ift,D'],
         # R/E/X
         &{
-            me.REX_spawning = &acgte{
-                # < /E/X, ark=X being strongly typed -X
-                #   R/E/X then are arks, wideness on a single depth of the belt
-                ec&ifgood = &CREs{
-                    $tE = ss&E
-                    $e = me&Ei,{t:'E',pi:'isC',s:tE}
-                    ec&ifgood = &CREs{
-                        $X = sc&X
-                        $e = me&Ei,{t:'X',pi:'isX',s:X,dl:2}
-                    }
-                }
-            }
             me.E_neighbours = &acgtE{
                 $Ep = Ey&up
                 Ep and return me&ioty,Ep
@@ -2693,15 +2718,30 @@ me.Sch_Story = &acgt{ return [
             }
         },
         ['isX',0.21,&acgtRs{
+            if (Rs&refR) {
+                # duplicate, reuse results
+                $r = Rs&refR[0]
+                !rs&nec and return me&strange,'!nec'
+                sex(R.sc,r.sc,'nec,nec_simple')
+                return
+            }
             # look for the most identifying classifications
-            $iE = Ry&up.c.s
-            $iC = Ry&up.y.up.c.s
+            $iE = s.A
             # amongst its neighbours
             $N = me&E_neighbours,iE
             !N.includes(iE) and me&tc,"!N/iE",'b'
             $NX = N.map(E => Ec&X)
-            $nec = me&X_necessary,s,NX
-            me&Ei,{t:'Es',pi:'hat',s:nec,dl:2}
+            $nec = Rs&nec = me&X_necessary,s,NX
+            if (hak(nec) == 1) {
+                $ne = nec[0]
+                if (ne.k = 't' && ne.v == iE.t) {
+                    Rs&nec_simple = 1
+                }
+            }
+            else {
+                # < boost or !simple:
+                me&Ei,{t:'Es',pi:'hat',s:nec,dl:2}
+            }
         },'ift,D'],
         
        // -hat -> -Hash etc
@@ -2784,7 +2824,7 @@ me.Sch_Story = &acgt{ return [
                     }
                     !rs&z and continue
                     $N = rs&z.filter(n => !nc&not)
-                    hak(N) <= 1 and continue
+                    rs&inline || hak(N) <= 1 and continue
                     # < properly sizing it for:
                     $larger = N.filter(n => !ns&tiny)
                     !hak(larger) and continue
