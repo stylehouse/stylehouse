@@ -2567,6 +2567,7 @@ me.Sch_Story = &acgt{ return [
    // R'The'
     
     me.Pi_The = &acgt{ return [
+       
        // %Pier,C,E,D types @2, i E/** @3
         ['Pier',0.2,&acgtRs{
             me&CED,R
@@ -2625,8 +2626,7 @@ me.Sch_Story = &acgt{ return [
             $n = me&Ei,{t:'Eel',pi:'Eel',s:N,dl:9}
         },'ift,D'],
         ['Eel',0.21,&acgtRs{
-            return
-            me&walls,C,'bd:3.7'
+            #me&walls,C,'bd:3.7'
             $D = Rs&D
             $E = Rs&E
             me&haja
@@ -2651,7 +2651,7 @@ me.Sch_Story = &acgt{ return [
                     me&ha,R,{Belti,Bet:r,Bit}
                 }
             }
-            hak(done) and me&Ei,{t:'done',pi:'hat',s:done,dl:2}
+            hak(done) and me&tc,"done:"+joint(done)
             s&dis = 1
             s&ml = 1
             Ec&Xc and me&Ei,{t:'Xc',pi:'hat',s:Ec&Xc,dl:2}
@@ -2661,7 +2661,6 @@ me.Sch_Story = &acgt{ return [
             me&jaa,R,'Belti,Bet,Bit' .map(&n{
                 $Bet = ns&Bet
                 $Bit = ns&Bit
-                me&tc,"Bet:"+Bet.t
                 $Xc = BitDXc(Bit)
                 $N = me&jaa,R,'Betgroup,Xc'
                 each in N {
@@ -2758,9 +2757,6 @@ me.Sch_Story = &acgt{ return [
                 # modulat, might something?
                 Rs&tiny = 1
             }
-            
-            #me&REX_spawning,e
-            
         },'ift,D'],
         # R/E/X
         &{
@@ -2817,7 +2813,7 @@ me.Sch_Story = &acgt{ return [
             $nec = Rs&nec = me&X_necessary,s,NX
             if (hak(nec) == 1) {
                 $ne = nec[0]
-                if (ne.k = 't' && ne.v == iE.t) {
+                if (ne.k == 't' && ne.v == iE.t) {
                     Rs&nec_simple = 1
                 }
             }
