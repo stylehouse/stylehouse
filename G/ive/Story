@@ -2558,6 +2558,12 @@ me.Sch_Story = &acgt{ return [
         me&tc,s,'b'
         Rs&strange = 1
     }
+    me.attendios = &acgts{
+        $R = me&R
+        $E = Rs&E
+        $N = me.cby(E,E => Ec&top).reverse()
+        hak(N) and ac(Rc&top,'matches',{E,N})
+    }
    // R'The'
     
     me.Pi_The = &acgt{ return [
@@ -2594,7 +2600,7 @@ me.Sch_Story = &acgt{ return [
             fi&Xsim,x,'x',[],{match:aq.t},{n:aq}
         },'ift,D'],
         
-       // -Bat events, -Bet event, -Belt slope
+       // -Bat events -> -Eel
         ['blank',0.21,&acgtRs{
             # diverges into types
             Rs&hat = 1
@@ -2607,18 +2613,89 @@ me.Sch_Story = &acgt{ return [
             $E = Rs&E
             # enables popping events in, waking R%TheTt
             $N = Vy&Todo ||= []
+            # < hold any with Ting
             $c = me&Nserial,N,{gk:'Bati',ll:5}
             each ie c.back {
                 $n = me&Ei,{t:es&Bati,pi:'Bet',s:e,i}
                 c.neu.includes(e) and nc&el = 2
             }
+            
+            me&Eing,6
+            $N = me&ioty,R,'Bet'
+            $n = me&Ei,{t:'Eel',pi:'Eel',s:N,dl:9}
         },'ift,D'],
+        ['Eel',0.21,&acgtRs{
+            return
+            me&walls,C,'bd:3.7'
+            $D = Rs&D
+            $E = Rs&E
+            me&haja
+            $done = []
+            $BitDXc = B => B && Bs&D && Bs&D.sc.Xc
+            # next meaningful Belt Bit
+            each ir s {
+                !rs&Bet and debugger
+                $Belt = me&ioty,r,'Belt','tow' [0]
+                $Bits = me&ioty,Belt,'Bit'
+                # find last position on Belt
+                $Belti = (me&ja,Ry&up,{Belti:1,Bet:r},1 || -1)*1 + 1
+                while (1) {
+                    # seek next position with a D%Xc
+                    $Bit = Bits[Belti]
+                    !Bit and break
+                    !BitDXc(Bit) and Belti++; continue
+                    break
+                }
+                !Bit and done.push(r)
+                else {
+                    me&ha,R,{Belti,Bet:r,Bit}
+                }
+            }
+            hak(done) and me&Ei,{t:'done',pi:'hat',s:done,dl:2}
+            s&dis = 1
+            s&ml = 1
+            Ec&Xc and me&Ei,{t:'Xc',pi:'hat',s:Ec&Xc,dl:2}
+            
+            
+            # group by same D%Xc
+            me&jaa,R,'Belti,Bet,Bit' .map(&n{
+                $Bet = ns&Bet
+                $Bit = ns&Bit
+                me&tc,"Bet:"+Bet.t
+                $Xc = BitDXc(Bit)
+                $N = me&jaa,R,'Betgroup,Xc'
+                each in N {
+                    $Betgroup = ns&Betgroup
+                    !heq(ns&Xc,Xc) and continue
+                    me&ha,R,{Betgroup,Bet}
+                    return
+                }
+                # create new
+                # an empty hash as id because ja k=1 returns all k
+                $Betgroup = {}
+                me&ha,R,{Betgroup,Xc}
+                me&ha,R,{Betgroup,Bet}
+            })
+            
+            $groups = me&jaa,R,'Betgroup,Xc'
+            each in groups {
+                $Xc = ns&Xc
+                $Betgroup = ns&Betgroup
+                $Bets = me&jaa,R,{Betgroup,Bet:1},'Bet'
+                me&Ei,{t:'group'+i,pi:'Eel',s:Bets,Xc}
+            }
+            
+            
+        },'ift,D'],
+       // -Bet event, -Belt slope
         # the e itself
         ['Bet',0.21,&acgtRs{
+            $D = Rs&D
             me&walls,C,'bd:3.1'
             # < mutey picture of the C
             $en = me&tc,"e:"+s.t,'g'
             
+            Ds&Xsc = {ope:1}
             #   pulling up the sc&tower.N
             $c = sc&tower
             me&Ei,{t:'tow',pi:'Belt',s:c.N}
@@ -2640,8 +2717,10 @@ me.Sch_Story = &acgt{ return [
                 #me&tc,tn,"x"+hak(M),6
             }
         },'ift,D'],
-       // -Bit of slope
+       // -Bit of slope, -isX
         ['Bit',0.21,&acgtRs{
+            $D = Rs&D
+            $E = Rs&E
             # < /E/X, ark=X being strongly typed -X
             #   R/E/X then are arks, wideness
             #    at one point along the -Belt
@@ -2670,6 +2749,10 @@ me.Sch_Story = &acgt{ return [
                     Rs&tiny = 1
                 }
                 Rs&nec = nec
+                $Xc = Ds&Xc = {}
+                each ic nec {
+                    Xc[c.k] = c.v
+                }
             }
             else {
                 # modulat, might something?
@@ -2790,11 +2873,8 @@ me.Sch_Story = &acgt{ return [
         # dome suspicion
         ['Pier',0.264,&acgtRs{
             $E = Rs&E
-            $N = me.cby(E,E => Ec&top).reverse()
-            $p = Ry&up
-            #p.t == 'fig2' && R.t == 'le' and debugger
             $N = fi&pio,E,{t:E.t,pi:Ec&pi,v:s}
-            hak(N) and ac(Rc&top,'matches',{E,N})
+            hak(N) and me&attendios,'matches',{E,N}
         },'ift,D'],
         
         # E/** expands
