@@ -2338,7 +2338,7 @@ me.Sch_Story = &acgt{ return [
         ry&cv = 0
         $E = c.E
         if (E) {
-            tax(r.sc,E.c,'dupl,noref')
+            tax(r.sc,E.c,'dupl,noref,inline')
         }
         me&R_togo,r
         
@@ -2654,7 +2654,7 @@ me.Sch_Story = &acgt{ return [
             hak(done) and me&tc,"done:"+joint(done)
             s&dis = 1
             s&ml = 1
-            Ec&Xc and me&Ei,{t:'Xc',pi:'hat',s:Ec&Xc,dl:2}
+            Ec&Xc and me&Ei,{t:'Xc',pi:'hat',s:Ec&Xc,dl:2,inline:1}
             
             
             # group by same D%Xc
@@ -2905,6 +2905,7 @@ me.Sch_Story = &acgt{ return [
                     $larger = N.filter(n => !ns&tiny)
                     !hak(larger) and continue
                     each in N {
+                        ns&inline and continue
                         $C = ns&C
                         s&dis = 1
                         s&ml = 1
