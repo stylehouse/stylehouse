@@ -2338,7 +2338,7 @@ me.Sch_Story = &acgt{ return [
         ry&cv = 0
         $E = c.E
         if (E) {
-            sex(r.sc,E.c,'dupl')
+            tax(r.sc,E.c,'dupl,noref')
         }
         me&R_togo,r
         
@@ -2354,7 +2354,7 @@ me.Sch_Story = &acgt{ return [
         $limit = &s{ me&Rec,R,s };
 
         !Rc&refs and Rc&refs = []; Rc&refR = [];
-        if (s && typeof s == 'object') {
+        if (s && typeof s == 'object' && !Rs&noref) {
             # soft dup limit, sets Rc&nofurther=1
             me&R_reflimit,R,s,limit
         }
@@ -2470,18 +2470,6 @@ me.Sch_Story = &acgt{ return [
         $d = me&fiu,E,t
         return d
     }
-    # like &pii
-    me.Ei = &acgtc{
-        $R = me&R
-        $E = Rs&E
-        !c.t and throw "!t"
-        c.t = ""+c.t
-        me&t_tpi,c
-        $t = delete c.t
-        $d = me&dupfiu,E,t
-        ex(d.c,c)
-        return d
-    }
     # maintains an infinite list
     me.Nserial = &acgtNc{
         # assign serial numbers, continuing from last
@@ -2503,6 +2491,64 @@ me.Sch_Story = &acgt{ return [
             c.back.pop()
         }
         return c
+    }
+   // &Ei etc
+    # like &pii, setup:
+    me.Ei = &acgtc{
+        $R = me&R
+        $E = Rs&E
+        !c.t and throw "!t"
+        c.t = ""+c.t
+        me&t_tpi,c
+        $t = delete c.t
+        $d = me&dupfiu,E,t
+        ex(d.c,c)
+        return d
+    }
+    # R generation and Ringing:
+    me.Eing = &acgtc{
+        $R = me&R
+        $s = Rc&s
+        $D = Rs&D
+        $E = Rs&E
+        if (!Rs&strange && Ec&ifgood) {
+            Ec&ifgood(C,R,E,s)
+            delete Ec&ifgood
+        }
+        $toomuch = &rn{
+            # limitation department
+            if (!Rs&toomuch) {
+                $tm = Rs&toomuch = me&tc,"toomuch",'b'
+                tms&ma = 0.4
+            }
+            $tm = Rs&toomuch
+            # the individual
+            isC(n) and $th = me&tc,tm,n.t,'g'
+            else
+            isst(n) and $th = me&tc,tm,n,'y'
+            else debugger
+            ths&ma = 0.2
+        }
+        $limit = hak(Es&z) > 30 ? 20 : 0
+        each in Es&z {
+            ny&R != null and continue
+            $c = {t:n.t,s:nc&s,E:n}
+            $r = me&PiRet,R,c
+            ny&R = r || 0
+
+            !r || rc&not and toomuch(r,n)
+
+            if (limit && i > limit) {
+                toomuch(r,'..'+hak(Es&z))
+                break
+            }
+        }
+    }
+    # when schema goes strange
+    me.strange = &acgts{
+        $R = me&R
+        me&tc,s,'b'
+        Rs&strange = 1
     }
    // R'The'
     
@@ -2540,7 +2586,7 @@ me.Sch_Story = &acgt{ return [
             fi&Xsim,x,'x',[],{match:aq.t},{n:aq}
         },'ift,D'],
         
-       // -Bat
+       // -Bat events, -Bet event, -Belt slope
         ['blank',0.21,&acgtRs{
             # diverges into types
             Rs&hat = 1
@@ -2575,21 +2621,26 @@ me.Sch_Story = &acgt{ return [
             $pE = ps&E
             
             $N = s
-            !isar(N) and return me&tc,"Strange"
+            !isar(N) and return me&tc,"Strange",'b'
             # < the pushing a presentation,
             #   to be turned into an entirety if willed...
             #   well, the closed brack sc object (&slabeline)
             #   is what we are drawing here:
             each it N {
-                $e = me&Ei,{t:i,pi:'isC',s:t}
+                $e = me&Ei,{t:i,pi:'Bit',s:t,noref:1}
                 pEc&i > 0 and continue
-                # once that -isC is ok, spawn further:
-                me&REX_spawning,e
                 
                 # < how each thing relates to others
                 #$M = me.cby(t)
                 #me&tc,tn,"x"+hak(M),6
             }
+        },'ift,D'],
+       // -Bit of slope
+        ['Bit',0.21,&acgtRs{
+            $e = me&Ei,{t:'s',pi:'isC',s:s,dupl:2}
+            # once that -isC is ok, spawn further:
+            me&REX_spawning,e
+            
         },'ift,D'],
         # R/E/X
         &{
@@ -2660,8 +2711,7 @@ me.Sch_Story = &acgt{ return [
             isC(s) and return Rs&tiny = 1
             # was supposed to be C but isn't
             # < central fault aggregator
-            me&tc,"!C",'b'
-            Rs&strange = 1
+            me&strange,"!C"
         },'ift,D'],
         ['hat',0.21,&acgtRs{
             # diverges into types
@@ -2709,39 +2759,7 @@ me.Sch_Story = &acgt{ return [
         
         # E/** expands
         ['Pier',0.3,&acgtRs{
-            $D = Rs&D
-            $E = Rs&E
-            if (!Rs&strange && Ec&ifgood) {
-                Ec&ifgood(C,R,E,s)
-            }
-            
-            $toomuch = &rn{
-                # limitation department
-                if (!Rs&toomuch) {
-                    $tm = Rs&toomuch = me&tc,"toomuch",'b'
-                    tms&ma = 0.4
-                }
-                $tm = Rs&toomuch
-                # the individual
-                isC(n) and $th = me&tc,tm,n.t,'g'
-                else
-                isst(n) and $th = me&tc,tm,n,'y'
-                else debugger
-                ths&ma = 0.2
-            }
-            $limit = hak(Es&z) > 30 ? 20 : 0
-            each in Es&z {
-                $c = {t:n.t,s:nc&s,E:n}
-                $r = me&PiRet,R,c
-                
-                !r || rc&not and toomuch(r,n)
-                
-                if (limit && i > limit) {
-                    toomuch(r,'..'+hak(Es&z))
-                    break
-                }
-                
-            }
+            me&Eing
         },'ift,D'],
         
        // %Top back
