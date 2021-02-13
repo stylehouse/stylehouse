@@ -2558,17 +2558,37 @@ me.Sch_Story = &acgt{ return [
         me&tc,s,'b'
         Rs&strange = 1
     }
-    me.attendios = &acgts{
+    me.attendios = &acgttc{
         $R = me&R
         $E = Rs&E
-        $N = me.cby(E,E => Ec&top).reverse()
-        hak(N) and ac(Rc&top,'matches',{E,N})
+        c.E ||= E
+        c.path = me.cby(c.E,E => Ec&top)
+        ac(Rc&top,t,c)
+    }
+   // &pio related
+    # (E|aq)%TX/$t=le/match/$n=aq
+    #  make matchable on E|aq
+    me.TXi = &acgtEts{
+        $aq = isst(t) ? Cye([t,3]) : t
+        !isC(aq) and debugger
+        !hak(s) and debugger
+        # E%TX/$t=le
+        $x = fi&TXsim,E,s
+        # /$match/$n=aq
+        fi&Xsim,x,'x',[],{match:aq.t},{n:aq}
+        return aq
+    }
+    # E%RX/matched/$n=aq
+    #  aq received into E%RX
+    me.RXi = &acgtEt{
+        $x = fi&RXsim,E,{matched:t.t},{n:t}
+        return x
     }
    // R'The'
     
     me.Pi_The = &acgt{ return [
        
-       // %Pier,C,E,D types @2, i E/** @3
+       // %Pier,C,E,D types @2, &Eing E/** @3
         ['Pier',0.2,&acgtRs{
             me&CED,R
             $C = Rs&C
@@ -2589,16 +2609,30 @@ me.Sch_Story = &acgt{ return [
             
             R.sc[Rs&Pier] = 1
         },'ift,D'],
+        # E/** expands, if not already
+        ['Pier',0.3,&acgtRs{
+            me&Eing
+        },'ift,D'],
         
-        # downloads %TX/* from Troom
+       // &pio @254 ground finds trips
+        # i %TX/* o Troom
         ['Top',0.21,&acgtRs{
             # set TX
             $E = Rs&E
-            $aq = Cye(['Some advice',3])
-            # E%TX/$t=le
-            $x = fi&EXsim,E,{t:'do'},{Xcgk:'TX',long:1}
-            # /$match/$n=aq
-            fi&Xsim,x,'x',[],{match:aq.t},{n:aq}
+            $aq = me&TXi,E,"Some_advice",{t:'do'}
+            aqs&Washere = 1
+        },'ift,D'],
+        # %TX awarenesses a point
+        # dome suspicion
+        ['Pier',0.264,&acgtRs{
+            $E = Rs&E
+            $M = fi&pio,E,{t:E.t,pi:Ec&pi,v:s}
+            !hak(M) and return
+            
+            M.map(aq => me&RXi,E,aq )
+            s&sha = '3 3 3 999'
+            me&tc,"Selected",'T'
+            me&attendios,'matches',{M}
         },'ift,D'],
         
        // -Bat events -> -Eel
@@ -2864,19 +2898,6 @@ me.Sch_Story = &acgt{ return [
             n thinking 12 $s:di %fs:8,hs:584
         },'ift,D'],
         
-       // %Pier** @264 ground finds trips
-        # %TX awarenesses a point
-        # dome suspicion
-        ['Pier',0.264,&acgtRs{
-            $E = Rs&E
-            $N = fi&pio,E,{t:E.t,pi:Ec&pi,v:s}
-            hak(N) and me&attendios,'matches',{E,N}
-        },'ift,D'],
-        
-        # E/** expands
-        ['Pier',0.3,&acgtRs{
-            me&Eing
-        },'ift,D'],
         
        // %Top back
         ['Top',0.12,&acgtRs{

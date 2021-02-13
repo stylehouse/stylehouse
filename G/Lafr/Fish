@@ -1463,6 +1463,10 @@ fi.Xios ||= {}
             or when a sequence otherwise seems to occur
              see 'resolve $n'
           
+          # is really /$match=$Tt=aq.t/$n=aq, aq isC
+          #  so i %RX/$matched=aq.t/$n=aq
+          #   then each %RX...aq%TX enters the search path
+          #  otherwise we would be compiling %RX.TX per arrive
           a match:
            tries to join a /match/$Tt:
             %TX/$k/match/$Tt = aq
@@ -1565,21 +1569,37 @@ fi.Xios ||= {}
     fi.EXsim = &acgtEscq{
         c ||= {}
         $X = E.c[c.Xcgk||'X'] ||= {A:E}
+        # deeply multiple s.*
+        c.long ||= 1
         # always expect refs
-        c.array = 1
-        # arg 2,3 do nothing
+        c.array == null and c.array = 1
+        # arg 2,3 do nothing since X is X
         return fi&Xsim,X,'X',[],s,c,q
+    }
+    # adapt to E%TX|%RX
+    fi.TXsim = &acgtEscq{
+        c ||= {}
+        c.Xcgk ||= 'TX'
+        return fi&EXsim,E,s,c,q
+    }
+    fi.RXsim = &acgtEscq{
+        c ||= {}
+        c.Xcgk ||= 'RX'
+        # hashy indexes
+        c.array = 0
+        return fi&EXsim,E,s,c,q
     }
     
     # E%X writeup attracts E^^%TX to E%RX
-    fi.pio = &acgtEc{
+    fi.pio = &acgtEscq{
         # writing stuff down
-        each ark,v c {
+        each ark,v s {
             fi&EXsim,E,hashkv(ark,v)
         }
         # triggering awareness
-        return fi&TX_awareness,E,c
+        return fi&TX_awareness,E,s
     }
+    
     fi.TX_awareness = &acgtEc{
         $N = me.cby(E,E => Ec&top).reverse()
         # rowing, or arq+
