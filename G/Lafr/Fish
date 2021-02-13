@@ -1563,7 +1563,7 @@ fi.Xios ||= {}
             or what the test assertion says + its exp
           
       =cut
-    
+   // &[ETR]Xsim
     # adapt to &Xsim...
     #  expects A, give it E, as in R:$pi%E
     fi.EXsim = &acgtEscq{
@@ -1589,7 +1589,39 @@ fi.Xios ||= {}
         c.array = 0
         return fi&EXsim,E,s,c,q
     }
+   // &TXi, etc
+    fi.getTXatE = &acgtE{
+        $N = []
+        Ec&TX and N.push(Ec&TX)
+        if (Ec&RX) {
+            each tx Ec&RX.matched {
+                each i,aq x.z {
+                    aqc&TX and N.push(aqc&TX)
+                }
+            }
+        }
+        return N
+    }
+    # (E|aq)%TX/$t=le/match/$n=aq
+    #  make matchable on E|aq
+    fi.TXi = &acgtEts{
+        $aq = isst(t) ? Cye([t,3]) : t
+        !isC(aq) and debugger
+        !hak(s) and debugger
+        # E%TX/$t=le
+        $x = fi&TXsim,E,s
+        # /$match/$n=aq
+        fi&Xsim,x,'x',[],{match:aq.t},{n:aq}
+        return aq
+    }
+    # E%RX/matched/$n=aq
+    #  aq received into E%RX
+    fi.RXi = &acgtEt{
+        $x = fi&RXsim,E,{matched:t.t},{n:t}
+        return x
+    }
     
+   // &pio
     # E%X writeup attracts E^^%TX to E%RX
     fi.pio = &acgtEscq{
         # writing stuff down
@@ -1597,19 +1629,24 @@ fi.Xios ||= {}
             fi&EXsim,E,hashkv(ark,v)
         }
         # triggering awareness
-        return fi&TX_awareness,E,s
+        $M = fi&TX_awareness,E,s
+        if (hak(M)) {
+            # link E%RX...aq%TX for further
+            M.map(aq => fi&RXi,E,aq )
+        }
+        return M
     }
     
-    fi.TX_awareness = &acgtEc{
+    
+    # [aq+] from E^^^ matching s
+    fi.TX_awareness = &acgtEscq{
         $N = me.cby(E,E => Ec&top).reverse()
         # rowing, or arq+
         $M = []
         each in N {
-            # TX, RX.TX = TX over RX
-            $search = [nc&TX, nc&RX && nc&RX.TX]
-            each ark,v c {
+            $search = fi&getTXatE,n
+            each ark,v s {
                 each ii,TX search {
-                    !TX and continue
                     # would have some of these indexes
                     # < matching string appearing in ark|v|t|etc
                     $fora = TX.for && TX.for[ark]
@@ -1642,11 +1679,12 @@ fi.Xios ||= {}
         # now we have all aq
         # < with rowing-ness to $Tt via &Xsomp?
         #   with transmitor n and transmission aq
+        return M
         
         # knock out any any $ignore
+        # < bit vague... see aq/$offset|$limit
         each in N {
-            # TX, RX.TX = TX over RX
-            $search = [nc&TX, nc&RX && nc&RX.TX]
+            $search = fi&getTXatE,n
             each ii,TX search {
                 !TX and continue
                 !TX.ignore and continue
@@ -1654,10 +1692,6 @@ fi.Xios ||= {}
                 grepout(M,TX.ignore)
             }
         }
-        
-        # < want to satisfy $Tt as its own exp,
-        #   setting up %RX to progress it, etc
-        return M
     }
    
  // live
