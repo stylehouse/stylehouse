@@ -2096,48 +2096,44 @@ me.Sch_Story = &acgt{ return [
     # some events, to|from the book
     ['TheeThy',0.291,&acgtRs{
         me&reaw,R,'TheeThy'
-        
-        # the -eight remotely
-        me&bal,'This','Theing,eph'
-        # the -nines
-        me&bal,'The','Theing,Piers:Bat,tow,eph'
+        me&bin,'Theing'
         
         me&tc,"TheeThy"
+        # init
+        # the -eight remotely
+        # i This/Bowler/\E-hat
+        $This = me&fiu,s,'This'
+        $Bow = me&fiu,This,'Bowler'
+        Bowc&s = me&PiRet_data
+        Bowc&pi = 'hat'
+        # the -nines
+        #  autoviv etivity for relatives in This (Bowler)
+        #   to be packed into some Nine/$t**
+        $The = me&fiu,s,'The'
+        Thes&tow = 1
     },'ift,D'],
-   
-   // %Theing/%TheTh** Piering R'The'
-    # container of /Eight-ish namespace
-    ['Theing',0.295,&acgtRs{
+    # Nine-ish container of /Eight-ish namespace
+    ['Theing',0.291,&acgtRs{
         $x = me&Theing,{in:'TheTh'}
-        
-        # many things c&pi=...
-        me&bal,'Bowler'
+        Rs&onlyish = 1
+        me&tc,"Gool","G"
     },'ift,D'],
     
     # each thing
     ['TheTh',0.296,&acgtRs{
-        $p = me.cbu(R,'Piers')
-        sc&pi = p && ps&Piers || 'hat'
+        sc&pi ||= 'Bat'
+        $x = me&Theing,{in:'TheTh'}
         
-        $x = me&Theing,{in:'TheTh',default:sc&pi}
         $tc = me&Thetower,R
         $es = tc.es
         delete ss&RXing
         es && ess&TXing and ss&RXing = ess&TXing
         
-        # < should TXi at TheeThy
-        if (s.t == 'Bowler') {
-            if (sc&pi == 'hat') {
-                # the wormhole
-                sc&s ||= me&PiRet_data
-                # an extra bit:
-                #me&Piering,{Pier:'Bat'}
-            }
-            else {
-                # travel specs
-                #me&proto_Bat
-            }
-        }
+        $c = me&Thetower,R
+        c.path = sy&path
+        me&nu,"Towe",c
+        s&dis = 1
+        
         me&tivity
     },'ift,D'],
     # 6 innard avoided unless scheduled for redo
@@ -2148,24 +2144,23 @@ me.Sch_Story = &acgt{ return [
     # identity spreader
     me.Theing = &acgtc{
         $R = me&R
+        $s = Rc&s
         $x = me&Jx,R
         Rs&Thex && c and throw "const"
         Rs&Thex and return Rs&Thex
         Rs&Thex = x
         c ||= {}
         # believing something
-        if (c.default) {
-            $s = Rc&s
-            sc&pi ||= c.default
-            Rs&Piering = 1
-        }
+        sc&tow and Rs&tow = 1
+        sc&pi and Rs&Piering = 1
+        
         # receivable somewhere
         Rs&elvis = 'FishElvis'
         # we might bal to receive em
         Rs&tow and 'check Ey&Todo?'
         
         c.long ||= T.act.t
-        c.long and me&reaw,R,c.long+',elvis,tow,Piering,Piers'
+        c.long and me&reaw,R,c.long+',elvis,tow'
         c.short ||= c.long
         c.short and xy&go = me&acting,R,c.short
         c.in and me&bin,c.in
@@ -2223,15 +2218,17 @@ me.Sch_Story = &acgt{ return [
         $M = ps&z
         #ksaf(ps&z,{aft:R})
         
-        $c = {A,C,R,s,N,M}
+        $c = {A,C,R,s,N,M,el:2}
         me&Thetower,R,c
         c&tower = c
         $n = c.es
+        n ||= Rc&s
+        ~>3 sol: dis(n)
         ny&ein and ny&ein(C,T)
         else
         ny&Todo and ny&Todo.push(C)
         else debugger
-        T.wake = ny&R
+        T.wake = c.wake
         me.Lastev = c
         }
         catch(er){
@@ -2239,6 +2236,14 @@ me.Sch_Story = &acgt{ return [
         }
     }
     # where|how elvising goes
+    #  This/Has/A/Thing may home e in:
+    #   This/Has/e%tow/A/Thing
+    #   This/e%tow/Has/A/Thing
+    #  so Thing %RXes all ^^^/*%tow
+    #   
+    #   and The itself, afterwards
+    #   The%tow=This/Has/A/Thing
+    #   The%tow/This/Has/A/Thing
     # < always a further step
     # < constituation of climbers, for rowing
     me.Thetower = &acgtRc{
@@ -2249,20 +2254,31 @@ me.Sch_Story = &acgt{ return [
         $may = c.maytow = []
         while (ii--) {
             # o R^^^%elvis=R%elvis
-            rs&elvis != Rs&elvis and break
             # o r - may not %elvis
-            $la = r
-            r = ry&up
-            !r and break
-            up.unshift(r)
+            $p = ry&up
+            !p and break
+            up.unshift(p)
+            !ps&z and debugger
+            $aft = ksaf(ps&z,{aft:r})
             # o >%tow
-            each iz rs&z {
-                z == la and continue
-                !zs&tow and continue
-                may.unshift(z)
-                break
+            each ij aft {
+                $z = jc&s
+                zs&tow and may.unshift(z); break
             }
+            rs&Theing and break
+            r = p
             ii <3 and debugger
+        }
+        if (!hak(may) && c.el == 2) {
+            $z = pc&s
+            $zc = r.t.match(/^(.+) (\d+)$/)
+            $t = zc ? zc[1] : r.t
+            $i = zc ? zc[2]+1 : 2
+            t = t+' '+i
+            $es = me&fiu,z,t
+            ess&tow = 1
+            # will be %Theing
+            may.push(es)
         }
         # interesting stack of them
         # take first|deepest
@@ -2270,43 +2286,42 @@ me.Sch_Story = &acgt{ return [
         !es and return c
         $join = up[0]
         # This/$t** <-> The/$r**
-        $ThisN = up.slice(1)
-        c.ThisN = ThisN
-        $TheN = [es]
-        c.TheN = TheN
+        $ThisN = c.ThisN = up.slice(1)
+        $TheN = c.TheN = [es]
         each it ThisN {
             # skip This itself
             0 == i and continue
-            $r = TheN.slice(-1)[0]
+            $z = TheN.slice(-1)[0]
             # try route
-            $z = rc&s
-            !z and break
-            # ! not tw indexed
-            #$n = me&fiu,z,t.t,8
-            each in zs&z {
-                n.t == t.t and break
-                else n = 0
-            }
-            !n || !ny&R || !(ny&ein||ny&Todo) and break
-            TheN.push(ny&R)
+            $n = me&fiu,z,t.t
+            ns&tow = 1
+            TheN.push(n)
         }
         $es = TheN.slice(-1)[0]
-        $n = esc&s
-        !n and debugger
-        c.es = n
+        esy&Todo ||= []
+        c.es = es
+        $upwards = reverse(TheN)
+        each iz upwards {
+            zy&R and c.wake = zy&R; break
+        }
+        c.wake ||= p
         return c
     }
     # receive+see e somewhere
-    me.proto_Bat = &acgt{
+    me.proto_Bat = &acgtc{
         #return
-        $R = me&R
-        $x = me&Theing
-        $s = Rc&s
-        !sy&Todo and return
-        $e = sy&Todo.slice(-1)[0]
-        !e and return
-        # 
-        $ev = ec&tower
+        if (c) {
+            $ev = c
+        }
+        else {
+            $R = me&R
+            $x = me&Theing
+            $s = Rc&s
+            !sy&Todo and return
+            $e = sy&Todo.slice(-1)[0]
+            !e and return
+            $ev = ec&tower
+        }
         if (1 || xy&go) {
             $la = me&tc,'FishElvis'
             me&walls,la,'b:4.2'
@@ -2639,7 +2654,7 @@ me.Sch_Story = &acgt{ return [
             Rs&hat = 1
         },'ift,D'],
         # many e
-        ['Bat+V',0.21,&acgtRs{
+        ['Bat+V',0.3,&acgtRs{
             # outsphere (s of R%TheTt)
             $V = Rs&V
             $D = Rs&D
