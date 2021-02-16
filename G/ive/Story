@@ -2135,11 +2135,10 @@ me.Sch_Story = &acgt{ return [
         s&dis = 1
         
         me&tivity
+        
+        sc&pi and me&Piering
     },'ift,D'],
-    # 6 innard avoided unless scheduled for redo
-    ['Piering',0.6,&acgtRs{
-        me&Piering
-    },'ift,D'],
+    
     &{
     # identity spreader
     me.Theing = &acgtc{
@@ -2151,8 +2150,8 @@ me.Sch_Story = &acgt{ return [
         Rs&Thex = x
         c ||= {}
         # believing something
-        sc&tow and Rs&tow = 1
-        sc&pi and Rs&Piering = 1
+        # < R%tow going?
+        ss&tow and Rs&tow = 1
         
         # receivable somewhere
         Rs&elvis = 'FishElvis'
@@ -2222,12 +2221,9 @@ me.Sch_Story = &acgt{ return [
         me&Thetower,R,c
         c&tower = c
         $n = c.es
-        n ||= Rc&s
         ~>3 sol: dis(n), c.wake.t
-        ny&ein and ny&ein(C,T)
-        else
-        ny&Todo and ny&Todo.push(C)
-        else debugger
+        ny&Todo.push(C)
+        
         T.wake = c.wake
         me.Lastev = c
         }
@@ -2239,39 +2235,9 @@ me.Sch_Story = &acgt{ return [
     #  This/Has/A/Thing may home e in:
     #   This/Has/e%tow/A/Thing
     #   This/e%tow/Has/A/Thing
-    #  so Thing %RXes all ^^^/*%tow
-    #   
-    #   and The itself, afterwards
-    #   The%tow=This/Has/A/Thing
-    #   The%tow/This/Has/A/Thing
+    #   The%tow/Has/A/Thing
     # < always a further step
     # < constituation of climbers, for rowing
-    
-    # find Thyer/%Theing/...R
-    me.climbaboveTheing = &acgtR{
-        $r = R
-        $N = [r]
-        while (1) {
-            $p = ry&up
-            !p and break
-            N.unshift(p) > 5 and debugger
-            rs&Theing and break
-            r = p
-        }
-        return N
-    }
-    me.makeextraThe = &acgtc{
-        $Thyer = c.above[0]
-        $The = c.above[1]
-        $zc = The.t.match(/^(.+) (\d+)$/)
-        $t = zc ? zc[1] : The.t
-        $i = zc ? zc[2]+1 : 2
-        t = t+' '+i
-        $es = me&fiu,Thyer,t
-        ess&tow = 1
-        # will be %Theing
-        return es
-    }
     # s finds Trooms for itself
     me.Thetower = &acgtRc{
         c ||= {}
@@ -2319,6 +2285,31 @@ me.Sch_Story = &acgt{ return [
         c.wake = zy&R
         # who has TX
         return c
+    }
+    # find Thyer/%Theing/...R
+    me.climbaboveTheing = &acgtR{
+        $r = R
+        $N = [r]
+        while (1) {
+            $p = ry&up
+            !p and break
+            N.unshift(p) > 5 and debugger
+            rs&Theing and break
+            r = p
+        }
+        return N
+    }
+    me.makeextraThe = &acgtc{
+        $Thyer = c.above[0]
+        $The = c.above[1]
+        $zc = The.t.match(/^(.+) (\d+)$/)
+        $t = zc ? zc[1] : The.t
+        $i = zc ? zc[2]+1 : 2
+        t = t+' '+i
+        $es = me&fiu,Thyer,t
+        ess&tow = 1
+        # will be %Theing
+        return es
     }
     # receive+see e somewhere
     me.proto_Bat = &acgtc{
