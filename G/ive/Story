@@ -2125,13 +2125,13 @@ me.Sch_Story = &acgt{ return [
         $x = me&Theing,{in:'TheTh'}
         
         $tc = me&Thetower,R
+        
         $es = tc.es
         delete ss&RXing
         es && ess&TXing and ss&RXing = ess&TXing
         
-        $c = me&Thetower,R
-        c.path = sy&path
-        me&nu,"Towe",c
+        #$c = me&Thetower,R
+        #me&proto_Bat,c
         s&dis = 1
         
         me&tivity
@@ -2223,7 +2223,7 @@ me.Sch_Story = &acgt{ return [
         c&tower = c
         $n = c.es
         n ||= Rc&s
-        ~>3 sol: dis(n)
+        ~>3 sol: dis(n), c.wake.t
         ny&ein and ny&ein(C,T)
         else
         ny&Todo and ny&Todo.push(C)
@@ -2246,72 +2246,85 @@ me.Sch_Story = &acgt{ return [
     #   The%tow/This/Has/A/Thing
     # < always a further step
     # < constituation of climbers, for rowing
-    me.Thetower = &acgtRc{
-        c ||= {}
-        $ii = 30
+    
+    # find Thyer/%Theing/...R
+    me.climbaboveTheing = &acgtR{
         $r = R
-        $up = c.uptow = [R]
-        $may = c.maytow = []
-        while (ii--) {
-            # o R^^^%elvis=R%elvis
-            # o r - may not %elvis
+        $N = [r]
+        while (1) {
             $p = ry&up
             !p and break
-            up.unshift(p)
-            !ps&z and debugger
-            $aft = ksaf(ps&z,{aft:r})
-            # o >%tow
-            each ij aft {
-                $z = jc&s
-                zs&tow and may.unshift(z); break
-            }
+            N.unshift(p) > 5 and debugger
             rs&Theing and break
             r = p
-            ii <3 and debugger
         }
-        if (!hak(may) && c.el == 2) {
-            $z = pc&s
-            $zc = r.t.match(/^(.+) (\d+)$/)
-            $t = zc ? zc[1] : r.t
-            $i = zc ? zc[2]+1 : 2
-            t = t+' '+i
-            $es = me&fiu,z,t
-            ess&tow = 1
-            # will be %Theing
-            may.push(es)
+        return N
+    }
+    me.makeextraThe = &acgtc{
+        $Thyer = c.above[0]
+        $The = c.above[1]
+        $zc = The.t.match(/^(.+) (\d+)$/)
+        $t = zc ? zc[1] : The.t
+        $i = zc ? zc[2]+1 : 2
+        t = t+' '+i
+        $es = me&fiu,Thyer,t
+        ess&tow = 1
+        # will be %Theing
+        return es
+    }
+    # s finds Trooms for itself
+    me.Thetower = &acgtRc{
+        c ||= {}
+        # find Thyer/%Theing/...s
+        c.above = me&climbaboveTheing,R .map(r => rc&s)
+        # their next sibling with %tow
+        c.tows = c.above.map(&s{
+            $p = sy&up
+            !p and return
+            return ksaf(ps&z,{aft:s})
+                .filter(z => zs&tow)[0]
+        })
+        # The springs The 2, etc
+        if (!hak(c.tows.filter(z=>z)) && c.el == 2) {
+            c.tows[1] = me&makeextraThe,c
         }
-        # interesting stack of them
-        # take first|deepest
-        $es = may.slice(-1)[0]
+        # each %tow/...s
+        c.towing = []
+        $nearest = reverse(c.tows).filter(z=>z)[0]
+        each iz c.tows {
+            !z and continue
+            $s = c.above[i]
+            $r = sy&R
+            $path = c.above.slice(i*1+1)
+            # This<->The is implied
+            rs&Theeing and path.shift()
+            # try to route
+            # may create nearest %tow/**
+            $el = z == nearest && c.el == 2 ? 1 : 8
+            each ii,n path {
+                !z and continue
+                $e = me&fiu,z,n.t,el
+                z = e
+            }
+            c.towing[i] = z
+        }
+        c.elvisors = reverse(c.towing).filter(z=>z)
+        # first|deepest is where to elvis
+        $es = c.elvisors[0]
         !es and return c
-        $join = up[0]
-        # This/$t** <-> The/$r**
-        $ThisN = c.ThisN = up.slice(1)
-        $TheN = c.TheN = [es]
-        each it ThisN {
-            # skip This itself
-            0 == i and continue
-            $z = TheN.slice(-1)[0]
-            # try route
-            $n = me&fiu,z,t.t
-            ns&tow = 1
-            TheN.push(n)
-        }
-        $es = TheN.slice(-1)[0]
         esy&Todo ||= []
         c.es = es
-        $upwards = reverse(TheN)
-        each iz upwards {
-            zy&R and c.wake = zy&R; break
-        }
-        c.wake ||= p
+        # nearest R above that, to wake elvisor
+        $z = me.cbu(es,z=>zy&R)
+        c.wake = zy&R
+        # who has TX
         return c
     }
     # receive+see e somewhere
     me.proto_Bat = &acgtc{
         #return
         if (c) {
-            $ev = c
+            $ev = me.Lastev
         }
         else {
             $R = me&R
@@ -2323,8 +2336,6 @@ me.Sch_Story = &acgt{ return [
             $ev = ec&tower
         }
         if (1 || xy&go) {
-            $la = me&tc,'FishElvis'
-            me&walls,la,'b:4.2'
             me&nu,"e",e
             $ev = ex({},ev)
             me&nu,"tower",ev
