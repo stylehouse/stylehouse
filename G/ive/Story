@@ -2125,10 +2125,9 @@ me.Sch_Story = &acgt{ return [
         $x = me&Theing,{in:'TheTh'}
         
         $tc = me&Thetower,R
-        
         $es = tc.es
-        delete ss&RXing
-        es && ess&TXing and ss&RXing = ess&TXing
+        delete sy&RXing
+        es && esy&TXing and sy&RXing = esy&TXing
         
         #$c = me&Thetower,R
         #me&proto_Bat,c
@@ -2433,16 +2432,17 @@ me.Sch_Story = &acgt{ return [
             fig: {vig: 'vort'},
             lw: {vig: 'vurt'},
         }
-        $N = [1,2]
+        $N = [1]
         N.map(&i{
             each kv hash {
                 1 < i && isob(v) and v = ex({},v)
                 v = hash[k+i] = {le:v}
-                k == 'fig1' && i == 2 and v.ol = {de:3,do:4}
-                k == 'fig1' && i == 2 and v.owel = {de:3,do:4}
+                k == 'fig' && i == 1 and v.ol = {de:3,do:4}
+                k == 'fig' && i == 1 and v.owel = {de:3,do:4,da:5}
             }
             hash['water'+i] = 'par importo'
         })
+        hash.asee = Cye(['Think',4,{dia:'dem'},{luc:'cho'}])
         return hash
     }
     me.modelta = &acgt{
@@ -2630,13 +2630,8 @@ me.Sch_Story = &acgt{ return [
         ['Top',0.21,&acgtRs{
             # set TX
             $E = Rs&E
-            $aq = fi&TXi,E,"Some_advice",{t:'owel'}
-            aqs&Washere = 1
-            $ab = fi&TXi,aq,"Mmoreso",{t:'do'}
-            abs&Isactly = 1
-            
             $V = Rs&V
-            Vs&RXing and fi&RXi,E,Vs&RXing
+            Vy&RXing and fi&RXi,E,Vy&RXing
         },'ift,D'],
         # %TX awarenesses a point
         # dome suspicion
@@ -2649,9 +2644,14 @@ me.Sch_Story = &acgt{ return [
             T.Mw = 'TX'
             me&tc,"RX:"+joint(M),'T'
             me&attendios,'matches',{M}
+            each i,aq M {
+                $qua = aqs&qua
+                !qua and debugger
+                qua.ope and Rc&dl += 1
+            }
         },'ift,D'],
         
-       // -Bat events -> -Eel
+       // -Bat events
         ['blank',0.21,&acgtRs{
             # diverges into types
             Rs&hat = 1
@@ -2669,6 +2669,8 @@ me.Sch_Story = &acgt{ return [
             each ie c.back {
                 $n = me&Ei,{t:es&Bati,pi:'Bet',s:e,i}
                 c.neu.includes(e) and nc&el = 2
+                # < selected one
+                0 == i and me&Ei,{t:'sel',pi:'Spheres',s:n,i}
             }
             
             me&Eing,6
@@ -2677,8 +2679,27 @@ me.Sch_Story = &acgt{ return [
             
             me&Eing,6
             $ED = ny&D
-            Vs&TXing = Ds&Troom = EDs&aq
+            Vy&TXing = EDs&aq
         },'ift,D'],
+        
+       // -Spheres events look
+        ['Spheres',0.22,&acgtRs{
+            $E = Rs&E
+            $r = sy&R
+            !isR(r) || !rs&Bet and debugger
+            $Belt = me&ioty,r,'Belt','tow' [0]
+            $Bits = me&ioty,Belt,'Bit'
+            $Bit = Bits.filter(r => rs&isR).slice(-1)[0]
+            $Y = Bitc&s
+            # default D open
+            fi&TXi,E,"Dope",{t:'D'},1
+            each kv Y.sc {
+                !isC(v) and continue
+                $n = me&Ei,{t:k,pi:'hat',s:v,dl:1}
+            }
+        },'ift,D'],
+        
+       //   -Eel
         ['Eel',0.21,&acgtRs{
             #me&walls,C,'bd:3.7'
             $D = Rs&D
@@ -2772,7 +2793,7 @@ me.Sch_Story = &acgt{ return [
             
             #me&Ei,{t:'aq',pi:'hat',s:aq,dl:2}
         },'ift,D'],
-       // -Bet event, -Belt slope
+       //   -Bet event, -Belt slope
         # the e itself
         ['Bet',0.21,&acgtRs{
             $D = Rs&D
@@ -2802,7 +2823,7 @@ me.Sch_Story = &acgt{ return [
                 #me&tc,tn,"x"+hak(M),6
             }
         },'ift,D'],
-       // -Bit of slope, -isX
+       //     -Bit of slope, -isX
         ['Bit',0.21,&acgtRs{
             $D = Rs&D
             $E = Rs&E
@@ -2812,6 +2833,7 @@ me.Sch_Story = &acgt{ return [
             $e = me&Ei,{t:'s',pi:'isC',s:s}
             !me&Eing,4 and return
             if (isR(s)) {
+                Rs&isR = 1
                 # < whittle down, pushing presentation,
                 #   to be turned into an entirety if willed...
                 #   or just R+E+X in the first -isC minimality
