@@ -2184,7 +2184,7 @@ me.Sch_Story = &acgt{ return [
         $r = me&PiRet,R,c
         x.ro('noD') and rs&noDisplay = 1
         me&Ring,r
-        rs&matches and me&nu,'matches',rs&matches
+        rs&matches && xy&go and me&nu,'matches',rs&matches
         del()
         #ac(R,'z',r)
         xy&go and me&zu,"r",r
@@ -2644,7 +2644,10 @@ me.Sch_Story = &acgt{ return [
             $t = me&Mwty,R,'Pier','At';
             ts&sha = '3 3 3 999'
             T.Mw = 'TX'
-            me&tc,"RX:"+joint(M),'T'
+            # is it the end of a Ting
+            $sym = M.some(aq => aqc&TX) ? '⇃' : '⥙'
+            # < modify this to click expand elvising trace
+            me&tc,"RX:"+joint(M),sym,'T'
             me&attendios,'matches',{M}
             each i,aq M {
                 $qua = aqs&qua
