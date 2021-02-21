@@ -3000,11 +3000,57 @@ me.Sch_Story = &acgt{ return [
         
         
        // %Top back
+        &{
+        # R%M + R%Mw.* -> R%M, spaced
+        me.modulatM = &acgtR{
+            $M = []
+            each in Rs&M {
+                M.push(n)
+            }
+            each win Rs&Mw {
+                ns&modt = w
+                M.push(n)
+            }}
+            me&cvdeal,M
+            vsortz(M)
+            Rs&M = M
+        }
+        # with shading, dis:1 or not
+        me.specialfx = &acgtr{
+            rs&tiny and grepout(rs&M,n => ns&modt == 'Pier')
+            $N = me&ioR,r
+            rs&inline || hak(N) <= 1 and return
+            # < properly sizing it for:
+            $larger = N.filter(n => !ns&tiny)
+            !hak(larger) and return
+            each in N {
+                ns&inline and continue
+                $C = ns&C
+                s&dis = 1
+                s&ml = 1
+            }
+        }
+        },
         ['Top',0.12,&acgtRs{
             # lets /Display** recycle Elements
             me&arriveRbitX,R,R.t
             # capsule of %TX
             Rc&top = R
+        },'ift,D'],
+        ['Top',0.67,&acgtRs{
+            me&Mlimits,R
+            
+            # < generating weightiness
+            each ir Rc&N {
+                # R%M + R%Mw.* -> R%M, spaced
+                me&modulatM,r
+            }
+            $N = reverse(Rc&N)
+            each ir N {
+                # with shading, dis:1 or not
+                me&specialfx,r
+            }
+            
         },'ift,D'],
         ['Top',0.9,&acgtRs{
             
@@ -3014,24 +3060,7 @@ me.Sch_Story = &acgt{ return [
             me&walls,C,"b:2.2"
             me&scroll,28
             if (!Rs&noDisplay) {
-                # apply special effects pre-Display
-                each ir Rc&N {
-                    if (rs&tiny) {
-                        delete rs&Mw.Pier
-                    }
-                    $N = me&ioR,r
-                    rs&inline || hak(N) <= 1 and continue
-                    # < properly sizing it for:
-                    $larger = N.filter(n => !ns&tiny)
-                    !hak(larger) and continue
-                    each in N {
-                        ns&inline and continue
-                        $C = ns&C
-                        s&dis = 1
-                        s&ml = 1
-                    }
-                }
-                $d = me&Display,R
+                $d = me&Display,R,{prep:1}
                 
                 # < appears twice unless:
                 Rs&noDisplay = 1
