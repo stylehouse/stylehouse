@@ -2108,7 +2108,7 @@ me.Sch_Story = &acgt{ return [
         Bowc&pi = 'hat'
         $Bow = me&fiu,This,'Lol'
         $da = Bowc&s = {more:'some',figaro:dat.asee}
-        da.furhtin = {llabin:2}
+        da.furhtin = {llabin:4}
         Bowc&pi = 'hat'
         # the -nines
         #  autoviv etivity for relatives in This (Bowler)
@@ -2165,18 +2165,17 @@ me.Sch_Story = &acgt{ return [
         $fin
         c.Einit = &re{
             $oe = me&fiu,E,e.t,9
-            Es&Theollo = 3
             # stop seeing refs from the old e in E%X
-            oe and Ec&ignore = [oe]
+            oe and ec&b = oe
             ~>4 seeing: r.t, e.t
             oe == e and debugger
             me&fiu,E,e
             fin = &{
-                $del = me&modelta
                 # < copy to E^^%X
-                me&Erefputup,{e}
-                delete Ec&ignore
-                del()
+                $c = {E,e}
+                ec&b and c.removing = [ec&b]
+                me&Erefputup,c
+                delete ec&b
             }
         }
         sc&pi and me&Piering,c
@@ -2186,11 +2185,11 @@ me.Sch_Story = &acgt{ return [
     me.Ereflookup = &acgte{
     }
     me.Erefputup = &acgtc{
-        $e = c.e
-        $E = ey&up
+        $E = c.E
         $X = Ec&X || fi&EXsim,E,{}
-        $e_x = ec&X
         # add new
+        $e = c.e
+        $e_x = e && ec&X || {}
         each is e_x.refs {
             $x = e_x.ref[i]
             each in x.z {
@@ -2198,10 +2197,9 @@ me.Sch_Story = &acgt{ return [
             }
         }
         # remove old
-        c.removing ||= []
-        Ec&ignore and c.removing.push(... Ec&ignore)
         each i,oe c.removing {
             $oX = oec&X
+            $gonei = []
             each is oX.refs {
                 $ox = oX.ref[i]
                 !X.refs and continue
@@ -2209,9 +2207,14 @@ me.Sch_Story = &acgt{ return [
                 i < 0 and debugger
                 $x = X.ref[i]
                 grepout(x.z,n => ox.z.includes(n))
+                !hak(x.z) and gonei.push(i)
             }
+            reverse(gonei).map(&i{
+                X.refs.splice(i,1)
+                X.ref.splice(i,1)
+            })
         }
-        Ey&up and me&Erefputup,ex(c,{e:E})
+        Ey&up and me&Erefputup,ex(c,{E:Ey&up})
     }
     },
     
