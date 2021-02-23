@@ -2176,14 +2176,37 @@ me.Sch_Story = &acgt{ return [
                 ec&b and c.removing = [ec&b]
                 me&Erefputup,c
                 delete ec&b
+                es&glop and me&nu,"Glop",es&glop
             }
         }
         sc&pi and me&Piering,c
         fin and fin()
     },'ift,D'],
     &{
-    me.Ereflookup = &acgte{
+    # search for other R with ref, E^^
+    me.Ereflookup = &acgtc{
+        $E = c.E
+        $e = c.e ||= E
+        $s = c.s
+        $R = c.R
+        c.got ||= []
+        
+        $x = fi&EXsim,E,{ref:s}
+        # not being replaced
+        $b = ec&b
+        $br = b && by&R
+        $z = x.z.filter(r => !br || brc&N != rc&N)
+        each in z {
+            c.got.push({E,n})
+        }
+        R.t == 'figaro' and es&glop = c.got
+        
+        Ey&up and me&Ereflookup,ex(c,{E:Ey&up})
+        
+        # sort by R
+        # create distality
     }
+    # commit Ec&top (top of &Piering) to E^^
     me.Erefputup = &acgtc{
         $E = c.E
         $X = Ec&X || fi&EXsim,E,{}
@@ -2479,9 +2502,8 @@ me.Sch_Story = &acgt{ return [
     me.R_reflimit = &acgtRs,limit{
         # inform Ec&top
         $tE = Rc&top.sc.E
+        me&Ereflookup,{E:tE,s,R}
         $x = fi&EXsim,tE,{ref:s},{n:R}
-        
-        Rs&refthing = x
         
         # dedupe/limit objects already in this pool
         $ri = Rc&refs.indexOf(s);
