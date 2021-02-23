@@ -2104,7 +2104,11 @@ me.Sch_Story = &acgt{ return [
         # i This/Bowler/\E-hat
         $This = me&fiu,s,'This'
         $Bow = me&fiu,This,'Bowler'
-        Bowc&s = me&PiRet_data
+        $dat = Bowc&s = me&PiRet_data
+        Bowc&pi = 'hat'
+        $Bow = me&fiu,This,'Lol'
+        $da = Bowc&s = {more:'some',figaro:dat.asee}
+        da.furhtin = {llabin:2}
         Bowc&pi = 'hat'
         # the -nines
         #  autoviv etivity for relatives in This (Bowler)
@@ -2119,12 +2123,31 @@ me.Sch_Story = &acgt{ return [
         $x = me&Theing,{in:'TheTh'}
         Rs&onlyish = 1
         me&tc,"Gool","G"
+        Rs&TheingE = 1
+    },'ift,D'],
+    # R%Theing...Ec&top also have E
+    ['TheingE',0.291,&acgtRs{
+        me&bin,'TheingE'
+        $p = Ry&up
+        me&rollbs,R,'E'
+        $E = Rs&E ||= Cye([R.t,1])
+        Ey&R = R
+        # E**
+        ps&E and Ey&up = ps&E
+    },'ift,D'],
+    ['TheingE',0.297,&acgtRs{
+        $x = me&Theing
+        $E = Rs&E
+        me&ioR,R .filter(r => rs&Pier)
+            .map(r => me&tc,"Acc:"+r.t )
+        xy&go and me&nu,"E",E
     },'ift,D'],
     
     # each thing
     ['TheTh',0.296,&acgtRs{
         sc&pi ||= 'Bat'
         $x = me&Theing,{in:'TheTh'}
+        $E = Rs&E
         
         $tc = me&Thetower,R
         $es = tc.es
@@ -2136,9 +2159,61 @@ me.Sch_Story = &acgt{ return [
         s&dis = 1
         
         me&tivity
-        
-        sc&pi and me&Piering
+        $c = {}
+        # wrap Ec&top as a transaction
+        # < commit
+        $fin
+        c.Einit = &re{
+            $oe = me&fiu,E,e.t,9
+            Es&Theollo = 3
+            # stop seeing refs from the old e in E%X
+            oe and Ec&ignore = [oe]
+            ~>4 seeing: r.t, e.t
+            oe == e and debugger
+            me&fiu,E,e
+            fin = &{
+                $del = me&modelta
+                # < copy to E^^%X
+                me&Erefputup,{e}
+                delete Ec&ignore
+                del()
+            }
+        }
+        sc&pi and me&Piering,c
+        fin and fin()
     },'ift,D'],
+    &{
+    me.Ereflookup = &acgte{
+    }
+    me.Erefputup = &acgtc{
+        $e = c.e
+        $E = ey&up
+        $X = Ec&X || fi&EXsim,E,{}
+        $e_x = ec&X
+        # add new
+        each is e_x.refs {
+            $x = e_x.ref[i]
+            each in x.z {
+                fi&EXsim,E,{ref:s},{n}
+            }
+        }
+        # remove old
+        c.removing ||= []
+        Ec&ignore and c.removing.push(... Ec&ignore)
+        each i,oe c.removing {
+            $oX = oec&X
+            each is oX.refs {
+                $ox = oX.ref[i]
+                !X.refs and continue
+                $i = X.refs.indexOf(s)
+                i < 0 and debugger
+                $x = X.ref[i]
+                grepout(x.z,n => ox.z.includes(n))
+            }
+        }
+        Ey&up and me&Erefputup,ex(c,{e:E})
+    }
+    },
     
     &{
     # identity spreader
@@ -2186,7 +2261,7 @@ me.Sch_Story = &acgt{ return [
         me&Ring,r
         rs&matches && xy&go and me&nu,'matches',rs&matches
         del()
-        #ac(R,'z',r)
+        ac(R,'z',r)
         xy&go and me&zu,"r",r
     }
     # art busier
@@ -2364,9 +2439,12 @@ me.Sch_Story = &acgt{ return [
         }
         ry&cv = 0
         $E = c.E
-        if (E) {
-            tax(r.sc,E.c,'dupl,noref,inline')
-        }
+        E and tax(r.sc,E.c,'dupl,noref,inline')
+        me&CED,r
+        $E = rs&E
+        Ec&pi and rs&Pier = Ec&pi
+        Ec&pi ||= rs&Pier
+        c.Einit and c.Einit(r,E)
         me&R_togo,r
         
         # no r at all if R%nofurther (above)
@@ -2396,6 +2474,12 @@ me.Sch_Story = &acgt{ return [
         Rc&N.push(R)
     }
     me.R_reflimit = &acgtRs,limit{
+        # inform Ec&top
+        $tE = Rc&top.sc.E
+        $x = fi&EXsim,tE,{ref:s},{n:R}
+        
+        Rs&refthing = x
+        
         # dedupe/limit objects already in this pool
         $ri = Rc&refs.indexOf(s);
         if (ri < 0) {
@@ -2468,7 +2552,7 @@ me.Sch_Story = &acgt{ return [
         Ey&D = D
         # E**
         ps&E and Ey&up = ps&E
-        else Ec&top = E
+        Rs&Top and Ec&top = E
         # all R have:
         Rc&top ||= R
     }
@@ -2571,10 +2655,15 @@ me.Sch_Story = &acgt{ return [
             num(c) and c = {ov:c}
             c.ov = scaf(c.ov)
             me&Ring,R,{inside:R,ov:c.ov}
-            !hak(Rs&z) and me&strange,"!Rz"; return
-            $allok = !hak(Rs&z.filter(r => rs&strange))
+            $allok = !hak(me&ioR .filter(r => rs&strange))
             return allok
         }
+    }
+    # proper R/*
+    me.ioR = &acgtR{
+        R ||= me&R
+        return me&ioty,R
+            .filter(r => rc&N.includes(r) && !rc&not)
     }
     # when schema goes strange
     me.strange = &acgts{
@@ -2595,13 +2684,10 @@ me.Sch_Story = &acgt{ return [
        
        // %Pier,C,E,D types @2, &Eing E/** @3
         ['Pier',0.2,&acgtRs{
-            me&CED,R
             $C = Rs&C
             $E = Rs&E
             # config via Ec&*
             Ec&dl and Rc&dl = Rc&d + Ec&dl
-            Ec&pi and Rs&Pier = Ec&pi
-            Ec&pi ||= Rs&Pier
             $p = Ry&up
             $pE = ps&E
             if (!pE || pEc&pi != Ec&pi) {
@@ -2699,6 +2785,7 @@ me.Sch_Story = &acgt{ return [
         
        //   -Eel
         ['Eel',0.21,&acgtRs{
+            
             #me&walls,C,'bd:3.7'
             $D = Rs&D
             $E = Rs&E
@@ -2958,13 +3045,6 @@ me.Sch_Story = &acgt{ return [
         ['Cish',0.263,&acgtRs{
             Rs&Hash = 1
         },'ift,D'],
-        &{
-            me.ioR = &acgtR{
-                R ||= me&R
-                return me&ioty,R
-                    .filter(r => rc&N.includes(r) && !rc&not)
-            }
-        },
         ['Cish',0.7,&acgtRs{
             $N = me&ioR
             N.some(r => hak( me&ioR,r ) > 5) and return
@@ -2976,7 +3056,6 @@ me.Sch_Story = &acgt{ return [
                 delete rs&Mw.Hash
                 delete rs&Mw.Pier
                 rs&inline = 1
-                hak( me&ioR,r ) > 5 and largish = 1
                 $C = rs&C
                 Cs&pr = 0.3
             })
@@ -3001,6 +3080,34 @@ me.Sch_Story = &acgt{ return [
         
        // %Top back
         &{
+        me.Rlimits = &acgtr{
+            !rc&ha and return
+            $upritN = {};
+            each tz rc&ha {
+                typeof z != 'object' and continue
+                t == 'err' and continue
+                # write trouble next to each node
+                each in z {
+                nc&dubquiet || ns&dubquiet and continue
+                # R included are from Rc&refs/refR
+                # < may not be in our h/R pool, showing...
+                #   same Rc&s=objects near but not in this process
+                $M = me&Mw,n,'Mlimits';
+                $re =
+                m $t 1189 s:♲ %deco,fs:17,lh:0.3
+                $o = ns&refR[0];
+                # say where it originated
+                $nam = me&nampup,o,n;
+                if (ns&tiny) {
+                    res&hs = '499';
+                    re.t += '@'+nam
+                }
+                else {
+                    m $t 11892 $s:nam %deco,fs:7,hs:999
+                }
+                }
+            }
+        }
         # R%M + R%Mw.* -> R%M, spaced
         me.modulatM = &acgtR{
             $M = []
@@ -3015,7 +3122,7 @@ me.Sch_Story = &acgt{ return [
             vsortz(M)
             Rs&M = M
         }
-        # with shading, dis:1 or not
+        # shading weight -> dis:1 or not
         me.specialfx = &acgtr{
             rs&tiny and grepout(rs&M,n => ns&modt == 'Pier')
             $N = me&ioR,r
@@ -3038,7 +3145,7 @@ me.Sch_Story = &acgt{ return [
             Rc&top = R
         },'ift,D'],
         ['Top',0.67,&acgtRs{
-            me&Mlimits,R
+            me&Rlimits,R
             
             # < generating weightiness
             each ir Rc&N {
