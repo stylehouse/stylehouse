@@ -2106,10 +2106,17 @@ me.Sch_Story = &acgt{ return [
         $Bow = me&fiu,This,'Bowler'
         $dat = Bowc&s = me&PiRet_data
         Bowc&pi = 'hat'
+        
         $Bow = me&fiu,This,'Lol'
         $da = Bowc&s = {more:'some',figaro:dat.asee}
         da.furhtin = {llabin:4}
         Bowc&pi = 'hat'
+        
+        $Bow = me&fiu,This,'Room'
+        $da = Bowc&s = {even:'more',figaro:dat.asee}
+        da.furhtin = {llabin:4}
+        Bowc&pi = 'hat'
+        
         # the -nines
         #  autoviv etivity for relatives in This (Bowler)
         #   to be packed into some Nine/$t**
@@ -2161,21 +2168,20 @@ me.Sch_Story = &acgt{ return [
         me&tivity
         $c = {}
         # wrap Ec&top as a transaction
-        # < commit
         $fin
         c.Einit = &re{
-            $oe = me&fiu,E,e.t,9
+            $oe = me&fiu,E,e.t,8
             # stop seeing refs from the old e in E%X
             oe and ec&b = oe
             ~>4 seeing: r.t, e.t
             oe == e and debugger
-            me&fiu,E,e
             fin = &{
                 # < copy to E^^%X
                 $c = {E,e}
                 ec&b and c.removing = [ec&b]
                 me&Erefputup,c
                 delete ec&b
+                me&fiu,E,e
                 es&glop and me&nu,"Glop",es&glop
             }
         }
@@ -2197,14 +2203,37 @@ me.Sch_Story = &acgt{ return [
         $br = b && by&R
         $z = x.z.filter(r => !br || brc&N != rc&N)
         each in z {
-            c.got.push({E,n})
+            $tp = me&Rnodepath,n
+            c.got.push({E,n,tp})
         }
-        R.t == 'figaro' and es&glop = c.got
-        
+        # further up
         Ey&up and me&Ereflookup,ex(c,{E:Ey&up})
+        E != e and return
         
-        # sort by R
+        R.t == 'figaro' and es&glop = c.got
+        # sort by R tree
+        $ord = {N:c.got.map(c => c.n)}
+        # all or R vs r at once?
+        ord.N.unshift(R)
+        me&Rcruxi,ord
         # create distality
+        #  ignore those after this R^^^
+        #  -seven on a different -Nine are too far
+        #   see otherable &EsyncThis as -log
+        # satisfy
+        #  r%toomuch or %tiny doesnt count
+    }
+    me.Rcruxi = &acgtc{
+        
+    }
+    me.Rnodepath = &acgtR{
+        # < rowing for...
+        $N = me.cby(R,R => Rs&ball && Rc&s.y.path)
+        $p = N.shift()
+        # &inode puts a:
+        $path = p && pc&s.y.path
+        
+        return joint(path,'/')+'//'+joint(N,'/')
     }
     # commit Ec&top (top of &Piering) to E^^
     me.Erefputup = &acgtc{
