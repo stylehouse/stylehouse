@@ -2212,10 +2212,13 @@ me.Sch_Story = &acgt{ return [
         
         R.t == 'figaro' and es&glop = c.got
         # sort by R tree
-        $ord = {N:c.got.map(c => c.n)}
         # all or R vs r at once?
-        ord.N.unshift(R)
-        me&Rcruxi,ord
+        #$ord = {N:c.got.map(c => c.n)}
+        #ord.N.unshift(R)
+        #me&Rcrux,ord
+        c.got.map(g => ex(g, me&Rcrux,R,g.n ))
+        
+        c.got.push( me&Rnodepath,R )
         # create distality
         #  ignore those after this R^^^
         #  -seven on a different -Nine are too far
@@ -2223,8 +2226,84 @@ me.Sch_Story = &acgt{ return [
         # satisfy
         #  r%toomuch or %tiny doesnt count
     }
-    me.Rcruxi = &acgtc{
-        
+    # find join between **R and **r
+    #  resorts to comparing Rc&s or R.t to get it done
+    # < into rowing
+    #   proof that X-stitching needs to preserve $n-order
+    #    by way of Jip, Aip, tip, etc
+    # < for [r], with no particular R
+    #    finding islands
+    #   would be able to sort the whole thing as a tree
+    #    currently different joins may compare c.seek
+    me.Rcrux = &acgtRr{
+        $c = {ups:[R],downs:[r]}
+        $loca = &nN{
+            $ni = N.indexOf(n)
+            if (ni < 0 && ns&ball) {
+                # use the eternal C arriving on different R
+                ni = N.findIndex(r => rs&ball && rc&s == nc&s)
+                ni >= 0 and c.viaball = 1
+            }
+            ni < 0 and return
+            # we might find r^3 is R^1, trim R^3-2
+            N.splice(0,ni)
+            return 1
+        }
+        $upsi = &nN{
+            $p = ny&up
+            !p || ps&Gens and return
+            ps&ball && !ns&Pier && !me&fiu,pc&s,n.t,8 and debugger
+            N.unshift(p)
+            return 1
+        }
+        while (1) {
+            # upmost either
+            $L = c.ups[0]
+            $l = c.downs[0]
+            # found in the other
+            loca(L,c.downs) || loca(l,c.ups) and break
+            # further y&up
+            !(upsi(L,c.ups) || upsi(l,c.downs)) and break
+        }
+        while (c.viaball) {
+            # try to resolve R.t to deepen the join
+            # see resolve $n
+            $L = c.ups[1]
+            $l = c.downs[1]
+            !L || !l || L.t != l.t and break
+            c.ups.shift()
+            c.downs.shift()
+        }
+        # on the join, is R before r (c.seek<0) or not (>0)
+        $L = c.ups[0]
+        $l = c.downs[0]
+        if (L == l) {
+            # simply see where in R%z
+            $Li = Ls&z.indexOf(c.ups[1])
+            Li < 0 and debugger
+            $li = Ls&z.indexOf(c.downs[1])
+            li < 0 and debugger
+            c.seek = li - Li
+        }
+        elsif (Ls&ball && ls&ball) {
+            $s = Lc&s
+            s != lc&s and debugger
+            !ss&z and debugger
+            $Li = ss&z.indexOf(c.ups[1].c.s)
+            Li < 0 and debugger
+            $li = ss&z.indexOf(c.downs[1].c.s)
+            li < 0 and debugger
+            c.seek = li - Li
+        }
+        elsif (Ls&ball || ls&ball) {
+            debugger
+        }
+        else {
+            # they dont join, even by C
+            # < if R/$t ? yfuture the L?
+            debugger
+        }
+        return c
     }
     me.Rnodepath = &acgtR{
         # < rowing for...
