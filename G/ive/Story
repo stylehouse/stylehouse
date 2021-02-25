@@ -2150,7 +2150,7 @@ me.Sch_Story = &acgt{ return [
             .map(r => me&tc,"Acc:"+r.t )
         xy&go and me&nu,"E",E
     },'ift,D'],
-    
+   // %TheTh has R'The'
     # each thing
     ['TheTh',0.296,&acgtRs{
         sc&pi ||= 'Bat'
@@ -2189,6 +2189,197 @@ me.Sch_Story = &acgt{ return [
         sc&pi and me&Piering,c
         fin and fin()
     },'ift,D'],
+    &{
+    # identity spreader
+    me.Theing = &acgtc{
+        $R = me&R
+        $s = Rc&s
+        $x = me&Jx,R
+        Rs&Thex && c and throw "const"
+        Rs&Thex and return Rs&Thex
+        Rs&Thex = x
+        c ||= {}
+        # believing something
+        # < R%tow going?
+        ss&tow and Rs&tow = 1
+        
+        # receivable somewhere
+        Rs&elvis = 'FishElvis'
+        # < want to bal to receive em further in?
+        Rs&tow and 'check Ey&Todo?'
+        
+        c.long ||= T.act.t
+        c.long and me&reaw,R,c.long+',elvis,tow'
+        c.short ||= c.long
+        c.short and xy&go = me&acting,R,c.short
+        c.in and me&bin,c.in
+        
+        return x
+    }
+    # leap into R'The'
+    me.Piering = &acgtc{
+        $R = me&R
+        $x = me&Theing
+        $s = Rc&s
+        me&tc,"---"
+        # or as R:
+        $del = me&modelta
+        c ||= {}
+        c.Pier ||= sc&pi
+        c.t ||= "R-"+c.Pier
+        c.Top = 1
+        c.s = sc&s
+        c.V = s
+        $r = me&PiRet,R,c
+        x.ro('noD') and rs&noDisplay = 1
+        me&Ring,r
+        rs&matches && xy&go and me&nu,'matches',rs&matches
+        del()
+        ac(R,'z',r)
+        xy&go and me&zu,"r",r
+    }
+    },
+   // &FishElvis + -Bat f
+    &{
+    me.FishElvis = &acgtRs{
+        ~FishElvis
+        try {
+        !Rs&ball and debugger
+        $N = ksaf(c&slope,{aft:R,inc:0})
+        
+        # expect R%elvis...R:$pi
+        $pi = hak(N.filter(z => isR(z)))
+        !pi and return me&Gazel,R,s
+        
+        $p = Ry&up
+        $M = ps&z
+        #ksaf(ps&z,{aft:R})
+        
+        $c = {A,C,R,s,N,M,el:2}
+        me&Thetower,R,c
+        c&tower = c
+        $n = c.es
+        ~>3 sol: dis(n), c.wake.t
+        ny&Todo.push(C)
+        
+        T.wake = c.wake
+        me.Lastev = c
+        }
+        catch(er){
+            ~>3 noFish: ""+er
+        }
+    }
+    # where|how elvising goes
+    #  This/Has/A/Thing may home e in:
+    #   This/Has/e%tow/A/Thing
+    #   This/e%tow/Has/A/Thing
+    #   The%tow/Has/A/Thing
+    # < always a further step
+    # < constituation of climbers, for rowing
+    # s finds Trooms for itself
+    me.Thetower = &acgtRc{
+        c ||= {}
+        # find Thyer/%Theing/...s
+        c.above = me&climbaboveTheing,R .map(r => rc&s)
+        # their next sibling with %tow
+        c.tows = c.above.map(&s{
+            $p = sy&up
+            !p and return
+            return ksaf(ps&z,{aft:s})
+                .filter(z => zs&tow)[0]
+        })
+        # The springs The 2, etc
+        if (!hak(c.tows.filter(z=>z)) && c.el == 2) {
+            c.tows[1] = me&makeextraThe,c
+        }
+        # each %tow/...s
+        c.towing = []
+        $nearest = reverse(c.tows).filter(z=>z)[0]
+        each iz c.tows {
+            !z and continue
+            $s = c.above[i]
+            $r = sy&R
+            $path = c.above.slice(i*1+1)
+            # This<->The is implied
+            rs&Theeing and path.shift()
+            # try to route
+            # may create nearest %tow/**
+            $el = z == nearest && c.el == 2 ? 0 : 8
+            each ii,n path {
+                !z and continue
+                $e = me&fiu,z,n.t,el
+                z = e
+            }
+            c.towing[i] = z
+        }
+        c.elvisors = reverse(c.towing).filter(z=>z)
+        # first|deepest is where to elvis
+        $es = c.elvisors[0]
+        !es and return c
+        esy&Todo ||= []
+        c.es = es
+        # nearest R above that, to wake elvisor
+        $z = me.cbu(es,z=>zy&R)
+        c.wake = zy&R
+        # who has TX
+        return c
+    }
+    # find Thyer/%Theing/...R
+    me.climbaboveTheing = &acgtR{
+        $r = R
+        $N = [r]
+        while (1) {
+            $p = ry&up
+            !p and break
+            N.unshift(p) > 5 and debugger
+            rs&Theing and break
+            r = p
+        }
+        return N
+    }
+    me.makeextraThe = &acgtc{
+        $Thyer = c.above[0]
+        $The = c.above[1]
+        $zc = The.t.match(/^(.+) (\d+)$/)
+        $t = zc ? zc[1] : The.t
+        $i = zc ? zc[2]+1 : 2
+        t = t+' '+i
+        $es = me&fiu,Thyer,t
+        ess&tow = 1
+        # will be %Theing
+        return es
+    }
+    # receive+see e somewhere
+    me.proto_Bat = &acgtc{
+        #return
+        if (c) {
+            $ev = me.Lastev
+        }
+        else {
+            $R = me&R
+            $x = me&Theing
+            $s = Rc&s
+            !sy&Todo and return
+            $e = sy&Todo.slice(-1)[0]
+            !e and return
+            $ev = ec&tower
+        }
+        if (1 || xy&go) {
+            me&nu,"e",e
+            $ev = ex({},ev)
+            me&nu,"tower",ev
+            $int = {N:1,M:1}
+            each kv ev {
+                !isar(v) and continue
+                each in v {
+                    ev[k+'_'+i] = n
+                }
+            }
+        }
+    }
+    },
+   
+   
    // &Eref*
     &{
     # search for other R with ref, E^^
@@ -2365,15 +2556,6 @@ me.Sch_Story = &acgt{ return [
             debugger
         }
     }
-    me.Rnodepath = &acgtR{
-        # < rowing for...
-        $N = me.cby(R,R => Rs&ball && Rc&s.y.path)
-        $p = N.shift()
-        # &inode puts a:
-        $path = p && pc&s.y.path
-        
-        return joint(path,'/')+'//'+joint(N,'/')
-    }
     # commit Ec&top (top of &Piering) to E^^
     me.Erefputup = &acgtc{
         $E = c.E
@@ -2409,208 +2591,6 @@ me.Sch_Story = &acgt{ return [
     }
     },
     
-    &{
-    # identity spreader
-    me.Theing = &acgtc{
-        $R = me&R
-        $s = Rc&s
-        $x = me&Jx,R
-        Rs&Thex && c and throw "const"
-        Rs&Thex and return Rs&Thex
-        Rs&Thex = x
-        c ||= {}
-        # believing something
-        # < R%tow going?
-        ss&tow and Rs&tow = 1
-        
-        # receivable somewhere
-        Rs&elvis = 'FishElvis'
-        # we might bal to receive em
-        Rs&tow and 'check Ey&Todo?'
-        
-        c.long ||= T.act.t
-        c.long and me&reaw,R,c.long+',elvis,tow'
-        c.short ||= c.long
-        c.short and xy&go = me&acting,R,c.short
-        c.in and me&bin,c.in
-        
-        return x
-    }
-    # leap into R'The'
-    me.Piering = &acgtc{
-        $R = me&R
-        $x = me&Theing
-        $s = Rc&s
-        me&tc,"---"
-        # or as R:
-        $del = me&modelta
-        c ||= {}
-        c.Pier ||= sc&pi
-        c.t ||= "R-"+c.Pier
-        c.Top = 1
-        c.s = sc&s
-        c.V = s
-        $r = me&PiRet,R,c
-        x.ro('noD') and rs&noDisplay = 1
-        me&Ring,r
-        rs&matches && xy&go and me&nu,'matches',rs&matches
-        del()
-        ac(R,'z',r)
-        xy&go and me&zu,"r",r
-    }
-    # art busier
-    me.tivity = &acgt{
-        $R = me&R
-        $x = me&Jx,R
-        me&rollbs,"Fishtivity"
-        x.ro("tivit") and Rs&Fishtivity = 5
-        if (Rs&Fishtivity) {
-            Rs&Fishtivity--
-            me&waits,"ForItivity"+Rs&Fishtivity
-        }
-    }
-    },
-   
-   // &FishElvis + -Bat f
-    &{
-    me.FishElvis = &acgtRs{
-        ~FishElvis
-        try {
-        !Rs&ball and debugger
-        $N = ksaf(c&slope,{aft:R,inc:0})
-        
-        # expect R%elvis...R:$pi
-        $pi = hak(N.filter(z => isR(z)))
-        !pi and return me&Gazel,R,s
-        
-        $p = Ry&up
-        $M = ps&z
-        #ksaf(ps&z,{aft:R})
-        
-        $c = {A,C,R,s,N,M,el:2}
-        me&Thetower,R,c
-        c&tower = c
-        $n = c.es
-        ~>3 sol: dis(n), c.wake.t
-        ny&Todo.push(C)
-        
-        T.wake = c.wake
-        me.Lastev = c
-        }
-        catch(er){
-            ~>3 noFish: ""+er
-        }
-    }
-    # where|how elvising goes
-    #  This/Has/A/Thing may home e in:
-    #   This/Has/e%tow/A/Thing
-    #   This/e%tow/Has/A/Thing
-    #   The%tow/Has/A/Thing
-    # < always a further step
-    # < constituation of climbers, for rowing
-    # s finds Trooms for itself
-    me.Thetower = &acgtRc{
-        c ||= {}
-        # find Thyer/%Theing/...s
-        c.above = me&climbaboveTheing,R .map(r => rc&s)
-        # their next sibling with %tow
-        c.tows = c.above.map(&s{
-            $p = sy&up
-            !p and return
-            return ksaf(ps&z,{aft:s})
-                .filter(z => zs&tow)[0]
-        })
-        # The springs The 2, etc
-        if (!hak(c.tows.filter(z=>z)) && c.el == 2) {
-            c.tows[1] = me&makeextraThe,c
-        }
-        # each %tow/...s
-        c.towing = []
-        $nearest = reverse(c.tows).filter(z=>z)[0]
-        each iz c.tows {
-            !z and continue
-            $s = c.above[i]
-            $r = sy&R
-            $path = c.above.slice(i*1+1)
-            # This<->The is implied
-            rs&Theeing and path.shift()
-            # try to route
-            # may create nearest %tow/**
-            $el = z == nearest && c.el == 2 ? 0 : 8
-            each ii,n path {
-                !z and continue
-                $e = me&fiu,z,n.t,el
-                z = e
-            }
-            c.towing[i] = z
-        }
-        c.elvisors = reverse(c.towing).filter(z=>z)
-        # first|deepest is where to elvis
-        $es = c.elvisors[0]
-        !es and return c
-        esy&Todo ||= []
-        c.es = es
-        # nearest R above that, to wake elvisor
-        $z = me.cbu(es,z=>zy&R)
-        c.wake = zy&R
-        # who has TX
-        return c
-    }
-    # find Thyer/%Theing/...R
-    me.climbaboveTheing = &acgtR{
-        $r = R
-        $N = [r]
-        while (1) {
-            $p = ry&up
-            !p and break
-            N.unshift(p) > 5 and debugger
-            rs&Theing and break
-            r = p
-        }
-        return N
-    }
-    me.makeextraThe = &acgtc{
-        $Thyer = c.above[0]
-        $The = c.above[1]
-        $zc = The.t.match(/^(.+) (\d+)$/)
-        $t = zc ? zc[1] : The.t
-        $i = zc ? zc[2]+1 : 2
-        t = t+' '+i
-        $es = me&fiu,Thyer,t
-        ess&tow = 1
-        # will be %Theing
-        return es
-    }
-    # receive+see e somewhere
-    me.proto_Bat = &acgtc{
-        #return
-        if (c) {
-            $ev = me.Lastev
-        }
-        else {
-            $R = me&R
-            $x = me&Theing
-            $s = Rc&s
-            !sy&Todo and return
-            $e = sy&Todo.slice(-1)[0]
-            !e and return
-            $ev = ec&tower
-        }
-        if (1 || xy&go) {
-            me&nu,"e",e
-            $ev = ex({},ev)
-            me&nu,"tower",ev
-            $int = {N:1,M:1}
-            each kv ev {
-                !isar(v) and continue
-                each in v {
-                    ev[k+'_'+i] = n
-                }
-            }
-        }
-    }
-    },
-   
    // &PiRet etc
     &{
     me.PiRet = &acgtRc{
@@ -2727,6 +2707,26 @@ me.Sch_Story = &acgt{ return [
             $delta = Gtime(start)
             me&tc,"~"+delta,'b'
         }
+    }
+    # art busier
+    me.tivity = &acgt{
+        $R = me&R
+        $x = me&Jx,R
+        me&rollbs,"Fishtivity"
+        x.ro("tivit") and Rs&Fishtivity = 5
+        if (Rs&Fishtivity) {
+            Rs&Fishtivity--
+            me&waits,"ForItivity"+Rs&Fishtivity
+        }
+    }
+    me.Rnodepath = &acgtR{
+        # < rowing for...
+        $N = me.cby(R,R => Rs&ball && Rc&s.y.path)
+        $p = N.shift()
+        # &inode puts a:
+        $path = p && pc&s.y.path
+        
+        return joint(path,'/')+'//'+joint(N,'/')
     }
    // &CED, typing up...f R $pi
     # three spheres
