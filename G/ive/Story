@@ -2169,6 +2169,9 @@ me.Sch_Story = &acgt{ return [
         me&tivity
         sc&pi and me&Piering
     },'ift,D'],
+    ['TheTh',0.6,&acgtRs{
+        ~>6 The: R.t, joint(Rs&z)
+    },'ift,D,sleeping'],
     &{
     # identity spreader
     me.Theing = &acgtc{
@@ -2211,15 +2214,16 @@ me.Sch_Story = &acgt{ return [
         c.s = sc&s
         c.V = s
         $r = me&PiRet,R,c
+        ac(R,'z',r)
         x.ro('noD') and rs&noDisplay = 1
         me&Ring,r
         each iy rs&commit {
             y ()
         }
+        
         rs&matches && xy&go and me&nu,'matches',rs&matches
         
         del()
-        ac(R,'z',r)
         xy&go and me&zu,"r",r
     }
     },
@@ -2412,9 +2416,14 @@ me.Sch_Story = &acgt{ return [
         #   see otherable &EsyncThis as -log
         # ignore those after this R^^^
         $poss = c.got.filter(g => g.seek < 0)
-        if (poss.length > 1) {
-            poss = me&Erefclimb,poss
+        # group by distance up from here
+        #  then start climbing down again, sorting...
+        $neu = []
+        $h = vpartN(poss,g => g.ups.length)
+        each iN h.vs {
+            neu.push( ... me&Erefclimb,N )
         }
+        poss = neu
         
         # prefer closer...
         c.got = poss
@@ -2427,6 +2436,7 @@ me.Sch_Story = &acgt{ return [
         #  r%toomuch or %tiny doesnt count
     }
     me.Erefclimb = &acgtNc{
+        N.length <= 1 and return N
         c ||= {}
         c.i ||= 0
         c.i *= 1
@@ -2534,9 +2544,10 @@ me.Sch_Story = &acgt{ return [
         if (L == l) {
             # simply see where in R%z
             $Li = Ls&z.indexOf(left[offset+1])
-            Li < 0 and debugger
+            #Li < 0 and debugger
             $li = Ls&z.indexOf(right[offset+1])
-            li < 0 and debugger
+            # eg left=[R,y,R] right=[R]
+            Li < 0 && li < 0 and debugger
             return li - Li
         }
         elsif (Ls&ball && ls&ball) {
