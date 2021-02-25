@@ -2167,27 +2167,7 @@ me.Sch_Story = &acgt{ return [
         s&dis = 1
         
         me&tivity
-        $c = {}
-        # wrap Ec&top as a transaction
-        $fin
-        c.Einit = &re{
-            $oe = me&fiu,E,e.t,8
-            # stop seeing refs from the old e in E%X
-            oe and ec&b = oe
-            ~>4 seeing: r.t, e.t
-            oe == e and debugger
-            fin = &{
-                # < copy to E^^%X
-                $c = {E,e}
-                ec&b and c.removing = [ec&b]
-                me&Erefputup,c
-                delete ec&b
-                me&fiu,E,e
-                es&glop and me&nu,"Glop",es&glop
-            }
-        }
-        sc&pi and me&Piering,c
-        fin and fin()
+        sc&pi and me&Piering
     },'ift,D'],
     &{
     # identity spreader
@@ -2233,7 +2213,11 @@ me.Sch_Story = &acgt{ return [
         $r = me&PiRet,R,c
         x.ro('noD') and rs&noDisplay = 1
         me&Ring,r
+        each iy rs&commit {
+            y ()
+        }
         rs&matches && xy&go and me&nu,'matches',rs&matches
+        
         del()
         ac(R,'z',r)
         xy&go and me&zu,"r",r
@@ -2379,9 +2363,27 @@ me.Sch_Story = &acgt{ return [
     }
     },
    
-   
    // &Eref*
     &{
+    # transact Ec&top
+    me.Eref_begin = &acgtre{
+        $p = ry&up
+        $E = ps&E
+        !E and throw "!E"
+        $oe = me&fiu,E,e.t,8
+        # stop seeing refs from the old e in E%X
+        oe and ec&b = oe
+        oe == e and debugger
+        ac(r,'commit',&{
+            # copy to E^^^%X
+            $c = {E,e}
+            ec&b and c.removing = [ec&b]
+            me&Erefputup,c
+            delete ec&b
+            me&fiu,E,e
+            es&glop and me&nu,"Glop",es&glop
+        })
+    }
     # search for other R with ref, E^^
     me.Ereflookup = &acgtc{
         $E = c.E
@@ -2618,7 +2620,8 @@ me.Sch_Story = &acgt{ return [
         $E = rs&E
         Ec&pi and rs&Pier = Ec&pi
         Ec&pi ||= rs&Pier
-        c.Einit and c.Einit(r,E)
+        
+        c.Top and me&Eref_begin,r,E
         me&R_togo,r
         
         # no r at all if R%nofurther (above)
