@@ -2538,6 +2538,7 @@ me.Sch_Story = &acgt{ return [
     }
     # for a given 
     me.Rcrux_seek = &acgt,offset,left,right{
+        left == right and return 0
         offset *= 1
         $L = left[offset]
         $l = right[offset]
@@ -3176,22 +3177,23 @@ me.Sch_Story = &acgt{ return [
             me.X_necessary = &acgtXN{
                 $M = []
                 each kv X {
+                    k == 'ref' and continue
+                    k == 'v' and continue
                     $sk = k+'s'
                     $refs = X [sk]
                     !refs and continue
                     each iv refs {
-                        $others = hak(N.filter(&V{
-                            return V != X && V[sk]
-                                && V[sk].includes(v)
-                        }))
-                        M.push({k,v,others})
+                        $found = hak(N.filter(
+                            V => V[sk] && V[sk].includes(v)
+                        ))
+                        M.push({k,v,found})
                     }
                 }
-                $most_iding = vsortz(M,a => a.others)
+                $most_iding = vsortz(M,a => a.found)
                 $necessary = []
                 each ic most_iding {
                     necessary.push(c)
-                    !c.others and break
+                    c.found == 1 and break
                 }
                 return necessary
             }
