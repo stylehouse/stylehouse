@@ -2114,7 +2114,7 @@ me.Sch_Story = &acgt{ return [
         Bowc&pi = 'hat'
         
         $Bow = me&fiu,This,'Room'
-        $da = Bowc&s = {even:'more',figaro:dat.asee}
+        $da = Bowc&s = {fer:dat.asee,even:'more',figaro:dat.asee}
         da.furhtin = {llabin:4}
         Bowc&pi = 'hat'
         
@@ -2395,9 +2395,9 @@ me.Sch_Story = &acgt{ return [
         $s = c.s
         $R = c.R
         c.got ||= []
-        
+        # look for the ref
         $x = fi&EXsim,E,{ref:s}
-        # not being replaced
+        # from R not being replaced
         $b = ec&b
         $br = b && by&R
         $z = x.z.filter(r => !br || brc&N != rc&N)
@@ -2421,12 +2421,17 @@ me.Sch_Story = &acgt{ return [
         $neu = []
         $h = vpartN(poss,g => g.ups.length)
         each iN h.vs {
-            neu.push( ... me&Erefclimb,N )
+            neu.unshift( ... me&Erefclimb,N )
         }
         poss = neu
-        
+        c.got = []
         # prefer closer...
-        c.got = poss
+        poss.map(&g{
+            c.got.push(g)
+            c.got.push(g.tp )
+        })
+        
+        #c.got = poss
         
         
         c.got.push( me&Rnodepath,R )
@@ -2455,34 +2460,6 @@ me.Sch_Story = &acgt{ return [
         }
         c.i > 5 and throw "lost"
         return neu
-    }
-    # hash partition array by return value of y(n)
-    # returns {ks:[keys],vs:[values]}
-    #  because of how javascript (v8) stores properties & elements
-    #  things that look like indices of elements will come first
-    #   eg assigning -2,-1,0 iterates 0,-2,-1
-    #  ! anywhere we rely on hash key order might be affected
-    self.vpartN = &Nyc{
-        return partN(N,y,ex({vsort:1},c||{}))
-    }
-    self.partN = &Nyc{
-        c ||= {}
-        $h = {}
-        each in N {
-            $k = y (n)
-            h[k] ||= []
-            h[k].push(n)
-        }
-        # structure for definitely ordered keys
-        $a = {ks:[],ki:{},vs:[]}
-        $keys = haks(h)
-        c.vsort and vsortz(keys,k=>k)
-        each ik keys {
-            $i = a.ki[k]
-            null == i and i = a.ki[k] = a.ks.push(k)-1
-            a.vs[i] = h[k]
-        }
-        return a
     }
     # find join between **R and **r
     #  resorts to comparing Rc&s or R.t to get it done
@@ -2734,6 +2711,12 @@ me.Sch_Story = &acgt{ return [
             me&waits,"ForItivity"+Rs&Fishtivity
         }
     }
+    # proper R/*
+    me.ioR = &acgtR{
+        R ||= me&R
+        return me&ioty,R
+            .filter(r => rc&N.includes(r) && !rc&not)
+    }
     me.Rnodepath = &acgtR{
         # < rowing for...
         $N = me.cby(R,R => Rs&ball && Rc&s.y.path)
@@ -2742,6 +2725,34 @@ me.Sch_Story = &acgt{ return [
         $path = p && pc&s.y.path
         
         return joint(path,'/')+'//'+joint(N,'/')
+    }
+    # hash partition array by return value of y(n)
+    # returns {ks:[keys],vs:[values]}
+    #  because of how javascript (v8) stores properties & elements
+    #  things that look like indices of elements will come first
+    #   eg assigning -2,-1,0 iterates 0,-2,-1
+    #  ! anywhere we rely on hash key order might be affected
+    self.vpartN = &Nyc{
+        return partN(N,y,ex({vsort:1},c||{}))
+    }
+    self.partN = &Nyc{
+        c ||= {}
+        $h = {}
+        each in N {
+            $k = y (n)
+            h[k] ||= []
+            h[k].push(n)
+        }
+        # structure for definitely ordered keys
+        $a = {ks:[],ki:{},vs:[]}
+        $keys = haks(h)
+        c.vsort and vsortz(keys,k=>k)
+        each ik keys {
+            $i = a.ki[k]
+            null == i and i = a.ki[k] = a.ks.push(k)-1
+            a.vs[i] = h[k]
+        }
+        return a
     }
    // &CED, typing up...f R $pi
     # three spheres
@@ -2866,12 +2877,6 @@ me.Sch_Story = &acgt{ return [
             $allok = !hak(me&ioR .filter(r => rs&strange))
             return allok
         }
-    }
-    # proper R/*
-    me.ioR = &acgtR{
-        R ||= me&R
-        return me&ioty,R
-            .filter(r => rc&N.includes(r) && !rc&not)
     }
     # when schema goes strange
     me.strange = &acgts{
