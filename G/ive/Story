@@ -2424,18 +2424,19 @@ me.Sch_Story = &acgt{ return [
             neu.unshift( ... me&Erefclimb,N )
         }
         poss = neu
-        c.got = []
+        c.got = poss
+        
         # prefer closer...
-        poss.map(&g{
-            c.got.push(g)
-            c.got.push(g.tp )
-        })
         
-        #c.got = poss
-        
-        
-        c.got.push( me&Rnodepath,R )
-        R.t == 'figaro' and es&glop = c.got
+        if (R.t == 'figaro') {
+            $gl = es&glop = []
+            poss.map(&g{
+                gl.push(g)
+                gl.push(g.tp )
+            })
+            gl.push( me&Rnodepath,R )
+        }
+        return reverse(c.got)
         # create distality
         # satisfy
         #  r%toomuch or %tiny doesnt count
@@ -2458,7 +2459,7 @@ me.Sch_Story = &acgt{ return [
             N.map(g => g['seek_'+c.i] = k)
             neu.push(...N)
         }
-        c.i > 5 and throw "lost"
+        c.i > 25 and throw "lost"
         return neu
     }
     # find join between **R and **r
@@ -2568,7 +2569,14 @@ me.Sch_Story = &acgt{ return [
                 $ox = oX.ref[i]
                 !X.refs and continue
                 $i = X.refs.indexOf(s)
-                i < 0 and debugger
+                if (i < 0) {
+                    each in ox.z {
+                        $r = ny&R || n
+                        $name = me&Rnodepath,r
+                        ~>3 confuslet: name
+                    }
+                    continue
+                }
                 $x = X.ref[i]
                 grepout(x.z,n => ox.z.includes(n))
                 !hak(x.z) and gonei.push(i)
@@ -2593,7 +2601,9 @@ me.Sch_Story = &acgt{ return [
             c.task = 'Pi_The'
             c.refpool = 1
         }
+        
         $r = me&Ret,R,c
+        
         if (c.Top) {
             $h = Rc&N[0]
             #ry&I = 1
@@ -2639,10 +2649,31 @@ me.Sch_Story = &acgt{ return [
         
         Rc&N.push(R)
     }
+    # Top @67 assigns signs
+    me.Rlimit = &acgtR{
+        each ir Rc&N {
+            $l = rs&limit
+            !l and continue
+        }
+    }
     me.R_reflimit = &acgtRs,limit{
-        # inform Ec&top
+        # on Ec&top %X
         $tE = Rc&top.sc.E
-        me&Ereflookup,{E:tE,s,R}
+        # previous mentions of it, nearest first
+        $N = me&Ereflookup,{E:tE,s,R}
+        # find:
+        #  other with any expression, even tiny|limit|other-$pi
+        #  other with full writeup, same $pi
+        #   which we can use to diff against
+        #    using leftover slepparatus from its typing up
+        #   or %limit.same as it
+        $E = Rs&E
+        each ic N {
+            $n = c.n
+            $e = ns&E
+            ec&pi == Ec&pi
+        }
+        $r = N[0]
         $x = fi&EXsim,tE,{ref:s},{n:R}
         
         # dedupe/limit objects already in this pool
@@ -3295,6 +3326,7 @@ me.Sch_Story = &acgt{ return [
        // %Top back
         &{
         me.Rlimits = &acgtr{
+            me&Rlimit,r
             !rc&ha and return
             $upritN = {};
             each tz rc&ha {
@@ -3337,10 +3369,10 @@ me.Sch_Story = &acgt{ return [
             Rs&M = M
         }
         # shading weight -> dis:1 or not
-        me.specialfx = &acgtr{
-            rs&tiny and grepout(rs&M,n => ns&modt == 'Pier')
-            $N = me&ioR,r
-            rs&inline || hak(N) <= 1 and return
+        me.specialfx = &acgtR{
+            Rs&tiny and grepout(Rs&M,n => ns&modt == 'Pier')
+            $N = me&ioR,R
+            Rs&inline || hak(N) <= 1 and return
             # < properly sizing it for:
             $larger = N.filter(n => !ns&tiny)
             !hak(larger) and return
