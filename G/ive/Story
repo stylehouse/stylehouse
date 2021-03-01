@@ -2423,8 +2423,7 @@ me.Sch_Story = &acgt{ return [
         each iN h.vs {
             neu.unshift( ... me&Erefclimb,N )
         }
-        poss = neu
-        c.got = poss
+        c.got = reverse(neu)
         
         # prefer closer...
         
@@ -2436,7 +2435,7 @@ me.Sch_Story = &acgt{ return [
             })
             gl.push( me&Rnodepath,R )
         }
-        return reverse(c.got)
+        return c
         # create distality
         # satisfy
         #  r%toomuch or %tiny doesnt count
@@ -2651,16 +2650,90 @@ me.Sch_Story = &acgt{ return [
     }
     # Top @67 assigns signs
     me.Rlimit = &acgtR{
-        each ir Rc&N {
-            $l = rs&limit
-            !l and continue
-        }
+        $l = Rs&limit
+        $li = me&tc,'limitcapsule'
+        delete lic&s
+        me&walls,li,'bd:1.4,hu:3'
+        T.Mw = li
+        
+        me&ioty,l .map(&n{
+            n.t == 'ref' and me&Rlimit_ref,R,l,n
+            else {
+                me&tc,"l:"+n.t,'b'
+            }
+        })
+    }
+    me.Rlimit_ref = &acgtRln{
+        $li = me&tc,'refs'
+        delete lic&s
+        me&walls,li,'bd:1.4,hu:3'
+        T.Mw = li
+        $M = me&Mw,R,li
+        $re =
+        m refs 1189 s:♲ %deco,fs:17,lh:0.3
+        
+        # l/n, n:ref s=&Ereflookup
+        $c = nc&s
+        $types = ['self','other']
+        types.map(&k{
+            $g = c[k]
+            !g and return
+            $r = g.n
+            # the amount of '^'
+            $down = g.downs.slice()
+            $ups = hak(g.ups.slice(1))
+            $location = ups > 1 ? "^"+ups : '^'
+            # allow '^/ref' - not inc ups|downs[0]
+            ups <= 1 and down.shift()
+            # 1
+            $downs = ""
+            $waspath = 0
+            down.map(&r{
+                # '//' when leaving node-sphere
+                $path = rs&ball && rc&s.y.path
+                !path && waspath and downs += '/'
+                downs += '/'+r.t
+                waspath = path
+            })
+            # going far makes '^4:This/etc'
+            ups > 1 and downs = ':'+downs.substr(1)
+            location += downs
+            # fuller description as tooltip
+            re.t += " "+k+":"+location
+            
+            # compress contiguations
+            # as above, plus the same t
+            $p = Ry&up
+            $pl = p && ps&limit
+            $pn = pl && me&fiu,pl,'ref',8
+            $pc = pn && pnc&s
+            $pg = pc && pc[k]
+            if (pg) {
+                $wasdowns = g.downs.slice()
+                $newdown = wasdowns.pop()
+                if (heq(wasdowns,pg.downs) && newdown.t == r.t) {
+                    # we C%limit/y%limit, just symbol
+                    return
+                }
+            }
+            
+            $te = me&tc,location
+            
+            tes&deco = 1
+            tes&hs = '999'
+            tes&fs = 7
+        })
+    }
+    
+    me.ifsuchsame = &acgtkNM{
+        $first = N.filter(r => r.sc[k])[0]
+        return !first || M.includes(first)
     }
     me.R_reflimit = &acgtRs,limit{
         # on Ec&top %X
         $tE = Rc&top.sc.E
         # previous mentions of it, nearest first
-        $N = me&Ereflookup,{E:tE,s,R}
+        $c = me&Ereflookup,{E:tE,s,R}
         # find:
         #  other with any expression, even tiny|limit|other-$pi
         #  other with full writeup, same $pi
@@ -2668,12 +2741,36 @@ me.Sch_Story = &acgt{ return [
         #    using leftover slepparatus from its typing up
         #   or %limit.same as it
         $E = Rs&E
-        each ic N {
-            $n = c.n
+        each ig c.got {
+            $n = g.n
             $e = ns&E
-            ec&pi == Ec&pi
+            # find the last
+            if (ec&pi != Ec&pi) {
+                c.other ||= g
+            }
+            else {
+                c.self ||= g
+                # assume $s** still per eg -log, %Top
+                $sameTop = me&ifsuchsame,'Top',g.ups,g.downs
+                sameTop and c.near = 1
+                if (!c.near) {
+                    # < slep or c.redraw
+                    #   which regen X, patchey D** with previous
+                    #c.redraw = 1
+                }
+                break
+            }
         }
-        $r = N[0]
+        # any previousness causes some %limit
+        if (c.other || c.self) {
+            $l = Rs&limit ||= Cye(['limit',2])
+            ly&R = R
+            c.near and ls&toomuch = 1
+            me&fiu,l,'ref' .c.s = c
+        }
+        
+        
+        # note this time
         $x = fi&EXsim,tE,{ref:s},{n:R}
         
         # dedupe/limit objects already in this pool
@@ -3326,7 +3423,6 @@ me.Sch_Story = &acgt{ return [
        // %Top back
         &{
         me.Rlimits = &acgtr{
-            me&Rlimit,r
             !rc&ha and return
             $upritN = {};
             each tz rc&ha {
@@ -3389,6 +3485,9 @@ me.Sch_Story = &acgt{ return [
             me&arriveRbitX,R,R.t
             # capsule of %TX
             Rc&top = R
+        },'ift,D'],
+        ['limit',0.67,&acgtRs{
+            me&Rlimit,R
         },'ift,D'],
         ['Top',0.67,&acgtRs{
             me&Rlimits,R
