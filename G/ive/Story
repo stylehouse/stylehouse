@@ -2610,6 +2610,8 @@ me.Sch_Story = &acgt{ return [
             rc&d = 0
             rc&dl = 15
             rc&nl = 300
+            delete rc&refR
+            delete rc&refs
         }
         ry&cv = 0
         $E = c.E
@@ -2664,12 +2666,18 @@ me.Sch_Story = &acgt{ return [
             }
         })
         if (ls&toomuch) {
-            # bunch of l** contribute inside avoidance
             # spawns no E**
+            # bunch of l** contribute avoidance
             $tm = Rs&toomuch
-            me&tc,"toomuch",'⦄','b'
+            !tm and 'empty+dup Rc&s?'; debugger
+            else {
+                # dont list what isn't there
+                me&ioty,tm .map(n => me&fiu,tm,n,9 )
+                delete tms&ma
+            }
         }
     }
+    #  ♲ ref
     me.Rlimit_ref = &acgtRln{
         $li = me&tc,'refs'
         liy&cv = 0.13
@@ -2739,6 +2747,7 @@ me.Sch_Story = &acgt{ return [
         $first = N.filter(r => r.sc[k])[0]
         return !first || M.includes(first)
     }
+    # @12 realises where $s was before
     me.R_reflimit = &acgtRs,limit{
         # on Ec&top %X
         $tE = Rc&top.sc.E
@@ -2984,7 +2993,6 @@ me.Sch_Story = &acgt{ return [
         $toomuch = &rn{
             # limitation department
             if (!Rs&toomuch) {
-                
                 $tm = Rs&toomuch = me&tc,"⦄",'b'
                 tmy&cv = 0.25
                 tms&ma = 0.4
