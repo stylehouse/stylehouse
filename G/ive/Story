@@ -2747,6 +2747,51 @@ me.Sch_Story = &acgt{ return [
         $first = N.filter(r => r.sc[k])[0]
         return !first || M.includes(first)
     }
+    # look for R%limit(%toomuch|/ref/...)
+    me.Rlo = &acgtsc{
+        return me&Rsci,s,ex({gk:'limit',el:8},c)
+    }
+    me.Rli = &acgtsc{
+        return me&Rsci,s,ex({gk:'limit'},c)
+    }
+    me.Rsci = &acgtscq{
+        c ||= {}
+        $R = c.R || me&R
+        isst(s) and s = {path:s.split('/')}
+        $z = R
+        
+        c.gk and $Rgk = 1; s.path.unshift('%'+c.gk)
+        each it s.path {
+            $gk = t.substr(0,1) == '%' && t.substr(1)
+            $v
+            gk and v = z.sc[gk]; t = gk
+            # < bal Rc&s/$v
+            else v = me&fiu,z,t,c.el
+            if (!v) {
+                c.el == 8 and return
+                !gk and throw "never happens"
+                if (hak(c,'s') && i == hak(s.path)-1) {
+                    # i %limit/%toomuch=1
+                    v = c.s
+                }
+                else {
+                    v = Cye([gk,2])
+                }
+                z.sc[gk] = v
+            }
+            if (isC(v)) {
+                # care
+                if (R == z) {
+                    gk and vy&R = R
+                    else {
+                        # < bal Rc&s/$v
+                    }
+                }
+            }
+            !v and return
+        }
+        return v
+    }
     # @12 realises where $s was before
     me.R_reflimit = &acgtRs,limit{
         # on Ec&top %X
@@ -2761,14 +2806,18 @@ me.Sch_Story = &acgt{ return [
         #   or %limit.same as it
         $E = Rs&E
         each ig c.got {
-            $n = g.n
-            $e = ns&E
+            $r = g.n
+            $e = rs&E
             # find the last
+            # < %%self:g,
             if (ec&pi != Ec&pi) {
                 c.other ||= g
             }
             else {
-                c.self ||= g
+                if (!c.self) {
+                    c.self = g
+                    
+                }
                 # assume $s** still per eg -log, %Top
                 $sameTop = me&ifsuchsame,'Top',g.ups,g.downs
                 sameTop and c.near = 1
@@ -2782,9 +2831,11 @@ me.Sch_Story = &acgt{ return [
         }
         # any previousness causes some %limit
         if (c.other || c.self) {
+            $l = me&Rli
             $l = Rs&limit ||= Cye(['limit',2])
             ly&R = R
             c.near and ls&toomuch = 1
+            
             me&fiu,l,'ref' .c.s = c
         }
         
