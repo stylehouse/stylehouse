@@ -2092,7 +2092,7 @@ me.Sch_Story = &acgt{ return [
        selected one shows CED columns over slope rows
     
     =cut
-   // %TheeThy/This|The%Theing
+   // %TheeThy, landscape
     # some events, to|from the book
     ['TheeThy',0.296,&acgtRs{
         me&reaw,R,'TheeThy'
@@ -2116,6 +2116,12 @@ me.Sch_Story = &acgt{ return [
         $Bow = me&fiu,This,'Room'
         $da = Bowc&s = {fer:dat.asee,even:'more',figaro:dat.asee}
         da.furhtin = {llabin:4}
+        $i = 0
+        while (i < 60) {
+            da = da.th = {}
+            i++
+        }
+        da.is = 'all'
         Bowc&pi = 'hat'
         
         # the -nines
@@ -2126,6 +2132,7 @@ me.Sch_Story = &acgt{ return [
         me&ha,R,'some,doing,ness'
         me&ha,R,'some,doing'
     },'ift,D'],
+   //   /%Theing
     # Nine-ish container of /Eight-ish namespace
     ['Theing',0.291,&acgtRs{
         $x = me&Theing,{in:'TheTh'}
@@ -2150,7 +2157,7 @@ me.Sch_Story = &acgt{ return [
             .map(r => me&tc,"Acc:"+r.t )
         xy&go and me&nu,"E",E
     },'ift,D'],
-   // %TheTh has R'The'
+   //     /%TheTh has R'The'
     # each thing
     ['TheTh',0.296,&acgtRs{
         sc&pi ||= 'Bat'
@@ -2662,8 +2669,8 @@ me.Sch_Story = &acgt{ return [
         # previous mentions of it, nearest first
         $c = me&Ereflookup,{E:tE,s,R}
         # find:
-        #  other with any expression, even tiny|limit|other-$pi
-        #  other with full writeup, same $pi
+        #  other with any expression, even tiny|limited|other-$pi
+        #  self with full writeup, same $pi
         #   which we can use to diff against
         #    using leftover slepparatus from its typing up
         #   or %limit.same as it
@@ -2672,11 +2679,12 @@ me.Sch_Story = &acgt{ return [
             $r = g.n
             $e = rs&E
             # find the last
-            # < %%self:g,
+            # < many %%self:g,qua until satisfied
+            #   iterating Ereflookup
             if (ec&pi != Ec&pi) {
                 c.other ||= g
             }
-            elsif ( me&Rlo,'%toomuch',{R:r} ) {
+            elsif ( me&Rlo,'%toomuch',{R:r} || Rs&tiny ) {
                 c.almost ||= g
                 # find fuller further rendition
             }
@@ -2686,13 +2694,13 @@ me.Sch_Story = &acgt{ return [
                 break
             }
         }
-        # qualities of the things
+        # almost always -> self
         if (c.almost) {
-            # upgrade to other
-            if (!c.self) {
-                throw "no finding full thing"
-            }
+            # even a partial do-over is self here
+            # < Self, where lines are traced back
+            !c.self and throw "no finding full thing"
         }
+        # care
         if (c.self) {
             $g = c.self
             # can only gain c.near
@@ -2713,7 +2721,6 @@ me.Sch_Story = &acgt{ return [
             
             me&Rli,'ref',{s:c}
         }
-        
         
         # note this time
         $x = fi&EXsim,tE,{ref:s},{n:R}
