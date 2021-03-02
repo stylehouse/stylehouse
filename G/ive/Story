@@ -2592,13 +2592,13 @@ me.Sch_Story = &acgt{ return [
    // &PiRet etc
     &{
     me.PiRet = &acgtRc{
-        Rc&nofurther and return
+        # < &Rti,'nofurther' in %toomuch - displayed
+        Rc&nofurther and me&tc,"nofurther"; return
         # spreads base type, or Ec&pi @2
         c.Pier ||= Rs&Pier || 'blank'
         
         if (c.Top) {
-            c.task = 'Pi_The'
-            c.refpool = 1
+            c.task ||= 'Pi_The'
         }
         
         $r = me&Ret,R,c
@@ -2617,11 +2617,14 @@ me.Sch_Story = &acgt{ return [
         $E = c.E
         E and tax(r.sc,E.c,'dupl,noref,inline')
         me&CED,r
+        $C = rs&C
         $E = rs&E
         Ec&pi and rs&Pier = Ec&pi
         Ec&pi ||= rs&Pier
         
-        c.Top and me&Eref_begin,r,E
+        if (c.Top) {
+            me&Eref_begin,r,E
+        }
         me&R_togo,r
         
         # no r at all if R%nofurther (above)
@@ -2748,23 +2751,26 @@ me.Sch_Story = &acgt{ return [
         return !first || M.includes(first)
     }
     # look for R%limit(%toomuch|/ref/...)
-    me.Rlo = &acgtsc{
-        return me&Rsci,s,ex({gk:'limit',el:8},c)
+    me.Rlo = &acgtscq{
+        c = ex(c||{},{el:8})
+        return me&Rli,s,c,q
     }
-    me.Rli = &acgtsc{
-        return me&Rsci,s,ex({gk:'limit'},c)
+    me.Rli = &acgtscq{
+        c = ex(c||{},{gk:'limit'})
+        return me&Rsci,s,c,q
     }
     me.Rsci = &acgtscq{
         c ||= {}
         $R = c.R || me&R
         isst(s) and s = {path:s.split('/')}
-        $z = R
+        !s and s = {path:[]}
+        c.gk and s.path.unshift('%'+c.gk)
         
-        c.gk and $Rgk = 1; s.path.unshift('%'+c.gk)
+        $z = R
         each it s.path {
             $gk = t.substr(0,1) == '%' && t.substr(1)
             $v
-            gk and v = z.sc[gk]; t = gk
+            gk and v = z.sc[gk]
             # < bal Rc&s/$v
             else v = me&fiu,z,t,c.el
             if (!v) {
@@ -2789,6 +2795,7 @@ me.Sch_Story = &acgt{ return [
                 }
             }
             !v and return
+            z = v
         }
         return v
     }
@@ -2813,29 +2820,37 @@ me.Sch_Story = &acgt{ return [
             if (ec&pi != Ec&pi) {
                 c.other ||= g
             }
+            elsif ( me&Rlo,'%toomuch',{R} ) {
+                c.almost ||= g
+                # find fuller further rendition
+            }
             else {
-                if (!c.self) {
-                    c.self = g
-                    
-                }
-                # assume $s** still per eg -log, %Top
-                $sameTop = me&ifsuchsame,'Top',g.ups,g.downs
-                sameTop and c.near = 1
-                if (!c.near) {
-                    # < slep or c.redraw
-                    #   which regen X, patchey D** with previous
-                    #c.redraw = 1
-                }
+                # this is the previous this
+                c.self ||= g
                 break
+            }
+        }
+        if (c.self) {
+            $g = c.self
+            # can only gain c.near
+            # assume $s** still per eg -log, %Top
+            $sameTop = me&ifsuchsame,'Top',g.ups,g.downs
+            sameTop and c.near = 1
+            else {
+                # out of time from here, climb data again
+                # < know light cones provided by &Rsci
+                # < slep or c.redraw
+                #   which regen X, patchey D** with previous
+                #c.redraw = 1
             }
         }
         # any previousness causes some %limit
         if (c.other || c.self) {
             $l = me&Rli
-            $l = Rs&limit ||= Cye(['limit',2])
-            ly&R = R
-            c.near and ls&toomuch = 1
-            
+            # ls&toomuch = 1
+            c.near and me&Rli,'%toomuch',{s:1}
+            c.near and !ls&toomuch and debugger
+            me&Rli,'ref',{c:s}
             me&fiu,l,'ref' .c.s = c
         }
         
