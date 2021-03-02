@@ -2625,15 +2625,17 @@ me.Sch_Story = &acgt{ return [
         if (c.Top) {
             me&Eref_begin,r,E
         }
-        me&R_togo,r
         
-        # no r at all if R%nofurther (above)
+        # puts on tape or not
+        me&Rlimiti,r
+        # is on tape or not
         !c.Top and !Rc&N.includes(r) and rc&not = 1
         
         return r
     }
-    me.R_togo = &acgtR{
-        $s = Rc&s
+    # @12 
+    me.Rlimiti = &acgtR{
+        $C = Rs&C
         
         # limits want workarounds
         $limit = &s{
@@ -2641,10 +2643,10 @@ me.Sch_Story = &acgt{ return [
             me&Rec,R,s
         };
 
-        !Rc&refs and Rc&refs = []; Rc&refR = [];
+        $s = Rc&s
         if (s && typeof s == 'object' && !Rs&noref) {
             # soft dup limit, sets Rc&nofurther=1
-            me&R_reflimit,R,s,limit
+            me&Rlimiti_ref,R,s,limit
         }
         # sprawl limits
         Rc&dl && Rc&dl < Rc&d and return limit('dl')
@@ -2653,8 +2655,71 @@ me.Sch_Story = &acgt{ return [
         
         Rc&N.push(R)
     }
+    # @12 realises where $s was before
+    me.Rlimiti_ref = &acgtRs,limit{
+        # on Ec&top %X
+        $tE = Rc&top.sc.E
+        # previous mentions of it, nearest first
+        $c = me&Ereflookup,{E:tE,s,R}
+        # find:
+        #  other with any expression, even tiny|limit|other-$pi
+        #  other with full writeup, same $pi
+        #   which we can use to diff against
+        #    using leftover slepparatus from its typing up
+        #   or %limit.same as it
+        $E = Rs&E
+        each ig c.got {
+            $r = g.n
+            $e = rs&E
+            # find the last
+            # < %%self:g,
+            if (ec&pi != Ec&pi) {
+                c.other ||= g
+            }
+            elsif ( me&Rlo,'%toomuch',{R:r} ) {
+                c.almost ||= g
+                # find fuller further rendition
+            }
+            else {
+                # this is the previous this
+                c.self ||= g
+                break
+            }
+        }
+        # qualities of the things
+        if (c.almost) {
+            # upgrade to other
+            if (!c.self) {
+                throw "no finding full thing"
+            }
+        }
+        if (c.self) {
+            $g = c.self
+            # can only gain c.near
+            # assume $s** still per eg -log, %Top
+            $sameTop = me&ifsuchsame,'Top',g.ups,g.downs
+            sameTop and c.near = 1
+            else {
+                # out of time from here, climb data again
+                # < know light cones provided by &Rsci
+                # < slep or c.redraw
+                #   which regen X, patchey D** with previous
+                #c.redraw = 1
+            }
+        }
+        # any previousness causes some R%limit...
+        if (c.other || c.self) {
+            c.near and me&Rli,'%toomuch',{s:1}
+            
+            me&Rli,'ref',{s:c}
+        }
+        
+        
+        # note this time
+        $x = fi&EXsim,tE,{ref:s},{n:R}
+    }
     # @67 assigns signage about R%limit**
-    me.Rlimit = &acgtR{
+    me.Rlimito = &acgtR{
         $l = Rs&limit
         $li = me&tc,'limitcapsule'
         liy&cv = 0.13
@@ -2663,11 +2728,12 @@ me.Sch_Story = &acgt{ return [
         T.Mw = li
         
         me&ioty,l .map(&n{
-            n.t == 'ref' and me&Rlimit_ref,R,l,n
+            n.t == 'ref' and me&Rlimito_ref,R,l,n
             else {
                 me&tc,"l:"+n.t,'b'
             }
         })
+        
         if (ls&toomuch) {
             # spawns no E**
             # bunch of l** contribute avoidance
@@ -2681,7 +2747,7 @@ me.Sch_Story = &acgt{ return [
         }
     }
     #  ♲ ref
-    me.Rlimit_ref = &acgtRln{
+    me.Rlimito_ref = &acgtRln{
         $li = me&tc,'refs'
         liy&cv = 0.13
         delete lic&s
@@ -2756,11 +2822,27 @@ me.Sch_Story = &acgt{ return [
             me&tc,talk,says,'7y'
         }
     }
-    
+   // slope misc
+    # proper R/*
+    me.ioR = &acgtR{
+        R ||= me&R
+        return me&ioty,R
+            .filter(r => rc&N.includes(r) && !rc&not)
+    }
+    me.Rnodepath = &acgtR{
+        # < rowing for...
+        $N = me.cby(R,R => Rs&ball && Rc&s.y.path)
+        $p = N.shift()
+        # &inode puts a:
+        $path = p && pc&s.y.path
+        
+        return joint(path,'/')+'//'+joint(N,'/')
+    }
     me.ifsuchsame = &acgtkNM{
         $first = N.filter(r => r.sc[k])[0]
         return !first || M.includes(first)
     }
+   // slope io: &Rsci + dialects
     # look for R%limit(%toomuch|/ref/...)
     me.Rlo = &acgtscq{
         c = ex(c||{},{el:8})
@@ -2819,92 +2901,6 @@ me.Sch_Story = &acgt{ return [
         }
         return v
     }
-    # @12 realises where $s was before
-    me.R_reflimit = &acgtRs,limit{
-        # on Ec&top %X
-        $tE = Rc&top.sc.E
-        # previous mentions of it, nearest first
-        $c = me&Ereflookup,{E:tE,s,R}
-        # find:
-        #  other with any expression, even tiny|limit|other-$pi
-        #  other with full writeup, same $pi
-        #   which we can use to diff against
-        #    using leftover slepparatus from its typing up
-        #   or %limit.same as it
-        $E = Rs&E
-        each ig c.got {
-            $r = g.n
-            $e = rs&E
-            # find the last
-            # < %%self:g,
-            if (ec&pi != Ec&pi) {
-                c.other ||= g
-            }
-            elsif ( me&Rlo,'%toomuch',{R:r} ) {
-                c.almost ||= g
-                # find fuller further rendition
-            }
-            else {
-                # this is the previous this
-                c.self ||= g
-                break
-            }
-        }
-        if (c.self) {
-            $g = c.self
-            # can only gain c.near
-            # assume $s** still per eg -log, %Top
-            $sameTop = me&ifsuchsame,'Top',g.ups,g.downs
-            sameTop and c.near = 1
-            else {
-                # out of time from here, climb data again
-                # < know light cones provided by &Rsci
-                # < slep or c.redraw
-                #   which regen X, patchey D** with previous
-                #c.redraw = 1
-            }
-        }
-        # any previousness causes some %limit
-        if (c.other || c.self) {
-            $l = me&Rli
-            # ls&toomuch = 1
-            c.near and me&Rli,'%toomuch',{s:1}
-            me&Rli,'ref',{s:c}
-        }
-        
-        
-        # note this time
-        $x = fi&EXsim,tE,{ref:s},{n:R}
-        return
-        
-        # dedupe/limit objects already in this pool
-        $ri = Rc&refs.indexOf(s);
-        if (ri < 0) {
-            ri = Rc&refs.push(s) - 1;
-            Rc&refR ||= {};
-            Rc&refR[ri] ||= [];
-            Rc&refR[ri].push(R);
-        }
-        else {
-            $h = Rc&N[0];
-            # see the per-ref R table
-            $RN = Rc&refR[ri];
-            Rs&refR = RN;
-            RN.push(R);
-            # in this pool
-            $RhN = RN.filter(r => h && rc&N == hc&N);
-            
-            $dupl = Rc&dupl || Rs&dupl || 0;
-            if (RhN.length > dupl) {
-                limit('dup');
-                Rc&nofurther = 1;
-            }
-            else {
-                limit('dub')
-            }
-            # < to know circular links, converge
-        }
-    }
    // misc f
     me.PiRet_data = &acgt{
         $hash = {
@@ -2942,21 +2938,6 @@ me.Sch_Story = &acgt{ return [
             Rs&Fishtivity--
             me&waits,"ForItivity"+Rs&Fishtivity
         }
-    }
-    # proper R/*
-    me.ioR = &acgtR{
-        R ||= me&R
-        return me&ioty,R
-            .filter(r => rc&N.includes(r) && !rc&not)
-    }
-    me.Rnodepath = &acgtR{
-        # < rowing for...
-        $N = me.cby(R,R => Rs&ball && Rc&s.y.path)
-        $p = N.shift()
-        # &inode puts a:
-        $path = p && pc&s.y.path
-        
-        return joint(path,'/')+'//'+joint(N,'/')
     }
     # hash partition array by return value of y(n)
     # returns {ks:[keys],vs:[values]}
@@ -3053,7 +3034,7 @@ me.Sch_Story = &acgt{ return [
         }
         return c
     }
-   // &Ei etc
+   // &Ei  etc
     # like &pii, setup:
     me.Ei = &acgtc{
         $R = me&R
@@ -3595,12 +3576,11 @@ me.Sch_Story = &acgt{ return [
             # capsule of %TX
             Rc&top = R
         },'ift,D'],
-        ['limit',0.67,&acgtRs{
-            me&Rlimit,R
-        },'ift,D'],
         ['Top',0.67,&acgtRs{
             me&Rlimits,R
-            
+            each ir Rc&N {
+                rs&limit and me&Rlimito,r
+            }
             # < generating weightiness
             each ir Rc&N {
                 # R%M + R%Mw.* -> R%M, spaced
