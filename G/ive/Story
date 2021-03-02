@@ -2691,8 +2691,10 @@ me.Sch_Story = &acgt{ return [
         $re =
         m refs 1189 s:♲ %deco,fs:17,lh:0.3
         
-        # l/n, n:ref s=&Ereflookup
+        # limit:l/ref:n
+        # &Ereflookup c via selection
         $c = nc&s
+        
         $types = ['self','other']
         types.map(&k{
             $g = c[k]
@@ -2734,7 +2736,7 @@ me.Sch_Story = &acgt{ return [
                 $newdown = wasdowns.pop()
                 if (heq(wasdowns,pg.downs) && newdown.t == r.t) {
                     # we C%limit/y%limit, just symbol
-                    return
+                    return lis&tiny = 1
                 }
             }
             
@@ -2744,6 +2746,15 @@ me.Sch_Story = &acgt{ return [
             tes&hs = '999'
             tes&fs = 7
         })
+        
+        lis&tiny and return
+        
+        $total = hak(c.got) + 1
+        if (total > 2) {
+            $says = total
+            $talk = 'x'+says+', ...'
+            me&tc,talk,says,'7y'
+        }
     }
     
     me.ifsuchsame = &acgtkNM{
@@ -2767,17 +2778,22 @@ me.Sch_Story = &acgt{ return [
         c.gk and s.path.unshift('%'+c.gk)
         
         $z = R
+        $last = hak(s.path)-1
         each it s.path {
             $gk = t.substr(0,1) == '%' && t.substr(1)
             $v
             gk and v = z.sc[gk]
-            # < bal Rc&s/$v
+            # < bal Rc&s/$v, for c.R%ball
+            #   or schedule|other nearby y&R
             else v = me&fiu,z,t,c.el
-            if (!v) {
+            
+            # i %limit/%toomuch=1 or &Rli,'toomuch',{s:1}
+            $puts = hak(c,'s') && i == hak(s.path)-1
+            if (!v || puts && gk) {
                 c.el == 8 and return
-                !gk and throw "never happens"
-                if (hak(c,'s') && i == hak(s.path)-1) {
-                    # i %limit/%toomuch=1
+                !gk and throw "never happens: &fiu creates el<8"
+                if (puts) {
+                    puts = 0
                     v = c.s
                 }
                 else {
@@ -2792,6 +2808,10 @@ me.Sch_Story = &acgt{ return [
                     else {
                         # < bal Rc&s/$v
                     }
+                }
+                if (puts) {
+                    puts = 0
+                    vc&s = c.s
                 }
             }
             !v and return
@@ -2820,7 +2840,7 @@ me.Sch_Story = &acgt{ return [
             if (ec&pi != Ec&pi) {
                 c.other ||= g
             }
-            elsif ( me&Rlo,'%toomuch',{R} ) {
+            elsif ( me&Rlo,'%toomuch',{R:r} ) {
                 c.almost ||= g
                 # find fuller further rendition
             }
@@ -2849,9 +2869,7 @@ me.Sch_Story = &acgt{ return [
             $l = me&Rli
             # ls&toomuch = 1
             c.near and me&Rli,'%toomuch',{s:1}
-            c.near and !ls&toomuch and debugger
-            me&Rli,'ref',{c:s}
-            me&fiu,l,'ref' .c.s = c
+            me&Rli,'ref',{s:c}
         }
         
         
