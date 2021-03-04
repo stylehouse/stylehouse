@@ -2095,6 +2095,7 @@ me.Sch_Story = &acgt{ return [
   // %TheeThy, landscape
     # some events, to|from the book
     ['TheeThy',0.296,&acgtRs{
+        
         me&reaw,R,'TheeThy'
         me&bin,'Theing'
         
@@ -2643,6 +2644,7 @@ me.Sch_Story = &acgt{ return [
     }
   // %E/** @3
     # E/** sync, Ringing, in or out of time
+    # repeatedly applies E/* to PiRet
     me.Eing = &acgtc{
         $R = me&R
         $s = Rc&s
@@ -2670,7 +2672,7 @@ me.Sch_Story = &acgt{ return [
                 ey&R == 0 and debugger
             }
             # not @1
-            !r || rc&not and me&Rti,'not',{e}
+            !r || rc&not and me&Rti,'not',{n:e}
             
             # until
             if (many && i > many) {
@@ -2702,7 +2704,6 @@ me.Sch_Story = &acgt{ return [
     me.Rtoomucho = &acgtR{
         $C = Rs&C
         T.Mw = 'toomuch'
-        me&tc,"HAving"
         # defer to %limit if the only
         $l = Rs&toomuch
         !l and debugger
@@ -2711,19 +2712,30 @@ me.Sch_Story = &acgt{ return [
         delete lic&s
         me&walls,li,'bd:1.4,hu:3'
         T.Mw = li
-        me&ioty,l .map(&n{
-            #n.t == 'ref' and me&Rlimito_ref,R,l,n
-            #else
-            if (isst(nc&s)) {
-                me&tc,"l:"+nc&s,'b'
-                
-            }
-            else {
-                me&tc,"l:"+n.t,'b'
-            }
-        })
+        $M = me&Mw,R,li
+        $re =
+        m refs 25 s:⦄ %deco,fs:17,lh:0.3
+        # b
+        me&tsc,re,0,'b'
+        ly&n = re
         
-        # 
+        # making a tiny version of it
+        me&ioty,l .map(&n{
+            $talk = n.t
+            $says
+            $style = 'b'
+            isst(nc&s) and says = nc&s; style = 'y'
+            else {
+                says = talk; talk = ''
+            }
+            talk = "toomuch: "+talk+" "+says
+            $t = me&tc,talk,says,style
+            me&ioty,n .map(&e{
+                # probably an E/e avoided
+                $en = me&tc,t,"/$n="+e.t,e.t,'6d'
+                ens&ma = 0.1
+            })
+        })
         if (0 && ls&toomuch) {
             # spawns no E**
             # bunch of l** contribute avoidance
@@ -2821,6 +2833,20 @@ me.Sch_Story = &acgt{ return [
         $tE = Rc&top.sc.E
         # previous mentions of it, nearest first
         $c = me&Ereflookup,{E:tE,s,R}
+        # without being %toomuch or != $pi
+        me&Rlimiti_ref_lookfor,R,c
+        
+        # any previousness causes some R%limit...
+        if (c.any) {
+            c.near and me&Rli,'%toomuch',{s:1}
+            
+            me&Rli,'ref',{s:c}
+        }
+        
+        # note this time
+        $x = fi&EXsim,tE,{ref:s},{n:R}
+    }
+    me.Rlimiti_ref_lookfor = &acgtRc{
         # find:
         #  other with any expression, even tiny|limited|other-$pi
         #  self with full writeup, same $pi
@@ -2868,15 +2894,7 @@ me.Sch_Story = &acgt{ return [
                 #c.redraw = 1
             }
         }
-        # any previousness causes some R%limit...
-        if (c.other || c.self) {
-            c.near and me&Rli,'%toomuch',{s:1}
-            
-            me&Rli,'ref',{s:c}
-        }
-        
-        # note this time
-        $x = fi&EXsim,tE,{ref:s},{n:R}
+        c.any = c.self || c.other
     }
     
     # @67 assigns signage about R%limit**
@@ -2898,15 +2916,17 @@ me.Sch_Story = &acgt{ return [
             }
         })
         
-        if (ls&toomuch) {
+        if (me&Rlo,'%toomuch' ) {
             # spawns no E**
             ac(R,'M',Cye(['toom',2,{s:'toom'}]) )
+        }
+        if (0 && ls&toomuch) {
             # bunch of l** contribute avoidance
             $tm = Rs&toomuch
             !tm and 'empty+dup Rc&s?'; debugger
             else {
                 # dont list what isn't there
-                me&ioty,tm .map(n => me&fiu,tm,n,9 )
+                #me&ioty,tm .map(n => me&fiu,tm,n,9 )
                 delete tms&ma
             }
         }
@@ -3030,6 +3050,7 @@ me.Sch_Story = &acgt{ return [
         isst(s) and s = {path:s.split('/')}
         !s and s = {path:[]}
         c.gk and s.path.unshift('%'+c.gk)
+        $putsz = hak(c,'s') || hak(c,'n')
         
         $z = R
         $last = hak(s.path)-1
@@ -3042,13 +3063,30 @@ me.Sch_Story = &acgt{ return [
             else v = me&fiu,z,t,c.el
             
             # i %limit/%toomuch=1 or &Rli,'toomuch',{s:1}
-            $puts = hak(c,'s') && i == hak(s.path)-1
-            if (!v || puts && gk) {
+            $puts = putsz && i == hak(s.path)-1 && hak(c,'s')
+            $putz = putsz && i == hak(s.path)-1 && hak(c,'n')
+            if (putz && v) {
+                if (gk) {
+                    !isar(v) and throw "putz!ar"
+                    if (c.el == 8) {
+                        # o $l%somegk/$n tests for $n in %somegk
+                        #  ie &Rti,'limit/%somegk',{n:e}
+                        # returns the last C the /$n is in
+                        v.includes(c.n) and return z
+                        # will otherwise el:8 and return nothing:
+                    }
+                }
+            }
+            if (!v || (puts || putz) && gk) {
                 c.el == 8 and return
                 !gk and throw "never happens: &fiu creates el<8"
+                
                 if (puts) {
                     puts = 0
                     v = c.s
+                }
+                elsif (putz) {
+                    v ||= []
                 }
                 else {
                     v = Cye([gk,2])
@@ -3067,6 +3105,22 @@ me.Sch_Story = &acgt{ return [
                     puts = 0
                     vc&s = c.s
                 }
+                elsif (putz) {
+                    putz = 0
+                    vs&z ||= []
+                    # returns the last C the /$n is in
+                    c.el == 8 and return vs&z.includes(c.n) && z
+                    vs&z.push(c.n)
+                    return v
+                    # conserve/score?
+                }
+            }
+            if (putz) {
+                !gk and throw "never happens: isC putz"
+                putz = 0
+                # returns the last C the /$n is in
+                c.el == 8 and return v.includes(c.n) && z
+                v.push(c.n); return z
             }
             !v and return
             z = v
