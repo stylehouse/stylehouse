@@ -2650,6 +2650,7 @@ me.Sch_Story = &acgt{ return [
         $s = Rc&s
         $D = Rs&D
         $E = Rs&E
+        $C = Rs&C
         
         Es&z and vsortz(Es&z)
         $many = hak(Es&z) > 30 ? 20 : 0
@@ -2662,8 +2663,9 @@ me.Sch_Story = &acgt{ return [
             # unless %limit %toomuch
             # < specifics
             #   could be %TX.unstop'd out of the shadow
-            $stop = me&Rlo,'%toomuch'
-            stop and me&Rti,'limit',{s:stop}
+            $stop = me&Ro,'%limit/%toomuch'
+            # < joining  /$n to:
+            stop and me&Ri,'%toomuch/%limit',{s:stop}
             # ...
             else {
                 $c = {t:e.t,s:ec&s,E:e}
@@ -2690,52 +2692,13 @@ me.Sch_Story = &acgt{ return [
         }
     }
   // R%toomuch/** @67
-    # cultivate R%toomuch(/ref/...)
-    me.Rti = &acgtscq{
-        c = ex(c||{},{gk:'toomuch'})
-        return me&Rsci,s,c,q
+    me.Rtoomuchi = &acgtR{
+        
     }
-    me.Rto = &acgtscq{
-        c = ex(c||{},{el:8})
-        return me&Rli,s,c,q
-    }
-    
     # @67 assigns signage about being R%toomuch**
     me.Rtoomucho = &acgtR{
-        $C = Rs&C
-        T.Mw = 'toomuch'
-        # defer to %limit if the only
-        $l = Rs&toomuch
-        !l and debugger
-        $li = me&tc,'toomuchcapsule'
-        liy&cv = 0.13
-        delete lic&s
-        me&walls,li,'bd:1.4,hu:3'
-        T.Mw = li
-        $M = me&Mw,R,li
-        $re =
-        m refs 25 s:⦄ %deco,fs:17,lh:0.3
-        # b
-        me&tsc,re,0,'b'
-        ly&n = re
+        me&Rthingo,R,{t:'toomuch',sym:"⦄",cv:25}
         
-        # making a tiny version of it
-        me&ioty,l .map(&n{
-            $talk = n.t
-            $says
-            $style = 'b'
-            isst(nc&s) and says = nc&s; style = 'y'
-            else {
-                says = talk; talk = ''
-            }
-            talk = "toomuch: "+talk+" "+says
-            $t = me&tc,talk,says,style
-            me&ioty,n .map(&e{
-                # probably an E/e avoided
-                $en = me&tc,t,"/$n="+e.t,e.t,'6d'
-                ens&ma = 0.1
-            })
-        })
         if (0 && ls&toomuch) {
             # spawns no E**
             # bunch of l** contribute avoidance
@@ -2747,6 +2710,71 @@ me.Sch_Story = &acgt{ return [
                 delete tms&ma
             }
         }
+    }
+    # capsule, filler for %limit|%toomuch|...
+            # defer to %limit if the only
+    # sizes something, usu ope|interest for snoozing
+    self.sz = &nks{
+        $v = n.sc[k] || 0
+        return v < s
+    }
+    me.Rthingo = &acgtRc{
+        $C = Rs&C
+        # the l, whose y&n=li is T.Mw
+        $l = c.l
+        if (!l) {
+            # plant in R
+            T.Mw = c.t
+            $l = R.sc[c.t]
+            $putl = 1
+        }
+        !l and debugger
+        
+        # make capsule here
+        $li = me&tc,c.t+'-cap'
+        liy&cv = c.cv && scaf(c.cv) || 0.13
+        delete lic&s
+        $hu = (""+liy&cv).substr(-1)
+        me&walls,li,'bd:1.4,hu:'+hu
+        
+        # move into it
+        putl and ly&n = li
+        T.Mw = li
+        if (c.sym) {
+            $re = me&tc,c.t+'-sym',c.sym,c.symc||'b'
+            rec&s = c.sym || ""
+            res&fs = 17
+            res&lh = 0.3
+            liy&sym = re
+        }
+        
+        # making a tiny version of it
+        !c.n && me&ioty,l .map(&n{
+            # names are minds, have time
+            if (me['R'+c.t+'o_'+n.t]) {
+                me['R'+c.t+'o_'+n.t](A,C,G,T,R,l,n)
+                # only that unless open
+                sz(n,'ope',2) and return
+            }
+            
+            $talk = c.t+": "+n.t
+            $t = me&tc,talk,n.t,'b'
+            if  (isst(nc&s)) {
+                # < text style, oppo to .t or %string
+                me&tc,talk+".s",nc&s,'y'
+            }
+            elsif (nc&s != null) {
+                # might be a /$n
+                me&tc,talk+"&s",dis(nc&s),'y'
+            }
+            me&ioty,n .map(&e{
+                # probably an E/e avoided
+                $en = me&tc,t,"/$n="+e.t,e.t,'6d'
+                ens&ma = 0.1
+            })
+        })
+        
+        return l
     }
    
   // &PiRet while &Eing, create R @13
@@ -2768,7 +2796,7 @@ me.Sch_Story = &acgt{ return [
             rc&N = []
             rc&d = 0
             rc&dl = 15
-            rc&nl = 300
+            rc&nl = 100
             delete rc&refR
             delete rc&refs
         }
@@ -2796,23 +2824,21 @@ me.Sch_Story = &acgt{ return [
    
   // R%limit/** @13
     # cultivate R%limit(%toomuch|/ref/...)
-    me.Rli = &acgtscq{
-        c = ex(c||{},{gk:'limit'})
-        return me&Rsci,s,c,q
-    }
-    me.Rlo = &acgtscq{
-        c = ex(c||{},{el:8})
-        return me&Rli,s,c,q
-    }
     
     # @12
     me.Rlimiti = &acgtR{
         $C = Rs&C
         
         # limits want workarounds
-        $limit = &s{
-            ac(R,'M',Cye(['limit:'+s,5,{s:'('+s+')'},{fs:7,hs:048}]))
-            me&Rec,R,s
+        $limit = &tc{
+            # the case for
+            $ref = me&Ri,'%limit/'+t,c
+            # linkably close self, no more E/e
+            !c || c.toomuch and me&Ri,'%limit/%toomuch',{n:ref}
+            return ref
+            
+            #ac(R,'M',Cye(['limit:'+s,5,{s:'('+s+')'},{fs:7,hs:048}]))
+            #me&Rec,R,s
         };
 
         $s = Rc&s
@@ -2821,6 +2847,7 @@ me.Sch_Story = &acgt{ return [
             me&Rlimiti_ref,R,s,limit
         }
         # sprawl limits
+        # < find bunch of these at a thing, to %TX anti-dl
         Rc&dl && Rc&dl < Rc&d and return limit('dl')
         Rc&nl && Rc&N && Rc&nl < Rc&N.length and return limit('nl')
         
@@ -2838,12 +2865,14 @@ me.Sch_Story = &acgt{ return [
         
         # any previousness causes some R%limit...
         if (c.any) {
-            c.near and me&Rli,'%toomuch',{s:1}
-            
-            me&Rli,'ref',{s:c}
+            # the case for
+            $ref = limit('ref',{s:c})
+            # linkably close self, no more E/e
+            c.near and me&Ri,'%limit/%toomuch',{n:ref}
         }
         
         # note this time
+        #  effectively a &pio to many places
         $x = fi&EXsim,tE,{ref:s},{n:R}
     }
     me.Rlimiti_ref_lookfor = &acgtRc{
@@ -2863,7 +2892,7 @@ me.Sch_Story = &acgt{ return [
             if (ec&pi != Ec&pi) {
                 c.other ||= g
             }
-            elsif ( me&Rlo,'%toomuch',{R:r} || Rs&tiny ) {
+            elsif ( me&Ro,'%limit/%toomuch',{R:r} || Rs&tiny ) {
                 c.almost ||= g
                 # find fuller further rendition
             }
@@ -2877,7 +2906,8 @@ me.Sch_Story = &acgt{ return [
         if (c.almost) {
             # even a partial do-over is self here
             # < Self, where lines are traced back
-            !c.self and throw "no finding full thing"
+            !c.self and me&tc,"no-full"
+            #throw "no finding full thing"
         }
         # care
         if (c.self) {
@@ -2899,25 +2929,11 @@ me.Sch_Story = &acgt{ return [
     
     # @67 assigns signage about R%limit**
     me.Rlimito = &acgtR{
-        $C = Rs&C
-        #R.t == 'figaro' and debugger
-        $l = Rs&limit
-        T.Mw = 'limit'
-        $li = me&tc,'limitcapsule'
-        liy&cv = 0.13
-        delete lic&s
-        me&walls,li,'bd:1.4,hu:3'
-        T.Mw = li
+        $l = me&Rthingo,R,{t:'limit',cv:13}
         
-        me&ioty,l .map(&n{
-            n.t == 'ref' and me&Rlimito_ref,R,l,n
-            else {
-                me&tc,"l:"+n.t,'b'
-            }
-        })
-        
-        if (me&Rlo,'%toomuch' ) {
+        if (me&Ro,'%limit/%toomuch' ) {
             # spawns no E**
+            
             ac(R,'M',Cye(['toom',2,{s:'toom'}]) )
         }
         if (0 && ls&toomuch) {
@@ -2933,15 +2949,9 @@ me.Sch_Story = &acgt{ return [
     }
     #  ♲ ref
     me.Rlimito_ref = &acgtRln{
-        $li = me&tc,'refs'
-        liy&cv = 0.13
-        delete lic&s
-        me&walls,li,'bd:1.4,hu:3'
-        T.Mw = li
-        $M = me&Mw,R,li
-        $re =
-        m refs 1189 s:♲ %deco,fs:17,lh:0.3
-        
+        $l = me&Rthingo,R,{t:'refs',sym:"♲",l,n,cv:13}
+        $li = T.Mw
+        $re = liy&sym
         # limit:l/ref:n
         # &Ereflookup c via selection
         $c = nc&s
@@ -3043,7 +3053,35 @@ me.Sch_Story = &acgt{ return [
         $first = N.filter(r => r.sc[k])[0]
         return !first || M.includes(first)
     }
-  // slope io: &Rsci
+  
+  // slope io: &Rsci + dialects
+   // dialects
+    # for &Ri,'%subject/atom',c
+    me.Ri = &acgtscq{
+        return me&Rsci,s,c,q
+    }
+    me.Ro = &acgtscq{
+        c = ex(c||{},{el:8})
+        return me&Ri,s,c,q
+    }
+    # not readable?
+    me.Rli = &acgtscq{
+        c = ex(c||{},{gk:'limit'})
+        return me&Rsci,s,c,q
+    }
+    me.Rlo = &acgtscq{
+        c = ex(c||{},{el:8})
+        return me&Rli,s,c,q
+    }
+    me.Rti = &acgtscq{
+        c = ex(c||{},{gk:'toomuch'})
+        return me&Rsci,s,c,q
+    }
+    me.Rto = &acgtscq{
+        c = ex(c||{},{el:8})
+        return me&Rli,s,c,q
+    }
+   // &Rsci
     me.Rsci = &acgtscq{
         c ||= {}
         $R = c.R || me&R
