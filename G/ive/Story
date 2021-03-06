@@ -2693,32 +2693,17 @@ me.Sch_Story = &acgt{ return [
             num(c) and c = {ov:c}
             c.ov = scaf(c.ov)
             me&Ring,R,{inside:R,ov:c.ov}
-            $allok = !hak(me&ioR .filter(r => rs&strange))
+            $allok = !me&Ro,'%toomuch'
+                && !hak(me&ioR .filter(r => rs&strange))
             return allok
         }
     }
   // R%toomuch/** @67
-    me.Rtoomuchi = &acgtR{
-        
-    }
     # @67 assigns signage about being R%toomuch**
     me.Rtoomucho = &acgtR{
         me&Ro,'%limit/%toomuch' and me&Ri,'%toomuch/%implied'
         
         me&Rthingo,R,{t:'toomuch',sym:"⦄",cv:25}
-        
-        
-        if (0 && ls&toomuch) {
-            # spawns no E**
-            # bunch of l** contribute avoidance
-            $tm = Rs&toomuch
-            !tm and 'empty+dup Rc&s?'; debugger
-            else {
-                # dont list what isn't there
-                me&ioty,tm .map(n => me&fiu,tm,n,9 )
-                delete tms&ma
-            }
-        }
     }
     # capsule, filler for %limit|%toomuch|...
             # defer to %limit if the only
@@ -2915,13 +2900,17 @@ me.Sch_Story = &acgt{ return [
         }
         # sprawl limits
         # < find bunch of these at a thing, to %TX anti-dl
-        Rc&dl && Rc&dl < Rc&d and limit('dl')
-        Rc&nl && Rc&N && Rc&nl < Rc&N.length and limit('nl')
-        
+        if (Rc&dl && Rc&dl < Rc&d) {
+            limit('dl')
+            return
+        }
+        if (Rc&nl && Rc&N && Rc&nl < Rc&N.length) {
+            limit('nl')
+        }
         
         Rc&N.push(R)
     }
-    # @12 realises where $s was before
+    # realises where $s was before
     me.Rlimiti_ref = &acgtRs,limit{
         # on Ec&top %X
         $tE = Rc&top.sc.E
@@ -3000,18 +2989,8 @@ me.Sch_Story = &acgt{ return [
         
         if (me&Ro,'%limit/%toomuch' ) {
             # spawns no E**
-            
+            me&tc,"limtoo",'g'
             ac(R,'M',Cye(['toom',2,{s:'toom'}]) )
-        }
-        if (0 && ls&toomuch) {
-            # bunch of l** contribute avoidance
-            $tm = Rs&toomuch
-            !tm and 'empty+dup Rc&s?'; debugger
-            else {
-                # dont list what isn't there
-                #me&ioty,tm .map(n => me&fiu,tm,n,9 )
-                delete tms&ma
-            }
         }
     }
     #  ♲ ref
@@ -3723,10 +3702,17 @@ me.Sch_Story = &acgt{ return [
             sym &&
                 n sym 11 $s:sym fs:13,lh:0.8,hs:757
             if (Rs&tiny) {
-                # C display whittles down to symbol + name
-                # < by adopting ranges of sub-R types
-                n t 12 $s:s.t label
-                return
+                if (isC(s)) {
+                    # C display whittles down to symbol + name
+                    # < by adopting ranges of sub-R types
+                    n t 12 $s:s.t label
+                    return
+                }
+                else {
+                    # stops recursion
+                    $ref = me&Ri,'%limit/tiny'
+                    me&Ri,'%limit/%toomuch'
+                }
             }
             sym and me&typeup,R,'Cish'
             else
