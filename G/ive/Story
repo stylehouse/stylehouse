@@ -2345,7 +2345,7 @@ me.Sch_Story = &acgt{ return [
         # will be %Theing
         return es
     }
-    # receive+see e somewhere
+    # GOING receive+see e somewhere
     me.proto_Bat = &acgtc{
         #return
         if (c) {
@@ -2377,25 +2377,6 @@ me.Sch_Story = &acgt{ return [
    
   // &Eref*
     &{
-    # transact Ec&top
-    me.Eref_begin = &acgtre{
-        $p = ry&up
-        $E = ps&E
-        !E and throw "!E"
-        $oe = me&fiu,E,e.t,8
-        # stop seeing refs from the old e in E%X
-        oe and ec&b = oe
-        oe == e and debugger
-        ac(r,'commit',&{
-            # copy to E^^^%X
-            $c = {E,e}
-            ec&b and c.removing = [ec&b]
-            me&Erefputup,c
-            delete ec&b
-            me&fiu,E,e
-            es&glop and me&nu,"Glop",es&glop
-        })
-    }
     # search for other R with ref, E^^
     me.Ereflookup = &acgtc{
         $E = c.E
@@ -2554,6 +2535,26 @@ me.Sch_Story = &acgt{ return [
             # < if R/$t ? yfuture the L?
             debugger
         }
+    }
+   
+    # transact Ec&top
+    me.Eref_begin = &acgtre{
+        $p = ry&up
+        $E = ps&E
+        !E and throw "!E"
+        $oe = me&fiu,E,e.t,8
+        # stop seeing refs from the old e in E%X
+        oe and ec&b = oe
+        oe == e and debugger
+        ac(r,'commit',&{
+            # copy to E^^^%X
+            $c = {E,e}
+            ec&b and c.removing = [ec&b]
+            me&Erefputup,c
+            delete ec&b
+            me&fiu,E,e
+            es&glop and me&nu,"Glop",es&glop
+        })
     }
     # commit Ec&top (top of &Piering) to E^^
     me.Erefputup = &acgtc{
@@ -3350,6 +3351,107 @@ me.Sch_Story = &acgt{ return [
     
     me.Pi_The = &acgt{ return [
        
+       // %Top back
+        &{
+        me.Rlimits = &acgtr{
+            !rc&ha and return
+            $upritN = {};
+            each tz rc&ha {
+                
+                typeof z != 'object' and continue
+                t == 'err' and continue
+                # write trouble next to each node
+                each in z {
+                nc&dubquiet || ns&dubquiet and continue
+                # R included are from Rc&refs/refR
+                # < may not be in our h/R pool, showing...
+                #   same Rc&s=objects near but not in this process
+                $M = me&Mw,n,'Mlimits';
+                $re =
+                m $t 1189 s:♲ %deco,fs:17,lh:0.3
+                $o = ns&refR[0];
+                # say where it originated
+                $nam = me&nampup,o,n;
+                if (ns&tiny) {
+                    res&hs = '499';
+                    re.t += '@'+nam
+                }
+                else {
+                    m $t 11892 $s:nam %deco,fs:7,hs:999
+                }
+                }
+            }
+        }
+        # R%M + R%Mw.* -> R%M, spaced
+        me.modulatM = &acgtR{
+            $M = []
+            each in Rs&M {
+                M.push(n)
+            }
+            each win Rs&Mw {
+                ns&modt = w
+                M.push(n)
+            }}
+            me&cvdeal,M
+            vsortz(M)
+            Rs&M = M
+        }
+        # shading weight -> dis:1 or not
+        me.specialfx = &acgtR{
+            Rs&tiny and grepout(Rs&M,n => ns&modt == 'Pier')
+            $N = me&ioR,R
+            Rs&inline || hak(N) <= 1 and return
+            # < properly sizing it for:
+            $larger = N.filter(n => !ns&tiny)
+            !hak(larger) and return
+            each in N {
+                ns&inline and continue
+                $C = ns&C
+                s&dis = 1
+                s&ml = 1
+            }
+        }
+        },
+        ['Top',0.12,&acgtRs{
+            # lets /Display** recycle Elements
+            me&arriveRbitX,R,R.t
+            # capsule of %TX
+            Rc&top = R
+        },'ift,D'],
+        ['Top',0.67,&acgtRs{
+            me&Rlimits,R
+            each ir Rc&N {
+                rs&limit and me&Rlimito,r
+                rs&toomuch and me&Rtoomucho,r
+            }
+            # < generating weightiness
+            each ir Rc&N {
+                # R%M + R%Mw.* -> R%M, spaced
+                me&modulatM,r
+            }
+            $N = reverse(Rc&N)
+            each ir N {
+                # with shading, dis:1 or not
+                me&specialfx,r
+            }
+            
+        },'ift,D'],
+        ['Top',0.9,&acgtRs{
+            
+            # disp
+            s&dis = 1
+            C.y.cv = 0.76
+            me&walls,C,"b:2.2"
+            me&scroll,28
+            if (!Rs&noDisplay) {
+                $d = me&Display,R,{prep:1}
+                
+                # < appears twice unless:
+                Rs&noDisplay = 1
+            }
+            me&applyRbitX,R
+        },'ift,D'],
+        
        // %Pier,C,E,D types @2, &Eing E/** @3
         ['Pier',0.2,&acgtRs{
             $C = Rs&C
@@ -3367,6 +3469,7 @@ me.Sch_Story = &acgt{ return [
             n At 101 $s:name %deco,fs:6
             
             R.sc[Rs&Pier] = 1
+            me&haja
         },'ift,D'],
         # E/** expands, if not already
         ['Pier',0.3,&acgtRs{
@@ -3479,7 +3582,6 @@ me.Sch_Story = &acgt{ return [
             }
            
            // regrouping Bet
-            me&haja
             $BitDXc = B => B && Bs&D && Bs&D.sc.Xc
             # next meaningful Belt Bit
             each ir s {
@@ -3754,106 +3856,6 @@ me.Sch_Story = &acgt{ return [
             n thinking 12 $s:di %fs:8,hs:584
         },'ift,D'],
         
-        
-       // %Top back
-        &{
-        me.Rlimits = &acgtr{
-            !rc&ha and return
-            $upritN = {};
-            each tz rc&ha {
-                typeof z != 'object' and continue
-                t == 'err' and continue
-                # write trouble next to each node
-                each in z {
-                nc&dubquiet || ns&dubquiet and continue
-                # R included are from Rc&refs/refR
-                # < may not be in our h/R pool, showing...
-                #   same Rc&s=objects near but not in this process
-                $M = me&Mw,n,'Mlimits';
-                $re =
-                m $t 1189 s:♲ %deco,fs:17,lh:0.3
-                $o = ns&refR[0];
-                # say where it originated
-                $nam = me&nampup,o,n;
-                if (ns&tiny) {
-                    res&hs = '499';
-                    re.t += '@'+nam
-                }
-                else {
-                    m $t 11892 $s:nam %deco,fs:7,hs:999
-                }
-                }
-            }
-        }
-        # R%M + R%Mw.* -> R%M, spaced
-        me.modulatM = &acgtR{
-            $M = []
-            each in Rs&M {
-                M.push(n)
-            }
-            each win Rs&Mw {
-                ns&modt = w
-                M.push(n)
-            }}
-            me&cvdeal,M
-            vsortz(M)
-            Rs&M = M
-        }
-        # shading weight -> dis:1 or not
-        me.specialfx = &acgtR{
-            Rs&tiny and grepout(Rs&M,n => ns&modt == 'Pier')
-            $N = me&ioR,R
-            Rs&inline || hak(N) <= 1 and return
-            # < properly sizing it for:
-            $larger = N.filter(n => !ns&tiny)
-            !hak(larger) and return
-            each in N {
-                ns&inline and continue
-                $C = ns&C
-                s&dis = 1
-                s&ml = 1
-            }
-        }
-        },
-        ['Top',0.12,&acgtRs{
-            # lets /Display** recycle Elements
-            me&arriveRbitX,R,R.t
-            # capsule of %TX
-            Rc&top = R
-        },'ift,D'],
-        ['Top',0.67,&acgtRs{
-            me&Rlimits,R
-            each ir Rc&N {
-                rs&limit and me&Rlimito,r
-                rs&toomuch and me&Rtoomucho,r
-            }
-            # < generating weightiness
-            each ir Rc&N {
-                # R%M + R%Mw.* -> R%M, spaced
-                me&modulatM,r
-            }
-            $N = reverse(Rc&N)
-            each ir N {
-                # with shading, dis:1 or not
-                me&specialfx,r
-            }
-            
-        },'ift,D'],
-        ['Top',0.9,&acgtRs{
-            
-            # disp
-            s&dis = 1
-            C.y.cv = 0.76
-            me&walls,C,"b:2.2"
-            me&scroll,28
-            if (!Rs&noDisplay) {
-                $d = me&Display,R,{prep:1}
-                
-                # < appears twice unless:
-                Rs&noDisplay = 1
-            }
-            me&applyRbitX,R
-        },'ift,D'],
         
     ] }
     },
