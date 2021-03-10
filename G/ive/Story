@@ -2630,6 +2630,8 @@ me.Sch_Story = &acgt{ return [
         Rs&Top and Ec&top = E
         # all R have:
         Rc&top ||= R
+        # R%wou for brack
+        me&haja
     }
     # E remains given|base type
     # D shifts into that mind with R%-pi
@@ -2660,19 +2662,12 @@ me.Sch_Story = &acgt{ return [
             # create R
             ey&R != null and continue
             ey&R = 0
-            
-            # the R recursion
-            # unless %limit %toomuch
-            #  note returns the /$n as array
-            $stop = me&Ro,'%limit/%toomuch'
-            # < specifics
-            #   could be %TX.unstop'd out of the shadow
-            # < joining  /$n to:
+            # stop R recursion when a limit is toomuch
+            $stop = me&ja,R,{limit:1,toomuch:1}
+            # < %TX.unstop'd out of the shadow
             if (stop) {
-                # all %tu/not should be accounted for by eg limits
-                # note returns the last C the /$n is in
-                $n = me&Ri,'%toomuch/limit',{n:stop}
-                ac(n,'explains',e)
+                me&ha,R,{toomuch:'limit',E:e}
+                continue
             }
             else {
                 $c = {t:e.t,s:ec&s,E:e}
@@ -2681,7 +2676,7 @@ me.Sch_Story = &acgt{ return [
                 ey&R == 0 and debugger
             }
             # not @1
-            !r || rc&not and me&Ri,'%toomuch/not',{n:e}
+            !r || rc&not and me&ha,R,{toomuch:'not',E:e}
             
             # until
             if (many && i > many) {
@@ -2694,7 +2689,7 @@ me.Sch_Story = &acgt{ return [
             num(c) and c = {ov:c}
             c.ov = scaf(c.ov)
             me&Ring,R,{inside:R,ov:c.ov}
-            $allok = !me&Ro,'%toomuch'
+            $allok = !me&ja,R,{toomuch:1}
                 && !hak(me&ioR .filter(r => rs&strange))
             return allok
         }
@@ -2702,8 +2697,6 @@ me.Sch_Story = &acgt{ return [
   // R%toomuch/** @67
     # @67 assigns signage about being R%toomuch**
     me.Rtoomucho = &acgtR{
-        me&Ro,'%limit/%toomuch' and me&Ri,'%toomuch/%implied'
-        
         me&Rthingo,R,{t:'toomuch',sym:"⦄",cv:25}
     }
     # capsule, filler for %limit|%toomuch|...
@@ -2715,15 +2708,8 @@ me.Sch_Story = &acgt{ return [
     }
     me.Rthingo = &acgtRc{
         $C = Rs&C
-        # the l, whose y&n=li is T.Mw
-        $l = c.l
-        if (!l) {
-            # plant in R
-            T.Mw = c.t
-            $l = R.sc[c.t]
-            $putl = 1
-        }
-        !l and debugger
+        # plant in R, otherwise T.Mw=overthingo
+        !c.subthingo and T.Mw = c.t
         
         # make capsule here
         $li = me&tc,c.t+'-cap'
@@ -2731,9 +2717,7 @@ me.Sch_Story = &acgt{ return [
         delete lic&s
         $hu = (""+liy&cv).substr(-1)
         me&walls,li,'bd:1.4,hu:'+hu
-        
         # move into it
-        putl and ly&n = li
         T.Mw = li
         if (c.sym) {
             $re = me&tc,c.t+'-sym',c.sym,c.symc||'b'
@@ -2743,8 +2727,64 @@ me.Sch_Story = &acgt{ return [
             liy&sym = re
         }
         
-        c.n and return l
+        # eg %%limit=ref
+        uniq( me&jaa,R,hashkv(c.t),1 ) .map(&t{
+            $N = me&jaa,R,hashkv(c.t,t)
+            T.Mw = li
+            # names are minds, have time
+            if (me['R'+c.t+'o_'+t]) {
+                $subth = {t,subthingo:1,N}
+                me['R'+c.t+'o_'+t](A,C,G,T,R,subth)
+                # only that unless open
+                1 || sz(n,'ope',2) and return
+            }
+            T.Mw = li
+            $talk = c.t+": "+t
+            $t = me&tc,talk,t,'b'
+            
+        })
         
+        # is also T.Mw - where &tc will be put
+        return li
+        
+        #all && sz(l,'ope',1) and return l
+        
+        
+    }
+    me.nonlimitobject = &{
+        me&ioty,l .map(&n{
+            T.Mw = li
+            # names are minds, have time
+            if (me['R'+c.t+'o_'+n.t]) {
+                me['R'+c.t+'o_'+n.t](A,C,G,T,R,l,n)
+                # only that unless open
+                sz(n,'ope',2) and return
+            }
+            
+            # bit of thing.. almost capsule
+            T.Mw = li
+            $talk = c.t+": "+n.t
+            $t = me&tc,talk,n.t,'b'
+            ns&explained and me&tc,"Expl"+dis(ns&explained),'6y'
+            
+            if  (isst(nc&s)) {
+                # < text style, oppo to .t or %string
+                me&tc,talk+".s",nc&s,'y'
+            }
+            elsif (nc&s != null) {
+                # might be a /$n
+                me&tc,talk+"&s",dis(nc&s),'y'
+            }
+            me&ioty,n .map(&e{
+                # probably an E/e avoided
+                $en = me&tc,t,"/$n="+e.t,e.t,'6d'
+                ens&ma = 0.1
+                ns&explained and me&tc,en,"Expl"+dis(ns&explained),'6y'
+                
+            })
+        })
+    }
+    me.nonexplaining = &{
         # making a tiny version of it
         # compress
         $explain = &nt{
@@ -2795,42 +2835,6 @@ me.Sch_Story = &acgt{ return [
         anyexpl and li.t += " (some %explain)"
         
         re and re.t += li.t
-        all && sz(l,'ope',1) and return l
-        
-        
-        me&ioty,l .map(&n{
-            T.Mw = li
-            # names are minds, have time
-            if (me['R'+c.t+'o_'+n.t]) {
-                me['R'+c.t+'o_'+n.t](A,C,G,T,R,l,n)
-                # only that unless open
-                sz(n,'ope',2) and return
-            }
-            
-            # bit of thing.. almost capsule
-            T.Mw = li
-            $talk = c.t+": "+n.t
-            $t = me&tc,talk,n.t,'b'
-            ns&explained and me&tc,"Expl"+dis(ns&explained),'6y'
-            
-            if  (isst(nc&s)) {
-                # < text style, oppo to .t or %string
-                me&tc,talk+".s",nc&s,'y'
-            }
-            elsif (nc&s != null) {
-                # might be a /$n
-                me&tc,talk+"&s",dis(nc&s),'y'
-            }
-            me&ioty,n .map(&e{
-                # probably an E/e avoided
-                $en = me&tc,t,"/$n="+e.t,e.t,'6d'
-                ens&ma = 0.1
-                ns&explained and me&tc,en,"Expl"+dis(ns&explained),'6y'
-                
-            })
-        })
-        
-        return l
     }
    
   // &PiRet while &Eing, create R @13
@@ -2884,35 +2888,26 @@ me.Sch_Story = &acgt{ return [
     # @12
     me.Rlimiti = &acgtR{
         $C = Rs&C
-        
-        # limits want workarounds
-        $limit = &tc{
-            # the case for
-            $ref = me&Ri,'%limit/'+t,c
-            # no more E/e. eg linkably close self
-            !c || c.toomuch and me&Ri,'%limit/%toomuch',{n:ref}
-            return ref
-        };
 
         $s = Rc&s
         if (s && typeof s == 'object' && !Rs&noref) {
             # soft dup limit, sets Rc&nofurther=1
-            me&Rlimiti_ref,R,s,limit
+            me&Rlimiti_ref,R,s
         }
         # sprawl limits
         # < find bunch of these at a thing, to %TX anti-dl
         if (Rc&dl && Rc&dl < Rc&d) {
-            limit('dl')
+            me&ha,R,{limit:'dl',toomuch:1}
             return
         }
         if (Rc&nl && Rc&N && Rc&nl < Rc&N.length) {
-            limit('nl')
+            me&ha,R,{limit:'nl',toomuch:1}
         }
         
         Rc&N.push(R)
     }
     # realises where $s was before
-    me.Rlimiti_ref = &acgtRs,limit{
+    me.Rlimiti_ref = &acgtRs{
         # on Ec&top %X
         $tE = Rc&top.sc.E
         # previous mentions of it, nearest first
@@ -2923,9 +2918,10 @@ me.Sch_Story = &acgt{ return [
         # any previousness causes some R%limit...
         if (c.any) {
             # the case for
-            $ref = limit('ref',{s:c})
+            $lim = {limit:'ref',Erefc:c}
             # linkably close self, no more E/e
-            c.near and me&Ri,'%limit/%toomuch',{n:ref}
+            c.near and lim.toomuch = 1
+            me&ha,R,lim
         }
         
         # note this time
@@ -2949,7 +2945,7 @@ me.Sch_Story = &acgt{ return [
             if (ec&pi != Ec&pi) {
                 c.other ||= g
             }
-            elsif ( me&Ro,'%limit/%toomuch',{R:r} || Rs&tiny ) {
+            elsif ( me&ja,r,{limit:1,toomuch:1} || Rs&tiny ) {
                 c.almost ||= g
                 # find fuller further rendition
             }
@@ -2988,20 +2984,21 @@ me.Sch_Story = &acgt{ return [
     me.Rlimito = &acgtR{
         $l = me&Rthingo,R,{t:'limit',cv:13}
         
-        if (me&Ro,'%limit/%toomuch' ) {
+        if ( me&ja,R,{limit:1,toomuch:1} ) {
             # spawns no E**
             me&tc,"limtoo",'g'
             ac(R,'M',Cye(['toom',2,{s:'toom'}]) )
         }
     }
     #  ♲ ref
-    me.Rlimito_ref = &acgtRln{
-        $l = me&Rthingo,R,{t:'ref',sym:"♲",l,n,cv:13}
+    me.Rlimito_ref = &acgtRc{
+        me&Rthingo,R,ex(c,{sym:"♲"})
         $li = T.Mw
         $re = liy&sym
         # limit:l/ref:n
         # &Ereflookup c via selection
-        $c = nc&s
+        $n = theone(c.N)
+        $c = ns&Erefc
         
         $types = ['self','other']
         types.map(&k{
@@ -3285,6 +3282,7 @@ me.Sch_Story = &acgt{ return [
     #  things that look like indices of elements will come first
     #   eg assigning -2,-1,0 iterates 0,-2,-1
     #  ! anywhere we rely on hash key order might be affected
+    # see also &sortulat
     self.vpartN = &Nyc{
         return partN(N,y,ex({vsort:1},c||{}))
     }
@@ -3297,6 +3295,7 @@ me.Sch_Story = &acgt{ return [
             h[k].push(n)
         }
         # structure for definitely ordered keys
+        # < inc order of the above asignment, with no sort
         $a = {ks:[],ki:{},vs:[]}
         $keys = haks(h)
         c.vsort and vsortz(keys,k=>k)
@@ -3421,8 +3420,8 @@ me.Sch_Story = &acgt{ return [
         ['Top',0.67,&acgtRs{
             me&Rlimits,R
             each ir Rc&N {
-                rs&limit and me&Rlimito,r
-                rs&toomuch and me&Rtoomucho,r
+                me&ja,r,{limit:1} and me&Rlimito,r
+                me&ja,r,{toomuch:1} and me&Rtoomucho,r
             }
             # < generating weightiness
             each ir Rc&N {
@@ -3469,7 +3468,6 @@ me.Sch_Story = &acgt{ return [
             n At 101 $s:name %deco,fs:6
             
             R.sc[Rs&Pier] = 1
-            me&haja
         },'ift,D'],
         # E/** expands, if not already
         ['Pier',0.3,&acgtRs{
