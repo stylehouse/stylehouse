@@ -2699,13 +2699,13 @@ me.Sch_Story = &acgt{ return [
     me.Rtoomucho = &acgtR{
         me&Rthingo,R,{t:'toomuch',sym:"⦄",cv:25}
     }
-    # capsule, filler for %limit|%toomuch|...
-            # defer to %limit if the only
     # sizes something, usu ope|interest for snoozing
     self.sz = &nks{
         $v = n.sc[k] || 0
         return v < s
     }
+    # capsule, filler for %limit|%toomuch|...
+    # defer to %limit if the only
     me.Rthingo = &acgtRc{
         $C = Rs&C
         # plant in R, otherwise T.Mw=overthingo
@@ -2746,10 +2746,7 @@ me.Sch_Story = &acgt{ return [
         
         # is also T.Mw - where &tc will be put
         return li
-        
         #all && sz(l,'ope',1) and return l
-        
-        
     }
     me.nonlimitobject = &{
         me&ioty,l .map(&n{
@@ -2945,7 +2942,7 @@ me.Sch_Story = &acgt{ return [
             if (ec&pi != Ec&pi) {
                 c.other ||= g
             }
-            elsif ( me&ja,r,{limit:1,toomuch:1} || Rs&tiny ) {
+            elsif ( me&ja,r,{toomuch:1} || Rs&tiny ) {
                 c.almost ||= g
                 # find fuller further rendition
             }
@@ -2983,18 +2980,13 @@ me.Sch_Story = &acgt{ return [
     # @67 assigns signage about R%limit**
     me.Rlimito = &acgtR{
         $l = me&Rthingo,R,{t:'limit',cv:13}
-        
-        if ( me&ja,R,{limit:1,toomuch:1} ) {
-            # spawns no E**
-            me&tc,"limtoo",'g'
-            ac(R,'M',Cye(['toom',2,{s:'toom'}]) )
-        }
     }
     #  ♲ ref
     me.Rlimito_ref = &acgtRc{
         me&Rthingo,R,ex(c,{sym:"♲"})
         $li = T.Mw
         $re = liy&sym
+        res&title = re.t
         # limit:l/ref:n
         # &Ereflookup c via selection
         $n = theone(c.N)
@@ -3025,16 +3017,13 @@ me.Sch_Story = &acgt{ return [
             ups > 1 and downs = ':'+downs.substr(1)
             location += downs
             # fuller description as tooltip
-            re.t += " "+k+":"+location
+            res&title += " "+k+":"+location
             
             # compress contiguations
             #  when as above, plus the same t
             # < exceptions want exclaiming -hat
             #   when we replace n.*.* to get attention
-            $p = Ry&up
-            $pl = p && ps&limit
-            $pn = pl && me&fiu,pl,'ref',8
-            $pc = pn && pnc&s
+            $pc = me&jaa,Ry&up,{Erefc:1,limit:'ref'},1 [0]
             $pg = pc && pc[k]
             if (pg) {
                 $wasdowns = g.downs.slice()
