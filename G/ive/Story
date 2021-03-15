@@ -2805,6 +2805,56 @@ me.Sch_Story = &acgt{ return [
             qua.ope and Rc&dl += 1
         }
     }
+    # @67 layout etc for all
+    me.Topping = &acgt{
+        $R = me&R
+        #me&Rlimits,R
+        Rc&ha and debugger
+        Rc&N.filter(r => rc&not) and debugger
+        each ir Rc&N {
+            me&ja,r,{limit:1} and me&Rlimito,r
+            me&ja,r,{toomuch:1} and me&Rtoomucho,r
+        }
+        # < generating weightiness
+        each ir Rc&N {
+            # R%M + R%Mw.* -> R%M, spaced
+            me&modulatM,r
+        }
+        $N = reverse(Rc&N)
+        each ir N {
+            # with shading, dis:1 or not
+            me&specialfx,r
+        }
+    }
+    # R%M + R%Mw.* -> R%M, spaced
+    me.modulatM = &acgtR{
+        $M = []
+        each in Rs&M {
+            M.push(n)
+        }
+        each win Rs&Mw {
+            ns&modt = w
+            M.push(n)
+        }}
+        me&cvdeal,M
+        vsortz(M)
+        Rs&M = M
+    }
+    # shading weight -> dis:1 or not
+    me.specialfx = &acgtR{
+        Rs&tiny and grepout(Rs&M,n => ns&modt == 'Pier')
+        $N = me&ioR,R
+        Rs&inline || hak(N) <= 1 and return
+        # < properly sizing it for:
+        $larger = N.filter(n => !ns&tiny)
+        !hak(larger) and return
+        each in N {
+            ns&inline and continue
+            $C = ns&C
+            s&dis = 1
+            s&ml = 1
+        }
+    }
     
   // &Rthingo, show %%limit|toomuch...** etc
     # @67 assigns signage about being R%toomuch**
@@ -3135,6 +3185,36 @@ me.Sch_Story = &acgt{ return [
         c.path = me.cby(c.E,E => Ec&top)
         ac(Rc&top,t,c)
     }
+   // o Rc&ha GOING
+        me.Rlimits = &acgtr{
+            !rc&ha and return
+            $upritN = {};
+            each tz rc&ha {
+                
+                typeof z != 'object' and continue
+                t == 'err' and continue
+                # write trouble next to each node
+                each in z {
+                nc&dubquiet || ns&dubquiet and continue
+                # R included are from Rc&refs/refR
+                # < may not be in our h/R pool, showing...
+                #   same Rc&s=objects near but not in this process
+                $M = me&Mw,n,'Mlimits';
+                $re =
+                m $t 1189 s:♲ %deco,fs:17,lh:0.3
+                $o = ns&refR[0];
+                # say where it originated
+                $nam = me&nampup,o,n;
+                if (ns&tiny) {
+                    res&hs = '499';
+                    re.t += '@'+nam
+                }
+                else {
+                    m $t 11892 $s:nam %deco,fs:7,hs:999
+                }
+                }
+            }
+        }
   // slope misc
     # proper R/*
     me.ioR = &acgtR{
@@ -3414,67 +3494,7 @@ me.Sch_Story = &acgt{ return [
     
     me.Pi_The = &acgt{ return [
        
-       // %Top back
-        &{
-        me.Rlimits = &acgtr{
-            !rc&ha and return
-            $upritN = {};
-            each tz rc&ha {
-                
-                typeof z != 'object' and continue
-                t == 'err' and continue
-                # write trouble next to each node
-                each in z {
-                nc&dubquiet || ns&dubquiet and continue
-                # R included are from Rc&refs/refR
-                # < may not be in our h/R pool, showing...
-                #   same Rc&s=objects near but not in this process
-                $M = me&Mw,n,'Mlimits';
-                $re =
-                m $t 1189 s:♲ %deco,fs:17,lh:0.3
-                $o = ns&refR[0];
-                # say where it originated
-                $nam = me&nampup,o,n;
-                if (ns&tiny) {
-                    res&hs = '499';
-                    re.t += '@'+nam
-                }
-                else {
-                    m $t 11892 $s:nam %deco,fs:7,hs:999
-                }
-                }
-            }
-        }
-        # R%M + R%Mw.* -> R%M, spaced
-        me.modulatM = &acgtR{
-            $M = []
-            each in Rs&M {
-                M.push(n)
-            }
-            each win Rs&Mw {
-                ns&modt = w
-                M.push(n)
-            }}
-            me&cvdeal,M
-            vsortz(M)
-            Rs&M = M
-        }
-        # shading weight -> dis:1 or not
-        me.specialfx = &acgtR{
-            Rs&tiny and grepout(Rs&M,n => ns&modt == 'Pier')
-            $N = me&ioR,R
-            Rs&inline || hak(N) <= 1 and return
-            # < properly sizing it for:
-            $larger = N.filter(n => !ns&tiny)
-            !hak(larger) and return
-            each in N {
-                ns&inline and continue
-                $C = ns&C
-                s&dis = 1
-                s&ml = 1
-            }
-        }
-        },
+       // %Top|%Pier back
         ['Pier',0.2,&acgtRs{
             me&Pieringi
         },'ift,D'],
@@ -3490,21 +3510,7 @@ me.Sch_Story = &acgt{ return [
         },'ift,D'],
         # for all, without Ringing around
         ['Top',0.67,&acgtRs{
-            me&Rlimits,R
-            each ir Rc&N {
-                me&ja,r,{limit:1} and me&Rlimito,r
-                me&ja,r,{toomuch:1} and me&Rtoomucho,r
-            }
-            # < generating weightiness
-            each ir Rc&N {
-                # R%M + R%Mw.* -> R%M, spaced
-                me&modulatM,r
-            }
-            $N = reverse(Rc&N)
-            each ir N {
-                # with shading, dis:1 or not
-                me&specialfx,r
-            }
+            me&Topping
         },'ift,D'],
         ['Top',0.9,&acgtRs{
             # disp
