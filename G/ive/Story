@@ -2810,7 +2810,7 @@ me.Sch_Story = &acgt{ return [
         $R = me&R
         #me&Rlimits,R
         Rc&ha and debugger
-        Rc&N.filter(r => rc&not) and debugger
+        hak(Rc&N.filter(r => rc&not)) and debugger
         each ir Rc&N {
             me&ja,r,{limit:1} and me&Rlimito,r
             me&ja,r,{toomuch:1} and me&Rtoomucho,r
@@ -2820,11 +2820,8 @@ me.Sch_Story = &acgt{ return [
             # R%M + R%Mw.* -> R%M, spaced
             me&modulatM,r
         }
-        $N = reverse(Rc&N)
-        each ir N {
-            # with shading, dis:1 or not
-            me&specialfx,r
-        }
+        Rc&N.map(r => me&specialfx1,r)
+        reverse(Rc&N).map(r => me&specialfx2,r)
     }
     # R%M + R%Mw.* -> R%M, spaced
     me.modulatM = &acgtR{
@@ -2840,8 +2837,30 @@ me.Sch_Story = &acgt{ return [
         vsortz(M)
         Rs&M = M
     }
+  
+  // R'The' specialfx
     # shading weight -> dis:1 or not
-    me.specialfx = &acgtR{
+    me.specialfx1 = &acgtR{
+        $C = Rs&C
+        !Rs&inlineable and return
+        $N = me&ioR
+        N.some(r => hak( me&ioR,r ) > 5) and return
+        delete Rs&Mw.Hash
+        # y, c, sc
+        #R.t == 'R' && Ry&up.t == 'y' and debugger
+        N.map(&r{
+            rs&toomuch and return
+            delete rs&Mw.Hash
+            delete rs&Mw.Pier
+            rs&inline = 1
+            $C = rs&C
+            Cs&pr = 0.3
+        })
+    }
+    # - hide brackets when tiny
+    # - block if no /*%inline|tiny
+    me.specialfx2 = &acgtR{
+        $C = Rs&C
         Rs&tiny and grepout(Rs&M,n => ns&modt == 'Pier')
         $N = me&ioR,R
         Rs&inline || hak(N) <= 1 and return
@@ -3566,7 +3585,7 @@ me.Sch_Story = &acgt{ return [
             Vy&TXing = EDs&aq
         },'ift,D'],
         
-       // -Spheres events look
+       //   -Spheres events look
         ['Spheres',0.22,&acgtRs{
             $E = Rs&E
             $r = sy&R
@@ -3580,6 +3599,14 @@ me.Sch_Story = &acgt{ return [
                 !isC(v) and continue
                 $n = me&Ei,{t:k,pi:'hat',s:v,dl:1}
             }
+            
+            
+            
+            
+            
+            
+            
+            
             # default D open
             fi&TXi,E,"Dope",{t:'D'},1
         },'ift,D'],
@@ -3852,21 +3879,7 @@ me.Sch_Story = &acgt{ return [
         },'ift,D'],
         ['Cish',0.263,&acgtRs{
             Rs&Hash = 1
-        },'ift,D'],
-        ['Cish',0.7,&acgtRs{
-            $N = me&ioR
-            N.some(r => hak( me&ioR,r ) > 5) and return
-            delete Rs&Mw.Hash
-            # y, c, sc
-            #R.t == 'R' && Ry&up.t == 'y' and debugger
-            N.map(&r{
-                rs&toomuch and return
-                delete rs&Mw.Hash
-                delete rs&Mw.Pier
-                rs&inline = 1
-                $C = rs&C
-                Cs&pr = 0.3
-            })
+            Rs&inlineable = 1
         },'ift,D'],
         ['Hash',0.263,&acgtRs{
             $D = Rs&D
