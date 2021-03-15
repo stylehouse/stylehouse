@@ -2672,22 +2672,25 @@ me.Sch_Story = &acgt{ return [
             # new J, normal mind
             c.task ||= 'Pi_The'
         }
-        
+        # 11 new
         $r = me&Ret,R,c
         
         if (c.Top) {
-            $h = Rc&N[0]
-            #ry&I = 1
             rc&N = []
             rc&d = 0
             rc&dl = 15
             rc&nl = 100
             delete rc&refR
             delete rc&refs
+            rc&top = r
+            # lets /Display** recycle Elements
+            me&arriveRbitX,r,r.t
         }
         ry&cv = 0
         $E = c.E
         E and tax(r.sc,E.c,'dupl,noref,inline')
+        
+        # 12
         # might already E
         me&CED,r
         
@@ -2698,28 +2701,34 @@ me.Sch_Story = &acgt{ return [
         Ec&pi ||= rs&Pier
         
         if (c.Top) {
+            # capsule of %TX
+            Ec&top = E
+            # transact Ec&X.ref
             me&Eref_begin,r,E
         }
         
-        # puts on tape or not
-        me&Rlimiti,r
-        
-        # is on tape or not
-        !c.Top and !Rc&N.includes(r) and rc&not = 1
+        # 13 puts on tape or not
+        me&Rlimiti,r and rc&N.push(r)
+        else {
+            c.Top and debugger
+            # weird space of having an r we never Ring
+            rc&not = 1
+        }
         
         return r
     }
     # 12 three spheres
     me.CED = &acgtR{
-        $p = Ry&up
-        
-        # D display
+        # C display
         $C = Rs&C = Cye([R.t,1])
         Cy&R = R
         
         # E itself, may be passed in
         $E = Rs&E ||= Cye([R.t,1])
         Ey&R = R
+        # E**
+        $p = Ry&up
+        ps&E and Ey&up = ps&E
         
         # D record
         $D = Rs&D = Cye([R.t,1])
@@ -2727,22 +2736,28 @@ me.Sch_Story = &acgt{ return [
         Dy&E = E
         Ey&D = D
         
-        # E**
-        ps&E and Ey&up = ps&E
-        Rs&Top and Ec&top = E
-        # all R have:
-        Rc&top ||= R
         # R%wou for brack
         me&haja
     }
-    # 2 arrive in R%Pier
-    me.Pieringi = &acgtR{
+    
+  // R'The' stylemo
+    # 3 realises R/r as E/e
+    # @2 arrive in R%Pier
+    me.Pieringi = &acgt{
         $R = me&R
-        $s = Rc&s
         $C = Rs&C
         $E = Rs&E
-        # config via Ec&*
+        $V = Rs&V
+        # E** happenings
+        
+        # outsphere provides travel
+        # i %TX/* o Troom
+        #  receives it here for E**
+        V && Vy&RXing and fi&RXi,E,Vy&RXing
+        
+        # light appetite
         Ec&dl and Rc&dl = Rc&d + Ec&dl
+        
         $p = Ry&up
         $pE = ps&E
         # note discontinuous $pi
@@ -2756,10 +2771,11 @@ me.Sch_Story = &acgt{ return [
 
         R.sc[Rs&Pier] = 1
     }
+    
     # 3
     # E remains given|base type
     # D shifts into that mind with R%-pi
-    #  supposing from-here R-ing
+    #  supposing from-here R-ing?
     #  ie descing order of immediacy
     # < mindwind or dome? fail over when X clash?
     #   re-&pio if already
@@ -2771,7 +2787,6 @@ me.Sch_Story = &acgt{ return [
         R.sc[pi] = 1
     }
     
-  // R'The' stylemo
     
   // &Rthingo, show %%limit|toomuch...** etc
     # @67 assigns signage about being R%toomuch**
@@ -2938,8 +2953,7 @@ me.Sch_Story = &acgt{ return [
         if (Rc&nl && Rc&N && Rc&nl < Rc&N.length) {
             me&ha,R,{limit:'nl',toomuch:1}
         }
-        
-        Rc&N.push(R)
+        return 1
     }
     # realises where $s was before
     me.Rlimiti_ref = &acgtRs{
@@ -3443,12 +3457,6 @@ me.Sch_Story = &acgt{ return [
             }
         }
         },
-        ['Top',0.12,&acgtRs{
-            # lets /Display** recycle Elements
-            me&arriveRbitX,R,R.t
-            # capsule of %TX
-            Rc&top = R
-        },'ift,D'],
         ['Top',0.67,&acgtRs{
             me&Rlimits,R
             each ir Rc&N {
@@ -3493,19 +3501,14 @@ me.Sch_Story = &acgt{ return [
         },'ift,D'],
         
        // &pio @254 ground finds trips
-        # i %TX/* o Troom
-        ['Top',0.21,&acgtRs{
-            # set TX
-            $E = Rs&E
-            $V = Rs&V
-            Vy&RXing and fi&RXi,E,Vy&RXing
-        },'ift,D'],
         # %TX awarenesses a point
         # dome suspicion
         ['Pier',0.264,&acgtRs{
             $E = Rs&E
             $M = fi&pio,E,{t:E.t,pi:Ec&pi,v:s}
+            
             !hak(M) and return
+            
             $t = me&Mwty,R,'Pier','At';
             ts&sha = '3 3 3 999'
             T.Mw = 'TX'
