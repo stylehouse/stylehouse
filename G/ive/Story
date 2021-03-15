@@ -2226,9 +2226,6 @@ me.Sch_Story = &acgt{ return [
         ac(R,'z',r)
         x.ro('noD') and rs&noDisplay = 1
         me&Ring,r
-        each iy rs&commit {
-            y ()
-        }
         
         # < &Yingbal each pool of:
         rs&matches && xy&go and me&nu,'matches',rs&matches
@@ -2771,22 +2768,43 @@ me.Sch_Story = &acgt{ return [
 
         R.sc[Rs&Pier] = 1
     }
-    
-    # 3
+    # @21
     # E remains given|base type
     # D shifts into that mind with R%-pi
-    #  supposing from-here R-ing?
-    #  ie descing order of immediacy
-    # < mindwind or dome? fail over when X clash?
-    #   re-&pio if already
-    #   leaving evidence for next life to test
     me.typeup = &acgtR,pi{
         $D = Rs&D
         $E = Rs&E
         Dc&pi = pi
+        #  supposing from-here R-ing?
+        #  ie desc order of immediacy
+        # < mindwind or dome? fail over when X clash?
+        #   re-&pio if already
+        #   leaving evidence for next life to test
         R.sc[pi] = 1
     }
-    
+    # @264 arrive ids (&pio)
+    me.Piero = &acgt{
+        $R = me&R
+        $E = Rs&E
+        $s = Rc&s
+        $M = fi&pio,E,{t:E.t,pi:Ec&pi,v:s}
+
+        !hak(M) and return
+
+        $t = me&Mwty,R,'Pier','At';
+        ts&sha = '3 3 3 999'
+        T.Mw = 'TX'
+        # is it the end of a Ting
+        $sym = M.some(aq => aqc&TX) ? '⇃' : '⥙'
+        # < modify this to click expand elvising trace
+        me&tc,"RX:"+joint(M),sym,'T'
+        me&attendios,'matches',{M}
+        each i,aq M {
+            $qua = aqs&qua
+            !qua and continue
+            qua.ope and Rc&dl += 1
+        }
+    }
     
   // &Rthingo, show %%limit|toomuch...** etc
     # @67 assigns signage about being R%toomuch**
@@ -3457,6 +3475,20 @@ me.Sch_Story = &acgt{ return [
             }
         }
         },
+        ['Pier',0.2,&acgtRs{
+            me&Pieringi
+        },'ift,D'],
+        # %TX awarenesses a point
+        # dome suspicion
+        ['Pier',0.264,&acgtRs{
+            me&Piero
+        },'ift,D'],
+        
+        # E/** expands, if not already
+        ['Pier',0.3,&acgtRs{
+            me&Eing
+        },'ift,D'],
+        # for all, without Ringing around
         ['Top',0.67,&acgtRs{
             me&Rlimits,R
             each ir Rc&N {
@@ -3473,54 +3505,27 @@ me.Sch_Story = &acgt{ return [
                 # with shading, dis:1 or not
                 me&specialfx,r
             }
-            
         },'ift,D'],
         ['Top',0.9,&acgtRs{
-            
             # disp
+            
+            
             s&dis = 1
             C.y.cv = 0.76
             me&walls,C,"b:2.2"
             me&scroll,28
+            
             if (!Rs&noDisplay) {
                 $d = me&Display,R,{prep:1}
                 
                 # < appears twice unless:
                 Rs&noDisplay = 1
             }
+            
             me&applyRbitX,R
-        },'ift,D'],
-        
-       // %Pier,C,E,D types @2, &Eing E/** @3
-        ['Pier',0.2,&acgtRs{
-            me&Pieringi
-        },'ift,D'],
-        # E/** expands, if not already
-        ['Pier',0.3,&acgtRs{
-            me&Eing
-        },'ift,D'],
-        
-       // &pio @254 ground finds trips
-        # %TX awarenesses a point
-        # dome suspicion
-        ['Pier',0.264,&acgtRs{
-            $E = Rs&E
-            $M = fi&pio,E,{t:E.t,pi:Ec&pi,v:s}
             
-            !hak(M) and return
-            
-            $t = me&Mwty,R,'Pier','At';
-            ts&sha = '3 3 3 999'
-            T.Mw = 'TX'
-            # is it the end of a Ting
-            $sym = M.some(aq => aqc&TX) ? '⇃' : '⥙'
-            # < modify this to click expand elvising trace
-            me&tc,"RX:"+joint(M),sym,'T'
-            me&attendios,'matches',{M}
-            each i,aq M {
-                $qua = aqs&qua
-                !qua and continue
-                qua.ope and Rc&dl += 1
+            each iy Rs&commit {
+                y ()
             }
         },'ift,D'],
         
@@ -3831,8 +3836,7 @@ me.Sch_Story = &acgt{ return [
                 }
                 else {
                     # stops recursion
-                    $ref = me&Ri,'%limit/tiny'
-                    me&Ri,'%limit/%toomuch'
+                    me&ha,R,{limit:'tiny',toomuch:1}
                 }
             }
             sym and me&typeup,R,'Cish'
