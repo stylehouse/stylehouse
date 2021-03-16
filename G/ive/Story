@@ -2797,7 +2797,8 @@ me.Sch_Story = &acgt{ return [
         # is it the end of a Ting
         $sym = M.some(aq => aqc&TX) ? '⇃' : '⥙'
         # < modify this to click expand elvising trace
-        me&tc,"RX:"+joint(M),sym,'T'
+        $t = me&tc,"RX:"+joint(M),sym,'T'
+        ty&cv = 0.28
         me&attendios,'matches',{M}
         each i,aq M {
             $qua = aqs&qua
@@ -2838,7 +2839,7 @@ me.Sch_Story = &acgt{ return [
         Rs&M = M
     }
   
-  // R'The' specialfx
+  // R'The'   specialfx
     # shading weight -> dis:1 or not
     me.specialfx1 = &acgtR{
         $C = Rs&C
@@ -2919,7 +2920,9 @@ me.Sch_Story = &acgt{ return [
             T.Mw = li
             $talk = c.t+": "+t
             $t = me&tc,talk,t,'b'
-            
+            # < conjoin a brackology here,
+            #   having already stated toomuch:not
+            ts&title = talk+" "+dis(N[0].sc)
         })
         
         # is also T.Mw - where &tc will be put
@@ -2928,8 +2931,8 @@ me.Sch_Story = &acgt{ return [
     }
    
   // %%limit
-    # cultivate R %%limit(,toomuch|/ref/...)
-    
+    # cultivate R %%limit:(ref|dl|nl|...)(,toomuch)?
+   // incurrence
     # @12
     me.Rlimiti = &acgtR{
         $C = Rs&C
@@ -2943,7 +2946,7 @@ me.Sch_Story = &acgt{ return [
         # < find bunch of these at a thing, to %TX anti-dl
         if (Rc&dl && Rc&dl < Rc&d) {
             me&ha,R,{limit:'dl',toomuch:1}
-            return
+            #return
         }
         if (Rc&nl && Rc&N && Rc&nl < Rc&N.length) {
             me&ha,R,{limit:'nl',toomuch:1}
@@ -3026,7 +3029,7 @@ me.Sch_Story = &acgt{ return [
         }
         c.any = c.self || c.other
     }
-    
+   // outsummation
     # @67 assigns signage about R%limit**
     me.Rlimito = &acgtR{
         $l = me&Rthingo,R,{t:'limit',cv:13}
