@@ -2644,7 +2644,7 @@ me.Sch_Story = &acgt{ return [
             
             # until
             if (many && i > many) {
-                me&Rti,'many',{s:'..'+hak(Es&z)}
+                me&ha,R,{limit:'many',s:'..'+hak(Es&z)}
                 break
             }
         }
@@ -2882,11 +2882,6 @@ me.Sch_Story = &acgt{ return [
         # 
     }
     
-    # sizes something, usu ope|interest for snoozing
-    self.sz = &nks{
-        $v = n.sc[k] || 0
-        return v < s
-    }
     # capsule, filler for %limit|%toomuch|...
     # defer to %limit if the only
     me.Rthingo = &acgtRc{
@@ -2930,93 +2925,6 @@ me.Sch_Story = &acgt{ return [
         # is also T.Mw - where &tc will be put
         return li
         #all && sz(l,'ope',1) and return l
-    }
-    
-    
-    me.nonlimitobject = &{
-        me&ioty,l .map(&n{
-            T.Mw = li
-            # names are minds, have time
-            if (me['R'+c.t+'o_'+n.t]) {
-                me['R'+c.t+'o_'+n.t](A,C,G,T,R,l,n)
-                # only that unless open
-                sz(n,'ope',2) and return
-            }
-            
-            # bit of thing.. almost capsule
-            T.Mw = li
-            $talk = c.t+": "+n.t
-            $t = me&tc,talk,n.t,'b'
-            ns&explained and me&tc,"Expl"+dis(ns&explained),'6y'
-            
-            if  (isst(nc&s)) {
-                # < text style, oppo to .t or %string
-                me&tc,talk+".s",nc&s,'y'
-            }
-            elsif (nc&s != null) {
-                # might be a /$n
-                me&tc,talk+"&s",dis(nc&s),'y'
-            }
-            me&ioty,n .map(&e{
-                # probably an E/e avoided
-                $en = me&tc,t,"/$n="+e.t,e.t,'6d'
-                ens&ma = 0.1
-                ns&explained and me&tc,en,"Expl"+dis(ns&explained),'6y'
-                
-            })
-        })
-    }
-    me.nonexplaining = &{
-        # making a tiny version of it
-        # compress
-        $explain = &nt{
-            # may explain 
-            $talk = n.t+" explains "+t.t
-            li.t += "  "+talk+"  "
-            ac(t,'explained',n)
-        }
-        me&ioty,l .map(&n{
-            $N = ns&explains
-            !N and return
-            each it N {
-                me&ioty,l .map(&g{
-                    g == t and explain(n,g)
-                    $all = 1
-                    $any = 0
-                    me&ioty,g .map(&m{
-                        m == t and explain(n,m)
-                        !ms&explained and all = 0
-                        any = 1
-                    })
-                    if (any && all) {
-                        # a whole thing is explained
-                        $N = []
-                        me&ioty,g .map(m => ms&explained)
-                            .map(expl => expl && N.push(...expl))
-                        N = uniq(N)
-                        N.map(&n{
-                            # can be another n
-                            explain(n,g)
-                        })
-                    }
-                })
-            }
-        })
-        $N = me&ioty,l
-        $allexpl = 1
-        $anyexpl = 0
-        me&ioty,l .map(&n{
-            !(ns&explains || ns&explained) and allexpl = 0
-            anyexpl = 1
-        })
-        
-        $all = allexpl && anyexpl
-        # all explained, hide what-is
-        all and li.t += " (all %explain)"
-        else
-        anyexpl and li.t += " (some %explain)"
-        
-        re and re.t += li.t
     }
    
   // %%limit
@@ -3095,7 +3003,10 @@ me.Sch_Story = &acgt{ return [
         if (c.almost) {
             # even a partial do-over is self here
             # < Self, where lines are traced back
-            !c.self and me&tc,"no-full"
+            # ! while we &PiRet 12, pre-Ringing
+            #   this modulat goes into the above R
+            !c.self and me&tc,R.t+":no-full",'6y'
+            c.self ||= c.almost
             #throw "no finding full thing"
         }
         # care
@@ -3436,6 +3347,12 @@ me.Sch_Story = &acgt{ return [
         }
     }
    // data
+    # for (qua||0) < 2
+    # sizes something, usu ope|interest for snoozing
+    self.sz = &nks{
+        $v = n.sc[k] || 0
+        return v < s
+    }
     # hash partition array by return value of y(n)
     # returns {ks:[keys],vs:[values]}
     #  because of how javascript (v8) stores properties & elements
