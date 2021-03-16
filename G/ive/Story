@@ -2660,29 +2660,12 @@ me.Sch_Story = &acgt{ return [
     }
     # 1 r = E/** while &Eing
     me.PiRet = &acgtRc{
-        # < &Rti,'nofurther' in %toomuch - displayed
-        Rc&nofurther and me&tc,"nofurther"; return
-        # spreads base type, or Ec&pi @2
-        c.Pier ||= Rs&Pier || 'blank'
+        # GOING
+        Rc&nofurther and me&ha,R,"toomuch:nofurther"; return
         
-        if (c.Top) {
-            # new J, normal mind
-            c.task ||= 'Pi_The'
-        }
         # 11 new
         $r = me&Ret,R,c
         
-        if (c.Top) {
-            rc&N = []
-            rc&d = 0
-            rc&dl = 15
-            rc&nl = 100
-            delete rc&refR
-            delete rc&refs
-            rc&top = r
-            # lets /Display** recycle Elements
-            me&arriveRbitX,r,r.t
-        }
         ry&cv = 0
         $E = c.E
         E and tax(r.sc,E.c,'dupl,noref,inline')
@@ -2690,28 +2673,13 @@ me.Sch_Story = &acgt{ return [
         # 12
         # might already E
         me&CED,r
+        # R%wou for brack
+        # < should be E%X?
+        me&haja,r
         
-        $C = rs&C
-        $E = rs&E
-        # Ec&pi provided over %Pier inherited
-        Ec&pi and rs&Pier = Ec&pi
-        Ec&pi ||= rs&Pier
-        
-        if (c.Top) {
-            # capsule of %TX
-            Ec&top = E
-            # transact Ec&X.ref
-            me&Eref_begin,r,E
-        }
-        
-        # 13 puts on tape or not
-        me&Rlimiti,r and rc&N.push(r)
-        else {
-            c.Top and debugger
-            # weird space of having an r we never Ring
-            rc&not = 1
-        }
-        
+        # main act, pre-&Ring
+        me&Pieringo,R,r,c
+        # to &Eing
         return r
     }
     # 12 three spheres
@@ -2732,13 +2700,53 @@ me.Sch_Story = &acgt{ return [
         Dy&R = R
         Dy&E = E
         Ey&D = D
-        
-        # R%wou for brack
-        me&haja
     }
     
   // R'The' stylemo
     # 3 realises R/r as E/e
+    
+    # @13 from &Eing, pre-&Ring
+    me.Pieringo = &acgtRrc{
+        $C = rs&C
+        $E = rs&E
+        
+        # spreads base type, or Ec&pi @2
+        rs&Pier ||= Rs&Pier || 'blank'
+        # Ec&pi provided over %Pier inherited
+        Ec&pi and rs&Pier = Ec&pi
+        Ec&pi ||= rs&Pier
+        
+        if (c.Top) {
+            rc&N = []
+            rc&d = 0
+            rc&dl = 15
+            rc&nl = 100
+            delete rc&refR
+            delete rc&refs
+            rc&top = r
+            # lets /Display** recycle Elements
+            me&arriveRbitX,r,r.t
+            # new J, normal mind
+            rs&task ||= 'Pi_The'
+            # capsule of %TX
+            Ec&top = E
+            # transact Ec&X.ref
+            me&Eref_begin,r,E
+        }
+        else {
+            #delete Rc&X
+            #delete Rc&V
+        }
+        
+        # 13 puts on tape or not
+        me&Rlimiti,r and rc&N.push(r)
+        else {
+            c.Top and debugger
+            # weird space of having an r we never Ring
+            rc&not = 1
+        }
+    }
+    
     # @2 arrive in R%Pier
     me.Pieringi = &acgt{
         $R = me&R
@@ -2768,7 +2776,8 @@ me.Sch_Story = &acgt{ return [
 
         R.sc[Rs&Pier] = 1
     }
-    # @21
+    
+    # @21 spawn|mutate E**
     # E remains given|base type
     # D shifts into that mind with R%-pi
     me.typeup = &acgtR,pi{
