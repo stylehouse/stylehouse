@@ -2791,6 +2791,7 @@ me.Sch_Story = &acgt{ return [
         #   leaving evidence for next life to test
         R.sc[pi] = 1
     }
+    
     # @264 arrive ids (&pio)
     me.Piero = &acgt{
         $R = me&R
@@ -2815,15 +2816,25 @@ me.Sch_Story = &acgt{ return [
             qua.ope and Rc&dl += 1
         }
     }
+    
+    # magic words in brack engage, like Ring
+    # globalised pseudo-Ringing parts of Ringing
+    # < get eg bracki %%...limit... to note R%limit
+    
     # @67 layout etc for all
     me.Topping = &acgt{
         $R = me&R
         #me&Rlimits,R
         Rc&ha and debugger
         hak(Rc&N.filter(r => rc&not)) and debugger
+        
+        $magic_words = ['limit','toomuch']
         each ir Rc&N {
-            me&ja,r,{limit:1} and me&Rlimito,r
-            me&ja,r,{toomuch:1} and me&Rtoomucho,r
+            each it magic_words {
+                # calls &Rlimito, etc, in order
+                $N = me&ja,r,t
+                N && me&mecy,['R',t,'o'],r,{N}
+            }
         }
         # < generating weightiness
         each ir Rc&N {
@@ -2833,7 +2844,9 @@ me.Sch_Story = &acgt{ return [
         Rc&N.map(r => me&specialfx1,r)
         reverse(Rc&N).map(r => me&specialfx2,r)
     }
-    # R%M + R%Mw.* -> R%M, spaced
+  
+  // R'The'   specialfx
+    # R%M += R%Mw/T.act.t|$dome/$modulat**
     me.modulatM = &acgtR{
         $M = []
         each in Rs&M {
@@ -2843,12 +2856,11 @@ me.Sch_Story = &acgt{ return [
             ns&modt = w
             M.push(n)
         }}
+        # spatialises, on tv
         me&cvdeal,M
         vsortz(M)
         Rs&M = M
     }
-  
-  // R'The'   specialfx
     # shading weight -> dis:1 or not
     me.specialfx1 = &acgtR{
         $C = Rs&C
@@ -2887,17 +2899,50 @@ me.Sch_Story = &acgt{ return [
     
   // &Rthingo, show %%limit|toomuch...** etc
     # @67 assigns signage about being R%toomuch**
-    me.Rtoomucho = &acgtR{
-        me&Rthingo,R,{t:'toomuch',sym:"⦄",cv:25}
-        # 
+    me.Rtoomucho = &acgtRc{
+        $c = {t:'toomuch',sym:"⦄",cv:25}
+        c.N ||= me&ja,R,c.t
+        
+        # the %limit magic may reduce %toomuch-ness to sym
+        $known = &n{
+            # only limit caused toomuch
+            return me&hal,n,'limit,toomuch'
+                # only toomuch causing Eing stoppage
+                || me&hal,n,'toomuch:limit,E'
+        }
+        
+        $simple = !c.N.some(n => !known(n))
+        simple and c.ov = 0.1
+        
+        me&Rthingo,R,c
+        simple and me&tc,'simp','6y'
+    }
+    # match brack row with order
+    me.hal = &acgtnc{
+        c = peel(c)
+        $all = 1
+        each tv c {
+            !hak(n.sc[t]) and return 0
+            v != 1 && n.sc[t] != v and return 0
+        }
+        return 1
+    }
+    me.mecy = &acgtl{
+        $y = me[l.join('')]
+        !y and return
+        return y && y (A,C,G,T,...[...arguments].slice(5))
     }
     
     # capsule, filler for %limit|%toomuch|...
+    # < togcon port
     # defer to %limit if the only
     me.Rthingo = &acgtRc{
         $C = Rs&C
+        c.N ||= me&ja,R,c.t
         # plant in R, otherwise T.Mw=overthingo
-        !c.subthingo and T.Mw = c.t
+        !c.up and T.Mw = c.t
+        # < arrive togcon
+        c.ov ||= 0.2
         
         # make capsule here
         $li = me&tc,c.t+'-cap'
@@ -2915,16 +2960,23 @@ me.Sch_Story = &acgt{ return [
             liy&sym = re
         }
         
-        # eg %%limit=ref
-        uniq( me&jaa,R,hashkv(c.t),1 ) .map(&t{
-            $N = me&jaa,R,hashkv(c.t,t)
+        sz(c.ov,0.2) and return li
+        
+        # group by the %%limit
+        # < partN key=object unsafe
+        $h = partN(c.N,n => n.sc[c.t])
+        # < group by the next most groupey thing
+        h.one && c.up and h = partN(c.N,n => n.sc[c.up.t])
+        
+        each it h.ks {
+            $N = h.vs[i]
             T.Mw = li
-            # names are minds, have time
-            if (me['R'+c.t+'o_'+t]) {
-                $subth = {t,subthingo:1,N}
-                me['R'+c.t+'o_'+t](A,C,G,T,R,subth)
-                # only that unless open
-                1 || sz(n,'ope',2) and return
+            $was = me&mecy,['R',c.t,'o_',t],R,{t,up:c,N}
+            # call $magicword/$ghostkey
+            #  names are minds, have time
+            if (was ) {
+                # only that unless opened
+                1 || sz(c.ov,0.3) and continue
             }
             T.Mw = li
             $talk = c.t+": "+t
@@ -2932,7 +2984,7 @@ me.Sch_Story = &acgt{ return [
             # < conjoin a brackology here,
             #   having already stated toomuch:not
             ts&title = talk+" "+dis(N[0].sc)
-        })
+        }
         
         # is also T.Mw - where &tc will be put
         return li
@@ -2940,7 +2992,9 @@ me.Sch_Story = &acgt{ return [
     }
    
   // %%limit
-    # cultivate R %%limit:(ref|dl|nl|...)(,toomuch)?
+    # cultivate R %%limit:(ref|dl|nl|...)
+    #  adding %toomuch stops E**
+    #   an acute case of dimming light, ending thing
    // incurrence
     # @12
     me.Rlimiti = &acgtR{
@@ -3045,7 +3099,7 @@ me.Sch_Story = &acgt{ return [
     }
     #  ♲ ref
     me.Rlimito_ref = &acgtRc{
-        me&Rthingo,R,ex(c,{sym:"♲"})
+        me&Rthingo,R,ex(c,{sym:"♲",ov:0.1})
         $li = T.Mw
         $re = liy&sym
         res&title = re.t
@@ -3103,7 +3157,8 @@ me.Sch_Story = &acgt{ return [
             tes&fs = 7
         })
         
-        lis&tiny and return
+        # change to c.ov < 3, 3 if auto 0.3
+        lis&tiny and return 1
         
         $total = hak(c.got) + 1
         if (total > 2) {
@@ -3111,6 +3166,7 @@ me.Sch_Story = &acgt{ return [
             $talk = 'x'+says+', ...'
             me&tc,talk,says,'7y'
         }
+        return 1
     }
   // %%other
    // < R%strange/** @2 # schema goes
@@ -3362,8 +3418,8 @@ me.Sch_Story = &acgt{ return [
     # for (qua||0) < 2
     # sizes something, usu ope|interest for snoozing
     self.sz = &nks{
-        $v = n.sc[k] || 0
-        return v < s
+        $v = !isob(v) ? v : n.sc[k]
+        return (v || 0) < s
     }
     # hash partition array by return value of y(n)
     # returns {ks:[keys],vs:[values]}
@@ -3378,21 +3434,56 @@ me.Sch_Story = &acgt{ return [
     self.partN = &Nyc{
         c ||= {}
         $h = {}
+        $ref = []
+        $refs = []
+        # bunch of naming and N
+        #  of -Eel Xc - point naming particles...
+        $bund = []
         each in N {
             $k = y (n)
-            h[k] ||= []
-            h[k].push(n)
+            if (isob(k)) {
+                $v = k
+                # lifted from Fish &Xsim c.array
+                # index objects in an array
+                $vi = refs.indexOf(v)
+                if (vi < 0) {
+                    vi = refs.push(v)-1
+                    bund.push({i:vi})
+                    ref[vi] = []
+                }
+                # < could pile up next $i
+                #   for seq looking
+                ref[vi].push(n)
+            }
+            else {
+                if (!h[k]) {
+                    bund.push({t:k})
+                    h[k] ||= []
+                }
+                h[k].push(n)
+            }
         }
         # structure for definitely ordered keys
         # < inc order of the above asignment, with no sort
-        $a = {ks:[],ki:{},vs:[]}
-        $keys = haks(h)
-        c.vsort and vsortz(keys,k=>k)
-        each ik keys {
-            $i = a.ki[k]
-            null == i and i = a.ki[k] = a.ks.push(k)-1
-            a.vs[i] = h[k]
+        $a = {ks:[],vs:[]}
+        # we would only sort by non-objects
+        #  add 0 onto defor args for partitioning by null
+        c.vsort and vsortz(bund,Xc => defor(Xc.t,0))
+        each i,Xc bund {
+            if (Xc.t == null) {
+                # keyed by object
+                $k = refs[Xc.i]
+                $N = ref[Xc.i]
+            }
+            else {
+                $k = Xc.t
+                $N = h[Xc.t]
+            }
+            a.ks.push(k)
+            a.vs.push(N)
         }
+        a.vs.length == 1 and a.one = 1
+        # curve, etc
         return a
     }
     # c.t may say $t-$pi
