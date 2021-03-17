@@ -2652,10 +2652,10 @@ me.Sch_Story = &acgt{ return [
             ey&R != null and continue
             ey&R = 0
             # stop R recursion when a limit is toomuch
-            $stop = me&ja,R,{limit:1,toomuch:1}
+            $stop = me&Ro,{limit:1,toomuch:1}
             # < %TX.unstop'd out of the shadow
             if (stop) {
-                me&ha,R,{toomuch:'limit',E:e}
+                me&Ri,{toomuch:'limit',E:e}
                 continue
             }
             else {
@@ -2665,11 +2665,11 @@ me.Sch_Story = &acgt{ return [
                 ey&R == 0 and debugger
             }
             # not @1
-            !r || rc&not and me&ha,R,{toomuch:'not',E:e}
+            !r || rc&not and me&Ri,{toomuch:'not',E:e}
 
             # until
             if (many && i > many) {
-                me&ha,R,{limit:'many',s:'..'+hak(Es&z)}
+                me&Ri,{limit:'many',s:'..'+hak(Es&z)}
                 break
             }
         }
@@ -2854,12 +2854,33 @@ me.Sch_Story = &acgt{ return [
         Rc&ha and debugger
         hak(Rc&N.filter(r => rc&not)) and debugger
         
-        $magic_words = ['limit','toomuch']
+        # < thingi, when notes merge onto parents
+        #   could be earlier, sublate /* &Rthingo if simple
         each ir Rc&N {
-            each it magic_words {
+            $N = me&ioR,r
+            $too = N.filter(r => rs&limit)
+            if (hak(too) > hak(N)*0.5) {
+                # notice lots of children getting a %limit
+                $h = {}
+                too.map(&r{
+                    rs&limit.map(n => ac(h,ns&limit,r))
+                })
+                each t,hN h {
+                    hak(hN) < hak(N)*0.5 and continue
+                    $sc = {super:'limit',limit:'dl'}
+                    me&Ri,r,sc
+                    hN.map(r => rs&thingov = 0.1)
+                }
+            }
+        }
+        
+        # generate thingo
+        each ir Rc&N {
+            each kv me.magic {
+                # magic brack listed here on &Ri
+                $N = r.sc[k]
                 # calls &Rlimito, etc, in order
-                $N = me&ja,r,t
-                N && me&mecy,['R',t,'o'],r,{N}
+                N && me&mecy,['R',k,'o'],r,{N}
             }
         }
         # < generating weightiness
@@ -2922,12 +2943,42 @@ me.Sch_Story = &acgt{ return [
             s&ml = 1
         }
     }
-    
+  
+  // &Ri|o - magic-aware brack...
+    # < brack at e, then give it to R when alive, or always on E?
+    me.Rioing = &acgtr{
+        $args = [...arguments].slice(4)
+        isR(r) and args.shift()
+        else r = 0
+        R = r || me&R
+        $c = {R,args}
+        return c
+    }
+    # for &Ri,'limit:ref' -> &ha,... + R%limit=[]
+    me.magic = {}
+    me.magic.limit = {}
+    me.magic.toomuch = {}
+    me.Ri = &acgt{
+        $c = me&Rioing,...[...arguments].slice(4)
+        $n = me&ha,c.R,...c.args
+        each kv me.magic {
+            n.sc[k] and ac(R,k,n)
+        }
+        return n
+    }
+    me.Ro = &acgt{
+        $c = me&Rioing,...[...arguments].slice(4)
+        $N = me&ja,c.R,...c.args
+        return N
+    }
+    me.Roo = &acgt{
+        return me&Ro,...[...arguments].slice(4) || []
+    }
   // &Rthingo, show %%limit|toomuch...** etc
     # @67 assigns signage about being R%toomuch**
     me.Rtoomucho = &acgtRc{
         $c = {t:'toomuch',sym:"⦄",cv:25}
-        c.N ||= me&ja,R,c.t
+        c.N ||= me&Ro,R,c.t
         
         # the %limit magic may reduce %toomuch-ness to sym
         $known = &n{
@@ -2943,7 +2994,7 @@ me.Sch_Story = &acgt{ return [
         
         $li = T.Mw
         $re = liy&sym
-        $blockE = me&ja,R,'toomuch,E'
+        $blockE = me&Ro,'toomuch,E'
         if (!blockE) {
             res&fs = 9
         } 
@@ -2958,7 +3009,7 @@ me.Sch_Story = &acgt{ return [
     # defer to %limit if the only
     me.Rthingo = &acgtRc{
         $C = Rs&C
-        c.N ||= me&ja,R,c.t
+        c.N ||= me&Ro,c.t
         # plant in R, otherwise T.Mw=overthingo
         !c.up and T.Mw = c.t
         # < arrive togcon
@@ -3013,6 +3064,8 @@ me.Sch_Story = &acgt{ return [
             # < conjoin a brackology here,
             #   having already stated toomuch:not
             ts&title = talk+" "+dis(N[0].sc)
+            hak(N.filter(n => ns&super)) &&
+                me&tc,'super-','*','y'
         }
         
         # is also T.Mw - where &tc will be put
@@ -3036,11 +3089,11 @@ me.Sch_Story = &acgt{ return [
         # sprawl limits
         # < find bunch of these at a thing, to %TX anti-dl
         if (Rc&dl && Rc&dl < Rc&d) {
-            me&ha,R,{limit:'dl',toomuch:1}
+            me&Ri,{limit:'dl',toomuch:1}
             #return
         }
         if (Rc&nl && Rc&N && Rc&nl < Rc&N.length) {
-            me&ha,R,{limit:'nl',toomuch:1}
+            me&Ri,{limit:'nl',toomuch:1}
         }
         return 1
     }
@@ -3059,7 +3112,7 @@ me.Sch_Story = &acgt{ return [
             $lim = {limit:'ref',Erefc:c}
             # linkably close self, no more E/e
             c.near and lim.toomuch = 1
-            me&ha,R,lim
+            me&Ri,lim
         }
         
         # note this time
@@ -3083,7 +3136,7 @@ me.Sch_Story = &acgt{ return [
             if (ec&pi != Ec&pi) {
                 c.other ||= g
             }
-            elsif ( me&ja,r,{toomuch:1} || Rs&tiny ) {
+            elsif ( me&Ro,r,{toomuch:1} || Rs&tiny ) {
                 c.almost ||= g
                 # find fuller further rendition
             }
@@ -3099,7 +3152,7 @@ me.Sch_Story = &acgt{ return [
             # < Self, where lines are traced back
             # ! while we &PiRet 12, pre-Ringing
             #   this modulat goes into the above R
-            !c.self and me&ha,R,'limit:ref,oddity:no-full'
+            !c.self and me&Ri,'limit:ref,oddity:no-full'
             c.self ||= c.almost
             #throw "no finding full thing"
         }
@@ -3256,14 +3309,6 @@ me.Sch_Story = &acgt{ return [
   
   // slope io: &Rsci + dialects
    // dialects
-    # for &Ri,'%subject/atom',c
-    me.Ri = &acgtscq{
-        return me&Rsci,s,c,q
-    }
-    me.Ro = &acgtscq{
-        c = ex(c||{},{el:8})
-        return me&Ri,s,c,q
-    }
     # not readable?
     me.Rli = &acgtscq{
         c = ex(c||{},{gk:'limit'})
