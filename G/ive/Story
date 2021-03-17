@@ -2907,26 +2907,32 @@ me.Sch_Story = &acgt{ return [
         $known = &n{
             # only limit caused toomuch
             return me&hal,n,'limit,toomuch'
-                # only toomuch causing Eing stoppage
+                # toomuch caused only Eing stoppage
                 || me&hal,n,'toomuch:limit,E'
         }
-        
         $simple = !c.N.some(n => !known(n))
         simple and c.ov = 0.1
         
         me&Rthingo,R,c
-        simple and me&tc,'simp','6y'
     }
     # match brack row with order
     me.hal = &acgtnc{
         c = peel(c)
-        $all = 1
+        # check it has them
         each tv c {
-            !hak(n.sc[t]) and return 0
+            !hak(n.sc,t) and return 0
             v != 1 && n.sc[t] != v and return 0
+        }
+        # check order
+        $ks = haks(c)
+        each kv n.sc {
+            !hak(c,k) and continue
+            $be = ks.shift()
+            be != k and return 0
         }
         return 1
     }
+    # compose (concat l) name for and call me function
     me.mecy = &acgtl{
         $y = me[l.join('')]
         !y and return
@@ -2934,6 +2940,7 @@ me.Sch_Story = &acgt{ return [
     }
     
     # capsule, filler for %limit|%toomuch|...
+    # c.notes going to sym%title
     # < togcon port
     # defer to %limit if the only
     me.Rthingo = &acgtRc{
@@ -2971,12 +2978,11 @@ me.Sch_Story = &acgt{ return [
         each it h.ks {
             $N = h.vs[i]
             T.Mw = li
-            $was = me&mecy,['R',c.t,'o_',t],R,{t,up:c,N}
             # call $magicword/$ghostkey
             #  names are minds, have time
-            if (was ) {
+            if (me&mecy,['R',c.t,'o_',t],R,{t,up:c,N} ) {
                 # only that unless opened
-                1 || sz(c.ov,0.3) and continue
+                sz(c.ov,0.3) and continue
             }
             T.Mw = li
             $talk = c.t+": "+t
@@ -2988,7 +2994,6 @@ me.Sch_Story = &acgt{ return [
         
         # is also T.Mw - where &tc will be put
         return li
-        #all && sz(l,'ope',1) and return l
     }
    
   // %%limit
@@ -3417,9 +3422,9 @@ me.Sch_Story = &acgt{ return [
    // data
     # for (qua||0) < 2
     # sizes something, usu ope|interest for snoozing
-    self.sz = &nks{
-        $v = !isob(v) ? v : n.sc[k]
-        return (v || 0) < s
+    self.sz = &ns{
+        isob(n) and throw "pass value||null"
+        return (n || 0) < s
     }
     # hash partition array by return value of y(n)
     # returns {ks:[keys],vs:[values]}
