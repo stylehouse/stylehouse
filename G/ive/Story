@@ -2626,17 +2626,27 @@ me.Sch_Story = &acgt{ return [
         return e
     }
     # 2 E/** sync, Ringing, in or out of time
-    # repeatedly applies E/* to PiRet
+    # repeatedly 
     me.Eing = &acgtc{
+        # you must have the correct C to me&R:
         $R = me&R
-        $s = Rc&s
-        $D = Rs&D
         $E = Rs&E
-        $C = Rs&C
-        
-        Es&z and vsortz(Es&z)
-        $many = hak(Es&z) > 30 ? 20 : 0
         # @13 a bunch
+        # < Babz Es&z[-1]
+        $la = Es&z && Es&z.slice(-1)[0]
+        if (Es&z || la && lay&R == null) {
+            me&Eing_bunch,R,c
+        }
+        # @2, etc
+        if (c) {
+            return me&Eing_Ring,R,c
+        }
+    }
+    me.Eing_bunch = &acgtRc{
+        $E = Rs&E
+        # applies E/* to PiRet, creating R%Pier@13
+        vsortz(Es&z)
+        $many = hak(Es&z) > 30 ? 20 : 0
         each ie Es&z {
             # create R
             ey&R != null and continue
@@ -2656,22 +2666,23 @@ me.Sch_Story = &acgt{ return [
             }
             # not @1
             !r || rc&not and me&ha,R,{toomuch:'not',E:e}
-            
+
             # until
             if (many && i > many) {
                 me&ha,R,{limit:'many',s:'..'+hak(Es&z)}
                 break
             }
         }
-        # @2, etc
-        if (c) {
-            num(c) and c = {ov:c}
-            c.ov = scaf(c.ov)
-            me&Ring,R,{inside:R,ov:c.ov}
-            $allok = !me&ja,R,{toomuch:1}
-                && !hak(me&ioR .filter(r => rs&strange))
-            return allok
-        }
+    }
+    me.Eing_Ring = &acgtRc{
+        num(c) and c = {ov:c}
+        c.ov = scaf(c.ov)
+        
+        me&Ring,R,{inside:R,ov:c.ov}
+        
+        $allok = !me&ja,R,{toomuch:1}
+            && !hak(me&ioR .filter(r => rs&strange))
+        return allok
     }
     # 1 r = E/** while &Eing
     me.PiRet = &acgtRc{
@@ -2949,8 +2960,19 @@ me.Sch_Story = &acgt{ return [
         delete lic&s
         $hu = (""+liy&cv).substr(-1)
         me&walls,li,'bd:1.4,hu:'+hu
+        
         # move into it
+        if (0) {
+        $lip = T.Mw
+        if (isC(lip) && lipc&thing) {
+            liy&up = lip
+            lis&title = lipc&thing.t+'/'+li.t
+        }
+        lic&thing = c
+        }
         T.Mw = li
+        
+        # sym
         if (c.sym) {
             $re = me&tc,c.t+'-sym',c.sym,c.symc||'b'
             rec&s = c.sym || ""
@@ -3201,9 +3223,12 @@ me.Sch_Story = &acgt{ return [
         }
   // slope misc
     # proper R/*
-    me.ioR = &acgtR{
-        R ||= me&R
-        return me&ioty,R
+    me.ioR = &acgtr{
+        $args = [...arguments].slice(4)
+        isR(r) and args.shift()
+        else r = 0
+        R = r || me&R
+        return me&ioty,R,...args
             .filter(r => rc&N.includes(r) && !rc&not)
     }
     me.Rnodepath = &acgtR{
@@ -3600,15 +3625,21 @@ me.Sch_Story = &acgt{ return [
             $N = Vy&Todo ||= []
             # < hold any with Ting
             $c = me&Nserial,N,{gk:'Bati',ll:5}
+            $latest
             each ie c.back {
-                $n = me&Ei,{t:es&Bati,pi:'Bet',s:e,i}
-                c.neu.includes(e) and nc&el = 2
-                # < selected one
-                0 == i and me&Ei,{t:'sel',pi:'Spheres',s:n,i}
+                $eB = me&Ei,{t:es&Bati,pi:'Bet',s:e,i}
+                latest ||= eB
+                c.neu.includes(e) and eBc&el = 2
+                # < togs all come from somewhere
+                #   this be a click path baked to [0]
+                #i == 0 and eBs&ope = 2
             }
+            me&Eing,6
+            # < select one as above.
+            me&Ei,{t:'sel',pi:'Spheres',s:latest}
             
             me&Eing,6
-            $N = me&ioty,R,'Bet'
+            $N = me&ioR,'Bet'
             $n = me&Ei,{t:'Eel',pi:'Eel',s:N,dl:9}
             
             me&Eing,6
@@ -3619,8 +3650,11 @@ me.Sch_Story = &acgt{ return [
        //   -Spheres events look
         ['Spheres',0.22,&acgtRs{
             $E = Rs&E
+            # s is an E-Bet to look at
             $r = sy&R
             !isR(r) || !rs&Bet and debugger
+            s != rs&E and debugger
+            
             $Belt = me&ioty,r,'Belt','tow' [0]
             $Bits = me&ioty,Belt,'Bit'
             $Bit = Bits.filter(r => rs&isR).slice(-1)[0]
