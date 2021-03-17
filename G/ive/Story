@@ -2957,6 +2957,7 @@ me.Sch_Story = &acgt{ return [
             res&fs = 17
             res&lh = 0.3
             liy&sym = re
+            res&title = re.t
         }
         
         sz(c.ov,0.2) and return li
@@ -3047,7 +3048,7 @@ me.Sch_Story = &acgt{ return [
             $r = g.n
             $e = rs&E
             # find the last
-            # < many %%self:g,qua until satisfied
+            # < many %%limit,Erefg,qua until satisfied
             #   iterating Ereflookup
             if (ec&pi != Ec&pi) {
                 c.other ||= g
@@ -3068,7 +3069,7 @@ me.Sch_Story = &acgt{ return [
             # < Self, where lines are traced back
             # ! while we &PiRet 12, pre-Ringing
             #   this modulat goes into the above R
-            !c.self and me&tc,R.t+":no-full",'6y'
+            !c.self and me&ha,R,'limit:ref,oddity:no-full'
             c.self ||= c.almost
             #throw "no finding full thing"
         }
@@ -3096,21 +3097,26 @@ me.Sch_Story = &acgt{ return [
     }
     #  ♲ ref
     me.Rlimito_ref = &acgtRc{
-        me&Rthingo,R,ex(c,{sym:"♲",ov:0.1})
+        me&Rthingo,R,ex(c,{sym:"♲",ov:0.12})
         
         $li = T.Mw
         $re = liy&sym
-        res&title = re.t
         # limit:l/ref:n
         # &Ereflookup c via selection
+        grepout(c.N,n => ns&oddity).map(&n{
+            res&title += "("+ns&oddity+")"
+            me&tc,"oddities","!",'6g'
+        })
         $n = theone(c.N)
-        $c = ns&Erefc
+        $Erefc = ns&Erefc
         
         $types = ['self','other']
         types.map(&k{
-            $g = c[k]
+            $g = Erefc[k]
             !g and return
+            
             $r = g.n
+            # < ups~downs over an area
             $location = me&Eref_got_pointer,g
             # fuller description as tooltip
             res&title += " "+k+":"+location
@@ -3126,19 +3132,19 @@ me.Sch_Story = &acgt{ return [
                 $newdown = wasdowns.pop()
                 if (heq(wasdowns,pg.downs) && newdown.t == r.t) {
                     # we C%limit/y%limit, just symbol
-                    return lis&tiny = 1
+                    c.ov = 0.11
                 }
             }
             
             $te = me&tc,location
             
             tes&deco = 1
-            tes&hs = '999'
+            tes&hs = k == 'self' ? '999' : '888'
             tes&fs = 7
         })
         
         # change to c.ov < 3, 3 if auto 0.3
-        lis&tiny and return 1
+        sz(c.ov,0.12) and return 1
         
         $total = hak(c.got) + 1
         if (total > 2) {
