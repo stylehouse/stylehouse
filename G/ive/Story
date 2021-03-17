@@ -2372,10 +2372,9 @@ me.Sch_Story = &acgt{ return [
             }
         }
     }
-    },
    
   // &Eref*
-    &{
+   // lookup
     # search for other R with ref, E^^
     me.Ereflookup = &acgtc{
         $E = c.E
@@ -2415,14 +2414,6 @@ me.Sch_Story = &acgt{ return [
         
         # prefer closer...
         
-        if (R.t == 'figaro') {
-            $gl = es&glop = []
-            poss.map(&g{
-                gl.push(g)
-                gl.push(g.tp )
-            })
-            gl.push( me&Rnodepath,R )
-        }
         return c
         # create distality
         # satisfy
@@ -2535,7 +2526,31 @@ me.Sch_Story = &acgt{ return [
             debugger
         }
     }
-   
+   // misc
+    # make relative pointer to g=c.got/$g
+    me.Eref_got_pointer = &acgtg{
+        # the amount of '^'
+        $down = g.downs.slice()
+        $ups = hak(g.ups.slice(1))
+        $location = ups > 1 ? "^"+ups : '^'
+        # allow '^/ref' - not inc ups|downs[0]
+        ups <= 1 and down.shift()
+        # 1
+        $downs = ""
+        $waspath = 0
+        down.map(&r{
+            # '//' when leaving node-sphere
+            $path = rs&ball && rc&s.y.path
+            !path && waspath and downs += '/'
+            downs += '/'+r.t
+            waspath = path
+        })
+        # going far makes '^4:This/etc'
+        ups > 1 and downs = ':'+downs.substr(1)
+        location += downs
+        return location
+    }
+   // commit
     # transact Ec&top
     me.Eref_begin = &acgtre{
         $p = ry&up
@@ -2915,29 +2930,6 @@ me.Sch_Story = &acgt{ return [
         
         me&Rthingo,R,c
     }
-    # match brack row with order
-    me.hal = &acgtnc{
-        c = peel(c)
-        # check it has them
-        each tv c {
-            !hak(n.sc,t) and return 0
-            v != 1 && n.sc[t] != v and return 0
-        }
-        # check order
-        $ks = haks(c)
-        each kv n.sc {
-            !hak(c,k) and continue
-            $be = ks.shift()
-            be != k and return 0
-        }
-        return 1
-    }
-    # compose (concat l) name for and call me function
-    me.mecy = &acgtl{
-        $y = me[l.join('')]
-        !y and return
-        return y && y (A,C,G,T,...[...arguments].slice(5))
-    }
     
     # capsule, filler for %limit|%toomuch|...
     # c.notes going to sym%title
@@ -3105,6 +3097,7 @@ me.Sch_Story = &acgt{ return [
     #  ♲ ref
     me.Rlimito_ref = &acgtRc{
         me&Rthingo,R,ex(c,{sym:"♲",ov:0.1})
+        
         $li = T.Mw
         $re = liy&sym
         res&title = re.t
@@ -3118,25 +3111,7 @@ me.Sch_Story = &acgt{ return [
             $g = c[k]
             !g and return
             $r = g.n
-            # the amount of '^'
-            $down = g.downs.slice()
-            $ups = hak(g.ups.slice(1))
-            $location = ups > 1 ? "^"+ups : '^'
-            # allow '^/ref' - not inc ups|downs[0]
-            ups <= 1 and down.shift()
-            # 1
-            $downs = ""
-            $waspath = 0
-            down.map(&r{
-                # '//' when leaving node-sphere
-                $path = rs&ball && rc&s.y.path
-                !path && waspath and downs += '/'
-                downs += '/'+r.t
-                waspath = path
-            })
-            # going far makes '^4:This/etc'
-            ups > 1 and downs = ':'+downs.substr(1)
-            location += downs
+            $location = me&Eref_got_pointer,g
             # fuller description as tooltip
             res&title += " "+k+":"+location
             
@@ -3426,6 +3401,30 @@ me.Sch_Story = &acgt{ return [
         isob(n) and throw "pass value||null"
         return (n || 0) < s
     }
+    # match brack row with order
+    me.hal = &acgtnc{
+        c = peel(c)
+        # check it has them
+        each tv c {
+            !hak(n.sc,t) and return 0
+            v != 1 && n.sc[t] != v and return 0
+        }
+        # check order
+        $ks = haks(c)
+        each kv n.sc {
+            !hak(c,k) and continue
+            $be = ks.shift()
+            be != k and return 0
+        }
+        return 1
+    }
+    # compose (concat l) name for and call me function
+    me.mecy = &acgtl{
+        $y = me[l.join('')]
+        !y and return
+        return y && y (A,C,G,T,...[...arguments].slice(5))
+    }
+   // partN()
     # hash partition array by return value of y(n)
     # returns {ks:[keys],vs:[values]}
     #  because of how javascript (v8) stores properties & elements
@@ -3491,6 +3490,7 @@ me.Sch_Story = &acgt{ return [
         # curve, etc
         return a
     }
+   // C stackups
     # c.t may say $t-$pi
     me.t_tpi = &acgtc{
         $tpi = c.t.match(/^(.+)-(\w+)$/)
