@@ -2937,9 +2937,19 @@ me.Sch_Story = &acgt{ return [
                 || me&hal,n,'toomuch:limit,E'
         }
         $simple = !c.N.some(n => !known(n))
-        simple and c.ov = 0.1
+        simple and c.ov ||= 0.1
         
         me&Rthingo,R,c
+        
+        $li = T.Mw
+        $re = liy&sym
+        $blockE = me&ja,R,'toomuch,E'
+        if (!blockE) {
+            res&fs = 9
+        } 
+        else {
+            res&title += " !E["+joint(blockE.map(n => ns&E))+"]"
+        }
     }
     
     # capsule, filler for %limit|%toomuch|...
@@ -2962,14 +2972,12 @@ me.Sch_Story = &acgt{ return [
         me&walls,li,'bd:1.4,hu:'+hu
         
         # move into it
-        if (0) {
         $lip = T.Mw
         if (isC(lip) && lipc&thing) {
             liy&up = lip
-            lis&title = lipc&thing.t+'/'+li.t
+            lis&title = lipc&thing.t+'/'+c.t
         }
         lic&thing = c
-        }
         T.Mw = li
         
         # sym
@@ -3120,7 +3128,7 @@ me.Sch_Story = &acgt{ return [
     #  ♲ ref
     me.Rlimito_ref = &acgtRc{
         me&Rthingo,R,ex(c,{sym:"♲",ov:0.12})
-        
+        Rs&tiny and c.ov = 0.11
         $li = T.Mw
         $re = liy&sym
         # limit:l/ref:n
@@ -3157,6 +3165,7 @@ me.Sch_Story = &acgt{ return [
                     c.ov = 0.11
                 }
             }
+            sz(c.ov,0.12) and return
             
             $te = me&tc,location
             
@@ -3778,7 +3787,7 @@ me.Sch_Story = &acgt{ return [
             me&walls,C,'bd:3.1'
             # < mutey picture of the C
             $en = me&tc,"e:"+s.t,'g'
-            
+            # qua to deliver, meaning of this event
             Ds&Xsc = {ope:1}
             #   pulling up the sc&tower.N
             $c = sc&tower
