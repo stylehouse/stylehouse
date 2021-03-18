@@ -2047,8 +2047,8 @@ me.Sch_Story = &acgt{ return [
      &dopi: makes $D, maybe more $E/*
      so
      $E
-      equivalent to $R
-      $E/* become children
+      seeds of $R
+      $E/* become @3
       E%TX and E%RX
       almost reusing the object
        would need to dome the $E/* and etc for this time
@@ -2742,7 +2742,7 @@ me.Sch_Story = &acgt{ return [
             rc&N = []
             rc&d = 0
             rc&dl = 15
-            rc&nl = 100
+            rc&nl = 300
             delete rc&refR
             delete rc&refs
             rc&top = r
@@ -2818,6 +2818,7 @@ me.Sch_Story = &acgt{ return [
     me.Piero = &acgt{
         $R = me&R
         $E = Rs&E
+        $D = Rs&D
         $s = Rc&s
         $pi = Dc&pi || Ec&pi
         
@@ -2853,9 +2854,10 @@ me.Sch_Story = &acgt{ return [
         # < thingi, when notes merge onto parents
         #   could be earlier, sublate /* &Rthingo if simple
         each ir Rc&N {
+            $C = rs&C
             $N = me&ioR,r
             $too = N.filter(r => rs&limit)
-            if (hak(too) > hak(N)*0.5) {
+            if (!hak(too) <3 && hak(too) > hak(N)*0.5) {
                 # notice lots of children getting a %limit
                 $h = {}
                 too.map(&r{
@@ -2872,6 +2874,7 @@ me.Sch_Story = &acgt{ return [
         
         # generate thingo
         each ir Rc&N {
+            $C = rs&C
             each kv me.magic {
                 # magic brack listed here on &Ri
                 $N = r.sc[k]
@@ -3667,6 +3670,7 @@ me.Sch_Story = &acgt{ return [
        // -Bat events
         # many e
         ['Bat+V',0.3,&acgtRs{
+            
             # outsphere (s of R%TheTt)
             $V = Rs&V
             $D = Rs&D
@@ -3699,6 +3703,7 @@ me.Sch_Story = &acgt{ return [
         
        //   -Spheres events look
         ['Spheres',0.22,&acgtRs{
+            
             $E = Rs&E
             # s is an E-Bet to look at
             $r = sy&R
