@@ -2634,44 +2634,40 @@ me.Sch_Story = &acgt{ return [
         # @13 a bunch
         # < Babz Es&z[-1]
         $la = Es&z && Es&z.slice(-1)[0]
-        if (Es&z || la && lay&R == null) {
-            me&Eing_bunch,R,c
+        if (Es&z && la && lay&R == null) {
+            # applies E/* to PiRet, creating R%Pier@13
+            vsortz(Es&z)
+            $many = hak(Es&z) > 30 ? 20 : 0
+            each ie Es&z {
+                # create R
+                ey&R != null and continue
+                ey&R = 0
+                # stop R recursion when a limit is toomuch
+                $stop = me&Ro,{limit:1,toomuch:1}
+                # < %TX.unstop'd out of the shadow
+                if (stop) {
+                    me&Ri,{toomuch:'limit',E:e}
+                    continue
+                }
+                else {
+                    $c = {t:e.t,s:ec&s,E:e}
+                    $r = me&PiRet,R,c
+                    ey&R = r || 0
+                    ey&R == 0 and debugger
+                }
+                # not @1
+                !r || rc&not and me&Ri,{toomuch:'not',E:e}
+
+                # until
+                if (many && i > many) {
+                    me&Ri,{limit:'many',s:'..'+hak(Es&z)}
+                    break
+                }
+            }
         }
         # @2, etc
         if (c) {
             return me&Eing_Ring,R,c
-        }
-    }
-    me.Eing_bunch = &acgtRc{
-        $E = Rs&E
-        # applies E/* to PiRet, creating R%Pier@13
-        vsortz(Es&z)
-        $many = hak(Es&z) > 30 ? 20 : 0
-        each ie Es&z {
-            # create R
-            ey&R != null and continue
-            ey&R = 0
-            # stop R recursion when a limit is toomuch
-            $stop = me&Ro,{limit:1,toomuch:1}
-            # < %TX.unstop'd out of the shadow
-            if (stop) {
-                me&Ri,{toomuch:'limit',E:e}
-                continue
-            }
-            else {
-                $c = {t:e.t,s:ec&s,E:e}
-                $r = me&PiRet,R,c
-                ey&R = r || 0
-                ey&R == 0 and debugger
-            }
-            # not @1
-            !r || rc&not and me&Ri,{toomuch:'not',E:e}
-
-            # until
-            if (many && i > many) {
-                me&Ri,{limit:'many',s:'..'+hak(Es&z)}
-                break
-            }
         }
     }
     me.Eing_Ring = &acgtRc{
@@ -2704,7 +2700,7 @@ me.Sch_Story = &acgt{ return [
         me&haja,r
         
         # main act, pre-&Ring
-        me&Pieringo,R,r,c
+        me&Pieringi,R,r,c
         # to &Eing
         return r
     }
@@ -2732,7 +2728,7 @@ me.Sch_Story = &acgt{ return [
     # 3 realises R/r as E/e
     
     # @13 from &Eing, pre-&Ring
-    me.Pieringo = &acgtRrc{
+    me.Pieringi = &acgtRrc{
         $C = rs&C
         $E = rs&E
         
@@ -2774,7 +2770,7 @@ me.Sch_Story = &acgt{ return [
     }
     
     # @2 arrive in R%Pier
-    me.Pieringi = &acgt{
+    me.Pieringo = &acgt{
         $R = me&R
         $C = Rs&C
         $E = Rs&E
@@ -2818,13 +2814,14 @@ me.Sch_Story = &acgt{ return [
         R.sc[pi] = 1
     }
     
-    # @264 arrive ids (&pio)
+    # @264 arrive id (&pio)
     me.Piero = &acgt{
         $R = me&R
         $E = Rs&E
         $s = Rc&s
+        $pi = Dc&pi || Ec&pi
+        
         $M = fi&pio,E,{t:E.t,pi:Ec&pi,v:s}
-
         !hak(M) and return
 
         $t = me&Mwty,R,'Pier','At';
@@ -2845,7 +2842,6 @@ me.Sch_Story = &acgt{ return [
     
     # magic words in brack engage, like Ring
     # globalised pseudo-Ringing parts of Ringing
-    # < get eg bracki %%...limit... to note R%limit
     
     # @67 layout etc for all
     me.Topping = &acgt{
@@ -3625,8 +3621,13 @@ me.Sch_Story = &acgt{ return [
        
        // %Top|%Pier back
         ['Pier',0.2,&acgtRs{
-            me&Pieringi
+            me&Pieringo
         },'ift,D'],
+        ['blank',0.21,&acgtRs{
+            # diverges into types
+            Rs&hat = 1
+        },'ift,D'],
+        
         # %TX awarenesses a point
         # dome suspicion
         ['Pier',0.264,&acgtRs{
@@ -3643,7 +3644,6 @@ me.Sch_Story = &acgt{ return [
         },'ift,D'],
         ['Top',0.9,&acgtRs{
             # disp
-            
             
             s&dis = 1
             C.y.cv = 0.76
@@ -3665,10 +3665,6 @@ me.Sch_Story = &acgt{ return [
         },'ift,D'],
         
        // -Bat events
-        ['blank',0.21,&acgtRs{
-            # diverges into types
-            Rs&hat = 1
-        },'ift,D'],
         # many e
         ['Bat+V',0.3,&acgtRs{
             # outsphere (s of R%TheTt)
