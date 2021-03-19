@@ -2690,7 +2690,11 @@ me.Sch_Story = &acgt{ return [
         
         ry&cv = 0
         $E = c.E
-        E and tax(r.sc,E.c,'dupl,noref,inline')
+        if (E) {
+            tax(r.sc,E.c,'dupl,noref,inline')
+            Ec&Rs and ex(r.sc,peel(Ec&Rs))
+        }
+        
         
         # 12
         # might already E
@@ -3702,6 +3706,12 @@ me.Sch_Story = &acgt{ return [
         },'ift,D'],
         
        //   -Spheres events look
+        ['maybrack',0.22,&acgtRs{
+            if (ss&X && ss&z) {
+                $ve = me&brackology,R,s,{sc:{ope:2}}
+                ac(R,'M',ve)
+            }
+        },'ift,D'],
         ['Spheres',0.22,&acgtRs{
             
             $E = Rs&E
@@ -3717,7 +3727,7 @@ me.Sch_Story = &acgt{ return [
             $n = me&Ei,{t:'R',pi:'hat',s:Y,dl:1}
             each kv Y.sc {
                 !isC(v) and continue
-                $n = me&Ei,{t:k,pi:'hat',s:v,dl:1}
+                $n = me&Ei,{t:k,pi:'hat',s:v,dl:1,Rs:'maybrack'}
             }
             
             
