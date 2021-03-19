@@ -2319,6 +2319,35 @@ me.Sch_Story = &acgt{ return [
         # who has TX
         return c
     }
+    # for R=The/Room/... to This/Room
+    # < provide The/Room as you
+    me.Battarget = &acgtR{
+        # ^^/%Theing
+        $N = me&climbaboveTheing,R
+        $Thy = N.shift() .c.s
+        $Theing = N.shift() .c.s
+        # previous sibling
+        $prevTheing = ksaf(Thys&z,{bow:Theing,near:1})[0]
+        # path into %TheTh**
+        $z = prevTheing
+        $M = [z]
+        $not = 0
+        while (1) {
+            $r = N.shift()
+            !r || !rs&TheTh and break
+            $s = rc&s
+            $n = me&fiu,z,s.t,8
+            !n and not = 1; break
+            M.push(n)
+            z = n
+        }
+        me&tc,'targeting',"@"+joint(M,'/'),'y'
+        not and me&tc,'targeting_fail',"!"+s.t,'B'
+        else {
+            $end = M.slice(-1)[0]
+            Rs&target = end
+        }
+    }
     # find Thyer/%Theing/...R
     me.climbaboveTheing = &acgtR{
         $r = R
@@ -2765,12 +2794,7 @@ me.Sch_Story = &acgt{ return [
         }
         
         # 13 puts on tape or not
-        me&Rlimiti,r and rc&N.push(r)
-        else {
-            c.Top and debugger
-            # weird space of having an r we never Ring
-            rc&not = 1
-        }
+        rc&N.push(r)
     }
     
     # @2 arrive in R%Pier
@@ -2827,22 +2851,24 @@ me.Sch_Story = &acgt{ return [
         $pi = Dc&pi || Ec&pi
         
         $M = fi&pio,E,{t:E.t,pi:Ec&pi,v:s}
-        !hak(M) and return
-
-        $t = me&Mwty,R,'Pier','At';
-        ts&sha = '3 3 3 999'
-        T.Mw = 'TX'
-        # is it the end of a Ting
-        $sym = M.some(aq => aqc&TX) ? '⇃' : '⥙'
-        # < modify this to click expand elvising trace
-        $t = me&tc,"RX:"+joint(M),sym,'T'
-        ty&cv = 0.28
-        me&attendios,'matches',{M}
-        each i,aq M {
-            $qua = aqs&qua
-            !qua and continue
-            qua.ope and Rc&dl += 1
+        if (hak(M)) {
+            $t = me&Mwty,R,'Pier','At';
+            ts&sha = '3 3 3 999'
+            T.Mw = 'TX'
+            # is it the end of a Ting
+            $sym = M.some(aq => aqc&TX) ? '⇃' : '⥙'
+            # < modify this to click expand elvising trace
+            $t = me&tc,"RX:"+joint(M),sym,'T'
+            ty&cv = 0.28
+            me&attendios,'matches',{M}
+            each i,aq M {
+                $qua = aqs&qua
+                !qua and continue
+                qua.ope and Rc&dl += 1
+            }
         }
+        
+        me&Rlimiti,R
     }
     
     # magic words in brack engage, like Ring
@@ -3674,11 +3700,11 @@ me.Sch_Story = &acgt{ return [
        // -Bat events
         # many e
         ['Bat+V',0.3,&acgtRs{
-            
             # outsphere (s of R%TheTt)
             $V = Rs&V
             $D = Rs&D
             $E = Rs&E
+            me&Battarget,R
             # enables popping events in, waking R%TheTt
             $N = Vy&Todo ||= []
             # < hold any with Ting
@@ -3832,6 +3858,23 @@ me.Sch_Story = &acgt{ return [
             }
             hak(qua) and aqs&qua = qua
             me&Ei,{t:'aq%qua',pi:'hat',s:qua,dl:2,inline:1}
+            
+            $letswake = 0
+            done.map(&r{
+                !rs&Bet and throw "done!Bet"
+                $re = rs&E
+                rec&el == 2 && rs&clickat == 'title' and letswake = 1
+            })
+            if (letswake) {
+                me&tc,"letswake!",'G'
+                $Bat = me.cbu(R,'Bat')
+                $ta = Bats&target
+                !ta and me&tc,'!target','G'
+                else {
+                    $node = me.cbu(Baty&R,'TheTh')
+                    me&wants,node,'autoBat',ta
+                }
+            }
             me&tc,"done:"+joint(done)
             
             #me&Ei,{t:'aq',pi:'hat',s:aq,dl:2}
@@ -3870,6 +3913,7 @@ me.Sch_Story = &acgt{ return [
         ['Bit',0.21,&acgtRs{
             $D = Rs&D
             $E = Rs&E
+            $Be = me.cbu(R,'Bet')
             # < /E/X, ark=X being strongly typed -X
             #   R/E/X then are arks, wideness
             #    at one point along the -Belt
@@ -3907,6 +3951,11 @@ me.Sch_Story = &acgt{ return [
             else {
                 # modulat, might something?
                 Rs&tiny = 1
+                if (isC(s)) {
+                    if (s.t == 'At') {
+                        Bes&clickat = 'title'
+                    }
+                }
             }
         },'ift,D'],
         # R/E/X
