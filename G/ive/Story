@@ -2794,6 +2794,7 @@ me.Sch_Story = &acgt{ return [
         }
         
         # 13 puts on tape or not
+        # < splice in re ry&up, neighbours
         rc&N.push(r)
     }
     
@@ -2887,17 +2888,27 @@ me.Sch_Story = &acgt{ return [
             $C = rs&C
             $N = me&ioR,r
             $too = N.filter(r => rs&limit)
-            if (!hak(too) <3 && hak(too) > hak(N)*0.5) {
+            if (!(hak(too) <3) && hak(too) > hak(N)*0.5) {
                 # notice lots of children getting a %limit
                 $h = {}
-                too.map(&r{
-                    rs&limit.map(n => ac(h,ns&limit,r))
+                too.map(&j{
+                    js&limit.map(n => ac(h,ns&limit,j))
                 })
+                delete h.ref
                 each t,hN h {
+                    # such limit must apply to more than half of the children
+                    # < specify what it doesnt apply to
                     hak(hN) < hak(N)*0.5 and continue
-                    $sc = {super:'limit',limit:'dl'}
-                    me&Ri,r,sc
-                    hN.map(r => rs&thingov = 0.1)
+                    # unified thingo, for */%%limit
+                    me&Ri,r,{super:'limit',limit:t}
+                    # instead of */%%limit thingo, if:
+                    # only %%limit:dl,toomuch?
+                    $only = n => me&honly,n.sc,{has:{limit:t},may:{toomuch:1}}
+                    each ij hN {
+                        $thislimit = js&limit.filter(n => ns&limit == t)
+                        !me&hall,thislimit,only and continue
+                        me&Ri,j,{limit:t,sublated:r}
+                    }
                 }
             }
         }
@@ -2908,8 +2919,9 @@ me.Sch_Story = &acgt{ return [
             each kv me.magic {
                 # magic brack listed here on &Ri
                 $N = r.sc[k]
+                !N and continue
                 # calls &Rlimito, etc, in order
-                N && me&mecy,['R',k,'o'],r,{N}
+                me&mecy,['R',k,'o'],r,{N}
             }
         }
         # < generating weightiness
@@ -3041,8 +3053,18 @@ me.Sch_Story = &acgt{ return [
         c.N ||= me&Ro,c.t
         # plant in R, otherwise T.Mw=overthingo
         !c.up and T.Mw = c.t
+        
         # < arrive togcon
+        c.do1 and c.do1(c)
+        # group by the %%limit
+        # < partN key=object unsafe
+        $h = partN(c.N,n => n.sc[c.t])
+        # < group by the next most groupey thing
+        h.one && c.up and h = partN(c.N,n => n.sc[c.up.t])
+        $sublated = N => hak(N.filter(n => ns&sublated))
+        me&hall,h.vs,sublated and c.ov ||= 0.01
         c.ov ||= 0.2
+        sz(c.ov,0.1) and return
         
         # make capsule here
         $li = me&tc,c.t+'-cap'
@@ -3070,17 +3092,13 @@ me.Sch_Story = &acgt{ return [
             res&title = re.t
         }
         
+        c.do18 and c.do18(c,li,re)
         sz(c.ov,0.2) and return li
-        
-        # group by the %%limit
-        # < partN key=object unsafe
-        $h = partN(c.N,n => n.sc[c.t])
-        # < group by the next most groupey thing
-        h.one && c.up and h = partN(c.N,n => n.sc[c.up.t])
         
         each it h.ks {
             $N = h.vs[i]
             T.Mw = li
+            hak(grepout(N,n => ns&sublated)) and continue
             # call $magicword/$ghostkey
             #  names are minds, have time
             if (me&mecy,['R',c.t,'o_',t],R,{t,up:c,N} ) {
@@ -3514,6 +3532,31 @@ me.Sch_Story = &acgt{ return [
     self.sz = &ns{
         isob(n) and throw "pass value||null"
         return (n || 0) < s
+    }
+    # match s=sc strictly against c={has:{limit:t},may:{toomuch:1}}
+    me.honly = &acgtsc{
+        each kv s {
+            c.has && (c.has[k] == 1 || c.has[k] == v) and continue
+            c.may && (c.may[k] == 1 || c.may[k] == v) and continue
+            return 0
+        }
+        each kv c.has {
+            !hak(s,k) and return 0
+        }
+        return 1
+        
+    }
+    me.hall = &acgtNy{
+        each in N {
+            !y (n) and return 0
+        }
+        return 1
+    }
+    me.hany = &acgtNy{
+        each in N {
+            y (n) and return 1
+        }
+        return 0
     }
     # match brack row with order
     me.hal = &acgtnc{
