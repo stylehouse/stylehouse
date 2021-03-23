@@ -3019,29 +3019,39 @@ me.Sch_Story = &acgt{ return [
     # @67 assigns signage about being R%toomuch**
     me.Rtoomucho = &acgtRc{
         $c = {t:'toomuch',sym:"⦄",cv:25}
-        c.N ||= me&Ro,R,c.t
         
-        # the %limit magic may reduce %toomuch-ness to sym
-        $known = &n{
-            # only limit caused toomuch
-            return me&hal,n,'limit,toomuch'
-                # toomuch caused only Eing stoppage
-                || me&hal,n,'toomuch:limit,E'
+        c.do1 = &c{
+            $sugov = 0
+            
+            # the %limit magic may reduce %toomuch-ness to sym
+            $known = &n{
+                # only limit caused toomuch
+                return me&hal,n,'limit,toomuch'
+                    # toomuch caused only Eing stoppage
+                    || me&hal,n,'toomuch:limit,E'
+            }
+            $simple = me&hall,c.N,known
+            simple and sugov = 0.1
+            
+            # toomuch caused Eing stoppage
+            $blockE = c.N.filter(n => ns&E)
+            if (!hak(blockE)) {
+                # didnt cause any Eing stoppage
+                simple and sugov = 0.01
+                c.do18 = &c,li,re{
+                    res&fs = 9
+                }
+            }
+            else {
+                c.do18 = &c,li,re{
+                    $bunch = joint(blockE.map(n => ns&E),',')
+                    res&title += " !E["+bunch+"]"
+                }
+            }
+            
+            sugov and c.ov ||= sugov
         }
-        $simple = !c.N.some(n => !known(n))
-        simple and c.ov ||= 0.1
-        
         me&Rthingo,R,c
-        
-        $li = T.Mw
-        $re = liy&sym
-        $blockE = me&Ro,'toomuch,E'
-        if (!blockE) {
-            res&fs = 9
-        } 
-        else {
-            res&title += " !E["+joint(blockE.map(n => ns&E))+"]"
-        }
     }
     
     # capsule, filler for %limit|%toomuch|...
