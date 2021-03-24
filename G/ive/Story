@@ -2123,6 +2123,12 @@ me.Sch_Story = &acgt{ return [
             i++
         }
         da.is = 'all'
+        #!
+        $i = 0
+        while (i < 55) {
+            Bowc&s['lever'+i] = 'thing'
+            i++
+        }
         Bowc&pi = 'hat'
         
         # the -nines
@@ -2667,12 +2673,13 @@ me.Sch_Story = &acgt{ return [
             # applies E/* to PiRet, creating R%Pier@13
             vsortz(Es&z)
             $many = hak(Es&z) > 30 ? 20 : 0
+            # stop R recursion when a limit is toomuch
+            #  R has  decided already, excepting %limit:many below
+            $stop = me&Ro,{limit:1,toomuch:1}
             each ie Es&z {
                 # create R
                 ey&R != null and continue
                 ey&R = 0
-                # stop R recursion when a limit is toomuch
-                $stop = me&Ro,{limit:1,toomuch:1}
                 # < %TX.unstop'd out of the shadow
                 if (stop) {
                     me&Ri,{toomuch:'limit',E:e}
@@ -2688,9 +2695,8 @@ me.Sch_Story = &acgt{ return [
                 !r || rc&not and me&Ri,{toomuch:'not',E:e}
 
                 # until
-                if (many && i > many) {
-                    me&Ri,{limit:'many',s:'..'+hak(Es&z)}
-                    break
+                if (!stop && many && i > many) {
+                    stop = me&Ri,{limit:'many',s:'..'+hak(Es&z),toomuch:1}
                 }
             }
         }
@@ -2716,6 +2722,14 @@ me.Sch_Story = &acgt{ return [
         
         # 11 new
         $r = me&Ret,R,c
+        
+        # ip-ing, is slower than Ring c.inside doing lots of indexOf
+        if (0) {
+        rc&ip = [...(Rc&ip||[])]
+        Rc&ipi ||= 0
+        rc&ip.push(Rc&ipi++)
+        rc&sip = rc&ip.join(' ')
+        }
         
         ry&cv = 0
         $E = c.E
@@ -3064,7 +3078,7 @@ me.Sch_Story = &acgt{ return [
     }
     
     # capsule, filler for %limit|%toomuch|...
-    # c.notes going to sym%title
+    # < c.notes going to sym%title
     # < togcon port
     # defer to %limit if the only
     me.Rthingo = &acgtRc{
@@ -4072,7 +4086,7 @@ me.Sch_Story = &acgt{ return [
             # amongst its neighbours
             $N = me&E_neighbours,iE
             !N.includes(iE) and me&tc,"!N/iE",'b'
-            $NX = N.map(E => Ec&X)
+            $NX = N.map(E => Ec&X).filter(X=>X)
             $nec = Rs&nec = me&X_necessary,s,NX
             if (hak(nec) == 1) {
                 $ne = nec[0]
