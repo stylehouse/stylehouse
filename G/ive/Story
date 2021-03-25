@@ -2130,7 +2130,6 @@ me.Sch_Story = &acgt{ return [
             i++
         }
         Bowc&pi = 'hat'
-        
         # the -nines
         #  autoviv etivity for relatives in This (Bowler)
         #   to be packed into some Nine/$t**
@@ -2723,14 +2722,6 @@ me.Sch_Story = &acgt{ return [
         # 11 new
         $r = me&Ret,R,c
         
-        # ip-ing, is slower than Ring c.inside doing lots of indexOf
-        if (0) {
-        rc&ip = [...(Rc&ip||[])]
-        Rc&ipi ||= 0
-        rc&ip.push(Rc&ipi++)
-        rc&sip = rc&ip.join(' ')
-        }
-        
         ry&cv = 0
         $E = c.E
         if (E) {
@@ -2879,7 +2870,7 @@ me.Sch_Story = &acgt{ return [
             each i,aq M {
                 $qua = aqs&qua
                 !qua and continue
-                qua.ope and Rc&dl += 1
+                qua.ope and Rc&dl += qua.ope
             }
         }
         
@@ -4112,14 +4103,12 @@ me.Sch_Story = &acgt{ return [
         ['hat',0.21,&acgtRs{
             # diverges into types
             $sym = isR(s) ? "R" :
-                isC(s) ? "C" : 0
+                isC(s) && isst(s.t) ? "C" : 0
             sym &&
                 n sym 11 $s:sym fs:13,lh:0.8,hs:757
             if (Rs&tiny) {
                 if (isC(s)) {
-                    # C display whittles down to symbol + name
-                    # < by adopting ranges of sub-R types
-                    n t 12 $s:s.t label
+                    Rs&Ctitle = 1
                     return
                 }
                 else {
@@ -4135,6 +4124,34 @@ me.Sch_Story = &acgt{ return [
         ['Cish',0.263,&acgtRs{
             Rs&Hash = 1
             Rs&inlineable = 1
+            Rs&Ctitle = 1
+        },'ift,D'],
+        ['Ctitle',0.2632,&acgtRs{
+            # C display whittles down to symbol + name
+            # < by adopting ranges of sub-R types
+            !isst(s.t) and me&strange,'!t'
+            n t 12 $s:s.t label,deco
+            !hak(s.y,'cv') and cv = '!cv'; me&strange,'!cv'
+            else {
+                $cv = s.y.cv
+                cv == '' and cv = "''"
+                else
+                !num(cv) and cv = dis(cv); me&strange,'cv?'
+                else
+                cv <= 0 || cv >= 1 and me&strange,'cv?'
+                else {
+                    cv = (cv+'').substr(2)
+                }
+                cv != 1 &&
+                n y.cv 122 $s:cv label,deco,hs:999
+            }
+            if (!Rs&strange) {
+                $aq = fi&TXi,Rs&E,'Cshade-t',{t:'t'},{ope:-1}
+                $aq = fi&TXi,Rs&E,'Cshade-y',{t:'y'},{ope:-1}
+                      fi&TXi,aq,'Cshade-y.cv',{t:'cv'},{ope:-1}
+                $aq = fi&TXi,Rs&E,'Cshade-c',{t:'c'},{ope:-1}
+                      fi&TXi,aq,'Cshade-c.s',{t:'s'},{ope:1}
+            }
         },'ift,D'],
         ['Hash',0.263,&acgtRs{
             $D = Rs&D
