@@ -1603,7 +1603,7 @@ fi.Xios ||= {}
         return N
     }
     # (E|aq)%TX/$t=le/match/$n=aq
-    #  make matchable on E|aq
+    #  make aq matchable on E
     fi.TXi = &acgtEts,qua{
         $aq = isst(t) ? Cye([t,3]) : t
         !isC(aq) and debugger
@@ -1625,17 +1625,45 @@ fi.Xios ||= {}
     
    // &pio
     # E%X writeup attracts E^^%TX to E%RX
+    # < aq, a product of -Bat, reporting there
+    #   consequent ignores may indicate...
     fi.pio = &acgtEscq{
         # writing stuff down
         each ark,v s {
             fi&EXsim,E,hashkv(ark,v)
         }
+        
         # triggering awareness
-        $M = fi&TX_awareness,E,s
-        if (hak(M)) {
-            # link E%RX...aq%TX for further
-            M.map(aq => fi&RXi,E,aq )
+        $Tc = fi&TX_awareness,E,s
+        $M = Tc.M
+        !hak(M) and return []
+        
+        # knock out any any $ignore
+        # < aq%upon decide where to $ignore|$ttl,
+        #    limits to one on the TXing E,
+        #    one per branch on a RXing E
+        #    might be a field effect, E search-around
+        # < bit vague... see aq/$offset|$limit
+        $ignored = []
+        each i,aq M {
+            # must be in the TXing E
+            $n = Tc.M_E[i]
+            # see if it is ignored
+            $x = fi&RXsim,n,{ignore:aq.t},{}
+            (x.z||[]).includes(aq) and ignored.push(aq)
+            else {
+                # make RX/ignore/
+                aqs&forall and continue
+                fi&RXsim,n,{ignore:aq.t},{n:aq}
+            }
         }
+        grepout(M,ignored)
+        
+        each i,aq M {
+            # link E%RX...aq%TX for further
+            fi&RXi,E,aq
+        }
+        
         return M
     }
     
@@ -1644,7 +1672,10 @@ fi.Xios ||= {}
     fi.TX_awareness = &acgtEscq{
         $N = me.cby(E,E => Ec&top).reverse()
         # rowing, or arq+
-        $M = []
+        # make a little table, almost brack
+        $Tc = {}
+        $M = Tc.M = []
+        Tc.M_E = []
         each in N {
             $search = fi&getTXatE,n
             each ark,v s {
@@ -1671,6 +1702,7 @@ fi.Xios ||= {}
                         hak(x.z) > 1 and throw "dup Tt",t,atch
                         each ii,aq x.z {
                             M.push(aq)
+                            Tc.M_E.push(n)
                         }
                     }
                     
@@ -1681,19 +1713,7 @@ fi.Xios ||= {}
         # now we have all aq
         # < with rowing-ness to $Tt via &Xsomp?
         #   with transmitor n and transmission aq
-        return M
-        
-        # knock out any any $ignore
-        # < bit vague... see aq/$offset|$limit
-        each in N {
-            $search = fi&getTXatE,n
-            each ii,TX search {
-                !TX and continue
-                !TX.ignore and continue
-                !isar(TX.ignore) and throw "ignore![aq+]"
-                grepout(M,TX.ignore)
-            }
-        }
+        return Tc
     }
    
  // live
