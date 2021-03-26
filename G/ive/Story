@@ -2138,6 +2138,47 @@ me.Sch_Story = &acgt{ return [
         me&ha,R,'some,doing,ness'
         me&ha,R,'some,doing'
     },'ift,D'],
+   // testing
+    &{
+    me.PiRet_data = &acgt{
+        $hash = {
+            fig: {vig: 'vort'},
+            lw: {vig: 'vurt'},
+        }
+        $N = [1]
+        N.map(&i{
+            each kv hash {
+                1 < i && isob(v) and v = ex({},v)
+                v = hash[k+i] = {le:v}
+                k == 'fig' && i == 1 and v.ol = {de:3,do:4}
+                k == 'fig' && i == 1 and v.owel = {de:3,do:4,da:5}
+            }
+            hash['water'+i] = 'par importo'
+        })
+        $as = hash.asee = Cye(['Think',4,{dia:'dem'},{luc:'cho'}])
+        ass&t = {le:3}
+        return hash
+    }
+    me.modelta = &acgt{
+        $R = me&R
+        $start = Gtime()
+        return &{
+            $delta = Gtime(start)
+            me&tc,"~"+delta,'b'
+        }
+    }
+    # art busier
+    me.tivity = &acgt{
+        $R = me&R
+        $x = me&Jx,R
+        me&rollbs,"Fishtivity"
+        x.ro("tivit") and Rs&Fishtivity = 5
+        if (Rs&Fishtivity) {
+            Rs&Fishtivity--
+            me&waits,"ForItivity"+Rs&Fishtivity
+        }
+    }
+    },
   //   /%Theing
     # Nine-ish container of /Eight-ish namespace
     ['Theing',0.291,&acgtRs{
@@ -2859,6 +2900,7 @@ me.Sch_Story = &acgt{ return [
         
         $M = fi&pio,E,{t:E.t,pi:Ec&pi,v:s}
         if (hak(M)) {
+            # < effect At@101, t@12 etc based on match
             $t = me&Mwty,R,'Pier','At';
             ts&sha = '3 3 3 999'
             T.Mw = 'TX'
@@ -2872,6 +2914,8 @@ me.Sch_Story = &acgt{ return [
                 $qua = aqs&qua
                 !qua and continue
                 qua.ope and Rc&dl += qua.ope
+                qua.impl and Rs&noDisplay = 1
+                qua.dim and me&tc,"~dim~"
             }
         }
         
@@ -3513,45 +3557,6 @@ me.Sch_Story = &acgt{ return [
         return v
     }
   // misc f
-   // testing
-    me.PiRet_data = &acgt{
-        $hash = {
-            fig: {vig: 'vort'},
-            lw: {vig: 'vurt'},
-        }
-        $N = [1]
-        N.map(&i{
-            each kv hash {
-                1 < i && isob(v) and v = ex({},v)
-                v = hash[k+i] = {le:v}
-                k == 'fig' && i == 1 and v.ol = {de:3,do:4}
-                k == 'fig' && i == 1 and v.owel = {de:3,do:4,da:5}
-            }
-            hash['water'+i] = 'par importo'
-        })
-        $as = hash.asee = Cye(['Think',4,{dia:'dem'},{luc:'cho'}])
-        ass&t = {le:3}
-        return hash
-    }
-    me.modelta = &acgt{
-        $R = me&R
-        $start = Gtime()
-        return &{
-            $delta = Gtime(start)
-            me&tc,"~"+delta,'b'
-        }
-    }
-    # art busier
-    me.tivity = &acgt{
-        $R = me&R
-        $x = me&Jx,R
-        me&rollbs,"Fishtivity"
-        x.ro("tivit") and Rs&Fishtivity = 5
-        if (Rs&Fishtivity) {
-            Rs&Fishtivity--
-            me&waits,"ForItivity"+Rs&Fishtivity
-        }
-    }
    // data
     # for (qua||0) < 2
     # sizes something, usu ope|interest for snoozing
@@ -4154,17 +4159,42 @@ me.Sch_Story = &acgt{ return [
                 n y.cv 122 $s:cv label,deco,hs:999
             }
             if (!Rs&strange) {
-                $aq = fi&TXi,Rs&E,'Cshade-t',{t:'t'},{ope:-1}
-                aqs&also = {dl:1}
-                $aq = fi&TXi,Rs&E,'Cshade-y',{t:'y'},{ope:-1}
-                      fi&TXi,aq,'Cshade-y.cv',{t:'cv'},{ope:-1}
-                $aq = fi&TXi,Rs&E,'Cshade-c',{t:'c'},{ope:-1}
-                      fi&TXi,aq,'Cshade-c.s',{t:'s'},{ope:1}
+                me&TXin,'Cshade' ({
+                    t: {impl:1},
+                    y: {dim:1,z:{
+                        cv: {impl:1}
+                    }},
+                    c: {dim:1,z:{
+                        s: {ope:1}
+                    }},
+                })
             }
         },'ift,D'],
         &{
             # layouty TXi
-            
+            me.TXin = &acgtt{
+                $R = me&R
+                $E = Rs&E
+                $sol = &he{
+                    each kc h {
+                        $name = joint([t,e&&e.t,k])
+                        $z = delete c.z
+                        $init = delete c.init
+                        # c becomes aq%qua
+                        $aq = fi&TXi,e||E,name,{t:k},c
+                        aqs&also = {dl:1}
+                # < most matches want to apply only to E/*
+                #   applying further is wander, ie E/**
+                #   then there's one-per:
+                #    putting the RX.ignore on the matcher
+                        ah(aq,'also','dl',1)
+                        
+                        init and init(aq)
+                        z and sol(z,aq)
+                    }
+                }
+                return &h{ sol(h) }
+            }
         },
         ['Hash',0.263,&acgtRs{
             $D = Rs&D
