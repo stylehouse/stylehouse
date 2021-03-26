@@ -1646,6 +1646,7 @@ fi.Xios ||= {}
         # < bit vague... see aq/$offset|$limit
         $ignored = []
         each i,aq M {
+            break
             # must be in the TXing E
             $n = Tc.M_E[i]
             # see if it is ignored
@@ -1701,6 +1702,14 @@ fi.Xios ||= {}
                     each tx match {
                         hak(x.z) > 1 and throw "dup Tt",t,atch
                         each ii,aq x.z {
+                            if (aqs&also) {
+                                # < more AND expr for the same E 
+                                #    currently you must RX furthers
+                                #   aq would check you matched its entire expr
+                                
+                                # must TX from ^E if dl=1
+                                aqs&also.dl && aqs&also.dl != i and continue
+                            }
                             M.push(aq)
                             Tc.M_E.push(n)
                         }
