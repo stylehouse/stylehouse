@@ -2273,6 +2273,8 @@ me.Sch_Story = &acgt{ return [
         c.Top = 1
         c.s = sc&s
         c.V = s
+        $E = c.E = Cye([c.t,1])
+        Ec&top = E
         $r = me&PiRet,R,c
         ac(R,'z',r)
         x.ro('noD') and rs&noDisplay = 1
@@ -2741,7 +2743,7 @@ me.Sch_Story = &acgt{ return [
     }
   
   // R'The' lifemo
-    # 2 E/** sync, Ringing, in or out of time
+    # 2 E/** sync, Ringing, in or out of time!
     # repeatedly
     me.Eing = &acgtc{
         # you must have the correct C to me&R:
@@ -2757,10 +2759,17 @@ me.Sch_Story = &acgt{ return [
             # stop R recursion when a limit is toomuch
             #  R has  decided already, excepting %limit:many below
             $stop = me&Ro,{limit:1,toomuch:1}
+            # arriving e a bit may pos|neg it
+            # < once space limit is found,
+            #   sub negated for posited
+            #   
             each ie Es&z {
                 # create R
                 ey&R != null and continue
                 ey&R = 0
+                
+                me&Pieri,E,e
+                
                 # < %TX.unstop'd out of the shadow
                 if (stop) {
                     me&Ri,{toomuch:'limit',E:e}
@@ -2831,7 +2840,27 @@ me.Sch_Story = &acgt{ return [
   // R'The' stylemo
     # 3 realises R/r as E/e
     
-    
+    # @1 early realise
+    me.Pieri = &acgtEe{
+        # < many
+        # bunches of
+        $Xc = {}
+        Xc.t = e.t
+        ec&pi and Xc.pi = ec&pi
+        if (hak(e.c,'s')) {
+            $s = ec&s
+            Xc.v = s
+            isC(s) and Xc.Ct = s.t
+        }
+        # < Xc.Ct > .t sometimes, from -Bet
+        # < path can say 0/CthingCsoCCalleisable
+        #   for an array .t, then .Ct+
+        fi&pio,e,Xc
+        
+        $M = fi&RXglob,e,'matched'
+        
+        return M
+    }
     
     # @13 R/r from &Eing, pre-&Ring
     me.Pieringi = &acgtRrc{
@@ -2857,7 +2886,7 @@ me.Sch_Story = &acgt{ return [
         if (c.Top) {
             rc&top = r
             # capsule of %TX
-            Ec&top = E
+            Ec&top != E and debugger
             # transact Ec&X.ref
             me&Eref_begin,r,E
         }
@@ -2901,9 +2930,11 @@ me.Sch_Story = &acgt{ return [
         $E = Rs&E
         $D = Rs&D
         $s = Rc&s
-        $pi = Dc&pi || Ec&pi
         
-        fi&pio,E,{t:E.t,pi:Ec&pi,v:s}
+        $Xc = {}
+        Dc&pi and Xc.pi = Dc&pi
+        # < replace Ec&s=R future?
+        fi&pio,E,Xc
         
         $M = fi&RXglob,E,'matched'
         
