@@ -2995,22 +2995,35 @@ me.Sch_Story = &acgt{ return [
         each in Rs&M {
             M.push(n)
         }
+        
+        
         each win Rs&Mw {
             ns&modt = w
             M.push(n)
         }}
+        
+        
         # spatialises, on tv
         me&cvdeal,M
+        
+        
         vsortz(M)
+        
+        
+        
         Rs&M = M
     }
     # shading weight -> dis:1 or not
     me.specialfx1 = &acgtR{
         $C = Rs&C
+        
         !Rs&inlineable and return
+        
         $N = me&ioR
         N.some(r => hak( me&ioR,r ) > 5) and return
+        
         delete Rs&Mw.Hash
+        
         # y, c, sc
         #R.t == 'R' && Ry&up.t == 'y' and debugger
         N.map(&r{
@@ -3026,12 +3039,18 @@ me.Sch_Story = &acgt{ return [
     # - block if no /*%inline|tiny
     me.specialfx2 = &acgtR{
         $C = Rs&C
+        
+        
         Rs&tiny and grepout(Rs&M,n => ns&modt == 'Pier')
+        
+        
         $N = me&ioR,R
         Rs&inline || hak(N) <= 1 and return
+        
         # < properly sizing it for:
         $larger = N.filter(n => !ns&tiny)
         !hak(larger) and return
+        
         each in N {
             ns&inline and continue
             $C = ns&C
@@ -3428,139 +3447,6 @@ me.Sch_Story = &acgt{ return [
         return !first || M.includes(first)
     }
   
-  // slope io: &Rsci + dialects
-   // dialects
-    # not readable?
-    me.Rli = &acgtscq{
-        c = ex(c||{},{gk:'limit'})
-        return me&Rsci,s,c,q
-    }
-    me.Rlo = &acgtscq{
-        c = ex(c||{},{el:8})
-        return me&Rli,s,c,q
-    }
-    me.Rti = &acgtscq{
-        c = ex(c||{},{gk:'toomuch'})
-        return me&Rsci,s,c,q
-    }
-    me.Rto = &acgtscq{
-        c = ex(c||{},{el:8})
-        return me&Rli,s,c,q
-    }
-   // &Rsci
-    # v=[] for /$n-ism, adding|finding c.n
-    me.Rscin = &acgtscqv{
-        if (c.el == 8) {
-            if (isar(c.n)) {
-                # has a list
-                $all = 1
-                $any = 0
-                each in c.n {
-                    v.includes(n) and any = 1
-                    else all = 0
-                }
-                c.all && !all and return
-                !any and return
-                return 1
-            }
-            else {
-                v.includes(c.n) and return 1
-            }
-        }
-        else {
-            if (isar(c.n)) {
-                # < distribute in between includes
-                each in c.n {
-                    !v.includes(n) and v.push(n)
-                }
-            }
-            else {
-                !v.includes(c.n) and v.push(c.n)
-            }
-            return 1
-        }
-    }
-    me.Rsci = &acgtscq{
-        c ||= {}
-        $R = c.R || me&R
-        isst(s) and s = {path:s.split('/')}
-        !s and s = {path:[]}
-        c.gk and s.path.unshift('%'+c.gk)
-        $putsz = hak(c,'s') || hak(c,'n')
-        
-        $z = R
-        $last = hak(s.path)-1
-        each it s.path {
-            $gk = t.substr(0,1) == '%' && t.substr(1)
-            $v
-            gk and v = z.sc[gk]
-            # < bal Rc&s/$v, for c.R%ball
-            #   or schedule|other nearby y&R
-            else v = me&fiu,z,t,c.el
-            
-            # i %limit/%toomuch=1 or &Rli,'toomuch',{s:1}
-            $puts = putsz && i == hak(s.path)-1 && hak(c,'s')
-            $putz = putsz && i == hak(s.path)-1 && hak(c,'n')
-            if (putz && v) {
-                if (gk) {
-                    !isar(v) and throw "putz!ar"
-                    if (c.el == 8) {
-                        # o $l%somegk/$n tests for $n in %somegk
-                        #  ie &Rti,'limit/%somegk',{n:e}
-                        # returns the /$n as array
-                        return me&Rscin,s,c,q,v && v
-                        # if !v it may also fail @el==8:
-                    }
-                }
-            }
-            if (!v || (puts || putz) && gk) {
-                c.el == 8 and return
-                !gk and throw "never happens: &fiu creates el<8"
-                
-                if (puts) {
-                    puts = 0
-                    v = c.s
-                }
-                elsif (putz) {
-                    v ||= []
-                }
-                else {
-                    v = Cye([gk,2])
-                }
-                z.sc[gk] = v
-            }
-            if (isC(v)) {
-                # care
-                if (R == z) {
-                    gk and vy&R = R
-                    else {
-                        # < bal Rc&s/$v
-                    }
-                }
-                if (puts) {
-                    puts = 0
-                    vc&s = c.s
-                }
-                elsif (putz) {
-                    putz = 0
-                    $vz = vs&z ||= []
-                    # returns the last C the /$n is in
-                    #   $z:thing/%bunch:v/$n=stuff
-                    return me&Rscin,s,c,q,vz && v
-                    # < conserve/score?
-                }
-            }
-            if (putz) {
-                !gk and throw "never happens: isC putz"
-                putz = 0
-                # returns the /$n as array
-                return me&Rscin,s,c,q,v && v
-            }
-            !v and return
-            z = v
-        }
-        return v
-    }
   // misc f
    // data
     # for (qua||0) < 2
@@ -4222,6 +4108,140 @@ me.Sch_Story = &acgt{ return [
     ] }
     },
    
+   # GOING
+   // slope io: &Rsci + dialects
+   // dialects
+    # not readable?
+    me.Rli = &acgtscq{
+        c = ex(c||{},{gk:'limit'})
+        return me&Rsci,s,c,q
+    }
+    me.Rlo = &acgtscq{
+        c = ex(c||{},{el:8})
+        return me&Rli,s,c,q
+    }
+    me.Rti = &acgtscq{
+        c = ex(c||{},{gk:'toomuch'})
+        return me&Rsci,s,c,q
+    }
+    me.Rto = &acgtscq{
+        c = ex(c||{},{el:8})
+        return me&Rli,s,c,q
+    }
+   // &Rsci
+    # v=[] for /$n-ism, adding|finding c.n
+    me.Rscin = &acgtscqv{
+        if (c.el == 8) {
+            if (isar(c.n)) {
+                # has a list
+                $all = 1
+                $any = 0
+                each in c.n {
+                    v.includes(n) and any = 1
+                    else all = 0
+                }
+                c.all && !all and return
+                !any and return
+                return 1
+            }
+            else {
+                v.includes(c.n) and return 1
+            }
+        }
+        else {
+            if (isar(c.n)) {
+                # < distribute in between includes
+                each in c.n {
+                    !v.includes(n) and v.push(n)
+                }
+            }
+            else {
+                !v.includes(c.n) and v.push(c.n)
+            }
+            return 1
+        }
+    }
+    me.Rsci = &acgtscq{
+        c ||= {}
+        $R = c.R || me&R
+        isst(s) and s = {path:s.split('/')}
+        !s and s = {path:[]}
+        c.gk and s.path.unshift('%'+c.gk)
+        $putsz = hak(c,'s') || hak(c,'n')
+        
+        $z = R
+        $last = hak(s.path)-1
+        each it s.path {
+            $gk = t.substr(0,1) == '%' && t.substr(1)
+            $v
+            gk and v = z.sc[gk]
+            # < bal Rc&s/$v, for c.R%ball
+            #   or schedule|other nearby y&R
+            else v = me&fiu,z,t,c.el
+            
+            # i %limit/%toomuch=1 or &Rli,'toomuch',{s:1}
+            $puts = putsz && i == hak(s.path)-1 && hak(c,'s')
+            $putz = putsz && i == hak(s.path)-1 && hak(c,'n')
+            if (putz && v) {
+                if (gk) {
+                    !isar(v) and throw "putz!ar"
+                    if (c.el == 8) {
+                        # o $l%somegk/$n tests for $n in %somegk
+                        #  ie &Rti,'limit/%somegk',{n:e}
+                        # returns the /$n as array
+                        return me&Rscin,s,c,q,v && v
+                        # if !v it may also fail @el==8:
+                    }
+                }
+            }
+            if (!v || (puts || putz) && gk) {
+                c.el == 8 and return
+                !gk and throw "never happens: &fiu creates el<8"
+                
+                if (puts) {
+                    puts = 0
+                    v = c.s
+                }
+                elsif (putz) {
+                    v ||= []
+                }
+                else {
+                    v = Cye([gk,2])
+                }
+                z.sc[gk] = v
+            }
+            if (isC(v)) {
+                # care
+                if (R == z) {
+                    gk and vy&R = R
+                    else {
+                        # < bal Rc&s/$v
+                    }
+                }
+                if (puts) {
+                    puts = 0
+                    vc&s = c.s
+                }
+                elsif (putz) {
+                    putz = 0
+                    $vz = vs&z ||= []
+                    # returns the last C the /$n is in
+                    #   $z:thing/%bunch:v/$n=stuff
+                    return me&Rscin,s,c,q,vz && v
+                    # < conserve/score?
+                }
+            }
+            if (putz) {
+                !gk and throw "never happens: isC putz"
+                putz = 0
+                # returns the /$n as array
+                return me&Rscin,s,c,q,v && v
+            }
+            !v and return
+            z = v
+        }
+        return v
+    }
    # GOING Sopi
    // -hat - top thing
     &{
