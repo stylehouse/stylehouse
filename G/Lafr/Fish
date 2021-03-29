@@ -1678,43 +1678,21 @@ fi.Xios ||= {}
         Tc.M_E = []
         each in N {
             $search = fi&getTXatE,n
-            each ark,v s {
-                each ii,TX search {
-                    # would have some of these indexes
-                    # < matching string appearing in ark|v|t|etc
-                    $fora = TX.for && TX.for[ark]
-                    if (fora) {
-                        # < (/$where)?/$Tt
-                        #   may wildcard the v of this ark
-                        
+            each ii,TX search {
+                $matches = fi&TX_matches,TX,s
+                each ii,aq matches {
+                    if (aqs&also) {
+                        # < more AND expr for the same E 
+                        #    currently you must RX furthers
+                        #   aq would check you matched its entire expr
+
+                        # must TX from ^E if dl=1
+                        aqs&also.dl && aqs&also.dl != i and continue
                     }
-                    !TX[ark] and continue
-                    # all refs
-                    $arks = ark+'s'
-                    !TX[arks] and debugger
-                    $vi = TX[arks].indexOf(v)
-                    vi < 0 and continue
-                    $atch = TX[ark][vi]
-                    # datum has a bunch of matches
-                    $match = atch.match
-                    !match and continue
-                    each tx match {
-                        hak(x.z) > 1 and throw "dup Tt",t,atch
-                        each ii,aq x.z {
-                            if (aqs&also) {
-                                # < more AND expr for the same E 
-                                #    currently you must RX furthers
-                                #   aq would check you matched its entire expr
-                                
-                                # must TX from ^E if dl=1
-                                aqs&also.dl && aqs&also.dl != i and continue
-                            }
-                            M.push(aq)
-                            Tc.M_E.push(n)
-                        }
-                    }
-                    
+                    M.push(aq)
+                    Tc.M_E.push(n)
                 }
+
             }
         }
         
@@ -1722,6 +1700,36 @@ fi.Xios ||= {}
         # < with rowing-ness to $Tt via &Xsomp?
         #   with transmitor n and transmission aq
         return Tc
+    }
+    # [aq+] matching s={t} in TX
+    fi.TX_matches = &acgtXs{
+        $N = []
+        $TX = X
+        each ark,v s {
+            # would have some of these indexes
+            # < matching string appearing in ark|v|t|etc
+            $fora = TX.for && TX.for[ark]
+            if (fora) {
+                # < (/$where)?/$Tt
+                #   may wildcard the v of this ark
+
+            }
+            !TX[ark] and continue
+            # all refs
+            $arks = ark+'s'
+            !TX[arks] and debugger
+            $vi = TX[arks].indexOf(v)
+            vi < 0 and continue
+            $atch = TX[ark][vi]
+            # datum has a bunch of matches
+            $match = atch.match
+            !match and continue
+            each tx match {
+                hak(x.z) > 1 and throw "dup Tt",t,atch
+                N.push(...x.z)
+            }
+        }
+        return N
     }
    
  // live
