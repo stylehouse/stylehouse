@@ -1592,17 +1592,14 @@ fi.Xios ||= {}
    // &TXi, etc
     fi.getTXatE = &acgtE{
         $N = []
+        # hosted here
         Ec&TX and N.push(Ec&TX)
-        if (Ec&RX) {
-            each tx Ec&RX.matched {
-                each i,aq x.z {
-                    aqc&TX and N.push(aqc&TX)
-                }
-            }
-        }
+        # matching here
+        fi&RXglob,E,'matched'
+            .map(aq => aqc&TX && N.push(aqc&TX))
         return N
     }
-    # (E|aq)%TX/$t=le/match/$n=aq
+    # (E|aq)%TX/$Xc/match/$n=aq
     #  make aq matchable on E
     fi.TXi = &acgtEts,qua{
         $aq = isst(t) ? Cye([t,3]) : t
@@ -1622,9 +1619,29 @@ fi.Xios ||= {}
         $x = fi&RXsim,E,{matched:t.t},{n:t}
         return x
     }
+    # E%RX/$k=*/$n, eg all /matched/
+    fi.RXglob = &acgtEk{
+        $X = Ec&RX
+        !X and return []
+        return fi&Xglob,X,k
+    }
+    # hash index only
+    fi.Xglob = &acgtXk{
+        $index = X[k]
+        !index and return []
+        $N = []
+        each tx index {
+            hak(x.z) > 1 and throw "dup Tt",t,X
+            each i,aq x.z {
+                N.push(aq)
+            }
+        }
+        return N
+    }
+    
     
    // &pio
-    # E%X writeup attracts E^^%TX to E%RX
+    # E%X writeup attracts E^^%TX to E%RX !
     # < aq, a product of -Bat, reporting there
     #   consequent ignores may indicate...
     fi.pio = &acgtEscq{
@@ -1661,7 +1678,7 @@ fi.Xios ||= {}
         grepout(M,ignored)
         
         each i,aq M {
-            # link E%RX...aq%TX for further
+            # E%RX/matched/$n=aq, so aq%TX for further
             fi&RXi,E,aq
         }
         
@@ -1720,13 +1737,8 @@ fi.Xios ||= {}
             $vi = TX[arks].indexOf(v)
             vi < 0 and continue
             $atch = TX[ark][vi]
-            # datum has a bunch of matches
-            $match = atch.match
-            !match and continue
-            each tx match {
-                hak(x.z) > 1 and throw "dup Tt",t,atch
-                N.push(...x.z)
-            }
+            # has a bunch of matches
+            N.push(... fi&Xglob,atch,'match' )
         }
         return N
     }
