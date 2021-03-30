@@ -2926,7 +2926,6 @@ me.Sch_Story = &acgt{ return [
     # @ 22 layouty TXi
     me.TXin = &acgttg{
         g = peel(g)
-        
         $R = me&R
         $E = Rs&E
         $sol = &he{
@@ -3481,9 +3480,12 @@ me.Sch_Story = &acgt{ return [
         $Erefc = ns&Erefc
         
         $types = ['self','other']
+        $any = 0
         types.map(&k{
             $g = Erefc[k]
             !g and return
+            any and return
+            any = 1
             
             $r = g.n
             # < ups~downs over an area
@@ -3513,6 +3515,7 @@ me.Sch_Story = &acgt{ return [
             tes&hs = k == 'self' ? '999' : '888'
             tes&fs = 7
         })
+        !any and me&tc,'!any'
         
         # change to c.ov < 3, 3 if auto 0.3
         sz(c.ov,0.12) and return 1
