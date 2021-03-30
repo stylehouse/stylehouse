@@ -2708,30 +2708,6 @@ me.Sch_Story = &acgt{ return [
         ex(e.c,c)
         return e
     }
-    # @ 22 layouty TXi
-    me.TXin = &acgtt{
-        $R = me&R
-        $E = Rs&E
-        $sol = &he{
-            each kc h {
-                $name = joint([t,e&&e.t,k])
-                $z = delete c.z
-                $init = delete c.init
-                # c becomes aq%qua
-                $aq = fi&TXi,e||E,name,{t:k},c
-                aqs&also = {dl:1}
-        # < most matches want to apply only to E/*
-        #   applying further is wander, ie E/**
-        #   then there's one-per:
-        #    putting the RX.ignore on the matcher
-                ah(aq,'also','dl',1)
-
-                init and init(aq)
-                z and sol(z,aq)
-            }
-        }
-        return &h{ sol(h) }
-    }
     # 12 three spheres
     me.CED = &acgtR{
         # C display
@@ -2766,7 +2742,7 @@ me.Sch_Story = &acgt{ return [
         R.sc[pi] = 1
     }
   
-  // R'The' lifemo
+  // &Eing R'The' lifemo
     # 2 E/** sync, Ringing, in or out of time!
     # repeatedly
     me.Eing = &acgtc{
@@ -2779,46 +2755,123 @@ me.Sch_Story = &acgt{ return [
         if (Es&z && la && lay&R == null) {
             # applies E/* to PiRet, creating R%Pier@13
             vsortz(Es&z)
-            $many = hak(Es&z) > 30 ? 20 : 0
-            # stop R recursion when a limit is toomuch
-            #  R has  decided already, excepting %limit:many below
-            $stop = me&Ro,{limit:1,toomuch:1}
-            # arriving e a bit may pos|neg it
-            # < once space limit is found,
-            #   sub negated for posited
-            # < %limit:impl,E
-            #   covered by %limit:dis
-            #    when the .t is affected for layout...
-            each ie Es&z {
-                # create R
-                ey&R != null and continue
-                ey&R = 0
-                
-                me&Pieri,E,e
-                
-                # < %TX.unstop'd out of the shadow
-                if (stop) {
-                    me&Ri,{toomuch:'limit',E:e}
-                    continue
-                }
-                else {
-                    $c = {t:e.t,s:ec&s,E:e}
-                    $r = me&PiRet,R,c
-                    ey&R = r || 0
-                    ey&R == 0 and debugger
-                }
-                # not @1
-                !r || rc&not and me&Ri,{toomuch:'not',E:e}
-
-                # until
-                if (!stop && many && i > many) {
-                    stop = me&Ri,{limit:'many',s:'..'+hak(Es&z),toomuch:1}
-                }
-            }
+            me&Eing_some,R,E
         }
         # @2, etc!
         if (c) {
             return me&Eing_Ring,R,c
+        }
+    }
+    me.Eing_some = &acgtRE{
+        $many = hak(Es&z) > 30 ? 20 : 0
+        # arriving e a bit may pos|neg it
+        # < once space limit is found,
+        #   sub negated for posited
+        # < %limit:impl,E
+        #   %limit:dim, being picky|squishy
+        #    wanting 5 things x 5 characters
+        #     may slice paths off %limit:ref modulat
+        #      we want to make all ^ in a Cish relative to the C
+        #      so eg neesd.y.fig says @/fer
+        #   covered by %limit:dis
+        #    when the .t is affected for layout...
+        
+        $c = {}
+        Es&z.map(e => ac(c,(ey&R == null ? 'would' : 'have'),e))
+        # < sync to a E&X.Eing sub-brack?
+        #   so we can share %limit:dim to e&X.Eing
+        #   and make all this &sortial for keenness
+        each ie c.would {
+            
+            # 1
+            ey&R = 0
+            # if any match (besides impl|ope<0),
+            #  it promotes E to in, past any %limit
+            $M = me&Pieri,E,e
+            # < TX about style|schema|layout are usu low intent
+            #   most other stuff implies opening
+            #    since stuff is routing into it
+            $keen = hak(M) ? 1 : 0
+            each i,aq M {
+                $qua = aqs&qua
+                !qua and continue
+                qua.ope and keen += qua.ope
+                qua.impl and keen -= 2
+            }
+            # < more and less keen
+            keen > 0 and ac(c,'keen',e)
+        }
+        
+        # stop R recursion when a %%limit,toomuch
+        #  R may have decided that already,
+        # < running into eg %limit:many while @1-ing R
+        $stop = me&Ro,{limit:1,toomuch:1}
+        # %limit:ref may stop woulding, probably unlimited keen e
+        if (stop) {
+            c.toomuch = c.would.splice(0)
+            if (c.keen) {
+                # just the keen
+                # < unless a stopper is much over a hard limit, eg nl
+                # grepout comp array of objects
+                c.would = grepout(c.toomuch,c.keen)
+            }
+        }
+        # %limit:many prioritises space for keen e
+        # < $many as per %limit:dim...
+        many and $length = hak(c.have) + hak(c.would)
+        if (many && length > many) {
+            $more = many - hak(c.have)
+            more < 0 and more = 0
+            if (more > 0) {
+                # c.would until the limit
+                c.toomany = c.would.splice(more)
+                if (c.keen && hak(c.toomany)) {
+                    # prioritise space
+                    $i = hak(c.would)-1
+                    each ie c.keen {
+                        c.would.includes(e) and continue
+                        while (1) {
+                            $oe = c.would[i]
+                            # demote a !keen
+                            # < next least keen
+                            c.keen.includes(oe) and i--; continue
+                            c.toomany.push(
+                                ... c.would.splice(i,i+1))
+                            # promote the keen from toomany
+                            c.would.push(
+                                # grepout comp object
+                                ... grepout(c.toomany,oe))
+                            # < fatal grepout
+                            i--
+                            break
+                        }
+                    }
+                }
+            }
+        }
+        
+        each ie c.would {
+            $rc = {t:e.t,s:ec&s,E:e}
+            $r = ey&R = me&PiRet,R,rc
+            # not @1
+            !r || rc&not and debugger; me&Ri,{toomuch:'not',E:e}
+        }
+        
+        
+        if (hak(c.toomany)) {
+            # can be %TX out of the shadow
+            me&Ri,{limit:'many',s:'..'+hak(length),thresh:many,toomuch:1}
+            each ie c.toomany {
+                ac(c,'toomuch',e)
+            }
+        }
+        # %limit:many+ref coalesce into non-happening E/e:
+        if (hak(c.toomuch)) {
+            # note the !E
+            # points vaguely to %%limit
+            each ie c.toomany {
+                me&Ri,{toomuch:'limit',E:e}
+            }
         }
     }
     me.Eing_Ring = &acgtRc{
@@ -2865,6 +2918,31 @@ me.Sch_Story = &acgt{ return [
     
   // R'The' stylemo
     # 3 realises R/r as E/e
+    
+    # @ 22 layouty TXi
+    me.TXin = &acgtt{
+        $R = me&R
+        $E = Rs&E
+        $sol = &he{
+            each kc h {
+                $name = joint([t,e&&e.t,k])
+                $z = delete c.z
+                $init = delete c.init
+                # c becomes aq%qua
+                $aq = fi&TXi,e||E,name,{t:k},c
+                aqs&also = {dl:1}
+        # < most matches want to apply only to E/*
+        #   applying further is wander, ie E/**
+        #   then there's one-per:
+        #    putting the RX.ignore on the matcher
+                ah(aq,'also','dl',1)
+
+                init and init(aq)
+                z and sol(z,aq)
+            }
+        }
+        return &h{ sol(h) }
+    }
     
     # @1 early realise
     me.Pieri = &acgtEe{
@@ -2949,8 +3027,7 @@ me.Sch_Story = &acgt{ return [
         R.sc[Rs&Pier] = 1
     }
     
-    
-    # @264 arrive id (&pio)
+    # @264 realise minded id
     me.Piero = &acgt{
         $R = me&R
         $E = Rs&E
@@ -2983,8 +3060,10 @@ me.Sch_Story = &acgt{ return [
                 qua.dim and me&tc,"~dim~"
             }
         }
-        
+        # ref sense similar, centralised
         me&Rlimiti,R
+        
+        return M
     }
     
   
@@ -3152,7 +3231,7 @@ me.Sch_Story = &acgt{ return [
   // &Rthingo, show %%limit|toomuch...** etc
     # @67 assigns signage about being R%toomuch**
     me.Rtoomucho = &acgtRc{
-        $c = {t:'toomuch',sym:"⦄",cv:25}
+        $c = {t:'toomuch',sym:"⦄",cv:76}
         
         c.do1 = &c{
             $sugov = 0
