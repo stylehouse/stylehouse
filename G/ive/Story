@@ -2788,10 +2788,14 @@ me.Sch_Story = &acgt{ return [
             # if any match (besides impl|ope<0),
             #  it promotes E to in, past any %limit
             $M = me&Pieri,E,e
-            # < TX about style|schema|layout are usu low intent
-            #   most other stuff implies opening
-            #    since stuff is routing into it
-            $keen = hak(M) ? 1 : 0
+            # TX about style|schema|layout are usu low intent
+            #  should cause eg dim
+            #   if light happens to get there
+            # most other RXing as of &Pieri implies opening
+            #  since stuff is routing into it, eg ope+1
+            #   or eg something compare in there
+            $serious = M.filter(aq => !aqs&layout)
+            $keen = hak(serious) ? 1 : 0
             each i,aq M {
                 $qua = aqs&qua
                 !qua and continue
@@ -2920,7 +2924,9 @@ me.Sch_Story = &acgt{ return [
     # 3 realises R/r as E/e
     
     # @ 22 layouty TXi
-    me.TXin = &acgtt{
+    me.TXin = &acgttg{
+        g = peel(g)
+        
         $R = me&R
         $E = Rs&E
         $sol = &he{
@@ -2930,14 +2936,16 @@ me.Sch_Story = &acgt{ return [
                 $init = delete c.init
                 # c becomes aq%qua
                 $aq = fi&TXi,e||E,name,{t:k},c
-                aqs&also = {dl:1}
+                
+                ex(aq.sc,g)
         # < most matches want to apply only to E/*
         #   applying further is wander, ie E/**
         #   then there's one-per:
         #    putting the RX.ignore on the matcher
                 ah(aq,'also','dl',1)
-
+                # < use
                 init and init(aq)
+                # then more inside
                 z and sol(z,aq)
             }
         }
@@ -4133,6 +4141,7 @@ me.Sch_Story = &acgt{ return [
         },'ift,D'],
         
        // -hat -> -Hash etc
+        # expects it to be C
         ['isC',0.21,&acgtRs{
             me&walls,C,'bd:1.5'
             Rs&hat = 1
@@ -4141,8 +4150,8 @@ me.Sch_Story = &acgt{ return [
             # < central fault aggregator
             me&strange,"!C"
         },'ift,D'],
+        # diverges into types
         ['hat',0.21,&acgtRs{
-            # diverges into types
             $sym = isR(s) ? "R" :
                 isC(s) && isst(s.t) ? "C" : 0
             sym &&
@@ -4189,7 +4198,7 @@ me.Sch_Story = &acgt{ return [
                 n y.cv 122 $s:cv label,deco,hs:999
             }
             if (!Rs&strange) {
-                me&TXin,'Cshade' ({
+                me&TXin,'Cshade',{layout:'C'} ({
                     t: {impl:1},
                     y: {dim:1,z:{
                         cv: {impl:1}
