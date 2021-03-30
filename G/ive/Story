@@ -2192,7 +2192,7 @@ me.Sch_Story = &acgt{ return [
         me&tc,"Gool","G"
         Rs&TheingE = 1
     },'ift,D'],
-    # R%Theing...Ec&top also have E
+    # R%TheingE**/Ec&top - containers also have E
     ['TheingE',0.291,&acgtRs{
         me&bin,'TheingE'
         $p = Ry&up
@@ -2262,6 +2262,8 @@ me.Sch_Story = &acgt{ return [
     # from sc&pi)%ball, giving rc&s=sc&s
     me.Piering = &acgtc{
         $R = me&R
+        $RE = Rs&E
+        !RE and throw "!outR%E"
         $x = me&Theing
         $s = Rc&s
         me&tc,"---"
@@ -2273,7 +2275,11 @@ me.Sch_Story = &acgt{ return [
         c.Top = 1
         c.s = sc&s
         c.V = s
+        # the first insphere E
         $E = c.E = Cye([c.t,1])
+        # knows the outsphere
+        Ey&up = RE
+        # usu stops climbing at
         Ec&top = E
         $r = me&PiRet,R,c
         ac(R,'z',r)
@@ -3116,6 +3122,16 @@ me.Sch_Story = &acgt{ return [
             }
         }
         
+        $C = Rs&C
+        each ir Rc&N {
+            if (rs&strange) {
+                # < partly glowing map of t**
+                $tpath = joint(me.cby(rs&E,E => Ec&top),'/')
+                $tc = me&tc,'strange:'+tpath,'16b'
+                
+                delete tcy&cv
+            }
+        }
         # generate thingo
         each ir Rc&N {
             $C = rs&C
@@ -3850,6 +3866,152 @@ me.Sch_Story = &acgt{ return [
             Vy&TXing = EDs&aq
         },'ift,D'],
         
+       //   -Bet event, -Belt slope
+        # the e itself
+        ['Bet',0.21,&acgtRs{
+            $D = Rs&D
+            me&walls,C,'bd:3.1'
+            # < mutey picture of the C
+            $en = me&tc,"e:"+s.t,'g'
+            me&walls,en,'b:3.2'
+            
+            # qua to deliver, meaning of this event
+            Ds&Xsc = {ope:1}
+            
+            #   pulling up the sc&tower.N
+            $c = sc&tower
+            me&Ei,{t:'tow',pi:'Belt',s:c.N}
+        },'ift,D'],
+        # a slope: $n/$n/$n...
+        ['Belt',0.21,&acgtRs{
+            $N = s
+            !isar(N) and return me&strange,"!array"
+            each in N {
+                $e = me&Ei,{t:i,pi:'Bit',s:n,noref:1}
+            }
+        },'ift,D'],
+       //     -Bit of slope, -isX
+        ['Bit',0.21,&acgtRs{
+            $D = Rs&D
+            $E = Rs&E
+            $Be = me.cbu(R,'Bet')
+            # < /E/X, ark=X being strongly typed -X
+            #   R/E/X then are arks, wideness
+            #    at one point along the -Belt
+            $e = me&Ei,{t:'s',pi:'isC',s:s}
+            !me&Eing,4 and return
+            if (isR(s)) {
+                Rs&isR = 1
+                # < whittle down, pushing presentation,
+                #   to be turned into an entirety if willed...
+                #   or just R+E+X in the first -isC minimality
+                # once that -isC is ok, spawn further:
+                $tE = ss&E
+                if (!isC(tE)) {
+                    $e = me&Ei,{t:'E',pi:'isC',s:tE}
+                    !me&Eing,4 and return
+                }
+                $X = tEc&X
+                $e = me&Ei,{t:'X',pi:'isX',s:X}
+                !me&Eing,4 and return me&strange,"Xnolike"
+                $r = ey&R
+                $nec = rs&nec
+                !nec and me&strange,"!nec"
+                if (rs&nec_simple) {
+                    me&tc,"t-will-do",'t','8y'
+                    rs&noDisplay = 1
+                    Rs&inline = 1
+                    Rs&tiny = 1
+                }
+                Rs&nec = nec
+                $Xc = Ds&Xc = {}
+                each ic nec {
+                    Xc[c.k] = c.v
+                }
+                if (!rs&nec_simple) {
+                    me&tc,"gotta:"+dis(Xc),'1q'
+                }
+            }
+            else {
+                # modulat, might something?
+                Rs&tiny = 1
+                if (isC(s)) {
+                    if (s.t == 'At') {
+                        Bes&clickat = 'title'
+                    }
+                }
+            }
+        },'ift,D'],
+        # R/E/X
+        &{
+            me.E_neighbours = &acgtE{
+                $Ep = Ey&up
+                Ep and return me&ioty,Ep
+                # out the top of E space:
+                $R = Ey&R
+                $p = Ry&up
+                $N = []
+                each in ps&z {
+                    ns&E and N.push(ns&E)
+                }
+                return N
+            }
+            # find the X/* most identifying X amongst N[X]
+            me.X_necessary = &acgtXN{
+                $M = []
+                each kv X {
+                    k == 'ref' and continue
+                    k == 'v' and continue
+                    $sk = k+'s'
+                    $refs = X [sk]
+                    !refs and continue
+                    each iv refs {
+                        $found = hak(N.filter(
+                            V => V[sk] && V[sk].includes(v)
+                        ))
+                        M.push({k,v,found})
+                    }
+                }
+                $most_iding = vsortz(M,a => a.found)
+                $necessary = []
+                each ic most_iding {
+                    necessary.push(c)
+                    c.found == 1 and break
+                }
+                return necessary
+            }
+        },
+        ['isX',0.21,&acgtRs{
+            if (Rs&refR) {
+                # duplicate, reuse results
+                $r = Rs&refR[0]
+                !rs&nec and return me&strange,'!nec'
+                sex(R.sc,r.sc,'nec,nec_simple')
+                return
+            }
+            # look for the most identifying classifications
+            $iE = s.A
+            $Bet = me.cbu(R,'Bet')
+            $Bit = me.cbu(R,'Bit')
+            # amongst its neighbours, even at the outsphere
+            Bet.t == 1 && Bit.t == 0 and me&strange,"THignso"
+            $N = me&E_neighbours,iE
+            
+            !N.includes(iE) and me&strange,"!N/iE"
+            $NX = N.map(E => Ec&X).filter(X=>X)
+            $nec = Rs&nec = me&X_necessary,s,NX
+            if (hak(nec) == 1) {
+                $ne = nec[0]
+                if (ne.k == 't' && ne.v == iE.t) {
+                    Rs&nec_simple = 1
+                }
+            }
+            else {
+                # < boost or !simple:
+                me&Ei,{t:'Es',pi:'hat',s:nec,dl:2}
+            }
+        },'ift,D'],
+        
        //   -Spheres events look
         ['maybrack',0.22,&acgtRs{
             if (ss&X && ss&z) {
@@ -3997,150 +4159,6 @@ me.Sch_Story = &acgt{ return [
             me&tc,"done:"+joint(done)
             
             #me&Ei,{t:'aq',pi:'hat',s:aq,dl:2}
-        },'ift,D'],
-       //   -Bet event, -Belt slope
-        # the e itself
-        ['Bet',0.21,&acgtRs{
-            $D = Rs&D
-            me&walls,C,'bd:3.1'
-            # < mutey picture of the C
-            $en = me&tc,"e:"+s.t,'g'
-            # qua to deliver, meaning of this event
-            Ds&Xsc = {ope:1}
-            #   pulling up the sc&tower.N
-            $c = sc&tower
-            me&Ei,{t:'tow',pi:'Belt',s:c.N}
-            me&walls,en,'b:5.2'
-        },'ift,D'],
-        # a slope
-        ['Belt',0.21,&acgtRs{
-            $p = Ry&up
-            $pE = ps&E
-            
-            $N = s
-            !isar(N) and return me&strange,"!array"
-            each it N {
-                $e = me&Ei,{t:i,pi:'Bit',s:t,noref:1}
-                pEc&i > 0 and continue
-                
-                # < how each thing relates to others
-                #$M = me.cby(t)
-                #me&tc,tn,"x"+hak(M),6
-            }
-        },'ift,D'],
-       //     -Bit of slope, -isX
-        ['Bit',0.21,&acgtRs{
-            $D = Rs&D
-            $E = Rs&E
-            $Be = me.cbu(R,'Bet')
-            # < /E/X, ark=X being strongly typed -X
-            #   R/E/X then are arks, wideness
-            #    at one point along the -Belt
-            $e = me&Ei,{t:'s',pi:'isC',s:s}
-            !me&Eing,4 and return
-            if (isR(s)) {
-                Rs&isR = 1
-                # < whittle down, pushing presentation,
-                #   to be turned into an entirety if willed...
-                #   or just R+E+X in the first -isC minimality
-                # once that -isC is ok, spawn further:
-                $tE = ss&E
-                if (!isC(tE)) {
-                    $e = me&Ei,{t:'E',pi:'isC',s:tE}
-                    !me&Eing,4 and return
-                }
-                $X = tEc&X
-                $e = me&Ei,{t:'X',pi:'isX',s:X}
-                !me&Eing,4 and return me&strange,"Xnolike"
-                $r = ey&R
-                $nec = rs&nec
-                !nec and me&strange,"!nec"
-                if (rs&nec_simple) {
-                    me&tc,"t-will-do",'t','8y'
-                    rs&noDisplay = 1
-                    Rs&inline = 1
-                    Rs&tiny = 1
-                }
-                Rs&nec = nec
-                $Xc = Ds&Xc = {}
-                each ic nec {
-                    Xc[c.k] = c.v
-                }
-            }
-            else {
-                # modulat, might something?
-                Rs&tiny = 1
-                if (isC(s)) {
-                    if (s.t == 'At') {
-                        Bes&clickat = 'title'
-                    }
-                }
-            }
-        },'ift,D'],
-        # R/E/X
-        &{
-            me.E_neighbours = &acgtE{
-                $Ep = Ey&up
-                Ep and return me&ioty,Ep
-                # out the top of E space:
-                $R = Ey&R
-                $p = Ry&up
-                $N = []
-                each in ps&z {
-                    ns&E and N.push(ns&E)
-                }
-                return N
-            }
-            # find the X/* most identifying X amongst N[X]
-            me.X_necessary = &acgtXN{
-                $M = []
-                each kv X {
-                    k == 'ref' and continue
-                    k == 'v' and continue
-                    $sk = k+'s'
-                    $refs = X [sk]
-                    !refs and continue
-                    each iv refs {
-                        $found = hak(N.filter(
-                            V => V[sk] && V[sk].includes(v)
-                        ))
-                        M.push({k,v,found})
-                    }
-                }
-                $most_iding = vsortz(M,a => a.found)
-                $necessary = []
-                each ic most_iding {
-                    necessary.push(c)
-                    c.found == 1 and break
-                }
-                return necessary
-            }
-        },
-        ['isX',0.21,&acgtRs{
-            if (Rs&refR) {
-                # duplicate, reuse results
-                $r = Rs&refR[0]
-                !rs&nec and return me&strange,'!nec'
-                sex(R.sc,r.sc,'nec,nec_simple')
-                return
-            }
-            # look for the most identifying classifications
-            $iE = s.A
-            # amongst its neighbours
-            $N = me&E_neighbours,iE
-            !N.includes(iE) and me&tc,"!N/iE",'b'
-            $NX = N.map(E => Ec&X).filter(X=>X)
-            $nec = Rs&nec = me&X_necessary,s,NX
-            if (hak(nec) == 1) {
-                $ne = nec[0]
-                if (ne.k == 't' && ne.v == iE.t) {
-                    Rs&nec_simple = 1
-                }
-            }
-            else {
-                # < boost or !simple:
-                me&Ei,{t:'Es',pi:'hat',s:nec,dl:2}
-            }
         },'ift,D'],
         
        // -hat -> -Hash etc
