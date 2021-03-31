@@ -2773,7 +2773,14 @@ me.Sch_Story = &acgt{ return [
         }
         # @2, etc!
         if (c) {
-            return me&Eing_Ring,R,c
+            num(c) and c = {ov:c}
+            c.ov = scaf(c.ov)
+
+            me&Ring,R,{inside:R,ov:c.ov}
+
+            $allok = !me&ja,R,{toomuch:1}
+                && !hak(me&ioR .filter(r => rs&strange))
+            return allok
         }
     }
     me.Eing_some = &acgtRE{
@@ -2875,7 +2882,6 @@ me.Sch_Story = &acgt{ return [
             !r || rc&not and debugger; me&Ri,{toomuch:'not',E:e}
         }
         
-        
         if (hak(c.toomany)) {
             # can be %TX out of the shadow
             me&Ri,{limit:'many',s:'..'+hak(length),thresh:many,toomuch:1}
@@ -2887,20 +2893,10 @@ me.Sch_Story = &acgt{ return [
         if (hak(c.toomuch)) {
             # note the !E
             # points vaguely to %%limit
-            each ie c.toomany {
+            each ie c.toomuch {
                 me&Ri,{toomuch:'limit',E:e}
             }
         }
-    }
-    me.Eing_Ring = &acgtRc{
-        num(c) and c = {ov:c}
-        c.ov = scaf(c.ov)
-        
-        me&Ring,R,{inside:R,ov:c.ov}
-        
-        $allok = !me&ja,R,{toomuch:1}
-            && !hak(me&ioR .filter(r => rs&strange))
-        return allok
     }
     # 1 R/r for E/* while &Eing
     me.PiRet = &acgtRc{
@@ -2977,12 +2973,16 @@ me.Sch_Story = &acgt{ return [
             Xc.v = s
             isC(s) and Xc.Ct = s.t
         }
+        
         # < Xc.Ct > .t sometimes, from -Bet
         # < path can say 0/CthingCsoCCalleisable
         #   for an array .t, then .Ct+
         fi&pio,e,Xc
         
         $M = fi&RXglob,e,'matched'
+        
+        
+        
         
         return M
     }
@@ -3058,15 +3058,20 @@ me.Sch_Story = &acgt{ return [
         $M = fi&RXglob,E,'matched'
         
         if (hak(M)) {
-            # < effect At@101, t@12 etc based on match
-            $t = me&Mwty,R,'Pier','At';
-            ts&sha = '3 3 3 999'
             T.Mw = 'TX'
             # is it the end of a Ting
             $sym = M.some(aq => aqc&TX) ? '⇃' : '⥙'
             # < modify this to click expand elvising trace
+            # < by being a thingo
             $t = me&tc,"RX:"+joint(M),sym,'T'
-            ty&cv = 0.28
+            ty&cv = 0.228
+            $serious = M.filter(aq => !aqs&layout)
+            if (hak(serious)) {
+                # < effect At@101, t@12 etc based on match
+                $t = me&Mwty,R,'Pier','At';
+                ts&sha = '3 3 3 999'
+            }
+            else ts&bri = 0.7
             me&attendios,'matches',{M}
             each i,aq M {
                 $qua = aqs&qua
@@ -4269,7 +4274,7 @@ me.Sch_Story = &acgt{ return [
    # GOING
     &{
    // slope io: &Rsci + dialects
-   // dialects
+    // dialects
     # not readable?
     me.Rli = &acgtscq{
         c = ex(c||{},{gk:'limit'})
@@ -4287,7 +4292,7 @@ me.Sch_Story = &acgt{ return [
         c = ex(c||{},{el:8})
         return me&Rli,s,c,q
     }
-   // &Rsci
+    // &Rsci
     # v=[] for /$n-ism, adding|finding c.n
     me.Rscin = &acgtscqv{
         if (c.el == 8) {
