@@ -3838,7 +3838,7 @@ me.Sch_Story = &acgt{ return [
             $V = Rs&V
             $D = Rs&D
             $E = Rs&E
-            $top2 = me.cbu(R,'Theing').t == 'The'
+            $top2 = me.cbu(R,'Theing').t.match(/^The( 2)?$/)
             !top2 and Rc&nl = 500
             me&Battarget,R
             # enables popping events in, waking R%TheTt
@@ -4013,7 +4013,6 @@ me.Sch_Story = &acgt{ return [
             } 
             
             $NX = N.map(E => Ec&X).filter(X=>X)
-            NX.map(X => me&tc,'X:'+joint(haks(X)),'16' )
             $nec = Rs&nec = me&X_necessary,s,NX
             if (hak(nec) == 1) {
                 $ne = nec[0]
