@@ -2274,13 +2274,21 @@ me.Sch_Story = &acgt{ return [
         c.t ||= "R-"+c.Pier
         c.Top = 1
         c.s = sc&s
-        c.V = s
+        $V = c.V = s
         # the first insphere E
         $E = c.E = Cye([c.t,1])
-        # knows the outsphere
+        # knows the outsphere E
         Ey&up = RE
-        # usu stops climbing at
+        # stops climbing there
         Ec&top = E
+        # outsphere itself (V)%ball) provides travel
+        #  bunch of indexes for everything we could climb to
+        #   ie avoid checking all Towering nodes for /$t etc
+        # i %TX/* o Troom
+        #  receives it here for E**
+        V && Vy&RXing and fi&RXi,E,Vy&RXing
+        # then starts matching, usu in &Eing
+        $M = me&Pieri,RE,E
         $r = me&PiRet,R,c
         ac(R,'z',r)
         x.ro('noD') and rs&noDisplay = 1
@@ -3016,11 +3024,6 @@ me.Sch_Story = &acgt{ return [
         $E = Rs&E
         $V = Rs&V
         # E** happenings
-        
-        # outsphere provides travel
-        # i %TX/* o Troom
-        #  receives it here for E**
-        V && Vy&RXing and fi&RXi,E,Vy&RXing
         
         # light appetite
         Ec&dl and Rc&dl = Rc&d + Ec&dl
@@ -3983,6 +3986,7 @@ me.Sch_Story = &acgt{ return [
         },
         ['isX',0.21,&acgtRs{
             if (Rs&refR) {
+                # < reimplement as -Bet compiling
                 # duplicate, reuse results
                 $r = Rs&refR[0]
                 !rs&nec and return me&strange,'!nec'
@@ -3994,11 +3998,22 @@ me.Sch_Story = &acgt{ return [
             $Bet = me.cbu(R,'Bet')
             $Bit = me.cbu(R,'Bit')
             # amongst its neighbours, even at the outsphere
-            Bet.t == 1 && Bit.t == 0 and me&strange,"THignso"
             $N = me&E_neighbours,iE
+            if (!N.includes(iE)) {
+                if (iEc&top && iEy&up
+                    && me&fiu,iEy&up,iE.t,8 ) {
+                    # where Ey&up becomes persistent (many R per E)
+                    # we are looking at a past version of E
+                    # < rowing perspectives for any part of X
+                    #    inside a past? transaction
+                }
+                else {
+                    me&strange,"!N/iE"; me&tc,'iEN:'+joint(N)
+                }
+            } 
             
-            !N.includes(iE) and me&strange,"!N/iE"
             $NX = N.map(E => Ec&X).filter(X=>X)
+            NX.map(X => me&tc,'X:'+joint(haks(X)),'16' )
             $nec = Rs&nec = me&X_necessary,s,NX
             if (hak(nec) == 1) {
                 $ne = nec[0]
