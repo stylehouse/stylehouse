@@ -3061,30 +3061,50 @@ me.Sch_Story = &acgt{ return [
             T.Mw = 'TX'
             # is it the end of a Ting
             $sym = M.some(aq => aqc&TX) ? '⇃' : '⥙'
-            # < modify this to click expand elvising trace
-            # < by being a thingo
-            $t = me&tc,"RX:"+joint(M),sym,'T'
-            ty&cv = 0.228
-            $serious = M.filter(aq => !aqs&layout)
-            if (hak(serious)) {
-                # < effect At@101, t@12 etc based on match
-                $t = me&Mwty,R,'Pier','At';
-                ts&sha = '3 3 3 999'
-            }
-            else ts&bri = 0.7
-            me&attendios,'matches',{M}
+            
             each i,aq M {
                 $qua = aqs&qua
                 !qua and continue
+                $s = {RX:2,aq}
                 qua.ope and Rc&dl += qua.ope
                 qua.impl and Rs&noDisplay = 1
                 qua.dim and me&tc,"~dim~"
+                me&Ri,s
             }
         }
         # ref sense similar, centralised
         me&Rlimiti,R
         
         return M
+    }
+    me.RRXo = &acgtRc{
+        $c = {t:'RX',sym:"⇃"}
+        c.do18 = &c,li,re{
+            $M = c.N.map(n => ns&aq)
+            
+            # icon flavours:
+            # no further pointing
+            !M.some(aq => aqc&TX) and rec&s = '⥙'
+            if (M.some(aq => !aqs&layout)) {
+                # glow label
+                # < effect At@101, t@12 etc based on match
+                $t = me&Mwty,R,'Pier','At';
+                ts&sha = '3 3 3 999'
+            }
+            else {
+                res&bri = 0.7
+                res&title += ' (layouty)'
+            }
+            
+            each i,aq M {
+                $ti = aq.t+"%"+dis(aqs&qua)
+                res&title += "\n"+ti
+            }
+            # < -Bet open, expand elvising trace
+            sz(c.ov,0.3)
+            c.ov = 0.18
+        }
+        me&Rthingo,R,c
     }
     
   
@@ -3243,6 +3263,7 @@ me.Sch_Story = &acgt{ return [
     me.magic = {}
     me.magic.limit = {}
     me.magic.toomuch = {}
+    me.magic.RX = {}
     me.Ri = &acgt{
         $c = me&Rioing,...[...arguments].slice(4)
         $n = me&ha,c.R,...c.args
@@ -3306,7 +3327,6 @@ me.Sch_Story = &acgt{ return [
         }
         me&Rthingo,R,c
     }
-    
     # capsule, filler for %limit|%toomuch|...
     # < c.notes going to sym%title
     # < togcon port
@@ -3331,7 +3351,7 @@ me.Sch_Story = &acgt{ return [
         
         # make capsule here
         $li = me&tc,c.t+'-cap'
-        liy&cv = c.cv && scaf(c.cv) || 0.13
+        liy&cv = c.cv && scaf(c.cv) || 0.132
         delete lic&s
         $hu = (""+liy&cv).substr(-1)
         me&walls,li,'bd:1.4,hu:'+hu
@@ -3885,6 +3905,7 @@ me.Sch_Story = &acgt{ return [
             
             # qua to deliver, meaning of this event
             Ds&Xsc = {ope:1}
+            # see -Belt/-Bit%D%Xc
             
             #   pulling up the sc&tower.N
             $c = sc&tower
@@ -4204,7 +4225,7 @@ me.Sch_Story = &acgt{ return [
                 }
                 else {
                     # stops recursion
-                    me&ha,R,{limit:'tiny',toomuch:1}
+                    me&Ri,'limit:tiny,toomuch'
                 }
             }
             sym and me&typeup,R,'Cish'
@@ -4264,7 +4285,7 @@ me.Sch_Story = &acgt{ return [
             $D = Rs&D
             $E = Rs&E
             $di = dis(s)
-            n thinking 12 $s:di %fs:8,hs:584
+            n thinking 13 $s:di %fs:8,hs:584
         },'ift,D'],
         
         
