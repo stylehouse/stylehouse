@@ -3057,6 +3057,9 @@ me.Sch_Story = &acgt{ return [
         
         $M = fi&RXglob,E,'matched'
         
+        # < unfold schemes at &Eing
+        $p = Ry&up
+        ps&isdim and Rs&indim = 1
         if (hak(M)) {
             T.Mw = 'TX'
             # is it the end of a Ting
@@ -3068,8 +3071,17 @@ me.Sch_Story = &acgt{ return [
                 $s = {RX:2,aq}
                 qua.ope and Rc&dl += qua.ope
                 qua.impl and Rs&noDisplay = 1
-                qua.dim and me&tc,"~dim~"
+                qua.dim and Rs&isdim = 1; me&tc,"~dim~"
                 me&Ri,s
+            }
+            each i,aq M {
+                $qua = aqs&qua
+                !qua and continue
+                if (qua.ope && qua.ope > 0) {
+                    # < or if cold light
+                    delete Rs&isdim
+                    delete Rs&indim
+                }
             }
         }
         # ref sense similar, centralised
@@ -3121,9 +3133,30 @@ me.Sch_Story = &acgt{ return [
         
         # < thingi, when notes merge onto parents
         #   could be earlier, sublate /* &Rthingo if simple
+        
         each ir Rc&N {
             $C = rs&C
             $N = me&ioR,r
+            # who
+            rs&shym && rs&Ctitle and delete rs&Mw.shym
+            if (!hak(N)) {
+                if (rs&toomuch) {
+                    # hiding all the stuff
+                    if (rs&isdim) {
+                    
+                    }
+                    elsif (rs&indim) {
+                        rs&toomuch_shouldcount = 1
+                        me&Mwty,r,'shym','end',''
+                            .map(n => nc&not = 1)
+                    }
+                    else {
+                        
+                    }
+                }
+                # instead of thing{ ⦄1 }
+            }
+            # %limit unifies
             $too = N.filter(r => rs&limit)
             if (!(hak(too) <3) && hak(too) > hak(N)*0.5) {
                 # notice lots of children getting a %limit
@@ -3319,6 +3352,10 @@ me.Sch_Story = &acgt{ return [
                         cous&fs = 8
                         cous&ml = -0.2
                         res&title += " !E["+bunch+"]"
+                        if (Rs&toomuch_shouldcount && c.ov <= 0.2) {
+                            rec&not = 1
+                            cous&title = cou.t+' '+res&title
+                        }
                     }
                 }
             }
@@ -3372,7 +3409,7 @@ me.Sch_Story = &acgt{ return [
             res&fs = 17
             res&lh = 0.3
             liy&sym = re
-            res&title = re.t
+            res&title = lis&title || c.t
         }
         
         c.do18 and c.do18(c,li,re)
@@ -4274,12 +4311,25 @@ me.Sch_Story = &acgt{ return [
         ['Hash',0.263,&acgtRs{
             $D = Rs&D
             $E = Rs&E
+            # Object has border
+            #  inc key of it somewhere
             me&walls,C,'b:2.2'
-            n begin 23 s:{
+            # it itself is inside brackets, 23-77
+            # %shym = a %sym that can be mirrored
+            Rs&shym ||= isar(s) ? '[' : '{'
+            T.Mw = 'shym'
+            # < G&n should Mw by T.Mw||T.act.t
+            #   as &tsc does
+            me&tsc,'begin',Rs&shym,'' .y.cv = 0.23
+            #n begin 23 $s:Rs&shym
             each kv s {
                 me&Ei,{t:k,s:v}
             }
-            n end 77 s:}
+            $rev = Rs&shym == '[' ? ']'
+                : Rs&shym == '{' ? '}'
+                : '</'+Rs&shym+'>'
+            me&tsc,'end',rev,'' .y.cv = 0.77
+            #n end 77 $s:rev
         },'ift,D'],
         ['String',0.263,&acgtRs{
             $D = Rs&D
