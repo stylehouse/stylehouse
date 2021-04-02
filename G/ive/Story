@@ -3133,7 +3133,7 @@ me.Sch_Story = &acgt{ return [
         
         # < thingi, when notes merge onto parents
         #   could be earlier, sublate /* &Rthingo if simple
-        
+        T.Mw = 'Top'
         each ir Rc&N {
             $C = rs&C
             $N = me&ioR,r
@@ -3142,19 +3142,28 @@ me.Sch_Story = &acgt{ return [
             if (!hak(N)) {
                 if (rs&toomuch) {
                     # hiding all the stuff
+                    if (rs&shym && !rs&Cish) {
+                        rs&toomuch_shouldcount = 1
+                        me&Mwty,r,'shym','end',''
+                            .map(n => nc&not = 1)
+                    }
+                    if (rs&indim && rs&Cish) {
+                        me&Mwty,r,'Ctitle'
+                            .map(n => nc&not = 1)
+                    }
+                    
                     if (rs&isdim) {
                     
                     }
                     elsif (rs&indim) {
-                        rs&toomuch_shouldcount = 1
-                        me&Mwty,r,'shym','end',''
-                            .map(n => nc&not = 1)
                     }
                     else {
                         
                     }
                 }
                 # instead of thing{ ⦄1 }
+            }
+            if (rs&isdim) {
             }
             # %limit unifies
             $too = N.filter(r => rs&limit)
