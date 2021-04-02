@@ -2784,6 +2784,7 @@ me.Sch_Story = &acgt{ return [
         }
     }
     me.Eing_some = &acgtRE{
+      // 1 c.would, (un)?keen
         $many = hak(Es&z) > 30 ? 20 : 0
         # arriving e a bit may pos|neg it
         # < once space limit is found,
@@ -2825,21 +2826,41 @@ me.Sch_Story = &acgt{ return [
             }
             # < more and less keen
             keen > 0 and ac(c,'keen',e)
+            else
+            keen < 0 and ac(c,'unkeen',e)
         }
-        
+        # unhad e logged:
+        c.toomuch ||= []
+      // 2 %limit:
         # stop R recursion when a %%limit,toomuch
         #  R may have decided that already,
         # < running into eg %limit:many while @1-ing R
         $stop = me&Ro,{limit:1,toomuch:1}
         # %limit:ref may stop woulding, probably unlimited keen e
         if (stop) {
-            c.toomuch = c.would.splice(0)
+            c.toomuch.push( ... c.would.splice(0) )
             if (c.keen) {
                 # just the keen
                 # < unless a stopper is much over a hard limit, eg nl
                 # grepout comp array of objects
                 c.would = grepout(c.toomuch,c.keen)
             }
+        }
+        # %limit:meh for unkeen
+        if (hak(c.unkeen)) {
+            $N = grepout(c.would,c.unkeen)
+            each ie N {
+                # doesn't thingo:toomuch unless really pushed to
+                #  cos &Ri est R%thing for only the first magic word
+                me&Ri,{layout:'unkeen',toomuch:'impl',E:e}
+            }
+            # < a %%toomuch that isn't losing information?
+            #    so other ref can refer to this as thing
+            #   since %impl are compressions,
+            #    and ope<0 are purposeful exclusions
+            #    < dim could make small limit:many
+            #      become a less important unkeen
+            #c.toomuch.push(...N)
         }
         # %limit:many prioritises space for keen e
         # < $many as per %limit:dim...
@@ -2875,6 +2896,7 @@ me.Sch_Story = &acgt{ return [
             }
         }
         
+      // 37 &PiRet
         each ie c.would {
             $rc = {t:e.t,s:ec&s,E:e}
             $r = ey&R = me&PiRet,R,rc
@@ -2889,9 +2911,9 @@ me.Sch_Story = &acgt{ return [
                 ac(c,'toomuch',e)
             }
         }
-        # %limit:many+ref coalesce into non-happening E/e:
+        # %limit:many+ref coalesce into non-happening E/e
+        # < dont lose the exact origin of the !e
         if (hak(c.toomuch)) {
-            # note the !E
             # points vaguely to %%limit
             each ie c.toomuch {
                 me&Ri,{toomuch:'limit',E:e}
@@ -3070,7 +3092,7 @@ me.Sch_Story = &acgt{ return [
                 !qua and continue
                 $s = {RX:2,aq}
                 qua.ope and Rc&dl += qua.ope
-                qua.impl and Rs&noDisplay = 1
+                qua.impl and me&tc,"~impl~"
                 qua.dim and Rs&isdim = 1; me&tc,"~dim~"
                 me&Ri,s
             }
@@ -3089,36 +3111,6 @@ me.Sch_Story = &acgt{ return [
         
         return M
     }
-    me.RRXo = &acgtRc{
-        $c = {t:'RX',sym:"⇃"}
-        c.do18 = &c,li,re{
-            $M = c.N.map(n => ns&aq)
-            
-            # icon flavours:
-            # no further pointing
-            !M.some(aq => aqc&TX) and rec&s = '⥙'
-            if (M.some(aq => !aqs&layout)) {
-                # glow label
-                # < effect At@101, t@12 etc based on match
-                $t = me&Mwty,R,'Pier','At';
-                ts&sha = '3 3 3 999'
-            }
-            else {
-                res&bri = 0.7
-                res&title += ' (layouty)'
-            }
-            
-            each i,aq M {
-                $ti = aq.t+"%"+dis(aqs&qua)
-                res&title += "\n"+ti
-            }
-            # < -Bet open, expand elvising trace
-            sz(c.ov,0.3)
-            c.ov = 0.18
-        }
-        me&Rthingo,R,c
-    }
-    
   
   // R'The'   specialfx
     # magic words in brack engage, like Ring
@@ -3303,6 +3295,7 @@ me.Sch_Story = &acgt{ return [
     }
     # for &Ri,'limit:ref' -> &ha,... + R%limit=[]
     me.magic = {}
+    me.magic.layout = {}
     me.magic.limit = {}
     me.magic.toomuch = {}
     me.magic.RX = {}
@@ -3323,6 +3316,146 @@ me.Sch_Story = &acgt{ return [
         return me&Ro,...[...arguments].slice(4) || []
     }
   // &Rthingo, show %%limit|toomuch...** etc
+    # capsule, filler for %limit|%toomuch|...
+    # < c.notes going to sym%title
+    # < togcon port
+    # defer to %limit if the only
+    me.Rthingo = &acgtRc{
+        $C = Rs&C
+        c.N ||= me&Ro,c.t
+        # plant in R, otherwise T.Mw=overthingo
+        !c.up and T.Mw = c.t
+        
+        # < arrive togcon
+        c.do1 and c.do1(c)
+        # group by the %%limit
+        # < partN key=object unsafe
+        $h = partN(c.N,n => n.sc[c.t])
+        # < group by the next most groupey thing
+        h.one && c.up and h = partN(c.N,n => n.sc[c.up.t])
+        $sublated = N => hak(N.filter(n => ns&sublated))
+        me&hall,h.vs,sublated and c.ov ||= 0.01
+        c.ov ||= 0.2
+        sz(c.ov,0.1) and return
+        
+        # make capsule here
+        $li = me&tc,c.t+'-cap'
+        liy&cv = c.cv && scaf(c.cv) || 0.132
+        delete lic&s
+        $hu = (""+liy&cv).substr(-1)
+        me&walls,li,'bd:1.4,hu:'+hu
+        
+        # move into it
+        $lip = T.Mw
+        if (isC(lip) && lipc&thing) {
+            liy&up = lip
+            lis&title = lipc&thing.t+'/'+c.t
+        }
+        lic&thing = c
+        T.Mw = c.li = li
+        
+        # sym
+        if (c.sym) {
+            $re = c.re = me&tc,c.t+'-sym',c.sym,c.symc||'b'
+            rec&s = c.sym || ""
+            res&fs = 17
+            res&lh = 0.3
+            liy&sym = re
+            res&title = lis&title || c.t
+        }
+        
+        c.do18 and c.do18(c,li,re)
+        sz(c.ov,0.2) and return li
+        
+        each it h.ks {
+            $N = h.vs[i]
+            T.Mw = li
+            hak(grepout(N,n => ns&sublated)) and continue
+            # call $magicword/$ghostkey
+            #  names are minds, have time
+            $tc = {t,up:c,N}
+            if (me&mecy,['R',c.t,'o_',t],R,tc ) {
+                # only that unless opened
+                sz(c.ov,0.3) and continue
+            }
+            T.Mw = li
+            $talk = c.t+": "+t
+            $t = me&tc,talk,t,'b'
+            # < conjoin a brackology here,
+            #   having already stated toomuch:not
+            ts&title = talk+" "+dis(N[0].sc)
+            hak(N.filter(n => ns&super)) &&
+                me&tc,'super-','*','y'
+        }
+        
+        # is also T.Mw - where &tc will be put
+        return li
+    }
+  
+  // %%RX, %%layout, %%toomuch
+    # what arrives there
+    me.RRXo = &acgtRc{
+        $c = {t:'RX',sym:"⇃"}
+        c.do18 = &c,li,re{
+            $M = c.N.map(n => ns&aq)
+            
+            # icon flavours:
+            # no further pointing
+            !M.some(aq => aqc&TX) and rec&s = '⥙'
+            if (M.some(aq => !aqs&layout)) {
+                # glow label
+                # < effect At@101, t@12 etc based on match
+                $t = me&Mwty,R,'Pier','At';
+                ts&sha = '3 3 3 999'
+            }
+            else {
+                res&bri = 0.7
+                res&title += ' (layouty)'
+            }
+            
+            each i,aq M {
+                $ti = aq.t+"%"+dis(aqs&qua)
+                res&title += "\n"+ti
+            }
+            # < -Bet open, expand elvising trace
+            sz(c.ov,0.3)
+            c.ov = 0.18
+        }
+        me&Rthingo,R,c
+    }
+    # how there is styled
+    # < consume RX whole
+    # < sublate %toomuch
+    me.Rlayouto = &acgtRc{
+        $c = {t:'layout',sym:"~"}
+        c.do18 = &c,li,re{
+            delete res&fs
+        }
+        me&Rthingo,R,c
+    }
+    me.Rlayouto_unkeen = &acgtRq{
+        $c = q.up
+        $li = T.Mw
+        $re = liy&sym
+        $simp = 1
+        $blockE = []
+        c.N.map(&n{
+            $e = ns&toomuch && ns&E
+            !e and simp = 0
+            else blockE.push(n)
+        })
+        if (hak(blockE)) {
+            $bunch = joint(blockE.map(n => ns&E),',')
+            res&title += " !E["+bunch+"]"
+            # dont describe them if we @3
+            # < yet <@4?
+            grepout(c.N,blockE)
+        }
+        
+        simp && !sz(c.ov,0.3) and return 1
+        me&Rthingo,R,ex(q,{sym:"<",ov:0.12})
+        return 1
+    }
     # @67 assigns signage about being R%toomuch**
     me.Rtoomucho = &acgtRc{
         $c = {t:'toomuch',sym:"⦄",cv:76}
@@ -3373,81 +3506,7 @@ me.Sch_Story = &acgt{ return [
         }
         me&Rthingo,R,c
     }
-    # capsule, filler for %limit|%toomuch|...
-    # < c.notes going to sym%title
-    # < togcon port
-    # defer to %limit if the only
-    me.Rthingo = &acgtRc{
-        $C = Rs&C
-        c.N ||= me&Ro,c.t
-        # plant in R, otherwise T.Mw=overthingo
-        !c.up and T.Mw = c.t
-        
-        # < arrive togcon
-        c.do1 and c.do1(c)
-        # group by the %%limit
-        # < partN key=object unsafe
-        $h = partN(c.N,n => n.sc[c.t])
-        # < group by the next most groupey thing
-        h.one && c.up and h = partN(c.N,n => n.sc[c.up.t])
-        $sublated = N => hak(N.filter(n => ns&sublated))
-        me&hall,h.vs,sublated and c.ov ||= 0.01
-        c.ov ||= 0.2
-        sz(c.ov,0.1) and return
-        
-        # make capsule here
-        $li = me&tc,c.t+'-cap'
-        liy&cv = c.cv && scaf(c.cv) || 0.132
-        delete lic&s
-        $hu = (""+liy&cv).substr(-1)
-        me&walls,li,'bd:1.4,hu:'+hu
-        
-        # move into it
-        $lip = T.Mw
-        if (isC(lip) && lipc&thing) {
-            liy&up = lip
-            lis&title = lipc&thing.t+'/'+c.t
-        }
-        lic&thing = c
-        T.Mw = li
-        
-        # sym
-        if (c.sym) {
-            $re = me&tc,c.t+'-sym',c.sym,c.symc||'b'
-            rec&s = c.sym || ""
-            res&fs = 17
-            res&lh = 0.3
-            liy&sym = re
-            res&title = lis&title || c.t
-        }
-        
-        c.do18 and c.do18(c,li,re)
-        sz(c.ov,0.2) and return li
-        
-        each it h.ks {
-            $N = h.vs[i]
-            T.Mw = li
-            hak(grepout(N,n => ns&sublated)) and continue
-            # call $magicword/$ghostkey
-            #  names are minds, have time
-            if (me&mecy,['R',c.t,'o_',t],R,{t,up:c,N} ) {
-                # only that unless opened
-                sz(c.ov,0.3) and continue
-            }
-            T.Mw = li
-            $talk = c.t+": "+t
-            $t = me&tc,talk,t,'b'
-            # < conjoin a brackology here,
-            #   having already stated toomuch:not
-            ts&title = talk+" "+dis(N[0].sc)
-            hak(N.filter(n => ns&super)) &&
-                me&tc,'super-','*','y'
-        }
-        
-        # is also T.Mw - where &tc will be put
-        return li
-    }
-   
+    
   // %%limit
     # cultivate R %%limit:(ref|dl|nl|...)
     #  adding %toomuch stops E**
