@@ -2850,11 +2850,10 @@ me.Sch_Story = &acgt{ return [
         if (hak(c.unkeen)) {
             $N = grepout(c.would,c.unkeen)
             each ie N {
-                # doesn't thingo:toomuch unless really pushed to
-                #  cos &Ri est R%thing for only the first magic word
-                me&Ri,{layout:'unkeen',toomuch:'impl',E:e}
+                me&Ri,{layout:'unkeen',implied:'TX',E:e}
             }
-            # < a %%toomuch that isn't losing information?
+            # %%implied
+            # a %%toomuch that isn't losing information?
             #    so other ref can refer to this as thing
             #   since %impl are compressions,
             #    and ope<0 are purposeful exclusions
@@ -3436,12 +3435,12 @@ me.Sch_Story = &acgt{ return [
         }
         me&Rthingo,R,c
     }
-    # sublate %toomuch, being an intended effect
+    # %implied sublate %toomuch, being an intended effect
     me.Rlayouto_unkeen = &acgtRc{
         ex(c,{sym:"<",ov:0.12})
         c.do18 = &c,li,re{
             # usu !E
-            $blockE = c.N.filter(n => me&hal,'toomuch,E')
+            $blockE = c.N.filter(n => me&hal,'implied,E')
             if (hak(blockE)) {
                 $bunch = joint(blockE.map(n => ns&E),',')
                 res&title += " !E["+bunch+"]"
