@@ -3393,6 +3393,10 @@ me.Sch_Story = &acgt{ return [
     }
   
   // %%RX, %%layout, %%toomuch
+    self.lt = &lt{
+        t > 1 and t = '0.'+t
+        return sz(l,t)
+    }
     # what arrives there
     me.RRXo = &acgtRc{
         $c = {t:'RX',sym:"⇃"}
@@ -3418,14 +3422,13 @@ me.Sch_Story = &acgt{ return [
                 res&title += "\n"+ti
             }
             # < -Bet open, expand elvising trace
-            sz(c.ov,0.3)
-            c.ov = 0.18
+            lt(c.ov,3) and c.ov = 0.18
         }
         me&Rthingo,R,c
     }
     # how there is styled
-    # < consume RX whole
-    # < sublate %toomuch
+    # < consume RX whole if layouty
+    #  < generalise this title exporting instead of c.N thing
     me.Rlayouto = &acgtRc{
         $c = {t:'layout',sym:"~"}
         c.do18 = &c,li,re{
@@ -3433,27 +3436,28 @@ me.Sch_Story = &acgt{ return [
         }
         me&Rthingo,R,c
     }
-    me.Rlayouto_unkeen = &acgtRq{
-        $c = q.up
-        $li = T.Mw
-        $re = liy&sym
-        $simp = 1
-        $blockE = []
-        c.N.map(&n{
-            $e = ns&toomuch && ns&E
-            !e and simp = 0
-            else blockE.push(n)
-        })
-        if (hak(blockE)) {
-            $bunch = joint(blockE.map(n => ns&E),',')
-            res&title += " !E["+bunch+"]"
-            # dont describe them if we @3
-            # < yet <@4?
-            grepout(c.N,blockE)
+    # sublate %toomuch, being an intended effect
+    me.Rlayouto_unkeen = &acgtRc{
+        ex(c,{sym:"<",ov:0.12})
+        c.do18 = &c,li,re{
+            # usu !E
+            $blockE = c.N.filter(n => me&hal,'toomuch,E')
+            if (hak(blockE)) {
+                $bunch = joint(blockE.map(n => ns&E),',')
+                res&title += " !E["+bunch+"]"
+                # are sublated, unless we open
+                lt(c.ov,3) and grepout(c.N,blockE)
+            }
         }
-        
-        simp && !sz(c.ov,0.3) and return 1
-        me&Rthingo,R,ex(q,{sym:"<",ov:0.12})
+        me&Rthingo,R,c
+        $re = c.re
+        $li = c.li
+        $pre = c.up.re
+        if (!hak(c.N) && lt(c.ov,3)) {
+            # able to migrate into title of ^re
+            pres&title += "  "+res&title
+            lic&not = 1
+        }
         return 1
     }
     # @67 assigns signage about being R%toomuch**
