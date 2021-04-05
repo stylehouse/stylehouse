@@ -3138,23 +3138,15 @@ me.Sch_Story = &acgt{ return [
                         me&Mwty,r,'Ctitle'
                             .map(n => nc&not = 1)
                     }
-                    
-                    if (rs&isdim) {
-                    
-                    }
-                    elsif (rs&indim) {
-                    }
-                    else {
-                        
-                    }
                 }
                 # instead of thing{ ⦄1 }
             }
             if (rs&isdim) {
             }
+            
             # %limit unifies
             $too = N.filter(r => rs&limit)
-            if (!(hak(too) <3) && hak(too) > hak(N)*0.5) {
+            if (!(hak(too)+1 <3) && hak(too) > hak(N)*0.5) {
                 # notice lots of children getting a %limit
                 $h = {}
                 too.map(&j{
@@ -3165,10 +3157,12 @@ me.Sch_Story = &acgt{ return [
                     # such limit must apply to more than half of the children
                     # < specify what it doesnt apply to
                     hak(hN) < hak(N)*0.5 and continue
-                    # unified thingo, for */%%limit
-                    me&Ri,r,{super:'limit',limit:t}
+                    # unified thingo, unless %%layout:dim
+                    if (!(rs&layout && me&Ro,r,{layout:'dim'} )) {
+                        me&Ri,r,{super:'limit',limit:t}
+                    }
                     # instead of */%%limit thingo, if:
-                    # only %%limit:dl,toomuch?
+                    #  only %%limit:dl,toomuch?
                     $only = n => me&honly,n.sc,{has:{limit:t},may:{toomuch:1}}
                     each ij hN {
                         $thislimit = js&limit.filter(n => ns&limit == t)
