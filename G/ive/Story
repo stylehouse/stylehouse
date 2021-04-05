@@ -3342,6 +3342,10 @@ me.Sch_Story = &acgt{ return [
             liy&up = lip
             lis&title = lipc&thing.t+'/'+c.t
         }
+        else {
+            # toplevel thingo
+            ah(R,'thingo',c.t,li)
+        }
         lic&thing = c
         T.Mw = c.li = li
         
@@ -3382,6 +3386,34 @@ me.Sch_Story = &acgt{ return [
         # is also T.Mw - where &tc will be put
         return li
     }
+    # venn thingos inside each other
+    me.thingodoptible = &acgtRtl{
+        $c = lc&thing
+        # thingos unpack when openish
+        !lt(c.ov,3) and return
+        if (t == 'up') {
+            # way to hide a sub-thingo
+            $into = c.up.li
+            !into and debugger
+        }
+        else {
+            $into = ahsk(R.sc,'thingo',t)
+            !into and return
+            me&modopt,R,into,l
+        }
+        # in-thing @18 might just conjoin symbol title
+        !lt(c.ov,2) and return
+        $re = ly&sym || l
+        $ie = intoy&sym || into
+        !ies&title and debugger
+        !res&title and debugger
+        $lines = res&title.split("\n")
+        ies&title += "\n+ "+lines.shift()
+            +"\n"+lines.map(s => "  "+s).join("\n")
+        lc&not = 1
+        
+    }
+    
   
   // %%RX, %%layout, %%toomuch
     self.lt = &lt{
@@ -3397,15 +3429,12 @@ me.Sch_Story = &acgt{ return [
             # icon flavours:
             # no further pointing
             !M.some(aq => aqc&TX) and rec&s = '⥙'
-            if (M.some(aq => !aqs&layout)) {
+            $layouty = !M.some(aq => !aqs&layout)
+            if (!layouty) {
                 # glow label
                 # < effect At@101, t@12 etc based on match
                 $t = me&Mwty,R,'Pier','At';
                 ts&sha = '3 3 3 999'
-            }
-            else {
-                res&bri = 0.7
-                res&title += ' (layouty)'
             }
             
             each i,aq M {
@@ -3414,12 +3443,16 @@ me.Sch_Story = &acgt{ return [
             }
             # < -Bet open, expand elvising trace
             lt(c.ov,3) and c.ov = 0.18
+            
+            if (layouty) {
+                res&bri = 0.7
+                res&title += ' (layouty)'
+                me&thingodoptible,R,'layout',li
+            }
         }
         me&Rthingo,R,c
     }
     # how there is styled
-    # < consume RX whole if layouty
-    #  < generalise this title exporting instead of c.N thing
     me.Rlayouto = &acgtRc{
         $c = {t:'layout',sym:"~"}
         c.do18 = &c,li,re{
@@ -3451,14 +3484,8 @@ me.Sch_Story = &acgt{ return [
             #      become a less important unkeen
         }
         me&Rthingo,R,c
-        $re = c.re
-        $li = c.li
-        $pre = c.up.re
-        if (lt(c.ov,2)) {
-            # able to migrate into title of ^re
-            pres&title += "  "+res&title
-            lic&not = 1
-        }
+        me&thingodoptible,R,'up',c.li
+        
         return 1
     }
     # @67 assigns signage about being R%toomuch**
