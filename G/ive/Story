@@ -3084,7 +3084,7 @@ me.Sch_Story = &acgt{ return [
                 $s = {RX:2,aq}
                 qua.ope and Rc&dl += qua.ope
                 qua.impl and me&tc,"~impl~"
-                qua.dim and Rs&isdim = 1; me&tc,"~dim~"
+                qua.dim and Rs&isdim = 1
                 me&Ri,s
             }
             each i,aq M {
@@ -3094,8 +3094,12 @@ me.Sch_Story = &acgt{ return [
                     # < or if cold light
                     delete Rs&isdim
                     delete Rs&indim
+                    if (Rs&Cish) {
+                        Rc&dl += 1
+                    }
                 }
             }
+            Rs&isdim and me&Ri,{layout:'dim'}
         }
         # ref sense similar, centralised
         me&Rlimiti,R
@@ -3460,7 +3464,20 @@ me.Sch_Story = &acgt{ return [
         }
         me&Rthingo,R,c
     }
-    # %implied sublate %toomuch, being an intended effect
+    # %layout:dim
+    me.Rlayouto_dim = &acgtRc{
+        c.do18 = &c,li,re{
+            grepout(c.N,&n{
+                return me&honly,n.sc,{has:{layout:'dim'}}
+            })
+        }
+        me&Rthingo,R,c
+        lt(c.ov,3) && !hak(c.N) and c.ov = 0.18
+        ~>3 dim: c.ov
+        me&thingodoptible,R,'up',c.li
+        return 1
+    }
+    # unkeen: being an intended toomuch
     me.Rlayouto_unkeen = &acgtRc{
         ex(c,{sym:"<"})
         c.do18 = &c,li,re{
