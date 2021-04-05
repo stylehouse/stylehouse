@@ -2846,20 +2846,12 @@ me.Sch_Story = &acgt{ return [
                 c.would = grepout(c.toomuch,c.keen)
             }
         }
-        # %limit:meh for unkeen
+        # %%layout,toomuch,E
         if (hak(c.unkeen)) {
             $N = grepout(c.would,c.unkeen)
             each ie N {
-                me&Ri,{layout:'unkeen',implied:'TX',E:e}
+                me&Ri,{layout:'unkeen',toomuch:1,E:e}
             }
-            # %%implied
-            # a %%toomuch that isn't losing information?
-            #    so other ref can refer to this as thing
-            #   since %impl are compressions,
-            #    and ope<0 are purposeful exclusions
-            #    < dim could make small limit:many
-            #      become a less important unkeen
-            #c.toomuch.push(...N)
         }
         # %limit:many prioritises space for keen e
         # < $many as per %limit:dim...
@@ -3437,22 +3429,32 @@ me.Sch_Story = &acgt{ return [
     }
     # %implied sublate %toomuch, being an intended effect
     me.Rlayouto_unkeen = &acgtRc{
-        ex(c,{sym:"<",ov:0.12})
+        ex(c,{sym:"<"})
         c.do18 = &c,li,re{
             # usu !E
-            $blockE = c.N.filter(n => me&hal,'implied,E')
+            $blockE = c.N.filter(n => me&hal,n,'toomuch,E')
             if (hak(blockE)) {
                 $bunch = joint(blockE.map(n => ns&E),',')
                 res&title += " !E["+bunch+"]"
                 # are sublated, unless we open
                 lt(c.ov,3) and grepout(c.N,blockE)
             }
+            lt(c.ov,3) and c.ov = hak(c.N) ? 0.2 : 0.12
+            # %%layout,toomuch,E
+            # accumulates to R%layout but not R%toomuch
+            #  it is not quite %%toomuch,
+            #   since %impl are compressions,
+            #    eg don't visit C.t+.y.cv since %Ctitle says it
+            #    < -isR may impl .y.R, and -isJ .y.1
+            #   and ope<0 are purposeful exclusions
+            #    < dim could make small limit:many
+            #      become a less important unkeen
         }
         me&Rthingo,R,c
         $re = c.re
         $li = c.li
         $pre = c.up.re
-        if (!hak(c.N) && lt(c.ov,3)) {
+        if (lt(c.ov,2)) {
             # able to migrate into title of ^re
             pres&title += "  "+res&title
             lic&not = 1
@@ -3574,9 +3576,11 @@ me.Sch_Story = &acgt{ return [
             if (ec&pi != Ec&pi) {
                 c.other ||= g
             }
-            elsif ( me&Ro,r,{toomuch:1} || Rs&tiny ) {
+            # note we only r%$magicword the first
+            # so %%layout,toomuch,E can not count
+            elsif ( rs&toomuch || Rs&tiny ) {
                 c.almost ||= g
-                # find fuller further rendition
+                # find a fuller further rendition
             }
             else {
                 # this is the previous this
