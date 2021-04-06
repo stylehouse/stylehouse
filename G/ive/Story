@@ -3413,11 +3413,7 @@ me.Sch_Story = &acgt{ return [
     }
     
   
-  // %%RX, %%layout, %%toomuch
-    self.lt = &lt{
-        t > 1 and t = '0.'+t
-        return sz(l,t)
-    }
+  // %%RX, %%layout
     # what arrives there
     me.RRXo = &acgtRc{
         $c = {t:'RX',sym:"⇃"}
@@ -3498,6 +3494,8 @@ me.Sch_Story = &acgt{ return [
         
         return 1
     }
+  
+  // %%toomuch
     # @67 assigns signage about being R%toomuch**
     me.Rtoomucho = &acgtRc{
         $c = {t:'toomuch',sym:"⦄",cv:76}
@@ -3553,7 +3551,7 @@ me.Sch_Story = &acgt{ return [
     # cultivate R %%limit:(ref|dl|nl|...)
     #  adding %toomuch stops E**
     #   an acute case of dimming light, ending thing
-   // incurrence
+   // incur
     # @12
     me.Rlimiti = &acgtR{
         $C = Rs&C
@@ -3721,6 +3719,7 @@ me.Sch_Story = &acgt{ return [
         }
         return 1
     }
+  
   // %%other
    // < R%strange/** @2 # schema goes
     me.strange = &acgts{
@@ -3736,37 +3735,9 @@ me.Sch_Story = &acgt{ return [
         c.path = me.cby(c.E,E => Ec&top)
         ac(Rc&top,t,c)
     }
-   // o Rc&ha GOING
-        me.Rlimits = &acgtr{
-            !rc&ha and return
-            $upritN = {};
-            each tz rc&ha {
-                
-                typeof z != 'object' and continue
-                t == 'err' and continue
-                # write trouble next to each node
-                each in z {
-                nc&dubquiet || ns&dubquiet and continue
-                # R included are from Rc&refs/refR
-                # < may not be in our h/R pool, showing...
-                #   same Rc&s=objects near but not in this process
-                $M = me&Mw,n,'Mlimits';
-                $re =
-                m $t 1189 s:♲ %deco,fs:17,lh:0.3
-                $o = ns&refR[0];
-                # say where it originated
-                $nam = me&nampup,o,n;
-                if (ns&tiny) {
-                    res&hs = '499';
-                    re.t += '@'+nam
-                }
-                else {
-                    m $t 11892 $s:nam %deco,fs:7,hs:999
-                }
-                }
-            }
-        }
-  // slope misc
+  
+  // misc f
+   // slope
     # proper R/*
     me.ioR = &acgtr{
         $args = [...arguments].slice(4)
@@ -3789,11 +3760,13 @@ me.Sch_Story = &acgt{ return [
         $first = N.filter(r => r.sc[k])[0]
         return !first || M.includes(first)
     }
-  
-  // misc f
    // data
-    # for (qua||0) < 2
+    # (qua||0) < 2 and leave
     # sizes something, usu ope|interest for snoozing
+    self.lt = &lt{
+        t > 1 and t = '0.'+t
+        return sz(l,t)
+    }
     self.sz = &ns{
         isob(n) and throw "pass value||null"
         return (n || 0) < s
