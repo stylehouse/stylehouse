@@ -3000,7 +3000,7 @@ me.Sch_Story = &acgt{ return [
         return M
     }
     
-    # @13 R/r from &Eing, pre-&Ring
+    # @13 R/r from &Eing
     me.Pieringi = &acgtRrc{
         $E = c.E
         if (E) {
@@ -3030,6 +3030,8 @@ me.Sch_Story = &acgt{ return [
         }
     }
     
+    # &Ring, thence:
+    
     # @2 arrive in R%Pier
     me.Pieringo = &acgt{
         $R = me&R
@@ -3051,7 +3053,7 @@ me.Sch_Story = &acgt{ return [
         }
 
         $name = R.t
-        n At 101 $s:name %deco,fs:6
+        n At 101 $s:name %label,deco,fs:6
 
         R.sc[Rs&Pier] = 1
     }
@@ -3148,6 +3150,9 @@ me.Sch_Story = &acgt{ return [
             $too = N.filter(r => rs&limit)
             if (!(hak(too)+1 <3) && hak(too) > hak(N)*0.5) {
                 # notice lots of children getting a %limit
+                # < include mute if no toomuch,E like thingo does
+                #    it might be exporting the %%limit
+                #    through an Effect?
                 $h = {}
                 too.map(&j{
                     js&limit.map(n => ac(h,ns&limit,j))
@@ -3155,7 +3160,6 @@ me.Sch_Story = &acgt{ return [
                 delete h.ref
                 each t,hN h {
                     # such limit must apply to more than half of the children
-                    # < specify what it doesnt apply to
                     hak(hN) < hak(N)*0.5 and continue
                     # unified thingo, unless %%layout:dim
                     if (!(rs&layout && me&Ro,r,{layout:'dim'} )) {
@@ -3187,6 +3191,7 @@ me.Sch_Story = &acgt{ return [
         each ir Rc&N {
             $C = rs&C
             each kv me.magic {
+                v.later and continue
                 # magic brack listed here on &Ri
                 $N = r.sc[k]
                 !N and continue
@@ -3194,6 +3199,7 @@ me.Sch_Story = &acgt{ return [
                 me&mecy,['R',k,'o'],r,{N}
             }
         }
+        T.Mw = 'Topping'
         # < generating weightiness
         each ir Rc&N {
             # R%M + R%Mw.* -> R%M, spaced
@@ -3201,6 +3207,19 @@ me.Sch_Story = &acgt{ return [
         }
         Rc&N.map(r => me&specialfx1,r)
         reverse(Rc&N).map(r => me&specialfx2,r)
+        each ir Rc&N {
+            $C = rs&C
+            each kv me.magic {
+                !v.later and continue
+                $N = r.sc[k]
+                !N and continue
+                # calls &Rlimito, etc, in order
+                me&mecy,['R',k,'o'],r,{N}
+            }
+        }
+        each ir Rc&N {
+            rs&Mw and me&modulatM,r
+        }
     }
     # R%M += R%Mw/T.act.t|$dome/$modulat**
     me.modulatM = &acgtR{
@@ -3215,7 +3234,6 @@ me.Sch_Story = &acgt{ return [
             M.push(n)
         }}
         
-        
         # spatialises, on tv
         me&cvdeal,M
         
@@ -3224,25 +3242,26 @@ me.Sch_Story = &acgt{ return [
         
         
         
+        delete Rs&Mw
         Rs&M = M
     }
     # shading weight -> dis:1 or not
     me.specialfx1 = &acgtR{
         $C = Rs&C
-        
+        #return
         !Rs&inlineable and return
         
         $N = me&ioR
         N.some(r => hak( me&ioR,r ) > 5) and return
         
-        delete Rs&Mw.Hash
+        grepout(Rs&M,n => ns&modt == 'Hash')
+        Rs&inlining = 1
         
         # y, c, sc
         #R.t == 'R' && Ry&up.t == 'y' and debugger
         N.map(&r{
             rs&toomuch and return
-            delete rs&Mw.Hash
-            delete rs&Mw.Pier
+            grepout(Rs&M,n => ns&modt == 'Hash')
             rs&inline = 1
             $C = rs&C
             Cs&pr = 0.3
@@ -3256,13 +3275,36 @@ me.Sch_Story = &acgt{ return [
         
         Rs&tiny and grepout(Rs&M,n => ns&modt == 'Pier')
         
+        $len = 0
+        $leny = &s{
+            sc&not and return
+            isst(sc&s) || num(sc&s) and len += (''+sc&s).length
+        }
+        each in Rs&M {
+            ns&z && ns&z.length and me&ind,n,leny
+            else leny(n)
+        }
+        Rs&z && Rs&indim and me&strange,"indim-z"
+        if (Rs&indim && Rs&String && len > 9) {
+            $str = Rs&M.filter(n => n.t == 'string' && ns&modt == 'String')[0]
+            $strlen = str && (''+strc&s).length
+            if (strlen > 9) {
+                $talk = strlen
+                ~>5 see: R.t
+                me&Ri,{mirage:'String',s:talk}
+            }
+        }
+        if (1 || Rs&z) {
+            $geo = me&tc,"geo:"+len,'6g'
+            geoy&cv = 0.29
+        }
+        
         
         $N = me&ioR,R
         Rs&inline || hak(N) <= 1 and return
         
         # < properly sizing it for:
-        $larger = N.filter(n => !ns&tiny)
-        !hak(larger) and return
+        !N.some(n => !ns&tiny) and return
         
         each in N {
             ns&inline and continue
@@ -3288,6 +3330,7 @@ me.Sch_Story = &acgt{ return [
     me.magic.limit = {}
     me.magic.toomuch = {}
     me.magic.RX = {}
+    me.magic.mirage = {later:1}
     me.Ri = &acgt{
         $c = me&Rioing,...[...arguments].slice(4)
         $n = me&ha,c.R,...c.args
@@ -3318,9 +3361,10 @@ me.Sch_Story = &acgt{ return [
         # < arrive togcon
         c.do1 and c.do1(c)
         # group by the %%limit
-        # < partN key=object unsafe
+        # < later, so do18 may mess with c.N?
         $h = partN(c.N,n => n.sc[c.t])
-        # < group by the next most groupey thing
+        # < group by the next most groupey thing,
+        #    this is probably the less groupey:
         h.one && c.up and h = partN(c.N,n => n.sc[c.up.t])
         $sublated = N => hak(N.filter(n => ns&sublated))
         me&hall,h.vs,sublated and c.ov ||= 0.01
@@ -3495,7 +3539,7 @@ me.Sch_Story = &acgt{ return [
         return 1
     }
   
-  // %%toomuch
+  // %%toomuch, %%mirage
     # @67 assigns signage about being R%toomuch**
     me.Rtoomucho = &acgtRc{
         $c = {t:'toomuch',sym:"⦄",cv:76}
@@ -3543,6 +3587,18 @@ me.Sch_Story = &acgt{ return [
             }
             
             sugov and c.ov ||= sugov
+        }
+        me&Rthingo,R,c
+    }
+    # note geometry
+    #  similar to toomuch !E-count
+    #   the mirage_shouldcount
+    #  wants to eat %%length, %%lines, %%paragraphs...
+    # make geometry
+    me.Rmirageo = &acgtRc{
+        $c = {t:'mirage',sym:"⦆",cv:76}
+        c.do18 = &c,li,re{
+            delete res&fs
         }
         me&Rthingo,R,c
     }
@@ -3981,6 +4037,7 @@ me.Sch_Story = &acgt{ return [
        // -Bat events
         # many e
         ['Bat+V',0.3,&acgtRs{
+            
             # outsphere (s of R%TheTt)
             $V = Rs&V
             $D = Rs&D
@@ -4065,6 +4122,7 @@ me.Sch_Story = &acgt{ return [
                 $X = tEc&X
                 $e = me&Ei,{t:'X',pi:'isX',s:X}
                 !me&Eing,4 and return me&strange,"Xnolike"
+                # < Ro,e
                 $r = ey&R
                 $nec = rs&nec
                 !nec and me&strange,"!nec"
@@ -4087,9 +4145,8 @@ me.Sch_Story = &acgt{ return [
                 # modulat, might something?
                 Rs&tiny = 1
                 if (isC(s)) {
-                    if (s.t == 'At') {
-                        Bes&clickat = 'title'
-                    }
+                    # click titley bits to auto re-The
+                    ss&label and Bes&clickat = 'title'
                 }
             }
         },'ift,D'],
@@ -4341,12 +4398,17 @@ me.Sch_Story = &acgt{ return [
             sym &&
                 n sym 11 $s:sym fs:13,lh:0.8,hs:757
             if (Rs&tiny) {
+                # minimal typing up for labels
+                #  in diagrams (-Bat) rather than datadumps (-hat)
                 if (isC(s)) {
+                    # also stops recursion
+                    # < usu muted %%limit:tiny
                     Rs&Ctitle = 1
                     return
                 }
                 else {
                     # stops recursion
+                    # < be %%layout:dim
                     me&Ri,'limit:tiny,toomuch'
                 }
             }
@@ -4420,7 +4482,7 @@ me.Sch_Story = &acgt{ return [
             $D = Rs&D
             $E = Rs&E
             $di = dis(s)
-            n thinking 13 $s:di %fs:8,hs:584
+            n string 13 $s:di %fs:8,hs:584
         },'ift,D'],
         
         
