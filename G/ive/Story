@@ -3300,6 +3300,7 @@ me.Sch_Story = &acgt{ return [
             # light here-ish chases away %indim
             # throw away detail, to $key:$sym$length
             #  eg str:'17
+            # < like %Dscdotnk:
             # < not if diffing this thing
             #    mirage will want to wrap differings
             #    keeps D/D:c/D:strc&s=fulltext
@@ -3336,7 +3337,7 @@ me.Sch_Story = &acgt{ return [
         # < properly sizing it for:
         #!N.some(n => !ns&tiny) and return
         if (me.newsfx) {
-            $p = Ry&up          
+            $p = Ry&up
             # < tendency to keep order of C.*, arrays?
             $inlineable =
                 Rs&inlineable
@@ -3392,11 +3393,11 @@ me.Sch_Story = &acgt{ return [
         hak(lines) <= 1 and return
         $caps = []
         each il lines {
-            $t = me&mirageg,l,i
+            $t = me&mirageg,R,l,i
             caps.push(t)
         }
     }
-    me.mirageg = &acgtNt{
+    me.mirageg = &acgtRNt{
         t = me&tsc,"mirageg"+t
         delete tc&s
         ts&ml = 1
@@ -3406,6 +3407,7 @@ me.Sch_Story = &acgt{ return [
             # each r into its own capsule:
             $it = me&mtsc,t,"miragee"+ii
             delete itc&s
+            ii > 0 and its&ml = Rs&inlineable ? 1 : 0.5
             me&zuct,it,g
             $gC = gs&C
             if (hak(N) == 1) {
