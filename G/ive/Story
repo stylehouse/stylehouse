@@ -3262,7 +3262,6 @@ me.Sch_Story = &acgt{ return [
         #R.t == 'R' && Ry&up.t == 'y' and debugger
         N.map(&r{
             rs&toomuch and return
-            grepout(Rs&M,n => ns&modt == 'Hash')
             rs&inline = 1
             $C = rs&C
             Cs&pr = 0.3
@@ -3346,10 +3345,11 @@ me.Sch_Story = &acgt{ return [
         $aline = Rs&geolen_self
         $sincei = 0
         $lasti = hak(N)-1
+        $lines = [[]]
+        $notinline = N.filter(n => !ns&inline)
+        hak(notinline) and return me&tc,"*!inline:"+joint(notinline),'6g'
         each in N {
             i *= 1
-            !ns&inline and sincei = i+1; aline = 0; continue
-            
             if (i == 0 && aline > 32) {
                 # big front
                 $t = me&tsc,"mirager"+i
@@ -3358,22 +3358,32 @@ me.Sch_Story = &acgt{ return [
                 aline = 0
             }
             if (aline + ns&geolen > 32) {
-                $group = N.slice(sincei,i)
-                $t = me&tsc,"mirageg"+i
-                delete tc&s
-                ts&ml = 1
-                ty&cv = 0.59
-                each ii,g group {
-                    $it = me&mtsc,t,"miragee"+ii
-                    delete itc&s
-                    me&zuct,it,g
-                }
-                me&mtsc,t,"mirager" .c.s = "\n"
-                sincei = i
+                lines.push([])
                 aline = 0
             }
+            lines.slice(-1)[0].push(n)
             aline += ns&geolen
         }
+        hak(lines) <= 1 and return
+        $caps = []
+        each il lines {
+            $t = me&mirageg,l,i
+            caps.push(t)
+        }
+    }
+    me.mirageg = &acgtNt{
+        t = me&tsc,"mirageg"+t
+        delete tc&s
+        ts&ml = 1
+        ty&cv = 0.59
+        each ii,g N {
+            # each r into its own capsule:
+            $it = me&mtsc,t,"miragee"+ii
+            delete itc&s
+            me&zuct,it,g
+        }
+        me&mtsc,t,"mirager" .c.s = "\n"
+        return t
     }
   
   // &Ri|o - magic-aware brack...
