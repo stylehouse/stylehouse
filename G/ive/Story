@@ -2756,7 +2756,7 @@ me.Sch_Story = &acgt{ return [
         R.sc[pi] = 1
     }
   
-  // &Eing R'The' lifemo
+  // R'The' &Eing into life
     # 2 E/** sync, Ringing, in or out of time!
     # repeatedly
     me.Eing = &acgtc{
@@ -2897,7 +2897,7 @@ me.Sch_Story = &acgt{ return [
         
         if (hak(c.toomany)) {
             # can be %TX out of the shadow
-            me&Ri,{limit:'many',s:'..'+hak(length),thresh:many,toomuch:1}
+            me&Ri,{limit:'many',excluding:hak(c.toomany),thresh:many,toomuch:1}
             each ie c.toomany {
                 ac(c,'toomuch',e)
             }
@@ -3286,17 +3286,23 @@ me.Sch_Story = &acgt{ return [
         }
         Rs&z && Rs&indim and me&strange,"indim-z"
         if (Rs&indim && Rs&String && len > 9) {
+            # < not if diffing this thing
+            #    mirage will want to wrap differings
+            #    keeps D/D:c/D:strc&s=fulltext
+            #     over D%'.c'=bu:3,nch:[3,str:'17,ing:4
+            # < long integers should round or x10^n
             $str = Rs&M.filter(n => n.t == 'string' && ns&modt == 'String')[0]
             $strlen = str && (''+strc&s).length
             if (strlen > 9) {
                 $talk = strlen
-                ~>5 see: R.t
+                strc&s = "'"
+                len += 4 - strlen
                 me&Ri,{mirage:'String',s:talk}
             }
         }
         if (1 || Rs&z) {
             $geo = me&tc,"geo:"+len,'6g'
-            geoy&cv = 0.29
+            geoy&cv = 0.79
         }
         
         
@@ -3353,6 +3359,7 @@ me.Sch_Story = &acgt{ return [
     # < togcon port
     # defer to %limit if the only
     me.Rthingo = &acgtRc{
+       // 1
         $C = Rs&C
         c.N ||= me&Ro,c.t
         # plant in R, otherwise T.Mw=overthingo
@@ -3403,7 +3410,7 @@ me.Sch_Story = &acgt{ return [
         
         c.do18 and c.do18(c,li,re)
         sz(c.ov,0.2) and return li
-        
+       // 2 rows
         each it h.ks {
             $N = h.vs[i]
             T.Mw = li
@@ -3418,11 +3425,23 @@ me.Sch_Story = &acgt{ return [
             T.Mw = li
             $talk = c.t+": "+t
             $t = me&tc,talk,t,'b'
+            
+            $sup = N.filter(n => ns&super)
+            hak(sup) and me&tc,'super-','*','y'
+            
+            # say this
+            $n = hak(N) && N[0]
+            if (n && ns&s != null) {
+                # see %toomuch_shouldcount, similar look
+                ts&fs = 8
+                tc&s = ns&s
+            }
+            
             # < conjoin a brackology here,
             #   having already stated toomuch:not
             ts&title = talk+" "+dis(N[0].sc)
-            hak(N.filter(n => ns&super)) &&
-                me&tc,'super-','*','y'
+            N[1] and ts&title += "\n    "+dis(N[1].sc)
+            hak(N) > 2 and ts&title += "\n   + "+(hak(N)-2)
         }
         
         # is also T.Mw - where &tc will be put
@@ -3455,7 +3474,6 @@ me.Sch_Story = &acgt{ return [
         lc&not = 1
         
     }
-    
   
   // %%RX, %%layout
     # what arrives there
@@ -3573,13 +3591,14 @@ me.Sch_Story = &acgt{ return [
                 }
                 else {
                     c.do18 = &c,li,re{
-                        $cou = me&tc,'!E-count'
+                        $cou = me&tc,'!E-count','b'
                         couc&s = hak(blockE)
                         cous&fs = 8
                         cous&ml = -0.2
                         res&title += " !E["+bunch+"]"
                         if (Rs&toomuch_shouldcount && c.ov <= 0.2) {
-                            rec&not = 1
+                            #rec&not = 1
+                            delete res&fs
                             cous&title = cou.t+' '+res&title
                         }
                     }
@@ -3595,8 +3614,9 @@ me.Sch_Story = &acgt{ return [
     #   the mirage_shouldcount
     #  wants to eat %%length, %%lines, %%paragraphs...
     # make geometry
+    #  scoop everything else into something
     me.Rmirageo = &acgtRc{
-        $c = {t:'mirage',sym:"⦆",cv:76}
+        $c = {t:'mirage',sym:"⦆",cv:78}
         c.do18 = &c,li,re{
             delete res&fs
         }
