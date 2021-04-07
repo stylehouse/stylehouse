@@ -3272,9 +3272,10 @@ me.Sch_Story = &acgt{ return [
     me.specialfx2 = &acgtR{
         $C = Rs&C
         
-        
         Rs&tiny and grepout(Rs&M,n => ns&modt == 'Pier')
         
+       // %geo
+        # measure R%M**c&s
         $len = 0
         $leny = &s{
             sc&not and return
@@ -3284,29 +3285,41 @@ me.Sch_Story = &acgt{ return [
             ns&z && ns&z.length and me&ind,n,leny
             else leny(n)
         }
+        
+        # shorten long strings
         Rs&z && Rs&indim and me&strange,"indim-z"
         if (Rs&indim && Rs&String && len > 9) {
+            # light here-ish chases away %indim
+            # throw away detail, to $key:$sym$length
+            #  eg str:'17
             # < not if diffing this thing
             #    mirage will want to wrap differings
             #    keeps D/D:c/D:strc&s=fulltext
-            #     over D%'.c'=bu:3,nch:[3,str:'17,ing:4
+            #     over D%'.c'="bu:3,nch:[3,str:'17,ing:4"
             # < long integers should round or x10^n
             $str = Rs&M.filter(n => n.t == 'string' && ns&modt == 'String')[0]
             $strlen = str && (''+strc&s).length
             if (strlen > 9) {
                 $talk = strlen
                 strc&s = "'"
+                # adjusting for shortening
                 len += 4 - strlen
                 me&Ri,{mirage:'String',s:talk}
             }
         }
-        if (1 || Rs&z) {
-            $geo = me&tc,"geo:"+len,'6g'
-            geoy&cv = 0.79
-        }
-        
-        
+        # join upwards
         $N = me&ioR,R
+        $inlen = 0
+        each in N {
+            ns&geolen and inlen += ns&geolen
+        }
+        Rs&geolen = len + inlen
+        
+        $talk = len + (inlen ? "+"+inlen : "")
+        $geo = me&tc,"geo:"+talk,talk,'6g'
+        geoy&cv = 0.79
+        
+       // !%inline
         Rs&inline || hak(N) <= 1 and return
         
         # < properly sizing it for:
