@@ -2129,6 +2129,7 @@ me.Sch_Story = &acgt{ return [
             ,{mo:3,tor:68,functions:"of an elabourate sort",s:"Thsideratea"}])
         ejy&fig = dat.asee
         ejy&vig = 2
+        Bowc&s['leveridge'] = Cye(['Nose',7,{s:'li'}])
         $i = 0
         while (i < 55) {
             Bowc&s['lever'+i] = 'thing'
@@ -3274,15 +3275,18 @@ me.Sch_Story = &acgt{ return [
         
         Rs&tiny and grepout(Rs&M,n => ns&modt == 'Pier')
         
-       // %geo
+       // %geolen
         # measure R%M**c&s
         $len = 0
-        $leny = &s{
-            sc&not and return
+        $leny = &sd{
+            if (sc&not) {
+                d and d.not = 1
+                return
+            }
             isst(sc&s) || num(sc&s) and len += (''+sc&s).length
         }
         each in Rs&M {
-            ns&z && ns&z.length and me&ind,n,leny
+            ns&z && ns&z.length and me&ind,n,leny,{cbfirst:1}
             else leny(n)
         }
         
@@ -3314,13 +3318,19 @@ me.Sch_Story = &acgt{ return [
             ns&geolen and inlen += ns&geolen
         }
         Rs&geolen = len + inlen
+        Rs&geolen_self = len
+        Rs&geolen_insides = inlen
         
         $talk = len + (inlen ? "+"+inlen : "")
         $geo = me&tc,"geo:"+talk,talk,'6g'
         geoy&cv = 0.79
+       
+       // %mirage:lengths
+        Rs&inline || hak(N) <= 1 and return
+        
+        me&sfx_mirage,R,N
         
        // !%inline
-        Rs&inline || hak(N) <= 1 and return
         
         # < properly sizing it for:
         !N.some(n => !ns&tiny) and return
@@ -3330,6 +3340,39 @@ me.Sch_Story = &acgt{ return [
             $C = ns&C
             s&dis = 1
             s&ml = 1
+        }
+    }
+    me.sfx_mirage = &acgtRN{
+        $aline = Rs&geolen_self
+        $sincei = 0
+        $lasti = hak(N)-1
+        each in N {
+            i *= 1
+            !ns&inline and sincei = i+1; aline = 0; continue
+            
+            if (i == 0 && aline > 32) {
+                # big front
+                $t = me&tsc,"mirager"+i
+                tc&s = "\n"
+                ty&cv = 0.59
+                aline = 0
+            }
+            if (aline + ns&geolen > 32) {
+                $group = N.slice(sincei,i)
+                $t = me&tsc,"mirageg"+i
+                delete tc&s
+                ts&ml = 1
+                ty&cv = 0.59
+                each ii,g group {
+                    $it = me&mtsc,t,"miragee"+ii
+                    delete itc&s
+                    me&zuct,it,g
+                }
+                me&mtsc,t,"mirager" .c.s = "\n"
+                sincei = i
+                aline = 0
+            }
+            aline += ns&geolen
         }
     }
   
