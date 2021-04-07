@@ -3251,6 +3251,11 @@ me.Sch_Story = &acgt{ return [
         $C = Rs&C
         #return
         !Rs&inlineable and return
+        if (me.newsfx) {
+            grepout(Rs&M,n => ns&modt == 'Hash')
+            return
+        }
+        # Going:
         
         $N = me&ioR
         N.some(r => hak( me&ioR,r ) > 5) and return
@@ -3327,13 +3332,30 @@ me.Sch_Story = &acgt{ return [
        // %mirage:lengths
         Rs&inline || hak(N) <= 1 and return
         
-        me&sfx_mirage,R,N
-        
-       // !%inline
-        
+        #return
         # < properly sizing it for:
-        !N.some(n => !ns&tiny) and return
-        
+        #!N.some(n => !ns&tiny) and return
+        if (me.newsfx) {
+            $p = Ry&up          
+            # < tendency to keep order of C.*, arrays?
+            $inlineable =
+                Rs&inlineable
+                || p && ps&inlineable
+            if (Rs&geolen < 64 || inlineable) {
+                me&sfx_mirage,R,N
+            }
+            else {
+                # we should look like Data::Dumper
+                me&tc,"Data",'6g'
+                each in N {
+                    $C = ns&C
+                    s&dis = 1
+                    s&ml = 1
+                }
+            }
+            return
+        }
+        me&sfx_mirage,R,N
         each in N {
             ns&inline and continue
             $C = ns&C
@@ -3341,16 +3363,19 @@ me.Sch_Story = &acgt{ return [
             s&ml = 1
         }
     }
+    me.newsfx = 1
     me.sfx_mirage = &acgtRN{
         $aline = Rs&geolen_self
         $sincei = 0
         $lasti = hak(N)-1
         $lines = [[]]
-        $notinline = N.filter(n => !ns&inline)
-        hak(notinline) and return me&tc,"*!inline:"+joint(notinline),'6g'
+        if (!me.newsfx) {
+            $notinline = N.filter(n => !ns&inline)
+            hak(notinline) and return me&tc,"*!inline:"+joint(notinline),'6g'
+        }
         each in N {
             i *= 1
-            if (i == 0 && aline > 32) {
+            if (i == 0 && (aline > 32) ) {
                 # big front
                 $t = me&tsc,"mirager"+i
                 tc&s = "\n"
@@ -3375,14 +3400,21 @@ me.Sch_Story = &acgt{ return [
         t = me&tsc,"mirageg"+t
         delete tc&s
         ts&ml = 1
+        ts&dis = 1
         ty&cv = 0.59
         each ii,g N {
             # each r into its own capsule:
             $it = me&mtsc,t,"miragee"+ii
             delete itc&s
             me&zuct,it,g
+            $gC = gs&C
+            if (hak(N) == 1) {
+                gCs&dis = 1
+            }
         }
-        me&mtsc,t,"mirager" .c.s = "\n"
+        if (hak(N) > 1) {
+            me&mtsc,t,"mirager" .c.s = "\n"
+        }
         return t
     }
   
