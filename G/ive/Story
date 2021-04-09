@@ -3337,14 +3337,9 @@ me.Sch_Story = &acgt{ return [
         # < properly sizing it for:
         #!N.some(n => !ns&tiny) and return
         if (me.newsfx) {
-            $p = Ry&up
-            # < tendency to keep order of C.*, arrays?
-            $inlineable =
-                Rs&inlineable
-                || p && ps&inlineable
-            if (Rs&geolen < 64 || inlineable) {
-                me&sfx_mirage,R,N
-            }
+            me&sfx_mirage,R,N
+            return
+            1 and 1
             else {
                 # we should look like Data::Dumper
                 me&tc,"Data",'6g'
@@ -3366,24 +3361,33 @@ me.Sch_Story = &acgt{ return [
     }
     me.newsfx = 1
     me.sfx_mirage = &acgtRN{
+        # begins as one long wrappy line
+        # C.*(.*)? tend to share lines
+        $p = Ry&up
+        $inlineable =
+            Rs&inlineable
+            || p && ps&inlineable
+        # < group for type division, length good
+        # < keep order of C.*, arrays?
+        $landscape = !inlineable
+            && (N.some(n => ns&inline) || Rs&geolen > 64)
+        landscape and me&tc,"Data",'6g'
+        # < sequences of r%inline
+        
         $aline = Rs&geolen_self
         $sincei = 0
         $lasti = hak(N)-1
         $lines = [[]]
-        if (!me.newsfx) {
-            $notinline = N.filter(n => !ns&inline)
-            hak(notinline) and return me&tc,"*!inline:"+joint(notinline),'6g'
-        }
         each in N {
             i *= 1
-            if (i == 0 && (aline > 32) ) {
+            if (i == 0 && (aline > 32) && !landscape) {
                 # big front
                 $t = me&tsc,"mirager"+i
                 tc&s = "\n"
                 ty&cv = 0.59
                 aline = 0
             }
-            if (aline + ns&geolen > 32) {
+            if (aline + ns&geolen > 32 || landscape) {
                 lines.push([])
                 aline = 0
             }
@@ -3393,16 +3397,18 @@ me.Sch_Story = &acgt{ return [
         hak(lines) <= 1 and return
         $caps = []
         each il lines {
+            i /= 10000
             $t = me&mirageg,R,l,i
             caps.push(t)
         }
     }
-    me.mirageg = &acgtRNt{
-        t = me&tsc,"mirageg"+t
+    # 1
+    me.mirageg = &acgtRNi{
+        $t = me&tsc,"mirageg"+i
         delete tc&s
         ts&ml = 1
         ts&dis = 1
-        ty&cv = 0.59
+        ty&cv = 0.59 + i
         each ii,g N {
             # each r into its own capsule:
             $it = me&mtsc,t,"miragee"+ii
