@@ -3294,6 +3294,7 @@ me.Sch_Story = &acgt{ return [
     # upwards
     me.specialfx2 = &acgtR{
         $C = Rs&C
+        $N = me&ioR,R
         
         # trim modulat pre-measuring
         Rs&tiny and grepout(Rs&M,n => ns&modt == 'Pier')
@@ -3301,31 +3302,50 @@ me.Sch_Story = &acgt{ return [
         # tally R%M**c&s
         $len = me&measure_modulat,Rs&M
         
-        # shorten long strings
-        Rs&z && Rs&indim and me&strange,"indim-z"
-        if (Rs&indim && Rs&String && len > 9) {
-            # light here-ish chases away %indim
-            # throw away detail, to $key:$sym$length
-            #  eg str:'17
-            # < like %Dscdotnk:
-            # < not if diffing this thing
-            #    mirage will want to wrap differings
-            #    keeps D/D:c/D:strc&s=fulltext
-            #     over D%'.c'="bu:3,nch:[3,str:'17,ing:4"
-            # < long integers should round or x10^n
-            $str = Rs&M.filter(n => n.t == 'string' && ns&modt == 'String')[0]
-            $strlen = str && (''+strc&s).length
-            if (strlen > 9) {
-                $talk = strlen
-                strc&s = "'"
-                # adjusting for shortening
-                len += 4 - strlen
-                me&Ri,{mirage:'String',s:talk}
+        # trim modulat post-measuring
+        
+        # (light here-ish chases away %indim)
+        if (Rs&isdim) {
+            # are always containers of sketchables
+            if (len < 9 && !hak(N)) {
+                # contains nothing
+                # < make sure...? %dim 
+                # see if things are much ado
+                $things = Rs&M.filter(n => nc&thing)
+                #~>3 dim-empty: R.t, joint(things.map(n => nc&thing.ov))
+                #Ry&up.t == 'asee' && R.t == 'y' and ~>3 fo: len
+                Rs&M.filter(n => ny&cv >= 0.12)
+                    .map(n => nc&not = 1)
+                $len = me&measure_modulat,Rs&M
+                me&Ri,{mirage:'empty',notonly:1}
+            }
+        }
+        if (Rs&indim) {
+            Rs&z and me&strange,"indim-z"
+            if (Rs&String && len > 9) {
+                # shorten long strings
+                # throw away detail, to $key:$sym$length
+                #  eg str:'17
+                # < like %Dscdotnk:
+                # < not if diffing this thing
+                #    mirage will want to wrap differings
+                #    keeps D/D:c/D:strc&s=fulltext
+                #     over D%'.c'="bu:3,nch:[3,str:'17,ing:4"
+                # < long integers should round or x10^n
+                $str = Rs&M.filter(n => n.t == 'string' && ns&modt == 'String')[0]
+                $strlen = str && (''+strc&s).length
+                if (strlen > 9) {
+                    $talk = strlen
+                    strc&s = "'"
+                    # adjusting for shortening
+                    len += 4 - strlen
+                    # < group %toomuch near edge expandability
+                    me&Ri,{mirage:'String',s:talk,toomuch:1}
+                }
             }
         }
         
         # join upwards
-        $N = me&ioR,R
         $inlen = 0
         each in N {
             ns&geolen and inlen += ns&geolen
@@ -3338,7 +3358,6 @@ me.Sch_Story = &acgt{ return [
         $geo = me&tc,"geo:"+talk,talk,'6g'
         geoy&cv = 0.79
        
-            Ry&up.t == 'asee' && R.t == 'y' and ~>3 fo: len
         Rs&inline || hak(N) <= 1 and return
         
         # group into lines
@@ -3464,8 +3483,8 @@ me.Sch_Story = &acgt{ return [
     me.Ri = &acgt{
         $c = me&Rioing,...[...arguments].slice(4)
         $n = me&ha,c.R,...c.args
-        each kv me.magic {
-            n.sc[k] and ac(R,k,n); break
+        each kv n.sc {
+            me.magic[k] and ac(R,k,n); break
         }
         return n
     }
@@ -3491,14 +3510,21 @@ me.Sch_Story = &acgt{ return [
         
         # < arrive togcon
         c.do1 and c.do1(c)
+        if (hak(c.N) == 1) {
+            $n = c.N[0]
+            ns&notonly && lt(c.ov,1) and return
+        }
         # group by the %%limit
         # < later, so do18 may mess with c.N?
         $h = partN(c.N,n => n.sc[c.t])
+        
         # < group by the next most groupey thing,
         #    this is probably the less groupey:
         h.one && c.up and h = partN(c.N,n => n.sc[c.up.t])
         $sublated = N => hak(N.filter(n => ns&sublated))
         me&hall,h.vs,sublated and c.ov ||= 0.01
+        
+        
         c.ov ||= 0.2
         sz(c.ov,0.1) and return
         
@@ -3531,6 +3557,7 @@ me.Sch_Story = &acgt{ return [
             liy&sym = re
             res&title = lis&title || c.t
         }
+        
         
         c.do18 and c.do18(c,li,re)
         sz(c.ov,0.2) and return li
