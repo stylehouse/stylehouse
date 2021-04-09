@@ -3284,13 +3284,14 @@ me.Sch_Story = &acgt{ return [
             }
             isst(sc&s) || num(sc&s) and len += (''+sc&s).length
         }
+        !isar(N) and N = [N]
         each in N {
             ns&z && ns&z.length and me&ind,n,leny,{cbfirst:1}
             else leny(n)
         }
         return len
     }
-   // %geolen, cook modulat
+   // cook modulat, %geolen +- %dim
     # upwards
     me.specialfx2 = &acgtR{
         $C = Rs&C
@@ -3357,7 +3358,7 @@ me.Sch_Story = &acgt{ return [
         $talk = len + (inlen ? "+"+inlen : "")
         $geo = me&tc,"geo:"+talk,talk,'6g'
         geoy&cv = 0.79
-       
+        
         Rs&inline || hak(N) <= 1 and return
         
         # group into lines
@@ -3393,9 +3394,16 @@ me.Sch_Story = &acgt{ return [
             aline += rs&geolen
         }
         $la
+        $starts_inline = 0
         each ir N {
-            #r.t = 'At' && R.t == 'tow' and debugger
             i *= 1
+            if (Rs&inlineable && i == 0) {
+                # C 
+                starts_inline = 1
+                # suppose R modulat is of t
+                aline += Rs&geolen_self
+                # then try to place y across from it:
+            }
             # put sequences %inline+ on its own line
             $inlining_bound =
                 la && (las&inline && !rs&inline
@@ -3420,15 +3428,11 @@ me.Sch_Story = &acgt{ return [
         
         if (Rs&inlineable) {
             # C.* space
-            if (0 && i == 0 && (aline > 32) && !landscape) {
-                # big front
-                # < may do later if ^^^ inline lots of stuff
-                #   eg -Bet: 
-                $t = me&tsc,"mirager"+i
-                tc&s = "\n"
-                ty&cv = 0.59
-                aline = 0
-            }
+            # want c, sc together
+            $thec = N.filter(r => r.t == 'c')
+            $theci = lines.find(l => l.includes(thec))
+            # if both < 64, or r/* groupable to lines of 32
+            # <<<
         }
         
         $caps = []
@@ -3436,6 +3440,9 @@ me.Sch_Story = &acgt{ return [
             !hak(l) and continue
             i /= 10000
             $t = me&mirageg,R,l,i
+            
+            starts_inline && i == 0 and ts&dis = 2
+            
             caps.push(t)
         }
     }
@@ -3446,6 +3453,7 @@ me.Sch_Story = &acgt{ return [
         ts&ml = 1
         ts&dis = 1
         ty&cv = 0.59 + i
+        $len = 0
         each ii,r N {
             # each r into its own capsule:
             $it = me&mtsc,t,"miragee"+ii
@@ -3456,10 +3464,12 @@ me.Sch_Story = &acgt{ return [
             if (hak(N) == 1) {
                 rCs&dis = 1
             }
+            len += rs&geolen || 0
         }
         if (hak(N) > 1) {
-            me&mtsc,t,"mirager" .c.s = "\n"
+            #me&mtsc,t,"mirager" .c.s = "\n"
         }
+        ts&geolen = len
         return t
     }
   
