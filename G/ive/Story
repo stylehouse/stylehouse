@@ -3055,7 +3055,7 @@ me.Sch_Story = &acgt{ return [
         }
 
         $name = R.t
-        n At 101 $s:name %label,deco,fs:6
+        n At 101 $s:name %label:t,deco,fs:6
 
         R.sc[Rs&Pier] = 1
     }
@@ -3275,13 +3275,7 @@ me.Sch_Story = &acgt{ return [
     }
     # - hide brackets when tiny
     # - block if no /*%inline|tiny
-    me.specialfx2 = &acgtR{
-        $C = Rs&C
-        
-        Rs&tiny and grepout(Rs&M,n => ns&modt == 'Pier')
-        
-       // %geolen
-        # measure R%M**c&s
+    me.measure_modulat = &acgtN{
         $len = 0
         $leny = &sd{
             if (sc&not) {
@@ -3290,10 +3284,22 @@ me.Sch_Story = &acgt{ return [
             }
             isst(sc&s) || num(sc&s) and len += (''+sc&s).length
         }
-        each in Rs&M {
+        each in N {
             ns&z && ns&z.length and me&ind,n,leny,{cbfirst:1}
             else leny(n)
         }
+        return len
+    }
+   // %geolen, cook modulat
+    # upwards
+    me.specialfx2 = &acgtR{
+        $C = Rs&C
+        
+        # trim modulat pre-measuring
+        Rs&tiny and grepout(Rs&M,n => ns&modt == 'Pier')
+        
+        # tally R%M**c&s
+        $len = me&measure_modulat,Rs&M
         
         # shorten long strings
         Rs&z && Rs&indim and me&strange,"indim-z"
@@ -3317,6 +3323,7 @@ me.Sch_Story = &acgt{ return [
                 me&Ri,{mirage:'String',s:talk}
             }
         }
+        
         # join upwards
         $N = me&ioR,R
         $inlen = 0
@@ -3331,34 +3338,14 @@ me.Sch_Story = &acgt{ return [
         $geo = me&tc,"geo:"+talk,talk,'6g'
         geoy&cv = 0.79
        
-       // %mirage:lengths
+            Ry&up.t == 'asee' && R.t == 'y' and ~>3 fo: len
         Rs&inline || hak(N) <= 1 and return
         
+        # group into lines
+        me&sfx_mirage,R,N
         #return
         # < properly sizing it for:
         #!N.some(n => !ns&tiny) and return
-        if (me.newsfx) {
-            me&sfx_mirage,R,N
-            return
-            1 and 1
-            else {
-                # we should look like Data::Dumper
-                me&tc,"Data",'6g'
-                each in N {
-                    $C = ns&C
-                    s&dis = 1
-                    s&ml = 1
-                }
-            }
-            return
-        }
-        me&sfx_mirage,R,N
-        each in N {
-            ns&inline and continue
-            $C = ns&C
-            s&dis = 1
-            s&ml = 1
-        }
     }
     me.newsfx = 1
     me.sfx_mirage = &acgtRN{
@@ -3371,33 +3358,63 @@ me.Sch_Story = &acgt{ return [
         # < group for type division, length good
         # < keep order of C.*, arrays?
         $landscape = !inlineable
-            && (N.some(n => ns&inline) || Rs&geolen > 64)
+            && (Rs&geolen > 64 || N.some(n => ns&inline))
         landscape and me&tc,"Data",'6g'
         # < sequences of r%inline
         
-        $aline = Rs&geolen_self
-        $sincei = 0
-        $lasti = hak(N)-1
+        $aline = 0
         $lines = [[]]
-        each in N {
+        $newline = &{
+            lines.push([])
+            aline = 0
+        }
+        $put = &r{
+            lines.slice(-1)[0].push(r)
+            !num(rs&geolen) and debugger
+            aline += rs&geolen
+        }
+        $la
+        each ir N {
+            #r.t = 'At' && R.t == 'tow' and debugger
             i *= 1
-            if (i == 0 && (aline > 32) && !landscape) {
+            # put sequences %inline+ on its own line
+            $inlining_bound =
+                la && (las&inline && !rs&inline
+                    || !las&inline && rs&inline)
+            
+            if (inlining_bound) {
+                newline()
+            }
+            elsif (rs&inline) {
+                # any amount of %inline+ on a line
+            }
+            elsif (landscape || aline + rs&geolen > 32) {
+                newline()
+            }
+            put(r)
+            la = r
+        }
+        
+        # leaves whatever fits on a line
+        # < convenient way to wrap R/* though, eg padding
+        hak(lines) <= 1 and return
+        
+        if (Rs&inlineable) {
+            # C.* space
+            if (0 && i == 0 && (aline > 32) && !landscape) {
                 # big front
+                # < may do later if ^^^ inline lots of stuff
+                #   eg -Bet: 
                 $t = me&tsc,"mirager"+i
                 tc&s = "\n"
                 ty&cv = 0.59
                 aline = 0
             }
-            if (aline + ns&geolen > 32 || landscape) {
-                lines.push([])
-                aline = 0
-            }
-            lines.slice(-1)[0].push(n)
-            aline += ns&geolen
         }
-        hak(lines) <= 1 and return
+        
         $caps = []
         each il lines {
+            !hak(l) and continue
             i /= 10000
             $t = me&mirageg,R,l,i
             caps.push(t)
@@ -3410,15 +3427,15 @@ me.Sch_Story = &acgt{ return [
         ts&ml = 1
         ts&dis = 1
         ty&cv = 0.59 + i
-        each ii,g N {
+        each ii,r N {
             # each r into its own capsule:
             $it = me&mtsc,t,"miragee"+ii
             delete itc&s
             ii > 0 and its&ml = Rs&inlineable ? 1 : 0.5
-            me&zuct,it,g
-            $gC = gs&C
+            me&zuct,it,r
+            $rC = rs&C
             if (hak(N) == 1) {
-                gCs&dis = 1
+                rCs&dis = 1
             }
         }
         if (hak(N) > 1) {
@@ -4271,6 +4288,7 @@ me.Sch_Story = &acgt{ return [
             else {
                 # modulat, might something?
                 Rs&tiny = 1
+                Rs&inline = 1
                 if (isC(s)) {
                     # click titley bits to auto re-The
                     ss&label and Bes&clickat = 'title'
@@ -4586,23 +4604,33 @@ me.Sch_Story = &acgt{ return [
             $D = Rs&D
             $E = Rs&E
             # Object has border
-            #  inc key of it somewhere
+            #  inc At, key of it somewhere
             me&walls,C,'b:2.2'
-            # it itself is inside brackets, 23-77
+            
+            # its brackets, 23-77
             # %shym = a %sym that can be mirrored
             Rs&shym ||= isar(s) ? '[' : '{'
-            T.Mw = 'shym'
+            
             # < G&n should Mw by T.Mw||T.act.t
             #   as &tsc does
-            me&tsc,'begin',Rs&shym,'' .y.cv = 0.23
+            T.Mw = 'shym'
+            $be = me&tsc,'begin',Rs&shym,''
+            bey&cv = 0.23
+            bes&label = 'bracket'
             #n begin 23 $s:Rs&shym
+            
+            # its many
             each kv s {
                 me&Ei,{t:k,s:v}
             }
+            
             $rev = Rs&shym == '[' ? ']'
                 : Rs&shym == '{' ? '}'
                 : '</'+Rs&shym+'>'
-            me&tsc,'end',rev,'' .y.cv = 0.77
+            
+            $en = me&tsc,'end',rev,''
+            eny&cv = 0.77
+            ens&label = 'bracket'
             #n end 77 $s:rev
         },'ift,D'],
         ['String',0.263,&acgtRs{
