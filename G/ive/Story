@@ -3347,9 +3347,6 @@ me.Sch_Story = &acgt{ return [
         
         # group into lines
         me&sfx_mirage,R,N
-        #return
-        # < properly sizing it for:
-        #!N.some(n => !ns&tiny) and return
     }
     me.newsfx = 1
     me.sfx_mirage = &acgtRN{
@@ -3365,8 +3362,7 @@ me.Sch_Story = &acgt{ return [
             && (Rs&geolen > 64
                 # < maybe not:
                 || 0 && N.some(n => ns&inline))
-        # < sequences of r%inline
-        
+      // onto lines
         $aline = 0
         $lines = [[]]
         $newline = &{
@@ -3407,10 +3403,12 @@ me.Sch_Story = &acgt{ return [
             put(r)
             la = r
         }
-        
+      // further
         # leaves whatever fits on a line
         # < convenient way to wrap R/* though, eg padding
-        hak(lines) <= 1 and return
+        $p = Ry&up
+        $inC = Rs&inlineable || ps&inlineable
+        !inC && hak(lines) <= 1 and return
         
         if (Rs&inlineable) {
             # C.* space
@@ -3421,16 +3419,57 @@ me.Sch_Story = &acgt{ return [
             # <<<
         }
         
-        $caps = []
+        # and make so
+        # < after all. aboves may try to re-lineout
+        #   with less
+        #  
+        $mir = Cye(['Miraging',1])
+        miry&up = C
         each il lines {
             !hak(l) and continue
             i /= 10000
-            $t = me&mirageg,R,l,i
-            
-            starts_inline && i == 0 and ts&dis = 2
-            
-            caps.push(t)
+            $al = me&fiu,mir,'aline'+i
+            als&dis = 1
+            als&geolen = 0
+            each ir l {
+                $it = me&miragee,R,al,i,r
+                als&geolen += its&geolen
+            }
+            if (hak(l) == 1) {
+                $rC = rs&C
+                rCs&dis = 1
+            }
         }
+        if (starts_inline) {
+            $they = mirs&z[0]
+            theys&dis = 2
+        }
+        if (Rs&inlineable) {
+            $hem = mirs&z.slice(-2)
+            #hem.map()
+        }
+        me&indo,mir (&sd{
+            sy&cv = 0.59
+            if (d.d == 2) {
+                ~>5 modulat: R.t, s.t
+                ss&ml ||= 1
+                ac(R,'M',s)
+            }
+            if (sc&zuct) {
+                me&zuct,s,sc&zuct
+            }
+        })
+    }
+    # make $aline/$miragee
+    me.miragee = &acgtRair{
+        $it = me&fiu,a,'miragee'+i
+        itc&zuct = r
+       # its&dis = 1
+        its&ml = 0.5
+        Rs&inlineable and its&ml = 1
+        # count it
+        its&geolen = rs&geolen
+        return it
     }
     # 1
     me.mirageg = &acgtRNi{
