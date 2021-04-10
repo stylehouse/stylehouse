@@ -3207,8 +3207,8 @@ me.Sch_Story = &acgt{ return [
             # R%M + R%Mw.* -> R%M, spaced
             me&modulatM,r
         }
-        Rc&N.map(r => me&specialfx1,r)
-        reverse(Rc&N).map(r => me&specialfx2,r)
+        #Rc&N.map(r => me&specialfx1,r)
+        reverse(Rc&N).map(r => me&specialfx1,r)
         each ir Rc&N {
             $C = rs&C
             each kv me.magic {
@@ -3247,34 +3247,6 @@ me.Sch_Story = &acgt{ return [
         delete Rs&Mw
         Rs&M = M
     }
-    # shading weight -> dis:1 or not
-    me.specialfx1 = &acgtR{
-        $C = Rs&C
-        #return
-        !Rs&inlineable and return
-        if (me.newsfx) {
-            grepout(Rs&M,n => ns&modt == 'Hash')
-            return
-        }
-        # Going:
-        
-        $N = me&ioR
-        N.some(r => hak( me&ioR,r ) > 5) and return
-        
-        grepout(Rs&M,n => ns&modt == 'Hash')
-        Rs&inlining = 1
-        
-        # y, c, sc
-        #R.t == 'R' && Ry&up.t == 'y' and debugger
-        N.map(&r{
-            rs&toomuch and return
-            rs&inline = 1
-            $C = rs&C
-            Cs&pr = 0.3
-        })
-    }
-    # - hide brackets when tiny
-    # - block if no /*%inline|tiny
     me.measure_modulat = &acgtN{
         $len = 0
         $leny = &sd{
@@ -3293,18 +3265,26 @@ me.Sch_Story = &acgt{ return [
     }
    // cook modulat, %geolen +- %dim
     # upwards
-    me.specialfx2 = &acgtR{
+    # - hide brackets when tiny
+    # - block if no /*%inline|tiny
+    me.specialfx1 = &acgtR{
         $C = Rs&C
         $N = me&ioR,R
         
         # trim modulat pre-measuring
-        Rs&tiny and grepout(Rs&M,n => ns&modt == 'Pier')
+        if (Rs&inlineable) {
+            # Cish
+            grepout(Rs&M,n => ns&modt == 'Hash')
+        }
+        if (Rs&tiny) {
+            # show non-At labels
+            grepout(Rs&M,n => ns&modt == 'Pier')
+        }
         
         # tally R%M**c&s
         $len = me&measure_modulat,Rs&M
         
-        # trim modulat post-measuring
-        
+       // trim modulat post-measuring
         # (light here-ish chases away %indim)
         if (Rs&isdim) {
             # are always containers of sketchables
@@ -3346,7 +3326,7 @@ me.Sch_Story = &acgt{ return [
             }
         }
         
-        # join upwards
+       // tally up
         $inlen = 0
         each in N {
             ns&geolen and inlen += ns&geolen
@@ -3359,7 +3339,11 @@ me.Sch_Story = &acgt{ return [
         $geo = me&tc,"geo:"+talk,talk,'6g'
         geoy&cv = 0.79
         
-        Rs&inline || hak(N) <= 1 and return
+        $must_mirage = N.some(r => rs&rowy)
+        if (!must_mirage &&
+            (Rs&inline || hak(N) <= 1)) {
+            return
+        }
         
         # group into lines
         me&sfx_mirage,R,N
@@ -3378,8 +3362,9 @@ me.Sch_Story = &acgt{ return [
         # < group for type division, length good
         # < keep order of C.*, arrays?
         $landscape = !inlineable
-            && (Rs&geolen > 64 || N.some(n => ns&inline))
-        landscape and me&tc,"Data",'6g'
+            && (Rs&geolen > 64
+                # < maybe not:
+                || 0 && N.some(n => ns&inline))
         # < sequences of r%inline
         
         $aline = 0
@@ -3409,11 +3394,12 @@ me.Sch_Story = &acgt{ return [
                 la && (las&inline && !rs&inline
                     || !las&inline && rs&inline)
             
-            if (inlining_bound) {
+            if (inlining_bound || rs&rowy) {
                 newline()
             }
             elsif (rs&inline) {
                 # any amount of %inline+ on a line
+                !la and starts_inline = 1
             }
             elsif (landscape || aline + rs&geolen > 32) {
                 newline()
@@ -4456,8 +4442,7 @@ me.Sch_Story = &acgt{ return [
             $D = Rs&D
             $E = Rs&E
             if (Ec&Xc) {
-                s&dis = 1
-                s&ml = 1
+                Rs&rowy = 1
                 # non-first -Eels have an Xc to match
                 me&Ei,{t:'Xc',pi:'hat',s:Ec&Xc,dl:2,inline:1}
                 
