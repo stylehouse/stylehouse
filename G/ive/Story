@@ -3427,6 +3427,7 @@ me.Sch_Story = &acgt{ return [
         miry&up = C
         each il lines {
             !hak(l) and continue
+            $isinline = starts_inline && i == 0
             i /= 10000
             $al = me&fiu,mir,'aline'+i
             als&dis = 1
@@ -3439,8 +3440,9 @@ me.Sch_Story = &acgt{ return [
                 $rC = rs&C
                 rCs&dis = 1
             }
+            isinline and als&dis = 2
         }
-        if (starts_inline) {
+        if (0) {
             $they = mirs&z[0]
             theys&dis = 2
         }
@@ -3464,9 +3466,11 @@ me.Sch_Story = &acgt{ return [
     me.miragee = &acgtRair{
         $it = me&fiu,a,'miragee'+i
         itc&zuct = r
-       # its&dis = 1
-        its&ml = 0.5
-        Rs&inlineable and its&ml = 1
+        its&dis = 1
+        if (i > 0) {
+            its&ml = 0.5
+            Rs&inlineable and its&ml = 1
+        }
         # count it
         its&geolen = rs&geolen
         return it
