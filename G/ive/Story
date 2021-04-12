@@ -3233,6 +3233,7 @@ me.Sch_Story = &acgt{ return [
             }
         }
     }
+   // f modulat
     # R%M += R%Mw/T.act.t|$dome/$modulat**
     me.modulatM = &acgtR{
         $M = []
@@ -3272,6 +3273,23 @@ me.Sch_Story = &acgt{ return [
             else leny(n)
         }
         return len
+    }
+    # structure swallows everything
+    me.mirage_getmodulat = &acgtR,mir{
+        $fore = []
+        $aft = []
+        # hasn't been sorted yet:
+        each in Rs&M {
+            (ny&cv >= 0.6 ? aft : fore).push(n)
+        }
+        Rs&M = []
+        $fo = me&fiu,mir,'mirmod0'
+        $af = me&fiu,mir,'mirmod1'
+        fos&z = fore
+        foy&cv = 0.03
+        afs&z = aft
+        afy&cv = 0.77
+        return [fo,af]
     }
    // cook modulat, %geolen +- %dim
     # upwards
@@ -3447,12 +3465,14 @@ me.Sch_Story = &acgt{ return [
             als&line = 1
             als&geolen = 0
             each ir l {
-                $it = me&miragee,R,al,eei++,r
+                $it = me&fiu,al,'miragee'+eei++
+                itc&zuct = r
                 its&item = 1
                 if (i > 0) {
                     its&ml = 0.5
                     Rs&inlineable and its&ml = 1
                 }
+                its&geolen = rs&geolen
                 als&geolen += its&geolen
             }
             if (hak(l) == 1) {
@@ -3467,10 +3487,6 @@ me.Sch_Story = &acgt{ return [
             else {
                 als&ml = 1
             }
-        }
-        if (0) {
-            $they = mirs&z[0]
-            theys&dis = 2
         }
         if (ps&inlineable && hak(lines) > 1) {
             # the c { several lines of c }
@@ -3503,57 +3519,6 @@ me.Sch_Story = &acgt{ return [
                 me&zuct,s,sc&zuct
             }
         })
-    }
-    me.mirage_getmodulat = &acgtR,mir{
-        $fore = []
-        $aft = []
-        # hasn't been sorted yet:
-        each in Rs&M {
-            (ny&cv >= 0.6 ? aft : fore).push(n)
-        }
-        Rs&M = []
-        $fo = me&fiu,mir,'mirmod0'
-        $af = me&fiu,mir,'mirmod1'
-        fos&z = fore
-        foy&cv = 0.03
-        afs&z = aft
-        afy&cv = 0.77
-        return [fo,af]
-    }
-    # make $aline/$miragee
-    me.miragee = &acgtRair{
-        $it = me&fiu,a,'miragee'+i
-        itc&zuct = r
-        #its&dis = 1
-        # count it
-        its&geolen = rs&geolen
-        return it
-    }
-    # 1
-    me.mirageg = &acgtRNi{
-        $t = me&tsc,"mirageg"+i
-        delete tc&s
-        ts&ml = 1
-        ts&dis = 1
-        ty&cv = 0.59 + i
-        $len = 0
-        each ii,r N {
-            # each r into its own capsule:
-            $it = me&mtsc,t,"miragee"+ii
-            delete itc&s
-            ii > 0 and its&ml = Rs&inlineable ? 1 : 0.5
-            me&zuct,it,r
-            $rC = rs&C
-            if (hak(N) == 1) {
-                rCs&dis = 1
-            }
-            len += rs&geolen || 0
-        }
-        if (hak(N) > 1) {
-            #me&mtsc,t,"mirager" .c.s = "\n"
-        }
-        ts&geolen = len
-        return t
     }
   
   // &Ri|o - magic-aware brack...
