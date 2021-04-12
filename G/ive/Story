@@ -3407,7 +3407,9 @@ me.Sch_Story = &acgt{ return [
         # leaves whatever fits on a line
         # < convenient way to wrap R/* though, eg padding
         $p = Ry&up
+        # give all C.*.* this padded look
         $inC = Rs&inlineable || ps&inlineable
+        hak(lines) == 1 and starts_inline = 1
         !inC && hak(lines) <= 1 and return
         
         if (Rs&inlineable) {
@@ -3441,6 +3443,13 @@ me.Sch_Story = &acgt{ return [
                 rCs&dis = 1
             }
             isinline and als&dis = 2
+            
+            if (isinline && ps&inlineable) {
+                # C.*.* inline doesnt indent
+            }
+            else {
+                als&ml = 1
+            }
         }
         if (0) {
             $they = mirs&z[0]
@@ -3453,9 +3462,9 @@ me.Sch_Story = &acgt{ return [
         me&indo,mir (&sd{
             sy&cv = 0.59
             if (d.d == 2) {
-                ~>5 modulat: R.t, s.t
-                ss&ml ||= 1
-                ac(R,'M',s)
+                $al = s
+                ~>5 modulat: R.t, al.t
+                ac(R,'M',al)
             }
             if (sc&zuct) {
                 me&zuct,s,sc&zuct
@@ -3466,7 +3475,7 @@ me.Sch_Story = &acgt{ return [
     me.miragee = &acgtRair{
         $it = me&fiu,a,'miragee'+i
         itc&zuct = r
-        its&dis = 1
+        #its&dis = 1
         if (i > 0) {
             its&ml = 0.5
             Rs&inlineable and its&ml = 1
