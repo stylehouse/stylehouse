@@ -3220,7 +3220,17 @@ me.Sch_Story = &acgt{ return [
             }
         }
         each ir Rc&N {
+            $since = hak(rs&M)
             rs&Mw and me&modulatM,r
+            # where some structure has taken over
+            # < stream into, degrees of time availing reorg
+            if (rs&Msink) {
+                # new since specialfx
+                $late = rs&M.slice(since)
+                grepout(rs&M,late)
+                # scooped into a row
+                late.map(n => ac(rs&Msink,'z',n))
+            }
         }
     }
     # R%M += R%Mw/T.act.t|$dome/$modulat**
@@ -3427,15 +3437,22 @@ me.Sch_Story = &acgt{ return [
         #  
         $mir = Cye(['Miraging',1])
         miry&up = C
+        $eei = 0
         each il lines {
             !hak(l) and continue
             $isinline = starts_inline && i == 0
             i /= 10000
             $al = me&fiu,mir,'aline'+i
             als&dis = 1
+            als&line = 1
             als&geolen = 0
             each ir l {
-                $it = me&miragee,R,al,i,r
+                $it = me&miragee,R,al,eei++,r
+                its&item = 1
+                if (i > 0) {
+                    its&ml = 0.5
+                    Rs&inlineable and its&ml = 1
+                }
                 als&geolen += its&geolen
             }
             if (hak(l) == 1) {
@@ -3455,31 +3472,59 @@ me.Sch_Story = &acgt{ return [
             $they = mirs&z[0]
             theys&dis = 2
         }
-        if (Rs&inlineable) {
-            $hem = mirs&z.slice(-2)
-            #hem.map()
+        if (ps&inlineable && hak(lines) > 1) {
+            # the c { several lines of c }
+            # < o $mir/**%gee
+            $toowide = mirs&z.some(al => als&geolen > 32)
+            if (!toowide) {
+                $fa = me&mirage_getmodulat,R,mir
+                s&dis = 5
+                each in fa {
+                    me&walls,n,'b:3.2'
+                }
+                $lines = grepout(mirs&z,n => ns&line)
+                $gu = me&fiu,mir,'mirguts'
+                gus&z = lines
+                lines.map(al => delete als&ml)
+                me&ioty,mir .map(&n{
+                    ns&va = 1
+                    ns&dis = 4
+                })
+                $af = fa[1]
+                Rs&Msink = af
+            }
         }
         me&indo,mir (&sd{
-            sy&cv = 0.59
             if (d.d == 2) {
-                $al = s
-                ~>5 modulat: R.t, al.t
-                ac(R,'M',al)
+                sy&cv == 0.1 and sy&cv = 0.59
+                ac(R,'M',s)
             }
             if (sc&zuct) {
                 me&zuct,s,sc&zuct
             }
         })
     }
+    me.mirage_getmodulat = &acgtR,mir{
+        $fore = []
+        $aft = []
+        # hasn't been sorted yet:
+        each in Rs&M {
+            (ny&cv >= 0.6 ? aft : fore).push(n)
+        }
+        Rs&M = []
+        $fo = me&fiu,mir,'mirmod0'
+        $af = me&fiu,mir,'mirmod1'
+        fos&z = fore
+        foy&cv = 0.03
+        afs&z = aft
+        afy&cv = 0.77
+        return [fo,af]
+    }
     # make $aline/$miragee
     me.miragee = &acgtRair{
         $it = me&fiu,a,'miragee'+i
         itc&zuct = r
         #its&dis = 1
-        if (i > 0) {
-            its&ml = 0.5
-            Rs&inlineable and its&ml = 1
-        }
         # count it
         its&geolen = rs&geolen
         return it
