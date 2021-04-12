@@ -3145,8 +3145,6 @@ me.Sch_Story = &acgt{ return [
                 }
                 # instead of thing{ ⦄1 }
             }
-            if (rs&isdim) {
-            }
             
             # %limit unifies
             $too = N.filter(r => rs&limit)
@@ -3207,8 +3205,9 @@ me.Sch_Story = &acgt{ return [
             # R%M + R%Mw.* -> R%M, spaced
             me&modulatM,r
         }
-        #Rc&N.map(r => me&specialfx1,r)
         reverse(Rc&N).map(r => me&specialfx1,r)
+        #Rc&N.map(r => me&specialfx2,r)
+        
         each ir Rc&N {
             $C = rs&C
             each kv me.magic {
@@ -3258,6 +3257,7 @@ me.Sch_Story = &acgt{ return [
         delete Rs&Mw
         Rs&M = M
     }
+    # tally R%M**c&s
     me.measure_modulat = &acgtN{
         $len = 0
         $leny = &sd{
@@ -3272,10 +3272,15 @@ me.Sch_Story = &acgt{ return [
             ns&z && ns&z.length and me&ind,n,leny,{cbfirst:1}
             else leny(n)
         }
+        
+        
+        
+        
+        
         return len
     }
     # structure swallows everything
-    me.mirage_getmodulat = &acgtR,mir{
+    me.mirage_eats_modulat = &acgtR,mir{
         $fore = []
         $aft = []
         # hasn't been sorted yet:
@@ -3289,6 +3294,11 @@ me.Sch_Story = &acgt{ return [
         foy&cv = 0.03
         afs&z = aft
         afy&cv = 0.77
+        
+        # further R%M/* are redirected into af/*
+        Rs&Msink = af
+        
+        
         return [fo,af]
     }
    // cook modulat, %geolen +- %dim
@@ -3453,8 +3463,9 @@ me.Sch_Story = &acgt{ return [
         # < after all. aboves may try to re-lineout
         #   with less
         #  
-        $mir = Cye(['Miraging',1])
+        $mir = Rs&miragine = Cye(['Miraging',1])
         miry&up = C
+        miry&lineser = mir
         $eei = 0
         each il lines {
             !hak(l) and continue
@@ -3468,9 +3479,9 @@ me.Sch_Story = &acgt{ return [
                 $it = me&fiu,al,'miragee'+eei++
                 itc&zuct = r
                 its&item = 1
-                if (i > 0) {
-                    its&ml = 0.5
-                    Rs&inlineable and its&ml = 1
+                if (l.length > 1 && i < l.length-1) {
+                    its&mr = 0.5
+                    Rs&inlineable and its&mr = 1
                 }
                 its&geolen = rs&geolen
                 als&geolen += its&geolen
@@ -3491,31 +3502,32 @@ me.Sch_Story = &acgt{ return [
         if (ps&inlineable && hak(lines) > 1) {
             # the c { several lines of c }
             # < o $mir/**%gee
-            $toowide = mirs&z.some(al => als&geolen > 32)
+            $toowide = Rs&geolen_self > 9
+                || mirs&z.some(al => als&geolen > 32)
             if (!toowide) {
-                $fa = me&mirage_getmodulat,R,mir
-                s&dis = 5
-                each in fa {
-                    me&walls,n,'b:3.2'
-                }
+                $fa = me&mirage_eats_modulat,R,mir
+                s&dis = 3
                 $lines = grepout(mirs&z,n => ns&line)
-                $gu = me&fiu,mir,'mirguts'
+                # this is now where the lines are
+                $gu = miry&lineser = me&fiu,mir,'mirguts'
                 gus&z = lines
                 lines.map(al => delete als&ml)
                 me&ioty,mir .map(&n{
                     ns&va = 1
                     ns&dis = 4
                 })
-                $af = fa[1]
-                Rs&Msink = af
             }
         }
+        $eei = 0
         me&indo,mir (&sd{
             if (d.d == 2) {
-                sy&cv == 0.1 and sy&cv = 0.59
+                sy&cv == 0.1 and sy&cv = 0.59+(eei++*0.0001)
                 ac(R,'M',s)
             }
-            if (sc&zuct) {
+            if (ss&item) {
+                $r = sc&zuct
+                $rC = rs&C
+                rCs&dis ||= 2
                 me&zuct,s,sc&zuct
             }
         })
