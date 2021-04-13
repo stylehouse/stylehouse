@@ -3422,7 +3422,8 @@ me.Sch_Story = &acgt{ return [
             && (Rs&geolen > 64
                 # < maybe not:
                 || 0 && N.some(n => ns&inline))
-      // group onto lines
+      
+      // group onto lines[]
         $aline = 0
         $lines = [[]]
         $newline = &{
@@ -3463,6 +3464,7 @@ me.Sch_Story = &acgt{ return [
             put(r)
             la = r
         }
+      
       // further?
         # leaves whatever fits on a line
         # < convenient way to wrap R/* though, eg padding
@@ -3471,12 +3473,13 @@ me.Sch_Story = &acgt{ return [
         $inC = Rs&inlineable || ps&inlineable
         hak(lines) == 1 and starts_inline = 1
         !inC && hak(lines) <= 1 and return
-        
+      
+      // C:Miraging/$lines/$t%zuct=$r
         # and make so
         # < after all. aboves may try to re-lineout
         #   with less
         #  
-        $mir = Rs&miragine = Cye(['Miraging',1])
+        $mir = Rs&geo.mir = Cye(['Miraging',1])
         miry&up = C
         miry&lineser = mir
         $eei = 0
@@ -3492,16 +3495,9 @@ me.Sch_Story = &acgt{ return [
                 $it = me&fiu,al,'miragee'+eei++
                 itc&zuct = r
                 its&item = 1
-                if (l.length > 1 && i < l.length-1) {
-                    its&mr = 0.5
-                    Rs&inlineable and its&mr = 1
-                }
+                # style later
                 its&geolen = rs&geolen
                 als&geolen += its&geolen
-            }
-            if (hak(l) == 1) {
-                $rC = rs&C
-                rCs&dis = 1
             }
             isinline and als&dis = 2
             
@@ -3512,7 +3508,8 @@ me.Sch_Story = &acgt{ return [
                 als&ml = 1
             }
         }
-        
+       
+      // C:Miraging sfx
         # C.*.* space
         if (ps&inlineable && hak(lines) > 1) {
             # the c { several lines of c }
@@ -3521,7 +3518,7 @@ me.Sch_Story = &acgt{ return [
             $toowide = Rs&geo.self > 9
                 || mirs&z.some(al => als&geolen > 32)
             if (!toowide) {
-                $fa = Rs&geo.mir = me&mirage_eats_modulat,R,mir
+                $fa = Rs&geo.fa = me&mirage_eats_modulat,R,mir
                 s&dis = 3
                 $lines = grepout(mirs&z,n => ns&line)
                 # this is now where the lines are
@@ -3534,6 +3531,10 @@ me.Sch_Story = &acgt{ return [
                 })
             }
             
+            # c { longline, shortline } redistribution
+            if (1) {
+                me&Topping_474,R
+            }
         }
         # C.* space
         if (Rs&inlineable) {
@@ -3546,6 +3547,9 @@ me.Sch_Story = &acgt{ return [
             # <<<
         }
         
+        me&Topping_477,R
+      
+      // finally
         $eei = 0
         me&indo,mir (&sd{
             if (d.d == 2) {
@@ -3559,6 +3563,86 @@ me.Sch_Story = &acgt{ return [
                 me&zuct,s,sc&zuct
             }
         })
+    }
+    
+    # < the partitioning problem
+    #   also putting any r%RX|toomuch on edges, for expansion
+    #   the short, long, short -> medium, long
+    #   divide by type, various levels
+    #    the=many=things=1
+    #   and an overall botheration
+    #    resist reordering until really worth it
+    me.Topping_474 = &acgtR{
+        $mir = Rs&geo.mir
+        $gu = miry&lineser
+        # the order of **%item
+        $original = me&ioty,gu,['','']
+        $lines = me&ioty,gu
+        
+        $sized = vsortz(lines.slice(), r => rs&geolen)
+        $big = sized.pop()
+        # biggest line with multiple items
+        while (hak(bigs&z) <= 1) {
+            big = sized.pop()
+            !big and return
+        }
+        $small = sized.shift()
+        $variance = bigs&geolen - smalls&geolen
+        variance < 9 and return
+        
+        $later = lines.indexOf(small)
+            > lines.indexOf(big)
+        $eat = me&ioty,big
+        later and eat.reverse()
+        each in eat {
+            # leaves the big line too small
+            $pointless = (smalls&geolen + ns&geolen)
+                - (bigs&geolen - ns&geolen) > 9
+            pointless and continue
+            # move it
+            grepout(bigs&z,n)
+            later and smalls&z.unshift(n)
+            else smalls&z.push(n)
+            smalls&geolen += ns&geolen
+            bigs&geolen -= ns&geolen
+            bigs&geolen - smalls&geolen > 9 and continue
+            break
+        }
+        
+        # the order of **%item
+        $same = 1
+        $now = me&ioty,gu,['','']
+        each in now {
+            original[i] != n and same = 0; break
+        }
+        if (!same) {
+            original = joint(original.map(n => nc&zuct.t),',')
+            me&Ri,{mirage:'reorder',s:'⇆',original}
+        }
+    }
+    
+    # style based on position in lines
+    me.Topping_477 = &acgtR{
+        $mir = Rs&geo.mir
+        $gu = miry&lineser
+        each li,al gus&z {
+            $lis = hak(als&z)
+            lis == 0 and debugger
+            $many = lis > 1
+            each i,it als&z {
+                $last = i == lis-1
+                !its&item || !itc&zuct and debugger
+                $r = itc&zuct
+                if (many && !last) {
+                    its&mr = 0.5
+                    Rs&inlineable and its&mr = 1
+                }
+            }
+            if (!many && r) {
+                $rC = rs&C
+                rCs&dis = 1
+            }
+        }
     }
   
   // &Ri|o - magic-aware brack...
