@@ -3154,13 +3154,9 @@ me.Sch_Story = &acgt{ return [
             }
         }
         T.Mw = 'Top'
-        # < generating weightiness
         each ir Rc&N {
-            # R%M + R%Mw.* -> R%M, spaced
             me&modulatM,r
         }
-        # Top 7
-        T.Mw = 'Top'
         reverse(Rc&N).map(r => me&specialfx1,r)
         #Rc&N.map(r => me&specialfx2,r)
         
@@ -3303,7 +3299,7 @@ me.Sch_Story = &acgt{ return [
     }
     
    // f modulat
-    # R%M += R%Mw/T.act.t|$dome/$modulat**
+    # periodically R%M <- R%Mw/T.act.t|$dome/$modulat**
     me.modulatM = &acgtR{
         $M = []
         each in Rs&M {
@@ -3547,7 +3543,9 @@ me.Sch_Story = &acgt{ return [
         $eei = 0
         me&indo,mir (&sd{
             if (d.d == 2) {
-                sy&cv == 0.1 and sy&cv = 0.59+(eei++*0.0001)
+                if (sy&cv == 0.1) {
+                    sy&cv = dec(0.59+(eei++*0.0001))
+                }
                 ac(R,'M',s)
             }
             ss&item and me&zuct,s,sc&zuct
@@ -3580,6 +3578,7 @@ me.Sch_Story = &acgt{ return [
             !big and return
         }
         $small = sized.shift()
+        !small and return
         $variance = bigs&geolen - smalls&geolen
         variance < 9 and return
         
