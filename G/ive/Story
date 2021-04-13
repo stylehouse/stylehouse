@@ -3160,6 +3160,7 @@ me.Sch_Story = &acgt{ return [
             me&modulatM,r
         }
         # Top 7
+        T.Mw = 'Top'
         reverse(Rc&N).map(r => me&specialfx1,r)
         #Rc&N.map(r => me&specialfx2,r)
         
@@ -3182,11 +3183,14 @@ me.Sch_Story = &acgt{ return [
             if (rs&Msink) {
                 # new since specialfx
                 $late = rs&M.slice(since)
-                grepout(rs&M,late)
+                $lat = grepout(rs&M,late)
+                hak(lat) != hak(late) and debugger
                 # scooped into a row
-                late.map(n => ac(rs&Msink,'z',n))
+                lat.map(n => ac(rs&Msink,'z',n))
             }
         }
+        $M = Rs&M
+        vsortz(M)
     }
    // Top modulat rejigs
     # pre-thingo, r%Mw still there
@@ -3312,12 +3316,11 @@ me.Sch_Story = &acgt{ return [
             M.push(n)
         }}
         
+        
+        
+        
         # spatialises, on tv
         me&cvdeal,M
-        
-        
-        vsortz(M)
-        
         
         
         delete Rs&Mw
@@ -3364,8 +3367,10 @@ me.Sch_Story = &acgt{ return [
         $af = me&fiu,mir,'mirmod1'
         fos&z = fore
         foy&cv = 0.03
+        foc&sortcv = 1
         afs&z = aft
         afy&cv = 0.77
+        afc&sortcv = 1
         
         # further R%M/* are redirected into af/*
         Rs&Msink = af
@@ -3393,12 +3398,13 @@ me.Sch_Story = &acgt{ return [
         geo.self = Rs&geolen
         geo.insides = me&measure_modulat,N
         Rs&geolen = geo.self + geo.insides
-        # geolen_self
         
-        $talk = geo.self
-        geo.insides and talk += "+"+geo.insides
-        $ge = me&tc,"geo:"+talk,talk,'6g'
-        gey&cv = 0.79
+        if (0) {
+            $talk = geo.self
+            geo.insides and talk += "+"+geo.insides
+            $ge = me&tc,"geo:"+talk,talk,'6g'
+            gey&cv = 0.79
+        }
         
         $must_mirage = N.some(r => rs&rowy)
         if (!must_mirage &&
@@ -3467,12 +3473,10 @@ me.Sch_Story = &acgt{ return [
       
       // further?
         # leaves whatever fits on a line
-        # < convenient way to wrap R/* though, eg padding
+        # < convenient way to wrap R/* though
         $p = Ry&up
-        # give all C.*.* this padded look
-        $inC = Rs&inlineable || ps&inlineable
         hak(lines) == 1 and starts_inline = 1
-        !inC && hak(lines) <= 1 and return
+        !inlineable && hak(lines) <= 1 and return
       
       // C:Miraging/$lines/$t%zuct=$r
         # and make so
@@ -3532,36 +3536,21 @@ me.Sch_Story = &acgt{ return [
             }
             
             # c { longline, shortline } redistribution
-            if (1) {
-                me&Topping_474,R
-            }
+            me&Topping_474,R
         }
-        # C.* space
-        if (Rs&inlineable) {
-            # < want c, sc together,
-            #    even if it means making more shorter lines
-            #     up to a point...
-            $thec = N.filter(r => r.t == 'c')
-            $theci = lines.find(l => l.includes(thec))
-            # if both < 64, or r/* groupable to lines of 32
-            # <<<
-        }
-        
-        me&Topping_477,R
       
       // finally
+        
+        # effects re %line/%item positions
+        me&Topping_477,R
+        
         $eei = 0
         me&indo,mir (&sd{
             if (d.d == 2) {
                 sy&cv == 0.1 and sy&cv = 0.59+(eei++*0.0001)
                 ac(R,'M',s)
             }
-            if (ss&item) {
-                $r = sc&zuct
-                $rC = rs&C
-                rCs&dis ||= 2
-                me&zuct,s,sc&zuct
-            }
+            ss&item and me&zuct,s,sc&zuct
         })
     }
     
@@ -3572,6 +3561,10 @@ me.Sch_Story = &acgt{ return [
     #    the=many=things=1
     #   and an overall botheration
     #    resist reordering until really worth it
+    #   C.* space:
+    #   wanting c, sc on a line
+    #    even if it means making more shorter lines
+    #     up to a point...
     me.Topping_474 = &acgtR{
         $mir = Rs&geo.mir
         $gu = miry&lineser
@@ -3620,8 +3613,7 @@ me.Sch_Story = &acgt{ return [
             me&Ri,{mirage:'reorder',s:'⇆',original}
         }
     }
-    
-    # style based on position in lines
+    # style based on position in *%lines/*
     me.Topping_477 = &acgtR{
         $mir = Rs&geo.mir
         $gu = miry&lineser
@@ -3633,14 +3625,13 @@ me.Sch_Story = &acgt{ return [
                 $last = i == lis-1
                 !its&item || !itc&zuct and debugger
                 $r = itc&zuct
+                $rC = rs&C
                 if (many && !last) {
                     its&mr = 0.5
                     Rs&inlineable and its&mr = 1
                 }
-            }
-            if (!many && r) {
-                $rC = rs&C
-                rCs&dis = 1
+                rCs&dis ||= 2
+                !many and rCs&dis = 1
             }
         }
     }
