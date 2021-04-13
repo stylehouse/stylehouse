@@ -3127,60 +3127,14 @@ me.Sch_Story = &acgt{ return [
         T.Mw = 'Top'
         each ir Rc&N {
             $C = rs&C
-            $N = me&ioR,r
-            # who
-            rs&shym && rs&Ctitle and delete rs&Mw.shym
-            if (!hak(N)) {
-                if (rs&toomuch) {
-                    # hiding all the stuff
-                    if (rs&shym && !rs&Cish) {
-                        rs&toomuch_shouldcount = 1
-                        me&Mwty,r,'shym','end',''
-                            .map(n => nc&not = 1)
-                    }
-                    if (rs&indim && rs&Cish) {
-                        me&Mwty,r,'Ctitle'
-                            .map(n => nc&not = 1)
-                    }
-                }
-                # instead of thing{ ⦄1 }
-            }
-            
-            # %limit unifies
-            $too = N.filter(r => rs&limit)
-            if (!(hak(too)+1 <3) && hak(too) > hak(N)*0.5) {
-                # notice lots of children getting a %limit
-                # < include mute if no toomuch,E like thingo does
-                #    it might be exporting the %%limit
-                #    through an Effect?
-                $h = {}
-                too.map(&j{
-                    js&limit.map(n => ac(h,ns&limit,j))
-                })
-                delete h.ref
-                each t,hN h {
-                    # such limit must apply to more than half of the children
-                    hak(hN) < hak(N)*0.5 and continue
-                    # unified thingo, unless %%layout:dim
-                    if (!(rs&layout && me&Ro,r,{layout:'dim'} )) {
-                        me&Ri,r,{super:'limit',limit:t}
-                    }
-                    # instead of */%%limit thingo, if:
-                    #  only %%limit:dl,toomuch?
-                    $only = n => me&honly,n.sc,{has:{limit:t},may:{toomuch:1}}
-                    each ij hN {
-                        $thislimit = js&limit.filter(n => ns&limit == t)
-                        !me&hall,thislimit,only and continue
-                        me&Ri,j,{limit:t,sublated:r}
-                    }
-                }
-            }
+            me&Topping_2,r
         }
         
         $C = Rs&C
         each ir Rc&N {
             if (rs&strange) {
-                # < partly glowing map of t**
+                # < partly glowing map of t** from
+                #  < a hud thing
                 $tpath = joint(me.cby(rs&E,E => Ec&top),'/')
                 $tc = me&tc,'strange:'+tpath,'16b'
                 
@@ -3199,15 +3153,17 @@ me.Sch_Story = &acgt{ return [
                 me&mecy,['R',k,'o'],r,{N}
             }
         }
-        T.Mw = 'Topping'
+        T.Mw = 'Top'
         # < generating weightiness
         each ir Rc&N {
             # R%M + R%Mw.* -> R%M, spaced
             me&modulatM,r
         }
+        # Top 7
         reverse(Rc&N).map(r => me&specialfx1,r)
         #Rc&N.map(r => me&specialfx2,r)
         
+        # another minor wave of thingo
         each ir Rc&N {
             $C = rs&C
             each kv me.magic {
@@ -3232,6 +3188,116 @@ me.Sch_Story = &acgt{ return [
             }
         }
     }
+   // Top modulat rejigs
+    # pre-thingo, r%Mw still there
+    me.Topping_2 = &acgtr{
+        $N = me&ioR,r
+        # who
+        rs&shym && rs&Ctitle and delete rs&Mw.shym
+        if (!hak(N)) {
+            if (rs&toomuch) {
+                # hiding all the stuff
+                if (rs&shym && !rs&Cish) {
+                    rs&toomuch_shouldcount = 1
+                    me&Mwty,r,'shym','end',''
+                        .map(n => nc&not = 1)
+                }
+                if (rs&indim && rs&Cish) {
+                    me&Mwty,r,'Ctitle'
+                        .map(n => nc&not = 1)
+                }
+            }
+            # instead of thing{ ⦄1 }
+        }
+
+        # %limit unifies
+        $too = N.filter(r => rs&limit)
+        if (!(hak(too)+1 <3) && hak(too) > hak(N)*0.5) {
+            # notice lots of children getting a %limit
+            # < include mute if no toomuch,E like thingo does
+            #    it might be exporting the %%limit
+            #    through an Effect?
+            $h = {}
+            too.map(&j{
+                js&limit.map(n => ac(h,ns&limit,j))
+            })
+            delete h.ref
+            each t,hN h {
+                # such limit must apply to more than half of the children
+                hak(hN) < hak(N)*0.5 and continue
+                # unified thingo, unless %%layout:dim
+                if (!(rs&layout && me&Ro,r,{layout:'dim'} )) {
+                    me&Ri,r,{super:'limit',limit:t}
+                }
+                # instead of */%%limit thingo, if:
+                #  only %%limit:dl,toomuch?
+                $only = n => me&honly,n.sc,{has:{limit:t},may:{toomuch:1}}
+                each ij hN {
+                    $thislimit = js&limit.filter(n => ns&limit == t)
+                    !me&hall,thislimit,only and continue
+                    me&Ri,j,{limit:t,sublated:r}
+                }
+            }
+        }
+    }
+    # post-thingo, pre-measure
+    me.Topping_37 = &acgtR{
+        # trim modulat pre-measuring
+        if (Rs&inlineable) {
+            # Cish
+            grepout(Rs&M,n => ns&modt == 'Hash')
+        }
+        if (Rs&tiny) {
+            # show non-At labels
+            grepout(Rs&M,n => ns&modt == 'Pier')
+        }
+    }
+    # post-measure
+    me.Topping_41 = &acgtRN{
+        # (light here-ish chases away %indim)
+        $len = Rs&geolen
+        if (Rs&isdim) {
+            # are always containers of sketchables
+            if (len < 9 && !hak(N)) {
+                # contains nothing
+                # < make sure...? %dim 
+                # see if things are much ado
+                $things = Rs&M.filter(n => nc&thing)
+                #~>3 dim-empty: R.t, joint(things.map(n => nc&thing.ov))
+                #Ry&up.t == 'asee' && R.t == 'y' and ~>3 fo: len
+                Rs&M.filter(n => ny&cv >= 0.12)
+                    .map(n => nc&not = 1)
+                $len = me&measure_modulat,Rs&M
+                me&Ri,{mirage:'empty',notonly:1}
+            }
+        }
+        if (Rs&indim) {
+            Rs&z and me&strange,"indim-z"
+            if (Rs&String && len > 9) {
+                # shorten long strings
+                # throw away detail, to $key:$sym$length
+                #  eg str:'17
+                # < like %Dscdotnk:
+                # < not if diffing this thing
+                #    mirage will want to wrap differings
+                #    keeps D/D:c/D:strc&s=fulltext
+                #     over D%'.c'="bu:3,nch:[3,str:'17,ing:4"
+                # < long integers should round or x10^n
+                $str = Rs&M.filter(n => n.t == 'string' && ns&modt == 'String')[0]
+                $strlen = str && (''+strc&s).length
+                if (strlen > 9) {
+                    $talk = strlen
+                    strc&s = "'"
+                    # adjusting for shortening
+                    len += 4 - strlen
+                    # < group %toomuch near edge expandability
+                    me&Ri,{mirage:'String',s:talk,toomuch:1}
+                }
+            }
+        }
+        Rs&geolen = len
+    }
+    
    // f modulat
     # R%M += R%Mw/T.act.t|$dome/$modulat**
     me.modulatM = &acgtR{
@@ -3261,6 +3327,12 @@ me.Sch_Story = &acgt{ return [
     me.measure_modulat = &acgtN{
         $len = 0
         $leny = &sd{
+            if (ss&geolen != null) {
+                # memo %geolen
+                len += ss&geolen
+                d and d.not = 1
+                return
+            }
             if (sc&not) {
                 d and d.not = 1
                 return
@@ -3309,73 +3381,24 @@ me.Sch_Story = &acgt{ return [
         $C = Rs&C
         $N = me&ioR,R
         
-        # trim modulat pre-measuring
-        if (Rs&inlineable) {
-            # Cish
-            grepout(Rs&M,n => ns&modt == 'Hash')
-        }
-        if (Rs&tiny) {
-            # show non-At labels
-            grepout(Rs&M,n => ns&modt == 'Pier')
-        }
-        
+        # modulat trim
+        me&Topping_37,R,N
         # tally R%M**c&s
-        $len = me&measure_modulat,Rs&M
+        Rs&geolen = me&measure_modulat,Rs&M
+        # modulat trim
+        me&Topping_41,R,N
         
-       // trim modulat post-measuring
-        # (light here-ish chases away %indim)
-        if (Rs&isdim) {
-            # are always containers of sketchables
-            if (len < 9 && !hak(N)) {
-                # contains nothing
-                # < make sure...? %dim 
-                # see if things are much ado
-                $things = Rs&M.filter(n => nc&thing)
-                #~>3 dim-empty: R.t, joint(things.map(n => nc&thing.ov))
-                #Ry&up.t == 'asee' && R.t == 'y' and ~>3 fo: len
-                Rs&M.filter(n => ny&cv >= 0.12)
-                    .map(n => nc&not = 1)
-                $len = me&measure_modulat,Rs&M
-                me&Ri,{mirage:'empty',notonly:1}
-            }
-        }
-        if (Rs&indim) {
-            Rs&z and me&strange,"indim-z"
-            if (Rs&String && len > 9) {
-                # shorten long strings
-                # throw away detail, to $key:$sym$length
-                #  eg str:'17
-                # < like %Dscdotnk:
-                # < not if diffing this thing
-                #    mirage will want to wrap differings
-                #    keeps D/D:c/D:strc&s=fulltext
-                #     over D%'.c'="bu:3,nch:[3,str:'17,ing:4"
-                # < long integers should round or x10^n
-                $str = Rs&M.filter(n => n.t == 'string' && ns&modt == 'String')[0]
-                $strlen = str && (''+strc&s).length
-                if (strlen > 9) {
-                    $talk = strlen
-                    strc&s = "'"
-                    # adjusting for shortening
-                    len += 4 - strlen
-                    # < group %toomuch near edge expandability
-                    me&Ri,{mirage:'String',s:talk,toomuch:1}
-                }
-            }
-        }
+        # tally upwards
+        $geo = Rs&geo = {}
+        geo.self = Rs&geolen
+        geo.insides = me&measure_modulat,N
+        Rs&geolen = geo.self + geo.insides
+        # geolen_self
         
-       // tally up
-        $inlen = 0
-        each in N {
-            ns&geolen and inlen += ns&geolen
-        }
-        Rs&geolen = len + inlen
-        Rs&geolen_self = len
-        Rs&geolen_insides = inlen
-        
-        $talk = len + (inlen ? "+"+inlen : "")
-        $geo = me&tc,"geo:"+talk,talk,'6g'
-        geoy&cv = 0.79
+        $talk = geo.self
+        geo.insides and talk += "+"+geo.insides
+        $ge = me&tc,"geo:"+talk,talk,'6g'
+        gey&cv = 0.79
         
         $must_mirage = N.some(r => rs&rowy)
         if (!must_mirage &&
@@ -3386,7 +3409,6 @@ me.Sch_Story = &acgt{ return [
         # group into lines
         me&sfx_mirage,R,N
     }
-    me.newsfx = 1
     me.sfx_mirage = &acgtRN{
         # begins as one long wrappy line
         # C.*(.*)? tend to share lines
@@ -3400,7 +3422,7 @@ me.Sch_Story = &acgt{ return [
             && (Rs&geolen > 64
                 # < maybe not:
                 || 0 && N.some(n => ns&inline))
-      // onto lines
+      // group onto lines
         $aline = 0
         $lines = [[]]
         $newline = &{
@@ -3420,7 +3442,7 @@ me.Sch_Story = &acgt{ return [
                 # C 
                 starts_inline = 1
                 # suppose R modulat is of t
-                aline += Rs&geolen_self
+                aline += Rs&geo.self
                 # then try to place y across from it:
             }
             # put sequences %inline+ on its own line
@@ -3441,7 +3463,7 @@ me.Sch_Story = &acgt{ return [
             put(r)
             la = r
         }
-      // further
+      // further?
         # leaves whatever fits on a line
         # < convenient way to wrap R/* though, eg padding
         $p = Ry&up
@@ -3449,15 +3471,6 @@ me.Sch_Story = &acgt{ return [
         $inC = Rs&inlineable || ps&inlineable
         hak(lines) == 1 and starts_inline = 1
         !inC && hak(lines) <= 1 and return
-        
-        if (Rs&inlineable) {
-            # C.* space
-            # want c, sc together
-            $thec = N.filter(r => r.t == 'c')
-            $theci = lines.find(l => l.includes(thec))
-            # if both < 64, or r/* groupable to lines of 32
-            # <<<
-        }
         
         # and make so
         # < after all. aboves may try to re-lineout
@@ -3499,13 +3512,16 @@ me.Sch_Story = &acgt{ return [
                 als&ml = 1
             }
         }
+        
+        # C.*.* space
         if (ps&inlineable && hak(lines) > 1) {
             # the c { several lines of c }
             # < o $mir/**%gee
-            $toowide = Rs&geolen_self > 9
+            # if all of a casual size
+            $toowide = Rs&geo.self > 9
                 || mirs&z.some(al => als&geolen > 32)
             if (!toowide) {
-                $fa = me&mirage_eats_modulat,R,mir
+                $fa = Rs&geo.mir = me&mirage_eats_modulat,R,mir
                 s&dis = 3
                 $lines = grepout(mirs&z,n => ns&line)
                 # this is now where the lines are
@@ -3517,7 +3533,19 @@ me.Sch_Story = &acgt{ return [
                     ns&dis = 4
                 })
             }
+            
         }
+        # C.* space
+        if (Rs&inlineable) {
+            # < want c, sc together,
+            #    even if it means making more shorter lines
+            #     up to a point...
+            $thec = N.filter(r => r.t == 'c')
+            $theci = lines.find(l => l.includes(thec))
+            # if both < 64, or r/* groupable to lines of 32
+            # <<<
+        }
+        
         $eei = 0
         me&indo,mir (&sd{
             if (d.d == 2) {
