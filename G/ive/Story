@@ -3188,6 +3188,41 @@ me.Sch_Story = &acgt{ return [
         $M = Rs&M
         vsortz(M)
     }
+    # upwards, cook modulat
+    me.specialfx1 = &acgtR{
+        $C = Rs&C
+        $N = me&ioR,R
+        
+        # modulat trim
+        me&Topping_37,R,N
+        # tally R%M**c&s
+        Rs&geolen = me&measure_modulat,Rs&M
+        # modulat trim
+        me&Topping_41,R,N
+        
+        # tally upwards
+        $geo = Rs&geo = {}
+        geo.self = Rs&geolen
+        geo.insides = me&measure_modulat,N
+        Rs&geolen = geo.self + geo.insides
+        
+        if (0) {
+            $talk = geo.self
+            geo.insides and talk += "+"+geo.insides
+            $ge = me&tc,"geo:"+talk,talk,'6g'
+            gey&cv = 0.79
+        }
+        
+        $must_mirage = N.some(r => rs&rowy)
+        if (!must_mirage &&
+            (Rs&inline || hak(N) <= 1)) {
+            return
+        }
+        
+        # group into lines
+        me&sfx_mirage,R,N
+    }
+    
    // Top modulat rejigs
     # pre-thingo, r%Mw still there
     me.Topping_2 = &acgtr{
@@ -3374,43 +3409,8 @@ me.Sch_Story = &acgt{ return [
         
         return [fo,af]
     }
-   // cook modulat, %geolen +- %dim
-    # upwards
-    # - hide brackets when tiny
-    # - block if no /*%inline|tiny
-    me.specialfx1 = &acgtR{
-        $C = Rs&C
-        $N = me&ioR,R
-        
-        # modulat trim
-        me&Topping_37,R,N
-        # tally R%M**c&s
-        Rs&geolen = me&measure_modulat,Rs&M
-        # modulat trim
-        me&Topping_41,R,N
-        
-        # tally upwards
-        $geo = Rs&geo = {}
-        geo.self = Rs&geolen
-        geo.insides = me&measure_modulat,N
-        Rs&geolen = geo.self + geo.insides
-        
-        if (0) {
-            $talk = geo.self
-            geo.insides and talk += "+"+geo.insides
-            $ge = me&tc,"geo:"+talk,talk,'6g'
-            gey&cv = 0.79
-        }
-        
-        $must_mirage = N.some(r => rs&rowy)
-        if (!must_mirage &&
-            (Rs&inline || hak(N) <= 1)) {
-            return
-        }
-        
-        # group into lines
-        me&sfx_mirage,R,N
-    }
+   
+   // mirage modulat rejigs
     me.sfx_mirage = &acgtRN{
         # begins as one long wrappy line
         # C.*(.*)? tend to share lines
