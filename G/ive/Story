@@ -1148,7 +1148,7 @@ me.Sch_Story = &acgt{ return [
   // F(ishSt)ories # storage
     # < &thide if normal, wordpres
     ['Fories',0.297,&acgtRs{
-        me&reaw,R,'Fories,bal_tw_s'
+        me&reaw,R,'Fories,bal_tw_s,Pavings'
         me&inode,R;
         $x = me&Jx,R;
         me&sleepic,R and me&rollbs,R,'bal_tw_s'; return
@@ -1809,8 +1809,14 @@ me.Sch_Story = &acgt{ return [
         Rs&noRsync = 1
         Rs&acceptables = 1
         $go = me&acting,R,'Fine'
-        $x = me&Gome_Jx,R;
-        !x and return me&wants,R,"Gome_Jx",xs&Gome
+        $cl = me.cbu(R,'client')
+        if (cls&Gome) {
+            $x = me&Gome_Jx,R
+            !x and return me&wants,R,"Gome_Jx",xs&Gome
+        }
+        else {
+            $x = me&Jx,R
+        }
         $F = xs&TheF
         !F and debugger
         # acty Fine(-nine) attract This**
@@ -1820,8 +1826,14 @@ me.Sch_Story = &acgt{ return [
         
         sc&pi = 'nine'
         # -This
-        $This = me&Gome_This,R
-        !This and return me&wants,R,"Gome_This",xs&Gome
+        if (cls&Gome) {
+            $This = me&Gome_This,R
+            !This and return me&wants,R,"Gome_This",xs&Gome
+        }
+        else {
+            $This = me&fiu,xs&Thyer,'This'
+            !This and return me&wants,R,"Gome_This",xs&Thyer
+        }
         sy&This = This
         
         # roll the invention of Eigh s
