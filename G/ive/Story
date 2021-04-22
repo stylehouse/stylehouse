@@ -2138,23 +2138,31 @@ me.Sch_Story = &acgt{ return [
         
         me&reaw,R,'TheeThy'
         me&bin,'Theing'
-        
         me&tc,"TheeThy"
+        
+        $This = me&fiu,s,'This'
+        Thisc&pi = 'This'
+        $eight = me&fiu,This,'Something'
+        eightc&pi = 'Eight'
+        $seven = me&fiu,eight,'Somewhence'
+        sevenc&pi = 'Seven'
+        
+       // some data
         # init
         # the -eight remotely
         # i This/Bowler/\E-hat
-        $This = me&fiu,s,'This'
-        $Bow = me&fiu,This,'Bowler'
+        #$This = me&fiu,s,'This'
+        $Bow = me&fiu,seven,'Bowler'
         $dat = Bowc&s = me&PiRet_data
         dat.moreso = dat.asee
         Bowc&pi = 'hat'
         
-        $Bow = me&fiu,This,'Lol'
+        $Bow = me&fiu,seven,'Lol'
         $da = Bowc&s = {more:'some',figaro:dat.asee}
         da.furhtin = {llabin:4}
         Bowc&pi = 'hat'
         
-        $Bow = me&fiu,This,'Room'
+        $Bow = me&fiu,seven,'Room'
         $da = Bowc&s = {fer:dat.asee,even:'more',figaro:dat.asee}
         da.furhtin = {llabin:4}
         $i = 0
@@ -2176,6 +2184,7 @@ me.Sch_Story = &acgt{ return [
             i++
         }
         Bowc&pi = 'hat'
+       //
         # the -nines
         #  autoviv etivity for relatives in This (Bowler)
         #   to be packed into some Nine/$t**
@@ -2225,17 +2234,25 @@ me.Sch_Story = &acgt{ return [
         }
     }
     },
-  //   /%Theing
+  //   /This|The%Theing /%TheEight/%TheSeven
     # Nine-ish container of /Eight-ish namespace
     ['Theing',0.291,&acgtRs{
-        $x = me&Theing,{in:'TheTh'}
+        $x = me&Theing,{in:'TheEight'}
         Rs&onlyish = 1
         me&tc,"Gool","G"
         Rs&TheingE = 1
     },'ift,D'],
+    ['TheEight',0.291,&acgtRs{
+        $x = me&Theing,{in:'TheSeven'}
+    },'ift,D'],
+    ['TheSeven',0.291,&acgtRs{
+        $x = me&Theing,{in:'TheTh'}
+    },'ift,D'],
+    
     # R%TheingE**/Ec&top - containers also have E
     ['TheingE',0.291,&acgtRs{
         me&bin,'TheingE'
+        Rs&rowish = 1
         $p = Ry&up
         me&rollbs,R,'E'
         $E = Rs&E ||= Cye([R.t,1])
@@ -2250,6 +2267,8 @@ me.Sch_Story = &acgt{ return [
             .map(r => me&tc,"Acc:"+r.t )
         xy&go and me&nu,"E",E
     },'ift,D'],
+    
+    
   //     /%TheTh has R'The'
     # each thing
     ['TheTh',0.296,&acgtRs{
@@ -2528,6 +2547,8 @@ me.Sch_Story = &acgt{ return [
         $br = b && by&R
         $z = x.z.filter(r => !br || brc&N != rc&N)
         each in z {
+            # skip same node copied upwards
+            c.got.some(g => g.n == n) and continue
             $tp = me&Rnodepath,n
             c.got.push({E,n,tp})
         }
@@ -2631,13 +2652,17 @@ me.Sch_Story = &acgt{ return [
         c.seek = me&Rcrux_seek,0,c.ups,c.downs
         return c
     }
-    # for a given 
+    # for a given !
     me.Rcrux_seek = &acgt,offset,left,right{
         left == right and return 0
         offset *= 1
         $L = left[offset]
         $l = right[offset]
         if (L == l) {
+            if (!left[offset+1] && !right[offset+1]) {
+                me&strange,"Rcruxingnot:"+joint(left)
+                return 1
+            }
             # simply see where in R%z
             $Li = Ls&z.indexOf(left[offset+1])
             #Li < 0 and debugger
@@ -4373,7 +4398,12 @@ me.Sch_Story = &acgt{ return [
     }
   
   // R'The'
-    
+    # datadump
+    me.hu = &acgttsc{
+        c = ex({t,pi:'hat',s},c||{})
+        me&Ei,c
+        me&Eing,3
+    }
     me.Pi_The = &acgt{ return [
        
        // %Top|%Pier back
@@ -4415,8 +4445,7 @@ me.Sch_Story = &acgt{ return [
             } }
             me&Linets,t,E,d
             d.not and me&strange,"&Linets:not"
-            me&Ei,{t:"encod",pi:"hat",s:t}
-            me&Eing,3
+            me&hu,'encod',t
         },'ift,D'],
         # for all, without Ringing around
         ['Top',0.67,&acgtRs{
@@ -5191,6 +5220,22 @@ me.Sch_Story = &acgt{ return [
   # SC/
   // This**
    
+   // f
+    &{
+    me.Iwakeonly = &acgtRt{
+        me&reaw,R,t+',wakeful,onlyish'
+        me&inode,R
+        $x = me&Jx,R
+        # wake R when p%onlyish/R%wakeful
+        Rs&wakeful = 1
+        # sleep r when R%onlyish/r!%wakeful
+        Rs&onlyish = 1
+        # resume %FishThis when %ball-created
+        ah(R,'nextlifesc',t,1)
+        
+        me&tsc,t
+    }
+    },
    // This
     # interface to have R/r that return r@295
     ['doRbales',0.294,&acgtRs{
@@ -5221,17 +5266,8 @@ me.Sch_Story = &acgt{ return [
     },'ift,D'],
     
     ['FishThis',0.293,&acgtRs{
-        me&reaw,R,'FishThis,wakeful,onlyish'
-        me&inode,R
-        $x = me&Jx,R
-        # wake R when p%onlyish/R%wakeful
-        Rs&wakeful = 1
-        # sleep r when R%onlyish/r!%wakeful
-        Rs&onlyish = 1
-        # resume %FishThis when %ball-created
-        ah(R,'nextlifesc','FishThis',1)
+        me&Iwakeonly,R,'FishThis'
         
-        me&tsc,"FishThis"
         Rs&doRbales = 1
         sc&nopiinto = 1
         me&piThis,s,2
