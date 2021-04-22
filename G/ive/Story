@@ -1422,7 +1422,7 @@ me.Sch_Story = &acgt{ return [
         me.digeward = &acgtn,easy{
             # set up some linearity
             $nt = ns&dige && n || ny&C
-            nts&dige and return nt
+            nt && nts&dige and return nt
             else
             !easy and debugger
         }
@@ -1431,14 +1431,15 @@ me.Sch_Story = &acgt{ return [
             return me&pity,s,k .map(&n{
                 $Eig = me&fiu,z,n.t
                 $el = 8
-                $nt = me&digeward,n
+                $nt = me&digeward,n,'easy'
+                !nt and me&tc,"no-digeward:"+s.t+"/"+n.t,'b'; return
                 Eigs&dige != nts&dige and el = 3
                 Eigy&C != n and el = 2
                 Eigy&C = n
                 Eigs&dige = nts&dige
                 Eigc&el = el
                 return Eig
-            })
+            }) .filter(n=>n)
         }
         # o $z/@n y- o $s/*:n%$k
         me.clonto = &acgtszk{
