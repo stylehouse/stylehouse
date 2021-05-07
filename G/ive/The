@@ -1603,11 +1603,13 @@ me.Sch_The = &acgt{ return [
             $al = me&fiu,mir,'aline'+i
             als&dis = 1
             als&line = 1
+            als&miragia = 1
             als&geolen = 0
             each ir l {
                 $it = me&fiu,al,'miragee'+eei++
                 itc&zuct = r
                 its&item = 1
+                its&miragia = 1
                 # style later
                 its&geolen = rs&geolen
                 als&geolen += its&geolen
@@ -1636,6 +1638,7 @@ me.Sch_The = &acgt{ return [
                 $lines = grepout(mirs&z,n => ns&line)
                 # this is now where the lines are
                 $gu = miry&lineser = me&fiu,mir,'mirguts'
+                gus&miragia = 1
                 gus&z = lines
                 lines.map(al => delete als&ml)
                 me&ioty,mir .map(&n{
@@ -2581,7 +2584,17 @@ me.Sch_The = &acgt{ return [
             !isar(N) and return me&strange,"!array"
             each in N {
                 $e = me&Ei,{t:i,pi:'Bit',s:n,noref:1}
+                if (ns&miragia) {
+                    # quiet the miragey, layout containers
+                    # < undoably
+                    ec&pi = 'igBit'
+                }
             }
+        },'ift,D'],
+        ['igBit',0.21,&acgtRs{
+            Rs&tiny = 1
+            Rs&inline = 1
+            me&tc,"ignored-Bit:"+s.t,'●','g'
         },'ift,D'],
        //     -Bit of slope, -isX
         ['Bit',0.21,&acgtRs{
