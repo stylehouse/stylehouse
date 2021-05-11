@@ -329,12 +329,11 @@ me.Sch_The = &acgt{ return [
         #$c = me&Thetower,R
         #me&proto_Bat,c
         
-        me&tivity
         if (sc&pi) {
             $c = {}
             ~>6 pi: R.t, sc&pi
-            if (sc&pi == 'hat') {
-                R.t.includes('l') and c.Dthing = 1
+            if (1 || sc&pi == 'hat') {
+                1 || R.t.includes('l') and c.Dthing = 1
             }
             $r = me&Piering,c
             $e = rs&E
@@ -381,7 +380,6 @@ me.Sch_The = &acgt{ return [
         !RE and throw "!outR%E"
         $x = me&Theing
         $s = Rc&s
-        me&tc,"---"
         # or as R:
         $del = me&modelta
         c ||= {}
@@ -2495,13 +2493,16 @@ me.Sch_The = &acgt{ return [
                 # E**yD
                 return sy&D
             }, compLines: &DdC{
-                # C is the copy, to encode
+                # D is now C, D is a copy to encode
+                $E = Cy&E
+                Ec&noencode and return d.not = 1
                 #delete Cc&top
                 Cy&D = D
                 #Cc&pi == 'row' && fi&bug,'Firstlog' and debugger
                 #me&dopi,D,d,C,c
-                Cc&pi = Dc&pi
+                Dc&pi ||= Ec&pi
                 delete Dc&cv
+                delete Dc&TX
                 #comp_log(D,d,C)
             } }
             me&Linets,t,E,d
@@ -2551,7 +2552,7 @@ me.Sch_The = &acgt{ return [
             $c = me&Nserial,N,{gk:'Bati',ll:25}
             $latest
             each ie c.back {
-                $eB = me&Ei,{t:es&Bati,pi:'Bet',s:e,i}
+                $eB = me&Ei,{t:es&Bati,pi:'Bet',s:e,i,noencode:1}
                 latest ||= eB
                 c.neu.includes(e) and eBc&el = 2
                 # < togs all come from somewhere
@@ -2569,8 +2570,8 @@ me.Sch_The = &acgt{ return [
             $n = me&Ei,{t:'Eel',pi:'Eel',s:N,dl:19}
             
             me&Eing,6
-            $ED = ny&D
-            Vy&TXing = EDs&aq
+            !ns&aq and me&strange,"E!%aq"
+            Vy&TXing = ns&aq
         },'ift,D'],
         
        //   -Bet event, -Belt slope
@@ -2787,21 +2788,21 @@ me.Sch_The = &acgt{ return [
             if (Ec&Xc) {
                 Rs&rowy = 1
                 # non-first -Eels have an Xc to match
-                me&Ei,{t:'Xc',pi:'hat',s:Ec&Xc,dl:2,inline:1}
+                me&Ei,{t:'Xc',pi:'hat',s:Ec&Xc,dl:2,inline:1,noencode:1}
                 
                 $EN = me.cby(E,E => !Ec&Xc && -2)
                 $p = Ry&up
-                $pD = ps&D
+                $pE = ps&E
                 $name = joint(EN)
                 # into D%TX...aq
                 $aq = fi&TXi,D,"aq:"+name,Ec&Xc
-                # onto D%aq
-                Ds&aq = aq
-                # into D^%aq %TX..aq
-                pDs&aq and fi&TXi,pDs&aq,aq,Ec&Xc
+                # onto E%aq
+                Es&aq = aq
+                # into E^%aq %TX..aq
+                pEs&aq and fi&TXi,pEs&aq,aq,Ec&Xc
             }
             else {
-                Ds&aq = Cye(["Topeel",8])
+                Es&aq = Cye(["Topeel",8])
             }
            
            // regrouping Bet
@@ -2868,7 +2869,7 @@ me.Sch_The = &acgt{ return [
                 ex(qua,Xsc)
             }
             hak(qua) and aqs&qua = qua
-            me&Ei,{t:'aq%qua',pi:'hat',s:qua,dl:2,inline:1}
+            me&Ei,{t:'aq%qua',pi:'hat',s:qua,dl:2,inline:1,noencode:1}
             
             $letswake = 0
             done.map(&r{
