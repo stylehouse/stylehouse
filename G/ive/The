@@ -336,6 +336,7 @@ me.Sch_The = &acgt{ return [
                 1 || R.t.includes('l') and c.Dthing = 1
             }
             $r = me&Piering,c
+            rs&sleeping and return
             $e = rs&E
             me&fiu,E,e,2
             #Ey&thing = ey&thing
@@ -385,6 +386,9 @@ me.Sch_The = &acgt{ return [
         c ||= {}
         c.Pier ||= sc&pi
         c.t ||= "R-"+c.Pier
+        if (x.ro('noR')) {
+            c.sleeping = 1
+        }
         c.Top = 1
         c.s = sc&s
         $V = c.V = s
@@ -2512,14 +2516,14 @@ me.Sch_The = &acgt{ return [
         # for all, without Ringing around
         ['Top',0.67,&acgtRs{
             me&Topping
-        },'ift,D'],
-        ['Top',0.9,&acgtRs{
-            # disp
             
             s&dis = 1
             C.y.cv = 0.76
             me&walls,C,"b:2.2"
             me&scroll,28
+        },'ift,D'],
+        ['Top',0.9,&acgtRs{
+            # disp
             
             if (!Rs&noDisplay) {
                 $d = me&Display,R,{prep:1}
@@ -2527,13 +2531,13 @@ me.Sch_The = &acgt{ return [
                 # < appears twice unless:
                 Rs&noDisplay = 1
             }
-            
+            Rs&sleeping and return
             me&applyRbitX,R
             
             each iy Rs&commit {
                 y ()
             }
-        },'ift,D'],
+        },'ift,D,sleeping'],
         
        // -Bat events
         # many e
