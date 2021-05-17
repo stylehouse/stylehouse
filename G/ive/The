@@ -88,10 +88,90 @@ me.Sch_The = &acgt{ return [
        selected one shows CED columns over slope rows
     
     =cut
+  // &Piing Thee
+    &{
+    # o a node
+    me.Thee = &acgt{
+        $R = me&R
+        # recur id
+        $c = {}
+        $x = me&Theing,c
+        !c.long and throw "Thee!long"
+        me&bin,'TheingE'
+        xy&c = c
+        # in space
+        xy&path = me.cby(R,'^^^'+c.long)
+        
+        return x
+    }
+    # i a node
+    me.Pii = &acgtsc{
+        $R = me&R
+        isst(s) and c = s; s = Rc&s
+        $v = me&Rsci,c,{v:s}
+        return v
+    }
+    # ring node's E/*
+    me.Piing = &acgtc{
+        isst(c) and c = me&t_tpi,{t:c}
+        $x = me&Theing
+        x.ro('noR') and c.sleeping = 1
+        
+        $r = me&Piering,c
+        
+        rs&sleeping and return
+        
+        $R = ry&up
+        $E = Rs&E
+        $e = rs&E
+        # R%E/e
+        me&fiu,E,e,2
+        # E^/E
+        Ey&up and me&fiu,Ey&up,E,2
+        return r
+    }
+    },
+    ['Piing',0.291,&acgtRs{
+        $x = me&Thee
+        me&tc,"Dep"+hak(xy&path)
+        # %Piing**
+        me&bin,xy&c.long
+    },'ift,D'],
+    ['Piing',0.296,&acgtRs{
+        $x = me&Theing
+        $p = Ry&up
+        me&fiu,pc&s,s,2
+        if (hak(xy&path) == 1) {
+            $This = me&Pii,'-This'
+            $The = me&Pii,'-The'
+            
+            Thes&tow = 1
+            
+            $seven = me&Pii,This,'Something-Eight/Somewhence-seven'
+            
+            $Bow = me&Pii,seven,'Bowler-hat'
+            $dat = Bowc&s = me&PiRet_data
+            dat.moreso = dat.asee
+            $Bow = me&Pii,seven,'Shj-hat'
+            Bowc&s = dat.asee
+        }
+        else {
+            Rs&onlyish = 1
+            me&hideyfix,R
+            Rs&TheingE = 1
+            if (sy&Todo) {
+                me&Piing,'-Bat'
+            }
+            if (sc&pi) {
+                me&Piing,'-'+sc&pi
+            }
+        }
+    },'ift,D'],
+  
   // %TheeThy, landscape
     # some events, to|from the book
     ['TheeThy',0.296,&acgtRs{
-        
+        #me&Thee,'TheeThy'
         me&reaw,R,'TheeThy'
         me&bin,'Theing'
         me&tc,"TheeThy"
@@ -282,7 +362,7 @@ me.Sch_The = &acgt{ return [
         
         #me&piSeven,s,{},7
     },'ift,D'],
-   // %TheingE**
+  // %TheingE**
     # R%TheingE**/Ec&top - containers also have E
     ['TheingE',0.291,&acgtRs{
         me&bin,'TheingE'
@@ -384,11 +464,8 @@ me.Sch_The = &acgt{ return [
         # or as R:
         $del = me&modelta
         c ||= {}
-        c.Pier ||= sc&pi
+        c.Pier ||= c.pi || sc&pi
         c.t ||= "R-"+c.Pier
-        if (x.ro('noR')) {
-            c.sleeping = 1
-        }
         c.Top = 1
         c.s = sc&s
         $V = c.V = s
@@ -537,6 +614,8 @@ me.Sch_The = &acgt{ return [
     }
     # find Thyer/%Theing/...R
     me.climbaboveTheing = &acgtR{
+        return me.cby(R,'^^^Piing')
+            || me.cby(R,'^^^Theing')
         $r = R
         $N = [r]
         while (1) {
@@ -2415,11 +2494,6 @@ me.Sch_The = &acgt{ return [
         return a
     }
    // C stackups
-    # c.t may say $t-$pi
-    me.t_tpi = &acgtc{
-        $tpi = c.t.match(/^(.+)-(\w+)$/)
-        tpi and c.t = tpi[1]; c.pi = tpi[2]
-    }
     # dedupe same t
     # < accept t=c with .t, strat for The $n++
     me.dupfiu = &acgtEt{
@@ -3018,23 +3092,23 @@ me.Sch_The = &acgt{ return [
     &{
    // slope io: &Rsci + dialects
     // dialects
-    # not readable?
-    me.Rli = &acgtscq{
-        c = ex(c||{},{gk:'limit'})
-        return me&Rsci,s,c,q
-    }
-    me.Rlo = &acgtscq{
-        c = ex(c||{},{el:8})
-        return me&Rli,s,c,q
-    }
-    me.Rti = &acgtscq{
-        c = ex(c||{},{gk:'toomuch'})
-        return me&Rsci,s,c,q
-    }
-    me.Rto = &acgtscq{
-        c = ex(c||{},{el:8})
-        return me&Rli,s,c,q
-    }
+        # not readable?
+        me.Rli = &acgtscq{
+            c = ex(c||{},{gk:'limit'})
+            return me&Rsci,s,c,q
+        }
+        me.Rlo = &acgtscq{
+            c = ex(c||{},{el:8})
+            return me&Rli,s,c,q
+        }
+        me.Rti = &acgtscq{
+            c = ex(c||{},{gk:'toomuch'})
+            return me&Rsci,s,c,q
+        }
+        me.Rto = &acgtscq{
+            c = ex(c||{},{el:8})
+            return me&Rli,s,c,q
+        }
     // &Rsci
     # v=[] for /$n-ism, adding|finding c.n
     me.Rscin = &acgtscqv{
@@ -3068,6 +3142,29 @@ me.Sch_The = &acgt{ return [
             return 1
         }
     }
+    # c.t may say $t-$pi%qua
+    me.t_tpi = &acgtc{
+        $tpi = c.t.match(/^(.*)-(\w+)(.*)$/)
+        if (tpi) {
+            c.t = tpi[1]+tpi[3]
+            c.pi = tpi[2]
+            if (c.t == '') {
+                # may s.y.$pi
+                # or $s/$pi
+            }
+        }
+        $tgk = c.t.match(/^(.*)%(\w+)(.*)$/)
+        if (tgk) {
+            c.t = tgk[1]+tgk[3]
+            c.gk = tgk[2]
+            if (c.t == '') {
+                # may $s/*%qua
+                # or $s%qua=C:qua
+            }
+        }
+        
+        return c
+    }
     me.Rsci = &acgtscq{
         c ||= {}
         $R = c.R || me&R
@@ -3076,11 +3173,17 @@ me.Sch_The = &acgt{ return [
         c.gk and s.path.unshift('%'+c.gk)
         $putsz = hak(c,'s') || hak(c,'n')
         
-        $z = R
+        $z = c.v || R
         $last = hak(s.path)-1
         each it s.path {
-            $gk = t.substr(0,1) == '%' && t.substr(1)
+            !isst(t) and debugger
+            $tc = me&t_tpi,{t}
+            t = tc.t
+            $gk = tc.gk
+            $pi = tc.pi
+            
             $v
+            pi and t ||= pi
             gk and v = z.sc[gk]
             # < bal Rc&s/$v, for c.R%ball
             #   or schedule|other nearby y&R
@@ -3124,6 +3227,10 @@ me.Sch_The = &acgt{ return [
                     else {
                         # < bal Rc&s/$v
                     }
+                }
+                if (pi) {
+                    !vc&pi and vc&pi = pi
+                    vc&pi != pi and return
                 }
                 if (puts) {
                     puts = 0
