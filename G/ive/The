@@ -101,7 +101,7 @@ me.Sch_The = &acgt{ return [
         xy&c = c
         # in space
         xy&path = me.cby(R,'^^^'+c.long)
-        
+        hak(xy&path) == 1 and xy&TheeTop = 1
         return x
     }
     # i a node
@@ -116,6 +116,13 @@ me.Sch_The = &acgt{ return [
         isst(c) and c = me&t_tpi,{t:c}
         $x = me&Theing
         x.ro('noR') and c.sleeping = 1
+        $R = me&R
+        $s = Rc&s
+        # from the place
+        $tc = me&Thetower,R
+        $es = tc.es
+        delete sy&RXing
+        es && esy&TXing and sy&RXing = esy&TXing
         
         $r = me&Piering,c
         
@@ -136,12 +143,14 @@ me.Sch_The = &acgt{ return [
         me&tc,"Dep"+hak(xy&path)
         # %Piing**
         me&bin,xy&c.long
+        Rs&onlyish = 1
     },'ift,D'],
     ['Piing',0.296,&acgtRs{
         $x = me&Theing
         $p = Ry&up
         me&fiu,pc&s,s,2
-        if (hak(xy&path) == 1) {
+        if (xy&TheeTop) {
+            # the nothing
             $This = me&Pii,'-This'
             $The = me&Pii,'-The'
             
@@ -156,7 +165,7 @@ me.Sch_The = &acgt{ return [
             Bowc&s = dat.asee
         }
         else {
-            Rs&onlyish = 1
+            # This|The**
             me&hideyfix,R
             Rs&TheingE = 1
             if (sy&Todo) {
@@ -1095,7 +1104,7 @@ me.Sch_The = &acgt{ return [
             }
         }
         
-      // 37 &PiRet
+      // 37 would &PiRet, too* limit
         each ie c.would {
             $rc = {t:e.t,s:ec&s,E:e}
             $r = ey&R = me&PiRet,R,rc
@@ -1122,7 +1131,11 @@ me.Sch_The = &acgt{ return [
     # 1 R/r for E/* while &Eing
     me.PiRet = &acgtRc{
         # GOING
-        Rc&nofurther and me&ha,R,"toomuch:nofurther"; return
+        if (Rc&nofurther) {
+            me&strange,'nofurther'
+            me&ha,R,"toomuch:nofurther"
+            return
+        }
         
         # 11 new
         $r = me&Ret,R,c
@@ -2621,9 +2634,12 @@ me.Sch_The = &acgt{ return [
             $V = Rs&V
             $D = Rs&D
             $E = Rs&E
-            $top2 = me.cbu(R,'Theing').t.match(/^The( 2)?$/)
+            $pathwithstep = me&climbaboveTheing,R
+            $There = pathwithstep[1]
+            $top2 = There.t.match(/^The( 2)?$/)
             !top2 and Rc&nl = 500
             me&Battarget,R
+            
             # enables popping events in, waking R%TheTt
             $N = Vy&Todo ||= []
             # < hold any with Ting
@@ -2639,17 +2655,27 @@ me.Sch_The = &acgt{ return [
             }
             me&Eing,6
             # < select one as above.
-            if (top2) {
-                #me&Ei,{t:'sel',pi:'Spheres',s:latest}
+            if (0 && top2) {
+                me&Ei,{t:'sel',pi:'Spheres',s:latest}
+                me&Eing,6
             }
             
-            me&Eing,6
             $N = me&ioR,'Bet'
             $n = me&Ei,{t:'Eel',pi:'Eel',s:N,dl:19}
-            
             me&Eing,6
+            # emits what-for
             !ns&aq and me&strange,"E!%aq"
             Vy&TXing = ns&aq
+            # what now
+            if (Rs&letswake) {
+                # < -Ness defference
+                $ta = Rs&target
+                !ta and me&tc,'!target','G'
+                else {
+                    $node = me.cbu(R,'TheingE')
+                    me&wants,node,'autoBat',ta
+                }
+            }
         },'ift,D'],
         
        //   -Bet event, -Belt slope
@@ -2958,12 +2984,7 @@ me.Sch_The = &acgt{ return [
             if (letswake) {
                 me&tc,"letswake!",'G'
                 $Bat = me.cbu(R,'Bat')
-                $ta = Bats&target
-                !ta and me&tc,'!target','G'
-                else {
-                    $node = me.cbu(Baty&R,'TheTh')
-                    me&wants,node,'autoBat',ta
-                }
+                ac(Bat,'letswake',E)
             }
             me&tc,"done:"+joint(done)
             
