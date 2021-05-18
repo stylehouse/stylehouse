@@ -89,6 +89,7 @@ me.Sch_The = &acgt{ return [
     
     =cut
   // &Piing Thee
+   // &Piing
     &{
     # o a node
     me.Thee = &acgt{
@@ -123,21 +124,30 @@ me.Sch_The = &acgt{ return [
         $es = tc.es
         delete sy&RXing
         es && esy&TXing and sy&RXing = esy&TXing
+        # for the such time
+        c.ov = 333
         
         $r = me&Piering,c
-        
+        # < recycles E/e? when %Piing%sleeping?
         rs&sleeping and return
         
         $R = ry&up
         $E = Rs&E
         $e = rs&E
+        $be = me&fiu,E,e.t,8
+        be and me&tc,'b','b'
         # R%E/e
-        me&fiu,E,e,2
+        me&fiu,E,e,1
         # E^/E
-        Ey&up and me&fiu,Ey&up,E,2
+        Ey&up and me&fiu,Ey&up,E,1
+        
+        $C = rs&C
+        !C and debugger
+        C and ry&cv = 0.2
         return r
     }
     },
+   // %Piing
     ['Piing',0.291,&acgtRs{
         $x = me&Thee
         me&tc,"Dep"+hak(xy&path)
@@ -174,6 +184,18 @@ me.Sch_The = &acgt{ return [
             if (sc&pi) {
                 me&Piing,'-'+sc&pi
             }
+        }
+    },'ift,D'],
+    ['sleeping+Piing',0.296,&acgtRs{
+        
+        ~>4 Piing-sleeps: joint(sy&path)
+    },'ift,D'],
+    ['Piing',0.4,&acgtRs{
+        # children first:
+        me&Ring,R,{inside:R,ov:555}
+        # finish:
+        each in Rs&z {
+            ns&Pier and me&Ring,n
         }
     },'ift,D'],
   
@@ -421,9 +443,6 @@ me.Sch_The = &acgt{ return [
         if (sc&pi) {
             $c = {}
             ~>6 pi: R.t, sc&pi
-            if (1 || sc&pi == 'hat') {
-                1 || R.t.includes('l') and c.Dthing = 1
-            }
             $r = me&Piering,c
             rs&sleeping and return
             $e = rs&E
@@ -462,7 +481,7 @@ me.Sch_The = &acgt{ return [
         
         return x
     }
-    # leap into R'The'
+    # node leaps into R'The', new E**
     # from sc&pi)%ball, giving rc&s=sc&s
     me.Piering = &acgtc{
         $R = me&R
@@ -474,7 +493,7 @@ me.Sch_The = &acgt{ return [
         $del = me&modelta
         c ||= {}
         c.Pier ||= c.pi || sc&pi
-        c.t ||= "R-"+c.Pier
+        c.t ||= "-"+c.Pier
         c.Top = 1
         c.s = sc&s
         $V = c.V = s
@@ -492,16 +511,15 @@ me.Sch_The = &acgt{ return [
         V && Vy&RXing and fi&RXi,E,Vy&RXing
         # then starts matching, usu in &Eing
         $M = me&Pieri,RE,E
+        $q = {}
+        c.ov and q.ov = delete c.ov
         $r = me&PiRet,R,c
         ac(R,'z',r)
         x.ro('noD') and rs&noDisplay = 1
-        me&Ring,r
-        
-        # < &Yingbal each pool of:
-        rs&matches && xy&go and me&nu,'matches',rs&matches
+        me&Ring,r,q
         
         del()
-        xy&go and me&zu,"r",r
+        xy&go and me&zu,"r:"+r.t,r
         return r
     }
     },
@@ -2574,7 +2592,7 @@ me.Sch_The = &acgt{ return [
             me&Eing,3
         },'ift,D'],
         
-        ['Dthing',0.44,&acgtRs{
+        ['Top',0.44,&acgtRs{
             $E = Rs&E
             $D = Rs&D
             # storable encoding
@@ -2612,12 +2630,6 @@ me.Sch_The = &acgt{ return [
         ['Top',0.9,&acgtRs{
             # disp
             
-            if (!Rs&noDisplay) {
-                $d = me&Display,R,{prep:1}
-                
-                # < appears twice unless:
-                Rs&noDisplay = 1
-            }
             Rs&sleeping and return
             me&applyRbitX,R
             
