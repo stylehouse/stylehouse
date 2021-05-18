@@ -1124,8 +1124,15 @@ me.Sch_Story = &acgt{ return [
 // %Fish(This|Eight|Seven) for -seven etc to happen within
   
   # ensures This is The
-  
+    &{ me.Thisisinside = 0 ? 'Thyer' : 'Piing' },
   // Gnomp - simplified @Gump...@Gome
+    &{
+        # looking at the This
+        me.Gnome_This = &acgtR{
+            $x = me&Jx,R
+            return me&fiu,x.sc[me.Thisisinside],'This'
+        }
+    },
     ['Gnomp',0.296,&acgtRs{
         $x = me&Jx,R
         me&quietready,R and return
@@ -1147,12 +1154,7 @@ me.Sch_Story = &acgt{ return [
         # having work
         me&Gome_Resides,R,{t:'TryPiWarmer'}
     },'ift,D'],
-    &{
-        me.Gnome_This = &acgtR{
-            $x = me&Jx,R
-            return me&fiu,xs&Thyer,'This'
-        }
-    },
+  
   // F(ishSt)ories # storage
     # < &thide if normal, wordpres
     ['Fories',0.297,&acgtRs{
@@ -1183,7 +1185,8 @@ me.Sch_Story = &acgt{ return [
         s&dis = 5
         delete Rs&rowish
     },'ift,D'],
-  // TheF* # storables self
+  
+  // TheFest # selves<->store
     ['TheF',0.292,&acgtRs{
         me&reaw,R,'TheF,bal_tw_s'
         me&acting,R,'TheF'
@@ -1553,8 +1556,8 @@ me.Sch_Story = &acgt{ return [
                 me&Fineiscursed,s,0.001
                 # let Gome decide to Leave Fine, via &FsyncThis
                 $R = me&R
-                $x = me&Gome_Jx,R
-                me&Effect,s,xs&Gome,'Finecursed',{curse:s}
+                $cl = me.cbu(R,'client')
+                cl && me&Effect,s,cl,'Finecursed',{curse:s}
                 # dont sync a leaving This
                 # < syncThis while|post Leave Fine?
                 #   cancelled Fine+This may stack up somewhere
@@ -1816,7 +1819,7 @@ me.Sch_Story = &acgt{ return [
     
   // TheFine** stored The
   
-   // Fine -nine -> /%TheFe got+exp
+   // TheFine -nine -> /%TheFe got+exp
     # < cultivate
     ['TheFine',0.295,&acgtRs{
         
@@ -1847,7 +1850,7 @@ me.Sch_Story = &acgt{ return [
         }
         else {
             $This = me&Gnome_This,R
-            !This and return me&wants,R,"Gnome_This",xs&Thyer
+            !This and return me&wants,R,"Gnome_This",x.sc[me.Thisisinside]
         }
         sy&This = This
         
@@ -1968,6 +1971,7 @@ me.Sch_Story = &acgt{ return [
   
    // %TheFe(ature) differencing
     ['TheFe',0.299,&acgtRs{
+        
         me&bin,'TheFe'
         me&reaw,R,'TheFe,exp,got,now_missing'
         $x = me&Jx,R
@@ -2060,6 +2064,7 @@ me.Sch_Story = &acgt{ return [
             # < mergible
         }
     },
+   
    // FeRel, EFine, etc
     # < E-nine/*/* lum from E-nine/OK/*
     # for &bal,E-nine**
@@ -2073,7 +2078,9 @@ me.Sch_Story = &acgt{ return [
             me&thide
         }
         me&thide,'easy'
-        me&acting,R,'EF' and me&nu,'l',l
+        if (me&acting,R,'EF') {
+            sy&C and me&nu,'sy&C',sy&C
+        }
     },'ift,D'],
     # some otherish thing
     ['FeRel',0.361,&acgtRs{
