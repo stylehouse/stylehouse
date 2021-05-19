@@ -235,8 +235,14 @@ me.fiu = &acgtstc{
     # read only
     $n = fio(s,t,0);
     # 2 must be new or same (see lv el:2 == only such t)
-    c.el == 2 && n && n != t and throw "already i", n
-    c.el == 2 and c.el = 1
+    if (c.el == 2) {
+        if (n) {
+            # < resolve $n order
+            n == t and return n
+            throw "already i", n
+        }
+        c.el = 1
+    }
     # 7 must be there, 8 read only
     c.el == 7 && !n and throw "No "+s.t+"/"+t
     c.el == 8 || c.el == 7 and return n

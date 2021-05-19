@@ -101,8 +101,7 @@ me.Sch_The = &acgt{ return [
         me&bin,'TheingE'
         xy&c = c
         # in space
-        xy&path = me.cby(R,'^^^'+c.long)
-        hak(xy&path) == 1 and xy&TheeTop = 1
+        xy&Thees = me.cby(R,'^^^'+c.long)
         return x
     }
     # i a node
@@ -119,27 +118,44 @@ me.Sch_The = &acgt{ return [
         x.ro('noR') and c.sleeping = 1
         $R = me&R
         $s = Rc&s
-        # from the place
+        $E = Rs&E
+        
+        # T from the place
         $tc = me&Thetower,R
         $es = tc.es
         delete sy&RXing
         es && esy&TXing and sy&RXing = esy&TXing
-        # for the such time
-        c.ov = 333
         
+        # A for the such time
+        c.ov = 333
+        c.pre_Pieringi = &re{
+            $be = me&fiu,E,e.t,8
+            if (be) {
+                ec&b = be
+                me&tc,'b','b'
+            }
+            # apply new E/**
+            # < only staged, via ^^^Piing
+            # R%E/e
+            me&fiu,E,e,1
+            
+            # begin Ec&uber route attention from where we will commit X
+            # on Ec&top %X
+            $tE = rs&E
+            $mE = me.cbu(tE)
+            # < mEy&R shall have E staging /ref/ that would be in mEc&X
+            #   they must be checked for positioning...
+            R.t == 'Bowler' and me&zu,"topE",{mE,tE}
+            
+            # ...&Pieringi does &Eref_begin
+        }
         $r = me&Piering,c
+        $e = rs&E
         # < recycles E/e? when %Piing%sleeping?
         rs&sleeping and return
         
-        $R = ry&up
-        $E = Rs&E
-        $e = rs&E
-        $be = me&fiu,E,e.t,8
-        be and me&tc,'b','b'
-        # R%E/e
-        me&fiu,E,e,1
         # E^/E
-        Ey&up and me&fiu,Ey&up,E,1
+        #!Ey&up  and me&fiu,Ey&up,E,1
         
         $C = rs&C
         !C and debugger
@@ -147,23 +163,31 @@ me.Sch_The = &acgt{ return [
         return r
     }
     },
-   // %Piing
+   // Piing
     ['Piing',0.291,&acgtRs{
         $x = me&Thee
-        me&tc,"Dep"+hak(xy&path)
+        me&tc,"Dep"+hak(xy&Thees)
         # %Piing**
         me&bin,xy&c.long
+        Rs&TheingE = 1
         Rs&onlyish = 1
     },'ift,D'],
     ['Piing',0.296,&acgtRs{
         $x = me&Theing
         $p = Ry&up
+        # %Piing** enter
+        !me&fiu,pc&s,s,8 and me&tc,"Notabove!",'b'
         me&fiu,pc&s,s,2
-        if (xy&TheeTop) {
-            # the nothing
+        $E = Rs&E
+        $Ep = ps&E
+        Ep and me&fiu,Ep,E
+        
+        if (hak(xy&Thees) == 1) {
+            Ec&uber = 1
+            # the nothing, has:
             $This = me&Pii,'-This'
-            $The = me&Pii,'-The'
             
+            $The = me&Pii,'-The'
             Thes&tow = 1
             
             $seven = me&Pii,This,'Something-Eight/Somewhence-seven'
@@ -173,11 +197,14 @@ me.Sch_The = &acgt{ return [
             dat.moreso = dat.asee
             $Bow = me&Pii,seven,'Shj-hat'
             Bowc&s = dat.asee
+            
+            $seven = me&Pii,This,'Someact-Eight/Somewhence-seven'
+            $Bow = me&Pii,seven,'Bowler-hat'
+            Bowc&s = {as:dat.asee,fol:33}
         }
         else {
             # This|The**
             me&hideyfix,R
-            Rs&TheingE = 1
             if (sy&Todo) {
                 me&Piing,'-Bat'
             }
@@ -188,16 +215,24 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
     ['sleeping+Piing',0.296,&acgtRs{
         
-        ~>4 Piing-sleeps: joint(sy&path)
+        #~>4 Piing-sleeps: joint(sy&path)
     },'ift,D'],
-    ['Piing',0.4,&acgtRs{
+    ['Piing',0.36,&acgtRs{
         # children first:
         me&Ring,R,{inside:R,ov:555}
         # finish:
         each in Rs&z {
             ns&Pier and me&Ring,n
         }
+        # before %ball 38 draws /%fix-tures
     },'ift,D'],
+    ['Piing',0.36,&acgtRs{
+        $E = Rs&E
+        !E and return
+        $sleep = Rs&sleeping ? "--" : ""
+        #R.t == 'Somewhence' and ~>5 somewh: sleep, joint(ss&z)
+        #R.t == 'Somewhence' and ~>5 someEE: sleep, joint(Es&z)
+    },'ift,D,sleeping'],
   
   // %TheeThy, landscape
     # some events, to|from the book
@@ -418,8 +453,6 @@ me.Sch_The = &acgt{ return [
     ['TheingE',0.297,&acgtRs{
         $x = me&Theing
         $E = Rs&E
-        me&ioR,R .filter(r => rs&Pier)
-            .map(r => me&tc,"Acc:"+r.t )
         xy&go and me&nu,"E",E
     },'ift,D'],
     
@@ -511,9 +544,12 @@ me.Sch_The = &acgt{ return [
         $M = me&Pieri,RE,E
         $q = {}
         c.ov and q.ov = delete c.ov
+        
         $r = me&PiRet,R,c
+        
         ac(R,'z',r)
         x.ro('noD') and rs&noDisplay = 1
+        
         me&Ring,r,q
         
         del()
@@ -702,6 +738,7 @@ me.Sch_The = &acgt{ return [
         $e = c.e ||= E
         $s = c.s
         $R = c.R
+        $F = Rs&E
         c.got ||= []
         # look for the ref
         $x = fi&EXsim,E,{ref:s}
@@ -879,16 +916,18 @@ me.Sch_The = &acgt{ return [
         location += downs
         return location
     }
-   // commit
+   // < commit
     # transact Ec&top
     me.Eref_begin = &acgtre{
         $p = ry&up
         $E = ps&E
         !E and throw "!E"
-        $oe = me&fiu,E,e.t,8
         # stop seeing refs from the old e in E%X
-        oe and ec&b = oe
-        oe == e and debugger
+        $be = ec&b || me&fiu,E,e.t,8
+        # see &Piing attaches E** @1, %Thyer GOING
+        be == e and ey&R.sc.Piing and debugger
+        else
+        be and ec&b = be
         ac(r,'commit',&{
             # copy to E^^^%X
             $c = {E,e}
@@ -1239,7 +1278,7 @@ me.Sch_The = &acgt{ return [
         return M
     }
     
-    # @1 R/r from &Eing
+    # @1 R/r from &Eing, pre-&Ring
     me.Pieringi = &acgtRrc{
         $E = c.E
         if (E) {
@@ -1253,6 +1292,9 @@ me.Sch_The = &acgt{ return [
         # R%wou for brack
         # < should be E%X?
         me&haja,r
+        
+        $cb = delete rs&pre_Pieringi
+        cb and cb(r,E,C)
         
         # spreads base type, or Ec&pi @2
         rs&Pier ||= Rs&Pier || 'blank'
@@ -2187,7 +2229,7 @@ me.Sch_The = &acgt{ return [
         me&Rthingo,R,c
     }
     
-  // %%limit
+  // %%limit (ref)
     # cultivate R %%limit:(ref|dl|nl|...)
     #  adding %toomuch stops E**
     #   an acute case of dimming light, ending thing
@@ -2593,32 +2635,6 @@ me.Sch_The = &acgt{ return [
             me&Eing,3
         },'ift,D'],
         
-        ['Top',0.44,&acgtRs{
-            $E = Rs&E
-            $D = Rs&D
-            # storable encoding
-            $t = Ey&thing = Dy&thing ||= Cye([D.t,2])
-            
-            $d = {what: &sd{
-                # E**yD
-                return sy&D
-            }, compLines: &DdC{
-                # D is now C, D is a copy to encode
-                $E = Cy&E
-                Ec&noencode and return d.not = 1
-                #delete Cc&top
-                #Cy&D = D
-                #Cc&pi == 'row' && fi&bug,'Firstlog' and debugger
-                #me&dopi,D,d,C,c
-                Dc&pi ||= Ec&pi
-                delete Dc&cv
-                delete Dc&TX
-                #comp_log(D,d,C)
-            } }
-            me&Linets,t,E,d
-            d.not and me&strange,"&Linets:not"
-            me&hu,'encod',t
-        },'ift,D'],
         # for all, without Ringing around
         ['Top',0.67,&acgtRs{
             me&Topping
@@ -2640,7 +2656,6 @@ me.Sch_The = &acgt{ return [
         },'ift,D,sleeping'],
        
        // Describe
-       
         ['Top',0.44,&acgtRs{
             $E = Rs&E
             $D = Rs&D
@@ -2665,7 +2680,8 @@ me.Sch_The = &acgt{ return [
             } }
             me&Linets,t,E,d
             d.not and me&strange,"&Linets:not"
-            #me&hu,'encod',t
+            
+            #me&hu,'encod',"Stevewas"
         },'ift,D'],
         ['Eight',0.44,&acgtRs{
             $E = Rs&E
@@ -2680,15 +2696,23 @@ me.Sch_The = &acgt{ return [
             Rs&hoisten = 1
         },'ift,D'],
         ['hoisten',0.44,&acgtRs{
+            $E = Rs&E
+            $D = Rs&D
             $p = Ry&up
             s ||= pc&s
+            $Ep = ps&E
                 # compress the entirety
                 # < linking to sevens? T outspheres
                 $d = {what: &sd{
-                    # changes s (C) for d.compLines, but not d.for_string
+                    # can change s (C) for d.compLines, but not d.for_string
+                    # can also not:
                     # E**yD
+                    
                     $r = sy&R
+                    rs&hoisten and return
+                    
                     $E = r && rs&E
+                    E != s and ~>5 Epoof: s.t, r && r.t
                     $rp = r && ry&up
                     $z = r && rc&s
                     if (E && !rs&Piing) {
@@ -2716,7 +2740,9 @@ me.Sch_The = &acgt{ return [
                                 ts&string = N.join("\n")+"\n"
                                 ts&dige = dig(ts&string)
                                 # and percolated to the out-C
-                                Cy&C and sex(Cy&C.sc,t.sc,'string,dige')
+                                $CC = Cy&C
+                                CC and CCs&outC = 1
+                                CC and sex(CC.sc,t.sc,'string,dige')
                             }
                         }
                     }
@@ -2728,9 +2754,9 @@ me.Sch_The = &acgt{ return [
                     delete Dc&TX
                     delete Dc&RX
                     # climb E** after s**/-seven
-                    Cc&pi == 'seven' and d.s = C
+                    #Cc&pi == 'seven' and d.s = C
                 }}
-                me&Linets,s,s,d
+                me&Linets,s,Ep,d
         },'ift,D'],
         
        // -Bat events
