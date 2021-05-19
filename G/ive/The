@@ -139,18 +139,25 @@ me.Sch_The = &acgt{ return [
             # R%E/e
             me&fiu,E,e,1
             
-            # begin Ec&uber route attention from where we will commit X
-            # on Ec&top %X
-            $tE = rs&E
-            $mE = me.cbu(tE)
+            # e/ref/ is staging to PE/ref/ (in &Eref_begin)
+            #  transact also unsorted list of innards,
+            #   which may export what we will be looking for
+            $Pr = me.cbu(r,'^^^Piing')
+            #Rc&N != Prc&N and debugger
+            $pend = Prs&Epending ||= []
+            pend.push(e)
+            ac(r,'commit',&{
+                grepout(pend,e)
+            })
             # < mEy&R shall have E staging /ref/ that would be in mEc&X
             #   they must be checked for positioning...
-            R.t == 'Bowler' and me&zu,"topE",{mE,tE}
+            #R.t == 'Bowler' and me&zu,"topE",{mE,tE}
             
             # ...&Pieringi does &Eref_begin
         }
         $r = me&Piering,c
         $e = rs&E
+        
         # < recycles E/e? when %Piing%sleeping?
         rs&sleeping and return
         
@@ -174,11 +181,13 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
     ['Piing',0.296,&acgtRs{
         $x = me&Theing
-        $p = Ry&up
-        # %Piing** enter
-        !me&fiu,pc&s,s,8 and me&tc,"Notabove!",'b'
-        me&fiu,pc&s,s,2
         $E = Rs&E
+        $p = Ry&up
+        if (!ps&Ying) {
+            # %Piing** enter
+            !me&fiu,pc&s,s,8 and me&tc,"Notabove!",'b'
+            me&fiu,pc&s,s,2
+        }
         $Ep = ps&E
         Ep and me&fiu,Ep,E
         
@@ -203,6 +212,7 @@ me.Sch_The = &acgt{ return [
             Bowc&s = {as:dat.asee,fol:33}
         }
         else {
+        
             # This|The**
             me&hideyfix,R
             if (sy&Todo) {
@@ -227,11 +237,19 @@ me.Sch_The = &acgt{ return [
         # before %ball 38 draws /%fix-tures
     },'ift,D'],
     ['Piing',0.36,&acgtRs{
+        $x = me&Theing
         $E = Rs&E
         !E and return
         $sleep = Rs&sleeping ? "--" : ""
         #R.t == 'Somewhence' and ~>5 somewh: sleep, joint(ss&z)
         #R.t == 'Somewhence' and ~>5 someEE: sleep, joint(Es&z)
+        if (hak(xy&Thees) == 1) {
+            # topmost
+            $pend = Rs&Epending
+            # < throw, this is likely to be missed
+            hak(pend) and me&nu,"still-pending",{pend}
+            hak(pend) and ~>3 still-pending: joint(pend)
+        }
     },'ift,D,sleeping'],
   
   // %TheeThy, landscape
@@ -752,8 +770,17 @@ me.Sch_The = &acgt{ return [
             $tp = me&Rnodepath,n
             c.got.push({E,n,tp})
         }
-        # further up
-        Ey&up and me&Ereflookup,ex(c,{E:Ey&up})
+        if (!c.nowander) {
+            # further up
+            Ey&up and me&Ereflookup,ex(c,{E:Ey&up})
+            if (Ec&uber) {
+                # and anything awake that might be going to commit up there
+                $Pr = me.cbu(R,'^^^Piing')
+                each in Prs&Epending {
+                    me&Ereflookup,ex(c,{E:n,nowander:1})
+                }
+            }
+        }
         E != e and return
         
         # sort by R tree
