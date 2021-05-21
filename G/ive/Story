@@ -1128,8 +1128,11 @@ me.Sch_Story = &acgt{ return [
   // Gnomp - simplified @Gump...@Gome
     ['Gnomp',0.296,&acgtRs{
         $x = me&Jx,R
+        me&reaw,R,'Gnomp'
         me&quietready,R and return
         me&baleg,'TryPiWarmer','Gnome'
+        me&locked,s,'Gnome' and return
+        me&tc,"free"
     },'ift,D'],
     ['Gnome',0.5,&acgtRs{
         # from &Gome_permit:
@@ -1138,6 +1141,7 @@ me.Sch_Story = &acgt{ return [
         me&acting,R,'Gnome'
         $x = me&Jx,R
         $Gnomp = isnode(s)
+        me&lock,Gnomp,'Gnome',s
         # in time %%quiet_wake:Gump
         Rs&wakeful = 1
         $quiet = me&is_quiet_now,Gnomp
@@ -1151,8 +1155,10 @@ me.Sch_Story = &acgt{ return [
         #  xs&Run = Piing, has /This etc
         
         !me&SuperGnome,R,s,{} and return
+        me&unlock,Gnomp,'Gnome',s
     },'ift,D'],
     ['Gnomp',0.6,&acgtRs{
+        # R%wakeful if (s/*)%wakeful
         me&ioty,s .map(&z{
             $r = zy&R
             !rs&wakeful and return
@@ -1221,8 +1227,13 @@ me.Sch_Story = &acgt{ return [
 
                 # we then expect to go quiet
                 # allow Gump to quiet wake while ~This**
-                sy&want_quiet_wake =
-                    () => me&Gome_Thischa_other,R,F
+                sy&want_quiet_wake = &{
+                    $is = me&Gome_Thischa_other,R,F
+                    $say = is ? 'wakes' : ''
+                    ~>8 GomeThischa: say
+                    #is and debugger
+                    return is
+                }
 
                 !This and return ha('pur:!This')
 
