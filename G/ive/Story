@@ -1136,28 +1136,117 @@ me.Sch_Story = &acgt{ return [
     ['Gnomp',0.296,&acgtRs{
         $x = me&Jx,R
         me&quietready,R and return
-        me&baleg,'Gnome'
+        me&baleg,'TryPiWarmer','Gnome'
     },'ift,D'],
     ['Gnome',0.5,&acgtRs{
+        # from &Gome_permit:
         me&reaw,R,'Gome,client'
         Rs&client = 1
         me&acting,R,'Gnome'
         $x = me&Jx,R
         $Gnomp = isnode(s)
-        
         # in time %%quiet_wake:Gump
         Rs&wakeful = 1
         $quiet = me&is_quiet_now,Gnomp
         quiet and me&tsc,'quiet'
         quiet and Rs&Gump_quiet = 1
+        me&tc,"\n"
         
-        quiet and sy&quietonce = 1
-        sy&quietonce and me&nodei,R,xs&Piing,'initdata',{},'dome:init'
+        # &Gome_Jx shall:
+        #  xs&Gome = s)%Gnome here, and xs&*=s/*
+        #   s.t=TestName
+        #  xs&Run = Piing, has /This etc
         
-        # having work
-        me&Gome_Resides,R,{t:'TryPiWarmer'}
+        !me&SuperGnome,R,s,{} and return
+    },'ift,D'],
+    ['Gnomp',0.6,&acgtRs{
+        me&ioty,s .map(&z{
+            $r = zy&R
+            !rs&wakeful and return
+            Rs&wakeful = 1
+            me&tc,"wake:"+r.t
+        })
+    },'ift,D,sleeping'],
+    ['Gome',0.52,&acgtRs{
+        me&jaa,R,'pre' .map(&n{
+            ns&wakeful and '20s timer'
+            ns&restless and '4s timer'
+            # wakes us when ^^Gump%quiet_now
+            ns&restless || ns&wakeful and Rs&wakeful = 1
+        })
     },'ift,D'],
   
+  // Gnomp
+    &{
+        me.SuperGnome = &acgtRsce{
+        # SuperGome for less moving parts
+        # 1: init %Gome/*
+         // 1
+            $x = me&Jx,R
+            c.t ||= 'Gnome'
+            $su = me&supetime,R,c.t
+            su('Go-SC',{perm:&zaa,jaa,ha,ar{
+                x = me&Gome_Jx,R
+                # not waiting on much to get ready
+                !x and return ha('pur:t+SC')
+                # we identify as this for Story funcs
+                s != xs&Gome and debugger
+                
+                # < &Effect each $t in there, to create it?
+                me&Gome_Resides,R,{t:s.t}
+                
+                # wait til quiet once
+                # < meaning Gome/* are ready
+                # want ever_quiet once here to continue
+                me&Superwaits,R,{ha,zaa,t:'Resides',until_next:Rs&Gump_quiet}
+                
+                x = me&Gome_Jx,R
+                !xs&Fories and ha('pur:!Fories')
+            }})
+            &&
+        # 2:
+        #  knowing how, %%Control -> $SC +/*
+        #  until %%Releasor exits
+        #   < should only have to pause until pushed:
+        #    to store J osc via Duolish** &SuperGansp
+         // 2 see things
+            su('SC/*',{until:&zaa,jaa,ha,ar{
+                # enable @Intro
+                #me&nodei,R,xs&Introtivity,{Intro:1,Cat:SC}
+                me&nodei,R,xs&Piing,'initdata'
+                
+                x = me&Gome_Jx,R
+                !x and debugger
+                # < should stay
+                $Run = xs&Run
+                $F = xs&TheF
+                !Run and return ha('pur:!Run')
+                !F and return ha('pur:!F')
+                
+                # puts xs&This
+                $This = me&Gome_This,R
+
+                # we then expect to go quiet
+                # allow Gump to quiet wake while ~This**
+                sy&want_quiet_wake =
+                    () => me&Gome_Thischa_other,R,F
+
+                !This and return ha('pur:!This')
+
+                me&Gome_Thischa_self,R,F,ha
+
+                # observe Proto !now not over finishline
+
+                Rs&goGome and me&nu,"Fins",{Run,This,F}
+                
+                x.ro('end') and return
+                return ha('pur:notend')
+            }})
+            
+            return su('done')
+        }
+    },
+       
   // F(ishSt)ories # storage
     # < &thide if normal, wordpres
     ['Fories',0.297,&acgtRs{
@@ -1516,9 +1605,9 @@ me.Sch_Story = &acgt{ return [
             n ||= 1
             zs&cursed = (zs&cursed||0) + n
         }
+        # This/-eight should be storable
+        # < Ying_8 mutex Gome + SC
         me.Thislooksready = &acgt,This{
-            # it must be a complete This
-            # < Ying_8 mutex Gome + SC
             $N = me&pity,This,'-Eight'
             each in N {
                 !me&digeward,n,'easy' and return 0

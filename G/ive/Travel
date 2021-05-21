@@ -2684,26 +2684,34 @@ me.Sch_Travel = &acgt{ return [
             #Rs&Gomex and return Rs&Gomex
             $cl = Rs&Gome ? R : me.cbu(R,'client')
             !cl and throw "!client"
-            # will get a thing of params
-            # < use &jaaz
-            $pa = theone( me&ja,cl,'Travelable,Cat' )
-                || theone( me&za,cl,'Travelable,Cat' )
-            !pa and return
-            $t = pas&Travelable
-            $SC = pas&Cat
-            !isnode(SC) and return
-            Rs&Gome and Rs&client = t
-            
-            $SCr = SCy&R
-            !SCr and return
-            !isR(SCr) and debugger
-            # sees $SC/* (eg Jrunto)
-            # sees %client%Gome/* (eg Fories)
-            $x = me&Jx,R,{c:{SC:SCr,Gome:cl}}
-            xs&Pro = xs&Jproto
-            xs&Run = xs&Jrunto
-            xs&F = xs&TheF
-            xs&t = t
+            if (cls&Gnome) {
+                # putting 'Gome' gives /*, eg xs&Fories
+                $x = me&Jx,R,{c:{Gome:cl}}
+                # where to find This
+                xs&Run = xs&Piing
+            }
+            else {
+                # will get a thing of params
+                # < use &jaaz
+                $pa = theone( me&ja,cl,'Travelable,Cat' )
+                    || theone( me&za,cl,'Travelable,Cat' )
+                !pa and return
+                $t = pas&Travelable
+                $SC = pas&Cat
+                !isnode(SC) and return
+                Rs&Gome and Rs&client = t
+
+                $SCr = SCy&R
+                !SCr and return
+                !isR(SCr) and debugger
+                # sees $SC/* (eg Jrunto)
+                # sees %client%Gome/* (eg Fories)
+                $x = me&Jx,R,{c:{SC:SCr,Gome:cl}}
+                xs&Pro = xs&Jproto
+                xs&Run = xs&Jrunto
+                xs&F = xs&TheF
+                xs&t = t
+            }
             Rs&Gomex = x
             return x
         }
@@ -2713,11 +2721,13 @@ me.Sch_Travel = &acgt{ return [
             $x = Rs&Gomex
             $Run = xs&Run
             !Run and return
-            #$This = me&fiu,Run,'This',8
-            # < put in Runy&tw? only in Runs&z
-            #   to stop it %ball-ing without its styling
-            o $Run/This
-            $This = theone(ays&s)
+            $This = me&fiu,Run,'This',8
+            if (!This && Runy&tv) {
+                # < put in Runy&tw? only in Runs&z
+                #   to stop it %ball-ing without its styling
+                o $Run/This
+                $This = theone(ays&s)
+            }
             !This and return
             !Thisc&pi and return
             $EThis = fi&getpi,This
