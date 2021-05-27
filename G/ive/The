@@ -268,24 +268,39 @@ me.Sch_The = &acgt{ return [
     }
    // Pi%Lab
     me.Pi_Lab = &acgt{ return [
-        
+        # loads Nine/-Lab, into -Bat preparator
+        #  has 
         ['Lab',0.22,&acgtRs{
             $E = Rs&E
             $D = Rs&D
             me&tc,'Lab','g'
+            # outsphere: loads Nine/s-Lab
             $e = me&Ei,{t:'Outs',pi:'Labe',s:s,noref:1}
-            es&TopLabe = 1
+            me&reusable_thing,e
             Ey&OutsE = e
+            # insphere: -Bat preparator
+            $e = me&Ei,{t:'Ins',pi:'Labi'}
+            me&reusable_thing,e
+            Ey&InsE = e
+            
+            # < compress back to outsphere
         },'ift,D'],
         ['Lab',0.55,&acgtRs{
             $E = Rs&E
+            $D = Rs&D
             
-            Ey&thing ||= Cye([E.t,1])
+            me&hu,"Lavee",E,{dl:1}
+            
+            $x = me&Gome_Jx,R
+            if (sc&pi == 'nodei') {
+                $r = me.cbu(R,'Piing')
+                me&nodei,r,xs&Piing,'initdata'
+                Ds&sended = 'to '+me&tpath,xs&Piing
+            }
         },'ift,D'],
-        
+       // %Labe
         ['Labe',0.22,&acgtRs{
             $E = Rs&E
-            Es&TopLabe and me&reusable_thing,E
             
             me&hu,"s",s,{dl:1}
             me&ioty,s .map(&n{
@@ -298,19 +313,16 @@ me.Sch_The = &acgt{ return [
             $D = Rs&D
             D.t = s.t
             Dc&pi = sc&pi
-            Ds&Labeing = 3
+            Ds&Labeing = 4
             #Rs&hoisten = 1
         },'ift,D'],
-        ['Lab',0.55,&acgtRs{
+       
+       // %Labi
+        
+        ['Labi',0.33,&acgtRs{
             $E = Rs&E
-            me&hu,"Lavee",E,{dl:1}
-            
-            $x = me&Gome_Jx,R
-            if (sc&pi == 'nodei') {
-                $r = me.cbu(R,'Piing')
-                me&nodei,r,xs&Piing,'initdata'
-            }
-            
+            $D = Rs&D
+            Ds&Stufftodo = 6
             #Rs&hoisten = 1
         },'ift,D'],
     ] }
@@ -2956,6 +2968,29 @@ me.Sch_The = &acgt{ return [
         },'ift,D,sleeping'],
        
        // Describe
+        &{
+            # notices Ey&thing to use or update
+            me.compLines_Eything = &acgtEd{
+                $t = Ey&thing
+                !t and return
+                if (ty&cv >= 0.2 && ts&string) {
+                    # stops, %string trusted
+                    d.nofurther = 1
+                    return me&unfixstring,ts&string
+                }
+                else {
+                    # %string made here
+                    d.for_string = &sdN{
+                        ts&string = N.join("\n")+"\n"
+                        ts&dige = dig(ts&string)
+                        # and percolated to the out-C
+                        $CC = Cy&C
+                        CC and CCs&outC = 1
+                        CC and sex(CC.sc,t.sc,'string,dige')
+                    }
+                }
+            }
+        },
         ['Top',0.44,&acgtRs{
             $E = Rs&E
             $D = Rs&D
@@ -2969,6 +3004,9 @@ me.Sch_The = &acgt{ return [
                 # D is now C, D is a copy to encode
                 $E = Cy&E
                 Ec&noencode and return d.not = 1
+                $re = me&compLines_Eything,E,d
+                re and return re
+                
                 #delete Cc&top
                 #Cy&D = D
                 #Cc&pi == 'row' && fi&bug,'Firstlog' and debugger
@@ -3027,26 +3065,8 @@ me.Sch_The = &acgt{ return [
                     }
                     return E
                 }, compLines: &DdC{
-                    $t = Cy&thing
-                    if (t) {
-                        if (ty&cv >= 0.2) {
-                            # stops, %string trusted
-                            !ts&string and throw "!string"
-                            d.nofurther = 1
-                            return me&unfixstring,ts&string
-                        }
-                        else {
-                            # %string made here
-                            d.for_string = &sdN{
-                                ts&string = N.join("\n")+"\n"
-                                ts&dige = dig(ts&string)
-                                # and percolated to the out-C
-                                $CC = Cy&C
-                                CC and CCs&outC = 1
-                                CC and sex(CC.sc,t.sc,'string,dige')
-                            }
-                        }
-                    }
+                    $re = me&compLines_Eything,C,d
+                    re and return re
                     # upper Ec&cv vanishes
                     delete Dc&cv
                     delete Dc&top
