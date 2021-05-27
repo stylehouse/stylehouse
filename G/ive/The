@@ -268,11 +268,13 @@ me.Sch_The = &acgt{ return [
     }
    // Pi%Lab
     me.Pi_Lab = &acgt{ return [
+        
         ['Lab',0.22,&acgtRs{
             $E = Rs&E
             $D = Rs&D
             me&tc,'Lab','g'
             $e = me&Ei,{t:'Outs',pi:'Labe',s:s,noref:1}
+            es&TopLabe = 1
             Ey&OutsE = e
         },'ift,D'],
         ['Lab',0.55,&acgtRs{
@@ -283,24 +285,33 @@ me.Sch_The = &acgt{ return [
         
         ['Labe',0.22,&acgtRs{
             $E = Rs&E
+            Es&TopLabe and me&reusable_thing,E
+            
+            me&hu,"s",s,{dl:1}
             me&ioty,s .map(&n{
                 me&Ei,{t:n.t,s:n,noref:1}
             })
-            #me&hu,"Las",s,{dl:2}
-            
+            Rs&rowish = 1
         },'ift,D'],
+        
         ['Labe',0.26,&acgtRs{
             $D = Rs&D
             D.t = s.t
             Dc&pi = sc&pi
             Ds&Labeing = 3
-            Rs&hoisten = 1
+            #Rs&hoisten = 1
         },'ift,D'],
         ['Lab',0.55,&acgtRs{
             $E = Rs&E
             me&hu,"Lavee",E,{dl:1}
             
-            Rs&hoisten = 1
+            $x = me&Gome_Jx,R
+            if (sc&pi == 'nodei') {
+                $r = me.cbu(R,'Piing')
+                me&nodei,r,xs&Piing,'initdata'
+            }
+            
+            #Rs&hoisten = 1
         },'ift,D'],
     ] }
     },
@@ -827,6 +838,7 @@ me.Sch_The = &acgt{ return [
         
         del()
         xy&go and me&zu,"r:"+r.t,r
+        xy&go and me&zu,"E:"+r.t,E
         return r
     }
     },
@@ -3000,7 +3012,7 @@ me.Sch_The = &acgt{ return [
                     rs&hoisten and return
                     
                     $E = r && rs&E
-                    E != s and ~>5 Epoof: s.t, r && r.t
+                    E != s and throw "E!=s"
                     $rp = r && ry&up
                     $z = r && rc&s
                     if (E && !rs&Piing) {
@@ -3008,6 +3020,7 @@ me.Sch_The = &acgt{ return [
                         if (rp && rps&ball) {
                             $sp = rpc&s
                             # being the main r%Pier
+                            spc&pi != rs&Pier and debugger
                             spc&pi != rs&Pier and return ~>5 tpoof: rp.t, r.t
                         }
                         !rs&Pier and debugger
