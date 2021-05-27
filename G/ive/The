@@ -140,6 +140,14 @@ me.Sch_The = &acgt{ return [
             ns&restless || ns&wakeful and Rs&wakeful = 1
         })
     },'ift,D'],
+    # where non -Ness Fine/$t are staged for Piing/The...
+    ['TheThy',0.2901,&acgtRs{
+        me&reaw,R,'TheThy'
+        me&acting,R
+        !me.cbu(R,'Gnome') and return
+        Rs&wakeful = 1
+        Rs&Piing = 1
+    },'ift,D'],
   // &SuperGnome the waking mind
     &{
         me.SuperGnome = &acgtRsce{
@@ -216,6 +224,87 @@ me.Sch_The = &acgt{ return [
         }
     },
   
+  // Pi%Lab: the Nine/Ness space overload
+   // non-Ness for Thy/This/...
+    &{
+    # %TheFine has E-nine'd
+    me.Fine_aft_nine = &acgtREsx{
+        # e Thy/This
+        $Thy = xs&Thy
+        $Thys = Thy && me&fiu,Thy,'This'
+        !Thys and return me&tc,'!Thys','b'
+        $N = me&ioty,s
+        each in N {
+            if (nc&pi == 'Ness') {
+                !(Es&Is && Es&Is.includes(n)) and break
+                continue
+            }
+            # %%n%tige brackstills
+            Thys and me&nodei,R,Thys,{inst:1,n}
+        }
+    }
+    # %Piing 296
+    me.Piing_receives_inst = &acgtRs{
+        me&jaa,R,{inst:1,eto:s} .map(&n{
+            $Fine = ns&efrom
+            $t = ns&n
+            if (Fine != sy&up) {
+                # first hop, to Thy/This/* o Nine
+                $z = me&Pii,Fine.t+'-Labine'
+            }
+            elsif (sc&s == t) {
+                return
+                # has arrived at:
+            }
+            else {
+                # then Thy/This/Nine/$Outs
+                # < lv to Outs=meddle
+                $z = me&Pii,t.t+'-Lab'
+                zc&s = t
+            }
+            !zy&R and return me&waits,'fwd:inst'
+            me&nodei,R,z,n
+        })
+    }
+   // Pi%Lab
+    me.Pi_Lab = &acgt{ return [
+        ['Lab',0.22,&acgtRs{
+            $E = Rs&E
+            $D = Rs&D
+            me&tc,'Lab','g'
+            $e = me&Ei,{t:'Outs',pi:'Labe',s:s,noref:1}
+            Ey&OutsE = e
+        },'ift,D'],
+        ['Lab',0.55,&acgtRs{
+            $E = Rs&E
+            
+            Ey&thing ||= Cye([E.t,1])
+        },'ift,D'],
+        
+        ['Labe',0.22,&acgtRs{
+            $E = Rs&E
+            me&ioty,s .map(&n{
+                me&Ei,{t:n.t,s:n,noref:1}
+            })
+            #me&hu,"Las",s,{dl:2}
+            
+        },'ift,D'],
+        ['Labe',0.26,&acgtRs{
+            $D = Rs&D
+            D.t = s.t
+            Dc&pi = sc&pi
+            Ds&Labeing = 3
+            Rs&hoisten = 1
+        },'ift,D'],
+        ['Lab',0.55,&acgtRs{
+            $E = Rs&E
+            me&hu,"Lavee",E,{dl:1}
+            
+            Rs&hoisten = 1
+        },'ift,D'],
+    ] }
+    },
+  
   // &Piing Thee
    // %Piing nodes
     ['Piing',0.291,&acgtRs{
@@ -276,10 +365,13 @@ me.Sch_The = &acgt{ return [
         $E = Rs&E
         $p = Ry&up
         
-        # tv, %Piing** is tw
-        # may panic when sy&up not reciprocal
-        !me&fiu,pc&s,s,8 and me&tc,"Notabove!",'b'
-        me&fiu,pc&s,s,2
+        if (!Rs&eph) {
+            # tv, %Piing** is tw
+            # may panic when sy&up not reciprocal
+            !me&fiu,pc&s,s,8 and me&tc,"Notabove!",'b'
+            me&fiu,pc&s,s,2
+        }
+        me&Piing_receives_inst,R,s
         
         # E** is
         $Ep = ps&E
@@ -785,6 +877,11 @@ me.Sch_The = &acgt{ return [
         c.tows = c.above.map(&s{
             $p = sy&up
             !p and return
+            if (!(ps&z||[]).includes(s)) {
+                $r = sy&R
+                rs&eph and return
+                debugger
+            }
             return ksaf(ps&z,{aft:s})
                 .filter(z => zs&tow)[0]
         })
@@ -1017,7 +1114,7 @@ me.Sch_The = &acgt{ return [
         }
         $upsi = &nN{
             $p = ny&up
-            !p || ps&Gens and return
+            !p || ps&Gens || ns&eph and return
             ps&ball && !ns&Pier && !me&fiu,pc&s,n.t,8 and debugger
             N.unshift(p)
             return 1
@@ -2799,11 +2896,12 @@ me.Sch_The = &acgt{ return [
  // R'The'
     # datadump, once inside R%Pier
     me.hu = &acgttsc{
-        c = ex({t,pi:'hat',s},c||{})
+        c = ex({t,pi:'hat',s,dl:3,noencode:1},c||{})
         me&Ei,c
         me&Eing,3
     }
     me.Pi_The = &acgt{ return [
+       ... me&Pi_Lab ,
        
        // %Top|%Pier back
         ['Pier',0.2,&acgtRs{
@@ -3016,7 +3114,8 @@ me.Sch_The = &acgt{ return [
             
             #   pulling up the sc&tower.N
             $c = sc&tower
-            me&Ei,{t:'tow',pi:'Belt',s:c.N}
+            c and me&Ei,{t:'tow',pi:'Belt',s:c.N}
+            else me&Ei,{t:'inst',pi:'hat',s,dl:3,noref:1}
         },'ift,D'],
         # a slope: $n/$n/$n...
         ['Belt',0.21,&acgtRs{
@@ -3487,7 +3586,7 @@ me.Sch_The = &acgt{ return [
     }
     # c.t may say $t-$pi%qua
     me.t_tpi = &acgtc{
-        $tpi = c.t.match(/^(.*)-(\w+)(.*)$/)
+        $tpi = c.t.match(/^(.*)-(\w+)(.*?)$/)
         if (tpi) {
             c.t = tpi[1]+tpi[3]
             c.pi = tpi[2]
@@ -3496,7 +3595,7 @@ me.Sch_The = &acgt{ return [
                 # or $s/$pi
             }
         }
-        $tgk = c.t.match(/^(.*)%(\w+)(.*)$/)
+        $tgk = c.t.match(/^(.*)%(\w+)(.*?)$/)
         if (tgk) {
             c.t = tgk[1]+tgk[3]
             c.gk = tgk[2]
