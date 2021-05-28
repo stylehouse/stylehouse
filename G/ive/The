@@ -276,10 +276,12 @@ me.Sch_The = &acgt{ return [
             me&tc,'Lab','g'
             # outsphere: loads Nine/s-Lab
             $e = me&Ei,{t:'Outs',pi:'Labe',s:s,noref:1}
+            # can sleep the input
             me&reusable_thing,e
             Ey&OutsE = e
+            
             # insphere: -Bat preparator
-            $e = me&Ei,{t:'Ins',pi:'Labi'}
+            $e = me&Ei,{t:'Ins',pi:'Labi',s:s,noref:1}
             me&reusable_thing,e
             Ey&InsE = e
             
@@ -291,39 +293,56 @@ me.Sch_The = &acgt{ return [
             
             me&hu,"Lavee",E,{dl:1}
             
-            $x = me&Gome_Jx,R
-            if (sc&pi == 'nodei') {
-                $r = me.cbu(R,'Piing')
-                me&nodei,r,xs&Piing,'initdata'
-                Ds&sended = 'to '+me&tpath,xs&Piing
-            }
         },'ift,D'],
        // %Labe
-        ['Labe',0.22,&acgtRs{
+        # < -hat with separate lum + layout tricks for %z
+        ['bell',0.23,&acgtRs{
             $E = Rs&E
-            
+            $D = Rs&D
+            # for D impersonating s
+            D.t = s.t
+            Dc&pi = sc&pi
+            !Dc&pi and delete Dc&pi
+            # for Ey&thing encoding here
+            Ey&thing and Rs&showthing = 1
+            # s**
             me&hu,"s",s,{dl:1}
             me&ioty,s .map(&n{
                 me&Ei,{t:n.t,s:n,noref:1}
             })
             Rs&rowish = 1
         },'ift,D'],
+        # after Top@44 fills in E**y&thing
+        ['showthing',0.45,&acgtRs{
+            $E = Rs&E
+            E.t == 'Ins' and debugger
+            !Ey&thing and me&tc,"!thing"
+            me&hu,"Eything",Ey&thing.sc.string
+        },'ift,D'],
+        ['Labe',0.22,&acgtRs{
+            Rs&bell = 1
+        },'ift,D'],
         
         ['Labe',0.26,&acgtRs{
             $D = Rs&D
-            D.t = s.t
-            Dc&pi = sc&pi
             Ds&Labeing = 4
             #Rs&hoisten = 1
         },'ift,D'],
        
        // %Labi
-        
-        ['Labi',0.33,&acgtRs{
-            $E = Rs&E
+        ['Labi',0.22,&acgtRs{
+            Rs&bell = 1
+        },'ift,D'],
+        ['Labi',0.26,&acgtRs{
             $D = Rs&D
             Ds&Stufftodo = 6
-            #Rs&hoisten = 1
+            
+            $x = me&Gome_Jx,R
+            if (sc&pi == 'nodei') {
+                $r = me.cbu(R,'Piing')
+                me&nodei,r,xs&Piing,'initdata'
+                Ds&sended = 'to '+me&tpath,xs&Piing
+            }
         },'ift,D'],
     ] }
     },
