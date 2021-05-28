@@ -276,14 +276,13 @@ me.Sch_The = &acgt{ return [
             me&tc,'Lab','g'
             # outsphere: loads Nine/s-Lab
             $e = me&Ei,{t:'Outs',pi:'Labe',s:s,noref:1}
-            # can sleep the input
-            me&reusable_thing,e
             Ey&OutsE = e
+            me&Eing,6
             
             # insphere: -Bat preparator
             $e = me&Ei,{t:'Ins',pi:'Labi',s:s,noref:1}
-            me&reusable_thing,e
             Ey&InsE = e
+            me&Eing,6
             
             # < compress back to outsphere
         },'ift,D'],
@@ -294,7 +293,7 @@ me.Sch_The = &acgt{ return [
             me&hu,"Lavee",E,{dl:1}
             
         },'ift,D'],
-       // %Labe
+       // %bell etc
         # < -hat with separate lum + layout tricks for %z
         ['bell',0.23,&acgtRs{
             $E = Rs&E
@@ -303,8 +302,8 @@ me.Sch_The = &acgt{ return [
             D.t = s.t
             Dc&pi = sc&pi
             !Dc&pi and delete Dc&pi
-            # for Ey&thing encoding here
-            Ey&thing and Rs&showthing = 1
+            # < Rsci backed me&Eo,'^E%bell'
+            !Ry&up.sc.bell and Rs&encodeD = 1
             # s**
             me&hu,"s",s,{dl:1}
             me&ioty,s .map(&n{
@@ -313,12 +312,17 @@ me.Sch_The = &acgt{ return [
             Rs&rowish = 1
         },'ift,D'],
         # after Top@44 fills in E**y&thing
+        ['bell',0.45,&acgtRs{
+            $E = Rs&E
+            # for Ey&thing encoding here
+            Ey&thing and Rs&showthing = 1
+        },'ift,D'],
         ['showthing',0.45,&acgtRs{
             $E = Rs&E
-            E.t == 'Ins' and debugger
-            !Ey&thing and me&tc,"!thing"
             me&hu,"Eything",Ey&thing.sc.string
         },'ift,D'],
+        
+       // %Labe
         ['Labe',0.22,&acgtRs{
             Rs&bell = 1
         },'ift,D'],
@@ -2944,6 +2948,7 @@ me.Sch_The = &acgt{ return [
         me&Eing,3
     }
     me.Pi_The = &acgt{ return [
+        # Thy
        ... me&Pi_Lab ,
        
        // %Top|%Pier back
@@ -3011,6 +3016,9 @@ me.Sch_The = &acgt{ return [
             }
         },
         ['Top',0.44,&acgtRs{
+            Rs&encodeD = 1
+        },'ift,D'],
+        ['encodeD',0.44,&acgtRs{
             $E = Rs&E
             $D = Rs&D
             # storable encoding
@@ -3023,6 +3031,7 @@ me.Sch_The = &acgt{ return [
                 # D is now C, D is a copy to encode
                 $E = Cy&E
                 Ec&noencode and return d.not = 1
+                # found another encoded thing
                 $re = me&compLines_Eything,E,d
                 re and return re
                 
