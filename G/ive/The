@@ -300,7 +300,13 @@ me.Sch_The = &acgt{ return [
             $D = Rs&D
             # for D impersonating s
             D.t = s.t
-            Dc&pi = sc&pi
+            each kv s.c {
+                D.c[k] = v
+            }
+            each kv s.sc {
+                k == 'z' and continue
+                D.sc[k] = v
+            }
             !Dc&pi and delete Dc&pi
             # < Rsci backed me&Eo,'^E%bell'
             !Ry&up.sc.bell and Rs&encodeD = 1
@@ -341,16 +347,11 @@ me.Sch_The = &acgt{ return [
             if (!isC(s)) {
                 $b = Ec&b
                 $z = Rc&s = Ec&s = b && bc&s || Cye([E.t,1])
+                me&tc,'eph','6y'
                 zc&s = s
-                Ds&blims = 32
             }
         },'ift,D'],
-        &{
-            me.Eo = &acgtEsc{
-                
-            }
-        },
-        ['Labe',0.26,&acgtRs{
+        ['Labe',0.32,&acgtRs{
             $E = Rs&E
             $D = Rs&D
             Ec&Dpi and Dc&pi = Ec&Dpi
@@ -359,30 +360,35 @@ me.Sch_The = &acgt{ return [
             $api = Dc&pi || sc&pi
             api and me&typeup,R,api
             api == 'Lab' and delete Rs&Lab
-            !api and Ds&Labepiless = 1
+            !api and me&strange,"Labe!pi"
             # < do all @260* before R/* do
             if (Rs&nodei) {
                 # ways to spec $to:
                 #  /eto, /-n, c&s, .t
                 $to = me&fiu,s,'eto',8
-                    || (me&pity,s,'-n' )[0]
+                if (to) {
+                    # C:eto implies -n
+                    $toE = me&pity,E,'-Labe'
+                        .filter(e => ec&s == s)[0]
+                    toEc&Dpi = 'n'
+                }
+                to ||= me&pity,s,'-n' [0]
                 if (!to) {
                     to = sc&s || s.t
                     me&Ei,{t:"eto",Dpi:'n',s:to,implied:1}
                 }
-                # -nodei/-row implied!
+                # -nodei/-row implied
                 $N = me&pity,E,'-Labe'
-                me&hu,"Labes",N
-                
                 me&pity,E,'-Labe' .map(&e{
                     $D = ey&D
                     $s = ec&s
-                    Ds&Labeing and me&tc,"Toosoon",'6y'
+                    
+                    !D and return me&tc,"Toosoon:"+e.t,'6y'
                     $api = Dc&pi || sc&pi
                     api and return
                     me&tc,"Sees"+s.t
                     # may be implied from above
-                    ec&pi = 'row'
+                    ec&Dpi = 'row'
                 })
                 me&tc,'nodei','y'
                 delete Rs&nodei
@@ -391,12 +397,10 @@ me.Sch_The = &acgt{ return [
                 # 
                 me&tc,'row','y'
             }
-            if (Rs&row) {
-                # 
-                me&tc,'row','y'
+            if (Rs&n) {
+                me&tc,'n','y'
             }
-            Ds&Labeing = 4
-            #Rs&hoisten = 1
+            me&Eing,6
         },'ift,D'],
         ['Labe+nodei',0.263,&acgtRs{
             $E = Rs&E
@@ -1396,6 +1400,7 @@ me.Sch_The = &acgt{ return [
         $t = delete c.t
         $e = me&dupfiu,E,t
         c.cv and ey&cv = scaf(c.cv); delete c.cv
+        c.pi ||= Rs&Pier || 'blank'
         ex(e.c,c)
         return e
     }
@@ -3424,7 +3429,7 @@ me.Sch_The = &acgt{ return [
             $n = me&Ei,{t:'R',pi:'hat',s:Y,dl:1}
             each kv Y.sc {
                 !isC(v) and continue
-                $n = me&Ei,{t:k,pi:'hat',s:v,dl:1,Rs:'maybrack'}
+                $n = me&Ei,{t:k,pi:'hat',s:v,dl:1,Rsc:'maybrack'}
             }
             
             
