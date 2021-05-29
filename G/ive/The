@@ -275,12 +275,12 @@ me.Sch_The = &acgt{ return [
             $D = Rs&D
             me&tc,'Lab','g'
             # outsphere: loads Nine/s-Lab
-            $e = me&Ei,{t:'Outs',pi:'Labe',s:s,noref:1}
+            $e = me&Ei,{t:'Outs',pi:'Labe',s:s}
             Ey&OutsE = e
             me&Eing,6
             
             # insphere: -Bat preparator
-            $e = me&Ei,{t:'Ins',pi:'Labi',s:s,noref:1}
+            $e = me&Ei,{t:'Ins',pi:'Labi',s:ey&D,noref:1}
             Ey&InsE = e
             me&Eing,6
             
@@ -351,16 +351,39 @@ me.Sch_The = &acgt{ return [
                 zc&s = s
             }
         },'ift,D'],
+        &{
+            # decompress strategies
+            # apply to E/e
+            me.defaultDpi = &acgtEc{
+                isst(c) and c = {pi:c}
+                c.Epi ||= T.act.t
+                $N = me&pity,E,'-'+c.Epi
+                N.map(&e{
+                    $D = ey&D
+                    $s = ec&s
+                    # &Ei'd this act
+                    !D and return
+                    $api = Dc&pi || sc&pi
+                    api and return
+                    # may be implied from above
+                    ec&Dpi = c.pi
+                })
+            }
+            me.typeup_Dpi = &acgtRs{
+                $E = Rs&E
+                $D = Rs&D
+                # may be implied from above
+                Ec&Dpi and Dc&pi = Ec&Dpi
+                $api = Dc&pi || sc&pi
+                api and me&typeup,R,api
+                api == 'Lab' and delete Rs&Lab
+                !api and me&strange,"Labe!pi"
+            }
+        },
         ['Labe',0.32,&acgtRs{
             $E = Rs&E
             $D = Rs&D
-            Ec&Dpi and Dc&pi = Ec&Dpi
-            ~>3 at: Rc&d, joint( me.cbu(R,'^^^Labe') ), R.t
-            # may be implied from above
-            $api = Dc&pi || sc&pi
-            api and me&typeup,R,api
-            api == 'Lab' and delete Rs&Lab
-            !api and me&strange,"Labe!pi"
+            me&typeup_Dpi,R,s
             # < do all @260* before R/* do
             if (Rs&nodei) {
                 # ways to spec $to:
@@ -378,35 +401,19 @@ me.Sch_The = &acgt{ return [
                     me&Ei,{t:"eto",Dpi:'n',s:to,implied:1}
                 }
                 # -nodei/-row implied
-                $N = me&pity,E,'-Labe'
-                me&pity,E,'-Labe' .map(&e{
-                    $D = ey&D
-                    $s = ec&s
-                    
-                    !D and return me&tc,"Toosoon:"+e.t,'6y'
-                    $api = Dc&pi || sc&pi
-                    api and return
-                    me&tc,"Sees"+s.t
-                    # may be implied from above
-                    ec&Dpi = 'row'
-                })
+                me&defaultDpi,E,'row'
                 me&tc,'nodei','y'
                 delete Rs&nodei
             }
             if (Rs&row) {
-                # 
+                # < no E/* implies D%* is the row.sc
+                # < it might have -row/-n, eto or not
                 me&tc,'row','y'
             }
             if (Rs&n) {
                 me&tc,'n','y'
             }
             me&Eing,6
-        },'ift,D'],
-        ['Labe+nodei',0.263,&acgtRs{
-            $E = Rs&E
-        },'ift,D'],
-        ['Labe+row',0.263,&acgtRs{
-            $E = Rs&E
         },'ift,D'],
        
        // %Labi
