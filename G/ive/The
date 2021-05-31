@@ -291,7 +291,6 @@ me.Sch_The = &acgt{ return [
             $D = Rs&D
             
             me&hu,"Lavee",E,{dl:1}
-            
         },'ift,D'],
        // %bell etc
         # < -hat with separate lum + layout tricks for %z
@@ -299,17 +298,10 @@ me.Sch_The = &acgt{ return [
             $E = Rs&E
             $D = Rs&D
             # for D impersonating s
-            D.t = s.t
-            each kv s.c {
-                D.c[k] = v
-            }
-            each kv s.sc {
-                k == 'z' and continue
-                D.sc[k] = v
-            }
-            !Dc&pi and delete Dc&pi
+            me&Dapes,R
             # < Rsci backed me&Eo,'^E%bell'
             !Ry&up.sc.bell and Rs&encodeD = 1
+            
             # s
             if (!Rs&strange) {
                 me&TXin,'Csubtle',{layout:'C'} ({
@@ -322,12 +314,45 @@ me.Sch_The = &acgt{ return [
                 })
             }
             me&hu,"s",s,{dl:1}
+            
             # s**
-            me&ioty,s .map(&n{
+            if (Rs&climbD) {
+                $N = me&climbD,s
+            }
+            else {
+                $N = me&ioty,s
+            }
+            N.map(&n{
                 me&Ei,{t:n.t,s:n,noref:1}
             })
             Rs&rowish = 1
         },'ift,D'],
+        &{
+            # for D impersonating s
+            me.Dapes = &acgtR{
+                $D = Rs&D
+                $s = Rc&s
+                D.t = s.t
+                each kv s.c {
+                    D.c[k] = v
+                }
+                each kv s.sc {
+                    k == 'z' and continue
+                    D.sc[k] = v
+                }
+                !Dc&pi and delete Dc&pi
+            }
+            # D** is only via E**
+            # < warn when D**... they should compress
+            me.climbD = &acgtD{
+                $E = Dy&E
+                !E and throw "D!E"
+                # also, same pi, for E** strewn with not-things
+                return me&ioty,E
+                    .filter(e => Ec&pi == ec&pi && ey&D)
+                    .map(e => ey&D)
+            }
+        },
         # after Top@44 fills in E**y&thing
         ['bell',0.45,&acgtRs{
             $E = Rs&E
@@ -375,9 +400,11 @@ me.Sch_The = &acgt{ return [
                 # may be implied from above
                 Ec&Dpi and Dc&pi = Ec&Dpi
                 $api = Dc&pi || sc&pi
+                # sc&pi -> Dc&pi and R%$pi=1
                 api and me&typeup,R,api
                 api == 'Lab' and delete Rs&Lab
                 !api and me&strange,"Labe!pi"
+                Rs&pretendpi = api
             }
         },
         ['Labe',0.32,&acgtRs{
@@ -403,7 +430,6 @@ me.Sch_The = &acgt{ return [
                 # -nodei/-row implied
                 me&defaultDpi,E,'row'
                 me&tc,'nodei','y'
-                delete Rs&nodei
             }
             if (Rs&row) {
                 # < no E/* implies D%* is the row.sc
@@ -419,17 +445,54 @@ me.Sch_The = &acgt{ return [
        // %Labi
         ['Labi',0.22,&acgtRs{
             Rs&bell = 1
+            Rs&climbD = 1
         },'ift,D'],
-        ['Labi',0.26,&acgtRs{
+        ['Labi',0.32,&acgtRs{
+            $E = Rs&E
             $D = Rs&D
-            Ds&Stufftodo = 6
+            me&typeup_Dpi,R,s
+            # < %bell generic adjustments to D**
+            #    %Labo then pushes, it appears in %Labe
+            #     so Ting finish when effect is incorporated
+            #     y&thing may have commit log for such
             
             $x = me&Gome_Jx,R
-            if (sc&pi == 'nodei') {
-                $r = me.cbu(R,'Piing')
-                me&nodei,r,xs&Piing,'initdata'
-                Ds&sended = 'to '+me&tpath,xs&Piing
+            if (sc&pi == 'n') {
+                # name|path in nodelist
+                # < nodelist <- &Gome_Jx aliases, eg client
+                # < pick something from xs&*
+                $x = me&Gome_Jx,R
+                $n = x.sc[sc&s]
+                !n and me&strange,"!find:"+sc&s
+                Es&target = n
             }
+            me&Eing,6
+        },'ift,D'],
+        ['Labi+nodei',0.326,&acgtRs{
+            $E = Rs&E
+            $D = Rs&D
+            # destination
+            $eto = me&fiu,E,'eto'
+            !eto and me&strange,"!eto"
+            $t = eto && etos&target
+            !t and me&strange,"eto!target"
+            !isnode(t) and me&strange,"eto%target!node"
+            # stuff to send
+            $rows = me&climbD,D .filter(d => dc&pi == 'row')
+            !hak(rows) and me&strange,"!-row"
+            
+            me&anystrange and return Ds&fail = 1
+            # from our nearest node
+            $r = me.cbu(R,'Piing')
+            each in rows {
+                me&nodei,r,t,n.sc
+            }
+            
+            #$n = me&fiu,E,'eto'
+            Ds&sended = 'to '+me&tpath,t
+        },'ift,D'],
+        ['pretendpi',0.327,&acgtRs{
+            delete R.sc[Rs&pretendpi]
         },'ift,D'],
     ] }
     },
@@ -1469,7 +1532,7 @@ me.Sch_The = &acgt{ return [
             me&Ring,R,{inside:R,ov:c.ov}
 
             $allok = !me&ja,R,{toomuch:1}
-                && !hak(me&ioR .filter(r => rs&strange))
+                && !me&anystrange,R
             return allok
         }
     }
@@ -2830,6 +2893,11 @@ me.Sch_The = &acgt{ return [
         $R = me&R
         me&tc,s,'b'
         Rs&strange = 1
+    }
+    me.anystrange = &acgtR{
+        R ||= me&R
+        $ness = r => rs&strange
+        ness(R) || me&ioR .some(ness) and return 1
     }
    // < R%c/** @3 # machine talk
     me.attendios = &acgttc{
