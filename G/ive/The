@@ -1783,7 +1783,11 @@ me.Sch_The = &acgt{ return [
                 $qua = aqs&qua
                 !qua and continue
                 $s = {RX:2,aq}
-                qua.ope and Rc&dl += qua.ope
+                if (qua.ope) {
+                    Rc&dl += qua.ope
+                    Rs&ope ||= 0
+                    Rs&ope += qua.ope
+                }
                 qua.impl and me&tc,"~impl~"
                 qua.dim and Rs&isdim = 1
                 me&Ri,s
@@ -3261,6 +3265,11 @@ me.Sch_The = &acgt{ return [
             $c = sc&tower
             c and me&Ei,{t:'tow',pi:'Belt',s:c.N}
             else me&Ei,{t:'inst',pi:'hat',s,dl:3,noref:1}
+        },'ift,D'],
+        ['Bet+ope',0.6,&acgtRs{
+            $E = Rs&E
+            me&Ei,{t:'sel',pi:'Spheres',s:E}
+            me&Eing,6
         },'ift,D'],
         # a slope: $n/$n/$n...
         ['Belt',0.21,&acgtRs{
