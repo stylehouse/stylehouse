@@ -294,26 +294,41 @@ me.Sch_The = &acgt{ return [
         },'ift,D'],
        // %bell etc
         # < -hat with separate lum + layout tricks for %z
-        ['bell',0.23,&acgtRs{
+        ['bell',0.265,&acgtRs{
             $E = Rs&E
             $D = Rs&D
             # for D impersonating s
             me&Dapes,R
             # < Rsci backed me&Eo,'^E%bell'
-            !Ry&up.sc.bell and Rs&encodeD = 1
+            !Ry&up.sc.bell and Rs&top_bell = 1
+            if (Rs&top_bell) {
+                Rs&encodeD = 1
+                $be = me&tsc,"show-C",'🔔','g'
+                # < make this about doing -hat for them
+                #   -Bet finds specifics, default s**-ness
+                # < the -hat wants to be minimal,
+                #   no same .t, simple $c%$sc
+                # < find that function for doing this:
+                (Rs&ope||0) >= 1 and Rs&show_s = 1
+            }
             
             # s
-            if (!Rs&strange) {
-                me&TXin,'Csubtle',{layout:'C'} ({
-                    s: {z:{
-                        y: {ope:-1},
-                        sc: {z:{
-                            z: {impl:1},
+            # < o %show_s o R^^%top_bell
+            $tob = me.cbu(R,'top_bell')
+            tobs&show_s and Rs&show_s = 1
+            if (Rs&show_s) {
+                if (!Rs&strange) {
+                    me&TXin,'Csubtle',{layout:'C'} ({
+                        s: {z:{
+                            y: {ope:-1},
+                            sc: {z:{
+                                z: {impl:1},
+                            }},
                         }},
-                    }},
-                })
+                    })
+                }
+                me&hu,"s",s,{dl:1}
             }
-            me&hu,"s",s,{dl:1}
             
             # s**
             if (Rs&climbD) {
@@ -354,12 +369,12 @@ me.Sch_The = &acgt{ return [
             }
         },
         # after Top@44 fills in E**y&thing
-        ['bell',0.45,&acgtRs{
+        ['bell+show_s',0.45,&acgtRs{
             $E = Rs&E
             # for Ey&thing encoding here
-            Ey&thing and Rs&showthing = 1
+            Ey&thing and Rs&show_thing = 1
         },'ift,D'],
-        ['showthing',0.45,&acgtRs{
+        ['show_thing',0.45,&acgtRs{
             $E = Rs&E
             me&hu,"Eything",Ey&thing.sc.string
         },'ift,D'],
@@ -487,9 +502,6 @@ me.Sch_The = &acgt{ return [
             each in rows {
                 me&nodei,r,t,n.sc
             }
-            
-            #$n = me&fiu,E,'eto'
-            Ds&sended = 'to '+me&tpath,t
         },'ift,D'],
         ['pretendpi',0.327,&acgtRs{
             delete R.sc[Rs&pretendpi]
@@ -3327,6 +3339,7 @@ me.Sch_The = &acgt{ return [
             
             # qua to deliver, meaning of this event
             Ds&Xsc = {ope:1}
+            ahsk(s.c,'mode','C') and Ds&Xsc.ope = -1
             # see -Belt/-Bit%D%Xc
             
             #   pulling up the sc&tower.N
@@ -3506,6 +3519,11 @@ me.Sch_The = &acgt{ return [
             !isR(r) || !rs&Bet and debugger
             s != rs&E and debugger
             
+            # look at the e
+            if (isC(sc&s)) {
+                me&Ei,{t:'e',pi:'hat',s:sc&s,dl:1,Rsc:'maybrack'}
+            }
+            # look at tow-Belt
             $Belt = me&ioty,r,'Belt','tow' [0]
             $Bits = me&ioty,Belt,'Bit'
             $Bit = Bits.filter(r => rs&isR).slice(-1)[0]
