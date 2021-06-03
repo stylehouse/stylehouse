@@ -1293,9 +1293,14 @@ me.Sch_Story = &acgt{ return [
             # -nine/* from Fine/*
             $The = me&fiu,E,'The'
             # < sync proper, beyond el:2
-            me&clintout,s,The,'-Ness' .map(&g{
+            me&clintout,s,The,'' .map(&g{
                 $n = gy&C
-                if (1 || gc&el <8) {
+                if (nc&pi == 'Lab') {
+                    $z = me&iNess,Ness,{t:n.t}
+                    me&clonover,z,n
+                }
+                elsif (nc&pi == 'Ness') {
+                    #if (1 || gc&el <8) {
                     # < should build tw, separate?
                     #i $Ness/@sum/** yOuts o $n:sum/**
                     $z = me&iNess,Ness,{t:n.t}
@@ -1318,6 +1323,9 @@ me.Sch_Story = &acgt{ return [
                     })
                     # EsyncThis causes -Ness @3
                     #zc&el = 3
+                }
+                else {
+                    throw "unknown The/* type", n
                 }
             })
             
@@ -1600,8 +1608,22 @@ me.Sch_Story = &acgt{ return [
             }
             
             # things we visit wake downstream
+            # E/Ness, not the current E/Ness/-Ness as in Ec&Into above
             $Ness = me&fiu,E,'Ness'
-            $Nesses = me&pity,Ness,'-Ness'
+            $ThyF = c.ThyF
+            if (ThyF) {
+                $Ehy = me&fiu,E,'Thy'
+                # transfer any ~ to E/Ness/-Lab
+                me&clinto,ThyF,Ehy,'' .map(&n{
+                    if (nc&el <8) {
+                        $Ei = me&fiu,Ness,n.t
+                        Eiy&C = n
+                        Eic&pi = 'Lab'
+                        Eic&el = nc&el
+                    }
+                })
+            }
+            $Nesses = me&pity,Ness,''
             uniq(sevens).map(&e{
                 $Es = es&inNess
                 !Es and debugger
@@ -1657,7 +1679,15 @@ me.Sch_Story = &acgt{ return [
                         if (zc&el < 7) {
                             $Nessc = {}
                             c.lessyC and Nessc.lessyC = 1
-                            me&piNess,z,Nessc
+                            if (zc&pi == 'Lab') {
+                                me&piLab,z,Nessc
+                            }
+                            elsif (zc&pi == 'Ness') {
+                                me&piNess,z,Nessc
+                            }
+                            else {
+                                throw "other Ness type", z
+                            }
                             Ey&Fri = z
                             any = 1
                         }
@@ -1678,6 +1708,14 @@ me.Sch_Story = &acgt{ return [
             })
         }
     //  /-Ness%string and %tige|%dige
+        me.piLab = &acgtscq{
+            return me&Sopi,s,'Lab',c,q ({
+                6: &Ecq{
+                    debugger
+                }
+            })
+        }
+                    
         me.piNess = &acgtscq{
             return me&Sopi,s,'Ness',c,q ({
                 6: &Ecq{
@@ -1815,10 +1853,22 @@ me.Sch_Story = &acgt{ return [
         !This and return me&wants,R,"Gome_This",xs&Gome
         sy&This = This
         
+        
         # roll the invention of Eigh s
         #me&sleepic,R and me&rollbs,R,'bal_tw_s'; return
         
         $Ninec = {This}
+        # Gome/Thy/This/$Fine
+        if (xs&Thy) {
+            # stuff we're projecting to This
+            $Thyis = me&fiu,xs&Thy,'This',8
+            $ThyF = Thyis && me&fiu,Thyis,s.t,8
+            # < create that per Fine so we can capture The for it
+            if (ThyF) {
+                Ninec.ThyF = ThyF
+                sy&ThyF = ThyF
+            }
+        }
         # redo every -Ness
         x.ro('DIY') and Ninec.DIY = 1
         $E = me&pinine,s,Ninec,-2
