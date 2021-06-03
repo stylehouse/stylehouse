@@ -280,11 +280,14 @@ me.Sch_The = &acgt{ return [
             me&Eing,6
             
             # insphere: -Bat preparator
-            $e = me&Ei,{t:'Ins',pi:'Labi',s:ey&D,noref:1}
+            $e = me&Ei,{t:'Ins',pi:'Labi',s:ey&D}
             Ey&InsE = e
             me&Eing,6
             
-            # < compress back to outsphere
+            # outsphere: -Bat compressor
+            $e = me&Ei,{t:'Ino',pi:'Labo',s:ey&D}
+            Ey&InoE = e
+            me&Eing,6
         },'ift,D'],
         ['Lab',0.55,&acgtRs{
             $E = Rs&E
@@ -294,6 +297,16 @@ me.Sch_The = &acgt{ return [
         },'ift,D'],
        // %bell etc
         # < -hat with separate lum + layout tricks for %z
+        ['bell',0.23,&acgtRs{
+            $E = Rs&E
+            $D = Rs&D
+            if (!isC(s)) {
+                $b = Ec&b
+                $z = Rc&s = Ec&s = b && bc&s || Cye([E.t,1])
+                me&tc,'eph','6y'
+                zc&s = s
+            }
+        },'ift,D'],
         ['bell',0.265,&acgtRs{
             $E = Rs&E
             $D = Rs&D
@@ -379,17 +392,11 @@ me.Sch_The = &acgt{ return [
             me&hu,"Eything",Ey&thing.sc.string
         },'ift,D'],
         
-       // %Labe
+       // %Labe decompress
         ['Labe',0.22,&acgtRs{
             $E = Rs&E
             $D = Rs&D
             Rs&bell = 1
-            if (!isC(s)) {
-                $b = Ec&b
-                $z = Rc&s = Ec&s = b && bc&s || Cye([E.t,1])
-                me&tc,'eph','6y'
-                zc&s = s
-            }
         },'ift,D'],
         &{
             # decompress strategies
@@ -456,8 +463,7 @@ me.Sch_The = &acgt{ return [
             }
             me&Eing,6
         },'ift,D'],
-       
-       // %Labi
+       // %Labi make to|from -Bat
         ['Labi',0.22,&acgtRs{
             Rs&bell = 1
             Rs&climbD = 1
@@ -505,6 +511,27 @@ me.Sch_The = &acgt{ return [
         },'ift,D'],
         ['pretendpi',0.327,&acgtRs{
             delete R.sc[Rs&pretendpi]
+        },'ift,D'],
+       // %Labo compress again
+        ['Labo',0.22,&acgtRs{
+            Rs&bell = 1
+            Rs&climbD = 1
+        },'ift,D'],
+        
+        
+        
+        ['Labo',0.32,&acgtRs{
+            $E = Rs&E
+            $D = Rs&D
+            Ec&noencode and return
+            me&typeup_Dpi,R,s
+            if (Rs&nodei) {
+                $eto = me&fiu,E,'eto',8
+                !eto and return me&strange,"!eto"
+                $z = etoy&D
+                # < trying to follow|update how %Labe did it
+                zc&s == s.t and etoc&noencode = 1
+            }
         },'ift,D'],
     ] }
     },
