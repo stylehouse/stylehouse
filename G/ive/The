@@ -475,8 +475,15 @@ me.Sch_The = &acgt{ return [
         },'ift,D'],
        // %Labi make to|from -Bat
         ['Labi',0.22,&acgtRs{
+            $E = Rs&E
             Rs&bell = 1
             Rs&climbD = 1
+            $p = Ry&up
+            if (ps&top_bell) {
+                # due to Nine/-Lab (top of the outsphere)
+                # wanting to include %tige,dige
+                Ec&encode_thing_here = 1
+            }
         },'ift,D'],
         ['Labi',0.32,&acgtRs{
             $E = Rs&E
@@ -524,8 +531,15 @@ me.Sch_The = &acgt{ return [
         },'ift,D'],
        // %Labo compress again
         ['Labo',0.22,&acgtRs{
+            $E = Rs&E
             Rs&bell = 1
             Rs&climbD = 1
+            $p = Ry&up
+            if (ps&top_bell) {
+                # due to Nine/-Lab (top of the outsphere)
+                # wanting to include %tige,dige
+                Ec&encode_thing_here = 1
+            }
         },'ift,D'],
         
         
@@ -3214,8 +3228,10 @@ me.Sch_The = &acgt{ return [
                         ts&dige = dig(ts&string)
                         # and percolated to the out-C
                         $CC = Cy&C
-                        CC and CCs&outC = 1
-                        CC and sex(CC.sc,t.sc,'string,dige')
+                        !CC and return
+                        debugger
+                        CCs&outC = 1
+                        sex(CC.sc,t.sc,'string,dige')
                     }
                 }
             }
@@ -3239,6 +3255,7 @@ me.Sch_The = &acgt{ return [
                 # found another encoded thing
                 $re = me&compLines_Eything,E,d
                 re and return re
+                Ec&encode_thing_here and me&reusable_thing_string,d,E
                 
                 #delete Cc&top
                 #Cy&D = D
@@ -3807,6 +3824,9 @@ me.Sch_The = &acgt{ return [
         
     ] }
     },
+ 
+ 
+ 
  // GOING
     &{
    // slope io: &Rsci + dialects
