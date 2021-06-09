@@ -4425,10 +4425,15 @@ me.Ballingness = &acgt{ return [
             if (say) {
                 $m =
                 n made  s:+ %fs:6,hs:594
-                if (say.substr(0,1) == '%') {
+                if (say.startsWith('%')) {
                     # %hi -> sc.hi=1
                     say = say.substr(1);
                     s.sc[say] = 1;
+                }
+                elsif (say.startsWith('&')) {
+                    # &hi:2 = c.hi=2
+                    $d = G&peel,say.substr(1);
+                    ex(s.c,d);
                 }
                 elsif (say.includes(':')) {
                     # hi:2 = sc.hi=2
