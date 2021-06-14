@@ -635,7 +635,7 @@ me.Sch_The = &acgt{ return [
     # R%TheingE**/Ec&top - containers also have E
     ['TheingE',0.291,&acgtRs{
         me&bin,'TheingE'
-        me&reaw,R,'TheingE'
+        me&reaw,R,'TheingE,E'
         Rs&rowish = 2
         
         # R%E
@@ -676,7 +676,6 @@ me.Sch_The = &acgt{ return [
         # E**
         ps&E and me&fiu,ps&E,E
     },'ift,D'],
-   //     
    // %Piing**
     ['Piing',0.296,&acgtRs{
         
@@ -746,7 +745,8 @@ me.Sch_The = &acgt{ return [
             $Bow = me&Pii,seven,'Bowler-hat'
             Bowc&s = {as:dat.asee,fol:33}
         }
-   //  %Piing have &Piing, auto -Bat:y&Todo and|or c&pi
+   //  %Piing having &Piing, recursion
+        # auto -Bat:y&Todo and|or c&pi
         else {
             if (hak(sy&Todo)) {
                 me&Piing,'-Bat'
@@ -756,6 +756,7 @@ me.Sch_The = &acgt{ return [
             }
         }
     },'ift,D'],
+    # &PiiE_pre_Piering winds @333
     ['Piing',0.36,&acgtRs{
         # children (/**) first:
         me&Ring,R,{inside:R,ov:555}
@@ -765,40 +766,30 @@ me.Sch_The = &acgt{ return [
     },'ift,D,sleeping'],
    
    // %Piing sleep|wake
-    # < colourise this block
     ['Piing',0.29599,&acgtRs{
-        $ind = indent(sy&path)
-        Rs&sleeping and ~>6 slePii: ind+s.t
-        else {
-            ~>3 awaPii: ind+s.t
-        }
+        me&notice_wakesleep,R,s,'Pi3'
     },'ift,D,sleeping'],
     # 
     ['Piing',0.55,&acgtRs{
         $x = me&Theing
         $E = Rs&E
+        !E and throw "no E"
+        me&notice_wakesleep,R,s,'Pi6'
         
-        
-        $ind = indent(sy&path)
-        Rs&sleeping and ~>6 slePii: ind+s.t
-        else {
-            ~>3 awaPii: ind+s.t
-        }
-        
-        $sleep = Rs&sleeping ? "--" : ""
-        !E and return
-        Ec&uber and ~>2 uberwake: sleep, s.t
         if (Ec&uber) {
             # topmost
-            $pend = Rs&Epending
-            # < throw, this is likely to be missed
-            hak(pend) and debugger
-            
-            hak(pend) and me&nu,"still-pending",{pend}
-            hak(pend) and ~>3 still-pending: joint(pend)
+            me&PiiEuber_Epending_55,R,E,s
         }
     },'ift,D,sleeping'],
     &{
+        me.notice_wakesleep = &acgtRst{
+            $ind = indent(sy&path)
+            t = t+" "+ind+s.t
+            Rs&sleeping and ~>6 sl: t
+            else {
+                ~>3 aw: t
+            }
+        }
         self.indent = &ds{
             d == 0 and throw "d!>0"
             isar(d) and d = hak(d)
@@ -813,11 +804,15 @@ me.Sch_The = &acgt{ return [
      // outsphereings
         # T from the outsphere
         me.PiiE_pre_Piering = &acgtREsc{
-            # < to be many
+            # < to be many, versioning
             $tc = me&Thetower,R
             $es = tc.es
             delete sy&RXing
             es && esy&TXing and sy&RXing = esy&TXing
+        
+            c.pre_Pieringi = &re{
+                me&PiiE_pre_Pieringi,R,E,r,e
+            }
         }
         # re has become, re the outspheres:
         me.PiiE_pre_Pieringi = &acgtREre{
@@ -832,11 +827,18 @@ me.Sch_The = &acgt{ return [
             # < recycles E/e? when %Piing%sleeping?
             me&fiu,E,e,1
             
+            me&PiiE_Epending_1,R,E,r,e
+        }
+     // ^^^E%Epending[e]
+        # ^^%Pier (r &Piing creates) pends at ^^^%Piing
+        me.PiiE_Epending_1 = &acgtREre{
             # E** transmit stuff upward immediately
             #  e/ref/ is staging to PE/ref/ (in &Eref_begin)
             #  transact also unsorted list of innards,
             #   which may export what we will be looking for
             $Pr = me.cbu(r,'^^^Piing')
+            $PE = Prs&E
+            !PEc&uber and debugger
             $pend = Prs&Epending ||= []
             pend.push(e)
             ac(r,'commit',&{
@@ -846,6 +848,14 @@ me.Sch_The = &acgt{ return [
             #   they must be checked for positioning...
             #R.t == 'Bowler' and me&zu,"topE",{mE,tE}
             # ...&Pieringi does &Eref_begin
+        }
+        # topmost
+        me.PiiEuber_Epending_55 = &acgtREs{
+            $pend = Rs&Epending
+            # < throw, this is likely to be missed
+            hak(pend) and debugger
+            hak(pend) and me&nu,"still-pending",{pend}
+            hak(pend) and ~>3 still-pending: joint(pend)
         }
      // re the insphere
             
@@ -863,13 +873,9 @@ me.Sch_The = &acgt{ return [
         $E = Rs&E
         
         x.ro('noR') and c.sleeping = 1
-        me&PiiE_pre_Piering,R,E,s,c
-        
-        # A for the such time
-        c.ov = 333
-        c.pre_Pieringi = &re{
-            me&PiiE_pre_Pieringi,R,E,r,e
-        }
+        me&PiiE_pre_Piering,R,E,s,c,x
+        # A thus much
+        c.ov ||= 333
         return me&Piering,c
     }
     # node leaps into R'The', new E**
