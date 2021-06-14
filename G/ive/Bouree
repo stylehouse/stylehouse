@@ -69,6 +69,18 @@ lookup tracks within these .webm
  Nicola Cruz
   silence @ 7:40... have full mp4
 
+=radio
+
+ (rad)ioactive via:
+  play stream: chrome:rad -> Loopback audio
+  capture stream:
+   arecord --device="hw:2,1" -f cd  `date -Ins`.wav
+  capture meta:
+   wget http://www.radioactive.fm/remote/appdata/play/nowplaying.xml\
+    -O `date -Ins`-nowplaying.xml
+  seems to be for 2021-02-03 -06-14
+  < correct time, match times
+
 =sound
 
 let audio = new (AudioContext() || webkitAudioContext);
