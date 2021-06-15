@@ -189,9 +189,16 @@ me.Sch_The = &acgt{ return [
         #    to store J osc via Duolish** &SuperGansp
          // 2 see things
             su('SC/*',{until:&zaa,jaa,ha,ar{
+                $not = xs&Piing
                 # enable @Intro
                 #me&nodei,R,xs&Introtivity,{Intro:1,Cat:SC}
-                x.ro('init',{}) and me&nodei,R,xs&Piing,'initdata'
+                x.ro('init',{}) and me&nodei,R,not,'initdata'
+                
+                
+                # < have Thy first clue from F, then:
+                # %%Go -> Travel +/$t/$SC - what to control
+                me&nodei,R,not,{Go:23},{},{Gome:s}
+                
                 
                 x = me&Gome_Jx,R
                 !x and debugger
@@ -201,7 +208,11 @@ me.Sch_The = &acgt{ return [
                 !Run and return ha('pur:!Run')
                 !F and return ha('pur:!F')
                 
-                # puts xs&This
+                ~>3 THING: s.t
+                #me&nodei,R,not,{Control:1}
+                #   gives a unique time/(This,The+)
+                
+                # waits for ...
                 $This = me&Gome_This,R
 
                 # we then expect to go quiet
@@ -231,17 +242,8 @@ me.Sch_The = &acgt{ return [
     },
   
   // Pi%Lab: Nine/* > Thy > The,This
-   
    // Gnome...Nine/!-Ness for Thy/This/...
     &{
-    # nodes privy to their Gnome... ness
-    me.Gnome_Jx = &acgtR,cl{
-        # putting 'Gome' gives /*, eg xs&Fories
-        $x = me&Jx,R,{c:{Gome:cl}}
-        # < ^ might where to find */This:
-        xs&Run = x.sc[me.Thisisinside]
-        return x
-    }
     # Nine%TheFine has E-nine'd
     me.Fine_aft_nine = &acgtREsx{
         # e Thy/This
@@ -281,7 +283,6 @@ me.Sch_The = &acgt{ return [
             me&nodei,R,z,n
         })
     }
-   
    // Gnome/Thy...Pi%Lab
     me.Pi_Lab = &acgt{ return [
         # loads Nine/-Lab, into -Bat preparator
@@ -579,25 +580,24 @@ me.Sch_The = &acgt{ return [
     },
   
   // &Piing Thee
-   // %Piing nodes
+   # < Thy%client=Run:Gome
+   // 1 %Piing nodes
     ['Piing',0.291,&acgtRs{
+        # E**
+        Rs&TheingE = 1
+    },'ift,D'],
+    ['Piing',0.2911,&acgtRs{
         $x = me&Thee
-        xs&Run and me&tc,xs&Run.t,'G'
+        xs&Gome and me&tc,"@"+xs&Gome.t,'G'
+        else me&tc,'norun','G'
     },'ift,D'],
     &{
-    # i a node
-    me.Pii = &acgtsc{
-        $R = me&R
-        isst(s) and c = s; s = Rc&s
-        $v = me&Rsci,c,{v:s}
-        return v
-    }
+    # i a node - see &Pii, Piing @3
     # o a node
     me.Thee = &acgt{
         $R = me&R
         # recur id
         $c = {}
-        # find names from surrounds (Gnome%client)
         $x = me&Theing,c
         xy&c = c
         !c.long and throw "Thee!long"
@@ -608,13 +608,14 @@ me.Sch_The = &acgt{ return [
         xy&Thees = me.cby(R,'^^^'+c.long)
         return x
     }
-    # identity spreader, more of the above
+    # identity spreader, more of the above, &G(n)ome_Jx
     me.Theing = &acgtc{
         $R = me&R
         $s = Rc&s
-        $x = me&Jx,R
         Rs&Theingx && c and throw "const"
         Rs&Theingx and return Rs&Theingx
+        # this finds ^^%client then hooks &Gnome_Jx
+        $x = me&Gome_Jx,R
         Rs&Theingx = x
         c ||= {}
         # believing something
@@ -632,21 +633,41 @@ me.Sch_The = &acgt{ return [
         
         return x
     }
+    # find names from surrounds
+    #  cl=Piing%client=Gnome
+    # nodes privy to their Gnome... ness
+    me.Gnome_Jx = &acgtR,cl{
+        # putting 'Gome' gives /*, eg xs&Fories
+        $x = me&Jx,R,{c:{Gome:cl,Gnome:cl}}
+        # < ^ might where to find */This:
+        xs&Run = x.sc[me.Thisisinside]
+        return x
+    }
     },
-   // %TheingE** nodes keep %E**
+   // 2 %TheingE** nodes keep %E** outspheres
     # so RsE outspheres. R%E(y&R=R)
     # R%TheingE**/Ec&top - containers also have E
     ['TheingE',0.291,&acgtRs{
+        
         me&bin,'TheingE'
-        me&reaw,R,'TheingE,E'
+        me&reaw,R,'TheingE,E,client'
         Rs&rowish = 2
         
         # R%E
         me&rollbs,R,'E'
         $E = Rs&E ||= Cye([R.t,1])
         Ey&R = R
+        Es&z ||= []
+        
+        $p = Ry&up
+        if (!ps&Piing) {
+            Ec&uber = 1
+            # < &Effected %hire,efrom=Nine
+            Rs&client = 1
+        }
+        # s->Ec&pi
         if (sc&pi) {
-            # impersonating E/-seven
+            # ! impersonating E/-seven, is strange
             Ey&ers = s
             Ec&pi = sc&pi
             # look like a &Sopi, eg &piEight
@@ -656,7 +677,7 @@ me.Sch_The = &acgt{ return [
             s.y [ sc&pi ] = E
             Ey&C = s
         }
-        Es&z ||= []
+        
         # E**
         # what &Sopi &piinto does, Ey&C=s
         $p = Ry&up
@@ -664,8 +685,8 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
     # (s|E)**
     ['TheingE',0.296,&acgtRs{
-        $x = me&Theing
         $E = Rs&E
+        $x = me&Theing
         $p = Ry&up
         me&hideyfix,R
         xy&go and me&nu,"E",E
@@ -679,11 +700,10 @@ me.Sch_The = &acgt{ return [
         # E**
         ps&E and me&fiu,ps&E,E
     },'ift,D'],
-   // %Piing** # influx
+   // 3 %Piing** # influx
     ['Piing',0.296,&acgtRs{
-        
-        $x = me&Theing
         $E = Rs&E
+        $x = me&Theing
         
         # influx:
         me&Piing_receives_inst,R,s
@@ -691,7 +711,8 @@ me.Sch_The = &acgt{ return [
         
         if (hak(xy&Thees) == 1) {
             # the nothing, has:
-            Ec&uber = 1
+            
+            
             $This = me&Pii,'-This'
 
             $The = me&Pii,'-The'
@@ -749,7 +770,7 @@ me.Sch_The = &acgt{ return [
             Bowc&s = {as:dat.asee,fol:33}
         }
    
-   //  &Piing from %Piing, recursion
+   // 6 &Piing from %Piing @296, recursion
         # auto -Bat:y&Todo and|or c&pi
         else {
             if (hak(sy&Todo)) {
@@ -761,6 +782,13 @@ me.Sch_The = &acgt{ return [
         }
     },'ift,D'],
     &{
+        # i a node
+        me.Pii = &acgtsc{
+            $R = me&R
+            isst(s) and c = s; s = Rc&s
+            $v = me&Rsci,c,{v:s}
+            return v
+        }
         # node leaps into R'The' with c.t|pi
         me.Piing = &acgtc{
             isst(c) and c = me&t_tpi,{t:c}
@@ -786,7 +814,7 @@ me.Sch_The = &acgt{ return [
         # before %ball 38 draws /%fix-tures
     },'ift,D,sleeping'],
    
-   // %Piing node sleep|wake
+   // 9 %Piing node sleep|wake
     ['Piing',0.29599,&acgtRs{
         me&notice_wakesleep,R,s,'Pi3'
     },'ift,D,sleeping'],
@@ -821,7 +849,7 @@ me.Sch_The = &acgt{ return [
     },
     
    &{
-   // &Piing           have E** inspherings
+   // &Piing           have %E** inspherings
      // outsphereings
         # T from the outsphere
         me.PiiE_pre_Piering = &acgtREsc{
@@ -881,6 +909,8 @@ me.Sch_The = &acgt{ return [
             hak(pend) and ~>3 still-pending: joint(pend)
         }
      // re the insphere
+        me.PiiE_pre_Pieri = &acgtREre{
+        }
             
             
    
@@ -1644,8 +1674,9 @@ me.Sch_The = &acgt{ return [
     
   // R'The' stylemo
     # 3 realises R/r as E/e
-    
+   // &Pieri, +r, &Pieringi
     # @02 early realise
+    # < also nab brack as it goes
     me.Pieri = &acgtEe{
         # < many
         # bunches of
@@ -1706,8 +1737,49 @@ me.Sch_The = &acgt{ return [
             me&Eref_begin,r,E
         }
     }
-    
-    # &Ring, thence:
+   // &Ring, thence:
+    me.Pi_Pier = &acgt{ return [
+       // %Top|%Pier back
+        ['Pier',0.2,&acgtRs{
+            me&Pieringo
+        },'ift,D'],
+        ['blank',0.21,&acgtRs{
+            # diverges into types
+            Rs&hat = 1
+        },'ift,D'],
+        
+        # %TX awarenesses a point
+        # dome suspicion
+        ['Pier',0.264,&acgtRs{
+            me&Piero
+        },'ift,D'],
+        
+        # E/** expands, if not already
+        ['Pier',0.3,&acgtRs{
+            me&Eing,3
+        },'ift,D'],
+        
+       // %Top &Topping
+        # for all, without Ringing around
+        ['Top',0.67,&acgtRs{
+            me&Topping
+            
+            s&dis = 1
+            C.y.cv = 0.22
+            me&walls,C,"b:2.2"
+            me&scroll,28
+        },'ift,D'],
+        ['Top',0.9,&acgtRs{
+            # disp
+            
+            Rs&sleeping and return
+            me&applyRbitX,R
+            
+            each iy Rs&commit {
+                y ()
+            }
+        },'ift,D,sleeping'],
+    ] }
     
     # @2 arrive in R%Pier
     me.Pieringo = &acgt{
@@ -3021,46 +3093,8 @@ me.Sch_The = &acgt{ return [
     me.Pi_The = &acgt{ return [
         # Thy
        ... me&Pi_Lab ,
+       ... me&Pi_Pier ,
        
-       // %Top|%Pier back
-        ['Pier',0.2,&acgtRs{
-            me&Pieringo
-        },'ift,D'],
-        ['blank',0.21,&acgtRs{
-            # diverges into types
-            Rs&hat = 1
-        },'ift,D'],
-        
-        # %TX awarenesses a point
-        # dome suspicion
-        ['Pier',0.264,&acgtRs{
-            me&Piero
-        },'ift,D'],
-        
-        # E/** expands, if not already
-        ['Pier',0.3,&acgtRs{
-            me&Eing,3
-        },'ift,D'],
-        
-        # for all, without Ringing around
-        ['Top',0.67,&acgtRs{
-            me&Topping
-            
-            s&dis = 1
-            C.y.cv = 0.22
-            me&walls,C,"b:2.2"
-            me&scroll,28
-        },'ift,D'],
-        ['Top',0.9,&acgtRs{
-            # disp
-            
-            Rs&sleeping and return
-            me&applyRbitX,R
-            
-            each iy Rs&commit {
-                y ()
-            }
-        },'ift,D,sleeping'],
        
        // Describe
         &{
