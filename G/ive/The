@@ -120,21 +120,37 @@ me.Sch_The = &acgt{ return [
                 return me&yyt,z,'want_quiet_wake'
             }) .length
         }
-        # &activate for entire Gnome, sym parts of &SuperGnome
-        me.Gnome_want_quiet_wake = &acgtR{
+        # Gnome's &activate allows wanting to quiet wake
+        #  sympathise parts of &SuperGnome
+        me.Gnome_want_quiet_wake = &acgtR{    
             # from the last &SuperGnome
-            me&ja,R,'Superquiets,Pending' and debugger
-            me&ja,R,'Superquiets,Pending' and return 1
+            # < why these must be &saa?
+            me&sa,R,'Superquiets,Pending' and ~>2 drew quiet:
+            me&sa,R,'Superquiets,Pending' and return 1
             
             # any tractorbeams
             # < -pipe between -thing
-            #me&ja,R,'Superquiets,Pending'
-            $is = me&Gome_Thischa_other,R,F
+            $N = me&saa,R,'supe,sute,sensitivity,otherable'
+            $is = N.some(&n{
+                $args = ns&otherable.split(',')
+                args = args.map(&k{
+                    $arg = theone(me&saa,R,k+',supe,sute,arg' )
+                    # < expected args
+                    !arg and return 0
+                    !arg.sc[k] and return 0
+                    return arg.sc[k]
+                })
+                # has given args
+                args.some(v => !v) and return 0
+                return me&mearg,ns&sensitivity,[R,...args]
+            })
+            is and debugger
             $say = is ? 'wakes' : ''
             ~>8 GomeThischa: say
             #is and debugger
             return is
         }
+        
         # get on the list, prepare to join quiet wake of Ya%Gnomp
         me.activate = &acgt{
             $R = me&R
@@ -229,9 +245,8 @@ me.Sch_The = &acgt{ return [
                 # < &Effect each $t in there, to create it?
                 # 
                 me&Gome_Resides,R,{t:s.t}
-                
                 # wait til quiet once
-                me&Superquiets,R
+                $v = me&Superquiets,R
                 v and ha('pur:!quiet')
                 # < meaning Gome/* are ready
                 
@@ -264,6 +279,7 @@ me.Sch_The = &acgt{ return [
                 $F = xs&TheF
                 !Run and return ha('pur:!Run')
                 !F and return ha('pur:!F')
+                ha('arg',{F})
                 
                 #me&nodei,R,not,{Control:1}
                 #   gives a unique time/(This,The+)
@@ -271,7 +287,8 @@ me.Sch_The = &acgt{ return [
                 # waits for ...
                 $This = me&Gome_This,R
                 !This and return ha('pur:!This')
-                #ha(sensitivity:)
+                #
+                ha({sensitivity:'Gome_Thischa_other',otherable:'F'})
                 me&Gome_Thischa_self,R,F,ha
 
                 # observe Proto !now not over finishline
