@@ -98,17 +98,18 @@ me.Sch_The = &acgt{ return [
   // Gnomp - simplified @Gump...@Gome
     # n Ya 6  %Gnomp
     ['Gnomp',0.296,&acgtRs{
+        me&acting,R,'Gnomp'
         $x = me&Jx,R
-        me&reaw,R,'Gnomp'
+        Rs&wakeperc = 1
         me&baleg,'TryPiWarmer','Gnome'
         me&quietready,R and return
         me&locked,s,'Gnome' and return
         me&tc,"free"
         
     },'ift,D'],
+    
     ['Gnome',0.5,&acgtRs{
         # from &Gome_permit:
-        me&reaw,R,'Gome,client'
         Rs&client = 1
         me&acting,R,'Gnome'
         $x = me&Jx,R
@@ -129,27 +130,11 @@ me.Sch_The = &acgt{ return [
         !me&SuperGnome,R,s,{} and return
         me&unlock,Gnomp,'Gnome',s
     },'ift,D'],
-    ['Gnomp',0.6,&acgtRs{
-        # R%wakeful if (s/*)%wakeful
-        me&ioty,s .map(&z{
-            $r = zy&R
-            !rs&wakeful and return
-            Rs&wakeful = 1
-            me&tc,"wake:"+r.t
-        })
-    },'ift,D,sleeping'],
-    ['Gome',0.52,&acgtRs{
-        me&jaa,R,'pre' .map(&n{
-            ns&wakeful and '20s timer'
-            ns&restless and '4s timer'
-            # wakes us when ^^Gump%quiet_now
-            ns&restless || ns&wakeful and Rs&wakeful = 1
-        })
-    },'ift,D'],
     # where non -Ness Fine/$t are staged for Piing/The...
     ['TheThy',0.2901,&acgtRs{
         me&reaw,R,'TheThy'
         me&acting,R
+        # < for %Gome
         !me.cbu(R,'Gnome') and return
         Rs&wakeful = 1
         Rs&Piing = 1
@@ -171,6 +156,7 @@ me.Sch_The = &acgt{ return [
                 s != xs&Gome and debugger
                 
                 # < &Effect each $t in there, to create it?
+                # 
                 me&Gome_Resides,R,{t:s.t}
                 
                 # wait til quiet once
@@ -651,7 +637,7 @@ me.Sch_The = &acgt{ return [
     ['TheingE',0.291,&acgtRs{
         
         me&bin,'TheingE'
-        me&reaw,R,'TheingE,E,client'
+        me&reaw,R,'TheingE,E'
         Rs&rowish = 2
         
         # R%E

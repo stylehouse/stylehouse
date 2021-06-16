@@ -2587,15 +2587,8 @@ me.Sch_Travel = &acgt{ return [
         me&bin,'Gome'
         $namer = n => ns&Go+" v"+ns&tid
         me&balforward,R,'Go',{namer}
+        Rs&wakeperc = 1
     },'ift,D'],
-    ['Gomes',0.6,&acgtRs{
-        me&ioty,s .map(&z{
-            $r = zy&R
-            !rs&wakeful and return
-            Rs&wakeful = 1
-            me&tc,"wake:"+r.t
-        })
-    },'ift,D,sleeping'],
     &{
     },
     ['Gome',0.5,&acgtRs{
@@ -2620,14 +2613,24 @@ me.Sch_Travel = &acgt{ return [
         }
         # push W:Fingo
         !me&SuperGens,R,s,{t:'Release'} and return
-        
         me&unlock,Gump,'twins',s
         
         # go back
         me&nodei,R,Goy&R,sex({finished:s},Go.sc,'Go,tid')
         delete Rs&wakeful
     },'ift,D'],
-    ['Gome',0.52,&acgtRs{
+   // %wakeperc, %Superpost
+    ['wakeperc',0.6,&acgtRs{
+        me&reaw,R,'wakeperc'
+        # R%wakeful if (s/*)%wakeful
+        me&ioty,s .map(&z{
+            $r = zy&R
+            !rs&wakeful and return
+            Rs&wakeful = 1
+            me&tc,"wake:"+r.t
+        })
+    },'ift,D,sleeping'],
+    ['Superpost',0.52,&acgtRs{
         me&jaa,R,'pre' .map(&n{
             ns&wakeful and '20s timer'
             ns&restless and '4s timer'
@@ -3757,9 +3760,11 @@ me.Sch_Travel = &acgt{ return [
             $supen = me&tcl,k+':','B'
             supens&dis = 5
             me&walls,supen,'b:3.2h2'
+            Rs&Superpost = 1
             me&ty,supen,'reset?' (&{
                 me&jaa,R,{supe:k} .map(n => nc&drop = 1)
             })
+            
             
             # pseudo-lexicals, picking up %%arg,Z -> ar.Z
             $ar = {}
