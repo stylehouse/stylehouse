@@ -2635,6 +2635,11 @@ me.Sch_Travel = &acgt{ return [
             ns&restless || ns&wakeful and Rs&wakeful = 1
         })
     },'ift,D'],
+  
+  // @G(n)ome/*, @Run/*, namespace
+    &{
+    },
+  
   // Control, @Gome**
     &{
       // Residents
@@ -2704,8 +2709,16 @@ me.Sch_Travel = &acgt{ return [
         me.Gome_Jx = &acgtR{
             #Rs&Gomex and return Rs&Gomex
             $cl = Rs&Gome ? R : me.cbu(R,'client')
-            # Piing%%client grabs all
-            cl && isC(cls&client) and cl = cls&client.y.R
+            # if %client is something:
+            $clcl = cl && isC(cls&client) && cls&client
+            if (clcl) {
+                # Gome%client=Travel/Fish
+                #  is really the @Travel
+                # Gnome%client=1
+                # Piing%client=Gnome
+                !cls&Gome and cl = clcly&R
+                !cl and debugger
+            }
             !cl and throw "!client"
             # < cl%Piing when unhired
             if (cls&Gnome || cls&Piing) {
@@ -2737,6 +2750,7 @@ me.Sch_Travel = &acgt{ return [
             return x
         }
         # Gome** gets E-This
+        # < want to rely on Run/* being in xs&*
         me.Gome_This = &acgtR{
             # < o @Jrunto/-This
             $x = Rs&Gomex
