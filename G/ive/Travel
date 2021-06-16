@@ -1523,6 +1523,7 @@ me.Sch_Travel = &acgt{ return [
                 sy&ever_quiet = 1
                 !sy&ever_quiet and me&tsc,"First"
             }
+           // < huh
             # can rely on another quiet_wake if any busy
             #  but for some reason they are forgotten
             $N = me&ioty,me.cbu(R,'Ying')
@@ -1547,6 +1548,7 @@ me.Sch_Travel = &acgt{ return [
         }
         # Gump...Gomp quiet wake sub
         me.Gump_any_quiet_wake = &acgtR{
+            Rs&Gnomp and return me&Gnomp_any_quiet_wake,R
             return me&zaa,R,'by,locked',1 .filter(&z{
                 $r = zy&R
                 !(rs&Gome || rs&Gnome) and debugger
@@ -2777,23 +2779,6 @@ me.Sch_Travel = &acgt{ return [
             #    commit unrelated changes for tidiness...
             return n
         }
-      // f
-        # waits for (a later)? perception of true
-        me.Superwaits = &acgtRc{
-            $past = {swaited:c.t}
-            $present = {swaiting:c.t}
-            c.until and c.ha(past)
-            else
-            c.until_next && c.zaa(present) and c.ha(past)
-            else {
-                c.zaa(past) and c.ha(past)
-                else {
-                    return 0
-                }
-            }
-            return 1
-        }
-        
       // Dialectics
         # < sync with TheFine
         me.Gome_SC_SetTings = &acgtRF,ha{
@@ -3979,6 +3964,49 @@ me.Sch_Travel = &acgt{ return [
         }
        
   // funcs
+      // Superfuncs
+        # waits for the next quiet
+        #  adds t
+        # < notice if no activity since asserted
+        me.Superquiets = &acgtRc{
+            c ||= {}
+            $q = T.sute
+            me&superclasspile,q,c,'Superquiets'
+            # try
+            c.until_next = Rs&is_quiet
+            $ok = !me&Superwaits,R,c
+            if (ok) {
+                q.ha(c.c)
+                return 0
+            }
+            # until, give cause to quiet_wake
+            q.ha(c.c,{Pending:1})
+            return 1
+        }
+        # prep row per call to &Superquiet etc
+        me.superclasspile = &acgtqck{
+            # name or seq per sute
+            c.t ||= hak(q.jaa(k))+1
+            # what we will write once etc
+            c.c = {}
+            c.c[k] = c.t
+            c.t = k+':'+c.t
+        }
+        # waits for (a later)? perception of true
+        me.Superwaits = &acgtRc{
+            $q = T.sute
+            $past = {Superwaitsed:c.t}
+            $present = {Superwaitsing:c.t}
+            $ok = hak(q.zaa(past)) || c.until
+                || c.until_next && hak(q.zaa(present))
+            if (ok) {
+                q.ha(past)
+                return 0
+            }
+            q.ha(present)
+            return 1
+        }
+        
        // &diagno, &receivan, &zaone, theone() when to what why
         # responds to each q=(%%fault),... once
         #  and return true if we haven't tried t:fix

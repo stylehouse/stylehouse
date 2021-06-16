@@ -102,33 +102,103 @@ me.Sch_The = &acgt{ return [
         $x = me&Jx,R
         Rs&wakeperc = 1
         me&baleg,'TryPiWarmer','Gnome'
+        # ambient attention seek
+        #  only one can do so, Gnome join hooks via &activate
         me&quietready,R and return
         me&locked,s,'Gnome' and return
         me&tc,"free"
         
     },'ift,D'],
-    
+    &{
+        # Gnomp &quietready ambiently checks any @active
+        me.Gnomp_any_quiet_wake = &acgtR{
+            # < also if anyone Superwaits... Gump_quiet
+            return me&zaa,R,'active',1 .filter(&z{
+                $r = zy&R
+                !(rs&Gome || rs&Gnome) and debugger
+                # they also must bs&wakeful to get there
+                return me&yyt,z,'want_quiet_wake'
+            }) .length
+        }
+        # &activate for entire Gnome, sym parts of &SuperGnome
+        me.Gnome_want_quiet_wake = &acgtR{
+            # from the last &SuperGnome
+            me&ja,R,'Superquiets,Pending' and debugger
+            me&ja,R,'Superquiets,Pending' and return 1
+            
+            # any tractorbeams
+            # < -pipe between -thing
+            #me&ja,R,'Superquiets,Pending'
+            $is = me&Gome_Thischa_other,R,F
+            $say = is ? 'wakes' : ''
+            ~>8 GomeThischa: say
+            #is and debugger
+            return is
+        }
+        # get on the list, prepare to join quiet wake of Ya%Gnomp
+        me.activate = &acgt{
+            $R = me&R
+            $s = Rc&s
+            $Gnomp = isnode(s)
+            me&acquire,Gnomp,{active:s} and return 1
+            
+            # prepare to think outside
+            # allow Gump to quiet wake while ~This**
+            sy&want_quiet_wake = &{
+                me&Gnome_want_quiet_wake,R
+            }
+            
+            # < wakeful when active,
+            #    and only when our want_quiet_wake went off
+            Rs&wakeful = 1
+            $quiet = me&is_quiet_now,Gnomp
+            quiet and me&tsc,'quiet'
+            # < GOING
+            quiet and Rs&Gump_quiet = 1
+            quiet and Rs&is_quiet = 1
+            # we then have 
+            me&tc,"\n"
+            return 0
+        }
+        # %%hire|active:s
+        me.acquire = &acgtzc{
+            $R = me&R
+            $s = Rc&s
+            !Rs&ball and debugger
+            $k = haks(c)[0]
+            me&nodei,R,z,c
+            # < return 1 to wait for ack
+            return 0
+        }
+    },
     ['Gnome',0.5,&acgtRs{
         # from &Gome_permit:
         Rs&client = 1
         me&acting,R,'Gnome'
         $x = me&Jx,R
         $Gnomp = isnode(s)
+        # invent Go (Gome gets permit)
+        $Go = s.t
+        $tid = ss&tid||1
+        me&ha,R,{Go,tid}
+        $Go = theone(me&jaa,R,'Go' )
+        !Go and return me&tc,'!Go'
+        # acquire active from quiet_waker (Gump|Ya)
         me&lock,Gnomp,'Gnome',s
-        # in time %%quiet_wake:Gump
-        Rs&wakeful = 1
-        $quiet = me&is_quiet_now,Gnomp
-        quiet and me&tsc,'quiet'
-        quiet and Rs&Gump_quiet = 1
-        me&tc,"\n"
+        # 
+        me&activate and return
+        
+        
+        
         
         # &Gome_Jx shall:
         #  xs&Gome = s)%Gnome here, and xs&*=s/*
         #   s.t=TestName
         #  xs&Run = Piing, has /This etc
         
-        !me&SuperGnome,R,s,{} and return
+        !me&SuperGnome,R,s,{Go} and return
         me&unlock,Gnomp,'Gnome',s
+        delete Rs&wakeful
     },'ift,D'],
     # where non -Ness Fine/$t are staged for Piing/The...
     ['TheThy',0.2901,&acgtRs{
@@ -147,6 +217,7 @@ me.Sch_The = &acgt{ return [
          // 1
             $x = me&Jx,R
             c.t ||= 'Gnome'
+            $Go = c.Go
             $su = me&supetime,R,c.t
             su('Reside',{perm:&zaa,jaa,ha,ar{
                 x = me&Gome_Jx,R
@@ -160,9 +231,9 @@ me.Sch_The = &acgt{ return [
                 me&Gome_Resides,R,{t:s.t}
                 
                 # wait til quiet once
+                me&Superquiets,R
+                v and ha('pur:!quiet')
                 # < meaning Gome/* are ready
-                # want ever_quiet once here to continue
-                me&Superwaits,R,{ha,zaa,t:'Resides',until_next:Rs&Gump_quiet}
                 
                 x = me&Gome_Jx,R
                 !xs&Fories and ha('pur:!Fories')
@@ -181,12 +252,11 @@ me.Sch_The = &acgt{ return [
                 #me&nodei,R,xs&Introtivity,{Intro:1,Cat:SC}
                 x.ro('init',{}) and me&nodei,R,not,'initdata'
                 
-                
                 # < have Thy first clue from F, then:
                 # %%Go -> Travel +/$t/$SC - what to control
                 me&nodei,R,not,{Go:23},{},{Gome:s}
                 
-                
+                #!
                 x = me&Gome_Jx,R
                 !x and debugger
                 # < should stay
@@ -195,25 +265,13 @@ me.Sch_The = &acgt{ return [
                 !Run and return ha('pur:!Run')
                 !F and return ha('pur:!F')
                 
-                ~>3 THING: s.t
                 #me&nodei,R,not,{Control:1}
                 #   gives a unique time/(This,The+)
                 
                 # waits for ...
                 $This = me&Gome_This,R
-
-                # we then expect to go quiet
-                # allow Gump to quiet wake while ~This**
-                sy&want_quiet_wake = &{
-                    $is = me&Gome_Thischa_other,R,F
-                    $say = is ? 'wakes' : ''
-                    ~>8 GomeThischa: say
-                    #is and debugger
-                    return is
-                }
-
                 !This and return ha('pur:!This')
-
+                #ha(sensitivity:)
                 me&Gome_Thischa_self,R,F,ha
 
                 # observe Proto !now not over finishline
