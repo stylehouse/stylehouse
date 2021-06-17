@@ -4426,29 +4426,45 @@ me.Sch_Travel = &acgt{ return [
         Rs&stopsadhere = 1
         #ah(R,'noadhere','twmt',1)
         $x = me&Jx,R
-        $N = me&ja,R,'Go'
-        if (!N && !Rs&play) {
-            delete Rs&SummerCat
-            Rs&Shouldbeempty = 1
-            return
-        }
-        if (Rs&play && xc&Gump) {
-            # tell Goting to run this
-            $q = {Goable:s.t,mot:1}
-            # -> @Goting
-            # gets a $tid, returns as %%Go
-            $Gu = xc&Gump
-            $Got = Gu && me&ioty,Gu,'Goting' [0]
-            Got and me&nodei,R,Got,q
-            else me&waits,"$tid..."
-            !N and return me&tc,"$tid.."
-        }
-        Rs&Gorows = N || [Cye(['dunno',1])]
+        
+        Rs&Gorows = me&haveGorows,R,x
+        !Rs&Gorows and return
         Rs&playsia = 1
         # %eph while %%Go-created, up permanence:
-        $Tr = xs&Travel
-        Rs&eph && x.ro('%eph') and me&fiu,Tr,s
+        me&supsphere,s,x
     },'ift,D'],
+    &{
+        # for Tr%%Go.../->$Go:t
+        me.haveGorows = &acgtRx{
+            $s = Rc&s
+            $N = me&ja,R,'Go'
+            if (!N && !Rs&play) {
+                # < GONER, before it was $t/$tid it was $t
+                Rs&SummerCat and debugger
+                delete Rs&SummerCat
+                Rs&Shouldbeempty = 1
+                return
+            }
+            if (Rs&play) {
+                # enliven wild $t with R%play: shift-click
+                if (xc&Gump) {
+                    # R%play -> %%Goable -> @Gump/@Goting
+                    $q = {Goable:s.t,mot:1}
+                    # gets a $tid, returns as %%Go
+                    $Gu = xc&Gump
+                    $Got = Gu && me&ioty,Gu,'Goting' [0]
+                    Got and me&nodei,R,Got,q
+                    else me&waits,"$tid..."
+                    !N and me&tc,"$tid.."; return
+                }
+                else {
+                    # need something that */Run
+                    me&tc,"%play-how?"; return
+                }
+            }
+            return N || [Cye(['dunno',1])]
+        }
+    },
     ['Travelable+playsia',0.2972,&acgtRs{
         each in Rs&Gorows {
             $tid = ns&tid
