@@ -2779,6 +2779,7 @@ me.Sch_Travel = &acgt{ return [
             #    commit unrelated changes for tidiness...
             return n
         }
+      
       // Dialectics
         # < sync with TheFine
         me.Gome_SC_SetTings = &acgtRF,ha{
@@ -3172,7 +3173,7 @@ me.Sch_Travel = &acgt{ return [
                     # < Story/$t informs Cat modes:
                     # stays %%now until tests satisfied
                     
-                    me&Gome_SC_SetTings,R,F,ha
+                    me&Gome_SC_SetTings,R
                     
                     # puts xs&This
                     $This = me&Gome_This,R
@@ -4490,6 +4491,16 @@ me.Sch_Travel = &acgt{ return [
                 me&ja,R,{Control:1,efrom:ns&Gome} and 1
                 else return me&tc,"Gome->%%Control..."
             }
+        }
+        # if s looks cloned from z
+        #  eg z=%%Go returning as s=%%Cat,...,n=z%%Go
+        # < could swim z%%n or zy&up=...s
+        me.etoward = &acgtsz{
+            !isC(s) and return 0
+            # s%%Go...Gome,Catfunc,etc may have come along
+            $c = sex({},s.sc,haks(z.sc))
+            # should have %%Go,tid
+            return heq(c,z.sc)
         }
     },
     
