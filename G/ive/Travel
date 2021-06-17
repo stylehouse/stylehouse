@@ -4427,15 +4427,14 @@ me.Sch_Travel = &acgt{ return [
         #ah(R,'noadhere','twmt',1)
         $x = me&Jx,R
         
-        Rs&Gorows = me&haveGorows,R,x
+        Rs&Gorows = me&balreadyGorows,R,x
         !Rs&Gorows and return
-        Rs&playsia = 1
         # %eph while %%Go-created, up permanence:
         me&supsphere,s,x
     },'ift,D'],
     &{
         # for Tr%%Go.../->$Go:t
-        me.haveGorows = &acgtRx{
+        me.balreadyGorows = &acgtRx{
             $s = Rc&s
             $N = me&ja,R,'Go'
             if (!N && !Rs&play) {
@@ -4465,13 +4464,36 @@ me.Sch_Travel = &acgt{ return [
             return N || [Cye(['dunno',1])]
         }
     },
-    ['Travelable+playsia',0.2972,&acgtRs{
+    ['Travelable+Gorows',0.2972,&acgtRs{
         each in Rs&Gorows {
             $tid = ns&tid
-            $r = me&bal,"v"+(tid||'0'),'eph,SummerCat'
+            $c = {eph:1}
+            $Catfunc = ns&Catfunc || "SummerCat"
+            c[Catfunc] = 1
+            $r = me&bal,"v"+(tid||'0'),c
             rc&s.y.Gorow = n
         }
     },'ift,D'],
+    &{
+        # %%Cat introduces itself, waits for %%Control
+        me.haveGorowgetControl = &acgtRst{
+            # must Gorow
+            $n = sy&Gorow
+
+            !n and return me&tc,"caut!Gorow"
+            # may Gome-Control, must if t%Con
+            if (ns&Gome || ts&Con) {
+                !ns&Gome and return me&tc,"Gorow!Gome"
+                # give our @Gome a chance to configure $SC
+                me&nodei,R,ns&Gome,{Travelable:t,Cat:s,n}
+                # reply
+                me&ja,R,{Control:1,efrom:ns&Gome} and 1
+                else return me&tc,"Gome->%%Control..."
+            }
+        }
+    },
+    
+    
     
     # noise
     ['Travelty',0.39,&acgtRs{
@@ -4482,18 +4504,22 @@ me.Sch_Travel = &acgt{ return [
         me&ha,R,"Travels,to:everywhere",{R};
         $le = me&zaa,R,"Travels",'to';
         
-        # sends %pat as %%pat
-        $pat = ss&pat ||= 'ology';
-        me&nodei,R,xs&Duolish,{pat};
-        me&nodei,R,xs&Duolish,{pat:'ex'};
-        # returns %%raga
-        me&jaa,R,{efrom:xs&Duolish,raga:1} .map(&n{
-            le.push(ns&raga)
-        })
+        if (xs&Duolish) {
+            # sends %pat as %%pat
+            $pat = ss&pat ||= 'ology';
+            me&nodei,R,xs&Duolish,{pat};
+            me&nodei,R,xs&Duolish,{pat:'ex'};
+            # returns %%raga
+            me&jaa,R,{efrom:xs&Duolish,raga:1} .map(&n{
+                le.push(ns&raga)
+            })
+        }
         
-        # sends
-        me&ioty,s .map(z => me&nodei,R,z,{terspesia:"^"} )
-        me&nodei,R,xs&Ligno,{terspesia:"^"}
+        if (xs&Ligno) {
+            # sends
+            me&ioty,s .map(z => me&nodei,R,z,{terspesia:"^"} )
+            me&nodei,R,xs&Ligno,{terspesia:"^"}
+        }
         
         each in le {
             n = me&tsc,"land",n,'G';

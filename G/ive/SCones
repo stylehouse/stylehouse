@@ -224,18 +224,7 @@ me.Sch_Comm = &acgt{ return [
         # Travel/$t
         $t = trc&s
         
-        # must Gorow
-        $n = sy&Gorow
-        !n and return me&tc,"caut!Gorow"
-        # may Gome-Control, must if t%Con
-        if (ns&Gome || ts&Con) {
-            !ns&Gome and return me&tc,"Gorow!Gome"
-            # give our @Gome a chance to configure $SC
-            me&nodei,R,ns&Gome,{Travelable:t,Cat:s}
-            # reply
-            me&ja,R,{Control:1,efrom:ns&Gome} and 1
-            else return me&tc,"Gome->%%Control..."
-        }
+        me&haveGorowgetControl,R,s,t and return
         # this $s known as $SC in these routines
         
         me&baleg,'Inc','Aearch'
