@@ -2621,7 +2621,23 @@ me.Sch_Travel = &acgt{ return [
         me&nodei,R,Goy&R,sex({finished:s},Go.sc,'Go,tid')
         delete Rs&wakeful
     },'ift,D'],
-   // %wakeperc, %Superpost
+  
+  // sleep|wake Gome
+  
+   // %Superpost takes Gome%pre to mean nodes wanting ...
+    ['Superpost',0.52,&acgtRs{
+        # < relying on pur,pre
+        me&jaa,R,'pre' .map(&n{
+            ns&wakeful and '20s timer'
+            ns&restless and '4s timer'
+            # wakes us when ^^Gump%quiet_now
+            ns&restless || ns&wakeful and Rs&wakeful = 1
+            # supetime's pur:talk,pre=$n
+            $to = ns&restless || isnode(ns&pre) && ns&pre
+            # < test sute:twinethings where we &want $to
+            to and me&want,R,to
+        })
+    },'ift,D'],
     ['wakeperc',0.6,&acgtRs{
         me&reaw,R,'wakeperc'
         # R%wakeful if (s/*)%wakeful
@@ -2632,14 +2648,6 @@ me.Sch_Travel = &acgt{ return [
             me&tc,"wake:"+r.t
         })
     },'ift,D,sleeping'],
-    ['Superpost',0.52,&acgtRs{
-        me&jaa,R,'pre' .map(&n{
-            ns&wakeful and '20s timer'
-            ns&restless and '4s timer'
-            # wakes us when ^^Gump%quiet_now
-            ns&restless || ns&wakeful and Rs&wakeful = 1
-        })
-    },'ift,D'],
   
   // @G(n)ome/*, @Run/*, namespace
     &{
@@ -3741,7 +3749,7 @@ me.Sch_Travel = &acgt{ return [
         # a process %%supe=$k
         #  has steps %%sute=$t,supe,dome=$k-$t,...
         me.supetime = &acgtRk{
-            
+          
           // 1 supe
             $supen = me&tcl,k+':','B'
             supens&dis = 5
@@ -3942,7 +3950,7 @@ me.Sch_Travel = &acgt{ return [
                     $fa = ta('faultspace','s1')
                     $ta = talkat(fa)
                     faults .map(&n{
-                        # 
+                        isob(ns&pur) and debugger
                         $l = ta(ns&pur+": ",'1')
                         $se = sex({}, n.sc, ksaf(n.sc,{aft:'pur'}))
                         se = hak(se) ? dis(se) : "..."

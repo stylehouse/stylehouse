@@ -1,4 +1,3 @@
-
 me.Sch_The = &acgt{ return [
  // The**
     
@@ -234,16 +233,10 @@ me.Sch_The = &acgt{ return [
             if (c.viatw) {
                 $sk = c.viatw
                 # < from other $sutes?
-                $is = theone(h.jaa({Superarg:sk}))
-                if (is && !iss&fail) {
-                    $z = is.sc[sk]
+                $z = me&Superarg_find,sk
+                if (z) {
                     $v = me&fiu,z,k,8
-                    if (!v && hak(z.y.tv)) {
-                        # X/$tv is /$t
-                        v ||= z.y.tv && z.y.tv[k]
-                        #  and /$cv=""|1
-                        v and v = v[haks(v)[0]]
-                    }
+                    !v && hak(z.y.tv) and debugger
                     !v and c.fail = "viatw!t:"+k
                     else s [k] = v
                 }
@@ -257,13 +250,32 @@ me.Sch_The = &acgt{ return [
             $v = s [k]
             return v
         }
+        me.Superarg_find = &acgtk{
+            $h = T.sute
+            $is = theone(h.jaa({Superarg:k}))
+            is && !iss&fail and return is.sc[k]
+        }
+        # for a %%Superarg,fail, %%pur,etc
+        #  eg pre to &want
+        me.Superarg_prefor = &acgtn{
+            $c = {k:ns&Superarg}
+            !c.k and debugger
+            if (c.viatw) {
+                # wake parent
+                $v = me&Superarg_find,c.viatw
+                v and c.pre = v
+            }
+            return c
+        }
+        # detect readiness, fatalise mild oddnesses
         me.Superready = &acgt{
             $h = T.sute
             $ok = 1
-            # detect readiness
+            # Superarg
             h.jaa({Superarg:1,fail:1}) .map(&n{
                 ok = 0
-                h.ha('pur:rearg',{k:ns&Superarg})
+                # nothing else is allowed to say %%Superarg
+                h.ha('pur:rearg',me&Superarg_prefor,n )
             })
             return !ok
         }
@@ -344,12 +356,12 @@ me.Sch_The = &acgt{ return [
                 
                 # Cat/*/* as checkable anywhere via &Gome_Jx
                 $Run = me&Superarg,{Run:0},{viatw:'Cat'}
-                me&Superready and return
+            me&Superready and return
                 !x.ro('maynotRun',{}) and me&nodei,R,Run,'mayRun'
                 
                 $This = me&Superarg,{This:0},{viatw:'Run'}
                 $The = me&Superarg,{The:0},{viatw:'Run'}
-                me&Superready and return
+            me&Superready and return
                 # wait for Cat/Run, send it %%mayRun, 
                 
                 # < enable @Intro
@@ -368,6 +380,7 @@ me.Sch_The = &acgt{ return [
                 ha('arg',{F})
                 !xs&Pro and return ha('pur:!Pro')
                 # 
+                'everything' and return ha('pur:!everything')
                 
     // etc
                 me&Gome_SC_SetTings,R
@@ -766,7 +779,8 @@ me.Sch_The = &acgt{ return [
     ] }
     },
   
-  // Travel/$t%eph?/@Cat..%Piing** # space depot, needs Run%%mayRun
+  // Travel/$t%eph?/@Cat..%Piing**
+    # space depot, needs Run%%mayRun
     # see %Travelables, which is R^2 of here
     # @Cat ~ %SummerCat, has %client=Gnome
     ['PiiCat',0.2901,&acgtRs{
@@ -774,24 +788,28 @@ me.Sch_The = &acgt{ return [
         me&acting,R
         
         $n = sy&Gorow
+        # < switch off Ec&uber)%client
         $cl = Rs&client = ns&Gome
-        me&nu,"cli",cl
         
         $tr = Ry&up
         # Travel/$t/$s
         $t = trc&s
         t != sy&up and debugger
         me&haveGorowgetControl,R,s,t and return
+        
         # rebuild %SummerCat?
-        # each has a This|The
-        me&bal,'Inc','PiiOther'
-        me&bal,'Pro','PiiOther'
-        me&bal,'Run','PiiOther,PiiRun'
+        # each has a This|The?
+        me&bin,'PiiOther'
+        me&fiu,s,'Inc'
+        me&fiu,s,'Pro'
+        me&fiu,s,'Run'
         
     },'ift,D'],
+    
     ['PiiOther',0.2901,&acgtRs{
         me&acting,R
-        
+        me&supsphere,s
+        R.sc['Pii'+s.t] = 1
     },'ift,D'],
     ['PiiInc',0.2901,&acgtRs{
         # < @Intro routes news
@@ -808,9 +826,9 @@ me.Sch_The = &acgt{ return [
         Rs&Piing = 1
     },'ift,D'],
     
-  // &Piing Thee
+ // &Piing Thee
    # < Thy%client=Run:Gome
-   // 1 %Piing nodes
+  // 1 %Piing nodes
     ['Piing',0.291,&acgtRs{
         # E**
         Rs&TheingE = 1
@@ -861,16 +879,15 @@ me.Sch_The = &acgt{ return [
         return x
     }
     },
-   // 2 %TheingE** nodes keep s|E** outspheres
+  // 2 %TheingE** nodes keep s|E** outspheres
     # so RsE outspheres. R%E(y&R=R)
     # R%TheingE**/Ec&top - containers also have E
+    # R%E
     ['TheingE',0.291,&acgtRs{
-        
         me&bin,'TheingE'
         me&reaw,R,'TheingE,E'
         Rs&rowish = 2
         
-        # R%E
         me&rollbs,R,'E'
         $E = Rs&E ||= Cye([R.t,1])
         Ey&R = R
@@ -880,7 +897,7 @@ me.Sch_The = &acgt{ return [
         if (!ps&Piing) {
             Ec&uber = 1
             # < &Effected %hire,efrom=Nine
-            Rs&client = 1
+            #Rs&client = 1
         }
         # s->Ec&pi
         if (sc&pi) {
@@ -913,13 +930,15 @@ me.Sch_The = &acgt{ return [
         ps&E and me&fiu,ps&E,E
     },'ift,D'],
     &{
+        # used by %TheingE,
+        #  Travel/$t%Travelable might be %eph
         me.supsphere = &acgtsx{
             $R = sy&R
             if (R) {
                 $p = Ry&up
                 $z = pc&s
                 # %eph while %%Go-created, up permanence:
-                if (Rs&eph) {
+                if (Rs&eph && x) {
                     x.ro('%eph') and me&fiu,z,s
                     else return
                 }
@@ -933,7 +952,7 @@ me.Sch_The = &acgt{ return [
             me&fiu,z,s,2
         }
     },
-   // 3 %Piing** # influx
+  // 3 %Piing** # influx
     ['Piing',0.296,&acgtRs{
         
         $E = Rs&E
@@ -1004,7 +1023,7 @@ me.Sch_The = &acgt{ return [
             Bowc&s = {as:dat.asee,fol:33}
         }
    
-   // 6 &Piing from %Piing @296, recursion
+  // 6 &Piing from %Piing @296, recursion
         # auto -Bat:y&Todo and|or c&pi
         else {
             if (hak(sy&Todo)) {
@@ -1048,7 +1067,7 @@ me.Sch_The = &acgt{ return [
         # before %ball 38 draws /%fix-tures
     },'ift,D,sleeping'],
    
-   // 9 %Piing node sleep|wake
+  // 9 %Piing node sleep|wake
     ['Piing',0.29599,&acgtRs{
         me&notice_wakesleep,R,s,'Pi3'
     },'ift,D,sleeping'],
@@ -1082,8 +1101,9 @@ me.Sch_The = &acgt{ return [
         }
     },
     
-   &{
-   // &Piing           have %E** inspherings
+&{
+ 
+  // &Piing           have %E** inspherings
      // outsphereings
         # T from the outsphere
         me.PiiE_pre_Piering = &acgtREsc{
@@ -3946,8 +3966,8 @@ me.Sch_The = &acgt{ return [
         
         
     ] }
-    },
  
+},
  
  
  // GOING
