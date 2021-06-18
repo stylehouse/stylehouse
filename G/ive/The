@@ -114,20 +114,37 @@ me.Sch_The = &acgt{ return [
         # Gnomp &quietready ambiently checks any @active
         me.Gnomp_any_quiet_wake = &acgtR{
             # < also if anyone Superwaits... Gump_quiet
-            return me&zaa,R,'active',1 .filter(&z{
+            $any = me&zaa,R,'active',1 .filter(&z{
                 $r = zy&R
                 !(rs&Gome || rs&Gnome) and debugger
                 # they also must bs&wakeful to get there
-                return me&yyt,z,'want_quiet_wake'
-            }) .length
+                $want = me&yyt,z,'want_quiet_wake'
+                want and ~>2 anyquiet: z.t, want
+                return want
+            })
+            !any.length and return 0
+            return 1
         }
         # Gnome's &activate allows wanting to quiet wake
-        #  sympathise parts of &SuperGnome
-        me.Gnome_want_quiet_wake = &acgtR{    
+        #  sympathise parts of &SuperGnome!
+        # < why these must be &saa?
+        me.Gnome_want_quiet_wake = &acgtR{
+            # take any quiet opportunities when %%pur
+            # < or just when %%pur,pre?
+            if (me&sa,R,'pur' ) {
+                if (Rs&purloop) {
+                    ~>2 purloop:
+                    return 0
+                }
+                # loop protection, via &rollbs
+                # < generalise, for Superquiets,Pending etc
+                #   and an infinite noise source would use a clock
+                Rs&purloop = 1
+                return 'pur'
+            }
+            
             # from the last &SuperGnome
-            # < why these must be &saa?
-            me&sa,R,'Superquiets,Pending' and ~>2 drew quiet:
-            me&sa,R,'Superquiets,Pending' and return 1
+            me&sa,R,'Superquiets,Pending' and return 'drew'
             
             # any tractorbeams
             # < -pipe between -thing
@@ -165,9 +182,13 @@ me.Sch_The = &acgt{ return [
             
             # prepare to think outside
             # allow Gump to quiet wake while ~This**
-            sy&want_quiet_wake = &{
-                me&Gnome_want_quiet_wake,R
-            }
+            sy&want_quiet_wake =
+                () => me&Gnome_want_quiet_wake,R
+            # can endlessloop quiet wakes,
+            #  esp. while we %pur
+            #  here is loop protection:
+            me&rollbs,R,'purloop'
+            
             
             # < wakeful when active,
             #    and only when our want_quiet_wake went off
