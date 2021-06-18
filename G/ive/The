@@ -264,7 +264,7 @@ me.Sch_The = &acgt{ return [
                 else c.fail = "viatw!arg:"+sk
             }
             c.arg = 1
-            # c must be so the k:v after here is it
+            # c must be so the k:v after arg
             #  so s mixes onto the end:
             h.ha(c,s)
             c.fail and return
@@ -272,13 +272,41 @@ me.Sch_The = &acgt{ return [
             return v
         }
         # find one such %%Superarg=$k (exclusive gk)
-        me.Superarg_find = &acgtk{
-            $h = T.sute
-            $is = theone(h.jaa({Superarg:k}))
+        me.Superarg_find = &acgtkc{
+            $jaa = T.sute && T.sute.jaa
+            !jaa and $j = me&R; jaa = (c) => me&jaa,j,c
+            $is = theone(jaa({Superarg:k}))
+            c and c.n = is
             is && !iss&fail and return is.sc[k]
         }
-        # for a %%Superarg,fail, %%pur,pre=$Parent
-        #  eg pre to &want
+        # bind and check all
+        # reading but sometimes other to R%Gome
+        me.Superarg_arrive = &acgtj{
+            $ar = {}
+            me&zaa,j,{Superarg:1} .map(&n{
+                $kv = ksaf(n.sc,{aft:'arg'})
+                !hak(kv) || hak(kv) > 1 and debugger
+                $k = kv[0]
+                $v = n.sc[k]
+                # failing names should !v
+                ns&fail && v and debugger
+                ns&fail and return
+                sex(ar, n.sc, kv)
+                # and check it
+                if (ns&viatw) {
+                    # parent is still attached
+                    $z = me&Superarg_find,ns&viatw
+                    if (z) {
+                        $vv = me&fiu,z,k,8
+                        # < catch new Run/This etc
+                        vv != v and debugger
+                    }
+                }
+            })
+            return ar
+        }
+        # chase parent of a %%Superarg,fail
+        #  -> %%pur,pre=$Parent to &want
         me.Superarg_prefor = &acgtn{
             # nothing else is allowed to say %%Superarg (exclusive gk)
             # < add Superfunc=arg? brackology to position
@@ -302,20 +330,21 @@ me.Sch_The = &acgt{ return [
             })
             return !ok
         }
-    // namespace
+    // namespace 
         # find names from surrounds
         #  for any Cat** or Gnome**
         #   via Cat%client=Gnome
         me.Gnome_Jx = &acgtR,cl{
-            !isR(cl) and me&tc,"nonRcl"
-            if(0){
-                R == cl and me&tc,"SameRcl"
-                R != cl and me&tc,"difRcl"
+            !isR(cl) and debugger
+            
+            $arg = {Gome:cl,Gnome:cl}
+            ex(arg,me&Superarg_arrive,cl )
+            
+            # putting Gome gives Gome/*, eg xs&Fories
+            each kv arg {
+                !isR(v) and arg[k] = vy&R
             }
-            # putting 'Gome' gives /*, eg xs&Fories
-            $x = me&Jx,R,{c:{Gome:cl,Gnome:cl}}
-            # < ^ might where to find */This:
-            xs&Run = x.sc[me.Thisisinside]
+            $x = me&Jx,R,{c:arg}
             return x
         }
         me.SuperGnome = &acgtRsce{
