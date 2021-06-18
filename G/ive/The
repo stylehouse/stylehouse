@@ -222,24 +222,56 @@ me.Sch_The = &acgt{ return [
         # < ceremoniously knowing
         me.Superarg = &acgtsc{
             $h = T.sute
-            $c = peel(c||{})
+            # c must be so between Superarg-arg are params
+            $c = ex({Superarg:1},peel(c||{}))
             # %%rec... are permanent, remain while going faulty
             #  per %%supe,sute,rec, like a %%dome
-            !c.flighty and c.rec = 'Superarg'
+            !c.flighty and c.rec = c.flighty||'Superarg'
             # can be found:
             $k = haks(s)[0]
             !k and debugger
             c.Superarg = k
+            if (c.viatw) {
+                $sk = c.viatw
+                # < from other $sutes?
+                $is = theone(h.jaa({Superarg:sk}))
+                if (is && !iss&fail) {
+                    $z = is.sc[sk]
+                    $v = me&fiu,z,k,8
+                    if (!v && hak(z.y.tv)) {
+                        # X/$tv is /$t
+                        v ||= z.y.tv && z.y.tv[k]
+                        #  and /$cv=""|1
+                        v and v = v[haks(v)[0]]
+                    }
+                    !v and c.fail = "viatw!t:"+k
+                    else s [k] = v
+                }
+                else c.fail = "viatw!arg:"+sk
+            }
             c.arg = 1
             # c must be so the k:v after here is it
             #  so s mixes onto the end:
             h.ha(c,s)
-            return s [k]
+            c.fail and return
+            $v = s [k]
+            return v
+        }
+        me.Superready = &acgt{
+            $h = T.sute
+            $ok = 1
+            # detect readiness
+            h.jaa({Superarg:1,fail:1}) .map(&n{
+                ok = 0
+                h.ha('pur:rearg',{k:ns&Superarg})
+            })
+            return !ok
         }
         # find names from surrounds
-        #  cl=Piing%client=Gnome
-        # nodes privy to their Gnome... ness
+        #  for any Cat** or Gnome**
+        #   via Cat%client=Gnome
         me.Gnome_Jx = &acgtR,cl{
+            !isR(cl) and me&tc,"nonRcl"
             if(0){
                 R == cl and me&tc,"SameRcl"
                 R != cl and me&tc,"difRcl"
@@ -297,25 +329,36 @@ me.Sch_The = &acgt{ return [
                 
                 # < have Thy first clue from F, then:
                 
-                # %%Go -> Travel/$t/$SC - what to control
+                # %%Go -> Travel/$t/$Cat - what to control
                 me&nodei,R,not,Go,{},{Gome:s,Catfunc:'PiiCat'}
                 
                 $n = theone(me&jaa,R,'Travelable,Cat,n' )
                 !n || !me&etoward,ns&n,Go and return ha('pur:!Cat')
                 
+                # along with @Gome, we now know:
                 $t = me&Superarg,{t:ns&Travelable}
                 $Cat = me&Superarg,{Cat:ns&Cat}
-                
-                # passes 
+            me&Superready and return
+                # %%Control -> $Cat/* may now
                 me&nodei,R,Cat,{Control:1,n}
+                
+                # Cat/*/* as checkable anywhere via &Gome_Jx
+                $Run = me&Superarg,{Run:0},{viatw:'Cat'}
+                me&Superready and return
+                !x.ro('maynotRun',{}) and me&nodei,R,Run,'mayRun'
+                
+                $This = me&Superarg,{This:0},{viatw:'Run'}
+                $The = me&Superarg,{The:0},{viatw:'Run'}
+                me&Superready and return
+                # wait for Cat/Run, send it %%mayRun, 
+                
                 # < enable @Intro
                 #   it would go to ...
                 #me&nodei,R,xs&Introtivity,{Intro:1,Cat:SC}
                 me&nu,"Mayj",x
-                #!x.ro('maynotRun',{}) and me&nodei,R,xs&Run,'mayRun'
 
-                #!
                 x = me&Gome_Jx,R
+                me&nu,"Xx",x
                 !x and debugger
                 # < should stay
                 $Run = xs&Run
@@ -407,6 +450,7 @@ me.Sch_The = &acgt{ return [
             Ninec.ThyF = ThyF
             sy&ThyF = ThyF
         }
+        me&nu,"Mayj",x
     }
     # Nine%TheFine has E-nine'd
     me.Fine_aft_nine = &acgtREsx{
@@ -747,6 +791,7 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
     ['PiiOther',0.2901,&acgtRs{
         me&acting,R
+        
     },'ift,D'],
     ['PiiInc',0.2901,&acgtRs{
         # < @Intro routes news
@@ -788,8 +833,6 @@ me.Sch_The = &acgt{ return [
         me&bin,c.long
         Rs&TheingE = 1
         Rs&onlyish = 1
-        # in space
-        xy&Thees = me.cby(R,'^^^'+c.long)
         return x
     }
     # identity spreader, more of the above, &G(n)ome_Jx
