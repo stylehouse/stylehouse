@@ -217,7 +217,7 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
    // &SuperGnome the waking mind
     &{
-    // namespace funcs
+    // &Superarg
         # < ceremoniously knowing
         me.Superarg = &acgtsc{
             $h = T.sute
@@ -250,19 +250,22 @@ me.Sch_The = &acgt{ return [
             $v = s [k]
             return v
         }
+        # find one such %%Superarg=$k (exclusive gk)
         me.Superarg_find = &acgtk{
             $h = T.sute
             $is = theone(h.jaa({Superarg:k}))
             is && !iss&fail and return is.sc[k]
         }
-        # for a %%Superarg,fail, %%pur,etc
+        # for a %%Superarg,fail, %%pur,pre=$Parent
         #  eg pre to &want
         me.Superarg_prefor = &acgtn{
+            # nothing else is allowed to say %%Superarg (exclusive gk)
+            # < add Superfunc=arg? brackology to position
             $c = {k:ns&Superarg}
             !c.k and debugger
-            if (c.viatw) {
+            if (ns&viatw) {
                 # wake parent
-                $v = me&Superarg_find,c.viatw
+                $v = me&Superarg_find,ns&viatw
                 v and c.pre = v
             }
             return c
@@ -274,11 +277,11 @@ me.Sch_The = &acgt{ return [
             # Superarg
             h.jaa({Superarg:1,fail:1}) .map(&n{
                 ok = 0
-                # nothing else is allowed to say %%Superarg
                 h.ha('pur:rearg',me&Superarg_prefor,n )
             })
             return !ok
         }
+    // namespace
         # find names from surrounds
         #  for any Cat** or Gnome**
         #   via Cat%client=Gnome
