@@ -269,8 +269,14 @@ me.Sch_The = &acgt{ return [
             h.ha(c,s)
             c.fail and return
             $v = s [k]
+            # becomes usable to &Sarg
+            h.ar [k] = v
+            # < make presentable
+            $spc = " @"+k
+            me&tc,spc,'6g'
             return v
         }
+    // &Superarg*|ready
         # find one such %%Superarg=$k (exclusive gk)
         me.Superarg_find = &acgtkc{
             $jaa = T.sute && T.sute.jaa
@@ -330,21 +336,29 @@ me.Sch_The = &acgt{ return [
             })
             return !ok
         }
+    // &Sarg io proto
+        me.Sarg = &acgtsc{
+            $h = T.sute
+            
+        }
+      
     // namespace 
         # find names from surrounds
         #  for any Cat** or Gnome**
         #   via Cat%client=Gnome
         me.Gnome_Jx = &acgtR,cl{
             !isR(cl) and debugger
-            
             $arg = {Gome:cl,Gnome:cl}
+            # < your use case may be sensitive to rough landings
+            # < Superarg that arent nodes
             ex(arg,me&Superarg_arrive,cl )
-            
             # putting Gome gives Gome/*, eg xs&Fories
             each kv arg {
                 !isR(v) and arg[k] = vy&R
             }
             $x = me&Jx,R,{c:arg}
+            # the Run/This > Thy/This, etc
+            xs&Run && xs&This && xs&This.y.up != xs&Run and debugger
             return x
         }
         me.SuperGnome = &acgtRsce{
@@ -391,14 +405,21 @@ me.Sch_The = &acgt{ return [
             su('SC/*',{until:&zaa,jaa,ha,ar{
                 $not = xs&Travel
                 x.ro('init',{}) and me&nodei,R,not,'initdata'
+                me&Superarg,{Gome:s}
                 
-                # < have Thy first clue from F, then:
+                # < have Thy first clue from F
+                # the bunch of Nines we have open
+                $F = xs&TheF
+                !F and return ha('pur:!F')
+                ha('arg',{F})
+                #, then:
                 
                 # %%Go -> Travel/$t/$Cat - what to control
                 me&nodei,R,not,Go,{},{Gome:s,Catfunc:'PiiCat'}
                 
                 $n = theone(me&jaa,R,'Travelable,Cat,n' )
-                !n || !me&etoward,ns&n,Go and return ha('pur:!Cat')
+                !n and return ha('pur:!Cat')
+                !me&etoward,ns&n,Go and return ha('pur:~Cat')
                 
                 # along with @Gome, we now know:
                 $t = me&Superarg,{t:ns&Travelable}
@@ -407,7 +428,7 @@ me.Sch_The = &acgt{ return [
                 # %%Control -> $Cat/* may now
                 me&nodei,R,Cat,{Control:1,n}
                 
-                # Cat/*/* as checkable anywhere via &Gome_Jx
+                # Cat/* checkable anywhere via &Gome_Jx
                 $Run = me&Superarg,{Run:0},{viatw:'Cat'}
             me&Superready and return
                 !x.ro('maynotRun',{}) and me&nodei,R,Run,'mayRun'
@@ -415,33 +436,23 @@ me.Sch_The = &acgt{ return [
                 $This = me&Superarg,{This:0},{viatw:'Run'}
                 $The = me&Superarg,{The:0},{viatw:'Run'}
             me&Superready and return
-                # wait for Cat/Run, send it %%mayRun, 
                 
                 # < enable @Intro
                 #   it would go to ...
                 #me&nodei,R,xs&Introtivity,{Intro:1,Cat:SC}
-                me&nu,"Mayj",x
 
                 x = me&Gome_Jx,R
-                me&nu,"Xx",x
-                !x and debugger
-                # < should stay
                 $Run = xs&Run
-                $F = xs&TheF
                 !Run and return ha('pur:!Run')
-                !F and return ha('pur:!F')
-                ha('arg',{F})
-                !xs&Pro and return ha('pur:!Pro')
+                # &Superarg puts in ar
+                Run != ar.Run and return ha('pur:~Run')
+                
                 # 
                 'everything' and return ha('pur:!everything')
                 
     // etc
-                me&Gome_SC_SetTings,R
-                #me&nodei,R,not,{Control:1}
-                #   gives a unique time/(This,The+)
-                # waits for ...
                 
-                
+                # changes xs&This=Run/Thisy&This...
                 $This = me&Gome_This,R
                 !This and return ha('pur:!This')
                 #
@@ -502,7 +513,7 @@ me.Sch_The = &acgt{ return [
         })
     }
     },
-   // Gnome...Nine/!-Ness for Thy/This/...
+   // Fine hooks for -> Thy/This/...
     &{
     # < here's a twinning io structure deal
     # Gome/Thy/This/$Fine
@@ -516,7 +527,6 @@ me.Sch_The = &acgt{ return [
             Ninec.ThyF = ThyF
             sy&ThyF = ThyF
         }
-        me&nu,"Mayj",x
     }
     # Nine%TheFine has E-nine'd
     me.Fine_aft_nine = &acgtREsx{
@@ -536,7 +546,7 @@ me.Sch_The = &acgt{ return [
             Thys and me&nodei,R,Thys,{inst:1,n}
         }
     }
-   // Gnome/Thy...Pi%Lab
+   // Gnome/Thy%Piing**...Pi%Lab
     me.Pi_Lab = &acgt{ return [
         # loads Nine/-Lab, into -Bat preparator
         #  or, posit Nine/-Lab from -Bat
@@ -841,6 +851,8 @@ me.Sch_The = &acgt{ return [
         me&acting,R
         
         $n = sy&Gorow
+        !n and debugger
+        
         # < switch off Ec&uber)%client
         $cl = Rs&client = ns&Gome
         
@@ -856,7 +868,6 @@ me.Sch_The = &acgt{ return [
         me&fiu,s,'Inc'
         me&fiu,s,'Pro'
         me&fiu,s,'Run'
-        
     },'ift,D'],
     
     ['PiiOther',0.2901,&acgtRs{

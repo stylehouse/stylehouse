@@ -3817,7 +3817,7 @@ me.Sch_Travel = &acgt{ return [
                 
                 # make c into a sute object...
                 ex(c,inq)
-                ex(c,{zaa,jaa,ha,ta})
+                ex(c,{zaa,jaa,ha,ta,ar})
                 T.sute = c
                 sutes.push(c)
                 
@@ -4489,7 +4489,6 @@ me.Sch_Travel = &acgt{ return [
         me.haveGorowgetControl = &acgtRst{
             # must Gorow
             $n = sy&Gorow
-
             !n and return me&tc,"caut!Gorow"
             # may Gome-Control, must if t%Con
             if (ns&Gome || ts&Con) {
@@ -4497,7 +4496,7 @@ me.Sch_Travel = &acgt{ return [
                 # give our @Gome a chance to configure $SC
                 me&nodei,R,ns&Gome,{Travelable:t,Cat:s,n}
                 # reply
-                me&ja,R,{Control:1,efrom:ns&Gome} and 1
+                me&ja,R,{Control:1,efrom:ns&Gome} and return 0
                 else return me&tc,"Gome->%%Control..."
             }
         }
