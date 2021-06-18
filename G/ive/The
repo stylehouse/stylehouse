@@ -348,6 +348,7 @@ me.Sch_The = &acgt{ return [
                 # < should stay
                 $Run = xs&Run
                 $F = xs&TheF
+                ~>2 at SuperGnome:
                 !Run and return ha('pur:!Run')
                 !F and return ha('pur:!F')
                 ha('arg',{F})
@@ -355,11 +356,12 @@ me.Sch_The = &acgt{ return [
                 # 
                 
     // etc
-                
                 me&Gome_SC_SetTings,R
                 #me&nodei,R,not,{Control:1}
                 #   gives a unique time/(This,The+)
                 # waits for ...
+                
+                
                 $This = me&Gome_This,R
                 !This and return ha('pur:!This')
                 #
@@ -381,12 +383,27 @@ me.Sch_The = &acgt{ return [
   // Pi%Lab: Nine/* > Thy > The,This
    // Gnome...Nine/!-Ness for Thy/This/...
     &{
+    # < here's a twinning io structure deal
+    # Gome/Thy/This/$Fine
+    me.Fine_pre_nine = &acgtREsx,Ninec{
+        $Thy = xs&Thy
+        # stuff we're projecting to The
+        $Thys = me&fiu,Thy,'This',8
+        $ThyF = Thys && me&fiu,Thys,s.t,8
+        # < create that per Fine so we can capture The for it
+        if (ThyF) {
+            Ninec.ThyF = ThyF
+            sy&ThyF = ThyF
+        }
+    }
     # Nine%TheFine has E-nine'd
     me.Fine_aft_nine = &acgtREsx{
-        # e Thy/This
+        # e Thy/This for $Nine/
         $Thy = xs&Thy
         $Thys = Thy && me&fiu,Thy,'This'
-        !Thys and return me&tc,'!Thys','b'
+        !Thys and debugger; return me&tc,'!Thys','b'
+        
+        # ThyF, for 
         $N = me&ioty,s
         each in N {
             if (nc&pi == 'Ness') {
@@ -797,7 +814,7 @@ me.Sch_The = &acgt{ return [
             # ! impersonating E/-seven, is strange
             Ey&ers = s
             Ec&pi = sc&pi
-            # look like a &Sopi, eg &piEight
+            # < GOING to look like a &Sopi, eg &piEight
             # outsphere s to outsphere E
             #   to inner outspheres (E/Six-Log)
             #   and inspheres (E/-seven for Ec&seven):

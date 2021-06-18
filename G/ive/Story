@@ -1526,20 +1526,8 @@ me.Sch_Story = &acgt{ return [
             
             $This = c.This
             $Eis = me&fiu,E,'This'
-            
-            # Fine follows only one This
-            # < with &Xio
-            if (Eisy&C && Eisy&C != This) {
-                me&Fineiscursed,s,0.001
-                # let Gome decide to Leave Fine, via &FsyncThis
-                $R = me&R
-                $cl = me.cbu(R,'client')
-                cl && me&Effect,s,cl,'Finecursed',{curse:s}
-                # dont sync a leaving This
-                # < syncThis while|post Leave Fine?
-                #   cancelled Fine+This may stack up somewhere
-                return []
-            }
+            # This following managed by %TheFine
+            Eisy&C && Eisy&C != This and debugger
             Eisy&C = This
             
             # -ninec&Into -> E/Ness/-Ness:Into
@@ -1666,6 +1654,7 @@ me.Sch_Story = &acgt{ return [
                     #  virtual Eight is between, may storable
                     #  the -Ness becomes storable
                     me&EsyncThe,E,s,c
+                    !c.This and return
                     
                     # c.This/*%dige slep
                     $NessN = me&EsyncThis,E,s,c
@@ -1895,27 +1884,42 @@ me.Sch_Story = &acgt{ return [
         Fc&InFine = s
         
         sc&pi = 'nine'
+        $Ninec = {}
         # -This
         $This = me&Gome_This,R
-        !This and return me&wants,R,"Gome_This",xs&Gome
-        sy&This = This
+        if (This) {
+            Ninec.This = This
+            # Fine follows only one This
+            
+            # < follow This, like &Superarg
+            # could be an outboard:
+            # < with &Xio
+            # This was cloned into E-nine/This:Eis
+            #  which Eisy&C, similar to:
+            if (sy&This && sy&This != This) {
+                me&Fineiscursed,s,0.001
+                # let Gome decide to Leave Fine, via &FsyncThis
+                me&Effect,s,cl,'Finecursed',{curse:s}
+                # < sync a leaving This, low import
+                # < syncThis while|post Leave Fine?
+                #   cancelled Fine+This may stack up somewhere
+                # avoids most of -nine
+                delete Ninec.This
+            }
+            # < GOING fi.Rbales never s ||= zy&[$t] ?
+            sy&This = This
+        }
+        else {
+            # we can still &EsyncThe
+            me&wants,R,"Gome_This",xs&Gome
+        }
         
         
         # roll the invention of Eigh s
         #me&sleepic,R and me&rollbs,R,'bal_tw_s'; return
         
-        $Ninec = {This}
-        # Gome/Thy/This/$Fine
-        if (xs&Thy) {
-            # stuff we're projecting to This
-            $Thyis = me&fiu,xs&Thy,'This',8
-            $ThyF = Thyis && me&fiu,Thyis,s.t,8
-            # < create that per Fine so we can capture The for it
-            if (ThyF) {
-                Ninec.ThyF = ThyF
-                sy&ThyF = ThyF
-            }
-        }
+        cls&Gnome and me&Fine_pre_nine,R,E,s,x,Ninec
+        
         # redo every -Ness
         x.ro('DIY') and Ninec.DIY = 1
         $E = me&pinine,s,Ninec,-2
