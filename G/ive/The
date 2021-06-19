@@ -219,14 +219,11 @@ me.Sch_The = &acgt{ return [
         me&acting,R,'Gnome'
         Rs&client = 1
         # invent Go (Gome gets permit)
+        # < ++ for a new @Cat
+        #   known replacements, reset strategy
         me&ha,R,{Go:s.t,tid:ss&tid||1}
-        $Go = theone(me&jaa,R,'Go' )
-        !Go and return me&tc,'!Go'
-        # acquire active from quiet_waker (Gump|Ya)
-        # 
-        me&activate and return
         
-        !me&SuperGnome,R,s,{Go} and return
+        !me&SuperGnome,R,s,{} and return
         # < de-activate? or put &activate in a
         #    sute perm,til=testcomplete
         delete Rs&wakeful
@@ -236,7 +233,6 @@ me.Sch_The = &acgt{ return [
     // &Superarg
         # < ceremoniously knowing
         me.Superarg = &acgtsc{
-            
             $h = T.sute
             # c must be so between Superarg-arg are params
             $c = ex({Superarg:1},peel(c||{}))
@@ -272,7 +268,7 @@ me.Sch_The = &acgt{ return [
             me&tc,spc,'6g'
             return v
         }
-    // &Superarg*|ready
+      // f
         # find one such %%Superarg=$k (exclusive gk)
         me.Superarg_find = &acgtkc{
             $jaa = T.sute && T.sute.jaa
@@ -309,28 +305,12 @@ me.Sch_The = &acgt{ return [
         }
         # chase parent of a %%Superarg,fail
         #  -> %%pur,pre=$Parent to &want
-        me.Superarg_prefor = &acgtn{
-            # nothing else is allowed to say %%Superarg (exclusive gk)
-            # < add Superfunc=arg? brackology to position
-            $c = {k:ns&Superarg}
-            !c.k and debugger
+        me.Superarg_purfor = &acgtnc{
             if (ns&viatw) {
                 # wake parent
                 $v = me&Superarg_find,ns&viatw
                 v and c.pre = v
             }
-            return c
-        }
-        # detect readiness, fatalise mild oddnesses
-        me.Superready = &acgt{
-            $h = T.sute
-            $ok = 1
-            # Superarg
-            h.jaa({Superarg:1,fail:1}) .map(&n{
-                ok = 0
-                h.ha('pur:rearg',me&Superarg_prefor,n )
-            })
-            return !ok
         }
     // &Sarg io proto
         me.Sarg = &acgtsc{
@@ -342,6 +322,8 @@ me.Sch_The = &acgt{ return [
         # find names from surrounds
         #  for any Cat** or Gnome**
         #   via Cat%client=Gnome
+        # we have a more non-fatal &Gome_Jx
+        # not waiting on much to get ready
         me.Gnome_Jx = &acgtR,cl{
             !isR(cl) and debugger
             $arg = {Gome:cl,Gnome:cl}
@@ -360,61 +342,48 @@ me.Sch_The = &acgt{ return [
         me.SuperGnome = &acgtRsce{
             $x = me&Jx,R
             c.t ||= 'Gnome'
-            $Go = c.Go
             $su = me&supetime,R,c.t
-    
-    // 1 init %Gome/*
+    // 1 init @Gnome/*
+        # non-%%arg, esp as Go is a row
+        #  brack only allows other rows as %%n
+        $Go
+        $x
         su('Reside',{perm:&zaa,jaa,ha,ar{
-            # Gome already:
-            #  %%Go -> Travel +/$t/$SC - what to control
-            #  waits for %%Travelable,Cat to return
-            # we have a more non-fatal &Gome_Jx,
-            # < outsidable Supe %arg cluster of concerns
             x = me&Gome_Jx,R
-            # not waiting on much to get ready
             !x and debugger
-
-            # without yet having a $SC%Piing,
-            # 
-
-            !x and return ha('pur:t+SC')
-            # we identify as this for Story funcs
             s != xs&Gome and debugger
-            ha('purdilation')
-
+            
+          # the entire @Gome 
+            Go = theone(me&jaa,R,'Go' )
+            !Go and return ha('pur:!Go')
+            # acquire %%active, when Thy ready to get Cat?
+            # < we may be pushing Nine some other agenda
+            me&activate and return ha('pur:!active')
+            
+          # begin @Nine + @Thy
             me&Gome_Resides,R,{t:s.t}
-            # wait til quiet once
-            $v = me&Superquiets,R
-            v and ha('pur:!Superquiets')
-            # < meaning Gome/* are ready
-
+            # til quiet (once)
+            me&Superquiets,R
+        me&Superready and return
+          # < meaning Gome/* are ready
             x = me&Gome_Jx,R
+            # storage pile
             !xs&Fories and ha('pur:!Fories')
-        }})&&
-    // 2 see things
-        #  knowing how, %%Control -> $SC +/*
-        #  until %%Releasor exits
-        #   < should only have to pause until pushed:
-        #    to store J osc via Duolish** &SuperGansp
-        su('SC/*',{until:&zaa,jaa,ha,ar{
-            $not = xs&Travel
-            x.ro('init',{}) and me&nodei,R,not,'initdata'
-            me&Superarg,{Gome:s}
-
-            # < have Thy first clue from F
             # the bunch of Nines we have open
             $F = xs&TheF
-            !F and return ha('pur:!F')
+            !F and ha('pur:!F')
             ha('arg',{F})
-            #, then:
-
-            # %%Go -> Travel/$t/$Cat - what to control
-            me&nodei,R,not,Go,{},{Gome:s,Catfunc:'PiiCat'}
-
+            # < have Thy first clue from F
+            !xs&Thy and ha('pur:!Thy')
+        me&Superready and return
+            me&Superarg,{Gome:s}
+          # get @Cat to control
+            me&nodei,R,xs&Travel,Go,{},{Gome:s,Catfunc:'PiiCat'}
+            # fires back
             $n = theone(me&jaa,R,'Travelable,Cat,n' )
             !n and return ha('pur:!Cat')
             !me&etoward,ns&n,Go and return ha('pur:~Cat')
-
+            
             # along with @Gome, we now know:
             $t = me&Superarg,{t:ns&Travelable}
             $Cat = me&Superarg,{Cat:ns&Cat}
@@ -430,12 +399,26 @@ me.Sch_The = &acgt{ return [
             $This = me&Superarg,{This:0},{viatw:'Run'}
             $The = me&Superarg,{The:0},{viatw:'Run'}
         me&Superready and return
+            x = me&Gome_Jx,R
+            $Run = xs&Run
+            !Run and return ha('pur:!Run')
+            # &Superarg puts in ar
+            Run != ar.Run and return ha('pur:~Run')
 
             # < enable @Intro
             #   it would go to ...
             #me&nodei,R,xs&Introtivity,{Intro:1,Cat:SC}
+        }})&&
+    // 2 see things
+        #  knowing how, %%Control -> $SC +/*
+        #  until %%Releasor exits
+        #   < should only have to pause until pushed:
+        #    to store J osc via Duolish** &SuperGansp
+        su('See',{until:&zaa,jaa,ha,ar{
+            #x.ro('init',{}) and me&nodei,R,not,'initdata'
 
-            x = me&Gome_Jx,R
+
+
             $Run = xs&Run
             !Run and return ha('pur:!Run')
             # &Superarg puts in ar

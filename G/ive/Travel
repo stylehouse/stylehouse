@@ -3974,6 +3974,47 @@ me.Sch_Travel = &acgt{ return [
        
   // funcs
       // Superfuncs
+       // f
+        # prep row per call to &Superquiet etc
+        me.superclasspile = &acgtqck{
+            # name or seq per sute
+            c.t ||= hak(q.jaa(k))+1
+            # what we will write once etc
+            c.c = {}
+            # %%Superarg=firstkey
+            c.c[k] = c.t
+            c.t = k+':'+c.t
+        }
+        # for c=%%Superarg,fail, make %%pur
+        me.purforate = &acgtc{
+            $h = T.sute
+            c = peel(c)
+            $k = haks(c)[0]
+            h.jaa(c) .map(&n{
+                # %%pur=Superarg,k=whichone
+                # nothing else is allowed to say %%Superarg (exclusive gk)
+                # < understand %%Superfunc=arg, brackology to position
+                $c = {pur:k,k:n.sc[k]}
+                # + anything to add for %%pur, eg %%pre=node
+                $cbt = k+'_purfor'
+                me[cbt] and me&mearg,cbt,[n,c]
+                h.ha(c)
+            })
+        }
+       // ready quiets waits
+        # return true if you should wait (and return)
+        
+        # detect readiness, fatalise mild oddnesses
+        # < really pur-veys mild oddnesses,
+        #   fatalising resets more?
+        # at sute completion we !%%pur
+        me.Superready = &acgt{
+            $h = T.sute
+            # make %%pur for only mild oddnesses
+            me&purforate,'Superarg,fail'
+            me&purforate,'Superquiets,Pending'
+            return hak(h.jaa('pur'))
+        }
         # waits for the next quiet
         #  adds t
         # < notice if no activity since asserted
@@ -3981,6 +4022,7 @@ me.Sch_Travel = &acgt{ return [
             c ||= {}
             $q = T.sute
             # c.t ||= name or seq per sute
+            # ends up %%Superquiets:c.t,
             me&superclasspile,q,c,'Superquiets'
             # try
             c.until_next = Rs&is_quiet
@@ -3992,15 +4034,6 @@ me.Sch_Travel = &acgt{ return [
             # until, give cause to quiet_wake
             q.ha(c.c,{Pending:1})
             return 1
-        }
-        # prep row per call to &Superquiet etc
-        me.superclasspile = &acgtqck{
-            # name or seq per sute
-            c.t ||= hak(q.jaa(k))+1
-            # what we will write once etc
-            c.c = {}
-            c.c[k] = c.t
-            c.t = k+':'+c.t
         }
         # waits for (a later)? perception of true
         me.Superwaits = &acgtRc{
