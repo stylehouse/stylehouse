@@ -113,12 +113,12 @@ me.Sch_The = &acgt{ return [
      // Gnomp many, Gnome one quiet_wake check
         # Gnomp &quietready ambiently checks any @active
         me.Gnomp_any_quiet_wake = &acgtR{
-            # < also if anyone Superwaits... Gump_quiet
             $any = me&zaa,R,'active',1 .filter(&z{
                 $r = zy&R
-                !(rs&Gome || rs&Gnome) and debugger
+                !rs&Gnome and debugger
+                zy&want_quiet_wake and debugger
                 # they also must bs&wakeful to get there
-                $want = me&yyt,z,'want_quiet_wake'
+                $want = me&Gnome_want_quiet_wake,r,z
                 want and ~>2 anyquiet: z.t, want
                 return want
             })
@@ -128,7 +128,7 @@ me.Sch_The = &acgt{ return [
         # Gnome's &activate allows wanting to quiet wake
         #  sympathise parts of &SuperGnome!
         # < why these must be &saa?
-        me.Gnome_want_quiet_wake = &acgtR{
+        me.Gnome_want_quiet_wake = &acgtRs{
             # take any quiet opportunities when %%pur
             # < or just when %%pur,pre?
             if (me&sa,R,'pur' ) {
@@ -162,10 +162,7 @@ me.Sch_The = &acgt{ return [
                 args.some(v => !v) and return 0
                 return me&mearg,ns&sensitivity,[R,...args]
             })
-            is and debugger
-            $say = is ? 'wakes' : ''
-            ~>8 GomeThischa: say
-            #is and debugger
+            is and is = 'sens:'+is
             return is
         }
         
@@ -177,29 +174,27 @@ me.Sch_The = &acgt{ return [
         me.activate = &acgt{
             $R = me&R
             $s = Rc&s
+            # < ^^Gnome|Gomp that can do trick
             $Gnomp = isnode(s)
-            me&acquire,Gnomp,{active:s} and return 1
             
-            # prepare to think outside
-            # allow Gump to quiet wake while ~This**
-            sy&want_quiet_wake =
-                () => me&Gnome_want_quiet_wake,R
+            me&acquire,Gnomp,{active:s} and return 1
+            # we can now think outside, via &Gnome_want_quiet_wake,R
             # can endlessloop quiet wakes,
             #  esp. while we %pur
             #  here is loop protection:
             me&rollbs,R,'purloop'
             
-            
             # < wakeful when active,
             #    and only when our want_quiet_wake went off
             Rs&wakeful = 1
             $quiet = me&is_quiet_now,Gnomp
-            quiet and me&tsc,'quiet'
-            # < GOING
-            quiet and Rs&Gump_quiet = 1
-            quiet and Rs&is_quiet = 1
-            # we then have 
-            me&tc,"\n"
+            if (quiet) {
+                $t = me&Mwty,R,'Peace','ie'
+                ts&opa = 0.5
+                Rs&is_quiet = 1
+                # < GOING
+                Rs&Gump_quiet = 1
+            }
             return 0
         }
         # %%hire|active:s
@@ -222,6 +217,7 @@ me.Sch_The = &acgt{ return [
         # < ++ for a new @Cat
         #   known replacements, reset strategy
         me&ha,R,{Go:s.t,tid:ss&tid||1}
+        me&tc,"\n"
         
         !me&SuperGnome,R,s,{} and return
         # < de-activate? or put &activate in a
@@ -343,7 +339,7 @@ me.Sch_The = &acgt{ return [
             $x = me&Jx,R
             c.t ||= 'Gnome'
             $su = me&supetime,R,c.t
-    // 1 init @Gnome/*
+    // 1 'Reside'
         # non-%%arg, esp as Go is a row
         #  brack only allows other rows as %%n
         $Go
@@ -409,30 +405,22 @@ me.Sch_The = &acgt{ return [
             #   it would go to ...
             #me&nodei,R,xs&Introtivity,{Intro:1,Cat:SC}
         }})&&
-    // 2 see things
-        #  knowing how, %%Control -> $SC +/*
+    // 2 'See'
         #  until %%Releasor exits
         #   < should only have to pause until pushed:
         #    to store J osc via Duolish** &SuperGansp
         su('See',{until:&zaa,jaa,ha,ar{
             #x.ro('init',{}) and me&nodei,R,not,'initdata'
+            # Reside guaratees:
+            $Run = ar.Run
+            $F = ar.F
 
+            #'everything' and return ha('pur:!everything')
 
-
-            $Run = xs&Run
-            !Run and return ha('pur:!Run')
-            # &Superarg puts in ar
-            Run != ar.Run and return ha('pur:~Run')
-
-            # 
-            'everything' and return ha('pur:!everything')
-
-// etc
 
             # changes xs&This=Run/Thisy&This...
             $This = me&Gome_This,R
             !This and return ha('pur:!This')
-            #
             ha({sensitivity:'Gome_Thischa_other',otherable:'F'})
             me&Gome_Thischa_self,R,F,ha
 
@@ -442,6 +430,10 @@ me.Sch_The = &acgt{ return [
 
             x.ro('end') and return
             return ha('pur:notend')
+        }})&&
+        su('Done',{until:&zaa,jaa,ha,ar{
+            # n|u all done
+            me&tc,"all-done"
         }})
             
         return su('done')
