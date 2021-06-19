@@ -95,17 +95,17 @@ me.Sch_The = &acgt{ return [
   # ensures This is The
     &{ me.Thisisinside = 0 ? 'Thyer' : 'Piing' },
   // Gnomp - simplified @Gump...@Gome
-    # n Ya 6  %Gnomp
+   
+   # n Ya 6  %Gnomp
    // many &Supe* sleepyneck
     ['Gnomp',0.296,&acgtRs{
         me&acting,R,'Gnomp'
-        $x = me&Jx,R
         Rs&wakeperc = 1
         me&baleg,'TryPiWarmer','Gnome'
         # ambient attention seek
         #  only one can do so, Gnome join hooks via &activate
         me&quietready,R and return
-        me&locked,s,'Gnome' and return
+        
         me&tc,"free"
         
     },'ift,D'],
@@ -216,24 +216,19 @@ me.Sch_The = &acgt{ return [
    // @Gnome the F,Thy,The,This
     # and any SC,Run in between
     ['Gnome',0.5,&acgtRs{
-        # from &Gome_permit:
-        Rs&client = 1
         me&acting,R,'Gnome'
-        $x = me&Jx,R
-        $Gnomp = isnode(s)
+        Rs&client = 1
         # invent Go (Gome gets permit)
-        $Go = s.t
-        $tid = ss&tid||1
-        me&ha,R,{Go,tid}
+        me&ha,R,{Go:s.t,tid:ss&tid||1}
         $Go = theone(me&jaa,R,'Go' )
         !Go and return me&tc,'!Go'
         # acquire active from quiet_waker (Gump|Ya)
-        me&lock,Gnomp,'Gnome',s
         # 
         me&activate and return
         
         !me&SuperGnome,R,s,{Go} and return
-        me&unlock,Gnomp,'Gnome',s
+        # < de-activate? or put &activate in a
+        #    sute perm,til=testcomplete
         delete Rs&wakeful
     },'ift,D'],
    // &SuperGnome the waking mind
@@ -241,6 +236,7 @@ me.Sch_The = &acgt{ return [
     // &Superarg
         # < ceremoniously knowing
         me.Superarg = &acgtsc{
+            
             $h = T.sute
             # c must be so between Superarg-arg are params
             $c = ex({Superarg:1},peel(c||{}))
@@ -342,7 +338,7 @@ me.Sch_The = &acgt{ return [
             
         }
       
-    // namespace 
+    // namespace
         # find names from surrounds
         #  for any Cat** or Gnome**
         #   via Cat%client=Gnome
@@ -368,109 +364,107 @@ me.Sch_The = &acgt{ return [
             $su = me&supetime,R,c.t
     
     // 1 init %Gome/*
-            su('Reside',{perm:&zaa,jaa,ha,ar{
-                # Gome already:
-                #  %%Go -> Travel +/$t/$SC - what to control
-                #  waits for %%Travelable,Cat to return
-                # we have a more non-fatal &Gome_Jx,
-                # < outsidable Supe %arg cluster of concerns
-                x = me&Gome_Jx,R
-                # not waiting on much to get ready
-                !x and debugger
-                
-                # without yet having a $SC%Piing,
-                # 
-                
-                !x and return ha('pur:t+SC')
-                # we identify as this for Story funcs
-                s != xs&Gome and debugger
-                ha('purdilation')
-                
-                me&Gome_Resides,R,{t:s.t}
-                # wait til quiet once
-                $v = me&Superquiets,R
-                v and ha('pur:!Superquiets')
-                # < meaning Gome/* are ready
-                
-                x = me&Gome_Jx,R
-                !xs&Fories and ha('pur:!Fories')
-            }})
-            &&
-        # 2:
+        su('Reside',{perm:&zaa,jaa,ha,ar{
+            # Gome already:
+            #  %%Go -> Travel +/$t/$SC - what to control
+            #  waits for %%Travelable,Cat to return
+            # we have a more non-fatal &Gome_Jx,
+            # < outsidable Supe %arg cluster of concerns
+            x = me&Gome_Jx,R
+            # not waiting on much to get ready
+            !x and debugger
+
+            # without yet having a $SC%Piing,
+            # 
+
+            !x and return ha('pur:t+SC')
+            # we identify as this for Story funcs
+            s != xs&Gome and debugger
+            ha('purdilation')
+
+            me&Gome_Resides,R,{t:s.t}
+            # wait til quiet once
+            $v = me&Superquiets,R
+            v and ha('pur:!Superquiets')
+            # < meaning Gome/* are ready
+
+            x = me&Gome_Jx,R
+            !xs&Fories and ha('pur:!Fories')
+        }})&&
+    // 2 see things
         #  knowing how, %%Control -> $SC +/*
         #  until %%Releasor exits
         #   < should only have to pause until pushed:
         #    to store J osc via Duolish** &SuperGansp
-    // 2 see things
-            su('SC/*',{until:&zaa,jaa,ha,ar{
-                $not = xs&Travel
-                x.ro('init',{}) and me&nodei,R,not,'initdata'
-                me&Superarg,{Gome:s}
-                
-                # < have Thy first clue from F
-                # the bunch of Nines we have open
-                $F = xs&TheF
-                !F and return ha('pur:!F')
-                ha('arg',{F})
-                #, then:
-                
-                # %%Go -> Travel/$t/$Cat - what to control
-                me&nodei,R,not,Go,{},{Gome:s,Catfunc:'PiiCat'}
-                
-                $n = theone(me&jaa,R,'Travelable,Cat,n' )
-                !n and return ha('pur:!Cat')
-                !me&etoward,ns&n,Go and return ha('pur:~Cat')
-                
-                # along with @Gome, we now know:
-                $t = me&Superarg,{t:ns&Travelable}
-                $Cat = me&Superarg,{Cat:ns&Cat}
-            me&Superready and return
-                # %%Control -> $Cat/* may now
-                me&nodei,R,Cat,{Control:1,n}
-                
-                # Cat/* checkable anywhere via &Gome_Jx
-                $Run = me&Superarg,{Run:0},{viatw:'Cat'}
-            me&Superready and return
-                !x.ro('maynotRun',{}) and me&nodei,R,Run,'mayRun'
-                
-                $This = me&Superarg,{This:0},{viatw:'Run'}
-                $The = me&Superarg,{The:0},{viatw:'Run'}
-            me&Superready and return
-                
-                # < enable @Intro
-                #   it would go to ...
-                #me&nodei,R,xs&Introtivity,{Intro:1,Cat:SC}
+        su('SC/*',{until:&zaa,jaa,ha,ar{
+            $not = xs&Travel
+            x.ro('init',{}) and me&nodei,R,not,'initdata'
+            me&Superarg,{Gome:s}
 
-                x = me&Gome_Jx,R
-                $Run = xs&Run
-                !Run and return ha('pur:!Run')
-                # &Superarg puts in ar
-                Run != ar.Run and return ha('pur:~Run')
-                
-                # 
-                'everything' and return ha('pur:!everything')
-                
-    // etc
-                
-                # changes xs&This=Run/Thisy&This...
-                $This = me&Gome_This,R
-                !This and return ha('pur:!This')
-                #
-                ha({sensitivity:'Gome_Thischa_other',otherable:'F'})
-                me&Gome_Thischa_self,R,F,ha
+            # < have Thy first clue from F
+            # the bunch of Nines we have open
+            $F = xs&TheF
+            !F and return ha('pur:!F')
+            ha('arg',{F})
+            #, then:
 
-                # observe Proto !now not over finishline
+            # %%Go -> Travel/$t/$Cat - what to control
+            me&nodei,R,not,Go,{},{Gome:s,Catfunc:'PiiCat'}
 
-                Rs&goGome and me&nu,"Fins",{Run,This,F}
-                
-                x.ro('end') and return
-                return ha('pur:notend')
-            }})
+            $n = theone(me&jaa,R,'Travelable,Cat,n' )
+            !n and return ha('pur:!Cat')
+            !me&etoward,ns&n,Go and return ha('pur:~Cat')
+
+            # along with @Gome, we now know:
+            $t = me&Superarg,{t:ns&Travelable}
+            $Cat = me&Superarg,{Cat:ns&Cat}
+        me&Superready and return
+            # %%Control -> $Cat/* may now
+            me&nodei,R,Cat,{Control:1,n}
+
+            # Cat/* checkable anywhere via &Gome_Jx
+            $Run = me&Superarg,{Run:0},{viatw:'Cat'}
+        me&Superready and return
+            !x.ro('maynotRun',{}) and me&nodei,R,Run,'mayRun'
+
+            $This = me&Superarg,{This:0},{viatw:'Run'}
+            $The = me&Superarg,{The:0},{viatw:'Run'}
+        me&Superready and return
+
+            # < enable @Intro
+            #   it would go to ...
+            #me&nodei,R,xs&Introtivity,{Intro:1,Cat:SC}
+
+            x = me&Gome_Jx,R
+            $Run = xs&Run
+            !Run and return ha('pur:!Run')
+            # &Superarg puts in ar
+            Run != ar.Run and return ha('pur:~Run')
+
+            # 
+            'everything' and return ha('pur:!everything')
+
+// etc
+
+            # changes xs&This=Run/Thisy&This...
+            $This = me&Gome_This,R
+            !This and return ha('pur:!This')
+            #
+            ha({sensitivity:'Gome_Thischa_other',otherable:'F'})
+            me&Gome_Thischa_self,R,F,ha
+
+            # observe Proto !now not over finishline
+
+            Rs&goGome and me&nu,"Fins",{Run,This,F}
+
+            x.ro('end') and return
+            return ha('pur:notend')
+        }})
             
-            return su('done')
+        return su('done')
         }
     },
-  // doc
+  
   // Pi%Lab: Nine/* > Thy > The,This
    // Gnome/Thy%Piing <- %%inst
     # where non -Ness Fine/$t are staged for Piing/The...
@@ -546,7 +540,7 @@ me.Sch_The = &acgt{ return [
             Thys and me&nodei,R,Thys,{inst:1,n}
         }
     }
-   // Gnome/Thy%Piing**...Pi%Lab
+   // ...Pi%Lab
     me.Pi_Lab = &acgt{ return [
         # loads Nine/-Lab, into -Bat preparator
         #  or, posit Nine/-Lab from -Bat
