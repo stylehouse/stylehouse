@@ -172,9 +172,10 @@ me.Sch_The = &acgt{ return [
             is and is = 'sens:'+is
             return is
         }
-        
-     // &Superdef, to be %%active
-        =pod
+       
+   // &Superdef, to be %%active
+      // doc
+        =doc
         time barrel:
          you may find yourself Ying@8, able to quiet_wake
           esp. if that wasnt the last thing you did
@@ -285,21 +286,65 @@ me.Sch_The = &acgt{ return [
         #    should == if we pushed it
           
         =cut
+      // doc
+        me.Superdef = &acgt{
+            # 
+        }
      // < &activate, connects time
-        # type of < &acquire, connects a &Gnome_want_quiet_wake
+        =pod
+         < type of &acquire connects above:
+           Gnomp/Gnome%client
+            using &(Gnomp|Gnome)_(any|want)_quiet_wake
+           Gnome%client...Lab|Nine
+            similarly.
+            we have a c
+             it says how|when Lab is to realise %%active
+             it might be now,
+              we might have to synth a %%got_active
+            and any Lab%%Superdef,fortime...
+             clues us to feed eg oute y&thing to The
+              an otherable task (sender doesnt wake)
+             or ++%%wakefor, if &SuperLab must perceive,
+              Lab itself recv|become %%got_active
+               and eg &nodei, which sender must wake for
+            after the %%got_active,
+             which may not be delivered from your $to
+              if the act of it was otherable
+            you continue once The settles,
+             having Thy 1, The 1
+             about to This 1
+           so &Superdef
+            can take eg oute y&thing to The
+             so we have Thy 1
+             living The to recv it
+            without living Lab to send it
+            so if you randomly live Lab,
+             %%got_active is synthesised in
+            but when &activate while so,
+             we shall make one up for it
+             
+        =cut
         
-        # get on the list, prepare to join quiet wake of Ya%Gnomp
+        # Gnome, Lab get on the list
+        #  and realise their activation
+        #     then posit things activation entails, etc
+        #  prepare to join quiet wake of Ya%Gnomp
         # importantly Gnomp has &quietready
         #  hooking into the above outside-times
         #   from a &Ying_8 having no next move
-        me.activate = &acgt{
+        # also, form an orderly todo list
+        #  which can decide things any time
+        #  bringing light cones into the world
+        me.activate = &acgtc{
             $R = me&R
             $s = Rc&s
+            # to%%active=us
+            $to = Rs&client ? isnode(s) : me.cbu(R,'client').c.s
+            c = ex({active:s},c||{})
+            # perhaps we are already
             
-            # < ^^Gnome|Gomp that can do trick
-            $Gnomp = isnode(s)
             
-            me&acquire,Gnomp,{active:s} and return 1
+            me&acquire,to,c and return 1
             # can endlessloop quiet wakes,
             #  esp. while we %pur
             #  here is loop protection:
@@ -308,7 +353,7 @@ me.Sch_The = &acgt{ return [
             # < wakeful when active,
             #    and only when our want_quiet_wake went off
             Rs&wakeful = 1
-            $quiet = me&is_quiet_now,Gnomp
+            $quiet = me&is_quiet_now,to
             if (quiet) {
                 # display how we were activated
                 $t = me&Mwty,R,'Peace','ie'
