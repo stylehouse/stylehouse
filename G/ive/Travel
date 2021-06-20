@@ -1511,18 +1511,23 @@ me.Sch_Travel = &acgt{ return [
         # ugly combo of 'Gump/* ready' and quiet wake sub
         me.quietready = &acgtR{
             $s = Rc&s
-            # while never quiet it matters, want to self,
-            #  even if too close to the last quiet,wake (loop avoidance)
+            
             $Y = me.cbu(R,'Ying').sc.Ying
             Ys&quiet_wakers_too_recently = &r{
-                # r is Fingo (not in time)
+                # r is R%Ying in waits_8 (not in time)
+                # while never quiet it matters, want to self,
                 !sy&ever_quiet and return "forself"
+                # and even if too close to the last quiet,wake
+                # ! DIY loop avoidance
                 me&Gump_any_quiet_wake,R and return "forothers"
             }
             if (me&quiet_waker,R) {
+                # ^ sets R%is_quiet=1
                 sy&ever_quiet = 1
                 !sy&ever_quiet and me&tsc,"First"
             }
+            
+            
            // < huh
             # can rely on another quiet_wake if any busy
             #  but for some reason they are forgotten

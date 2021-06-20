@@ -2070,21 +2070,25 @@ me.settleblab = 1
   // &quiet_waker*
     # management nodes wake up when all is quiet
     me.quiet_waker = &acgtR{
+        Rs&quiet_waker = 1
+        me&reaw,R,'quiet_waker'
         $Y = me.cbu(R,'Ying').sc.Ying
         $s = Rc&s
         Ys&quiet_wakers = [s]
         #ac(Y,'quiet_wakers',s)
+        # may be having one
         $is = delete sy&quiet_wake
         is and Rs&quiet_now = 1
+        is and Rs&is_quiet = 1
         return is
     }
     # to see if eg Gump is quiet_now from Gump...Gome
     #  Gome may be tunneled on its own (false)
     #   or being %wakeful from Gump%quiet_now (true)
     me.is_quiet_now = &acgts{
-        # to the latest R, possibly tunneled-through
+        # to the latest R, possibly tunneled-through?
         $r = me&yfuture,s
-        return rs&quiet_now
+        return rs&is_quiet
     }
     # do something when nothing
     # < not before a slow wakers[], for async

@@ -92,25 +92,21 @@ me.Sch_The = &acgt{ return [
     
     =cut
   
-  # ensures This is The
-    &{ me.Thisisinside = 0 ? 'Thyer' : 'Piing' },
-  // Gnomp - simplified @Gump...@Gome
+  // @Gnomp/@Gnome perceiver
    
    # n Ya 6  %Gnomp
-   // many &Supe* sleepyneck
+   // they &activation, allowing many &Supe* id
     ['Gnomp',0.296,&acgtRs{
         me&acting,R,'Gnomp'
         Rs&wakeperc = 1
         me&baleg,'TryPiWarmer','Gnome'
-        # ambient attention seek
-        #  only one can do so, Gnome join hooks via &activate
-        me&quietready,R and return
-        
-        me&tc,"free"
-        
+        # %%active:Gnome here
+        # < parallel tests? shouldn't interfere? (unpredictably)
+        me&activator,{quietready:1} and return
     },'ift,D'],
     &{ 
-     // Gnomp many, Gnome one quiet_wake check
+     # other time
+     // Gnomp** glob quiet_wake check
         # Gnomp &quietready ambiently checks any @active
         me.Gnomp_any_quiet_wake = &acgtR{
             $any = me&zaa,R,'active',1 .filter(&z{
@@ -172,7 +168,29 @@ me.Sch_The = &acgt{ return [
             is and is = 'sens:'+is
             return is
         }
-       
+    },
+    # and any SC,Run in between
+    ['Gnome',0.296,&acgtRs{
+        me&acting,R,'Gnome'
+        Rs&client = 1
+        # %%active:Lab|Nine here
+        #  early so **Nine can activate this time
+        me&activator
+    },'ift,D'],
+    ['Gnome',0.5,&acgtRs{
+        # invent Go (Gome gets permit)
+        # < ++ for a new @Cat
+        #   known replacements, reset strategy
+        me&ha,R,{Go:s.t,tid:ss&tid||1}
+        me&tc,"\n"
+        
+        !me&SuperGnome,R,s,{} and return
+        # < de-activate? or put &activate in a
+        #    sute perm,til=testcomplete
+        delete Rs&wakeful
+    },'ift,D'],
+    # %Superpost then &wants %pre 
+    &{
    // &Superdef, to be %%active
       // doc
         =doc
@@ -290,7 +308,96 @@ me.Sch_The = &acgt{ return [
         me.Superdef = &acgt{
             # 
         }
-     // < &activate, connects time
+   // &activation connect times
+        # has %%active+, has the game defined
+        #  eventually and through several ports
+        me.activator = &acgtc{
+            $R = me&R
+            # for the %%active opining it
+            me&reaw,R,'active'
+            me&rollbs,'R','active'
+            $act = me&Rsci,'%active'
+            
+            c ||= {}
+            ex(act.c,c)
+            
+            if (c.quietready) {
+                # Gnomp routes ambient attention seeking
+                #  with a side project:
+                #   does some proto &Superquiet initially,
+                #   to quiet wake once &Resides etc concludes
+                # hooked for one and only one,
+                #  so Gnome hooks Gnomp
+                # then, routing:
+                #  sees opportunities to wake at certain times
+                #  < beyond forcing a possibly repetitious quiet_wake
+                #  continuity between Yings
+                me&quietready,R and return 1
+            }
+            else {
+                # 
+                me&active_to,R,c
+            }
+            # we then follow the real &quietready on Gnomp
+            #  or follow Gnomp on Gnome, etc
+            me&howdidIgethere,c
+            
+            # < compute state, to draw it in &Supe*
+            #   with what has changed per self time
+            #    as things would be logged
+        }
+        # if quiet
+        me.howdidIgethere = &acgtc{
+            $R = me&R
+            # determine %is_quiet from ...
+            if (Rs&quiet_waker) {
+                # Gnomp has or has-not
+                Rs&is_quiet and c.quiet = 1
+            }
+            else {
+                # our activator
+                !c.to and debugger
+                $r = me&yfuture,c.to
+                # < this will be on our tunnel
+                if (rs&is_quiet) {
+                    Rs&is_quiet = c.quiet = 2
+                }
+            }
+            # < we could wake=[exactly-who-needs]
+            #   we currently pull attention into Gnome,
+            #   then hope that will want other things...
+            # < Gnome quiet may want to then wake Lab as if quiet
+            #    this could be synth quiet or synthart quiet
+            if (Rs&is_quiet) {
+                # display how we were activated
+                $t = me&Mwty,R,'Peace','ie'
+                ts&opa = 0.5
+            }
+        }
+        # for vator or vate
+        me.active_to = &acgtRc{
+            $to = c.to = me.cbu(Ry&up,'active').c.s
+            to && !isnode(to) and debugger
+            return to
+        }
+        # vate reads level of one %%active
+        me.activation = &acgtc{
+            $s = c.active
+            $R = sy&R
+            !R and debugger
+            $to = me&active_to,R,c
+            !to and debugger
+            $r = me&yfuture,to
+            $act = c.act = me&Rsci,'%active',{el:8,v:r}
+            !act and debugger
+            actc&times ||= 0
+            actc&times ++
+            
+            actc&stop_all and c.ov = 0; return
+            c.ov = 0.1
+            # cones
+        }
+   // &activate connects time
         =pod
          < type of &acquire connects above:
            Gnomp/Gnome%client
@@ -338,30 +445,42 @@ me.Sch_The = &acgt{ return [
         me.activate = &acgtc{
             $R = me&R
             $s = Rc&s
+            # tend to wake from above, 
+            #  helps if ^:Gnomp%wakeperc
+            #  no effect on Thy..Lab...
+            
             # to%%active=us
-            $to = Rs&client ? isnode(s) : me.cbu(R,'client').c.s
-            c = ex({active:s},c||{})
-            # perhaps we are already
+            $q = {active:s}
+            c = ex(c||{},q)
+            me&activation,c
+            # anyone interested in being active can:
+                # 0 send %%active
+                me&nodei,R,c.to,q
+                # which allows loop of quiet wake=%%active
+                #  esp. while we %pur etc
+                me&rollbs,R,'purloop'
+                # how we are waking
+                
+            # 0 extra-not-active, rarely
+            #   < proper paused-ness, Yingwake|elvis avoiding them
+            #   similar to SC%Con meaning %%Control co is needed
+            #   halting &Supe*, 
+            #    which may cause eg &Resides to stop
+            #     < in a way it continues? see reaw.*bal_*
+            c.ov == 0 and return 1
             
+                # 1 may be wakeful, when onlyish
+                #   plumbing quiet moments into Gnomp/Gnome
+                #   because we dispatch to Gnomp when quiet,
+                #   < could ideally write up wakers ourselves
+                # tend to wake from above, 
+                #  helps if ^:Gnomp%wakeperc
+                #  no effect on Thy..Lab...
+                Rs&wakeful = 1
+                # < only when our want_quiet_wake went off
             
-            me&acquire,to,c and return 1
-            # can endlessloop quiet wakes,
-            #  esp. while we %pur
-            #  here is loop protection:
-            me&rollbs,R,'purloop'
+            me&howdidIgethere,c
             
-            # < wakeful when active,
-            #    and only when our want_quiet_wake went off
-            Rs&wakeful = 1
-            $quiet = me&is_quiet_now,to
-            if (quiet) {
-                # display how we were activated
-                $t = me&Mwty,R,'Peace','ie'
-                ts&opa = 0.5
-                Rs&is_quiet = 1
-                # < GOING
-                Rs&Gump_quiet = 1
-            }
             return 0
         }
         # %%hire|active:s
@@ -374,26 +493,7 @@ me.Sch_The = &acgt{ return [
             # < return 1 to wait for ack
             return 0
         }
-    },
-   // @Gnome the F,Thy,The,This
-    # and any SC,Run in between
-    ['Gnome',0.5,&acgtRs{
-        me&acting,R,'Gnome'
-        Rs&client = 1
-        # invent Go (Gome gets permit)
-        # < ++ for a new @Cat
-        #   known replacements, reset strategy
-        me&ha,R,{Go:s.t,tid:ss&tid||1}
-        me&tc,"\n"
-        
-        !me&SuperGnome,R,s,{} and return
-        # < de-activate? or put &activate in a
-        #    sute perm,til=testcomplete
-        delete Rs&wakeful
-    },'ift,D'],
-   // &SuperGnome the waking mind
-    &{
-    // &Superarg
+    // &Superarg, -> &Gnome_Jx
         # < ceremoniously knowing
         me.Superarg = &acgtsc{
             $h = T.sute
@@ -430,6 +530,26 @@ me.Sch_The = &acgt{ return [
             $spc = " @"+k
             me&tc,spc,'6g'
             return v
+        }
+        # find names from surrounds
+        #  for any Cat** or Gnome**
+        #   via Cat%client=Gnome
+        # we have a more non-fatal &Gome_Jx
+        # not waiting on much to get ready
+        me.Gnome_Jx = &acgtR,cl{
+            !isR(cl) and debugger
+            $arg = {Gome:cl,Gnome:cl}
+            # < your use case may be sensitive to rough landings
+            # < Superarg that arent nodes
+            ex(arg,me&Superarg_arrive,cl )
+            # putting Gome gives Gome/*, eg xs&Fories
+            each kv arg {
+                !isR(v) and arg[k] = vy&R
+            }
+            $x = me&Jx,R,{c:arg}
+            # the Run/This > Thy/This, etc
+            xs&Run && xs&This && xs&This.y.up != xs&Run and debugger
+            return x
         }
       // f
         # find one such %%Superarg=$k (exclusive gk)
@@ -480,33 +600,11 @@ me.Sch_The = &acgt{ return [
             $h = T.sute
             
         }
-      
-    // namespace
-        # find names from surrounds
-        #  for any Cat** or Gnome**
-        #   via Cat%client=Gnome
-        # we have a more non-fatal &Gome_Jx
-        # not waiting on much to get ready
-        me.Gnome_Jx = &acgtR,cl{
-            !isR(cl) and debugger
-            $arg = {Gome:cl,Gnome:cl}
-            # < your use case may be sensitive to rough landings
-            # < Superarg that arent nodes
-            ex(arg,me&Superarg_arrive,cl )
-            # putting Gome gives Gome/*, eg xs&Fories
-            each kv arg {
-                !isR(v) and arg[k] = vy&R
-            }
-            $x = me&Jx,R,{c:arg}
-            # the Run/This > Thy/This, etc
-            xs&Run && xs&This && xs&This.y.up != xs&Run and debugger
-            return x
-        }
         me.SuperGnome = &acgtRsce{
             $x = me&Jx,R
             c.t ||= 'Gnome'
             $su = me&supetime,R,c.t
-    // 1 'Reside'
+    // 1 'Reside' @Gome
         # non-%%arg, esp as Go is a row
         #  brack only allows other rows as %%n
         $Go
@@ -527,7 +625,6 @@ me.Sch_The = &acgt{ return [
             #   %%active-proper once &Superdef allows
             # < we may be pushing Nine some other agenda
             me&activate and return ha('pur:!active')
-            
           # begin @Nine + @Thy
             me&Gome_Resides,R,{t:s.t}
             # til quiet (once)
