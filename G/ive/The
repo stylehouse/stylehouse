@@ -95,7 +95,7 @@ me.Sch_The = &acgt{ return [
   // @Gnomp/@Gnome perceiver
    
    # n Ya 6  %Gnomp
-   // they &activation, allowing many &Supe* id
+   // they allowing S connect
     ['Gnomp',0.296,&acgtRs{
         me&acting,R,'Gnomp'
         Rs&wakeperc = 1
@@ -192,7 +192,7 @@ me.Sch_The = &acgt{ return [
         delete Rs&wakeful
     },'ift,D'],
     # %Superpost then &wants %pre 
-    &{
+   &{
    // &Superdef, to be %%active
       // doc
         =doc
@@ -310,8 +310,8 @@ me.Sch_The = &acgt{ return [
         me.Superdef = &acgt{
             # 
         }
-   // &activation connect times
-        # has %%active+, has the game defined
+     // &activate hoist bunches
+        # R%active, the list is had
         #  eventually and through several ports
         me.activator = &acgtc{
             $R = me&R
@@ -399,7 +399,7 @@ me.Sch_The = &acgt{ return [
             c.ov = 0.1
             # cones
         }
-   // &activate connects time
+     // &activate connects time
         =pod
          < type of &acquire connects above:
            Gnomp/Gnome%client
@@ -492,6 +492,7 @@ me.Sch_The = &acgt{ return [
             # < return 1 to wait for ack
             return 0
         }
+        
     // &Superarg, -> &Gnome_Jx
         # < ceremoniously knowing
         me.Superarg = &acgtsc{
@@ -603,6 +604,7 @@ me.Sch_The = &acgt{ return [
             $x = me&Jx,R
             c.t ||= 'Gnome'
             $su = me&supetime,R,c.t
+    
     // 1 'Reside' @Gome
         # non-%%arg, esp as Go is a row
         #  brack only allows other rows as %%n
@@ -706,10 +708,30 @@ me.Sch_The = &acgt{ return [
             
         return su('done')
         }
+    
+    // 3 'Lab' @Lab
+        me.SuperLab = &acgtRsce{
+            $x = me&Jx,R
+            c.t ||= 'Lab'
+            $su = me&supetime,R,c.t
+            su('One',{until:&zaa,jaa,ha,ar{
+                # < &activate would know about %%inst leaving
+                c.el == 9 and return me&tc,"cancel"
+                me&activate and return ha('pur:noteven')
+                me&ja,R,'got_ready' and me&tc,"got_ready"
+                ha('pur:forever')
+            }})&&
+            su('Done',{until:&zaa,jaa,ha,ar{
+                # n|u all done
+                me&tc,"all-done"
+            }})
+            
+        return su('done')
+        }
     },
   
   // Pi%Lab: Nine/* > Thy > The,This
-   // Gnome/Thy%Piing <- %%inst
+   // @Gnome/@Thy    %Piing <- %%inst
     # where non -Ness Fine/$t are staged for Piing/The...
     ['TheThy',0.2901,&acgtRs{
         me&reaw,R,'TheThy'
@@ -718,7 +740,18 @@ me.Sch_The = &acgt{ return [
         !me.cbu(R,'Gnome') and return
         Rs&wakeful = 1
         Rs&Piing = 1
-        # ^ gets us This|The
+    },'ift,D'],
+    ['ThyLab',0.5,&acgtRs{
+        $c = {}
+        Rs&ThyLab_going and c.el = 9; me&tc,"--shutdown"
+        !me&SuperLab,R,s,c and return
+        c.el == 9 and Rs&ThyLab_gone = 1; me&tc,"Deletables"
+    },'ift,D'],
+    ['inst_going',0.7,&acgtRs{
+        me&tc,"(going)"
+    },'ift,D'],
+    ['inst_deletable',0.7,&acgtRs{
+        me&tc,"(Z)"
     },'ift,D'],
     &{
     # %Piing 296 arrives This/
@@ -728,14 +761,18 @@ me.Sch_The = &acgt{ return [
     #    and Gnome knows all Ec&ubers?
     #    same way lv would let E know it has ~
     me.Piing_receives_inst = &acgtRs{
+        # R%* to apply:
+        $c = {}
         me&jaa,R,{inst:1,eto:s} .map(&n{
-            $Fine = ns&efrom
             $t = ns&n
-            if (Fine != sy&up) {
+            if (ns&efrom != sy&up) {
+                $Fine = ns&efrom
                 # first hop, to Thy/This/* o Nine
                 $z = me&Pii,Fine.t+'-Labine'
             }
             elsif (sc&s == t) {
+                # enable this
+                c.ThyLab = 1
                 return
                 # has arrived at:
             }
@@ -748,6 +785,39 @@ me.Sch_The = &acgt{ return [
             !zy&R and return me&waits,'fwd:inst'
             me&nodei,R,z,n
         })
+        me&Piing_preserves_inst,R,s,c
+    }
+    # controlled revoking of %ThyLab etc at the tips
+    me.Piing_preserves_inst = &acgtRsc{
+        me&rollbs,R,'inst_deletable'
+        # remember and shutdown when ...
+        $were = me&rollbs,R,'instcla'
+        !were && !hak(c) and return
+        were ||= {}
+        $are = ex(ex({},were),c)
+        $running = 0
+        $gone = {}
+        each kv are {
+            if (!c[k]) {
+                if (me&rollbs,R,k+'_gone' ) {
+                    # they finished revoking etc last time
+                    delete were[k]
+                    gone[k] = 1
+                    continue
+                }
+                R.sc[k+'_going'] = 1
+                Rs&inst_going = 1
+            }
+            R.sc[k] = v
+            running++
+        }
+        ex(were,c)
+        Rs&instcla = were
+        if (hak(gone) && !running) {
+            # < last one running causes %inst_gone
+            Rs&inst_deletable = 1
+            delete Rs&instcla
+        }
     }
     },
    // Fine hooks for -> Thy/This/...
@@ -759,6 +829,7 @@ me.Sch_The = &acgt{ return [
         # stuff we're projecting to The
         $Thys = me&fiu,Thy,'This',8
         $ThyF = Thys && me&fiu,Thys,s.t,8
+        return me&tc,"Avoiding-ThyF-return"
         # < create that per Fine so we can capture The for it
         if (ThyF) {
             Ninec.ThyF = ThyF
@@ -779,6 +850,7 @@ me.Sch_The = &acgt{ return [
                 !(Es&Is && Es&Is.includes(n)) and break
                 continue
             }
+            #return me&tc,"Avoiding-ThyF-send"
             # %%n%tige brackstills
             Thys and me&nodei,R,Thys,{inst:1,n}
         }
