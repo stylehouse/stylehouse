@@ -138,12 +138,14 @@ me.Sch_The = &acgt{ return [
             # take any quiet opportunities when %%pur
             # < or just when %%pur,pre?
             if (me&sa,R,'pur' ) {
+                # which allows loop of quiet wake=%%active
+                me&rollbs,R,'purloop'
                 if (Rs&purloop) {
                     ~>2 purloop:
                     return 0
                 }
-                # loop protection, via &rollbs
                 # < generalise, for Superquiets,Pending etc
+                #    add a &brackstill?
                 #   and an infinite noise source would use a clock
                 Rs&purloop = 1
                 return 'pur'
@@ -456,10 +458,8 @@ me.Sch_The = &acgt{ return [
             # anyone interested in being active can:
                 # 0 send %%active
                 me&nodei,R,c.to,q
-                # which allows loop of quiet wake=%%active
-                #  esp. while we %pur etc
-                me&rollbs,R,'purloop'
                 # how we are waking
+                me&howdidIgethere,c
                 
             # 0 extra-not-active, rarely
             #   < proper paused-ness, Yingwake|elvis avoiding them
@@ -479,7 +479,6 @@ me.Sch_The = &acgt{ return [
                 Rs&wakeful = 1
                 # < only when our want_quiet_wake went off
             
-            me&howdidIgethere,c
             
             return 0
         }
