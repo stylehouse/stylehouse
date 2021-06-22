@@ -355,14 +355,34 @@ me.Sch_The = &acgt{ return [
                 c.got_active and y (r,R)
             }
         }
-        # draws vate %%Superdef
+        # @4 draws vate %%Superdef
         me.Supervate = &acgtc{
             $R = me&R
+            me&ja,R,'got_active' and me&tc,"got_active"
         }
-        # draws|decides who is active
+        # @5 draws|decides who is active
         me.Supervator = &acgtc{
             $R = me&R
+            # vator has a proper list of %active=C...
+            $act = Rs&active
+            # contrib via %%active
+            $N = me&jaa,R,{active:1,eto:Rc&s}
+            N.map(&n{
+                $s = ns&active
+                me&Sarg,'chaseout',<<'',[s]
+                    o &wants //R**!%strange o $s//E/*
+                
+                # that seem ready, by @5
+                
+                $r = me&yfuture,s
+                $E  = rs&E
+                
+                $z = me&tc,"z"
+                $nu = me&nu,{act,s,E}
+            })
+            # that seem ready
         }
+     // f
      // &activator: Gnomp, Gnome hoist bunches
         # R%active, the list is had
         #  eventually and through several ports
@@ -649,9 +669,57 @@ me.Sch_The = &acgt{ return [
             }
         }
   // &Sarg io proto
-        me.Sarg = &acgtsc{
+        # k per pseudo-implementation
+        me.Sarg = &acgtksc{
             $h = T.sute
+            isar(c) and c = {arg:c}
             
+            $p = me&parserify,s
+            p.p(/\n$/)
+            c.N ||= []
+            return me&mearg,'Sarg_'+k,s,c
+        }
+        
+        me.Sarg_chaseout = &acgtpsc{
+            $N = c.N
+            $a = (regex,y) => p.p(regex) && y ()
+            
+            $func = p.p(/^o (.+) o/,'o')
+            !p.p(/o /)
+            
+            a(/^\$s/, &{
+                N = [c.arg.shift()]
+            })
+            a(/^//(\w+)/, &{
+                N = N.map(&s{
+                    # s//R//E
+                    $r = me&yfuture,s
+                    $E = rs&E
+                    !E and debugger
+                    return E
+                })
+            })
+            a(/^/*/, &{
+                N.map(&E{
+                    # E/* add (no sense of columns)
+                    N.push(... me&ioty,E )
+                })
+            })
+            me&tc,"Chasedout:"+joint(N)
+        }
+        me.parserify = &acgts{
+            $p = {}
+            $parse = s
+            p.p = &r,place{
+                m = p.m = parse.match(r);
+                !m and return
+                m.shift();
+                place and place = place.split('').map(&i{ return m[i] }).join('');
+                else { place = '' }
+                parse = parse.replace(r,place);
+                return 1
+            }
+            return p
         }
         me.SuperGnome = &acgtRsce{
             $x = me&Jx,R
@@ -738,6 +806,8 @@ me.Sch_The = &acgt{ return [
             # Reside guaratees:
             $Run = ar.Run
             $F = ar.F
+            
+            me&Supervator,{}
 
             #'everything' and return ha('pur:!everything')
             
@@ -775,7 +845,7 @@ me.Sch_The = &acgt{ return [
                 # < &activate would know about %%inst leaving
                 c.el == 9 and return me&tc,"cancel"
                 me&activate and return ha('pur:noteven')
-                me&ja,R,'got_active' and me&tc,"got_active"
+                me&Supervate,{}
                 ha('pur:forever')
             }})&&
             su('Done',{until:&zaa,jaa,ha,ar{
@@ -924,11 +994,13 @@ me.Sch_The = &acgt{ return [
    
    // ...Pi%Lab
     me.Pi_Lab = &acgt{ return [
+       // fe
         # loads Nine/-Lab, into -Bat preparator
         #  or, posit Nine/-Lab from -Bat
         #   will need to select all etivity about time...
         #   
         ['Lab',0.22,&acgtRs{
+            
             $V = Rs&V
             $E = Rs&E
             $D = Rs&D
@@ -963,6 +1035,7 @@ me.Sch_The = &acgt{ return [
             
             #me&hu,"Lavee",E,{dl:1}
         },'ift,D'],
+       
        // %bell etc
         # < -hat with separate lum + layout tricks for %z
         ['bell',0.23,&acgtRs{
@@ -3575,11 +3648,13 @@ me.Sch_The = &acgt{ return [
         me&tc,s,'b'
         Rs&strange = 1
     }
+    # r and r/*
     me.anystrange = &acgtR{
         R ||= me&R
         $ness = r => rs&strange
         ness(R) || me&ioR .some(ness) and return 1
     }
+    
    // < R%c/** @3 # machine talk
     me.attendios = &acgttc{
         $R = me&R
