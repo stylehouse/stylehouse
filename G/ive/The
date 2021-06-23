@@ -380,7 +380,6 @@ me.Sch_The = &acgt{ return [
                 
                 hak(g.N) and me&tc,va,"%strange",'B'
                 
-                
             })
             me&Superready and return
             
@@ -399,8 +398,13 @@ me.Sch_The = &acgt{ return [
                 zc&vators ++
                 zy&C && zy&C != s and debugger
                 zy&C = s
+                
                 # whether we cant other it
-                me&ja,sy&R,'Superdef,visit' and zc&visits = 1
+                $defs = me&jaa,sy&R,'Superdef'
+                each in defs {
+                    ns&visits and zc&visits = 1
+                }
+                !hak(defs) and me&tc,"!def?",'b'
                 
                 # < make it active when time
                 $ov = 0.2
@@ -722,6 +726,10 @@ me.Sch_The = &acgt{ return [
         # k per pseudo-implementation
         me.chargN = &acgtsc{
             $g = me&Sarg,'chaseout',s,c
+            if (g.fail) {
+                me&zu,"Fail:",g
+                me&tc,"Fail",'b'
+            }
             return g.N
         }
         me.Sarg = &acgtksc{
@@ -739,11 +747,29 @@ me.Sch_The = &acgt{ return [
             plumb and return me&Sarg,k,plumb,{c}
             return c
         }
+        me.Sargfail = &acgtcq{
+            $n = {}
+            ex(n,q)
+            n.expr = c.p.whole
+            c.fail ||= []
+            c.fail.push(n)
+        }
+        # fail follow into later plumbings 
+        me.Sargplumbed = &acgtcf{
+            each in f.fail {
+                n.c = f
+                c.fail ||= []
+                c.fail.push(n)
+            }
+        }
         me.Sarg_chaseout = &acgtpsc{
             $a = (regex,y) => p.p(regex) && y ()
             
             # begin with somethings
-            c.c and c.N = c.c.N.slice()
+            if (c.c) {
+                me&Sargplumbed,c,c.c
+                c.N = c.c.N.slice()
+            }
             a(/^\$s/, &{
                 $s = c.arg.shift()
                 c.N = isar(s) ? s.slice() : [s]
@@ -753,13 +779,13 @@ me.Sch_The = &acgt{ return [
                 c.N = c.N.map(&s{
                     # s//E == s//R//E
                     $r = sy&R
-                    !r and debugger
+                    !r and return me&Sargfail,c,{t:'!%R',s}
                     $ark = p.m[0]
                     ark == 'R' and return r
                     $E = r.sc[ark]
-                    !E and debugger
+                    !E and return me&Sargfail,c,{t:'!%'+ark,s:r}
                     return E
-                })
+                }) .filter(s=>s)
             })
             
             a(/^\/\*/, &{
@@ -777,17 +803,18 @@ me.Sch_The = &acgt{ return [
                 $func = p.m[0]
                 $plumb = p.m[1]
                 # we can take N from c, c.c, c.fc (plumb here)
-                $n = c
+                $f = c
                 if (plumb) {
                     # eg filter by %strange
-                    n = me&Sarg,'chaseout',plumb,{c}
+                    f = me&Sarg,'chaseout',plumb,{c}
                     # out of a total bunch that might &wants
-                    n.M = c.N
+                    f.M = c.N
                     # return from &Sarg the filtered
-                    c.N = n.N
-                    c.fc = n
+                    c.N = f.N
+                    c.fc = f
+                    me&Sargplumbed,c,f
                 }
-                me&mearg,'Sargfunc_'+func,[n]
+                me&mearg,'Sargfunc_'+func,[f]
             })
             a(/^\*\*/, &{
                 # everything under there, using list of R
@@ -955,6 +982,27 @@ me.Sch_The = &acgt{ return [
         return su('done')
         }
  },
+  // Super@Nine
+    &{
+        me.SuperNine = &acgtRsce{
+            $x = me&Jx,R
+            c.t ||= 'Nine'
+            $su = me&supetime,R,c.t
+            su('One',{until:&zaa,jaa,ha,ar{
+                # < &activate would know about %%inst leaving
+                c.el == 9 and return me&tc,"cancel"
+                me&activate and return ha('pur:noteven')
+                me&Supervate,{}
+                ha('pur:☸')
+            }})&&
+            su('Done',{until:&zaa,jaa,ha,ar{
+                # n|u all done
+                me&tc,"all-done"
+            }})
+            
+            return su('done')
+        }
+    },
   
   // Super@Lab
    // 3 'Lab' @Lab
@@ -975,7 +1023,7 @@ me.Sch_The = &acgt{ return [
                 me&tc,"all-done"
             }})
             
-        return su('done')
+            return su('done')
         }
     },
   // Pi%Lab: Nine/* > Thy > The,This
@@ -1104,6 +1152,8 @@ me.Sch_The = &acgt{ return [
         $Thys = Thy && me&fiu,Thy,'This'
         !Thys and debugger; return me&tc,'!Thys','b'
         
+        me&SuperNine,R,s,{}
+        
         # ThyF, for 
         $N = me&ioty,s
         each in N {
@@ -1111,7 +1161,7 @@ me.Sch_The = &acgt{ return [
                 !(Es&Is && Es&Is.includes(n)) and break
                 continue
             }
-            #return me&tc,"Avoiding-ThyF-send"
+            return me&tc,"Avoiding-ThyF-send"
             # %%n%tige brackstills
             Thys and me&nodei,R,Thys,{inst:1,n}
         }
