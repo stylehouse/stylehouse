@@ -307,6 +307,7 @@ me.Sch_The = &acgt{ return [
         #    should == if we pushed it
         etc
        =cut
+     // &Superdef
         # posits vate:r%Piing %%Superdef for a vate
         me.Superdef = &acgtc{
             $R = me&R
@@ -373,7 +374,6 @@ me.Sch_The = &acgt{ return [
                 # that seem ready, by @5
                 me&Sarg,'chaseout',<<'',[s]
                     o &wants //R** if %strange o $s//E/*
-                
             })
             # that seem ready
         }
@@ -735,6 +735,10 @@ me.Sch_The = &acgt{ return [
                 })
                 c.N = more
             })
+            # < hang as the specific complaint (%strange)
+            #   with the //R** inside the if
+            #   knocking out rows of E** above
+            #   so &wants gets E+ and R+ specifics
             a(/^ if %(\w+)/, &{
                 $gk = p.m[0]
                 c.N = c.N.filter(s => s.sc[gk])
@@ -750,7 +754,13 @@ me.Sch_The = &acgt{ return [
                 !hak(c.M) and pur('none')
             }
             if (hak(c.N)) {
-                
+                each ir c.N {
+                    $s = rc&s
+                    $j = me.cbu(r,'Piing')
+                    $tpath = joint(me.cby(rs&E,js&E),'/')
+                    pur('ch',{tpath,pre:jc&s,targ:s})
+                }
+                # where to go to redo
                 pur('some',{em:joint(c.N)})
                 me&zu,"some",c
             }
