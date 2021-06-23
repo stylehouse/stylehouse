@@ -3954,12 +3954,17 @@ me.Sch_Travel = &acgt{ return [
                     me&walls,talk,'b:1.2h6'
                     $fa = ta('faultspace','s1')
                     $ta = talkat(fa)
-                    faults .map(&n{
-                        isob(ns&pur) and debugger
+                    # group by %%pur
+                    $h = vpartN(faults,n => ns&pur)
+                    each iN h.vs {
+                        $n = N[0]
+                        !isst(ns&pur) and debugger
                         $l = ta(ns&pur+": ",'1')
-                        $se = sex({}, n.sc, ksaf(n.sc,{aft:'pur'}))
-                        se = hak(se) ? dis(se) : "..."
-                        me&mtsc,l,se,0,6
+                        each in N {
+                            $se = sex({}, n.sc, ksaf(n.sc,{aft:'pur'}))
+                            se = hak(se) ? dis(se) : "..."
+                            me&mtsc,l,se,0,6
+                        }
                         # < why no Display when se+"\n"?:
                         #ta(se,6)
                         
@@ -3969,7 +3974,7 @@ me.Sch_Travel = &acgt{ return [
                         ns&wait == 1 and me&waits,joint([dome,ns&pur])
                         else
                         ns&wait and debugger
-                    })
+                    }
                     tal("."+tried,6)
                     # < ...
                     faulty = 1
@@ -4145,7 +4150,7 @@ me.Sch_Travel = &acgt{ return [
             }
         }
         
-       // &tc, &tcl, &ty, ksaf(s), etc
+       // ksaf(s), etc
         # < -head a -zif
         me.Zifsum = &acgtr{
             $sum = rs&summary
@@ -4196,6 +4201,7 @@ me.Sch_Travel = &acgt{ return [
             c.dl = 4.23
             return ki(s,c.dl)
         }
+       // &tc, &tcl, &ty,
         me.tc = &acgtmtcb{
             !isC(m) and b = c; c = t; t = m; m = 0
             $args = [t]

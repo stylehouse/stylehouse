@@ -369,12 +369,19 @@ me.Sch_The = &acgt{ return [
             $act = Rs&active
             # contrib via %%active
             $N = me&jaa,R,{active:1,eto:Rc&s}
+            # that seem ready, by @5
+            $su = me&tcl,"vator:",'1B'
             N.map(&n{
                 $s = ns&active
                 # that seem ready, by @5
-                me&Sarg,'chaseout',<<'',[s]
+                $N = me&chargN,<<'',[s]
                     o &wants //R** if %strange o $s//E/*
+                
+                hak(N) and me&tc,su,s.t+"%strange",'b'
+                
             })
+            me&Superready and return
+            me&tc,"Could_activate"
             # that seem ready
         }
      // f
@@ -665,6 +672,10 @@ me.Sch_The = &acgt{ return [
         }
   // &Sarg io proto
         # k per pseudo-implementation
+        me.chargN = &acgtsc{
+            $g = me&Sarg,'chaseout',s,c
+            return g.N
+        }
         me.Sarg = &acgtksc{
             $h = T.sute
             isar(c) and c = {arg:c}
@@ -678,7 +689,6 @@ me.Sch_The = &acgt{ return [
             plumb and me&Sarg,k,plumb,{c}
             return c
         }
-        
         me.Sarg_chaseout = &acgtpsc{
             $a = (regex,y) => p.p(regex) && y ()
             
@@ -754,15 +764,15 @@ me.Sch_The = &acgt{ return [
                 !hak(c.M) and pur('none')
             }
             if (hak(c.N)) {
+                $last_expr = c.p.whole
                 each ir c.N {
                     $s = rc&s
                     $j = me.cbu(r,'Piing')
                     $tpath = joint(me.cby(rs&E,js&E),'/')
-                    pur('ch',{tpath,pre:jc&s,targ:s})
+                    pur('wants:'+last_expr,{tpath,pre:jc&s,targ:s})
                 }
                 # where to go to redo
                 pur('some',{em:joint(c.N)})
-                me&zu,"some",c
             }
         }
         me.parserify = &acgts{
@@ -771,7 +781,7 @@ me.Sch_The = &acgt{ return [
             p.p = &r,place{
                 m = p.m = p.s.match(r);
                 !m and return
-                m.shift();
+                p.whole = m.shift();
                 place and place = place.split('').map(&i{ return m[i] }).join('');
                 else { place = '' }
                 p.s = p.s.replace(r,place);
