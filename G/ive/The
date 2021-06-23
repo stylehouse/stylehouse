@@ -362,6 +362,7 @@ me.Sch_The = &acgt{ return [
         }
         # @5 draws|decides who is active
         me.Supervator = &acgtc{
+            $h = T.sute
             $R = me&R
             # vator has a proper list of %active=C...
             $act = Rs&active
@@ -369,16 +370,10 @@ me.Sch_The = &acgt{ return [
             $N = me&jaa,R,{active:1,eto:Rc&s}
             N.map(&n{
                 $s = ns&active
-                me&Sarg,'chaseout',<<'',[s]
-                    o &wants //R**!%strange o $s//E/*
-                
                 # that seem ready, by @5
+                me&Sarg,'chaseout',<<'',[s]
+                    o &wants //R** if %strange o $s//E/*
                 
-                $r = me&yfuture,s
-                $E  = rs&E
-                
-                $z = me&tc,"z"
-                $nu = me&nu,{act,s,E}
             })
             # that seem ready
         }
@@ -674,49 +669,102 @@ me.Sch_The = &acgt{ return [
             $h = T.sute
             isar(c) and c = {arg:c}
             
-            $p = me&parserify,s
+            $p = c.p = me&parserify,s
             p.p(/\n$/)
+            p.p(/^o /)
+            $plumb = p.p(/^(.+) o /,'o') && p.m[0]
             c.N ||= []
-            return me&mearg,'Sarg_'+k,s,c
+            me&mearg,'Sarg_'+k,[p,s,c]
+            plumb and me&Sarg,k,plumb,{c}
+            return c
         }
         
         me.Sarg_chaseout = &acgtpsc{
-            $N = c.N
             $a = (regex,y) => p.p(regex) && y ()
             
-            $func = p.p(/^o (.+) o/,'o')
-            !p.p(/o /)
-            
+            # begin with somethings
+            c.c and c.N = c.c.N.slice()
             a(/^\$s/, &{
-                N = [c.arg.shift()]
+                $s = c.arg.shift()
+                c.N = isar(s) ? s.slice() : [s]
             })
-            a(/^//(\w+)/, &{
-                N = N.map(&s{
-                    # s//R//E
-                    $r = me&yfuture,s
-                    $E = rs&E
+            # go somewhere
+            a(/^\/\/(\w+)/, &{
+                c.N = c.N.map(&s{
+                    # s//E == s//R//E
+                    $r = sy&R
+                    !r and debugger
+                    $ark = p.m[0]
+                    ark == 'R' and return r
+                    $E = r.sc[ark]
                     !E and debugger
                     return E
                 })
             })
-            a(/^/*/, &{
-                N.map(&E{
+            
+            a(/^\/\*/, &{
+                # < this is /?* rather than /*
+                #   it adds r + r/*
+                $more = []
+                c.N.map(&E{
                     # E/* add (no sense of columns)
-                    N.push(... me&ioty,E )
+                    more.push(E, ... me&ioty,E )
                 })
+                c.N = more
             })
-            me&tc,"Chasedout:"+joint(N)
+            a(/^&(\w+)(?: (.+))?$/, &{
+                # space func
+                $func = p.m[0]
+                $plumb = p.m[1]
+                $n = c
+                if (plumb) {
+                    # eg filter by %strange
+                    n = me&Sarg,'chaseout',plumb,{c}
+                    # out of a total bunch that might &wants
+                    n.M = c.N
+                }
+                me&mearg,'Sargfunc_'+func,[n]
+            })
+            a(/^\*\*/, &{
+                # everything under there, using list of R
+                $more = []
+                uniq(c.N.map(r => rc&N[0])).map(&r{
+                    # checks each r is on tape, !rc&not
+                    more.push(... rc&N
+                        .filter(r => me&Risreal,r ) )
+                })
+                c.N = more
+            })
+            a(/^ if %(\w+)/, &{
+                $gk = p.m[0]
+                c.N = c.N.filter(s => s.sc[gk])
+            })
+        }
+        me.Sargfunc_wants = &acgtc{
+            $h = T.sute
+            $pur = (t,c) => h.ha('pur:'+t,c)
+            if (c.M) {
+                # as a space func,
+                #  we can differentiate two steps
+                # we should have recv something to check
+                !hak(c.M) and pur('none')
+            }
+            if (hak(c.N)) {
+                
+                pur('some',{em:joint(c.N)})
+                me&zu,"some",c
+            }
         }
         me.parserify = &acgts{
             $p = {}
-            $parse = s
+            p.s = s
             p.p = &r,place{
-                m = p.m = parse.match(r);
+                m = p.m = p.s.match(r);
                 !m and return
                 m.shift();
                 place and place = place.split('').map(&i{ return m[i] }).join('');
                 else { place = '' }
-                parse = parse.replace(r,place);
+                p.s = p.s.replace(r,place);
                 return 1
             }
             return p
@@ -736,7 +784,7 @@ me.Sch_The = &acgt{ return [
             
             x = me&Gome_Jx,R
             !x and debugger
-            s != xs&Gome and debugger
+            s != xs&Gome and me&tc,"~Gome"
             
           # the entire @Gome 
             Go = theone(me&jaa,R,'Go' )
@@ -808,6 +856,7 @@ me.Sch_The = &acgt{ return [
             $F = ar.F
             
             me&Supervator,{}
+            me&tc,"vator"
 
             #'everything' and return ha('pur:!everything')
             
@@ -3673,7 +3722,11 @@ me.Sch_The = &acgt{ return [
         else r = 0
         R = r || me&R
         return me&ioty,R,...args
-            .filter(r => rc&N.includes(r) && !rc&not)
+            .filter(r => me&Risreal,r )
+    }
+    me.Risreal = &acgtr{
+        # < tends not to happen nowadays
+        return rc&N.includes(r) && !rc&not
     }
     me.Rnodepath = &acgtR{
         # < rowing for...
