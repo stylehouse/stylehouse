@@ -684,9 +684,11 @@ me.Sch_The = &acgt{ return [
             p.p(/\n$/)
             p.p(/^o /)
             $plumb = p.p(/^(.+) o /,'o') && p.m[0]
+            c.expr = p.s
             c.N ||= []
             me&mearg,'Sarg_'+k,[p,s,c]
-            plumb and me&Sarg,k,plumb,{c}
+            # you get the deepest c, .c|fc=inputs
+            plumb and return me&Sarg,k,plumb,{c}
             return c
         }
         me.Sarg_chaseout = &acgtpsc{
@@ -726,12 +728,16 @@ me.Sch_The = &acgt{ return [
                 # space func
                 $func = p.m[0]
                 $plumb = p.m[1]
+                # we can take N from c, c.c, c.fc (plumb here)
                 $n = c
                 if (plumb) {
                     # eg filter by %strange
                     n = me&Sarg,'chaseout',plumb,{c}
                     # out of a total bunch that might &wants
                     n.M = c.N
+                    # return from &Sarg the filtered
+                    c.N = n.N
+                    c.fc = n
                 }
                 me&mearg,'Sargfunc_'+func,[n]
             })
