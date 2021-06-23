@@ -142,15 +142,14 @@ me.Sch_The = &acgt{ return [
             if (me&sa,R,'pur' ) {
                 # which allows loop of quiet wake=%%active
                 me&rollbs,R,'purloop'
-                if (Rs&purloop) {
-                    ~>2 purloop:
-                    return 0
+                if (!Rs&purloop) {
+                    # < generalise, for Superquiets,Pending etc
+                    #    add a &brackstill?
+                    #   and an infinite noise source would use a clock
+                    Rs&purloop = 1
+                    return 'pur'
                 }
-                # < generalise, for Superquiets,Pending etc
-                #    add a &brackstill?
-                #   and an infinite noise source would use a clock
-                Rs&purloop = 1
-                return 'pur'
+                ~>2 purloop:
             }
             
             # any tractorbeams
@@ -313,6 +312,7 @@ me.Sch_The = &acgt{ return [
             $R = me&R
             if (Rs&Piing) {
                 # < organise &Super* via &Superpath
+                me&tc,"Piing-Superdef",'B'
             }
             else {
                 # -Lab/-Labi defining what it would push
@@ -373,11 +373,13 @@ me.Sch_The = &acgt{ return [
             $su = me&tcl,"vator:",'1B'
             N.map(&n{
                 $s = ns&active
+                $va = ny&vator = me&tcl,su,s.t,'1y'
                 $g = me&chargN,<<'',[s]
                     o &wants //R** if %strange o $s//E/*
                 
-                $va = ny&vator = me&tcl,su,s.t,'1y'
                 hak(g.N) and me&tc,va,"%strange",'B'
+                
+                
             })
             me&Superready and return
             
@@ -385,8 +387,10 @@ me.Sch_The = &acgt{ return [
             actc&vators ++
             me&tc,dis(sex({},act.c,'vators,times'))
             
+            $acha = 0
             N.map(&n{
                 $s = ns&active
+                $j = sy&R
                 $va = ny&vator
                 # < a follow?
                 $z = me&fiu,act,s.t
@@ -394,14 +398,23 @@ me.Sch_The = &acgt{ return [
                 zc&vators ++
                 zy&C && zy&C != s and debugger
                 zy&C = s
+                # whether we cant other it
+                me&ja,sy&R,'Superdef,visit' and zc&visits = 1
+                
                 # < make it active when time
                 $ov = 0.2
-                $cha = zc&ov != ov
-                cha and me&tc,va,numf(zc&ov||0)+'->','y'
-                cha and zc&ov = ov
+                if (zc&ov != ov) {
+                    me&tc,va,numf(zc&ov||0)+'->','y'
+                    zc&ov = ov
+                }
                 me&tc,va,'@'+numf(zc&ov||0),'q'
-                
                 me&tc,va,'.'+zc&vators,'b'
+                
+                if (zc&ov != zc&cv) {
+                    !zc&visits and throw "other it"
+                    me&wants,R,"ovpush",s
+                    me&tc,va,'/'+numf(zc&ov||0),'q'
+                }
             })
             # that seem ready
         }
@@ -434,10 +447,11 @@ me.Sch_The = &acgt{ return [
                 me&quietready,R and return 1
             }
             else {
-                # to another vate
+                # get c.to, like a vate
                 me&active_to,R,c
             }
-            # we then follow the real &quietready on Gnomp
+            # to inherit quiet-awareness,
+            #  following the real &quietready on Gnomp
             #  or follow Gnomp on Gnome, etc
             me&howdidIgethere,c
             
@@ -536,7 +550,7 @@ me.Sch_The = &acgt{ return [
             $q = {active:s}
             c = ex(c||{},q)
             # make a reading
-            me&o_activate,c
+            $z = me&o_activate,c
             # many calls to &activate per R
             $oc = Rs&first_activate ||= c
             oc && oc != c and c.oc = oc
@@ -556,7 +570,7 @@ me.Sch_The = &acgt{ return [
             #   halting &Supe*, 
             #    which may cause eg &Resides to stop
             #     < in a way it continues? see reaw.*bal_*
-            c.ov == 0 and return 1
+            c.ov < 0.1 and return 1
             
                 # 1 may be wakeful, when onlyish
                 #   plumbing quiet moments into Gnomp/Gnome
@@ -567,6 +581,12 @@ me.Sch_The = &acgt{ return [
                 #  no effect on Thy..Lab...
                 Rs&wakeful = 1
                 # < only when our want_quiet_wake went off
+            
+            c.ov < 0.2 and return 0
+            # must have an $act/$z
+            # < %commit this... when &Superdef are sent
+            zc&cv = zc&ov
+            me&ha,R,'got_active,feef'
             
             
             return 0
@@ -587,6 +607,13 @@ me.Sch_The = &acgt{ return [
             actc&stop_all and c.ov = 0; return
             c.ov = 0.1
             # cones
+            $z = me&fiu,act,s.t,8
+            !z and return
+            
+            zc&ov ||= c.ov
+            c.ov = zc&ov
+            
+            return z
         }
         
   // &Superarg, -> &Gnome_Jx
@@ -903,7 +930,6 @@ me.Sch_The = &acgt{ return [
             $F = ar.F
             
             me&Supervator,{}
-            me&tc,"vator"
 
             #'everything' and return ha('pur:!everything')
             
@@ -966,6 +992,8 @@ me.Sch_The = &acgt{ return [
     
     ['ThyLab',0.295,&acgtRs{
         # may +%%got_active
+        ~>2 activa: s.t
+        
         me&activate
     },'ift,D'],
     ['ThyLab',0.5,&acgtRs{
@@ -1038,6 +1066,7 @@ me.Sch_The = &acgt{ return [
                 Rs&inst_going = 1
             }
             R.sc[k] = v
+            me&reaw,R,k
             running++
         }
         ex(were,c)
@@ -1350,8 +1379,7 @@ me.Sch_The = &acgt{ return [
             me&Superdef,{f:'nodei',to:t,visit:1} (&rR{
                 # r%Piing//..R%Pier%Labi
                 each in rows {
-                    me&tc,"Rows_sending"
-                    #me&nodei,r,t,n.sc
+                    me&nodei,r,t,n.sc
                 }
             })
             me&anystrange and return Ds&fail = 1
