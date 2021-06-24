@@ -4204,7 +4204,7 @@ me.Sch_Travel = &acgt{ return [
             c.dl = 4.23
             return ki(s,c.dl)
         }
-       // &tc, &tcl, &ty,
+       // &tc, &tcl, &ty modulat bits
         me.tc = &acgtmtcb{
             !isC(m) and b = c; c = t; t = m; m = 0
             $args = [t]
@@ -4239,6 +4239,96 @@ me.Sch_Travel = &acgt{ return [
             tax(n.sc,l.sc,'dis')
             ls&pa = 0.2
             return n
+        }
+       // &rawcap, &boxcap modulat zones
+        # transact ~T.*
+        me.Tap = &acgtc{
+            $was = sex({},T,c)
+            ex(T,c)
+            return &{
+                ex(T,was)
+                haks(c).map(&k{
+                    !hak(was,k) and delete T[k]
+                })
+            }
+        }
+        # capture modulat onto $n
+        me.rawcap = &acgtn{
+            $R = me&R
+            # listen for &tc
+            $capture = me&Mwcap,R,'raw:'+n.t
+            # T.ab=$n, allows descendant &boxcap to know whereto
+            $Tap = me&Tap,{ab:n}
+            return &y{
+                y and y ()
+                Tap()
+                capture(&{
+                    # where to put stuff
+                    return n
+                })
+            }
+        }
+        # build out modulat with whatever turns up
+        #  so we can &dupfiu for t=iofail/suchexpr
+        #  revoking the thing if nothing turns up (suchexpr)
+        me.boxcap = &acgttc,el{
+            $R = me&R
+            # before our capturing, set up in the above
+            $a = T.ab
+            !a and debugger
+            el ||= 1
+            # eg C:iofail is reused, many C:suchexpr
+            #  has my&up=a
+            $m = el == 2 ? me&fiu,a,t
+                : me&dupfiu,a,t
+            !m and debugger
+            # &tcl C makes C/label of t+c style,
+            #   returning C, for writing in next to the label
+            #  confusingly, &tc,C,t,c will return C/thing
+            me&tcl,m,t,c
+            
+            $Tap = me&Tap,{ab:m}
+            # listen for &tc
+            $capture = me&Mwcap,R,'box:'+t
+            
+            return &y{
+                y and y ()
+                Tap()
+                capture(&{
+                    # puts stuff m/*
+                    return m
+                })
+                $N = me&ioty,m .filter(n => n != my&label)
+                !hak(N) and me&fiu,my&up,m,9
+                each in ms&z {
+                    ms&pa ||= 0.1
+                }
+                # < &dupfiu seq may have gaps ^
+            }
+        }
+        // testing of 
+        me.boxcap_situation = &acgt{
+            $two = me&boxcap,"pile1",'1y'
+            me&tc,"<"
+            $three = me&boxcap,"yondsome",'1y'
+            me&tc,"insidde"
+            three()
+            me&tc,">"
+            two()
+            $two = me&boxcap,"pile2",'1y'
+            $three = me&boxcap,"empty",'1y'
+            three()
+            me&tc,"outside"
+            two()
+            $two = me&boxcap,"Achgindi",'1y'
+            me&tc,"stuff"
+            two()
+            $two = me&boxcap,"Achgindi",'1y',2
+            me&tc,"stuff"
+            two()
+            $two = me&boxcap,"Achgindi",'1y'
+            me&tc,"additional"
+            two()
         }
     },
   

@@ -371,14 +371,16 @@ me.Sch_The = &acgt{ return [
             # contrib via %%active
             $N = me&jaa,R,{active:1,eto:Rc&s}
             # that seem ready, by @5
-            $su = me&tcl,"vator:",'1B'
+            $su = me&tcl,"vator:",'1p'
             N.map(&n{
                 $s = ns&active
                 $va = ny&vator = me&tcl,su,s.t,'1y'
-                $g = me&chargN,<<'',[s]
-                    o &wants //R** if %strange o $s//E/*
-                
-                hak(g.N) and me&tc,va,"%strange",'B'
+                me&rawcap,va (&{
+                    $g = me&chargN,<<'',[s]
+                        o &wants //R** if %strange o $s//E/*
+
+                    hak(g.N) and me&tc,va,"%strange",'B'
+                })
                 
             })
             me&Superready and return
@@ -753,14 +755,29 @@ me.Sch_The = &acgt{ return [
             c.fail.push(n)
         }
         me.Sargfailhandle = &acgtc{
-            me&zu,"Fail:",c
-            me&tc,"Fail",'b'
+            $h = T.sute
+            $ox = me&boxcap,'iofail','1B',2
+            me&walls,T.ab,'b:1.1h5'
+            each in c.fail {
+                # "o someexpr"
+                me&boxcap,n.c.expr,'1b' (&{
+                    # part that failed
+                    me&tsc,"fail-expr",n.expr,'y'
+                    me&tsc,"fail-say",n.t,'q'
+                    # < objects -> Thy, for introspection...
+                    #   looking at eg s=-Nine
+                    #   the T.ab^^ may also have leads
+                    me&tsc,"faildata",dis(nex({},n,'c,expr,t')),'G'
+                })
+            }
+            #me&zu,"Fail:",c
+            ox()
         }
-        # fail follow into later plumbings 
+        # fail follow into later plumbings
         me.Sargplumbed = &acgtcf{
             each in f.fail {
                 c.fail ||= []
-                c.fail.push(n)
+                !c.fail.includes(n) and c.fail.push(n)
             }
         }
       // chaseout
@@ -837,6 +854,7 @@ me.Sch_The = &acgt{ return [
                 c.N = c.N.filter(s => s.sc[gk])
             })
         }
+      // &wants etc
         me.Sargfunc_wants = &acgtc{
             $h = T.sute
             $pur = (t,c) => h.ha('pur:'+t,c)
