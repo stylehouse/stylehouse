@@ -310,46 +310,49 @@ me.Sch_The = &acgt{ return [
         # posits vate:r%Piing %%Superdef for a vate
         me.Superdef = &acgtc{
             $R = me&R
-            if (Rs&Piing) {
+            # you may &Superdef on %Piing
+            if (Rs&Piing || Rs&TheFine) {
                 # < organise &Super* via &Superpath
                 me&tc,"Piing-Superdef",'B'
+                $r = R
+                c.wakenode ||= 1
             }
+            # or in &Piing
             else {
                 # -Lab/-Labi defining what it would push
                 # via the ^^%Piing, it vate, may have %%got_active
                 $r = me.cbu(R,'Piing')
-                
-                # c={f:'nodei',to:t,visit:1}
-                #  visit means r must experience +-%%got_active
-                #   which checks its <32 working one more time
-                #  < although for &nodei it could be async to -Lab,
-                #     see dome=$Superdef+'o'
-                # < to sleep -Lab then, see &Eref_begin etc
-                # < %W sphere, being E-Lab
-                me&ha,r,{Superdef:1},{},c
-                
-                # our ability to act active|not immediately
-                #  when %%got_active
-                #  which we shant have the first time
-                #  so we wait for its Ec&uber to !%strange
-                #   < later %strange might come back
-                #     or the this r%%Superdef could be new|gone|diff
-                #      via resolving $n, brackstill for this r%%Superdef
-                #      dome=$Superdef each one? traction them in &SuperLab?
-                #  < %strange will not auto-active an &Superpath involved
-                #    up in @Gome
-                #  if already active,
-                #   we will just keep going, say in @Lab
-                #   < suddenly: freeze outgoings, try to avoid waking $to
-                #     as in a compile error
-                #   we could maybe dome=$Superdef+'o'
-                #    if all it is doing is &nodei
-                #   or &Superpath has y&things it has moved from here
-                # ie
-                # round trip to @Gome, decide the situation is good, put further
-                if (me&ja,r,{got_active:1} ) {
-                    c.got_active = 1
-                }
+            }
+            # c={f:'nodei',to:t,wakenode:1}
+            #  wakenode means r must experience +-%%got_active
+            #   which checks its <32 working one more time
+            #  < although for &nodei it could be async to -Lab,
+            #     see dome=$Superdef+'o'
+            # < to sleep -Lab then, see &Eref_begin etc
+            # < %W sphere, being E-Lab
+            me&ha,r,{Superdef:1},{},c
+
+            # our ability to act active|not immediately
+            #  when %%got_active
+            #  which we shant have the first time
+            #  so we wait for its Ec&uber to !%strange
+            #   < later %strange might come back
+            #     or the this r%%Superdef could be new|gone|diff
+            #      via resolving $n, brackstill for this r%%Superdef
+            #      dome=$Superdef each one? traction them in &SuperLab?
+            #  < %strange will not auto-active an &Superpath involved
+            #    up in @Gome
+            #  if already active,
+            #   we will just keep going, say in @Lab
+            #   < suddenly: freeze outgoings, try to avoid waking $to
+            #     as in a compile error
+            #   we could maybe dome=$Superdef+'o'
+            #    if all it is doing is &nodei
+            #   or &Superpath has y&things it has moved from here
+            # ie
+            # round trip to @Gome, decide the situation is good, put further
+            if (me&ja,r,{got_active:1} ) {
+                c.got_active = 1
             }
             return &y{
                 # < capture y for later via %active/..., see async to -Lab
@@ -436,7 +439,7 @@ me.Sch_The = &acgt{ return [
                     # gather opinions on there
                     $defs = me&jaa,sy&R,'Superdef'
                     each in defs {
-                        ns&visits and zc&visits = 1
+                        ns&wakenode and zc&wakenode = 1
                     }
                     # &Sargfunc_wants also demands some
                     # < make more fatal
@@ -453,7 +456,8 @@ me.Sch_The = &acgt{ return [
 
                     if (zc&ov != zc&cv) {
                         me&tc,'/'+numf(zc&ov||0),'q'
-                        !zc&visits and me&tc,"(#<otherable)",6
+                        
+                        !zc&wakenode and me&tc,"(#<otherable)",6
                         # < bring back &diagno
                         me&wants,R,"ovpush",s
                     }
@@ -1425,7 +1429,7 @@ me.Sch_The = &acgt{ return [
             !hak(rows) and me&strange,"!-row"
             
             # externalisings defined, undertaken
-            me&Superdef,{f:'nodei',to:t,visit:1} (&rR{
+            me&Superdef,{f:'nodei',to:t,wakenode:1} (&rR{
                 # r%Piing//..R%Pier%Labi
                 each in rows {
                     me&nodei,r,t,n.sc
@@ -1531,9 +1535,12 @@ me.Sch_The = &acgt{ return [
                 !(Es&Is && Es&Is.includes(n)) and break
                 continue
             }
-            return me&tc,"Avoiding-ThyF-send"
-            # %%n%tige brackstills
-            Thys and me&nodei,R,Thys,{inst:1,n}
+            
+            # externalisings defined, undertaken
+            me&Superdef,{f:'Flight',of:'inst',to:Thys,wakenode:1} (&{
+                # %%n%tige brackstills
+                me&nodei,R,Thys,{inst:1,n}
+            })
         }
     }
     },
