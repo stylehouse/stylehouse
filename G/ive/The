@@ -375,74 +375,91 @@ me.Sch_The = &acgt{ return [
                 })
             }
         }
+        me.rowcap = &acgtNc{
+            c = peli(c)
+            $a = T.ab
+            !a and throw "rowcap in a boxcap"
+            return &ty{
+                !hak(N) and me&tc,"empty",'6p'
+                each in N {
+                    $args = haks(c).map(k => n.sc[k])
+                    $s = args[0]
+                    !s and throw "row!such", c, n
+                    # piling into each %%active id
+                    me&boxcap,s.t,'1y',2 (&m{
+                        # < checking for multiple-same-named s.t
+                        # for a phase of its activation-think
+                        me&boxcap,t,'1b' (&m{
+                            y(...args)
+                        })
+                    })
+                }
+            }
+        }
         # @5 draws|decides who is active
         me.Supervator = &acgtc{
             $h = T.sute
             $R = me&R
-            # vator has a proper list of %active=C...
-            $act = Rs&active
-            # contrib via %%active
-            $N = me&jaa,R,{active:1,eto:Rc&s}
             # that seem ready, by @5
-            $su = me&tcl,"vator:",'1p'
-            N.map(&n{
-                $s = ns&active
-                $va = ny&vator = me&tcl,su,s.t,'1y'
-                me&roxcap,va ('seems ready',&{
+            me&boxcap,"vator:",'1p' (&{
+                # vator has a proper list of %active=C...
+                $act = Rs&active
+                # contrib via %%active
+                $N = me&jaa,R,{active:1,eto:Rc&s}
+                
+                # &rowcap doesn't start anything until called back
+                $row = me&rowcap,N,'active'
+                row('seems ready',&s{
                     $g = me&chargN,<<'',[s]
                         o &wants //R** if %strange o $s//E/*
 
-                    hak(g.N) and me&tc,va,"%strange",'B'
+                    # ends up with none that are strange
+                    hak(g.N) and me&tc,"%strange",'B'
                 })
-                
-            })
-            N.map(&n{
-                $s = ns&active
-                $va = ny&vator = me&tcl,su,s.t,'1y'
-                me&roxcap,va ('doubly so',&{
+                row('doubly so',&s{
                     me&tc,'btw'
                 })
-                
-            })
-            me&Superready and return
             
-            actc&vators ||= 0
-            actc&vators ++
-            me&tc,dis(sex({},act.c,'vators,times'))
-            
-            $acha = 0
-            N.map(&n{
-                $s = ns&active
-                $j = sy&R
-                $va = ny&vator
-                # < a follow?
-                $z = me&fiu,act,s.t
-                zc&vators ||= 0
-                zc&vators ++
-                zy&C && zy&C != s and debugger
-                zy&C = s
-                
-                # whether we cant other it
-                $defs = me&jaa,sy&R,'Superdef'
-                each in defs {
-                    ns&visits and zc&visits = 1
-                }
-                !hak(defs) and me&tc,"!def?",'b'
-                
-                # < make it active when time
-                $ov = 0.2
-                if (zc&ov != ov) {
-                    me&tc,va,numf(zc&ov||0)+'->','y'
-                    zc&ov = ov
-                }
-                me&tc,va,'@'+numf(zc&ov||0),'q'
-                me&tc,va,'.'+zc&vators,'b'
-                
-                if (zc&ov != zc&cv) {
-                    !zc&visits and throw "other it"
-                    me&wants,R,"ovpush",s
-                    me&tc,va,'/'+numf(zc&ov||0),'q'
-                }
+                me&Superready and return
+                me&tc,"Stillin"
+
+                actc&vators ||= 0
+                actc&vators ++
+                me&tc,dis(sex({},act.c,'vators,times'))
+
+                $acha = 0
+                row('state',&s{
+                    $j = sy&R
+                    # < a follow?
+                    $z = me&fiu,act,s.t
+                    zc&vators ||= 0
+                    zc&vators ++
+                    zy&C && zy&C != s and debugger
+                    zy&C = s
+
+                    # whether we cant other it
+                    $defs = me&jaa,sy&R,'Superdef'
+                    each in defs {
+                        ns&visits and zc&visits = 1
+                    }
+                    # &Sargfunc_wants also demands some
+                    !hak(defs) and me&tc,"!def?",'b'
+
+                    # < make it active when time!
+                    $ov = 0.2
+                    if (zc&ov != ov) {
+                        me&tc,numf(zc&ov||0)+'->','y'
+                        zc&ov = ov
+                    }
+                    me&tc,'@'+numf(zc&ov||0),'q'
+                    me&tc,'.'+zc&vators,'b'
+
+                    if (zc&ov != zc&cv) {
+                        !zc&visits and throw "other it"
+                        me&wants,R,"ovpush",s
+                        me&tc,'/'+numf(zc&ov||0),'q'
+                    }
+                })
             })
         }
      // f
@@ -777,6 +794,7 @@ me.Sch_The = &acgt{ return [
         }
         me.Sargfailhandle = &acgtc{
             $h = T.sute
+            h.ha('pur:iofail')
             $ox = me&boxcap,'iofail','1B',2
             me&walls,T.ab,'b:1.1h5'
             each in c.fail {

@@ -4273,14 +4273,20 @@ me.Sch_Travel = &acgt{ return [
         #  revoking the thing if nothing turns up (suchexpr)
         me.boxcap = &acgttc,el{
             $R = me&R
+            el ||= 1
             # before our capturing, set up in the above
             $a = T.ab
-            !a and debugger
-            el ||= 1
-            # eg C:iofail is reused, many C:suchexpr
-            #  has my&up=a
-            $m = el == 2 ? me&fiu,a,t
-                : me&dupfiu,a,t
+            if (a) {
+                # eg C:iofail is reused, many C:suchexpr
+                #  has my&up=a
+                $m = el == 2 ? me&fiu,a,t
+                    : me&dupfiu,a,t
+            }
+            else {
+                # above is raw &Mwcap or nothing
+                $m = me&tc,t
+                # &tcl moves c&s to the label
+            }
             !m and debugger
             # &tcl C makes C/label of t+c style,
             #   returning C, for writing in next to the label
