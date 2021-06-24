@@ -723,15 +723,13 @@ me.Sch_The = &acgt{ return [
             }
         }
   // &Sarg io proto
-        # k per pseudo-implementation
+      // f
         me.chargN = &acgtsc{
             $g = me&Sarg,'chaseout',s,c
-            if (g.fail) {
-                me&zu,"Fail:",g
-                me&tc,"Fail",'b'
-            }
+            g.fail and me&Sargfailhandle,g
             return g.N
         }
+        # k per pseudo-implementation
         me.Sarg = &acgtksc{
             $h = T.sute
             isar(c) and c = {arg:c}
@@ -748,20 +746,24 @@ me.Sch_The = &acgt{ return [
             return c
         }
         me.Sargfail = &acgtcq{
-            $n = {}
+            $n = {c}
             ex(n,q)
             n.expr = c.p.whole
             c.fail ||= []
             c.fail.push(n)
         }
+        me.Sargfailhandle = &acgtc{
+            me&zu,"Fail:",c
+            me&tc,"Fail",'b'
+        }
         # fail follow into later plumbings 
         me.Sargplumbed = &acgtcf{
             each in f.fail {
-                n.c = f
                 c.fail ||= []
                 c.fail.push(n)
             }
         }
+      // chaseout
         me.Sarg_chaseout = &acgtpsc{
             $a = (regex,y) => p.p(regex) && y ()
             
