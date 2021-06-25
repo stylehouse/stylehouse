@@ -4063,6 +4063,7 @@ me.Sch_Travel = &acgt{ return [
             return 1
         }
      // f
+       
        // &diagno, &receivan, &zaone, theone() when to what why
         # responds to each q=(%%fault),... once
         #  and return true if we haven't tried t:fix
@@ -4252,22 +4253,6 @@ me.Sch_Travel = &acgt{ return [
                 })
             }
         }
-        # capture modulat onto $n
-        me.rawcap = &acgtn{
-            $R = me&R
-            # listen for &tc
-            $capture = me&Mwcap,R,'raw:'+n.t
-            # T.ab=$n, allows descendant &boxcap to know whereto
-            $Tap = me&Tap,{ab:n}
-            return &y{
-                y and y ()
-                Tap()
-                capture(&{
-                    # where to put stuff
-                    return n
-                })
-            }
-        }
         # build out modulat with whatever turns up
         #  so we can &dupfiu for t=iofail/suchexpr
         #  revoking the thing if nothing turns up (suchexpr)
@@ -4335,6 +4320,27 @@ me.Sch_Travel = &acgt{ return [
             $two = me&boxcap,"Achgindi",'1y'
             me&tc,"additional"
             two()
+        }
+        me.rowcap = &acgtNc{
+            c = peli(c)
+            $a = T.ab
+            !a and throw "rowcap in a boxcap"
+            return &ty{
+                !hak(N) and me&tc,"empty",'6p'
+                each in N {
+                    $args = haks(c).map(k => n.sc[k])
+                    $s = args[0]
+                    !s and throw "row!such", c, n
+                    # piling into each %%active id
+                    me&boxcap,s.t,'1y',2 (&m{
+                        # < checking for multiple-same-named s.t
+                        # for a phase of its activation-think
+                        me&boxcap,t,'1b' (&m{
+                            y(...args,m)
+                        })
+                    })
+                }
+            }
         }
     },
   
