@@ -313,7 +313,6 @@ me.Sch_The = &acgt{ return [
             # you may &Superdef on %Piing
             if (Rs&Piing || Rs&TheFine) {
                 # < organise &Super* via &Superpath
-                me&tc,"Piing-Superdef",'B'
                 $r = R
                 c.wakenode ||= 1
             }
@@ -442,8 +441,10 @@ me.Sch_The = &acgt{ return [
                         ns&wakenode and zc&wakenode = 1
                     }
                     # &Sargfunc_wants also demands some
-                    # < make more fatal
-                    !hak(defs) and me&tc,"!def?",'b'
+                    if (!hak(defs)) {
+                        zc&wakenode = 1
+                        me&tc,"!def?",'b'
+                    }
 
                     # < make it active when time
                     $ov = 0.2
@@ -1079,9 +1080,6 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
     
     ['ThyLab',0.295,&acgtRs{
-        # may +%%got_active
-        ~>2 activa: s.t
-        
         me&activate
     },'ift,D'],
     ['ThyLab',0.5,&acgtRs{
