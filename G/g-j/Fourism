@@ -50,7 +50,7 @@ $io = me.io;
         else {
             $S = ev.target;
             while (S && !(S.A && S.A.4)) {
-                S = S.parentNode;
+                S = S.trickparentNode || S.parentNode;
             }
             # must be clicking <body>, <html>
             #   or something above .A element space
@@ -2543,6 +2543,17 @@ me.Fourismness = &acgt{ return [
         $p = Ry&up;
         ps&Abodo ||= 1;
     },'ift,D'],
+    &{
+        me.moveDisplayto = &acgtR,to{
+            ah(R,'NinetySixer','tobody',&{
+                $on = me&Dispon,R
+                on.parentElement == to and return
+                # trick &gev|w:EleMento into reading the whole path
+                on.trickparentNode = on.parentElement
+                to.appendChild(on)
+            })
+        }
+    },
     # the lab to sort out
     #   maximises/styles a bit
     #   listens for tunneling
@@ -2556,6 +2567,7 @@ me.Fourismness = &acgt{ return [
         if (!(location.port+"").endsWith('12')) {
             # < modern browsers
             me&tsc,"port:"+location.port
+            me&moveDisplayto,R,document.body
         }
         #!
         s&bgi = '/i/IMG_3524.JPG';
