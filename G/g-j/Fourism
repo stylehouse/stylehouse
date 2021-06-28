@@ -2564,9 +2564,9 @@ me.Fourismness = &acgt{ return [
         s&top = 0;
         s&width = '55%';
         s&height = '100%';
-        if (!(location.port+"").endsWith('12')) {
-            # < modern browsers
-            me&tsc,"port:"+location.port
+        $m = navigator.userAgent.match(/Chrome\/(\d+)/)
+        if (m && (m[1]*1) < 60) {
+            # modern browsers nest fixed|absolute
             me&moveDisplayto,R,document.body
         }
         #!
