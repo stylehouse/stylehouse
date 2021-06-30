@@ -2550,6 +2550,12 @@ me.Fourismness = &acgt{ return [
                 on.parentElement == to and return
                 # trick &gev|w:EleMento into reading the whole path
                 on.trickparentNode = on.parentElement
+                # cull history
+                $t = on.getAttribute('title')
+                t && Array.prototype.slice.call(to.childNodes) .map(&n{
+                    n.getAttribute && n.getAttribute('title') == t
+                        && n.remove()
+                })
                 to.appendChild(on)
             })
         }
