@@ -466,7 +466,190 @@
         ah(n,'attr',way+'span',i)
     }
   
- 
+ // &Sa
+  // &Sa
+    #
+    me.Sa = &acgtc{
+        return &s{
+            $g = me&Sarg,'chaseout',s,c
+            g.fail and me&Sargfailhandle,g
+            return hak(g,'return') ? g.return : g.N
+        }
+    }
+      
+     me.UseCase = &{
+                $r = me.cbu(R,'Piing')
+            me&ha,r,{Superdef:1},{},c
+            
+            me&ja,r,'got_active'
+        }
+  // &Sarg io proto
+      // f
+        me.chargN = &acgtsc{
+            $g = me&Sarg,'chaseout',s,c
+            g.fail and me&Sargfailhandle,g
+            return g.N
+        }
+        # k per pseudo-implementation
+        me.Sarg = &acgtksc{
+            $h = T.sute
+            isar(c) and c = {arg:c}
+            
+            $p = c.p = me&parserify,s
+            p.p(/\n$/)
+            p.p(/^o /)
+            $plumb = p.p(/^(.+) o /,'o') && p.m[0]
+            c.expr = p.s
+            c.N ||= []
+            me&mearg,'Sarg_'+k,[p,s,c]
+            # you get the deepest c, .c|fc=inputs
+            plumb and return me&Sarg,k,plumb,{c}
+            return c
+        }
+        me.Sargfail = &acgtcq{
+            $n = {c}
+            ex(n,q)
+            n.expr = c.p.whole
+            c.fail ||= []
+            c.fail.push(n)
+        }
+        me.Sargfailhandle = &acgtc{
+            $h = T.sute
+            h.ha('pur:iofail')
+            $ox = me&boxcap,'iofail','1B',2
+            me&walls,T.ab,'b:1.1h5'
+            each in c.fail {
+                # "o someexpr"
+                me&boxcap,n.c.expr,'1b' (&{
+                    # part that failed
+                    me&tsc,"fail-expr",n.expr,'y'
+                    me&tsc,"fail-say",n.t,'q'
+                    # < objects -> Thy, for introspection...
+                    #   looking at eg s=-Nine
+                    #   the T.ab^^ may also have leads
+                    me&tsc,"faildata",dis(nex({},n,'c,expr,t')),'G'
+                })
+            }
+            #me&zu,"Fail:",c
+            ox()
+        }
+        # fail follow into later plumbings
+        me.Sargplumbed = &acgtcf{
+            each in f.fail {
+                c.fail ||= []
+                !c.fail.includes(n) and c.fail.push(n)
+            }
+        }
+      // chaseout
+        me.Sarg_chaseout = &acgtpsc{
+            $a = (regex,y) => p.p(regex) && y ()
+            
+            # begin with somethings
+            if (c.c) {
+                me&Sargplumbed,c,c.c
+                c.N = c.c.N.slice()
+            }
+            a(/^\$s/, &{
+                $s = c.arg.shift()
+                c.N = isar(s) ? s.slice() : [s]
+            })
+            # go somewhere
+            a(/^\/\/(\w+)/, &{
+                c.N = c.N.map(&s{
+                    # s//E == s//R//E
+                    $r = sy&R
+                    !r and return me&Sargfail,c,{t:'!%R',s}
+                    $ark = p.m[0]
+                    ark == 'R' and return r
+                    $E = r.sc[ark]
+                    !E and return me&Sargfail,c,{t:'!%'+ark,s:r}
+                    return E
+                }) .filter(s=>s)
+            })
+            
+            a(/^\/\*/, &{
+                # < this is /?* rather than /*
+                #   it adds r + r/*
+                $more = []
+                c.N.map(&E{
+                    # E/* add (no sense of columns)
+                    more.push(E, ... me&ioty,E )
+                })
+                c.N = more
+            })
+            a(/^&(\w+)(?: (.+))?$/, &{
+                # space func
+                $func = p.m[0]
+                $plumb = p.m[1]
+                # we can take N from c, c.c, c.fc (plumb here)
+                $f = c
+                if (plumb) {
+                    # eg filter by %strange
+                    f = me&Sarg,'chaseout',plumb,{c}
+                    # out of a total bunch that might &wants
+                    f.M = c.N
+                    # return from &Sarg the filtered
+                    c.N = f.N
+                    c.fc = f
+                    me&Sargplumbed,c,f
+                }
+                me&mearg,'Sargfunc_'+func,[f]
+            })
+            a(/^\*\*/, &{
+                # everything under there, using list of R
+                $more = []
+                uniq(c.N.map(r => rc&N[0])).map(&r{
+                    # checks each r is on tape, !rc&not
+                    more.push(... rc&N
+                        .filter(r => me&Risreal,r ) )
+                })
+                c.N = more
+            })
+            # < hang as the specific complaint (%strange)
+            #   with the //R** inside the if
+            #   knocking out rows of E** above
+            #   so &wants gets E+ and R+ specifics
+            a(/^ if %(\w+)/, &{
+                $gk = p.m[0]
+                c.N = c.N.filter(s => s.sc[gk])
+            })
+        }
+      // &wants etc
+        me.Sargfunc_wants = &acgtc{
+            $h = T.sute
+            $pur = (t,c) => h.ha('pur:'+t,c)
+            if (c.M) {
+                # as a space func,
+                #  we can differentiate two steps
+                # we should have recv something to check
+                !hak(c.M) and pur('none')
+            }
+            if (hak(c.N)) {
+                $last_expr = c.p.whole
+                each ir c.N {
+                    $s = rc&s
+                    $j = me.cbu(r,'Piing')
+                    $tpath = joint(me.cby(rs&E,js&E),'/')
+                    pur('wants:'+last_expr,{tpath,pre:jc&s,targ:s})
+                }
+                # where to go to redo
+                pur('some',{em:joint(c.N)})
+            }
+        }
+        me.parserify = &acgts{
+            $p = {}
+            p.s = s
+            p.p = &r,place{
+                m = p.m = p.s.match(r);
+                !m and return
+                p.whole = m.shift();
+                place and place = place.split('').map(&i{ return m[i] }).join('');
+                else { place = '' }
+                p.s = p.s.replace(r,place);
+                return 1
+            }
+            return p
+        }
  
 // < &togcon via %Te
  
