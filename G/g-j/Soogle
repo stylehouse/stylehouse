@@ -3430,16 +3430,18 @@ me.styler = &acgt{
         # verticalised label
         if (c == 'l') {
             # turn original into spacer
-            $s = nc&s;
-            nc&s = ' ';
-            y('ma:0.4');
+            $s = delete nc&s
+            nc&s = '&nbsp;'
+            nc&ht = 1
+            y('ma:0.4,dis:2');
             $M = ns&z = [];
             $l =
             m $n.t  $s:s
             ny&label = me&tsc,l,0,'label';
         }
         silent and delete nc&s
-        c == 'label' and y('wb:0,tro:20% 0%,ml:-0.5,hs:296,rad:90,scale:0.8,ab,mt:-0.4,poi:0')
+        # ,ml:-0.5,mt:-0.4,
+        c == 'label' and y('wb:0,ml:-0.5,tro:20% 0%,hs:296,rad:90,scale:0.8,ab,poi:0')
         c == 'L' and y('fs:15')
         b and y (b)
         return n
