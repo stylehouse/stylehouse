@@ -41,41 +41,69 @@ me.Sch_Travel = &acgt{ return [
 // Yingu - every frame
     # n Yingu  R %Abodis,Yingu,Peace:1
     ['Abodis+Yingu','7',&acgtRs{
-        # modern browsers nest fixed|absolute
-        me&moveDisplayto,R,document.body
     },'ift,D,sleeping'],
     ['Abodis+Yingu','7',&acgtRs{
         
-        me&reaw,R,'Yingu';
+        me&reaw,R,'Abodis,Yingu';
+        # modern browsers nest fixed|absolute
+        me&moveDisplayto,R,document.body
         
+        s&width = 14;
+        s&fs = 15.51
+        s&over = 1
+        $yn = me&tsc,"%Yingu!",0,'B' 
+        yns&dis = 1
+        yns&width = 40
         
-        #s&over = 1
-        me&tsc,"%Yingu!",0,'B' .sc.dis = 1;
         n Yingito  R %Tool
         
+        # < glow the pile of all? nodes from Outlog wake etc
+        #   1-2 line display hoist?
+        #   their times
+
+        me&AceOutlog,R
+        
+        4s&intere and me&nu,'intere',4s&intere
+    },'ift,D'],
+  // Yingu f
+    &{
+    # msgs of Outlog
+    me.AceOutlog = &acgtR{
+        # the Y:Peace slope (RNA)
+        #  Y.1 = R:Yingu, Yc&sip etc
         $Y = Rs&Ace;
-        $f = Y.4[1];
-        $Ying = fs&Ying;
-        me&nu,'Ying',Ying;
-        !fs&Outlog and return
-        $la = fs&Outlog.slice(-5);
+        # Y.4.1 = R:Thy
+        $Thy = Y.4[1];
+        # R:Thy%Ying=C
+        #  perma A, has /Schema,Steps
+        $Ying = Thys&Ying;
+        # which is C to Y:Ying:
+        $YYing = Yingy&Y
+        
+        me&nu,'Yings',{Y,Thy,Ying}
+        $Outlog = Thys&Outlog
+        !Outlog and return
+        $la = Outlog.slice(-5);
         $inds = []
         each il la {
-            $k = fs&Outlog.indexOf(l);
+            $k = Outlog.indexOf(l);
             inds.push(k)
             $g = me&opeolo,k,{label:{walls:'bg'}};
             gs&dis = 1;
             $wake = me&bracko,R,l,'wake',1
+            # < have *_time
+            0 == i and me&nu,'lastOutlog',l
             wake && wake.map(&n{
                 isC(n) ? me&opeKm,g,n.t
                     : gy&can('nu',n)
             })
         }
-        # < some Cupon bug. ordered here, out in html.
-        #~>3 indsYingu: dis(inds)
-        
-        4s&intere and me&nu,'intere',4s&intere
-    },'ift,D'],
+        # GONE? < some Cupon bug. ordered here, out in html.
+        #me&tc,"indsYingu:"+dis(inds),'b'
+    }
+  
+    },
+    
     
 // Detection - whats going on
   &{
@@ -237,7 +265,7 @@ me.Sch_Travel = &acgt{ return [
   
   // &Dtunneling
     # < merge in &Yingwhen, early sense e, how to %onlyish
-    #  < how to gradually work when fed A leash
+    #  < how to gradually work when fed A leashes
     me.Yingtunneling = &acgt{
     }
     # there's no way in without tunneling
