@@ -111,7 +111,8 @@ me.Sch_Travel = &acgt{ return [
             $la = Outlog.slice(-5)
             each il la {
                 $k = Outlog.indexOf(l);
-                me&brackolosim,R,l,{t:k}
+                !num(lc&i) and throw '-log!c&i'
+                me&brackolosim,R,l,{t:lc&i}
             }
             l and me&nu,'lastOutlog',l
         })
@@ -122,10 +123,16 @@ me.Sch_Travel = &acgt{ return [
         !ss&X.k and throw "!wou"
         c.t ||= s.t
         me&boxcap,c.t,'1b' (&{
-            me&walls,T.ab,'bg'
-            $ks = {}
-            me&ioty,s .map(n => haks(n.sc).map(k => ks[k] = 1))
-            me&tc,joint(haks(ks),',')
+            # whole olosim
+            me&walls,T.ab,'b:1.1h2'
+            # per Km expression island, can be conjoined
+            me&boxcap,'allkeys','b' (&l{
+                ly&label.sc.dis = 0
+                
+                $ks = {}
+                me&ioty,s .map(n => haks(n.sc).map(k => ks[k] = 1))
+                me&tc,joint(haks(ks),',')
+            })
         })
     }
   
