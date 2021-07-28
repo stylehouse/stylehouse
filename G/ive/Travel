@@ -79,30 +79,45 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
     # After Ying_8
     ['ball+Yingout','85',&acgtRs{
-        me&tc,"Here0o"
         me&AceOutlog,R
         
     },'ift,D'],
     
   // Yingu f
     &{
-    # msgs of Outlog!!
-    me.AceOutlog = &acgtR{
+    # a namespace
+    me.Yingu_Jx = &acgt{
+        $R = me&R
+        $x = me&Jx,R
+        
         # the Y:Peace slope (RNA)
         #  Y.1 = R:Yingu, Yc&sip etc
         $Y = me&Rsc,R,'^^Ace'
         # Y.4.1 = R:Thy
-        $Thy = Y.4[1];
+        $RYing = Y.4[1];
+        $Outlog = RYings&Outlog
+        !Outlog and debugger
         # R:Thy%Ying=C
         #  perma A, has /Schema,Steps
-        $Ying = Thys&Ying;
+        $CYing = RYings&Ying;
         # which is C to Y:Ying:
-        $YYing = Yingy&Y
+        $YYing = CYingy&Y
         
-        $Outlog = Thys&Outlog
-        !Outlog and return me&tc,'!Outlog'
-        
-        #me&nu,'Yings',{Y,Thy,Ying,YYing,Outlog}
+        # give xs&Outlog etc
+        $arg = {Y,RYing,CYing,YYing,Outlog}
+        each kv arg {
+            x.sc[k] && x.sc[k] != v and me&tc,"Jx!!"+k,'B'
+            else {
+                x.sc[k] = v
+            }
+        }
+        #me&nu,'Yingu_Jx',x.sc
+        return x
+    }
+    # msgs of Outlog!!
+    me.AceOutlog = &acgtR{
+        $x = me&Yingu_Jx
+        $Outlog = xs&Outlog
         
         me&boxcap,'Outlogo','1B',2 (&m{
             # m == T.ab
