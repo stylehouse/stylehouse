@@ -104,7 +104,9 @@ me.Sch_The = &acgt{ return [
         me&baleg,'TryPiWarmer','Gnome'
         # %%active:Gnome here
         # < parallel tests? shouldn't interfere? (unpredictably)
-        me&activator,{quietready:1} and return
+        $c = {quietready:1}
+        (Rs&boost||0) < 0 and delete c.quietready
+        me&activator,c and return
     },'ift,D'],
     &{ 
      # other time
@@ -4010,6 +4012,7 @@ me.Sch_The = &acgt{ return [
         !y and return
         return y && y (A,C,G,T,...[...arguments].slice(5))
     }
+   
    // partN()
     # hash partition array by return value of y(n)
     # returns {ks:[keys],vs:[values]}
@@ -4076,6 +4079,7 @@ me.Sch_The = &acgt{ return [
         # curve, etc
         return a
     }
+    
    // C stackups
     # dedupe same t
     # < accept t=c with .t, strat for The $n++

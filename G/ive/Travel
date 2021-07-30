@@ -77,6 +77,7 @@ me.Sch_Travel = &acgt{ return [
         
         4s&intere and me&nu,'intere',4s&intere
     },'ift,D'],
+  // %Yingout
     # After Ying_8
     ['ball+Yingout','85',&acgtRs{
         $x = me&Yingu_Jx
@@ -95,22 +96,16 @@ me.Sch_Travel = &acgt{ return [
         !r and return
         rs&lastone = 1
     },'ift,D'],
-    ['ball+Yingout','86',&acgtRs{
-        ~>3 Yingout completing:
-        $r = me&ioty,R,'Yingoutlog' .pop()
-        
-        me&brackstract_out,r
-    },'ift,D'],
     ['Yingoutlog','85',&acgtRs{
         me&reaw,R,'Yingoutlog,lastone'
         !me&ollbs,R,'lastone' && me&sleepic,R and return
         s&dis = 1
         me&walls,C,'b:1.1h5'
         
-        ~>3 Yingoutlog: R.t
         # o Outlog/-log%X
         !ss&X.k and throw "!wou"
         # i undomed brack about how
+        # < GOING in favour of R%stractia?
         me&haja
         
         me&boxcap,R.t,'b' (&{
@@ -141,9 +136,39 @@ me.Sch_Travel = &acgt{ return [
         #    then %%node inside
         #    then any %%other stuff, may hang off
     },'ift,D'],
+    ['ball+Yingout','86',&acgtRs{
+        $r = me&ioty,R,'Yingoutlog' .pop()
+        
+        me&brackstract_out,r
+    },'ift,D'],
+    
+    ['Thyer','66',&acgtRs{
+        # this sense is X..x merged with its acquisition (ax|arkN etc)
+        $x = me&Jx
+        !x.ro('chao') and return
+        # W/$steps
+        $W = xs&Ying
+        $steps = me&ioty,W
+        grepout(steps,s)
+        shuffle(steps)
+        me&wants,R,"chaosteps",steps.shift()
+        me&wants,R,"chaosteps",steps.shift()
+        me&wants,R,"chaosteps",steps.shift()
+    },'ift,D'],
+    
     
   // Yingu f
     &{
+    self.shuffle = &a{
+        var j, x, i;
+        for (i = a.length - 1; i > 0; i--) {
+            j = Math.floor(Math.random() * (i + 1));
+            x = a[i];
+            a[i] = a[j];
+            a[j] = x;
+        }
+        return a;
+    }
     # a namespace
     me.Yingu_Jx = &acgt{
         $R = me&R
@@ -214,18 +239,41 @@ me.Sch_Travel = &acgt{ return [
         $Y = Rs&astract
         !Y and return me&tc,"!Y"
         
-        if (1) {
+        if (0) {
             $va = [1,2,5,"ge",1]
             $n = Cye(["bla",2])
             va.map(z => fi&Xsimp,Y,{node:z},{array:1,n} )
         }
         
         # info relating to nodes written up first
-        $nodes = fi&Xsomp,Y,{node:1} .map(&ai{
+        
+        $nodes = fi&Xsomp,Y,{node:1}
+        # unique $node
+        $h = partN(nodes,a=>a.node)
+        # < by nodemap
+        $startsort = h.ks.slice()
+        each it h.ks {
+            $N = h.vs[i]
+            $aa = N[0]
+            me&boxcap,"n:"+ki(aa.node,1),'1b' (&{
+                me&tc,aa.node.t,'y'
+                me&tc,""+dis(a),6 .sc.ma=0.4
+                
+                each ia N {
+                    me&boxcap,"a:",'1b' (&m{
+                        ms&ml = 0.6
+                        $n = a.n
+                        me&tc,""+dis(n.sc),6
+                    })
+                }
+            })
+        }
+        nodes .map(&ai{
             
             return a
         })
-        me&zu,"noide",nodes
+        
+        me&zu,"noideh",nodes
         me&nu,'ZealaY',D
         me&nu,'ZealaD',Y
     }
