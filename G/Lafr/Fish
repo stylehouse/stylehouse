@@ -612,10 +612,11 @@ fi.Xios ||= {}
             $M = []
             $arkM = []
             each ix N {
-                $arkx = arkN[i]
-                !arkx and debugger
+                $arks = arkN[i]
+                !arks and debugger
                 # each possible x continued along path
                 fi&bug,'somp' and debugger
+                # vx/$t=$k|$ref/x
                 $vx = fi&Xsim,x,'X',[],hashkv(k,v),c,q
                 if (!vx) {
                     # doesnt x/$k:v...
@@ -624,12 +625,25 @@ fi.Xios ||= {}
                 # non-wild completes path into point (x)
                 !c.wild and vx = hashkv(v,vx)
                 # always X|x.$k(.$v=$x)+
-                each vx vx {
-                    $arkv = ex({},arkx,hashkv(k,v))
+                each v,ax vx {
+                    # ark acquires k:v
+                    $arkv = ex({},arks)
+                    # arks (columns) statement unique
+                    hak(arkv,k) and debugger
+                    $ref = x[k+'s']
+                    if (ref) {
+                        # refs sequenced deduplicatively, see &Xsim c.array
+                        !num(v) and debugger
+                        arkv[k+'_i'] = v
+                        arkv[k] = ref[v]
+                    }
+                    else {
+                        arkv[k] = v
+                    }
                     # also each x on the way
-                    arkv.arkx = ex({},arkv.arkx||{})
-                    arkv.arkx[k] = x
-                    M.push(x)
+                    arkv.arkx = ex({},arks.arkx||{})
+                    arkv.arkx[k] = ax
+                    M.push(ax)
                     arkM.push(arkv)
                 }
             }
