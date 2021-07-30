@@ -89,7 +89,8 @@ me.Sch_Travel = &acgt{ return [
             $k = Outlog.indexOf(l);
             !num(lc&i) and throw '-log!c&i'
             # not %ball due to l/*:rows we eat
-            n $k  $s:l %R,Yingoutlog,Peace
+            #n $k  $s:l %R,Yingoutlog
+            me&Ret,R,{t:k,s:l,Yingoutlog:1}
         }
         
     },'ift,D'],
@@ -99,7 +100,10 @@ me.Sch_Travel = &acgt{ return [
         s&dis = 1
         me&walls,C,'b:1.1h5'
         me&brackolosim,R,s,{t:R.t}
-        
+        # declare a syntax construct:
+        #   %%step is expressed,
+        #    then %%node inside
+        #    then any %%other stuff, may hang off
     },'ift,D'],
     
   // Yingu f
@@ -133,35 +137,19 @@ me.Sch_Travel = &acgt{ return [
         #me&nu,'Yingu_Jx',x.sc
         return x
     }
-    # msgs of Outlog!!
-    me.AceOutlog = &acgtR{
-        $x = me&Yingu_Jx
-        $Outlog = xs&Outlog
-        
-        me&boxcap,'Outlogo','1B',2 (&m{
-            # m == T.ab
-            ms&fs = 6
-            me&walls,T.ab,'b:1.1h5'
-            $la = Outlog.slice(-5)
-            each il la {
-                $k = Outlog.indexOf(l);
-                !num(lc&i) and throw '-log!c&i'
-                me&brackolosim,R,l,{t:lc&i}
-            }
-            l and me&nu,'lastOutlog',l
-        })
-    }
     # < 
     me.brackolosim = &acgtRsc{
         $c = peel(c)
         !ss&X.k and throw "!wou"
         c.t ||= s.t
-        me&boxcap,c.t,'1b' (&{
+        me&boxcap,c.t,'b' (&{
             # whole olosim
             me&walls,T.ab,'b:1.1h2'
+            
             # per Km expression island, can be conjoined
             me&boxcap,'allkeys','b' (&l{
                 ly&label.sc.dis = 0
+                ls&fs = 6
                 
                 $ks = {}
                 me&ioty,s .map(n => haks(n.sc).map(k => ks[k] = 1))
