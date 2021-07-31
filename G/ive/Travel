@@ -145,6 +145,11 @@ me.Sch_Travel = &acgt{ return [
     ['Thyer','66',&acgtRs{
         # this sense is X..x merged with its acquisition (ax|arkN etc)
         $x = me&Jx
+        if (x.ro('noq')) {
+            $Y = me.cbu(R,'Ying').sc.Ying
+            delete Ys&quiet_wakers_too_recently
+        }
+        
         !x.ro('chao') and return
         # W/$steps
         $W = xs&Ying
@@ -1724,7 +1729,6 @@ me.Sch_Travel = &acgt{ return [
         # ugly combo of 'Gump/* ready' and quiet wake sub
         me.quietready = &acgtR{
             $s = Rc&s
-            
             $Y = me.cbu(R,'Ying').sc.Ying
             Ys&quiet_wakers_too_recently = &r{
                 # r is R%Ying in waits_8 (not in time)
