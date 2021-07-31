@@ -4386,12 +4386,12 @@ me.Sch_Travel = &acgt{ return [
         me.Mwcap = &acgtRkm{
             $was = T.Mw
             T.Mw = k
-            return &y{
-                T.Mw = was
+            return &y,partial{
+                !partial and T.Mw = was
                 !Rs&Mw and return
                 $N = delete Rs&Mw[k]
                 !hak(N) and return
-                y and m = y ()
+                y and m = isfu(y) ? y () : y
                 !m && !y and debugger
                 !m and return
                 N.map(n => ac(m,'z',n))
@@ -4472,6 +4472,8 @@ me.Sch_Travel = &acgt{ return [
         me.boxcap = &acgttc,el{
             $R = me&R
             el ||= 1
+            # traction what is already, so m comes after it in a/*
+            T.Mwcap and T.Mwcap()
             # before our capturing, set up in the above
             $a = T.ab
             if (a) {
@@ -4494,16 +4496,22 @@ me.Sch_Travel = &acgt{ return [
             $Tap = me&Tap,{ab:m}
             # listen for &tc
             $capture = me&Mwcap,R,'box:'+t
+            # allow m/m (sees a/m) to stream before inner &boxcap
+            $Mwcap = me&Tap,{Mwcap:&{capture(m,'partial')}}
             
             return &y{
+                # for &boxcap,t,c (&m{...})
                 y and y (m)
                 Tap()
-                capture(&{
-                    # puts stuff m/*
-                    return m
-                })
+                # without 'partial' sets T.Mw=was
+                capture(m)
+                Mwcap()
+                # consider thing done
                 $N = me&ioty,m .filter(n => n != my&label)
-                !hak(N) and me&fiu,my&up,m,9
+                if (!hak(N)) {
+                    # < who?
+                    me&fiu,my&up,m,9
+                }
                 each in ms&z {
                     ms&pa ||= 0.1
                 }
