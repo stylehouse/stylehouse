@@ -92,12 +92,18 @@ me.Sch_Travel = &acgt{ return [
             # not %ball due to l/*:rows we eat
             #n $k  $s:l %R,Yingoutlog
             $r = me&Ret,R,{t:k,s:l,Yingoutlog:1}
+            $N = me&bracko,R,l,{step:1},1
+            
+            
+            hak(uniq(N)) > 1 and me&nu,"Zip"+l.t,N
+            hak(uniq(N)) > 1  and rs&interesting = 1
         }
         !r and return
         rs&lastone = 1
     },'ift,D'],
     ['Yingoutlog','85',&acgtRs{
-        me&reaw,R,'Yingoutlog,lastone'
+        me&reaw,R,'Yingoutlog,lastone,interesting'
+        Rs&interesting and Rs&lastone = 1
         !me&ollbs,R,'lastone' && me&sleepic,R and return
         s&dis = 1
         me&walls,C,'b:1.1h5'
@@ -137,42 +143,37 @@ me.Sch_Travel = &acgt{ return [
         #    then any %%other stuff, may hang off
     },'ift,D'],
     ['ball+Yingout','86',&acgtRs{
-        $r = me&ioty,R,'Yingoutlog' .pop()
-        
+        $r = me&ioty,R,'interesting' .pop()
+        !r and return me&tc,"-log:none-nodes>1"
+        rs&lastone = 1
         me&brackstract_out,r
     },'ift,D'],
     
     ['Thyer','66',&acgtRs{
         # this sense is X..x merged with its acquisition (ax|arkN etc)
         $x = me&Jx
-        if (x.ro('noq')) {
+        $noq = &{
             $Y = me.cbu(R,'Ying').sc.Ying
             delete Ys&quiet_wakers_too_recently
         }
-        
-        !x.ro('chao') and return
-        # W/$steps
-        $W = xs&Ying
-        $steps = me&ioty,W
-        grepout(steps,s)
-        shuffle(steps)
-        me&wants,R,"chaosteps",steps.shift()
-        me&wants,R,"chaosteps",steps.shift()
-        me&wants,R,"chaosteps",steps.shift()
+        x.ro('noq') and noq()
+        if (x.ro('chao')) {
+            noq()
+            # W/$steps
+            $W = xs&Ying
+            $steps = me&ioty,W
+            grepout(steps,s)
+            grepout(steps,n => n.t == 'Ya')
+            shuffle(steps)
+            $bunch = steps.slice(0,3)
+            ~>4 chao-bunch: joint(bunch)
+            bunch.map(n => me&wants,R,"chaosteps",n )
+            
+        }
     },'ift,D'],
     
   // Yingu f
     &{
-    self.shuffle = &a{
-        var j, x, i;
-        for (i = a.length - 1; i > 0; i--) {
-            j = Math.floor(Math.random() * (i + 1));
-            x = a[i];
-            a[i] = a[j];
-            a[j] = x;
-        }
-        return a;
-    }
     # a namespace
     me.Yingu_Jx = &acgt{
         $R = me&R
@@ -229,6 +230,7 @@ me.Sch_Travel = &acgt{ return [
                 fi&Xsimp,Y,{ref:z},{array:1,n}
                 if (isnode(z)) {
                     # i Y/$node
+                    
                     fi&Xsimp,Y,{node:z},{array:1,n}
                 }
                 $x = fi&Xsimp,Y,{stract:1},{n}
@@ -4371,7 +4373,7 @@ me.Sch_Travel = &acgt{ return [
             }
         }
         
-       // ksaf(s), etc
+       // Zifsum(s), etc
         # < -head a -zif
         me.Zifsum = &acgtr{
             $sum = rs&summary
@@ -4385,187 +4387,6 @@ me.Sch_Travel = &acgt{ return [
         }
         me.cloneinto = &acgtmn{
             i $m/@sum/** y o $n:sum/**
-        }
-        # capture modulat (of &tc, x.ro, etc) into $m
-        me.Mwcap = &acgtRkm{
-            $was = T.Mw
-            T.Mw = k
-            return &y,partial{
-                !partial and T.Mw = was
-                !Rs&Mw and return
-                $N = delete Rs&Mw[k]
-                !hak(N) and return
-                y and m = isfu(y) ? y () : y
-                !m && !y and debugger
-                !m and return
-                N.map(n => ac(m,'z',n))
-            }
-        }
-        # slices hash keys or array values
-        window.ksaf = &sc{
-            $keys = haks(s)
-            !isob(c) and c = {aft:c,inc:1}
-            isar(s) and keys = s
-            $ki = keys.indexOf(c.aft||c.bow)
-            ki < 0 and throw "no ksaf",c
-            # slice arg2 is first one not to include
-            # splice arg2 is length of selection
-            $N = keys.slice(... c.aft ? [ki+1] : [0,ki])
-            c.inc and c.aft ? N.unshift(keys[ki]) : N.push[keys[ki]]
-            # c.near for closest to ki first (reverse the bow)
-            c.aft ? c.rev : c.near && !c.rev and N.reverse()
-            return N
-        }
-        window.dis = &sc{
-            c ||= {}
-            # light over slope
-            c.dl = 4.23
-            return ki(s,c.dl)
-        }
-       // &tc, &tcl, &ty modulat bits
-        me.tc = &acgtmtcb{
-            !isC(m) and b = c; c = t; t = m; m = 0
-            $args = [t]
-            # t+s can be split if b is c-ish (inc '')
-            b and args.push((c && isst(c.s) ? c : {s:c}),b)
-            else args.push(0,c)
-            
-            !m and return me&tsc,...args
-            return me&mtsc,m,...args
-        }
-        # clickable callback
-        me.ty = &acgtmt{
-            !isC(m) and t = m; m = 0
-            t = [t,0,'g']
-            $n = m ? me&mtsc,m,...t
-                : me&tsc,...t
-            $R = Cy&R
-            return &y{
-                me.nto(R,n,y)
-                return n
-            }
-        }
-        # make both $n/$label%styled
-        #  so &mtsc,n,... are outside of %styled
-        me.tcl = &acgtmtc{
-            !isC(m) and c = t; t = m; m = 0
-            # t may be n already, moving c&s to the label
-            $n = m ? m : me&tc,t
-            $ot = delete nc&s
-            t ||= ot
-            $l = ny&label = me&mtsc,n,t,0,c
-            tax(n.sc,l.sc,'dis')
-            ls&pa = 0.2
-            return n
-        }
-       // &rawcap, &boxcap modulat zones
-        # transact ~T.*
-        me.Tap = &acgtc{
-            $was = sex({},T,c)
-            ex(T,c)
-            return &{
-                ex(T,was)
-                haks(c).map(&k{
-                    !hak(was,k) and delete T[k]
-                })
-            }
-        }
-        # build out modulat with whatever turns up
-        #  so we can &dupfiu for t=iofail/suchexpr
-        #  revoking the thing if nothing turns up (suchexpr)
-        me.boxcap = &acgttc,el{
-            $R = me&R
-            el ||= 1
-            # traction what is already, so m comes after it in a/*
-            T.Mwcap and T.Mwcap()
-            # before our capturing, set up in the above
-            $a = T.ab
-            if (a) {
-                # eg C:iofail is reused, many C:suchexpr
-                #  has my&up=a
-                $m = el == 2 ? me&fiu,a,t
-                    : me&dupfiu,a,t
-            }
-            else {
-                # above is raw &Mwcap or nothing
-                $m = me&tc,t
-                # &tcl moves c&s to the label
-            }
-            !m and debugger
-            # &tcl C makes C/label of t+c style,
-            #   returning C, for writing in next to the label
-            #  confusingly, &tc,C,t,c will return C/thing
-            me&tcl,m,t,c
-            
-            $Tap = me&Tap,{ab:m}
-            # listen for &tc
-            $capture = me&Mwcap,R,'box:'+t
-            # allow m/m (sees a/m) to stream before inner &boxcap
-            $Mwcap = me&Tap,{Mwcap:&{capture(m,'partial')}}
-            
-            return &y{
-                # for &boxcap,t,c (&m{...})
-                y and y (m)
-                Tap()
-                # without 'partial' sets T.Mw=was
-                capture(m)
-                Mwcap()
-                # consider thing done
-                $N = me&ioty,m .filter(n => n != my&label)
-                if (!hak(N)) {
-                    # < who?
-                    me&fiu,my&up,m,9
-                }
-                each in ms&z {
-                    ms&pa ||= 0.1
-                }
-                # < &dupfiu seq may have gaps ^
-            }
-        }
-        // testing of 
-        me.boxcap_situation = &acgt{
-            $two = me&boxcap,"pile1",'1y'
-            me&tc,"<"
-            $three = me&boxcap,"yondsome",'1y'
-            me&tc,"insidde"
-            three()
-            me&tc,">"
-            two()
-            $two = me&boxcap,"pile2",'1y'
-            $three = me&boxcap,"empty",'1y'
-            three()
-            me&tc,"outside"
-            two()
-            $two = me&boxcap,"Achgindi",'1y'
-            me&tc,"stuff"
-            two()
-            $two = me&boxcap,"Achgindi",'1y',2
-            me&tc,"stuff"
-            two()
-            $two = me&boxcap,"Achgindi",'1y'
-            me&tc,"additional"
-            two()
-        }
-        me.rowcap = &acgtNc{
-            c = peli(c)
-            $a = T.ab
-            !a and throw "rowcap in a boxcap"
-            return &ty{
-                !hak(N) and me&tc,"empty",'6p'
-                each in N {
-                    $args = haks(c).map(k => n.sc[k])
-                    $s = args[0]
-                    !s and throw "row!such", c, n
-                    # piling into each %%active id
-                    me&boxcap,s.t,'1y',2 (&m{
-                        # < checking for multiple-same-named s.t
-                        # for a phase of its activation-think
-                        me&boxcap,t,'1b' (&m{
-                            y(...args,m)
-                        })
-                    })
-                }
-            }
         }
     },
   
