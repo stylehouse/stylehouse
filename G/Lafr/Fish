@@ -297,6 +297,8 @@ fi.Xios ||= {}
     }
  
 // A
+ 
+ // &A
     =pod
      just creation
      whatever it takes to load the rest of the fish
@@ -327,7 +329,6 @@ fi.Xios ||= {}
            and acquire A&t = $mind_to_voice
           &A,C,'n' - create Cy&A, A&t = 'n'
     =cut
- // &A
   // &A
     fi.A = &acgtV{
         V ||= A
@@ -433,7 +434,7 @@ fi.Xios ||= {}
         return b
     }
   
- // &Xsim
+ // &Xsim - proto &Xio
   
   // Q
    // Q id
@@ -622,10 +623,27 @@ fi.Xios ||= {}
                     # doesnt x/$k:v...
                     continue
                 }
-                # non-wild completes path into point (x)
-                !c.wild and vx = hashkv(v,vx)
+                # vx form provides path used!
+                if (!c.wild) {
+                    # specific thing was provided to &Xsim,
+                    # < &Xsim return type more like &Xsomp
+                    $ref = x[k+'s']
+                    if (ref) {
+                        # make v the index of thing
+                        $vi = ref.indexOf(v)
+                        vi < 0 and debugger
+                        v = vi
+                    }
+                    # must be keyish v
+                    vx = hashkv(v,vx)
+                }
+                else {
+                    # &Xsim c.wild shortcut-returns: vx/$v/$x
+                }
                 # always X|x.$k(.$v=$x)+
                 each v,ax vx {
+                    # < enforce /$n-having along paths at ks.length
+                    #   see q.n, multi-&Xsomp fi&xzand
                     # ark acquires k:v
                     $arkv = ex({},arks)
                     # arks (columns) statement unique
@@ -659,6 +677,15 @@ fi.Xios ||= {}
             $arkx = arkN[i]
             !arkx and debugger
             each in x.z {
+                # last &Xsomp $s-hop
+                # a b c
+                # z x y
+                # a multi-&Xsomp fi&xzand
+                #  to &Xsomp within a &Xsomp per-$n iteration
+                #   when you have a $n:step,
+                #   then &Xsomp $step/$ref, meaning refs from $n
+                # see &brackstract &Xsomp -log/$k=step/$ref
+                q.n && n != q.n and continue
                 # eg {src,version,n,x}+
                 $xc = ex({},arkx,{n,x})
                 M.push(xc)
@@ -787,8 +814,7 @@ fi.Xios ||= {}
         return M
     }
  
- // Attention
-    
+ // < Attention
     =pod
      o A/$oft/believe/$Q
       Q may be more specific ie /$src/$version/$Q

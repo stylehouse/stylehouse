@@ -93,10 +93,7 @@ me.Sch_Travel = &acgt{ return [
             #n $k  $s:l %R,Yingoutlog
             $r = me&Ret,R,{t:k,s:l,Yingoutlog:1}
             $N = me&bracko,R,l,{step:1},1
-            
-            
-            hak(uniq(N)) > 1 and me&nu,"Zip"+l.t,N
-            hak(uniq(N)) > 1  and rs&interesting = 1
+            hak(uniq(N)) > 1 and rs&interesting = 1
         }
         !r and return
         rs&lastone = 1
@@ -211,28 +208,39 @@ me.Sch_Travel = &acgt{ return [
         # instances of eg %%step
         $Y = Rs&astract = {}
         Rs&interesting and 1
-        #
+        # X/$k=step /$refs
         fi&Xsomp,X,s .map(&a{
             $n = a.n
-            $nc = {n}
-            # %%step,(...)
-            haks(nex({},n.sc,s)) and nc.notall = 1
             # i D/stract
-            $x = fi&Xsimp,D,{stract:1},{n}
-            if (haks(nex({},n.sc,s))) {
+            $stract = fi&Xsimp,D,{stract:1},{n}
+            # %%step,(...)
+            $morekeys = haks(n.sc)
+            hak(morekeys) > 3 and debugger
+            grepout(morekeys,havs(s))
+            if (hak(morekeys)) {
                 # %%step,(...) info beside expression
+                $notall = fi&Xsimp,stract,{notall:1},{n}
+                morekeys.map(k => fi&Xsimp,notall,{k},{n} )
                 # i stract/notall/...$s
-                $notallx = fi&Xsimp,x,{notall:1},{n}
-                fi&Xsimp,notallx,s,{n}
+                fi&Xsimp,notall,s,{n}
+                me&zu,"notall",notall
+                debugger
+                # < later, find things not covered by abstractions:
+                #    wholly: -row
             }
-            fi&Xsimp,x,s,{n}
+            # i $stract/...$s
+            #  ie, $stract/$k=step given $s={k:step}
+            # < meaning like Know...$K
+            fi&Xsimp,stract,s,{n}
             
-            a.x.refs .map(&z{
+            fi&Xsomp,a.x,{ref:1},{},{n} .map(&a{
+                a.n != n and debugger
+                $z = a.ref
+                #return me&nu,"Z:",{n,a,z}
                 # i Y/$ref
                 fi&Xsimp,Y,{ref:z},{array:1,n}
                 if (isnode(z)) {
                     # i Y/$node
-                    ~>6 i node: z.t, ns&step.t
                     fi&Xsimp,Y,{node:z},{array:1,n}
                 }
                 $x = fi&Xsimp,Y,{stract:1},{n}
@@ -263,24 +271,25 @@ me.Sch_Travel = &acgt{ return [
         each it h.ks {
             $N = h.vs[i]
             $aa = N[0]
-            me&boxcap,"n:"+ki(aa.node,1),'1b' (&{
+            me&boxcap,"n:",'1b' (&{
                 me&tc,aa.node.t,'y'
-                me&tc,""+dis(a),6 .sc.ma=0.4
+                #me&tc,""+dis(aa),6 .sc.ma=0.4
                 
                 each ia N {
                     me&boxcap,"a:",'1b' (&m{
                         ms&ml = 0.6
                         $n = a.n
-                        me&tc,""+dis(n.sc),6
+                        me&tsc,"nsc",""+dis(n.sc),6
+                        #me&tsc,"a",""+dis(a),'6y'
+                        
+                        $nak = fi&Xsomp,a.x,{notall:1,k:1},{},{n}
+                            .map(na => na.k)
+                        hak(nak) and me&tc,'%%...'+joint(nak,','),'g'
+                        
                     })
                 }
             })
         }
-        nodes .map(&ai{
-            
-            return a
-        })
-        
         me&zu,"noideh",nodes
         me&nu,'ZealaY',D
         me&nu,'ZealaD',Y
