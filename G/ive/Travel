@@ -101,13 +101,16 @@ me.Sch_Travel = &acgt{ return [
     ['Yingoutlog','85',&acgtRs{
         me&reaw,R,'Yingoutlog,lastone,interesting'
         Rs&interesting and Rs&lastone = 1
-        Rs&interesting and 4s&interestoYing = s
         !me&ollbs,R,'lastone' && me&sleepic,R and return
         s&dis = 1
         me&walls,C,'b:1.1h5'
-        !ss&X && !hak(ss&z) and return me&tc,"empty"
+        $X = ss&X
+        !X && !hak(ss&z) and return me&tc,"empty"
         # o Outlog/-log%X
-        !ss&X.k and throw "!wou"
+        !X.k and throw "!wou"
+        # X by &bracki (ish), make &Shx_isX
+        X.A ||= s
+        Rs&interesting and 4s&interestoYing = s
         # i undomed brack about how
         # < GOING in favour of R%stractia?
         me&haja
@@ -231,10 +234,11 @@ me.Sch_Travel = &acgt{ return [
         # instances of eg %%step
         $Y = Rs&astract = {A:R}
         fi&Xsimp,D,{astract:1},{n:Y}
-        me&Shx,<<'',[Db,Y]
+        
+        $Yb = Rs&astractb = {A:R}
+        me&Shx,<<'',[Db,Yb]
             i $D/astract $Y
         
-        me&nu,"X",X
         # < X/$k/$refs, per $n (brackrow)
         # X/$k=step /$refs
         me&Shx,<<'',[X,s]
@@ -242,9 +246,11 @@ me.Sch_Travel = &acgt{ return [
         
         (&an{
             me&Shx,<<'',[Db]
-                i $D/stract
+                i $D/stract/of
             
-            # 
+            # < t ark stract
+            0 && me&Shx,<<'',[s]
+                i stract/...$s
             
         })
         fi&Xsomp,X,s .map(&a{
@@ -292,8 +298,6 @@ me.Sch_Travel = &acgt{ return [
     me.brackstract_out = &acgtR{
         $D = Rs&stractia ||= {A:R}
         $Db = Rs&stractiab ||= {A:R}
-        # last instance of eg %%step
-        $Y = Rs&astract
         # or all: D/astract/$n=Y
         fi&Xsomp,D,{astract:1} .map(&a,Yi{
             $Y = a.n
@@ -326,16 +330,10 @@ me.Sch_Travel = &acgt{ return [
                     }
                 })
             }
-            me&nu,'ZealaY',Y
+            #me&nu,'ZealaY',Y
         })
         me&nu,'ZealaDb',Db
         me&nu,'ZealaD',D
-        
-        if (0) {
-            $va = [1,2,5,"ge",1]
-            $n = Cye(["bla",2])
-            va.map(z => fi&Xsimp,Y,{node:z},{array:1,n} )
-        }
         
         # info relating to nodes written up first
     }

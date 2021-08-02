@@ -572,8 +572,9 @@
             }
         }
       // 'Xproto'
+       // itself, itselves, iterate
         me.Sarg_Shx = &acgtpsc{
-            $a = (regex,y) => p.p(regex) && y ()
+            $a = p.a
             # a type checker
             p.ist = &tsl{
                 $ok = me[c.sargk+'_is'+t](A,C,G,T,s)
@@ -597,7 +598,7 @@
                     c.X = ax.x
                 }
             }
-            # o ... { # return iterator
+            # o ... { # returns iterator
             a(/ \{$/, &{
                 c.return = &y{
                     $N = c.N
@@ -609,7 +610,8 @@
                     }
                 }
             })
-            
+       
+       // arrive at &Sarg expr, find ground
             # i ... $Y # for /$n=Y
             a(/ \$(\w+)$/, &{
                 $n = c.arg.pop()
@@ -618,6 +620,14 @@
                 c.N = [{n}]
             })
             
+            if (c.c) {
+                # &Sarg sub-expr receiving nothing
+                !hak(c.N) and return c
+            }
+            else {
+                # nothing yet, await c.X + expr, openly
+                !hak(c.N) and c.N = [{}]
+            }
             # i $D/... # for X=D
             a(/^\$(\w+)/, &{
                 $X = c.arg.shift()
@@ -626,34 +636,73 @@
                 ahk(c,'tX',p.m[0],X)
                 c.X = X
             })
-            # i .../some # i /$n
+            c.fail and return c  
+          
+       // guts
+            # i .../some # i /$some=1/$n
+            # < should be in N/a.some, ie an ark
+            #   also $D/...sea should look for a.sea
             a(/\/(\w+)/, &{
-                $more = []
-                c.N.map(&a{
-                    $n = a.n
-                    $N = fi&Xsimp,c.X,hashkv(p.m[0]),{n}
-                    me&zu,"i/"+p.m[0],N
-                    #more.push(...  )
-                })
-                c.N = more
+                $s = hashkv(p.m[0])
+                me&Shx_io,c,s
+                delete c.X
             })
-            # i /...$s # &Simp s.* c.long
+            # o /...$s # &Xsimp s.* c.long
             a(/^\/\.\.\.\$(\w+)/, &{
                 $s = c.arg.shift()
-                $more = []
-                c.N.map(&a{
-                    $n = a.n
-                    $N = fi&Xsimp,c.X,s,{n}
-                    me&zu,"i/...$"+p.m[0],N
-                    #more.push(...  )
-                })
-                c.N = more
-                # < should be in N/a.D, ie an ark
-                #   also $D/...sea should look for a.sea
+                me&Shx_io,c,s
+                delete c.X
                 ahk(c,'tsack',p.m[0],s)
             })
-            
         }
+        
+       // &Shx_io, &rayplace
+        # adapt &Xsomp or &Xsimp
+        me.Shx_io = &acgtgscq{
+            # s, c copy to each &Xs[io]mp call
+            !g.gee and throw "Shx!i|o"
+            !hak(g.N) and debugger
+            me&rayplace,g,s,c,q (&ascqM{
+                # < departure point selectivity
+                $X = g.X || a.x
+                # < who|how selectivity
+                $n = a.n
+                if (g.gee == 'i') {
+                    (n) and c.n = n
+                    $x = fi&Xsimp,X,s,c,q
+                    $a = {x}
+                    (n) and a.n = n
+                    M.push(a)
+                }
+                else {
+                    (n) and q.n = n
+                    fi&Xsomp,X,s,c,q .map(&a{
+                        # a = ax, has a.arkx etc for this one expr-part
+                        # < merge with over-a
+                        (n) && a.n != n and debugger
+                        $z = a.ref
+                        M.push(a)
+                    })
+                }
+            })
+        }
+        # replaces c.N
+        me.rayplace = &acgtgscq{
+            return &y{
+                $more = []
+                g.N.map(&a{
+                    $M = []
+                    $arg = [s,c,q]
+                    arg = arg.map(s => s ? ex({},s) : {})
+                    y (a, ... arg ,M)
+                    # < mania
+                    more.push(...M)
+                })
+                g.N = more
+            }
+        }
+        
+       // types
         # rows coming out of X traversal
         #  c.N=[ax+]
         #    < should have one or more of
@@ -790,6 +839,12 @@
                 else { place = '' }
                 p.s = p.s.replace(r,place);
                 return 1
+            }
+            # apply a pattern
+            p.a = &regex,y,z{
+                while (p.p(regex)) {
+                    y ()
+                }
             }
             return p
         }
