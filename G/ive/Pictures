@@ -12,21 +12,6 @@
         me&zN,nu;
         me&zuct,g,nu;
     };
-    # capture modulat (of &tc, x.ro, etc) into $m
-    me.Mwcap = &acgtRkm{
-        $was = T.Mw
-        T.Mw = k
-        return &y,partial{
-            !partial and T.Mw = was
-            !Rs&Mw and return
-            $N = delete Rs&Mw[k]
-            !hak(N) and return
-            y and m = isfu(y) ? y () : y
-            !m && !y and debugger
-            !m and return
-            N.map(n => ac(m,'z',n))
-        }
-    }
    // &tc, &tcl, &ty modulat bits
         me.tc = &acgtmtcb{
             !isC(m) and b = c; c = t; t = m; m = 0
@@ -64,17 +49,6 @@
             return n
         }
    // &rawcap, &boxcap modulat zones
-        # transact ~T.*
-        me.Tap = &acgtc{
-            $was = sex({},T,c)
-            ex(T,c)
-            return &{
-                ex(T,was)
-                haks(c).map(&k{
-                    !hak(was,k) and delete T[k]
-                })
-            }
-        }
         # build out modulat with whatever turns up
         #  so we can &dupfiu for t=iofail/suchexpr
         #  revoking the thing if nothing turns up (suchexpr)
@@ -173,6 +147,34 @@
                 }
             }
         }
+  // capsulating, &Mwcap
+    # transact ~T.*
+    me.Tap = &acgtc{
+        $was = sex({},T,c)
+        ex(T,c)
+        return &{
+            ex(T,was)
+            haks(c).map(&k{
+                !hak(was,k) and delete T[k]
+            })
+        }
+    }
+    # capture modulat (of &tc, x.ro, etc) into $m
+    me.Mwcap = &acgtRkm{
+        $was = T.Mw
+        T.Mw = k
+        return &y,partial{
+            !partial and T.Mw = was
+            !Rs&Mw and return
+            $N = delete Rs&Mw[k]
+            !hak(N) and return
+            y and m = isfu(y) ? y () : y
+            !m && !y and debugger
+            !m and return
+            N.map(n => ac(m,'z',n))
+        }
+    }
+   
   // misc() array
     # "$t1-$t2" for [C,C,C{.t==not}]
     window.joint = &N,join,not{

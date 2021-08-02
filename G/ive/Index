@@ -502,7 +502,7 @@
       
       // fronts
         me.Shx = &acgtscq{
-            return me&Sarg,'Xproto',s,c,q
+            return me&Sarg,'Shx',s,c,q
         }
         # Sarg with &boxcap error diag
         me.Sharg = &acgtsc{
@@ -533,6 +533,7 @@
             ox()
         }
         # k per pseudo-implementation
+        #  &Sarg within sarg get
         me.Sarg = &acgtkscq{
             $h = T.sute
             isar(c) and c = {arg:c}
@@ -547,7 +548,11 @@
             me&mearg,'Sarg_'+k,[p,s,c]
             # you get the deepest c, .c|fc=inputs
             plumb and c = me&Sarg,k,plumb,{c},q
-            !c.c && c.fail and me&Sargfailhandle,c
+            if (!c.c || plumb) {
+                # outer|&Shx-call-terminating &Sarg
+                c.fail and me&Sargfailhandle,c
+                hak(c,'return') and return c.return
+            }
             # failh
             return c
         }
@@ -567,7 +572,7 @@
             }
         }
       // 'Xproto'
-        me.Sarg_Xproto = &acgtpsc{
+        me.Sarg_Shx = &acgtpsc{
             $a = (regex,y) => p.p(regex) && y ()
             # a type checker
             p.ist = &tsl{
@@ -582,17 +587,42 @@
                 me&Sargplumbed,c,c.c
                 c.N = c.c.N.slice()
             }
-            # i ... $Y # for $n=Y
+            else {
+                if (T.ax) {
+                    # &Shx inside &Shx iterating
+                    $ax = T.ax
+                    p.ist('ax',ax) and return
+                    # < c.N []= suggestive {n,x}
+                    c.N = [{n:ax.n}]
+                    c.X = ax.x
+                }
+            }
+            # o ... { # return iterator
+            a(/ \{$/, &{
+                c.return = &y{
+                    $N = c.N
+                    each ia N {
+                        # < &Tap taking a callback to try {}
+                        $Tap = me&Tap,{ax:a}
+                        y(a,a.n)
+                        Tap()
+                    }
+                }
+            })
+            
+            # i ... $Y # for /$n=Y
             a(/ \$(\w+)$/, &{
                 $n = c.arg.pop()
                 p.ist('n',n) and return
                 ahk(c,'tn',p.m[0],n)
                 c.N = [{n}]
             })
+            
             # i $D/... # for X=D
             a(/^\$(\w+)/, &{
                 $X = c.arg.shift()
                 p.ist('X',X) and return
+                # < should be in N/a.D, ie an ark
                 ahk(c,'tX',p.m[0],X)
                 c.X = X
             })
@@ -602,21 +632,53 @@
                 c.N.map(&a{
                     $n = a.n
                     $N = fi&Xsimp,c.X,hashkv(p.m[0]),{n}
-                    me&zu,"Whoknew",N
+                    me&zu,"i/"+p.m[0],N
                     #more.push(...  )
                 })
                 c.N = more
             })
+            # i /...$s # &Simp s.* c.long
+            a(/^\/\.\.\.\$(\w+)/, &{
+                $s = c.arg.shift()
+                $more = []
+                c.N.map(&a{
+                    $n = a.n
+                    $N = fi&Xsimp,c.X,s,{n}
+                    me&zu,"i/...$"+p.m[0],N
+                    #more.push(...  )
+                })
+                c.N = more
+                # < should be in N/a.D, ie an ark
+                #   also $D/...sea should look for a.sea
+                ahk(c,'tsack',p.m[0],s)
+            })
+            
         }
-        # types of things in X traversal
+        # rows coming out of X traversal
+        #  c.N=[ax+]
+        #    < should have one or more of
+        #   ax.x - where to climb from
+        #    < use c.X if set
+        #   ax.n - who to climb for
+        #    usu require /$n at both ends to find $n's stuff
+        #     or not: anyone's stuff matters more than who $n is, etc
+        #  see 'for /$n=Y', bootstrapping c.N from param
+        me.Shx_isax = &acgta{
+            return me&Shx_isX,a.x && me&Shx_isn,a.n
+        }
+        # identities of things in X traversal
         # C joinery distributed
-        me.Xproto_isn = &acgtn{
+        me.Shx_isn = &acgtn{
             # $n=C usually, sometimes X|x
-            return isC(n) || me&Xproto_isX,n
+            return isC(n) || me&Shx_isX,n
         }
         # the islands
-        me.Xproto_isX = &acgtX{
-            return !isC(X) && isC(X.A)
+        me.Shx_isX = &acgtX{
+            return isob(X) && !isC(X)
+                && (isC(X.A)
+                    || isob(X.up) && !isC(X.up))
+                    # < and somewhere up there is X.A
+                    #   that is in good time
         }
         
       // 'chaseout'
