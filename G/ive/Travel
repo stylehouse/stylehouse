@@ -207,7 +207,7 @@ me.Sch_Travel = &acgt{ return [
         $D = Rs&stractia ||= {A:R}
         # instances of eg %%step
         $Y = Rs&astract = {}
-        Rs&interesting and 1
+        fi&Xsimp,D,{astract:1},{n:Y}
         # X/$k=step /$refs
         fi&Xsomp,X,s .map(&a{
             $n = a.n
@@ -224,7 +224,6 @@ me.Sch_Travel = &acgt{ return [
                 # i stract/notall/...$s
                 fi&Xsimp,notall,s,{n}
                 me&zu,"notall",notall
-                debugger
                 # < later, find things not covered by abstractions:
                 #    wholly: -row
             }
@@ -251,9 +250,43 @@ me.Sch_Travel = &acgt{ return [
     }
     me.brackstract_out = &acgtR{
         $D = Rs&stractia ||= {A:R}
-        # instances of eg %%step
+        # last instance of eg %%step
         $Y = Rs&astract
-        !Y and return me&tc,"!Y"
+        # or all: D/astract/$n=Y
+        fi&Xsomp,D,{astract:1} .map(&a,Yi{
+            $Y = a.n
+            
+            $nodes = fi&Xsomp,Y,{node:1}
+            # unique $node
+            $h = partN(nodes,a=>a.node)
+            # < by nodemap
+            $startsort = h.ks.slice()
+            each it h.ks {
+                $N = h.vs[i]
+                $aa = N[0]
+                me&boxcap,"n:",'1b' (&m{
+                    Yi > 0 and ms&ml = 0.6
+                    me&tc,aa.node.t,'y'
+                    #me&tc,""+dis(aa),6 .sc.ma=0.4
+
+                    each ia N {
+                        me&boxcap,"a:",'1b' (&m{
+                            ms&ml = 0.6
+                            $n = a.n
+                            me&tsc,"nsc",""+dis(n.sc),6
+                            #me&tsc,"a",""+dis(a),'6y'
+
+                            $nak = fi&Xsomp,a.x,{notall:1,k:1},{},{n}
+                                .map(na => na.k)
+                            hak(nak) and me&tc,'%%...'+joint(nak,','),'g'
+
+                        })
+                    }
+                })
+            }
+            me&nu,'ZealaY',Y
+        })
+        me&nu,'ZealaD',D
         
         if (0) {
             $va = [1,2,5,"ge",1]
@@ -262,37 +295,6 @@ me.Sch_Travel = &acgt{ return [
         }
         
         # info relating to nodes written up first
-        
-        $nodes = fi&Xsomp,Y,{node:1}
-        # unique $node
-        $h = partN(nodes,a=>a.node)
-        # < by nodemap
-        $startsort = h.ks.slice()
-        each it h.ks {
-            $N = h.vs[i]
-            $aa = N[0]
-            me&boxcap,"n:",'1b' (&{
-                me&tc,aa.node.t,'y'
-                #me&tc,""+dis(aa),6 .sc.ma=0.4
-                
-                each ia N {
-                    me&boxcap,"a:",'1b' (&m{
-                        ms&ml = 0.6
-                        $n = a.n
-                        me&tsc,"nsc",""+dis(n.sc),6
-                        #me&tsc,"a",""+dis(a),'6y'
-                        
-                        $nak = fi&Xsomp,a.x,{notall:1,k:1},{},{n}
-                            .map(na => na.k)
-                        hak(nak) and me&tc,'%%...'+joint(nak,','),'g'
-                        
-                    })
-                }
-            })
-        }
-        me&zu,"noideh",nodes
-        me&nu,'ZealaY',D
-        me&nu,'ZealaD',Y
     }
     },
     
