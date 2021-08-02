@@ -101,7 +101,7 @@ me.Sch_Travel = &acgt{ return [
     ['Yingoutlog','85',&acgtRs{
         me&reaw,R,'Yingoutlog,lastone,interesting'
         Rs&interesting and Rs&lastone = 1
-        Rs&interesting and 4s&interestoYing = R
+        Rs&interesting and 4s&interestoYing = s
         !me&ollbs,R,'lastone' && me&sleepic,R and return
         s&dis = 1
         me&walls,C,'b:1.1h5'
@@ -116,9 +116,6 @@ me.Sch_Travel = &acgt{ return [
             # whole olosim
             me&walls,T.ab,'b:1.1h2'
             
-            me&brackstract,ss&X,{k:'step'}
-            
-            me&brackstract,ss&X,{k:'node'}
             # <<<
             # these two ^ usually matching all of:
             #  anything else we can y&up to a node
@@ -185,10 +182,13 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
     
     ['ThyerYing','66',&acgtRs{
-        $r = 4s&interestoYing
-        !r and return me&tc,"awaits"
+        $s = 4s&interestoYing
+        !s and return me&tc,"awaits"
         
-        me&brackstract_out,r
+        me&brackstract,ss&X,{k:'step'}
+
+        me&brackstract,ss&X,{k:'node'}
+        me&brackstract_out,R
     },'ift,D'],
     
   // Yingu f
@@ -229,7 +229,9 @@ me.Sch_Travel = &acgt{ return [
         $D = Rs&stractia ||= {A:R}
         # instances of eg %%step
         $Y = Rs&astract = {}
+        # i $D/astract $Y
         fi&Xsimp,D,{astract:1},{n:Y}
+        $Db = Rs&stractiab ||= {A:R}
         # X/$k=step /$refs
         fi&Xsomp,X,s .map(&a{
             $n = a.n
@@ -254,10 +256,15 @@ me.Sch_Travel = &acgt{ return [
             # < meaning like Know...$K
             fi&Xsimp,stract,s,{n}
             
+            # curiously the &Xsim c.wild doesn't need to know c.array
+            #  because &Xsomp notices and resolves 'refs'
+            #  < xq would know this
+            #  < gleaned at compilation from an io expr somwhere
             fi&Xsomp,a.x,{ref:1},{},{n} .map(&a{
                 a.n != n and debugger
                 $z = a.ref
-                #return me&nu,"Z:",{n,a,z}
+                $n = a.n
+                return me&nu,"Z:",{n,a,z}
                 # i Y/$ref
                 fi&Xsimp,Y,{ref:z},{array:1,n}
                 if (isnode(z)) {
