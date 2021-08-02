@@ -93,7 +93,7 @@ me.Sch_Travel = &acgt{ return [
             #n $k  $s:l %R,Yingoutlog
             $r = me&Ret,R,{t:k,s:l,Yingoutlog:1}
             $N = me&bracko,R,l,{step:1},1
-            hak(uniq(N)) > 1 and rs&interesting = 1
+            hak(uniq(N)) > 2 and rs&interesting = 1
         }
         !r and return
         rs&lastone = 1
@@ -101,6 +101,7 @@ me.Sch_Travel = &acgt{ return [
     ['Yingoutlog','85',&acgtRs{
         me&reaw,R,'Yingoutlog,lastone,interesting'
         Rs&interesting and Rs&lastone = 1
+        Rs&interesting and 4s&interestoYing = R
         !me&ollbs,R,'lastone' && me&sleepic,R and return
         s&dis = 1
         me&walls,C,'b:1.1h5'
@@ -117,7 +118,15 @@ me.Sch_Travel = &acgt{ return [
             
             me&brackstract,ss&X,{k:'step'}
             
-            #me&brackstract,ss&X,{k:'node'}
+            me&brackstract,ss&X,{k:'node'}
+            # <<<
+            # these two ^ usually matching all of:
+            #  anything else we can y&up to a node
+            #   otherwise add it in
+            # wants to use rowing to do so
+            #  then join to nodelist to sort
+            #   which breaks down into s/* orders
+            #   and R/* order (may be superset of s/*)
             
             # < node-like, other k
             #   node-near, y&up or so
@@ -143,7 +152,6 @@ me.Sch_Travel = &acgt{ return [
         $r = me&ioty,R,'interesting' .pop()
         !r and return me&tc,"-log:none-nodes>1"
         rs&lastone = 1
-        me&brackstract_out,r
     },'ift,D'],
     
     ['Thyer','66',&acgtRs{
@@ -163,10 +171,24 @@ me.Sch_Travel = &acgt{ return [
             grepout(steps,n => n.t == 'Ya')
             shuffle(steps)
             $bunch = steps.slice(0,3)
+            # add someone's first node
+            #  which may spill a bunch of wake
+            each in bunch {
+                $r = me&ioty,ny&R,'ball' .shift()
+                r && isnode(rc&s) and bunch.push(rc&s); break
+            }
             ~>4 chao-bunch: joint(bunch)
             bunch.map(n => me&wants,R,"chaosteps",n )
             
         }
+        me&baleg,'ThyerYing'
+    },'ift,D'],
+    
+    ['ThyerYing','66',&acgtRs{
+        $r = 4s&interestoYing
+        !r and return me&tc,"awaits"
+        
+        me&brackstract_out,r
     },'ift,D'],
     
   // Yingu f
