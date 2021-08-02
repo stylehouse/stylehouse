@@ -508,30 +508,7 @@
         me.Sharg = &acgtsc{
             return me&Sarg,'chaseout',s,c
         }
-      // common
-        # after &Sarg, draw errors, may tell &Super*
-        me.Sargfailhandle = &acgtc{
-            $h = T.sute
-            h and h.ha('pur:iofail')
-            
-            
-            $ox = me&boxcap,'iofail','1B',2
-            me&walls,T.ab,'b:1.1h5'
-            each in c.fail {
-                # "o someexpr"
-                me&boxcap,n.c.expr,'1b' (&{
-                    # part that failed
-                    me&tsc,"fail-expr",n.expr,'y'
-                    me&tsc,"fail-say",n.t,'q'
-                    # < objects -> Thy, for introspection...
-                    #   looking at eg s=-Nine
-                    #   the T.ab^^ may also have leads
-                    me&tsc,"faildata",dis(nex({},n,'c,expr,t')),'G'
-                })
-            }
-            #me&zu,"Fail:",c
-            ox()
-        }
+      // common high
         # k per pseudo-implementation
         #  &Sarg within sarg get
         me.Sarg = &acgtkscq{
@@ -556,6 +533,42 @@
             # failh
             return c
         }
+        # replaces c.N
+        me.rayplace = &acgtgscq{
+            return &y{
+                $more = []
+                g.N.map(&a{
+                    $M = []
+                    $arg = [s,c,q]
+                    arg = arg.map(s => s ? ex({},s) : {})
+                    y (a, ... arg ,M)
+                    # < mania
+                    more.push(...M)
+                })
+                g.N = more
+            }
+        }
+      // common low
+        me.parserify = &acgts{
+            $p = {}
+            p.s = s
+            p.p = &r,place{
+                m = p.m = p.s.match(r);
+                !m and return
+                p.whole = m.shift();
+                place and place = place.split('').map(&i{ return m[i] }).join('');
+                else { place = '' }
+                p.s = p.s.replace(r,place);
+                return 1
+            }
+            # apply a pattern
+            p.a = &regex,y,z{
+                while (p.p(regex)) {
+                    y ()
+                }
+            }
+            return p
+        }
         # c.fail += problem
         me.Sargfail = &acgtcq{
             $n = {c}
@@ -571,7 +584,30 @@
                 !c.fail.includes(n) and c.fail.push(n)
             }
         }
-      // 'Xproto'
+        # after &Sarg, draw errors, may tell &Super*
+        me.Sargfailhandle = &acgtc{
+            $h = T.sute
+            h and h.ha('pur:iofail')
+            
+            
+            $ox = me&boxcap,'iofail','1B',2
+            me&walls,T.ab,'b:1.1h5'
+            each in c.fail {
+                # "o someexpr"
+                me&boxcap,n.c.expr,'1b' (&{
+                    # part that failed
+                    me&tsc,"fail-expr",n.expr,'y'
+                    me&tsc,"fail-say",n.t,'q'
+                    # < objects -> Thy, for introspection...
+                    #   looking at eg s=-Nine
+                    #   the T.ab^^ may also have leads
+                    me&tsc,"faildata",dis(nex({},n,'c,expr,t')),'G'
+                })
+            }
+            #me&zu,"Fail:",c
+            ox()
+        }
+      // 'Shx'
        // itself, itselves, iterate
         me.Sarg_Shx = &acgtpsc{
             $a = p.a
@@ -685,21 +721,6 @@
                     })
                 }
             })
-        }
-        # replaces c.N
-        me.rayplace = &acgtgscq{
-            return &y{
-                $more = []
-                g.N.map(&a{
-                    $M = []
-                    $arg = [s,c,q]
-                    arg = arg.map(s => s ? ex({},s) : {})
-                    y (a, ... arg ,M)
-                    # < mania
-                    more.push(...M)
-                })
-                g.N = more
-            }
         }
         
        // types
@@ -827,26 +848,6 @@
                 # where to go to redo
                 pur('some',{em:joint(c.N)})
             }
-        }
-        me.parserify = &acgts{
-            $p = {}
-            p.s = s
-            p.p = &r,place{
-                m = p.m = p.s.match(r);
-                !m and return
-                p.whole = m.shift();
-                place and place = place.split('').map(&i{ return m[i] }).join('');
-                else { place = '' }
-                p.s = p.s.replace(r,place);
-                return 1
-            }
-            # apply a pattern
-            p.a = &regex,y,z{
-                while (p.p(regex)) {
-                    y ()
-                }
-            }
-            return p
         }
  
 // < &togcon via %Te
