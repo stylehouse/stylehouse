@@ -105,7 +105,7 @@ me.Sch_Travel = &acgt{ return [
         !me&ollbs,R,'lastone' && me&sleepic,R and return
         s&dis = 1
         me&walls,C,'b:1.1h5'
-        
+        !ss&X && !hak(ss&z) and return me&tc,"empty"
         # o Outlog/-log%X
         !ss&X.k and throw "!wou"
         # i undomed brack about how
@@ -227,12 +227,26 @@ me.Sch_Travel = &acgt{ return [
     me.brackstract = &acgtXsc{
         $R = me&R
         $D = Rs&stractia ||= {A:R}
-        # instances of eg %%step
-        $Y = Rs&astract = {}
-        # i $D/astract $Y
-        fi&Xsimp,D,{astract:1},{n:Y}
         $Db = Rs&stractiab ||= {A:R}
+        # instances of eg %%step
+        $Y = Rs&astract = {A:R}
+        fi&Xsimp,D,{astract:1},{n:Y}
+        me&Shx,<<'',[Db,Y]
+            i $D/astract $Y
+        
+        me&nu,"X",X
+        # < X/$k/$refs, per $n (brackrow)
         # X/$k=step /$refs
+        me&Shx,<<'',[X,s]
+            o $X/...$s {
+        
+        (&an{
+            me&Shx,<<'',[Db]
+                i $D/stract
+            
+            # 
+            
+        })
         fi&Xsomp,X,s .map(&a{
             $n = a.n
             # i D/stract
@@ -263,8 +277,6 @@ me.Sch_Travel = &acgt{ return [
             fi&Xsomp,a.x,{ref:1},{},{n} .map(&a{
                 a.n != n and debugger
                 $z = a.ref
-                $n = a.n
-                return me&nu,"Z:",{n,a,z}
                 # i Y/$ref
                 fi&Xsimp,Y,{ref:z},{array:1,n}
                 if (isnode(z)) {
@@ -279,6 +291,7 @@ me.Sch_Travel = &acgt{ return [
     }
     me.brackstract_out = &acgtR{
         $D = Rs&stractia ||= {A:R}
+        $Db = Rs&stractiab ||= {A:R}
         # last instance of eg %%step
         $Y = Rs&astract
         # or all: D/astract/$n=Y
@@ -315,6 +328,7 @@ me.Sch_Travel = &acgt{ return [
             }
             me&nu,'ZealaY',Y
         })
+        me&nu,'ZealaDb',Db
         me&nu,'ZealaD',D
         
         if (0) {

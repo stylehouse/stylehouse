@@ -467,7 +467,7 @@
     }
   
  // &Sa
-  // < &Sa
+  // < &Sa %%stuff and ^^%Piing
     me.Sa = &acgtc{
         return &s{
             $g = me&Sarg,'chaseout',s,c
@@ -475,22 +475,34 @@
             return hak(g,'return') ? g.return : g.N
         }
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
       
-     me.UseCase = &{
+    me.UseCase = &{
+    
                 $r = me.cbu(R,'Piing')
             me&ha,r,{Superdef:1},{},c
             
             me&ja,r,'got_active'
-        }
+    }
   // &Sarg io proto
       
-      
       // fronts
-        me.Sho = &acgtscq{
-            return me&Sarg,'Xproto',s,c,{el:8}
-        }
-        me.Shi = &acgtscq{
-            return me&Sarg,'Xproto',s,c,{el:1}
+        me.Shx = &acgtscq{
+            return me&Sarg,'Xproto',s,c,q
         }
         # Sarg with &boxcap error diag
         me.Sharg = &acgtsc{
@@ -527,10 +539,11 @@
             
             $p = c.p = me&parserify,s
             p.p(/\n$/)
-            p.p(/^o /)
+            p.p(/^(i|o) /) and c.gee = p.m[0]
             $plumb = p.p(/^(.+) o /,'o') && p.m[0]
             c.expr = p.s
             c.N ||= []
+            c.sargk = k
             me&mearg,'Sarg_'+k,[p,s,c]
             # you get the deepest c, .c|fc=inputs
             plumb and c = me&Sarg,k,plumb,{c},q
@@ -556,18 +569,56 @@
       // 'Xproto'
         me.Sarg_Xproto = &acgtpsc{
             $a = (regex,y) => p.p(regex) && y ()
+            # a type checker
+            p.ist = &tsl{
+                $ok = me[c.sargk+'_is'+t](A,C,G,T,s)
+                ok and return 0
+                me&Sargfail,c,{t:(l||'')+'!'+t,s}
+                return 1
+            }
             
             # begin with somethings
             if (c.c) {
                 me&Sargplumbed,c,c.c
                 c.N = c.c.N.slice()
             }
-            a(/^\$s/, &{
-                $s = c.arg.shift()
-                # < N/a
-                c.N = isar(s) ? s.slice() : [s]
+            # i ... $Y # for $n=Y
+            a(/ \$(\w+)$/, &{
+                $n = c.arg.pop()
+                p.ist('n',n) and return
+                ahk(c,'tn',p.m[0],n)
+                c.N = [{n}]
+            })
+            # i $D/... # for X=D
+            a(/^\$(\w+)/, &{
+                $X = c.arg.shift()
+                p.ist('X',X) and return
+                ahk(c,'tX',p.m[0],X)
+                c.X = X
+            })
+            # i .../some # i /$n
+            a(/\/(\w+)/, &{
+                $more = []
+                c.N.map(&a{
+                    $n = a.n
+                    $N = fi&Xsimp,c.X,hashkv(p.m[0]),{n}
+                    me&zu,"Whoknew",N
+                    #more.push(...  )
+                })
+                c.N = more
             })
         }
+        # types of things in X traversal
+        # C joinery distributed
+        me.Xproto_isn = &acgtn{
+            # $n=C usually, sometimes X|x
+            return isC(n) || me&Xproto_isX,n
+        }
+        # the islands
+        me.Xproto_isX = &acgtX{
+            return !isC(X) && isC(X.A)
+        }
+        
       // 'chaseout'
         me.Sarg_chaseout = &acgtpsc{
             $a = (regex,y) => p.p(regex) && y ()

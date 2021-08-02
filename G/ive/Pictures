@@ -233,6 +233,7 @@
         is == null || !is || is == 1 and return v
         return is
     }
+    # defined-or: s //= 1, s=0 stays 0
     window.defor = &{
         each is arguments {
             s != null and return s
@@ -254,6 +255,51 @@
         c.dl = 4.23
         return ki(s,c.dl)
     }
+  // misc() hash
+    #c hash stash, on t.sc[k] or so if C:t
+    self.ahk = &tk{
+        !isob(t) and throw "!ob"
+        # might accum into array at the end if k=[$k]
+        $M = [... arguments].slice(2)
+        isar(k) and $listend = 1; k = k[0]
+        # into .sc.$k...@$M
+        if (isC(t)) {
+            $nk = 'sc'
+            # or in .c|y (making .sc.c... impossible)
+            k == 'c' || k == 'y' and nk = k; k = M.shift()
+            $h = t[nk][k] ||= {}
+        }
+        else {
+            $h = t[k] ||= {}
+        }
+        while (M.length) {
+            k = M.shift()
+            k == null and debugger
+            M.length > 1 and h = h[k] ||= {}
+            else {
+                $re = h[k]
+                if (listend) {
+                    $N = h[k] ||= []
+                    $n = M.shift()
+                    !N.includes(n) and N.push(n)
+                    return N
+                }
+                else {
+                    !M.length and debugger
+                    $v = M.shift()
+                    # empty hash at the end ensures+returns hash
+                    if (isha(v) && !hak(v)) {
+                        h[k] && (!isha(h[k]) || isC(h[k])) and throw "!{}||={}"
+                        re = h[k] ||= {}
+                    }
+                    else {
+                        h[k] = v
+                    }
+                    return re
+                }
+            }
+        }
+    };
     # some of the smallest structures
     # reversibly|diffily, create transform theory
     # phenom comes in waves
