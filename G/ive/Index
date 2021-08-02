@@ -484,38 +484,25 @@
         }
   // &Sarg io proto
       
-      // f
-        me.chargN = &acgtsc{
-            $g = me&Sarg,'chaseout',s,c
-            g.fail and me&Sargfailhandle,g
-            return g.N
+      
+      // fronts
+        me.Sho = &acgtscq{
+            return me&Sarg,'Xproto',s,c,{el:8}
         }
-        # k per pseudo-implementation
-        me.Sarg = &acgtksc{
-            $h = T.sute
-            isar(c) and c = {arg:c}
-            
-            $p = c.p = me&parserify,s
-            p.p(/\n$/)
-            p.p(/^o /)
-            $plumb = p.p(/^(.+) o /,'o') && p.m[0]
-            c.expr = p.s
-            c.N ||= []
-            me&mearg,'Sarg_'+k,[p,s,c]
-            # you get the deepest c, .c|fc=inputs
-            plumb and return me&Sarg,k,plumb,{c}
-            return c
+        me.Shi = &acgtscq{
+            return me&Sarg,'Xproto',s,c,{el:1}
         }
-        me.Sargfail = &acgtcq{
-            $n = {c}
-            ex(n,q)
-            n.expr = c.p.whole
-            c.fail ||= []
-            c.fail.push(n)
+        # Sarg with &boxcap error diag
+        me.Sharg = &acgtsc{
+            return me&Sarg,'chaseout',s,c
         }
+      // common
+        # after &Sarg, draw errors, may tell &Super*
         me.Sargfailhandle = &acgtc{
             $h = T.sute
-            h.ha('pur:iofail')
+            h and h.ha('pur:iofail')
+            
+            
             $ox = me&boxcap,'iofail','1B',2
             me&walls,T.ab,'b:1.1h5'
             each in c.fail {
@@ -533,12 +520,53 @@
             #me&zu,"Fail:",c
             ox()
         }
+        # k per pseudo-implementation
+        me.Sarg = &acgtkscq{
+            $h = T.sute
+            isar(c) and c = {arg:c}
+            
+            $p = c.p = me&parserify,s
+            p.p(/\n$/)
+            p.p(/^o /)
+            $plumb = p.p(/^(.+) o /,'o') && p.m[0]
+            c.expr = p.s
+            c.N ||= []
+            me&mearg,'Sarg_'+k,[p,s,c]
+            # you get the deepest c, .c|fc=inputs
+            plumb and c = me&Sarg,k,plumb,{c},q
+            !c.c && c.fail and me&Sargfailhandle,c
+            # failh
+            return c
+        }
+        # c.fail += problem
+        me.Sargfail = &acgtcq{
+            $n = {c}
+            ex(n,q)
+            n.expr = c.p.whole
+            c.fail ||= []
+            c.fail.push(n)
+        }
         # fail follow into later plumbings
         me.Sargplumbed = &acgtcf{
             each in f.fail {
                 c.fail ||= []
                 !c.fail.includes(n) and c.fail.push(n)
             }
+        }
+      // 'Xproto'
+        me.Sarg_Xproto = &acgtpsc{
+            $a = (regex,y) => p.p(regex) && y ()
+            
+            # begin with somethings
+            if (c.c) {
+                me&Sargplumbed,c,c.c
+                c.N = c.c.N.slice()
+            }
+            a(/^\$s/, &{
+                $s = c.arg.shift()
+                # < N/a
+                c.N = isar(s) ? s.slice() : [s]
+            })
         }
       // 'chaseout'
         me.Sarg_chaseout = &acgtpsc{
@@ -590,6 +618,8 @@
                     f.M = c.N
                     # return from &Sarg the filtered
                     c.N = f.N
+                    # our upstream c.c 
+                    # our space func result c.fc
                     c.fc = f
                     me&Sargplumbed,c,f
                 }
