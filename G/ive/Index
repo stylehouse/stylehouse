@@ -512,7 +512,6 @@
         # k per pseudo-implementation
         #  &Sarg within sarg get
         me.Sarg = &acgtkscq{
-            $h = T.sute
             isar(c) and c = {arg:c}
             
             $p = c.p = me&parserify,s
@@ -554,8 +553,14 @@
             p.s = s
             p.p = &r,place{
                 m = p.m = p.s.match(r);
+                delete p.1
+                delete p.2
+                delete p.3
                 !m and return
                 p.whole = m.shift();
+                p.1 = m[0]
+                p.2 = m[1]
+                p.3 = m[2]
                 place and place = place.split('').map(&i{ return m[i] }).join('');
                 else { place = '' }
                 p.s = p.s.replace(r,place);
@@ -607,6 +612,7 @@
             #me&zu,"Fail:",c
             ox()
         }
+      
       // 'Shx'
        // itself, itselves, iterate
         me.Sarg_Shx = &acgtpsc{
@@ -630,8 +636,7 @@
                     $ax = T.ax
                     p.ist('ax',ax) and return
                     # < c.N []= suggestive {n,x}
-                    c.N = [{n:ax.n}]
-                    c.X = ax.x
+                    c.N = [ me&axsimilate,c,ax ]
                 }
             }
             # o ... { # returns iterator
@@ -639,8 +644,9 @@
                 c.return = &y{
                     $N = c.N
                     each ia N {
+                        # < groups
                         # < &Tap taking a callback to try {}
-                        $Tap = me&Tap,{ax:a}
+                        $Tap = me&Tap,{ax:a,Sarg:c}
                         y(a,a.n)
                         Tap()
                     }
@@ -652,7 +658,7 @@
             a(/ \$(\w+)$/, &{
                 $n = c.arg.pop()
                 p.ist('n',n) and return
-                ahk(c,'tn',p.m[0],n)
+                ahk(c,'tn',p.1,n)
                 c.N = [{n}]
             })
             
@@ -669,9 +675,38 @@
                 $X = c.arg.shift()
                 p.ist('X',X) and return
                 # < should be in N/a.D, ie an ark
-                ahk(c,'tX',p.m[0],X)
+                ahk(c,'tX',p.1,X)
                 c.X = X
             })
+            # i stract/... # look around for ax.stract
+            $g = T.Sarg
+            a(/^(\w+)/, &{
+                # must be iterating a Sarg that has the others!
+                !g and throw "not iterating a Sarg"
+                $ark = p.1
+                $hasit = &f{
+                    !hak(f.N) || f.fail and return
+                    $ax = f.N[0]
+                    !ax.arkx || !hak(ax.arkx,ark) and return
+                    return 1
+                }
+                # first, try the iterating Sarg
+                $search = [g]
+                # then its most recent children
+                # < only going back one iteration?
+                g.z and search.push(... reverse(g.z))
+                $og
+                each if search {
+                    hasit(f) and og = f; break
+                }
+                !og and return me&Sargfail,c,{t:'!@'+ark,g}
+                # it's ours
+                c.N = og.N.slice()
+                c.X and debugger
+            })
+            g and ac(g,'z',c)
+            
+            
             c.fail and return c  
           
        // guts
@@ -679,16 +714,17 @@
             # < should be in N/a.some, ie an ark
             #   also $D/...sea should look for a.sea
             a(/\/(\w+)/, &{
-                $s = hashkv(p.m[0])
-                me&Shx_io,c,s
+                $s = hashkv(p.1)
+                
+                me&Shx_io,c,s,{},{ark:p.1}
                 delete c.X
             })
             # o /...$s # &Xsimp s.* c.long
             a(/^\/\.\.\.\$(\w+)/, &{
                 $s = c.arg.shift()
-                me&Shx_io,c,s
+                me&Shx_io,c,s,{},{ark:p.1}
                 delete c.X
-                ahk(c,'tsack',p.m[0],s)
+                ahk(c,'tsack',p.1,s)
             })
         }
         
@@ -701,14 +737,17 @@
             me&rayplace,g,s,c,q (&ascqM{
                 # < departure point selectivity
                 $X = g.X || a.x
+                !X and debugger
                 # < who|how selectivity
                 $n = a.n
                 if (g.gee == 'i') {
                     (n) and c.n = n
                     $x = fi&Xsimp,X,s,c,q
-                    $a = {x}
-                    (n) and a.n = n
-                    M.push(a)
+                    $ax = {x}
+                    (n) and ax.n = n
+                    # < named q.ark and keys of s
+                    q.ark and ahk(ax,'arkx',q.ark,x)
+                    M.push(ax)
                 }
                 else {
                     (n) and q.n = n
@@ -722,8 +761,17 @@
                 }
             })
         }
-        
+       
+       // ioisms
+       
        // types
+        # clone an ax
+        me.axsimilate = &acgtca{
+            !c.sargk and throw "Sarg c"
+            $ax = ex({},a)
+            ax.arkx = ex({},ax.arkx)
+            return ax
+        }
         # rows coming out of X traversal
         #  c.N=[ax+]
         #    < should have one or more of
@@ -753,7 +801,7 @@
         
       // 'chaseout'
         me.Sarg_chaseout = &acgtpsc{
-            $a = (regex,y) => p.p(regex) && y ()
+            $a = p.a
             
             # begin with somethings
             if (c.c) {
