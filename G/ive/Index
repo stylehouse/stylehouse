@@ -676,7 +676,8 @@
                     .map(ax => me&axsimilate,c,ax )
                 c.X and debugger
             })
-            me&Shx_arkfindable,c
+            # appear to others in the enclosing iterator
+            T.Sarg and ac(T.Sarg,'z',c)
             
             
             c.fail and return c  
@@ -689,12 +690,11 @@
                 $ark = p.1
                 $s = {}
                 $q = {ark}
+                # might be a nearby ax.ref
                 $og = T.Sarg && me&Shx_arkfind,c,ark
                 og and me&Shx_arkbind,c,og,q,ark
-                else {
-                    # a word=1
-                    s [p.1] = 1
-                }
+                # or a word=1
+                else s [p.1] = 1
                 me&Shx_io,c,s,{},q
                 delete c.X
             })
@@ -755,9 +755,27 @@
                 g.N = more
             }
         }
-        # appear to others in the enclosing iterator
-        me.Shx_arkfindable = &acgtc{
-            T.Sarg and ac(T.Sarg,'z',c)
+       
+       // ioisms
+        # clone an ax
+        me.axsimilate = &acgtca{
+            !c.sargk and throw "Sarg c"
+            $ax = ex({},a)
+            ax.arkx = ex({},ax.arkx)
+            return ax
+        }
+        # to expand c[] by g[]
+        #  eg trying to i .../someark
+        #   creates a row by instances of someark
+        me.axcompatible = &acgtcg{
+            $thesen = c.N.map(ax => ax.n)
+            $thosen = g.N.map(ax => ax.n)
+            # thesen not there
+            $undefn = grepout(thesen,thosen)
+            hak(undefn) and debugger
+            # thosen not here
+            $othern = grepout(thosen,thesen)
+            hak(othern) and debugger
         }
         me.Shx_arkfind = &acgtc,ark{
             !ark and throw "!ark"
@@ -794,28 +812,6 @@
 
             og.N.filter(ax => ax)
             c.maybeark = og
-        }
-       
-       // ioisms
-        # clone an ax
-        me.axsimilate = &acgtca{
-            !c.sargk and throw "Sarg c"
-            $ax = ex({},a)
-            ax.arkx = ex({},ax.arkx)
-            return ax
-        }
-        # to expand c[] by g[]
-        #  eg trying to i .../someark
-        #   creates a row by instances of someark
-        me.axcompatible = &acgtcg{
-            $thesen = c.N.map(ax => ax.n)
-            $thosen = g.N.map(ax => ax.n)
-            # thesen not there
-            $undefn = grepout(thesen,thosen)
-            hak(undefn) and debugger
-            # thosen not here
-            $othern = grepout(thosen,thesen)
-            hak(othern) and debugger
         }
        
        // types
