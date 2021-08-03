@@ -532,21 +532,6 @@
             # failh
             return c
         }
-        # replaces c.N
-        me.rayplace = &acgtgscq{
-            return &y{
-                $more = []
-                g.N.map(&a{
-                    $M = []
-                    $arg = [s,c,q]
-                    arg = arg.map(s => s ? ex({},s) : {})
-                    y (a, ... arg ,M)
-                    # < mania
-                    more.push(...M)
-                })
-                g.N = more
-            }
-        }
       
       // common low
         me.parserify = &acgts{
@@ -688,6 +673,7 @@
                 !og and return me&Sargfail,c,{t:'!@'+ark}
                 # it's ours
                 c.N = og.N.slice()
+                    .map(ax => me&axsimilate,c,ax )
                 c.X and debugger
             })
             me&Shx_arkfindable,c
@@ -701,14 +687,15 @@
             #   also $D/...sea should look for a.sea
             a(/\/(\w+)/, &{
                 $ark = p.1
+                $s = {}
+                $q = {ark}
                 $og = T.Sarg && me&Shx_arkfind,c,ark
-                if (og) {
-                    # if already defined, join to it?
-                    # want to uniq ax.ref, 
-                    c.maybeark = og
+                og and me&Shx_arkbind,c,og,q,ark
+                else {
+                    # a word=1
+                    s [p.1] = 1
                 }
-                $s = hashkv(p.1)
-                me&Shx_io,c,s,{},{ark}
+                me&Shx_io,c,s,{},q
                 delete c.X
             })
             # o /...$s # &Xsimp s.* c.long
@@ -720,7 +707,7 @@
             })
         }
         
-       // &Shx_io, &rayplace
+       // &Shx_io
         # adapt &Xsomp or &Xsimp
         me.Shx_io = &acgtgscq{
             # s, c copy to each &Xs[io]mp call
@@ -753,10 +740,24 @@
                 }
             })
         }
+        # replaces c.N
+        me.rayplace = &acgtgscq{
+            return &y{
+                $more = []
+                g.N.map(&a{
+                    $M = []
+                    $arg = [s,c,q]
+                    arg = arg.map(s => s ? ex({},s) : {})
+                    y (a, ... arg ,M)
+                    # < mania
+                    more.push(...M)
+                })
+                g.N = more
+            }
+        }
         # appear to others in the enclosing iterator
         me.Shx_arkfindable = &acgtc{
-            $g = T.Sarg
-            g and ac(g,'z',c)
+            T.Sarg and ac(T.Sarg,'z',c)
         }
         me.Shx_arkfind = &acgtc,ark{
             !ark and throw "!ark"
@@ -784,10 +785,18 @@
             }
             return og
         }
+        me.Shx_arkbind = &acgtcgq,ark{
+            # if already defined, join to it?
+            # want to multiply by ax.ref
+            # check the /$n match
+            #  - or you should split names
+            me&axcompatible,c,og
+
+            og.N.filter(ax => ax)
+            c.maybeark = og
+        }
        
        // ioisms
-       
-       // types
         # clone an ax
         me.axsimilate = &acgtca{
             !c.sargk and throw "Sarg c"
@@ -795,6 +804,21 @@
             ax.arkx = ex({},ax.arkx)
             return ax
         }
+        # to expand c[] by g[]
+        #  eg trying to i .../someark
+        #   creates a row by instances of someark
+        me.axcompatible = &acgtcg{
+            $thesen = c.N.map(ax => ax.n)
+            $thosen = g.N.map(ax => ax.n)
+            # thesen not there
+            $undefn = grepout(thesen,thosen)
+            hak(undefn) and debugger
+            # thosen not here
+            $othern = grepout(thosen,thesen)
+            hak(othern) and debugger
+        }
+       
+       // types
         # rows coming out of X traversal
         #  c.N=[ax+]
         #    < should have one or more of
