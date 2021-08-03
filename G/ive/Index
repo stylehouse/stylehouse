@@ -622,7 +622,7 @@
                     $ax = T.ax
                     p.ist('ax',ax) and return
                     # < c.N []= suggestive {n,x}
-                    c.N = [ me&axsimilate,c,ax ]
+                    c.N = [ me&axsimilate,ax ]
                 }
             }
             # o ... { # returns iterator
@@ -666,14 +666,14 @@
                 ahk(c,'tX',p.1,X)
                 c.X = X
             })
-            # i stract/... # look around for ax.stract
+            # i stract/... # rowing nearby ax.stract
             a(/^(\w+)/, &{
                 $ark = p.1
                 $og = me&Shx_arkfind,c,ark
                 !og and return me&Sargfail,c,{t:'!@'+ark}
                 # it's ours
                 c.N = og.N.slice()
-                    .map(ax => me&axsimilate,c,ax )
+                    .map(ax => me&axsimilate,ax )
                 c.X and debugger
             })
             # appear to others in the enclosing iterator
@@ -690,11 +690,25 @@
                 $ark = p.1
                 $s = {}
                 $q = {ark}
-                # might be a nearby ax.ref
-                $og = T.Sarg && me&Shx_arkfind,c,ark
-                og and me&Shx_arkbind,c,og,q,ark
-                # or a word=1
-                else s [p.1] = 1
+                if (c.N.some(ax => hak(ax,ark))) {
+                    # rowing has this ark, bind to s:
+                    q.param = ark
+                    ahk(c,['ark_reused'],ark,1)
+                }
+                else {
+                    $og = T.Sarg && me&Shx_arkfind,c,ark
+                    if (og) {
+                        # a nearby ax.$ark
+                        ahk(c,['ark_from'],ark,og)
+                        me&Shx_arkbind,c,og,q,ark
+                        c.bailed = 1
+                        return 0
+                    }
+                    else {
+                        # or a word=1
+                        s [p.1] = 1
+                    }
+                }
                 me&Shx_io,c,s,{},q
                 delete c.X
             })
@@ -748,6 +762,16 @@
                     $M = []
                     $arg = [s,c,q]
                     arg = arg.map(s => s ? ex({},s) : {})
+                    s = arg[0]
+                    c = arg[1]
+                    if (q.param) {
+                        !hak(a,q.param) and debugger
+                        $v = a [q.param]
+                        s [q.param] = v
+                        if (isob(v)) {
+                            c.array = 1
+                        }
+                    }
                     y (a, ... arg ,M)
                     # < mania
                     more.push(...M)
@@ -757,11 +781,15 @@
         }
        
        // ioisms
-        # clone an ax
-        me.axsimilate = &acgtca{
-            !c.sargk and throw "Sarg c"
+        # clone an ax, may mix in b over any of it
+        me.axsimilate = &acgtab{
             $ax = ex({},a)
-            ax.arkx = ex({},ax.arkx)
+            $arkx = ax.arkx = ex({},ax.arkx)
+            if (b) {
+                ex(ax,b)
+                ex(arkx,b)
+                ex(ax,{arkx})
+            }
             return ax
         }
         # to expand c[] by g[]
@@ -771,11 +799,12 @@
             $thesen = c.N.map(ax => ax.n)
             $thosen = g.N.map(ax => ax.n)
             # thesen not there
-            $undefn = grepout(thesen,thosen)
+            $undefn = thesen.filter(n => !thosen.includes(n))
             hak(undefn) and debugger
             # thosen not here
-            $othern = grepout(thosen,thesen)
+            $othern = thosen.filter(n => !thesen.includes(n))
             hak(othern) and debugger
+            return thosen
         }
         me.Shx_arkfind = &acgtc,ark{
             !ark and throw "!ark"
@@ -803,15 +832,36 @@
             }
             return og
         }
+        # look up and join nearby results
         me.Shx_arkbind = &acgtcgq,ark{
-            # if already defined, join to it?
-            # want to multiply by ax.ref
-            # check the /$n match
-            #  - or you should split names
-            me&axcompatible,c,og
-
-            og.N.filter(ax => ax)
-            c.maybeark = og
+            # sanity check the /$n match
+            me&axcompatible,c,g
+            $N = g.N.slice()
+            $seen = []
+            $more = []
+            c.N.map(&a{
+                # rows of /$n should be minimal
+                seen.includes(a.n) and debugger
+                seen.push(a.n)
+                $binds = grepout(N,ax => ax.n == a.n)
+                binds.map(&b{
+                    # whole point is to bring this one
+                    !hak(b,ark) and debugger
+                    # merge, prefer a's .x|n
+                    $ax = me&axsimilate,b,a
+                    # is about to be created, soft label source x
+                    !ax.arkx[ark] and debugger
+                    # < this an the q.param should be outside
+                    ax.arkx[ark+'_o'] = ax.arkx[ark]
+                    more.push(ax)
+                })
+            })
+            c.N = more
+            # we now have N/ax.$ark
+            # binds ax.$ark into s.$ark, per &rayplace
+            q.param = ark
+            
+            c.maybeark = g
         }
        
        // types

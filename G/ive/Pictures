@@ -281,9 +281,16 @@
             else {
                 $re = h[k]
                 if (listend) {
-                    $N = h[k] ||= []
                     $n = M.shift()
-                    !N.includes(n) and N.push(n)
+                    if (n == 1) {
+                        # counter
+                        h[k] ||= 0
+                        $N = ++h[k]
+                    }
+                    else {
+                        $N = h[k] ||= []
+                        !N.includes(n) and N.push(n)
+                    }
                     return N
                 }
                 else {
