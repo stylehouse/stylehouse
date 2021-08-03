@@ -237,22 +237,53 @@ me.Sch_Travel = &acgt{ return [
         fi&Xsimp,D,{astract:1},{n:Y}
         
         $Yb = Rs&astractb = {A:R}
-        me&Shx,<<'',[Db,Yb]
-            i $D/astract $Y
-        
+        $Shx = &{
+            $args = [...arguments]
+            return me&Shx,args.shift(),args
+        }
+        Shx("i $D/astract $Y",Db,Yb)
         # < X/$k/$refs, per $n (brackrow)
         # X/$k=step /$refs
-        me&Shx,<<'',[X,s]
-            o $X/...$s {
-        
-        (&an{
+        Shx("o $X/...$s {",X,s) (&an{
+            # ark can be anywhere in this iterating Sarg,
+            #  reversing out, should find the latest:
+            # < more robust lookup. when a parts are mysteries, fail
+            $st = Shx("i $D/stract",Db)
+            # < morekeys later
+            # < search by all k, rather that specifics?
+            #   or decide later that %%step is normal?
+            $th = Shx("i stract/...$s",s)
             
-            $st = me&Shx,<<'',[Db]
-                i $D/stract
+            # curiously the &Xsim c.wild doesn't need to know c.array
+            #  because &Xsomp notices and resolves 'refs'
+            #  &Xsimp however needs c.array=1, 
+            #  < xq would know this
+            #  < gleaned at compilation from an io expr somwhere
+            $oa = a
+            Shx("o /ref {") (&an{
+                # < crudge: %wou%X/.../x should .up
+                a.x.up ||= oa.x
+                # switches to X=Yb, keep /$n of a
+                # < finds ark=ref in the above,
+                # < ref used like this should demand defined
+                #   and cause c.array since isob
+                $ve = Shx("i $Y/ref",Yb)
+                T.oncily ||= 1
+                T.oncily++ < 2 and me&nu,"ref-find",{a,ve}
+            })
             
-            me&Shx,<<'',[s]
-                i stract/...$s
-            
+            0 && fi&Xsomp,a.x,{ref:1},{},{n} .map(&a{
+                a.n != n and debugger
+                $z = a.ref
+                # i Y/$ref
+                fi&Xsimp,Y,{ref:z},{array:1,n}
+                if (isnode(z)) {
+                    # i Y/$node
+                    fi&Xsimp,Y,{node:z},{array:1,n}
+                }
+                $x = fi&Xsimp,Y,{stract:1},{n}
+                fi&Xsimp,x,s,{n}
+            })
         })
         fi&Xsomp,X,s .map(&a{
             $n = a.n
@@ -294,7 +325,6 @@ me.Sch_Travel = &acgt{ return [
                 fi&Xsimp,x,s,{n}
             })
         })
-        !Rs&lastone and return
     }
     me.brackstract_out = &acgtR{
         $D = Rs&stractia ||= {A:R}

@@ -547,6 +547,7 @@
                 g.N = more
             }
         }
+      
       // common low
         me.parserify = &acgts{
             $p = {}
@@ -647,6 +648,8 @@
                         # < groups
                         # < &Tap taking a callback to try {}
                         $Tap = me&Tap,{ax:a,Sarg:c}
+                        # find arks only from current iteration
+                        c.z = []
                         y(a,a.n)
                         Tap()
                     }
@@ -679,32 +682,15 @@
                 c.X = X
             })
             # i stract/... # look around for ax.stract
-            $g = T.Sarg
             a(/^(\w+)/, &{
-                # must be iterating a Sarg that has the others!
-                !g and throw "not iterating a Sarg"
                 $ark = p.1
-                $hasit = &f{
-                    !hak(f.N) || f.fail and return
-                    $ax = f.N[0]
-                    !ax.arkx || !hak(ax.arkx,ark) and return
-                    return 1
-                }
-                # first, try the iterating Sarg
-                $search = [g]
-                # then its most recent children
-                # < only going back one iteration?
-                g.z and search.push(... reverse(g.z))
-                $og
-                each if search {
-                    hasit(f) and og = f; break
-                }
-                !og and return me&Sargfail,c,{t:'!@'+ark,g}
+                $og = me&Shx_arkfind,c,ark
+                !og and return me&Sargfail,c,{t:'!@'+ark}
                 # it's ours
                 c.N = og.N.slice()
                 c.X and debugger
             })
-            g and ac(g,'z',c)
+            me&Shx_arkfindable,c
             
             
             c.fail and return c  
@@ -714,9 +700,15 @@
             # < should be in N/a.some, ie an ark
             #   also $D/...sea should look for a.sea
             a(/\/(\w+)/, &{
+                $ark = p.1
+                $og = T.Sarg && me&Shx_arkfind,c,ark
+                if (og) {
+                    # if already defined, join to it?
+                    # want to uniq ax.ref, 
+                    c.maybeark = og
+                }
                 $s = hashkv(p.1)
-                
-                me&Shx_io,c,s,{},{ark:p.1}
+                me&Shx_io,c,s,{},{ark}
                 delete c.X
             })
             # o /...$s # &Xsimp s.* c.long
@@ -737,7 +729,7 @@
             me&rayplace,g,s,c,q (&ascqM{
                 # < departure point selectivity
                 $X = g.X || a.x
-                !X and debugger
+                !X and return me&Sargfail,g,{t:'!X',a}
                 # < who|how selectivity
                 $n = a.n
                 if (g.gee == 'i') {
@@ -760,6 +752,37 @@
                     })
                 }
             })
+        }
+        # appear to others in the enclosing iterator
+        me.Shx_arkfindable = &acgtc{
+            $g = T.Sarg
+            g and ac(g,'z',c)
+        }
+        me.Shx_arkfind = &acgtc,ark{
+            !ark and throw "!ark"
+            # must be iterating a Sarg that has the others!
+            $g = T.Sarg
+            !g and throw "not iterating a Sarg"
+            # first, try the iterating Sarg
+            $search = [g]
+            # looking for arkx
+            # < finding more than the last hop of &Xsim
+            #   which is usually one.
+            $hasit = &f{
+                !hak(f.N) || f.fail and return
+                $ax = f.N[0]
+                !ax.arkx || !hak(ax.arkx,ark) and return
+                return 1
+            }
+            # then its most recent children
+            # < only going back one iteration?
+            g.z and search.push(... reverse(g.z))
+            $og
+            each if search {
+                f == c and continue
+                hasit(f) and og = f; break
+            }
+            return og
         }
        
        // ioisms
