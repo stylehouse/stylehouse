@@ -669,9 +669,9 @@
             # i stract/... # rowing nearby ax.stract
             a(/^(\w+)/, &{
                 $ark = p.1
+                # the last to define eg i $D/stract
                 $og = me&Shx_arkfind,c,ark
                 !og and return me&Sargfail,c,{t:'!@'+ark}
-                # it's ours!
                 me&axsimilates,c,og
                 c.X and debugger
             })
@@ -679,7 +679,7 @@
             T.Sarg and ac(T.Sarg,'z',c)
             
             
-            c.fail and return c  
+            c.fail and return
           
        // guts
             # i .../some # i /$some=1/$n
@@ -718,6 +718,15 @@
                 !X and return me&Sargfail,g,{t:'!X',a}
                 # < who|how selectivity
                 $n = a.n
+                each kv s {
+                    if (isob(v)) {
+                        c.array = 1
+                    }
+                    else {
+                        # whole bits of &Xsimp s must be c.array
+                        c.array and debugger
+                    }
+                }
                 if (g.gee == 'i') {
                     (n) and c.n = n
                     $x = fi&Xsimp,X,s,c,q
@@ -733,23 +742,20 @@
                         # a = ax, has a.arkx etc for this one expr-part
                         # < merge with over-a
                         (n) && a.n != n and debugger
-                        $z = a.ref
                         M.push(a)
                     })
                 }
             })
         }
-        # replaces c.N
+        # replaces c.N, generating scq
         me.rayplace = &acgtgscq{
             return &y{
                 $per_scq = &ascqM{
+                    # binds q.param from a.$param
                     if (q.param) {
                         !hak(a,q.param) and debugger
                         $v = a [q.param]
                         s [q.param] = v
-                        if (isob(v)) {
-                            c.array = 1
-                        }
                     }
                     y (a,s,c,q,M)
                 }
@@ -781,7 +787,7 @@
             $arkx = ax.arkx = ex({},ax.arkx)
             if (b) {
                 ex(ax,b)
-                ex(arkx,b)
+                ex(arkx,b.arkx)
                 ex(ax,{arkx})
             }
             return ax

@@ -247,7 +247,7 @@ me.Sch_Travel = &acgt{ return [
         Shx("o $X/...$s {",X,s) (&an{
             # ark can be anywhere in this iterating Sarg,
             #  reversing out, should find the latest:
-            # < more robust lookup. when a parts are mysteries, fail
+            # < more robust lookup. when parts are mysteries, fail
             $st = Shx("i $D/stract",Db)
             # < morekeys later
             # < search by all k, rather that specifics?
@@ -255,8 +255,8 @@ me.Sch_Travel = &acgt{ return [
             $th = Shx("i stract/...$s",s)
             
             # curiously the &Xsim c.wild doesn't need to know c.array
-            #  because &Xsomp notices and resolves 'refs'
-            #  &Xsimp however needs c.array=1, 
+            #  because &Xsomp after it notices and resolves 'refs'
+            #  &Xsimp however needs c.array=1, guess by isob()
             #  < xq would know this
             #  < gleaned at compilation from an io expr somwhere
             $oa = a
@@ -268,8 +268,12 @@ me.Sch_Travel = &acgt{ return [
                 # < ref used like this should demand defined
                 #   and cause c.array since isob
                 $ve = Shx("i $Y/ref",Yb)
+                ve.N.length != 1 and throw "for one ref"
+                
+                # may already have it, from another -log/$n mention
                 T.oncily ||= 1
                 T.oncily++ < 2 and me&nu,"ref-find",{a:T.Sarg,ve}
+                
             })
             
             0 && fi&Xsomp,a.x,{ref:1},{},{n} .map(&a{
