@@ -259,22 +259,28 @@ fi.Xios ||= {}
         return hashkv(haks(s))
     }
     # < make uniq()
+    # eg uniqe(N, ax => ax.n) # [ax+] first each to have an ax.n
+    # eg uniqe(N,{map:n => nc&fi}) # $fi=[n+] group by
     self.uniqe = &Nc{
         c ||= {}
+        # y returns the bit
         isfu(c) and c.y = c
+        # y = map, and we return .$bit=[v+]
         c.map and c.y = c.map
         arrefs(c)
         each iv N {
             $bit = c.y ? c.y (v) : v
+            # stores c.ref.$i=l[v+]
             c.addref(bit,v)
         }
         # 
         # in order of appearance
         # {bit:[v+]+} - must iskeyish(bit)
-        return c.map ? hashkv(c.ref.map((l,i) => [c.refs[i],l]))
+        return c.map ? hashkv(c.maprefs((bit,l) => [bit,l]))
             # [[v+]+]
             : c.all ? c.ref
-            # reduced to first: [v+]
+            # reduced to first v of each [v+]
+            #  ie, uniq()
             : c.ref.map(l => l[0])
     }
     # see 'arrefs'
@@ -291,7 +297,11 @@ fi.Xios ||= {}
             return first
         }
         c.maprefs = &y{
-            c.ref.map((l,i) => y(c.refs[i],l))
+            # feed to hashkv() to make {$bit+:$l}
+            return c.ref.map(&li{
+                $bit = c.refs[i]
+                return y(bit,l)
+            })
         }
         return c
     }
@@ -522,9 +532,11 @@ fi.Xios ||= {}
     }
    
    // Q io
+    # oft N
     fi.AoQ = &acgtAQq{
         q ||= {}
-        $oftN = fi&Xsomp,A,Q.c,{},q
+        $N = fi&Xsomp,A,Q.c,{},q
+        # < understand:
         # < shades of uniq() by .n
         #   they may|not have believe/...
         #   no telling which of/t/n were there
@@ -532,15 +544,15 @@ fi.Xios ||= {}
         #     might x/$near:n/believe
         #      a x/$n-aligned map of other places with /$n
         #      which would reveal that one of these was async
-        oftN = uniqe(oftN, xc => xc.n)
+        N = uniqe(N, ax => ax.n)
         # < notice if uniq by r.x
         # if we dont uniq by r.n,
         #  we find the same /believe... for each (two) of/t/n
-        oftN.map(&xc,{
-            # if got via &Ath, these xc.n=Q
-            xc.N = fi&believeoQ,xc.x,0,{rows:1},q
+        N.map(&ax,{
+            # if got via &Ath, these ax.n=Q
+            ax.N = fi&believeoQ,ax.x,0,{rows:1},q
         })
-        return oftN
+        return N
     }
     # o /believe.../$Q
     # look up believe/src/version/$Q
@@ -558,10 +570,10 @@ fi.Xios ||= {}
         un && un()
         
         c.rows and return N
-        $xc = N.pop()
-        c.row and return xc
+        $ax = N.pop()
+        c.row and return ax
         # Q
-        return xc.n
+        return ax.n
     }
     
     fi.AiQ = &acgtAQq{
@@ -597,7 +609,6 @@ fi.Xios ||= {}
     }
     # rowing arks, returns [r+]
     #  simpler (no arrefs, qas...) prototype of Xio
-    # < rename xc r, have r.sc for arkv, rc&io=o
     fi.Xsomp = &acgtXscq{
         # shared by &Xsim, which does many s simple for each bit of s.*
         c ||= {}
@@ -706,11 +717,9 @@ fi.Xios ||= {}
     }
     # order a single expanse of rows
     #  higher(/$n)/$over/$other/$n (over turns out to mean later)
-    # < rename xc r, so Nr?
     # was mid November 2020, a thursday, week of the Fish
     fi.Naxnorder = &acgtNc{
         !c.norder and throw "!c.norder"
-        $M = []
         # each believe (xords) has many /... (xordz)
         $xords = []
         $xordz = []
@@ -726,6 +735,7 @@ fi.Xios ||= {}
             }
         }
         !hak(xords) and throw "!norder"
+        $M = []
         each ix xords {
             # in the order of believe/$n
             
@@ -861,15 +871,15 @@ fi.Xios ||= {}
     fi.Ath = &acgtAscq{
         c ||= {}
         q ||= {}
-        $xc = fi&wantbelieve,A,s,c,q
+        $a = fi&wantbelieve,A,s,c,q
         
-        if (!xc) {
+        if (!a) {
             fi&com,"Ath-not",{s,c,q}
         }
         else {
             # have the answer
-            A&Athx = xc
-            $Q = xc.n
+            A&Ath_answer = a
+            $Q = a.n
             !isC(Q) and debugger
             fi&com,"Ath",{s,c,q,Q}
             return Q
@@ -883,7 +893,7 @@ fi.Xios ||= {}
         d ||= {}
         $n = d.A || A
         d.A = A
-        # s is a Q.c.* set, eg $of+$t ($oft)
+        # s is oft ($of+$t+...), a Q.c.* set
         #  init. Qx has only demand for a Q:
         # dup i /$n, next lower|est A:n**
         $Qx = fi&Xsimp,A,s,{n}
@@ -901,28 +911,27 @@ fi.Xios ||= {}
         sex(wants,c,beliefs)
         # o /believe/...[-1]/$Q
         #  later greater
-        $xc = fi&believeoQ,Qx,wants,{row:1}
-        if (!xc) {
+        $a = fi&believeoQ,Qx,wants,{row:1}
+        if (!a) {
             # go further upwards
-            A.up and xc = fi&wantbelieve,A.up,s,c,q,{A,d}
+            A.up and a = fi&wantbelieve,A.up,s,c,q,{A,d}
             else {
                 # gateway, or sync read (as A:P) eg localStorage
-                xc = Ac&oftserve(s,c,q,d)
+                a = Ac&oftserve(s,c,q,d)
             }
-            if (xc && !q.cas) {
+            if (a && !q.cas) {
                 # thing brung
                 # threading back down to ..A:n
-                # /believe/... pseudo-xc returned
+                # an ax with /believe/... mixed in
                 #  towed in by the resyncing A:more
-                # es is xc is a rowing, what we would have
-                $es = sex({},xc,beliefs)
-                $Q = xc.n
-                es.x = fi&believeiQ,Qx,es,Q
-                es.n = Q
-                xc = es
+                $ax = me&axsimilate,a,beliefs
+                $Q = a.n
+                ax.x = fi&believeiQ,Qx,ax,Q
+                ax.n = Q
+                a = ax
             }
         }
-        return xc
+        return a
     }
     fi.isAthinger = &acgt{
         # try get something
@@ -1208,7 +1217,7 @@ fi.Xios ||= {}
             #  < they gc, domily
             #    recompositing X from X, de-row by inA
             $oftN = fi&AoQ,Y,Q
-            $belN = flatten(oftN.map(xc => xc.N))
+            $belN = flatten(oftN.map(ax => ax.N))
             # < decide el:8 when Q =~ belN/Q
             $el = !hak(belN) ? 2 : 3
             fi&com,"Q",{el,c:Q.c,sc:Q.sc,belN}
@@ -1246,7 +1255,6 @@ fi.Xios ||= {}
                 
                 each i,oft oftN {
                     $n = oft.n
-                    
                     # oft may !/believe/ yet, wrt Q el<3?
                     # assuming only latest /believe/ is in use
                     # < J: recreating and merging A|X
@@ -1258,7 +1266,7 @@ fi.Xios ||= {}
                     
                     into.addref(n,Q)
                 }
-                #$belN = oftN.map(xc => xc.N.slice(-1)[0])
+                #$belN = oftN.map(ax => ax.N.slice(-1)[0])
                 #me&zu,"Mightbe"+eye,{r,n:r.n,oftN,belN,Q}
             }
             into.maprefs(&n,QN{
