@@ -708,6 +708,7 @@ fi.Xios ||= {}
     # order a single expanse of rows
     #  higher(/$n)/$over/$other/$n (over turns out to mean later)
     # < rename xc r, so Nr?
+    # was mid November 2020, a thursday, week of the Fish
     fi.Nxcnorder = &acgtNc{
         !c.norder and throw "!c.norder"
         $M = []
@@ -777,9 +778,9 @@ fi.Xios ||= {}
             #  to make it seem: x.had.have = {k,v}
             #   grepping for $n in: x.had.have.k.v=x
             #q and hs[k] = v; continue
-            $vs = hs[k] ||= (c.array ? [] : {})
-            # everything mode happens to be in vx form, see &Xsomp
-            c.wild == k and return vs
+            $vx = hs[k] ||= (c.array ? [] : {})
+            # see vx form, &Xsomp
+            c.wild == k and return vx
             # otherwise $v will have to be indexed
             # < el:8 not creating empties
             if (c.array) {
@@ -790,7 +791,7 @@ fi.Xios ||= {}
                 vi < 0 and vi = refs.push(v)-1
                 v = vi
             }
-            $x = vs[v] ||= {}
+            $x = vx[v] ||= {}
             x.z ||= []
             x.up ||= ux
             x.up != ux and throw "xup!X"
@@ -809,20 +810,21 @@ fi.Xios ||= {}
         # < used for brack
         return fi&xzand,N
     }
-    # union /$n (x.z=[$n+])
+    # N[x+] union and return /$n (x.z=[$n+])
+    # < such joins
     fi.xzand = &acgtN{
         $M = []
         each ix N {
-            each ii,v x.z {
+            each ii,n x.z {
                 others: if ('others') {
-                    each iii,xn N {
-                        !xn.z.includes(v) and break others
+                    each iii,ox N {
+                        !ox.z.includes(n) and break others
                     }
                     # in all the others
-                    !M.includes(v) and M.push(v)
+                    !M.includes(n) and M.push(n)
                 }
             }
-            # its in all the others
+            # is in all the others
         }
         return M
     }
