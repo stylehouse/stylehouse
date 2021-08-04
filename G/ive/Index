@@ -778,13 +778,14 @@
                 .map(ax => me&axsimilate,ax )
             ahk(c,['ax_from'],g)
         }
-        # clone an ax, may mix in b over any of it
+        # clone an ax
         me.axsimilate = &acgtab{
             $ax = ex({},a)
-            $arkx = ax.arkx = ex({},ax.arkx)
+            $arkx = ax.arkx = ex({},ax.arkx||{})
             if (b) {
+                # may mix in b over any of it
                 ex(ax,b)
-                ex(arkx,b.arkx)
+                ex(arkx,b.arkx||{})
                 ex(ax,{arkx})
             }
             return ax

@@ -607,7 +607,7 @@ fi.Xios ||= {}
         c.long = 1
         q ||= {}
         $N = isar(X) ? X : [X]
-        $arkN = [{}]
+        $axN = [{}]
         $ks = haks(s)
         while (ks.length) {
             $k = ks.shift()
@@ -615,10 +615,10 @@ fi.Xios ||= {}
             v == 1 and c.wild = k
             else delete c.wild
             $M = []
-            $arkM = []
+            $axM = []
             each ix N {
-                $arks = arkN[i]
-                !arks and debugger
+                $a = axN[i]
+                !a and debugger
                 # each possible x continued along path
                 fi&bug,'somp' and debugger
                 # vx/$t=$k|$ref/x
@@ -646,34 +646,33 @@ fi.Xios ||= {}
                 }
                 # always X|x.$k(.$v=$x)+
                 each v,inx vx {
-                    # < rename arkv ax
                     # < enforce /$n-having along paths at ks.length
                     #   see q.n, multi-&Xsomp fi&xzand
-                    # ark acquires k:v
-                    $arkv = ex({},arks)
-                    # arks (columns) statement unique
-                    hak(arkv,k) and debugger
-                    # vx doesn't convey its index amongst all $v here:
+                    # ax acquires k:v
+                    $ax = me&axsimilate,a
+                    # arks should be unique? &Shx_bind may clobber
+                    hak(ax,k) and debugger
+                    # vx's v is really a serial amongst all $v, if c.array
+                    #  which we don't always know just looking around X.**
                     $ref = inx[k+'s']
                     if (ref) {
                         # refs sequenced deduplicatively, see &Xsim c.array
                         !num(v) and debugger
-                        arkv[k+'_i'] = v
-                        arkv[k] = ref[v]
+                        ax[k+'_i'] = v
+                        ax[k] = ref[v]
                     }
                     else {
-                        arkv[k] = v
+                        ax[k] = v
                     }
-                    # also each x on the way
-                    arkv.arkx = ex({},arks.arkx||{})
-                    arkv.arkx[k] = inx
+                    # also each x per bit of &Xsomp s path
+                    ax.arkx[k] = inx
                     M.push(inx)
-                    arkM.push(arkv)
+                    axM.push(ax)
                 }
             }
             # tos become froms
             N = M
-            arkN = arkM
+            axN = axM
             !N.length and return []
         }
         
@@ -681,8 +680,8 @@ fi.Xios ||= {}
         $M = []
         each ix N {
             # < rename arkv ax
-            $arkx = arkN[i]
-            !arkx and debugger
+            $ax = axN[i]
+            !ax and debugger
             each in x.z {
                 # last &Xsomp $s-hop
                 # a b c
@@ -694,14 +693,14 @@ fi.Xios ||= {}
                 # see &brackstract &Xsomp -log/$k=step/$ref
                 q.n && n != q.n and continue
                 # eg {src,version,n,x}+
-                $xc = ex({},arkx,{n,x})
-                M.push(xc)
+                $a = me&axsimilate,ax,{n,x}
+                M.push(a)
             }
         }
         N = M
         
         # order the single expanse of rows
-        c.norder and N = fi&Nxcnorder,N,c
+        c.norder and N = fi&Naxnorder,N,c
         
         return N
     }
@@ -709,20 +708,21 @@ fi.Xios ||= {}
     #  higher(/$n)/$over/$other/$n (over turns out to mean later)
     # < rename xc r, so Nr?
     # was mid November 2020, a thursday, week of the Fish
-    fi.Nxcnorder = &acgtNc{
+    fi.Naxnorder = &acgtNc{
         !c.norder and throw "!c.norder"
         $M = []
         # each believe (xords) has many /... (xordz)
         $xords = []
         $xordz = []
         each kv c.norder {
-            each i,xc N {
-                $xord = xc.arkx[k]
+            each i,ax N {
+                # seq-unique ax.x, list ax with it
+                $xord = ax.arkx[k]
                 !xord and continue
                 $xi = xords.indexOf(xord)
                 xi < 0 and xi = xords.push(xord)
                 xordz[xi] ||= []
-                xordz[xi].push(xc)
+                xordz[xi].push(ax)
             }
         }
         !hak(xords) and throw "!norder"
@@ -733,22 +733,22 @@ fi.Xios ||= {}
             $xcorder = (xordz[i]||[]).slice().reverse()
             $inside = []
             each in norder {
-                each i,xc xcorder {
+                each i,ax xcorder {
                     # suck out believe/.../$n rows
-                    xc.n != n and continue
-                    inside.push(xc)
+                    ax.n != n and continue
+                    inside.push(ax)
                 }
             }
             # starts from the end|newest, which matter more
-            each i,xc inside {
-                M.includes(xc) and throw "test multiple q.norder.*"
-                M.unshift(xc)
+            each i,ax inside {
+                M.includes(ax) and throw "test multiple q.norder.*"
+                M.unshift(ax)
             }
         }
         # any not in believe/$n, meaning very historic?
         #  see $n...$n gc
-        N.filter(xc => !M.includes(xc)).reverse()
-            .map(xc => M.unshift(xc))
+        N.filter(ax => !M.includes(ax)).reverse()
+            .map(ax => M.unshift(ax))
         return M
     }
     
