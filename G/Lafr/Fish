@@ -599,7 +599,11 @@ fi.Xios ||= {}
     #  simpler (no arrefs, qas...) prototype of Xio
     # < rename xc r, have r.sc for arkv, rc&io=o
     fi.Xsomp = &acgtXscq{
+        # shared by &Xsim, which does many s simple for each bit of s.*
         c ||= {}
+        # &Xsim returns vx form, containing $v globbed
+        # see also c.wild per s.*, also causes this form if so
+        c.simvx = 1
         c.long = 1
         q ||= {}
         $N = isar(X) ? X : [X]
@@ -619,13 +623,16 @@ fi.Xios ||= {}
                 fi&bug,'somp' and debugger
                 # vx/$t=$k|$ref/x
                 $vx = fi&Xsim,x,'X',[],hashkv(k,v),c,q
-                if (!vx) {
-                    # doesnt x/$k:v...
-                    continue
-                }
-                # vx form provides path used!
-                if (!c.wild) {
-                    # specific thing was provided to &Xsim,
+                # < may not?
+                !vx and continue
+                # &Xsim c.wild shortcut-returns: vx/$v/$x
+                # vx form provides values along the &Xsomp s path
+                if (!c.wild && !c.simvx) {
+                    debugger
+                    # < GOING
+                    # a specific thing was provided to &Xsim
+                    # meaning it returned only x, not v/x
+                    #  so we figure what v would have been,
                     # < &Xsim return type more like &Xsomp
                     $ref = x[k+'s']
                     if (ref) {
@@ -637,18 +644,17 @@ fi.Xios ||= {}
                     # must be keyish v
                     vx = hashkv(v,vx)
                 }
-                else {
-                    # &Xsim c.wild shortcut-returns: vx/$v/$x
-                }
                 # always X|x.$k(.$v=$x)+
-                each v,ax vx {
+                each v,inx vx {
+                    # < rename arkv ax
                     # < enforce /$n-having along paths at ks.length
                     #   see q.n, multi-&Xsomp fi&xzand
                     # ark acquires k:v
                     $arkv = ex({},arks)
                     # arks (columns) statement unique
                     hak(arkv,k) and debugger
-                    $ref = x[k+'s']
+                    # vx doesn't convey its index amongst all $v here:
+                    $ref = inx[k+'s']
                     if (ref) {
                         # refs sequenced deduplicatively, see &Xsim c.array
                         !num(v) and debugger
@@ -660,8 +666,8 @@ fi.Xios ||= {}
                     }
                     # also each x on the way
                     arkv.arkx = ex({},arks.arkx||{})
-                    arkv.arkx[k] = ax
-                    M.push(ax)
+                    arkv.arkx[k] = inx
+                    M.push(inx)
                     arkM.push(arkv)
                 }
             }
@@ -674,6 +680,7 @@ fi.Xios ||= {}
         # arks + final x from eg x/$src/$version(/$n)?
         $M = []
         each ix N {
+            # < rename arkv ax
             $arkx = arkN[i]
             !arkx and debugger
             each in x.z {
@@ -771,7 +778,10 @@ fi.Xios ||= {}
             #   grepping for $n in: x.had.have.k.v=x
             #q and hs[k] = v; continue
             $vs = hs[k] ||= (c.array ? [] : {})
+            # everything mode happens to be in vx form, see &Xsomp
             c.wild == k and return vs
+            # otherwise $v will have to be indexed
+            # < el:8 not creating empties
             if (c.array) {
                 # lifted from &qis xq.array
                 # index values in an array
@@ -784,7 +794,10 @@ fi.Xios ||= {}
             x.z ||= []
             x.up ||= ux
             x.up != ux and throw "xup!X"
-            
+            if (c.simvx) {
+                lak != k and throw "vx form limited to 1 &Xsim s.*"
+                return hashkv(v,x)
+            }
             # long puts only the final ..x/$n
             c.long && lak != k and continue
             c.n and x.z.push(c.n)
