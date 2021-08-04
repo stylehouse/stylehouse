@@ -513,6 +513,7 @@
         #  &Sarg within sarg get
         me.Sarg = &acgtkscq{
             isar(c) and c = {arg:c}
+            q ||= {}
             
             $p = c.p = me&parserify,s
             p.p(/\n$/)
@@ -521,7 +522,7 @@
             c.expr = p.s
             c.N ||= []
             c.sargk = k
-            me&mearg,'Sarg_'+k,[p,s,c]
+            me&mearg,'Sarg_'+k,[p,s,c,q]
             # you get the deepest c, .c|fc=inputs
             plumb and c = me&Sarg,k,plumb,{c},q
             if (!c.c || plumb) {
@@ -601,7 +602,7 @@
       
       // 'Shx'
        // itself, itselves, iterate
-        me.Sarg_Shx = &acgtpsc{
+        me.Sarg_Shx = &acgtpscq{
             $a = p.a
             # a type checker
             p.ist = &tsl{
@@ -688,7 +689,11 @@
             a(/\/(\w+)/, &{
                 $ark = p.1
                 $s = {}
-                $q = {ark}
+                # q clones at the part through io leg
+                #  so the q-leg has a density at far end
+                # < rename other leg meaning x... or so (qis)
+                #   same thing, other impedance
+                q = ex({ark},q)
                 # may be a column in this|nearby rowings
                 $found = me&Shx_arkmaybe,c,q
                 # or a word=1
@@ -699,8 +704,12 @@
             })
             # o /...$s # &Xsimp s.* c.long
             a(/^\/\.\.\.\$(\w+)/, &{
+                $ark = p.1
                 $s = c.arg.shift()
-                me&Shx_io,c,s,{},{ark:p.1}
+                $ok = isob(s) && !isC(s) && hak(s)
+                !ok and return me&Sargfail,c,{t:'{t+}!=@'+ark,s}
+                q = ex({ark},q)
+                me&Shx_io,c,s,{},q
                 delete c.X
                 ahk(c,'tsack',p.1,s)
             })
@@ -767,6 +776,11 @@
                 $more = []
                 g.N.map(a => more.push(... per_a(a)))
                 g.N = more
+                # later parts dont also get our q.param
+                # < compulsively add layers to s.*, partitions
+                #   wants !c.long &Xsim etc...
+                #    basically wanting ax+ over vx
+                delete q.param
             }
         }
        
