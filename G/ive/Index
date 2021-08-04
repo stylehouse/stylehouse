@@ -796,13 +796,20 @@
                     $x = fi&Xsimp,X,s,c,q
                     # DIY ax return without &Xsomp
                     $ax = me&axsimilate,a,{x}
+                    # < lowerable debug awarenesses:
+                        ax.DB_scq = {s,c,q}
                     (n) and ax.n = n
                     if (q.ark) {
                         # < other s.* too?
-                        haks(s) != 1 and debugger
+                        hak(s) != 1 and debugger
                         $v = s [q.ark]
-                        # < usu replacey? upgrade to brack history?
-                        hak(ax,q.ark) and debugger
+                        if (hak(ax,q.ark)) {
+                            # < usu replacey? upgrade to brack history?
+                            $same = ax[q.ark] == v
+                            # doing q.param causes same ark being replaced,
+                            #  with the new arkx
+                            !same and debugger
+                        }
                         # value itself
                         ax [q.ark] = v
                         # < ${ark}_i too? see arrefs
@@ -813,11 +820,12 @@
                 }
                 else {
                     (n) and q.n = n
-                    fi&Xsomp,X,s,c,q .map(&a{
+                    fi&Xsomp,X,s,c,q .map(&ax,{
+                        $ax = me&axsimilate,a,ax
                         # a = ax, has a.arkx etc for this one expr-part
                         # < merge with over-a
-                        (n) && a.n != n and debugger
-                        M.push(a)
+                        (n) && ax.n != n and debugger
+                        M.push(ax)
                     })
                 }
             })
@@ -846,6 +854,8 @@
                 $more = []
                 g.N.map(a => more.push(... per_a(a)))
                 g.N = more
+                # you may not be &Shx_io
+                !q and return
                 # later parts dont also get our q.param
                 # < compulsively add layers to s.*, partitions
                 #   wants !c.long &Xsim etc...
@@ -906,8 +916,6 @@
                     # a nearby ax.$ark
                     ahk(c,['ark_from'],ark,og)
                     me&Shx_arkbind,c,og,q,ark
-                    c.bailed = 1
-                    debugger
                     return og
                 }
                 else {
@@ -974,8 +982,6 @@
             # we now have N/ax.$ark
             # binds ax.$ark into s.$ark, per &rayplace
             q.param = ark
-            
-            c.maybeark = g
         }
        
        // types

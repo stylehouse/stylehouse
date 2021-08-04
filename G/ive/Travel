@@ -269,13 +269,21 @@ me.Sch_Travel = &acgt{ return [
                 #   and cause c.array since isob
                 $ref = S("i $Y/ref",Yb)
                 ref.N.length != 1 and throw "for one ref"
+                # < may already have it, from another -log/$n mention
                 
                 $val = Cye(["DOge",3])
                 $fleet = 3
                 $ve = S('i $Y/$val/$fleet',Yb,val,fleet)
-                # may already have it, from another -log/$n mention
+                # < check out i + c.wild
+                #$vi = S('i $Y/val/fleet',Yb)
+                #   val is ark_from the ve, which also merges ax.fleet
+                #    which is then ark_reused
+                # < disambiguate with $val=1
+                #    when you can't use a bare word as such anymore
+                # 
+                $vo = S('o $Y/val/fleet',Yb)
                 T.oncily ||= 1
-                T.oncily++ < 2 and me&nu,"ref-find",{Sarg:T.Sarg,a,ve}
+                T.oncily++ < 2 and me&nu,"ref-find",{Sarg:T.Sarg,a,ve:vo}
                 
             })
        // proto
