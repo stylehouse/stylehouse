@@ -742,13 +742,7 @@
         # replaces c.N
         me.rayplace = &acgtgscq{
             return &y{
-                $more = []
-                g.N.map(&a{
-                    $M = []
-                    $arg = [s,c,q]
-                    arg = arg.map(s => s ? ex({},s) : {})
-                    s = arg[0]
-                    c = arg[1]
+                $per_scq = &ascqM{
                     if (q.param) {
                         !hak(a,q.param) and debugger
                         $v = a [q.param]
@@ -757,10 +751,18 @@
                             c.array = 1
                         }
                     }
-                    y (a, ... arg ,M)
+                    y (a,s,c,q,M)
+                }
+                $per_a = &a{
+                    $M = []
+                    $arg = [s,c,q].map(s => ex({},s||{}))
+                    per_scq(a,s,c,q,M)
                     # < mania
-                    more.push(...M)
-                })
+                    return M
+                }
+                
+                $more = []
+                g.N.map(a => more.push(... per_a(a)))
                 g.N = more
             }
         }
@@ -784,9 +786,8 @@
             }
             return ax
         }
-        # to expand c[] by g[]
-        #  eg trying to i .../someark
-        #   creates a row by instances of someark
+        # sanity check when joining rowings
+        #  c + g should share /$n, see &Shx_arkbind
         me.axcompatible = &acgtcg{
             $thesen = c.N.map(ax => ax.n)
             $thosen = g.N.map(ax => ax.n)
@@ -857,25 +858,27 @@
             me&axcompatible,c,g
             $N = g.N.slice()
             $seen = []
-            $more = []
-            c.N.map(&a{
-                # rows of /$n should be minimal
+            me&rayplace,c (&ascqM{
+                # rows of c /$n should be minimal
                 seen.includes(a.n) and debugger
                 seen.push(a.n)
+                # g /$n may creates a row by instances of someark
                 $binds = grepout(N,ax => ax.n == a.n)
                 binds.map(&b{
                     # whole point is to bring this one
                     !hak(b,ark) and debugger
                     # merge, prefer a's .x|n
                     $ax = me&axsimilate,b,a
-                    # is about to be created, soft label source x
+                    # should have a value
+                    !hak(ax,ark) and debugger
+                    # and the b...x the value index leads to
                     !ax.arkx[ark] and debugger
-                    # < this an the q.param should be outside
+                    # which is about to replace with some a...x
+                    #  so soft label as source x
                     ax.arkx[ark+'_o'] = ax.arkx[ark]
-                    more.push(ax)
+                    M.push(ax)
                 })
             })
-            c.N = more
             # we now have N/ax.$ark
             # binds ax.$ark into s.$ark, per &rayplace
             q.param = ark
