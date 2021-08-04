@@ -527,6 +527,10 @@
             plumb and c = me&Sarg,k,plumb,{c},q
             if (!c.c || plumb) {
                 # outer|&Shx-call-terminating &Sarg
+                if (p.s.length) {
+                    # notice leftovers, should all parse
+                    me&Sargfail,c,{t:'expr++',part:p.s}
+                }
                 c.fail and me&Sargfailhandle,c
                 hak(c,'return') and return c.return
             }
@@ -565,6 +569,8 @@
         me.Sargfail = &acgtcq{
             $n = {c}
             ex(n,q)
+            # the last matched expr
+            # < we may be after that part already
             n.expr = c.p.whole
             c.fail ||= []
             c.fail.push(n)
@@ -588,7 +594,7 @@
                 # "o someexpr"
                 me&boxcap,n.c.expr,'1b' (&{
                     # part that failed
-                    me&tsc,"fail-expr",n.expr,'y'
+                    me&tsc,"fail-expr-matched",n.expr,'y'
                     me&tsc,"fail-say",n.t,'q'
                     # < objects -> Thy, for introspection...
                     #   looking at eg s=-Nine
@@ -688,16 +694,14 @@
             #   also $D/...sea should look for a.sea
             a(/\/(\w+)/, &{
                 $ark = p.1
+                q = me&qsimilate,q,{ark}
+                
                 $s = {}
-                # q clones at the part through io leg
-                #  so the q-leg has a density at far end
-                # < rename other leg meaning x... or so (qis)
-                #   same thing, other impedance
-                q = ex({ark},q)
                 # may be a column in this|nearby rowings
                 $found = me&Shx_arkmaybe,c,q
                 # or a word=1
                 !found and s [ark] = 1
+                
                 me&Shx_io,c,s,{},q
                 # we then go from there (the N/ax.x)
                 delete c.X
@@ -705,10 +709,12 @@
             # o /...$s # &Xsimp s.* c.long
             a(/^\/\.\.\.\$(\w+)/, &{
                 $ark = p.1
+                q = me&qsimilate,q,{ark}
+                
                 $s = c.arg.shift()
                 $ok = isob(s) && !isC(s) && hak(s)
                 !ok and return me&Sargfail,c,{t:'{t+}!=@'+ark,s}
-                q = ex({ark},q)
+                
                 me&Shx_io,c,s,{},q
                 delete c.X
                 ahk(c,'tsack',p.1,s)
@@ -716,6 +722,15 @@
         }
         
        // &Shx_io
+        # q clones at the part through io leg
+        #  so the q-leg has a density at far end
+        # < rename other leg meaning x... or so (qis)
+        #   same thing, other impedance
+        me.qsimilate = &acgtqp{
+            q = ex({},q)
+            p and ex(q,p)
+            return q
+        }
         # &Xsim c.array or not guess
         #  which we don't always know just looking around X.**
         # see arrefs
@@ -761,11 +776,6 @@
                 }
                 else {
                     (n) and q.n = n
-                        T.onciley ||= 1
-                        $ya = g.expr.includes('/ref')  && T.onciley++ < 2
-                        #ya and debugger
-                        ya and c.Sargist = 1
-                        #ya and me&nu,"Sarga",{Sarg:T.Sarg,a,s,c,q}
                     fi&Xsomp,X,s,c,q .map(&a{
                         # a = ax, has a.arkx etc for this one expr-part
                         # < merge with over-a
