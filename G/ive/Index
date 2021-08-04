@@ -716,7 +716,28 @@
         }
         
        // &Shx_io
-        # adapt &Xsomp or &Xsimp
+        # &Xsim c.array or not guess
+        #  which we don't always know just looking around X.**
+        # see arrefs
+        me.Shx_determine_c_array = &acgtgaXscq{
+            $any = {}
+            each kv s {
+                v != 1 and any.nonglob = 1
+                isob(v) and any.ob = 1
+                else        any.nonob = 1
+            }
+            $unclear = any.ob && any.nonob
+            unclear and throw "c.array?"
+            any.ob and c.array = 1
+            else {
+                # looking at what's there
+                $k = haks(s)[0]
+                $ref = X[k+'s']
+                ref and c.array = 1
+            }
+        }
+        
+        # adapt to &Xsomp or &Xsimp
         me.Shx_io = &acgtgscq{
             # s, c copy to each &Xs[io]mp call
             !g.gee and throw "Shx!i|o"
@@ -727,12 +748,8 @@
                 !X and return me&Sargfail,g,{t:'!X',a}
                 # < who|how selectivity
                 $n = a.n
-                each kv s {
-                    isob(v) and c.array = 1
-                    else
-                    # check all of &Xsimp s will c.array
-                    c.array and debugger
-                }
+                # determine c.array or not
+                me&Shx_determine_c_array,g,a,X,s,c,q
                 if (g.gee == 'i') {
                     (n) and c.n = n
                     $x = fi&Xsimp,X,s,c,q
@@ -744,6 +761,11 @@
                 }
                 else {
                     (n) and q.n = n
+                        T.onciley ||= 1
+                        $ya = g.expr.includes('/ref')  && T.onciley++ < 2
+                        #ya and debugger
+                        ya and c.Sargist = 1
+                        #ya and me&nu,"Sarga",{Sarg:T.Sarg,a,s,c,q}
                     fi&Xsomp,X,s,c,q .map(&a{
                         # a = ax, has a.arkx etc for this one expr-part
                         # < merge with over-a
@@ -753,9 +775,10 @@
                 }
             })
         }
-        # replaces c.N, generating scq
+        # replaces c.N, generating scq, sets up q.param
         me.rayplace = &acgtgscq{
             return &y{
+                
                 $per_scq = &ascqM{
                     # binds q.param from a.$param
                     if (q.param) {
