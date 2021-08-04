@@ -671,9 +671,8 @@
                 $ark = p.1
                 $og = me&Shx_arkfind,c,ark
                 !og and return me&Sargfail,c,{t:'!@'+ark}
-                # it's ours
-                c.N = og.N.slice()
-                    .map(ax => me&axsimilate,ax )
+                # it's ours!
+                me&axsimilates,c,og
                 c.X and debugger
             })
             # appear to others in the enclosing iterator
@@ -690,26 +689,12 @@
                 $ark = p.1
                 $s = {}
                 $q = {ark}
-                if (c.N.some(ax => hak(ax,ark))) {
-                    # rowing has this ark, bind to s:
-                    q.param = ark
-                    ahk(c,['ark_reused'],ark,1)
-                }
-                else {
-                    $og = T.Sarg && me&Shx_arkfind,c,ark
-                    if (og) {
-                        # a nearby ax.$ark
-                        ahk(c,['ark_from'],ark,og)
-                        me&Shx_arkbind,c,og,q,ark
-                        c.bailed = 1
-                        return 0
-                    }
-                    else {
-                        # or a word=1
-                        s [p.1] = 1
-                    }
-                }
+                # may be a column in this|nearby rowings
+                $found = me&Shx_arkmaybe,c,q
+                # or a word=1
+                !found and s [ark] = 1
                 me&Shx_io,c,s,{},q
+                # we then go from there (the N/ax.x)
                 delete c.X
             })
             # o /...$s # &Xsimp s.* c.long
@@ -780,7 +765,14 @@
             }
         }
        
-       // ioisms
+       // ioisms ax
+        # clone rowing between &Sarg
+        me.axsimilates = &acgtcg{
+            # < stash c.N somewhere. osc page.
+            c.N = g.N.slice()
+                .map(ax => me&axsimilate,ax )
+            ahk(c,['ax_from'],g)
+        }
         # clone an ax, may mix in b over any of it
         me.axsimilate = &acgtab{
             $ax = ex({},a)
@@ -805,6 +797,33 @@
             $othern = thosen.filter(n => !thesen.includes(n))
             hak(othern) and debugger
             return thosen
+        }
+        
+       // &Shx_ark*
+        # find ax.$ark, set into the &Shx_io !
+        me.Shx_arkmaybe = &acgtcq{
+            $ark = q.ark
+            if (c.N.some(ax => hak(ax,ark))) {
+                # rowing has this ark, bind to s:
+                q.param = ark
+                ahk(c,['ark_reused'],ark,1)
+                return c
+            }
+            else {
+                $og = T.Sarg && me&Shx_arkfind,c,ark
+                if (og) {
+                    # a nearby ax.$ark
+                    ahk(c,['ark_from'],ark,og)
+                    me&Shx_arkbind,c,og,q,ark
+                    c.bailed = 1
+                    debugger
+                    return og
+                }
+                else {
+                    # not found, might imply word
+                    return 0
+                }
+            }
         }
         me.Shx_arkfind = &acgtc,ark{
             !ark and throw "!ark"
