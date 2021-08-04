@@ -624,7 +624,16 @@
                 me&Sargfail,c,{t:(l||'')+'!'+t,s}
                 return 1
             }
+            # bind from arg[]
+            p.ull = &type,{
+                !c.arg.length and debugger
+                $s = c.arg.shift()
+                # < to enter zeroes, fail from here? 
+                type && p.ist(type,s) and return
+                return s
+            }
             
+       // begin with arrive
             # begin with somethings
             if (c.c) {
                 me&Sargplumbed,c,c.c
@@ -672,10 +681,11 @@
                 # nothing yet, await c.X + expr, openly
                 !hak(c.N) and c.N = [{}]
             }
+            
             # i $D/... # for X=D
             a(/^\$(\w+)/, &{
-                $X = c.arg.shift()
-                p.ist('X',X) and return
+                $X = p.ull('X')
+                !X and return
                 # < should be in N/a.D, ie an ark
                 ahk(c,'tX',p.1,X)
                 c.X = X
@@ -689,25 +699,34 @@
                 me&axsimilates,c,og
                 c.X and debugger
             })
+            
             # appear to others in the enclosing iterator
             T.Sarg and ac(T.Sarg,'z',c)
-            
-            
             c.fail and return
           
        // guts
             # i .../some # i /$some=1/$n
             # < should be in N/a.some, ie an ark
             #   also $D/...sea should look for a.sea
-            a(/\/(\w+)/, &{
-                $ark = p.1
+            a(/\/([\$@])?(\w+)/, &{
+                $gaze = p.1
+                $ark = p.2
                 q = me&qsimilate,q,{ark}
                 
                 $s = {}
-                # may be a column in this|nearby rowings
-                $found = me&Shx_arkmaybe,c,q
-                # or a word=1
-                !found and s [ark] = 1
+                if (gaze == '$') {
+                    $v = p.ull()
+                    s [ark] = v
+                }
+                else {
+                    # may be a column in this|nearby rowings
+                    $found = me&Shx_arkmaybe,c,q
+                    # @things must be found
+                    # < may be empty - needs arkology outside c.N
+                    !found && gaze == '@' and throw "404@"+ark
+                    # word=1
+                    !found and s [ark] = 1
+                }
                 
                 me&Shx_io,c,s,{},q
                 # we then go from there (the N/ax.x)
@@ -718,9 +737,8 @@
                 $ark = p.1
                 q = me&qsimilate,q,{ark}
                 
-                $s = c.arg.shift()
-                $ok = isob(s) && !isC(s) && hak(s)
-                !ok and return me&Sargfail,c,{t:'{t+}!=@'+ark,s}
+                $s = p.ull('somehash')
+                !s and return
                 
                 me&Shx_io,c,s,{},q
                 delete c.X
@@ -768,6 +786,7 @@
                 # < departure point selectivity
                 $X = g.X || a.x
                 !X and return me&Sargfail,g,{t:'!X',a}
+                # we are per /$n
                 # < who|how selectivity
                 $n = a.n
                 # determine c.array or not
@@ -775,10 +794,21 @@
                 if (g.gee == 'i') {
                     (n) and c.n = n
                     $x = fi&Xsimp,X,s,c,q
+                    # DIY ax return without &Xsomp
                     $ax = {x}
                     (n) and ax.n = n
-                    # < named q.ark and keys of s
-                    q.ark and ahk(ax,'arkx',q.ark,x)
+                    if (q.ark) {
+                        # < other s.* too?
+                        haks(s) != 1 and debugger
+                        $v = s [q.ark]
+                        # < usu replacey? upgrade to brack history?
+                        hak(ax,q.ark) and debugger
+                        # value itself
+                        ax [q.ark] = v
+                        # < ${ark}_i too? see arrefs
+                        # the x beyond
+                        ahk(ax,'arkx',q.ark,x)
+                    }
                     M.push(ax)
                 }
                 else {
@@ -808,7 +838,7 @@
                 $per_a = &a{
                     $M = []
                     $arg = [s,c,q].map(s => ex({},s||{}))
-                    per_scq(a,s,c,q,M)
+                    per_scq(a,...arg,M)
                     # < mania
                     return M
                 }
@@ -947,6 +977,10 @@
         }
        
        // types
+        # {...}, what the s in scq usually is
+        me.Shx_issomehash = &acgts{
+            return isob(s) && !isC(s) && hak(s)
+        }
         # rows coming out of X traversal
         #  c.N=[ax+]
         #    < should have one or more of
