@@ -795,7 +795,7 @@
                     (n) and c.n = n
                     $x = fi&Xsimp,X,s,c,q
                     # DIY ax return without &Xsomp
-                    $ax = {x}
+                    $ax = me&axsimilate,a,{x}
                     (n) and ax.n = n
                     if (q.ark) {
                         # < other s.* too?
@@ -891,7 +891,7 @@
         }
         
        // &Shx_ark*
-        # find ax.$ark, set into the &Shx_io !
+        # look up and join nearby results
         me.Shx_arkmaybe = &acgtcq{
             $ark = q.ark
             if (c.N.some(ax => hak(ax,ark))) {
@@ -916,6 +916,7 @@
                 }
             }
         }
+        # find without binding (as q.param)
         me.Shx_arkfind = &acgtc,ark{
             !ark and throw "!ark"
             # must be iterating a Sarg that has the others!
@@ -942,7 +943,8 @@
             }
             return og
         }
-        # look up and join nearby results
+        # join nearby results, set q.param for the ark to bind to s
+        # < many in s, an expr (sub-part) set of lexicals..
         me.Shx_arkbind = &acgtcgq,ark{
             # sanity check the /$n match
             me&axcompatible,c,g
