@@ -665,19 +665,16 @@
             })
        
        // arrive at &Sarg expr, find ground
-            # i ... $Y # for /$n=Y
+            # i ... $Y # sets /$n:Y
             # < gazely. pulls rows from id, eg @group/cohe
-            #    Sarg ark=group containing Sarg ark=cohe
-            #     the latter's rows used
+            #    Sarg ark=group containing an Sarg ark=cohe
+            #     the cohe rows used
             a(/ \$(\w+)$/, &ark,{
                 $n = c.arg.pop()
                 p.ist('n',n) and return
                 ahk(c,'tn',ark,n)
                 c.N = [ me&axsimilate,{n} ]
             })
-            each ia c.N {
-                a.arkx ||= {}
-            }
             
             if (c.c) {
                 # &Sarg sub-expr receiving nothing
@@ -685,7 +682,7 @@
             }
             else {
                 # nothing yet, await c.X + expr, openly
-                !hak(c.N) and c.N = [{}]
+                !hak(c.N) and c.N = [ me&axsimilate,{} ]
             }
             
             # i $D/... # for X=D
