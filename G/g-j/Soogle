@@ -923,14 +923,20 @@ me.styler = &acgt{
             # we put R:I%down
             pc&N == Rc&N && !ps&down and throw "not in order"
             ps&down ||= [];
-            if (Rs&modulat) {
-                if ((sy&cv||0) <= 0.6) {
+            # R%Cy&cv sets order relative to R+, like modulat
+            $align = Rs&C
+            align = align && align != Rc&s
+                          && num(aligny&cv) && align
+            if (align || Rs&modulat) {
+                align and ~>5 notalign: aligny&cv, p.t, '///', R.t
+                align ||= s
+                if ((aligny&cv||0) <= 0.6) {
                     # before
                     $mi = ps&modulati ||= 0;
                     ps&down.splice(mi,0,R);
                     ps&modulati ++;
                 }
-                elsif ((sy&cv||0) >= 0.7) {
+                elsif ((aligny&cv||0) >= 0.7) {
                     # after
                     aftmoddy.push(p);
                     $m = ps&modulato ||= [];
@@ -939,7 +945,7 @@ me.styler = &acgt{
                 else {
                     # between/amongst R
                     # < R could have Mcv to escape channeling into 6-7
-                    throw "M@6 sort into things between upscdown"
+                    throw "M@6 sort into things between upscdown",align
                 }
                 aftmoddy.push(p);
             }
@@ -958,7 +964,7 @@ me.styler = &acgt{
            delete ps&modulati;
         });
 
-        #c C have!
+        #c C have!!
         $rev = N.slice().reverse();
         each iR rev {
             $b = Rc&b;
