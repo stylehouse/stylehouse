@@ -3103,12 +3103,15 @@ me.Sch_Travel = &acgt{ return [
             $x = me&Gome_xThis,R
             !x and return ha('pur:This')
             $This = xs&This
+            
             $s = xs&Gome
             $c = {This}
             me&FasyncThis,F,c
             c.wake.map(&z{
                 # wake Fc&InFine=%TheFine, or sometimes This...
                 $name = "~This->"+z.t
+                !isnode(z) and debugger
+                !isnode(z) and return me&nu,"nonnodetractor",{c,z}
                 me&wants,R,name,z
                 ha({pur:name})
             })
