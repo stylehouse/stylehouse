@@ -250,6 +250,7 @@ me.Sch_Travel = &acgt{ return [
             # < more robust lookup. when parts are mysteries, fail
             $st = S("i $D/stract",Db)
             # < morekeys later
+            #   find things not covered by abstractions:
             # < search by all k, rather that specifics?
             #   or decide later that %%step is normal?
             $th = S("i stract/...$s",s)
@@ -271,74 +272,33 @@ me.Sch_Travel = &acgt{ return [
                 ref.N.length != 1 and throw "for one ref"
                 # < may already have it, from another -log/$n mention
                 
-                $val = Cye(["DOge",3])
-                $fleet = 3
-                $ve = S('i $Y/$val/$fleet',Yb,val,fleet)
-                # < check out i + c.wild
-                #$vi = S('i $Y/val/fleet',Yb)
-                #   val is ark_from the ve, which also merges ax.fleet
-                #    which is then ark_reused
-                # < disambiguate with $val=1
-                #    when you can't use a bare word as such anymore
-                # 
-                $vo = S('o $Y/val/fleet',Yb)
-                T.oncily ||= 1
-                T.oncily++ < 2 and me&nu,"ref-find",{Sarg:T.Sarg,a,ve:vo}
+                if (0) {
+                    $val = Cye(["DOge",3])
+                    $fleet = 3
+                    $ve = S('i $Y/$val/$fleet',Yb,val,fleet)
+                    
+                    
+                    
+                    
+                    # < check out i + c.wild
+                    #$vi = S('i $Y/val/fleet',Yb)
+                    #   val is ark_from the ve, which also merges ax.fleet
+                    #    which is then ark_reused
+                    # < disambiguate with $val=1
+                    #    when you can't use a bare word as such anymore
+                    
+                    
+                    
+                    $vo = S('o $Y/val/fleet',Yb)
+                    T.oncily ||= 1
+                    T.oncily++ < 2 and me&nu,"ref-find",{Sarg:T.Sarg,a,ve:vo}
+                }
                 
+                isnode(a.ref) and S('i $Y/$node',Yb,a.ref)
+                # < meaning how Know...$K twines $K into Know
+                S('i $Y/stractin/...$s',Yb,s,a.ref)
             })
-       // proto
-            0 && fi&Xsomp,a.x,{ref:1},{},{n} .map(&a{
-                a.n != n and debugger
-                $z = a.ref
-                # i Y/$ref
-                fi&Xsimp,Y,{ref:z},{array:1,n}
-                if (isnode(z)) {
-                    # i Y/$node
-                    fi&Xsimp,Y,{node:z},{array:1,n}
-                }
-                $x = fi&Xsimp,Y,{stract:1},{n}
-                fi&Xsimp,x,s,{n}
-            })
-        })
-        fi&Xsomp,X,s .map(&a{
-            $n = a.n
-            # i D/stract
-            $stract = fi&Xsimp,D,{stract:1},{n}
-            # %%step,(...)
-            $morekeys = haks(n.sc)
-            hak(morekeys) > 3 and debugger
-            grepout(morekeys,havs(s))
-            if (hak(morekeys)) {
-                # %%step,(...) info beside expression
-                $notall = fi&Xsimp,stract,{notall:1},{n}
-                morekeys.map(k => fi&Xsimp,notall,{k},{n} )
-                # i stract/notall/...$s
-                fi&Xsimp,notall,s,{n}
-                me&zu,"notall",notall
-                # < later, find things not covered by abstractions:
-                #    wholly: -row
-            }
-            # i $stract/...$s
-            #  ie, $stract/$k=step given $s={k:step}
-            # < meaning like Know...$K
-            fi&Xsimp,stract,s,{n}
             
-            # curiously the &Xsim c.wild doesn't need to know c.array
-            #  because &Xsomp notices and resolves 'refs'
-            #  < xq would know this
-            #  < gleaned at compilation from an io expr somwhere
-            fi&Xsomp,a.x,{ref:1},{},{n} .map(&a{
-                a.n != n and debugger
-                $z = a.ref
-                # i Y/$ref
-                fi&Xsimp,Y,{ref:z},{array:1,n}
-                if (isnode(z)) {
-                    # i Y/$node
-                    fi&Xsimp,Y,{node:z},{array:1,n}
-                }
-                $x = fi&Xsimp,Y,{stract:1},{n}
-                fi&Xsimp,x,s,{n}
-            })
         })
     }
     me.brackstract_out = &acgtR{
