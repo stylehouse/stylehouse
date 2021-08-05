@@ -543,11 +543,11 @@
             $p = {}
             p.s = s
             p.p = &r,place{
-                m = p.m = p.s.match(r);
+                m = p.m = p.s.match(r)||[];
                 delete p.1
                 delete p.2
                 delete p.3
-                !m and return
+                !hak(m) and return
                 p.whole = m.shift();
                 p.1 = m[0]
                 p.2 = m[1]
@@ -560,7 +560,7 @@
             # apply a pattern
             p.a = &regex,y,zzz{
                 while (p.p(regex)) {
-                    y ()
+                    y (...p.m)
                 }
             }
             return p
@@ -666,12 +666,18 @@
        
        // arrive at &Sarg expr, find ground
             # i ... $Y # for /$n=Y
-            a(/ \$(\w+)$/, &{
+            # < gazely. pulls rows from id, eg @group/cohe
+            #    Sarg ark=group containing Sarg ark=cohe
+            #     the latter's rows used
+            a(/ \$(\w+)$/, &ark,{
                 $n = c.arg.pop()
                 p.ist('n',n) and return
-                ahk(c,'tn',p.1,n)
-                c.N = [{n}]
+                ahk(c,'tn',ark,n)
+                c.N = [ me&axsimilate,{n} ]
             })
+            each ia c.N {
+                a.arkx ||= {}
+            }
             
             if (c.c) {
                 # &Sarg sub-expr receiving nothing
@@ -683,16 +689,18 @@
             }
             
             # i $D/... # for X=D
-            a(/^\$(\w+)/, &{
+            a(/^\$(\w+)/, &ark,{
+                # < D may be C. it should Ds&X or so
                 $X = p.ull('X')
                 !X and return
                 # < should be in N/a.D, ie an ark
-                ahk(c,'tX',p.1,X)
-                c.X = X
+                ahk(c,'given_X',ark,X)
+                each ia c.N {
+                    a.x = a.arkx[ark] = X
+                }
             })
             # i stract/... # rowing nearby ax.stract
-            a(/^(\w+)/, &{
-                $ark = p.1
+            a(/^(\w+)/, &ark,{
                 # the last to define eg i $D/stract
                 $og = me&Shx_arkfind,c,ark
                 !og and return me&Sargfail,c,{t:'!@'+ark}
