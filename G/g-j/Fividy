@@ -146,18 +146,19 @@ window.extemp = &cs{
 };
 
 #c C-ish
+# NaN*1 != NaN, yet isnum(NaN). also ""
+window.num = s => (isnu(s) || s && s.length) && s*1 == s
+window.isnu = s => typeof s == 'number'
+window.isfu = s => typeof s == 'function'
+window.isst = s => typeof s == 'string'
+window.isar = s => s && s.constructor == Array
+window.isha = s => s && typeof s == 'object' && !isC(s)
+window.isob = s => s && typeof s == 'object'
+window.isR = s => isC(s) && sy&R == s
+window.hasR = s => isC(s) && sy&R
 # < G&C, babz: = C yadda @3
 #   and to parse args for eg opeolo
 #   has a lot to do with:
-window.num = &s{ return s*1 == s }; # NaN != NaN, typeof NaN == 'number'
-window.isnu = &s{ return typeof s == 'number' };
-window.isfu = &s{ return typeof s == 'function' };
-window.isst = &s{ return typeof s == 'string' };
-window.isar = &s{ return s && s.constructor == Array };
-window.isha = &s{ return s && typeof s == 'object' && !isC(s) };
-window.isob = &s{ return s && typeof s == 'object' };
-window.isR = &s{ return isC(s) && sy&R == s };
-window.hasR = &s{ return isC(s) && sy&R };
 window.Cye = &s{
     s = G&Cye,s;
     s.y = {cv:s.y.cv};
