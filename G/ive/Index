@@ -499,6 +499,7 @@
             
             me&ja,r,'got_active'
     }
+  
   // &Sarg io proto
       
       // &Sarg
@@ -567,7 +568,7 @@
             }
             # a type checker
             p.ist = &tsl{
-                $ok = me[c.sargk+'_is'+t](A,C,G,T,s)
+                $ok = me&mearg,c.sargk+'_is'+t,[s]
                 ok and return 0
                 me&Sargfail,c,{t:(l||'')+'!'+t,s}
                 return 1
@@ -629,12 +630,12 @@
             ox()
         }
   
-  // 'Sarn'
+  // 'Sarn' N/slope
        // itself
         me.Sarn2 = &acgtscq{
             return me&Sarg,'Sarn',s,c,q
         }
-        me.Sarg_Sarn = &acgtpscq{
+        me.Sarg_Saturn = &acgtpscq{
             $a = me&paullistify,p,s,c,q
             
             # i $s**
@@ -644,14 +645,12 @@
                 !s and return
                 # < should be in N/a.D, ie an ark
                 ahk(c,'given_s',ark,s)
-                each ia c.N {
-                    a.x = a.arkx[ark] = X
-                }
+                c.N = [ me&axsimilate,hashkv(ark,s) ]
             })
             # appear to others in the enclosing iterator
             T.Sarg and ac(T.Sarg,'z',c)
             c.fail and return
-       // guts
+       // guts!
             # i .../some # i /$some=1/$n
             # < should be in N/a.some, ie an ark
             #   also $D/...sea should look for a.sea
@@ -692,9 +691,14 @@
                 ahk(c,'tsack',p.1,s)
             })
         }
+       
+       // types
+        # things (and A)
+        me.Saturn_isC = &acgtn{
+            return isC(n)
         }
   
-  // 'Shx'
+  // 'Shx' N/ax
        // itself, itselves, iterate
         # sound of contorting topologies
         #  it says, hey there's all this stuff in here
@@ -1086,19 +1090,14 @@
                     #   that is in good time
         }
         
-  // 'chaseout'
+  // 'chaseout' N/s
         # Sarg with &boxcap error diag
-        me.Sharg = &acgtsc{
-            return me&Sarg,'chaseout',s,c
+        me.Sharg = &acgtscq{
+            return me&Sarg,'chaseout',s,c,q
         }
-        me.Sarg_chaseout = &acgtpsc{
-            $a = p.a
-            
+        me.Sarg_chaseout = &acgtpscq{
+            $a = me&paullistify,p,s,c,q
             # begin with somethings
-            if (c.c) {
-                me&Sargplumbed,c,c.c
-                c.N = c.c.N.slice()
-            }
             a(/^\$s/, &{
                 $s = c.arg.shift()
                 c.N = isar(s) ? s.slice() : [s]
