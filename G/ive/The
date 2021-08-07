@@ -950,89 +950,12 @@ me.Sch_The = &acgt{ return [
         $c = {}
         Rs&ThyLab_going and c.el = 9; me&tc,"--shutdown"
         !me&SuperLab,R,s,c and return
+        # < drain process
         c.el == 9 and Rs&ThyLab_gone = 1; me&tc,"Deletables"
     },'ift,D'],
     
-   // %Piing %%inst
-    ['inst_going',0.7,&acgtRs{
-        me&tc,"(going)"
-    },'ift,D'],
-    ['inst_deletable',0.7,&acgtRs{
-        me&tc,"(Z)"
-    },'ift,D'],
-    &{
-    # %Piing 296 arrives This/
-    # < see also %Travelables using &balforward
-    #   &Pii (originally &Rsci inside it)
-    #    was going to let Ec&uber know of i,
-    #    and Gnome knows all Ec&ubers?
-    #    same way lv would let E know it has ~
-    me.Piing_receives_inst = &acgtRs{
-        # R%* to apply:
-        $c = {}
-        me&jaa,R,{inst:1,eto:s} .map(&n{
-            $t = ns&n
-            if (ns&efrom != sy&up) {
-                $Fine = ns&efrom
-                # first hop, to Thy/This/* o Nine
-                $z = me&Pii,Fine.t+'-Labine'
-            }
-            elsif (sc&s == t) {
-                # enable this
-                c.ThyLab = 1
-                return
-                # has arrived at:
-            }
-            else {
-                # then Thy/This/Nine/$Outs
-                # < lv to Outs=meddle
-                $z = me&Pii,t.t+'-Lab'
-                zc&s = t
-            }
-            !zy&R and return me&waits,'fwd:inst'
-            me&nodei,R,z,n
-        })
-        me&Piing_preserves_inst,R,s,c
-    }
-    # controlled revoking of %ThyLab etc at the tips
-    me.Piing_preserves_inst = &acgtRsc{
-        me&rollbs,R,'inst_deletable'
-        # remember and shutdown when ...
-        $were = me&rollbs,R,'instcla'
-        !were && !hak(c) and return
-        were ||= {}
-        $are = ex(ex({},were),c)
-        $running = 0
-        $gone = {}
-        each kv are {
-            if (!c[k]) {
-                if (me&rollbs,R,k+'_gone' ) {
-                    # they finished revoking etc last time
-                    delete were[k]
-                    gone[k] = 1
-                    continue
-                }
-                R.sc[k+'_going'] = 1
-                Rs&inst_going = 1
-            }
-            R.sc[k] = v
-            me&reaw,R,k
-            running++
-        }
-        ex(were,c)
-        Rs&instcla = were
-        if (hak(gone) && !running) {
-            # < last one running causes %inst_gone
-            Rs&inst_deletable = 1
-            delete Rs&instcla
-        }
-        # allows %%inst... to come back
-        # < &SuperLab reset needed
-        running and delete Rs&inst_deletable
-    }
-   
    // ...Pi%Lab
-   
+    &{
     me.Pi_Lab = &acgt{ return [
        // fe
         # loads Nine/-Lab, into -Bat preparator
@@ -1365,7 +1288,8 @@ me.Sch_The = &acgt{ return [
         # < be %Piing
         # Rs&Piing = 1
     },'ift,D'],
-  // @Nine Fine hooks for -> Thy/This/...
+  
+  // @Nine Fine hooks for &Superdef %%inst -> Thy/This/...
     &{
     # < here's a twinning io structure deal
     # Gome/Thy/This/$Fine
@@ -1417,7 +1341,8 @@ me.Sch_The = &acgt{ return [
     },
   
   
-  // Travel/$t%eph?/@Cat..%Piing**
+  # nine wants to join reality:
+  // Travel/$t%eph?/@Cat/@Run%Piing**
     # space depot, needs Run%%mayRun
     # see %Travelables, which is R^2 of here
     # @Cat ~ %SummerCat, has %client=Gnome
@@ -1464,7 +1389,87 @@ me.Sch_The = &acgt{ return [
         !me&ja,R,'mayRun' and return me&tc,"!mayRun..."
         Rs&Piing = 1
     },'ift,D'],
-    
+  # through the valvework of:
+  // %%inst grows|culls **%Piing    proto &Superpath
+    &{
+    # %Piing 296 arrives This/
+    # < see also %Travelables using &balforward
+    #   &Pii (originally &Rsci inside it)
+    #    was going to let Ec&uber know of i,
+    #    and Gnome knows all Ec&ubers?
+    #    same way lv would let E know it has ~
+    me.Piing_receives_inst = &acgtRs{
+        # R%* to apply:
+        $c = {}
+        me&jaa,R,{inst:1,eto:s} .map(&n{
+            $t = ns&n
+            if (ns&efrom != sy&up) {
+                $Fine = ns&efrom
+                # first hop, to Thy/This/* o Nine
+                $z = me&Pii,Fine.t+'-Labine'
+            }
+            elsif (sc&s == t) {
+                # enable this
+                c.ThyLab = 1
+                return
+                # has arrived at:
+            }
+            else {
+                # then Thy/This/Nine/$Outs
+                # < lv to Outs=meddle
+                $z = me&Pii,t.t+'-Lab'
+                zc&s = t
+            }
+            !zy&R and return me&waits,'fwd:inst'
+            me&nodei,R,z,n
+        })
+        me&Piing_sync_inst,R,s,c
+    }
+    # controlled revoking of Thy...Lab
+    me.Piing_sync_inst = &acgtRsc{
+        me&rollbs,R,'inst_deletable'
+        # remember and shutdown when ...
+        $were = me&rollbs,R,'instcla'
+        !were && !hak(c) and return
+        were ||= {}
+        $are = ex(ex({},were),c)
+        $running = 0
+        $gone = {}
+        each kv are {
+            if (!c[k]) {
+                if (me&rollbs,R,k+'_gone' ) {
+                    # they finished revoking etc last time
+                    delete were[k]
+                    gone[k] = 1
+                    continue
+                }
+                R.sc[k+'_going'] = 1
+                ah(R,'inst_going',k,1)
+            }
+            R.sc[k] = v
+            me&reaw,R,k
+            running++
+        }
+        ex(were,c)
+        Rs&instcla = were
+        if (hak(gone) && !running) {
+            # < last one running causes %inst_gone
+            Rs&inst_deletable = 1
+            delete Rs&instcla
+        }
+        # allows %%inst... to come back
+        # < &SuperLab reset needed
+        running and delete Rs&inst_deletable
+    }
+    },
+    ['inst_going',0.7,&acgtRs{
+        me&tc,"(going:"+joint(haks(Rs&inst_going),',')+")"
+    },'ift,D'],
+    ['inst_deletable',0.7,&acgtRs{
+        me&tc,"(Z)"
+    },'ift,D'],
+  
+ # to cluster state:
  // &Piing Thee
    # < Thy%client=Run:Gome
   // 1 %Piing nodes
