@@ -501,15 +501,7 @@
     }
   // &Sarg io proto
       
-      // fronts
-        me.Shx = &acgtscq{
-            return me&Sarg,'Shx',s,c,q
-        }
-        # Sarg with &boxcap error diag
-        me.Sharg = &acgtsc{
-            return me&Sarg,'chaseout',s,c
-        }
-      // common high
+      // &Sarg
         # k per pseudo-implementation
         #  &Sarg within sarg get
         me.Sarg = &acgtkscq{
@@ -539,7 +531,7 @@
             return c
         }
       
-      // common low
+      // common
         me.parserify = &acgts{
             $p = {}
             p.s = s
@@ -566,6 +558,35 @@
             }
             return p
         }
+        # a(/match/,&{...}) etc
+        me.paullistify = &acgtpscq{
+            $a = &{ 
+                # stop matching once unsure
+                c.fail and return
+                return p.a(...arguments)
+            }
+            # a type checker
+            p.ist = &tsl{
+                $ok = me[c.sargk+'_is'+t](A,C,G,T,s)
+                ok and return 0
+                me&Sargfail,c,{t:(l||'')+'!'+t,s}
+                return 1
+            }
+            # bind from arg[]
+            p.ull = &type,{
+                !c.arg.length and debugger
+                $s = c.arg.shift()
+                # < to enter zeroes, fail from here? 
+                type && p.ist(type,s) and return
+                return s
+            }
+            if (c.c) {
+                me&Sargplumbed,c,c.c
+                c.N = c.c.N.slice()
+            }
+            return a
+        }
+      
       // &Sargfail|plumbed
         # c.fail += problem
         me.Sargfail = &acgtcq{
@@ -607,40 +628,83 @@
             #me&zu,"Fail:",c
             ox()
         }
-      
-      // 'Shx'
+  
+  // 'Sarn'
+       // itself
+        me.Sarn2 = &acgtscq{
+            return me&Sarg,'Sarn',s,c,q
+        }
+        me.Sarg_Sarn = &acgtpscq{
+            $a = me&paullistify,p,s,c,q
+            
+            # i $s**
+            a(/^\$(\w+)/, &ark,{
+                # < D may be C. it should Ds&X or so
+                $s = p.ull('C')
+                !s and return
+                # < should be in N/a.D, ie an ark
+                ahk(c,'given_s',ark,s)
+                each ia c.N {
+                    a.x = a.arkx[ark] = X
+                }
+            })
+            # appear to others in the enclosing iterator
+            T.Sarg and ac(T.Sarg,'z',c)
+            c.fail and return
+       // guts
+            # i .../some # i /$some=1/$n
+            # < should be in N/a.some, ie an ark
+            #   also $D/...sea should look for a.sea
+            a(/\/([\$@])?(\w+)/, &{
+                $gaze = p.1
+                $ark = p.2
+                q = me&qsimilate,q,{ark}
+                
+                $s = {}
+                if (gaze == '$') {
+                    $v = p.ull()
+                    s [ark] = v
+                }
+                else {
+                    # may be a column in this|nearby rowings
+                    $found = me&Shx_arkmaybe,c,q
+                    # @things must be found
+                    # < may be empty - needs arkology outside c.N
+                    !found && gaze == '@' and throw "404@"+ark
+                    # word=1
+                    !found and s [ark] = 1
+                }
+                
+                me&Shx_io,c,s,{},q
+                # we then go from there (the N/ax.x)
+                delete c.X
+            })
+            # o /...$s # &Xsimp s.* c.long
+            a(/^\/\.\.\.\$(\w+)/, &{
+                $ark = p.1
+                q = me&qsimilate,q,{ark}
+                
+                $s = p.ull('somehash')
+                !s and return
+                
+                me&Shx_io,c,s,{},q
+                delete c.X
+                ahk(c,'tsack',p.1,s)
+            })
+        }
+        }
+  
+  // 'Shx'
        // itself, itselves, iterate
         # sound of contorting topologies
         #  it says, hey there's all this stuff in here
+        me.Shx = &acgtscq{
+            return me&Sarg,'Shx',s,c,q
+        }
         me.Sarg_Shx = &acgtpscq{
-            $a = &{ 
-                # stop matching once unsure
-                c.fail and return
-                return p.a(...arguments)
-            }
-            # a type checker
-            p.ist = &tsl{
-                $ok = me[c.sargk+'_is'+t](A,C,G,T,s)
-                ok and return 0
-                me&Sargfail,c,{t:(l||'')+'!'+t,s}
-                return 1
-            }
-            # bind from arg[]
-            p.ull = &type,{
-                !c.arg.length and debugger
-                $s = c.arg.shift()
-                # < to enter zeroes, fail from here? 
-                type && p.ist(type,s) and return
-                return s
-            }
-            
-       // begin with arrive
+            $a = me&paullistify,p,s,c,q
             # begin with somethings
-            if (c.c) {
-                me&Sargplumbed,c,c.c
-                c.N = c.c.N.slice()
-            }
-            else {
+            if (!c.c) {
                 if (T.ax) {
                     # &Shx inside &Shx iterating
                     $ax = T.ax
@@ -752,37 +816,7 @@
             })
         }
         
-       // &Shx_io
-        # q clones at the part through io leg
-        #  so the q-leg has a density at far end
-        # < rename other leg meaning x... or so (qis)
-        #   same thing, other impedance
-        me.qsimilate = &acgtqp{
-            q = ex({},q)
-            p and ex(q,p)
-            return q
-        }
-        # &Xsim c.array or not guess
-        #  which we don't always know just looking around X.**
-        # see arrefs
-        me.Shx_determine_c_array = &acgtgaXscq{
-            $any = {}
-            each kv s {
-                v != 1 and any.nonglob = 1
-                isob(v) and any.ob = 1
-                else        any.nonob = 1
-            }
-            $unclear = any.ob && any.nonob
-            unclear and throw "c.array?"
-            any.ob and c.array = 1
-            else {
-                # looking at what's there
-                $k = haks(s)[0]
-                $ref = X[k+'s']
-                ref and c.array = 1
-            }
-        }
-        
+      // &Shx_io # to &Xsim
         # adapt to &Xsomp or &Xsimp
         me.Shx_io = &acgtgscq{
             # s, c copy to each &Xs[io]mp call
@@ -869,7 +903,37 @@
                 delete q.param
             }
         }
-       
+       // ioisms q etc
+        # q clones at the part through io leg
+        #  so the q-leg has a density at far end
+        # < rename other leg meaning x... or so (qis)
+        #   same thing, other impedance
+        me.qsimilate = &acgtqp{
+            q = ex({},q)
+            p and ex(q,p)
+            return q
+        }
+        # &Xsim c.array or not guess
+        #  which we don't always know just looking around X.**
+        # see arrefs
+        me.Shx_determine_c_array = &acgtgaXscq{
+            $any = {}
+            each kv s {
+                v != 1 and any.nonglob = 1
+                isob(v) and any.ob = 1
+                else        any.nonob = 1
+            }
+            $unclear = any.ob && any.nonob
+            unclear and throw "c.array?"
+            any.ob and c.array = 1
+            else {
+                # looking at what's there
+                $k = haks(s)[0]
+                $ref = X[k+'s']
+                ref and c.array = 1
+            }
+        }
+        
        // ioisms ax
         # clone rowing between &Sarg
         me.axsimilates = &acgtcg{
@@ -1022,7 +1086,11 @@
                     #   that is in good time
         }
         
-      // 'chaseout'
+  // 'chaseout'
+        # Sarg with &boxcap error diag
+        me.Sharg = &acgtsc{
+            return me&Sarg,'chaseout',s,c
+        }
         me.Sarg_chaseout = &acgtpsc{
             $a = p.a
             
