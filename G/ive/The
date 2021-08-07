@@ -941,6 +941,11 @@ me.Sch_The = &acgt{ return [
         !me.cbu(R,'Gnome') and return
         Rs&wakeful = 1
         Rs&Piing = 1
+        # @Thy, which always runs with @Gnome,
+        # < posits a new @Lab time
+        Rs&inster = me&Sarn,<<'',[R]
+            i @Thy/This/@Fine-Labine/@Lab-Lab#:n/c&s=$n
+        
     },'ift,D'],
     # receives %%inst as an Ec&uber
     ['ThyLab',0.295,&acgtRs{
@@ -1345,7 +1350,9 @@ me.Sch_The = &acgt{ return [
   
   
   # nine wants to join reality:
+  # < Travel..@Run by %%hire, %Piing** by %%inst
   // Travel..@Cat/@Run %Piing**
+   // Travel..
     # space depot, needs Run%%mayRun
     # see %Travelables, which is R^2 of here
     # @Cat ~ %SummerCat, has %client=Gnome
@@ -1386,11 +1393,20 @@ me.Sch_The = &acgt{ return [
     #  e heading for A:n rather than Run/The...
     ['PiiPro',0.2901,&acgtRs{
     },'ift,D'],
+   // @Run %Piing**
     # @Run ~ %Jrunto
     #  exp by random clicks and %%initdata
+    # see TheThy 2901
     ['PiiRun',0.2901,&acgtRs{
         !me&ja,R,'mayRun' and return me&tc,"!mayRun..."
         Rs&Piing = 1
+        # < &Gnome_Jx: its def @Run should match up
+        #   it basically discovers its way to @Gnome, @Cat, etc
+        #   from anywhere in @Thy, @Cat, etc
+        #   it wants to read %%hire
+        me&Sarn,<<'',[R]
+            i @Run/This/-Eight/-seven/**
+        
     },'ift,D'],
   
   # through the valvework of:
@@ -1530,7 +1546,7 @@ me.Sch_The = &acgt{ return [
         }
         
         # influx router:
-        me&Piing_receives_inst,R,s
+        me&Piing_inst,R,s
         # see also %%initdata
    
         # auto -Bat:y&Todo and|or c&pi
@@ -1580,23 +1596,30 @@ me.Sch_The = &acgt{ return [
     #    was going to let Ec&uber know of i,
     #    and Gnome knows all Ec&ubers?
     #    same way lv would let E know it has ~
-    me.Piing_receives_inst = &acgtRs{
+    me.Piing_inst = &acgtRs{
         $E = Rs&E
         if (Ec&uber) {
             me&ja,R,'initdata' and me&Run_initdata,R,s,E
         }
         # R%* to apply:
-        $c = {}
+        $sc = {}
         me&jaa,R,{inst:1,eto:s} .map(&n{
             $t = ns&n
+            $mix = {}
+            ~>3 Saturig:
+            me&Saturn,<<'',[s,n,sc]
+                i $s** $sc $n:row
+            
             if (ns&efrom != sy&up) {
+                # first hop, now moves inward
+                
                 $Fine = ns&efrom
                 # first hop, to Thy/This/* o Nine
                 $z = me&Pii,Fine.t+'-Labine'
             }
             elsif (sc&s == t) {
                 # enable this
-                c.ThyLab = 1
+                sc.ThyLab = 1
                 return
                 # has arrived at:
             }
@@ -1607,54 +1630,11 @@ me.Sch_The = &acgt{ return [
                 zc&s = t
             }
             !zy&R and return me&waits,'fwd:inst'
-            me&nodei,R,z,n
+            # R:here, z:to, s, shade, mix
+            me&nodei,R,z,n,{},mix
         })
-        me&Piing_sync_inst,R,s,c
+        me&sync_inst,R,s,sc
     }
-    # controlled revoking of Thy...Lab
-    me.Piing_sync_inst = &acgtRsc{
-        me&rollbs,R,'inst_deletable'
-        # remember and shutdown when ...
-        $were = me&rollbs,R,'instcla'
-        !were && !hak(c) and return
-        were ||= {}
-        $are = ex(ex({},were),c)
-        $running = 0
-        $gone = {}
-        each kv are {
-            if (!c[k]) {
-                if (me&rollbs,R,k+'_gone' ) {
-                    # they finished revoking etc last time
-                    delete were[k]
-                    gone[k] = 1
-                    continue
-                }
-                R.sc[k+'_going'] = 1
-                ah(R,'inst_going',k,1)
-            }
-            R.sc[k] = v
-            me&reaw,R,k
-            running++
-        }
-        ex(were,c)
-        Rs&instcla = were
-        if (hak(gone) && !running) {
-            # < last one running causes %inst_gone
-            Rs&inst_deletable = 1
-            delete Rs&instcla
-        }
-        # allows %%inst... to come back
-        # < &SuperLab reset needed
-        running and delete Rs&inst_deletable
-    }
-    },
-    ['inst_going',0.7,&acgtRs{
-        me&tc,"(going:"+joint(haks(Rs&inst_going),',')+")"
-    },'ift,D'],
-    ['inst_deletable',0.7,&acgtRs{
-        me&tc,"(Z)"
-    },'ift,D'],
-    &{
     # to make stuff up < GOING for w:TryPiWarmer
     me.Run_initdata = &acgtRsE{
         !Ec&uber and debugger
@@ -1669,7 +1649,7 @@ me.Sch_The = &acgt{ return [
         }
 
         $seven = me&Pii,This,'Something-Eight/Somewhence-seven'
-       // # test data for -hat ref noticing, limits, specialfx
+        # test data for -hat ref noticing, limits, specialfx
         # init
         # the -eight remotely
         # i This/Bowler/\E-hat
@@ -1711,6 +1691,103 @@ me.Sch_The = &acgt{ return [
         $Bow = me&Pii,seven,'Bowler-hat'
         Bowc&s = {as:dat.asee,fol:33}
     }
+   // &sync_inst
+    # controlled revoking of Thy...Lab styles
+    me.sync_inst = &acgtRsc{
+        me&rollbs,R,'inst_deletable'
+        # remember and shutdown when ...
+        $were = me&rollbs,R,'instcla'
+        !were && !hak(c) and return
+        were ||= {}
+        $are = ex(ex({},were),c)
+        $running = 0
+        $gone = {}
+        each kv are {
+            if (!c[k]) {
+                if (me&rollbs,R,k+'_gone' ) {
+                    # they finished revoking etc last time
+                    delete were[k]
+                    gone[k] = 1
+                    continue
+                }
+                R.sc[k+'_going'] = 1
+                ah(R,'inst_going',k,1)
+            }
+            R.sc[k] = v
+            me&reaw,R,k
+            running++
+        }
+        ex(were,c)
+        Rs&instcla = were
+        if (hak(gone) && !running) {
+            # < last one running causes %inst_gone
+            Rs&inst_deletable = 1
+            delete Rs&instcla
+        }
+        # allows %%inst... to come back
+        # < &SuperLab reset needed
+        running and delete Rs&inst_deletable
+    }
+    },
+    ['inst_going',0.7,&acgtRs{
+        me&tc,"(going:"+joint(haks(Rs&inst_going),',')+")"
+    },'ift,D'],
+    ['inst_deletable',0.7,&acgtRs{
+        me&tc,"(Z)"
+    },'ift,D'],
+   // &Saturn nametypepath devise 
+    ['inster',0.29011,&acgtRs{
+        me&reaw,R,'inster'
+    },'ift,D'],
+    &{
+    # @Run and @Thy define their %%inst-ability with io
+    me.Sarn = &acgtscq{
+        Rs&inster = s.split('/')
+        #return me&Sarg,'Shx',s,c,q
+    }
+    # tu: stuff the machine knows is happening
+    #  eg being the first hop when %%efrom != s^
+    # given protocols to handle:
+    #  $s** building
+    #  $sc  styles of $s (R%*)
+    #  $n thing to eventually arrive as,
+    #   once a from-index is built to womb it:
+    me.Saturn = &acgtscq{
+        $R = me&R
+        #    i @Run/This/-Eight/-seven/**
+        #    i @Thy/This/@Fine-Labine/@Lab-Lab#:n%ThyLab/c&s=$n
+        $st = me.cbu(R,'inster')
+        $out = 3 + st + 3
+        me&tc,{out}
+        # n is being stretched by &Piing_inst relay
+        #        i $s** $sc $n-row
+        me&nu,{s,c,q}
+        return 
+            $mix = {}
+            if (ns&efrom != sy&up) {
+                # first hop, now moves inward
+                
+                $Fine = ns&efrom
+                # first hop, to Thy/This/* o Nine
+                $z = me&Pii,Fine.t+'-Labine'
+            }
+            elsif (sc&s == t) {
+                # enable this
+                sc.ThyLab = 1
+                return
+                # has arrived at:
+            }
+            else {
+                # then Thy/This/Nine/$Outs
+                # < lv to Outs=meddle
+                $z = me&Pii,t.t+'-Lab'
+                zc&s = t
+            }
+            !zy&R and return me&waits,'fwd:inst'
+            # R:here, z:to, s, shade, mix
+            me&nodei,R,z,n,{},mix
+        #return me&Sarg,'Shx',s,c,q
+    }
     },
    
   // 8 %Piing node sleep|wake
@@ -1722,7 +1799,7 @@ me.Sch_The = &acgt{ return [
         $x = me&Theing
         $E = Rs&E
         !E and throw "no E"
-        me&notice_wakesleep,R,s,'Pi6'
+        #me&notice_wakesleep,R,s,'Pi6'
         
         if (Ec&uber) {
             # topmost
