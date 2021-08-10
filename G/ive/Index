@@ -599,8 +599,13 @@
             c.fail ||= []
             c.fail.push(n)
         }
-        # fail follow into later plumbings
+        # inheriting between i ... o ...
         me.Sargplumbed = &acgtcf{
+            # args left after o ... become for i ...
+            # < visual order params: lex whole
+            c.arg = f.arg
+            f.arg = []
+            # fail follow into later plumbings
             each in f.fail {
                 c.fail ||= []
                 !c.fail.includes(n) and c.fail.push(n)
