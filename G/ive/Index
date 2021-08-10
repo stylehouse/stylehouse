@@ -650,64 +650,40 @@
         me.Sarg_Saturn = &acgtpscq{
             $a = me&paullistify,p,s,c,q
             
-            # i $s**
-            a(/^\$(\w+)/, &ark,{
-                # < D may be C. it should Ds&X or so
-                $s = p.ull('C')
-                !s and return
-                # < should be in N/a.D, ie an ark
-                ahk(c,'given_s',ark,s)
-                c.N = [ me&axsimilate,hashkv(ark,s) ]
-            })
-            # appear to others in the enclosing iterator
-            T.Sarg and ac(T.Sarg,'z',c)
-            c.fail and return
-       // guts!
-            # i .../some # i /$some=1/$n
-            # < should be in N/a.some, ie an ark
-            #   also $D/...sea should look for a.sea
-            a(/\/([\$@])?(\w+)/, &{
+            # we are presented with a bunch of things to input to
+            $first = 1
+            a(/\/?([\$@])?(\w+)(\*\*)?( )?/, &{
                 $gaze = p.1
                 $ark = p.2
+                $wander = p.3
+                $s = p.ull(first ? 'C' : 'ob')
+                me&arkray,c,hashkv(ark,s),{},q
+                $first = 0
+                
                 q = me&qsimilate,q,{ark}
                 
-                $s = {}
-                if (gaze == '$') {
-                    $v = p.ull()
-                    s [ark] = v
-                }
-                else {
-                    # may be a column in this|nearby rowings
-                    $found = me&Shx_arkmaybe,c,q
-                    # @things must be found
-                    # < may be empty - needs arkology outside c.N
-                    !found && gaze == '@' and throw "404@"+ark
-                    # word=1
-                    !found and s [ark] = 1
-                }
-                
-                me&Shx_io,c,s,{},q
-                # we then go from there (the N/ax.x)
-                delete c.X
+                gaze != '$' and throw "params only"
             })
-            # o /...$s # &Xsimp s.* c.long
-            a(/^\/\.\.\.\$(\w+)/, &{
-                $ark = p.1
-                q = me&qsimilate,q,{ark}
-                
-                $s = p.ull('somehash')
-                !s and return
-                
-                me&Shx_io,c,s,{},q
-                delete c.X
-                ahk(c,'tsack',p.1,s)
-            })
+            c.fail and return
+            
+       // guts!
+            
+        }
+        me.arkray = &acgtgscq{
+            if (hak(g.N)) {
+                me&rayplace,g,s,c,q (&ascqM{
+                    M.push(me&axsimilate,a,s )
+                })
+            } else g.N = [ me&axsimilate,s ]
         }
        
        // types
         # things (and A)
         me.Saturn_isC = &acgtn{
             return isC(n)
+        }
+        me.Saturn_isob = &acgts{
+            return isob(s)
         }
   
   // 'Shx' N/ax
@@ -853,7 +829,7 @@
                     # DIY ax return without &Xsomp
                     $ax = me&axsimilate,a,{x}
                     # < lowerable debug awarenesses:
-                        ax.DB_scq = {s,c,q}
+                    #    ax.DB_scq = {s,c,q}
                     (n) and ax.n = n
                     if (q.ark) {
                         # < other s.* too?
