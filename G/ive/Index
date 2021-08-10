@@ -511,8 +511,8 @@
             
             $p = c.p = me&parserify,s
             p.p(/\n$/)
-            p.p(/^(i|o) /) and c.gee = p.m[0]
-            $plumb = p.p(/^(.+) o /,'o') && p.m[0]
+            $plumb = p.p(/^(.+) (o )/,2) && p.1
+            p.p(/^(i|o) /) and c.gee = p.1
             c.expr = p.s
             c.N ||= []
             c.sargk = k
@@ -536,7 +536,7 @@
         me.parserify = &acgts{
             $p = {}
             p.s = s
-            p.p = &r,place{
+            p.p = &r{
                 m = p.m = p.s.match(r)||[];
                 delete p.1
                 delete p.2
@@ -546,9 +546,15 @@
                 p.1 = m[0]
                 p.2 = m[1]
                 p.3 = m[2]
-                place and place = place.split('').map(&i{ return m[i] }).join('');
-                else { place = '' }
-                p.s = p.s.replace(r,place);
+                # what to put where r matched
+                $placements = [...arguments].slice(1)
+                $place = ""
+                each is placements {
+                    # place a capture, numbered from 1
+                    isnu(s) and place += m[s-1]||''
+                    else place += s
+                }
+                p.s = p.s.replace(r,place)
                 return 1
             }
             # apply a pattern

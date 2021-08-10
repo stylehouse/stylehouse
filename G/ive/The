@@ -1606,7 +1606,7 @@ me.Sch_The = &acgt{ return [
             # < be %%inst, which could help it pool clients?
             # < @Run and /This(%sleeping)? should check 
             me&jaa,R,'listen_node' .map(&n{
-                
+                me&ha,R,n,{},{inst:1}
             })
         }
         # R%* to apply:
@@ -1614,8 +1614,11 @@ me.Sch_The = &acgt{ return [
         me&jaa,R,{inst:1,eto:s} .map(&n{
             $t = ns&n
             $mix = {}
-            me&Saturn,<<'',[s,sc,n]
-                i $s** $sc o $n:inst
+            # < fix: c.arg must be in do order for plumbing
+            $g = me&Saturn,<<'',[n,s,sc]
+                i $s** $sc $mix o $inst
+            
+            ns&listen_node and return me&nu,"Inst",{g,n,sc,mix}
             
             if (ns&efrom != sy&up) {
                 # first hop, now moves inward
@@ -1766,6 +1769,10 @@ me.Sch_The = &acgt{ return [
         $R = me&R
         q ||= {}
         # <<<
+        # here eg &Piing_inst gives:
+        #    i $s** $sc o $n-inst
+        # to work out these two modes of -inst receiving:
+        
         #    i @Run/-This/-Eight/-seven/**
         #  pretty simple
         #   for %%inst,listen_node=Node/Path
@@ -1791,8 +1798,7 @@ me.Sch_The = &acgt{ return [
         # n is being stretched by &Piing_inst relay
         #        i $s** $sc $n-row
         $sa = me&Sarg,'Saturn',s,c,q
-        me&nu,{s,c,q,st,sa}
-        return 
+        return sa
             $mix = {}
             if (ns&efrom != sy&up) {
                 # first hop, now moves inward
