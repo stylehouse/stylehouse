@@ -569,6 +569,20 @@
             }
             return p
         }
+        self.hassignar = &sc{
+            !isar(s) and throw "!array"
+            # String.match() returns a mostly-array
+            s.flat and s = s.flat()
+            !isar(c) and c = c.split(',')
+            $h = {}
+            each in s {
+                $k = c.shift()
+                !k and throw "toomany"
+                n == null and continue
+                h[k] = n
+            }
+            return h
+        }
         # a(/match/,&{...}) etc
         me.paullistify = &acgtpscq{
             $a = &{ 
@@ -662,35 +676,23 @@
             $pi = '(?:-(\\w+))'
             $namepi = '(?:'+name+'|'+pi+'|'+name+pi+')'
             $scpeel= '(?:%(\\w+))'
-            $spacer = '(?:#@'+name+')'
+            $spaceref = '(?:#@'+name+')'
             $wander = '(\\*\\*)'
-            $etc = wander+'?'+spacer+'?'+scpeel+'?'
+            $etc = wander+'?'+spaceref+'?'+scpeel+'?'
             
             $naming = '([\\$@])?'+namepi+etc
-            $chasing = 'c\&s=@(\\w+)'
+            $subframesetref = 'c\&s=@(\\w+)'
+            $chasing = '(?:'+subframesetref+'|'+wander+')'
             $end = '(?:(?=$|\\/)| )'
             a('^\\/?(?:'+naming+'|'+chasing+')'+end, &{
                 $a = hassignar(p.m,'gaze,name,pi,name,pi'
-                    +',wander,spacer,scpeel,csref')
+                    +',wander,spaceref,scpeel,csref,wander')
                 # yua
                 a.gaze && a.gaze != '@' and throw "@refs only"
+                c.pi and c.name ||= c.pi
                 
                 pat(a)
             })
-        }
-        self.hassignar = &sc{
-            !isar(s) and throw "!array"
-            # String.match() returns a mostly-array
-            s.flat and s = s.flat()
-            !isar(c) and c = c.split(',')
-            $h = {}
-            each in s {
-                $k = c.shift()
-                !k and throw "toomany"
-                n == null and continue
-                h[k] = n
-            }
-            return h
         }
   //  'Saturn' N/slope
        // itself
