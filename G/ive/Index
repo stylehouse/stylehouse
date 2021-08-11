@@ -510,8 +510,8 @@
             q ||= {}
             
             $p = c.p = me&parserify,s
-            p.p(/\n$/)
-            $plumb = p.p(/^(.+) (o )/,2) && p.1
+            p.p(/\s+$/)
+            $plumb = p.p(/^(.+) (?=o )/) && p.1
             p.p(/^(i|o) /) and c.gee = p.1
             c.expr = p.s
             c.N ||= []
