@@ -1614,13 +1614,14 @@ me.Sch_The = &acgt{ return [
         me&jaa,R,{inst:1,eto:s} .map(&n{
             $t = ns&n
             $mix = {}
-            # < fix: c.arg must be in do order for plumbing
-            $g = me&Saturn,<<'',[n,s,sc,mix]
-                i $s** $sc $mix o $inst
-            
-            ns&listen_node and return me&nu,"Inst",{g,n,sc,mix}
-            
-            if (ns&efrom != sy&up) {
+            if (ns&listen_node) {
+                # < fix: c.arg must be in do order for plumbing
+                $g = me&Saturn,<<'',[n,s,sc,mix]
+                    i $s** $sc $mix o $inst
+                
+                me&nu,"Inst",{g,n,sc,mix}
+            }
+            elsif (ns&efrom != sy&up) {
                 # first hop, now moves inward
                 
                 $Fine = ns&efrom
@@ -1754,6 +1755,24 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
     &{
     # @Run and @Thy define their %%inst-ability with io
+    #  to be completed by &Saturn delivering %%inst
+    # i @Run/-This/-Eight/-seven/**
+    #  pretty simple
+    #   for %%inst,listen_node=Node/Path
+    #    invent 'n:Node/Path'-Eight/now-seven/''-xat
+    # i @Thy/-This/@Fine-Labine/@Lab-Lab#@n%ThyLab/c&s=@n
+    #  since an i, @Thy + @Lab may be created
+    #   otherwise (+usu &Shx) they would be demanded
+    #  @Fine is found via etc, treatment similar to #@n
+    #   it would otherwise want to exist
+    # in &Saturn, then:
+    #  on s-Labine, the -Lab part must be solved:
+    #   #@n takes $n
+    #    and makes @Lab in its image (io #spacer)
+    #  on s-Lab:
+    #   %ThyLab is applied to $sc
+    #   and its c&s holds the item, $n
+    #    in some state of decoding...
     me.Sarn = &acgtscq{
         s = s.replace(/^i /,'')
         s = s.replace(/\s$/,'')
@@ -1765,7 +1784,7 @@ me.Sch_The = &acgt{ return [
     # given protocols to handle:
     #  $s** building
     #  $sc  styles of $s (R%*)
-    #  $n thing to eventually arrive as,
+    #  $inst = %%inst,n thing arriving
     #   once a from-index is built to womb it:
     me.Saturn = &acgtscq{
         $R = me&R
@@ -1774,26 +1793,6 @@ me.Sch_The = &acgt{ return [
         # here eg &Piing_inst gives:
         #    i $s** $sc o $n-inst
         # to work out these two modes of -inst receiving:
-        
-        #    i @Run/-This/-Eight/-seven/**
-        #  pretty simple
-        #   for %%inst,listen_node=Node/Path
-        #    invent 'n:Node/Path'-Eight/now-seven/''-xat
-        #     
-        
-        #    i @Thy/-This/@Fine-Labine/@Lab-Lab#@n%ThyLab/c&s=@n
-        #  since an i, @Thy + @Lab may be created
-        #   otherwise (+usu &Shx) they would be demanded
-        #  @Fine is found via etc, treatment similar to #@n
-        #   it would otherwise want to exist
-        # in &Saturn, then:
-        #  on s-Labine, the -Lab part must be solved:
-        #   #@n takes $n
-        #    and makes @Lab in its image (io #spacer)
-        #  on s-Lab:
-        #   %ThyLab is applied to $sc
-        #   and its c&s holds the item, $n
-        #    in some state of decoding...
         
         $st = me&Rsc,R,'^^inster'
         q.st = st
