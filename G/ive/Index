@@ -745,12 +745,10 @@
             me&rayplace,c,{},{},q (&ascqM{
                 $ax = me&axsimilate,a,{}
                 $inst = a.inst
-                if (g.gee == 'o') {
+                # happen in the o $inst first
+                g.gee == 'o' ?
                     me&locate_inst,ax,inst,path
-                }
-                else {
-                    me&being_inst,ax,inst,path
-                }
+                    : me&being_inst,ax,inst,path
                 M.push(ax)
             })
             c.show.N = c.N
@@ -787,14 +785,15 @@
             # outputs
             $mix = ax.mix
             !mix and throw "!mix"
-
+            # sets values of creation
+            # < keep renamed history
+            #  < when eg derive from $n again, save back to @Lab
             if (ax.nextinst) {
                 if (next.slick) {
                     $t = next.name
                 }
                 else {
                     if (next.pi == 'Eight') {
-                        # < derive from $n again
                         $n = insts&listen_node
                         !n and throw "listen_node"
                         $t = 'n:'+n
