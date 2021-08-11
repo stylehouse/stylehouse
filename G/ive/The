@@ -1576,8 +1576,9 @@ me.Sch_The = &acgt{ return [
         return v
     }
     # node leaps into R'The' with c.t|pi
-    me.Piing = &acgtc{
+    me.Piing = &acgtcq{
         isst(c) and c = me&t_tpi,{t:c}
+        q and ex(c,peel(q))
         $x = me&Theing
         $R = me&R
         $s = Rc&s
@@ -1806,7 +1807,7 @@ me.Sch_The = &acgt{ return [
         #        i $s** $sc $n-row
         $Saturn = me&Sarg,'Saturn',s,c,q
         
-        #me&Piing,''
+        me&Piing,'Satur-hat',{s:Saturn,dl:3}
         me&nu,"Inst",{Sarn,Saturn} .sc.forement = 1
         
         return Saturn
@@ -2424,7 +2425,7 @@ me.Sch_The = &acgt{ return [
         c.Pier ||= c.pi || sc&pi
         c.t ||= "-"+c.Pier
         c.Top = 1
-        c.s = sc&s
+        !hak(c,'s') && hak(s.c,'s') and c.s = sc&s
         $V = c.V = s
         # the first insphere E
         $E = c.E = Cye([c.t,1])
@@ -2443,7 +2444,9 @@ me.Sch_The = &acgt{ return [
         $q = {}
         c.ov and q.ov = delete c.ov
         
+        $rcbits = tax({},c,'nl,dl')
         $r = me&PiRet,R,c
+        ex(r.c,rcbits)
         
         ac(R,'z',r)
         x.ro('noD') and rs&noDisplay = 1
