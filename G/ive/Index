@@ -744,10 +744,20 @@
             $g = c
             me&rayplace,c,{},{},q (&ascqM{
                 $ax = me&axsimilate,a,{}
-                $s = a.s
                 $inst = a.inst
                 if (g.gee == 'o') {
-                    # realise where we are receiving this %%inst
+                    me&locate_inst,ax,inst,path
+                }
+                else {
+                    me&being_inst,ax,inst,path
+                }
+                M.push(ax)
+            })
+            c.show.N = c.N
+        }
+        # realise where we are receiving this %%inst
+        me.locate_inst = &acgta,inst,path{
+                    $ax = a
                     !inst and throw "only read %%inst"
                     !insts&efrom and throw "!inst%efrom"
                     # %%inst++ along path
@@ -765,12 +775,19 @@
                         ax.next = next
                         !next.subframe and ax.nextinst = i+1
                     }
-                }
-                else {
-                    # do here
+        }
+        # do here
+        me.being_inst = &acgta,inst,path{
+                    $ax = a
+                    $s = ax.s
+                    !s and throw "!somewhere!"
                     $pa = ax.pa
+                    !pa and throw "!pathbit"
                     $next = ax.next
-                
+                    # outputs
+                    $mix = ax.mix
+                    !mix and throw "!mix"
+
                     if (ax.nextinst) {
                         if (next.slick) {
                             $t = next.name
@@ -796,19 +813,28 @@
                             ax.wwlo = {s,t}
                             $z = me&fiu,s,t
                             ax.z = z
+                            next.pi and zc&pi = next.pi
                         }
-                        
-                        $mix = ax.mix
-                        !mix and throw "mustmix"
+
                         mix.inst = ax.nextinst
                     }
                     else {
-                        ax.final = '???'
+                        if (pa.wander) {
+                            $noderef = insts&listen_node
+                            if (noderef) {
+                                # look it up
+                                sc&pi = 'n'
+                                sc&s = noderef
+                                ax.final = 'wasn'
+                            }
+                            else {
+                                throw "!noderef"
+                            }
+                        }
+                        else {
+                            ax.final = '???'
+                        }
                     }
-                }
-                M.push(ax)
-            })
-            c.show.N = c.N
         }
         me.arkray = &acgtgscq{
             if (hak(g.N)) {
