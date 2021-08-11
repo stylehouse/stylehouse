@@ -537,6 +537,7 @@
             $p = {}
             p.s = s
             p.p = &r{
+                r = new RegExp(r)
                 m = p.m = p.s.match(r)||[];
                 delete p.1
                 delete p.2
@@ -559,8 +560,11 @@
             }
             # apply a pattern
             p.a = &regex,y,zzz{
+                $times = 30
                 while (p.p(regex)) {
                     y (...p.m)
+                    !times-- and throw "looping"
+                    !times and debugger
                 }
             }
             return p
@@ -649,20 +653,44 @@
             # columns for c.N
             c.path ||= []
             $pat = &pa,{
-                pa.i = hak(c.path)
+                pa = ex({i:hak(c.path)},pa)
                 c.path.push(pa)
                 return pa
             }
-            a(/^\/?([\$@])?(\w+?)(?:-(\w+))?(\*\*)?( )?/, &{
+            # < compile this in Yingmind? 
+            $name = '(\\w+)'
+            $pi = '(?:-(\\w+))'
+            $namepi = '(?:'+name+'|'+pi+'|'+name+pi+')'
+            $scpeel= '(?:%(\\w+))'
+            $spacer = '(?:#@'+name+')'
+            $wander = '(\\*\\*)'
+            $etc = wander+'?'+spacer+'?'+scpeel+'?'
+            
+            $naming = '([\\$@])?'+namepi+etc
+            $chasing = 'c\&s=@(\\w+)'
+            $end = '(?:(?=$|\\/)| )'
+            a('^\\/?(?:'+naming+'|'+chasing+')'+end, &{
+                $a = hassignar(p.m,'gaze,name,pi,name,pi'
+                    +',wander,spacer,scpeel,csref')
                 # yua
-                var [gaze,ark,pi,wander] = p.m
-                gaze && gaze != '@' and throw "@refs only"
+                a.gaze && a.gaze != '@' and throw "@refs only"
                 
-                pat({gaze,ark,pi,wander})
-                
-                
-                
+                pat(a)
             })
+        }
+        self.hassignar = &sc{
+            !isar(s) and throw "!array"
+            # String.match() returns a mostly-array
+            s.flat and s = s.flat()
+            !isar(c) and c = c.split(',')
+            $h = {}
+            each in s {
+                $k = c.shift()
+                !k and throw "toomany"
+                n == null and continue
+                h[k] = n
+            }
+            return h
         }
   //  'Saturn' N/slope
        // itself
