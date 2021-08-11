@@ -747,6 +747,7 @@
                 $s = a.s
                 $inst = a.inst
                 if (g.gee == 'o') {
+                    # realise where we are receiving this %%inst
                     !inst and throw "only read %%inst"
                     !insts&efrom and throw "!inst%efrom"
                     # %%inst++ along path
@@ -764,24 +765,46 @@
                         ax.next = next
                         !next.subframe and ax.nextinst = i+1
                     }
-                    ax.also = 5
                 }
                 else {
+                    # do here
                     $pa = ax.pa
                     $next = ax.next
                 
-                    if (ax.nextinst && !ax.madeup) {
-                        $name = next.name
-                        !isst(name) and throw "!next.name"
-                        ax.wwlo = {s,name}
-                        $z = me&fiu,s,next.name,8
-                        ax.z = z
+                    if (ax.nextinst) {
+                        if (next.slick) {
+                            $t = next.name
+                        }
+                        else {
+                            if (next.pi == 'Eight') {
+                                # < derive from $n again
+                                $n = insts&listen_node
+                                !n and throw "listen_node"
+                                $t = 'n:'+n
+                            }
+                            elsif (next.pi == 'seven') {
+                                $t = 'now'
+                            }
+                            elsif (next.wander) {
+                                $t = 'firstaspect'
+                                # < would be an interactive-grade -n resolver
+                                #   that picks out aspects, ie R%stractia
+                                #    to compile back into @Lab/-nodei/-row
+                            }
+                        }
+                        if (isst(t)) {
+                            ax.wwlo = {s,t}
+                            $z = me&fiu,s,t
+                            ax.z = z
+                        }
                         
                         $mix = ax.mix
                         !mix and throw "mustmix"
                         mix.inst = ax.nextinst
                     }
-                    ax.alsi = 5
+                    else {
+                        ax.final = '???'
+                    }
                 }
                 M.push(ax)
             })
