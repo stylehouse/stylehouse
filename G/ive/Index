@@ -689,7 +689,9 @@
                     +',wander,spaceref,scpeel,csref,wander')
                 # yua
                 a.gaze && a.gaze != '@' and throw "@refs only"
-                c.pi and c.name ||= c.pi
+                a.pi and a.name ||= a.pi
+                # the /c&s=... is not a node
+                a.csref and a.subframe = 1
                 
                 pat(a)
             })
@@ -698,10 +700,12 @@
             each ia c.path {
                 if (i == 0) {
                     !a.gaze and throw "first should name itself"
+                    a.slick = 1
                     # < export as a name to &Jx, &Superdefs...
                 }
                 if (i == 1) {
                     if (a.pi && a.pi == 'This') {
+                        a.slick = 1
                         $R = me&R
                         $E = Rs&E
                         !Ec&uber and throw "E!c&uber/-This"
@@ -735,15 +739,49 @@
             c.fail and return
        // guts!
             $path = q.st.path
-            c.show = {before:c.N,path}
+            c.show = {N:1,path,before:c.N}
+            # < all &Sarg c->g
+            $g = c
             me&rayplace,c,{},{},q (&ascqM{
+                $ax = me&axsimilate,a,{}
+                $s = a.s
                 $inst = a.inst
-                M.push(a)
-                !inst and return
-                !insts&efrom and throw "!%efrom"
+                if (g.gee == 'o') {
+                    !inst and throw "only read %%inst"
+                    !insts&efrom and throw "!inst%efrom"
+                    # %%inst++ along path
+                    $i = insts&inst*1
+                    $pa = path[i-1]
+                    !pa and throw "off the path"
+                    ax.pa = pa
+                    # < deal an -Eight
+                    if (!pa.slick) {
+                        ax.madeup = 1
+                    }
+                    # 
+                    $next = path[i]
+                    if (next) {
+                        ax.next = next
+                        !next.subframe and ax.nextinst = i+1
+                    }
+                    ax.also = 5
+                }
+                else {
+                    $pa = ax.pa
+                    $next = ax.next
+                
+                    if (ax.nextinst && !ax.madeup) {
+                        $name = next.name
+                        !isst(name) and throw "!next.name"
+                        ax.wwlo = {s,name}
+                        $z = me&fiu,s,next.name,8
+                        ax.z = z
+                    }
+                    ax.alsi = 5
+                }
+                M.push(ax)
             })
             c.show.N = c.N
-            
         }
         me.arkray = &acgtgscq{
             if (hak(g.N)) {
