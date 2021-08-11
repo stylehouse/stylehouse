@@ -757,84 +757,84 @@
         }
         # realise where we are receiving this %%inst
         me.locate_inst = &acgta,inst,path{
-                    $ax = a
-                    !inst and throw "only read %%inst"
-                    !insts&efrom and throw "!inst%efrom"
-                    # %%inst++ along path
-                    $i = insts&inst*1
-                    $pa = path[i-1]
-                    !pa and throw "off the path"
-                    ax.pa = pa
-                    # < deal an -Eight
-                    if (!pa.slick) {
-                        ax.madeup = 1
-                    }
-                    # 
-                    $next = path[i]
-                    if (next) {
-                        ax.next = next
-                        !next.subframe and ax.nextinst = i+1
-                    }
+            $ax = a
+            !inst and throw "only read %%inst"
+            !insts&efrom and throw "!inst%efrom"
+            # %%inst++ along path
+            $i = insts&inst*1
+            $pa = path[i-1]
+            !pa and throw "off the path"
+            ax.pa = pa
+            # < deal an -Eight
+            if (!pa.slick) {
+                ax.madeup = 1
+            }
+            # 
+            $next = path[i]
+            if (next) {
+                ax.next = next
+                !next.subframe and ax.nextinst = i+1
+            }
         }
         # do here
         me.being_inst = &acgta,inst,path{
-                    $ax = a
-                    $s = ax.s
-                    !s and throw "!somewhere!"
-                    $pa = ax.pa
-                    !pa and throw "!pathbit"
-                    $next = ax.next
-                    # outputs
-                    $mix = ax.mix
-                    !mix and throw "!mix"
+            $ax = a
+            $s = ax.s
+            !s and throw "!somewhere!"
+            $pa = ax.pa
+            !pa and throw "!pathbit"
+            $next = ax.next
+            # outputs
+            $mix = ax.mix
+            !mix and throw "!mix"
 
-                    if (ax.nextinst) {
-                        if (next.slick) {
-                            $t = next.name
-                        }
-                        else {
-                            if (next.pi == 'Eight') {
-                                # < derive from $n again
-                                $n = insts&listen_node
-                                !n and throw "listen_node"
-                                $t = 'n:'+n
-                            }
-                            elsif (next.pi == 'seven') {
-                                $t = 'now'
-                            }
-                            elsif (next.wander) {
-                                $t = 'firstaspect'
-                                # < would be an interactive-grade -n resolver
-                                #   that picks out aspects, ie R%stractia
-                                #    to compile back into @Lab/-nodei/-row
-                            }
-                        }
-                        if (isst(t)) {
-                            ax.wwlo = {s,t}
-                            $z = me&fiu,s,t
-                            ax.z = z
-                            next.pi and zc&pi = next.pi
-                        }
+            if (ax.nextinst) {
+                if (next.slick) {
+                    $t = next.name
+                }
+                else {
+                    if (next.pi == 'Eight') {
+                        # < derive from $n again
+                        $n = insts&listen_node
+                        !n and throw "listen_node"
+                        $t = 'n:'+n
+                    }
+                    elsif (next.pi == 'seven') {
+                        $t = 'now'
+                    }
+                    elsif (next.wander) {
+                        $t = 'firstaspect'
+                        # < would be an interactive-grade -n resolver
+                        #   that picks out aspects, ie R%stractia
+                        #    to compile back into @Lab/-nodei/-row
+                    }
+                }
+                if (isst(t)) {
+                    ax.wwlo = {s,t}
+                    $z = me&fiu,s,t
+                    ax.z = z
+                    next.pi and zc&pi = next.pi
+                }
 
-                        mix.inst = ax.nextinst
+                mix.inst = ax.nextinst
+            }
+            else {
+                if (pa.wander) {
+                    $noderef = insts&listen_node
+                    if (noderef) {
+                        # look it up
+                        sc&pi = 'n'
+                        sc&s = noderef
+                        ax.final = 'wasn'
                     }
                     else {
-                        if (pa.wander) {
-                            $noderef = insts&listen_node
-                            if (noderef) {
-                                # look it up
-                                sc&pi = 'n'
-                                sc&s = noderef
-                                ax.final = 'wasn'
-                            }
-                            else {
-                                throw "!noderef"
-                            }
-                        }
-                        else {
-                            ax.final = '???'
-                        }
+                        throw "!noderef"
                     }
+                }
+                else {
+                    ax.final = '???'
+                }
+            }
         }
         me.arkray = &acgtgscq{
             if (hak(g.N)) {
