@@ -964,7 +964,7 @@ me.Sch_The = &acgt{ return [
   // Pi%Lab
     &{
     me.Pi_Lab = &acgt{ return [
-       // fe
+       // -Lab
         # loads Nine/-Lab, into -Bat preparator
         #  or, posit Nine/-Lab from -Bat
         #   will need to select all etivity about time...
@@ -1103,7 +1103,44 @@ me.Sch_The = &acgt{ return [
             me&hu,"Eything",Ey&thing.sc.string
         },'ift,D'],
        
-       // -n
+       // -n 
+        ['n',0.321,&acgtRs{
+            $E = Rs&E
+            $x = me&Gome_Jx,R
+            me&Pi_n,R,s,E,x
+            me&tc,"Hasann"
+        },'ift,D'],
+        &{
+        me.Pi_n = &acgtRsEx{
+            # name|path in nodelist
+            # < nodelist <- &Gome_Jx aliases, eg client
+            # < pick something from xs&*
+            $name = isC(s) ? sc&s : s
+            !isst(name) and return me&strange,"!name:"+name
+            # Node/with/tpath
+            $nodepath = name.split('/')
+            if (hak(nodepath) > 1) {
+                name = nodepath.shift()
+                $twpath = nodepath
+            }
+            # @Node
+            $n = x.sc[name]
+            !n and return me&strange,"!find:"+name
+            # /with/tpath
+            each it twpath {
+                $z = me&fiu,n,t,8
+                if (!z && ny&R) {
+                    $r = ny&R
+                    # < %eph-lenient o s/z connections
+                    z = me&ioty,r .filter(r => r.t == t)
+                        .map(r => rc&s) [0]
+                }
+                !z and return me&strange,"!climb:"+n.t+"/"+t+"("+i+")"
+                n = z
+            }
+            Es&target = n
+        }
+        },
        
        // %Labe decompress
         ['Labe',0.22,&acgtRs{
@@ -1177,6 +1214,9 @@ me.Sch_The = &acgt{ return [
             }
             me&Eing,6
         },'ift,D'],
+        ['Labe+pretendpi',0.319,&acgtRs{
+            delete R.sc[Rs&pretendpi]
+        },'ift,D'],
        // %Labi make to|from -Bat
         ['Labi',0.22,&acgtRs{
             $E = Rs&E
@@ -1189,9 +1229,6 @@ me.Sch_The = &acgt{ return [
                 Ec&encode_thing_here = 1
             }
         },'ift,D'],
-        ['n',0.32,&acgtRs{
-            me&tc,"Hasann"
-        },'ift,D'],
         ['Labi',0.32,&acgtRs{
             $E = Rs&E
             $D = Rs&D
@@ -1201,16 +1238,6 @@ me.Sch_The = &acgt{ return [
             #     so Ting finish when effect is incorporated
             #     y&thing may have commit log for such
             
-            $x = me&Gome_Jx,R
-            if (sc&pi == 'n') {
-                # name|path in nodelist
-                # < nodelist <- &Gome_Jx aliases, eg client
-                # < pick something from xs&*
-                $x = me&Gome_Jx,R
-                $n = x.sc[sc&s]
-                !n and me&strange,"!find:"+sc&s
-                Es&target = n
-            }
             me&Eing,6
         },'ift,D'],
         ['Labi+nodei',0.326,&acgtRs{
@@ -1235,7 +1262,7 @@ me.Sch_The = &acgt{ return [
             })
             me&anystrange and return Ds&fail = 1
         },'ift,D'],
-        ['pretendpi',0.327,&acgtRs{
+        ['Labi+pretendpi',0.329,&acgtRs{
             delete R.sc[Rs&pretendpi]
         },'ift,D'],
        // %Labo compress again
@@ -1253,7 +1280,7 @@ me.Sch_The = &acgt{ return [
         
         
         
-        ['Labo',0.32,&acgtRs{
+        ['Labo',0.37,&acgtRs{
             $E = Rs&E
             $D = Rs&D
             Ec&noencode and return me&tc,'eph','6y'
@@ -1265,6 +1292,9 @@ me.Sch_The = &acgt{ return [
                 # < trying to follow|update how %Labe did it
                 zc&s == s.t and etoc&noencode = 1
             }
+        },'ift,D'],
+        ['Labo+pretendpi',0.379,&acgtRs{
+            delete R.sc[Rs&pretendpi]
         },'ift,D'],
     ] }
     },
@@ -1951,7 +1981,13 @@ me.Sch_The = &acgt{ return [
         ~FishElvis
         try {
         !Rs&ball and debugger
-        $N = ksaf(c&slope,{aft:R,inc:0})
+        c&slope.includes(R) and $aft = R
+        else {
+            ~>5 FishE tving in: R.t
+            $aft = c&slope.filter(r => r.t == R.t)[0]
+            !aft and debugger
+        }
+        $N = ksaf(c&slope,{aft,inc:0})
         
         # expect R%elvis...R:$pi
         $pi = hak(N.filter(z => isR(z)))
