@@ -783,7 +783,9 @@
             !pa and throw "!pathbit"
             $next = ax.next
             # outputs
+            $sc = ax.sc
             $mix = ax.mix
+            !sc and throw "!sc"
             !mix and throw "!mix"
             # sets values of creation
             # < keep renamed history
@@ -793,6 +795,9 @@
                     $t = next.name
                 }
                 else {
+                    if (pa.pi == 'Eight') {
+                        sc.listen_node_heard = 1
+                    }
                     if (next.pi == 'Eight') {
                         $n = insts&listen_node
                         !n and throw "listen_node"
@@ -808,13 +813,22 @@
                         #    to compile back into @Lab/-nodei/-row
                     }
                 }
+                # can build /#$t:z
+                # < this :z meaning ark=z, syntax is near:
+                #    A:Fine form, in doc notation: ark=A, its .t=Fine
+                #    peel-like arg parsing, still in 'n ...' for .c
+                #     eg $ba:somevar,fo=string
+                #     which in io should be ba=$somevar,fo=string
                 if (isst(t)) {
                     ax.wwlo = {s,t}
                     $z = me&fiu,s,t
                     ax.z = z
                     next.pi and zc&pi = next.pi
                 }
-
+                else {
+                    debugger
+                }
+                # message to /$z
                 mix.inst = ax.nextinst
             }
             else {
@@ -825,6 +839,8 @@
                         sc&pi = 'n'
                         sc&s = noderef
                         ax.final = 'wasn'
+                        # then notify them of being listened
+                        sc.listen_node_n = 1
                     }
                     else {
                         throw "!noderef"
