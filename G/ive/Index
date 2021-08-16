@@ -772,7 +772,7 @@
                 $inst = a.inst
                 # happen in the o $inst first
                 g.gee == 'o' ?
-                    me&locate_inst,ax,inst,path
+                    me&locate_inst,g,ax,q
                     : me&being_inst,g,ax,q
                 
                 M.push(ax)
@@ -782,8 +782,12 @@
             c.show.N = c.N
         }
         # realise where we are receiving this %%inst
-        me.locate_inst = &acgta,inst,path{
+        # < &Saturn once, expr: 'o %%inst,eto:$s'
+        #  < or is that '<- %%inst' ?
+        me.locate_inst = &acgtgaq{
             $ax = a
+            $path = ax.path
+            $inst = ax.inst
             !inst and throw "only read %%inst"
             !insts&efrom and throw "!inst%efrom"
             # %%inst++ along path
@@ -805,8 +809,8 @@
         # do here!!
         me.being_inst = &acgtgaq{
             $ax = a
-            $path = a.path
-            $inst = a.inst
+            $path = ax.path
+            $inst = ax.inst
             $s = ax.s
             !s and throw "!somewhere!"
             $R = sy&R
@@ -843,7 +847,6 @@
                             $t = 'firstaspect'
                         }
                         elsif (insts&heard) {
-                            
                             $t = insts&heard
                         }
                         else {
