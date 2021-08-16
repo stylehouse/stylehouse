@@ -1650,43 +1650,60 @@ me.Sch_The = &acgt{ return [
             })
             
         }
-        # R%* to apply:
-        $sc = {}
+        # R%* to apply
+        $scN = []
         me&jaa,R,{inst:1,eto:s} .map(&n{
             $t = ns&n
+            # adding these possibilities
             $mix = {}
-            if (ns&listen_node) {
+            $sc = {}
+            # to a rowing from this n:row
+            $a = {mix,sc}
+            $N = [a]
+            
+            if (ns&listen_node || ns&heard) {
                 # < fix: c.arg must be in do order for plumbing
                 $Saturn = me&Saturn,<<'',[n,s,sc,mix]
                     i $s** $sc $mix o $inst
                 
-                $ax = theone(Saturn.N)
-                $z = ax.z
-            }
-            elsif (ns&efrom != sy&up) {
-                # first hop, now moves inward
-                
-                $Fine = ns&efrom
-                # first hop, to Thy/This/* o Nine
-                $z = me&Pii,Fine.t+'-Labine'
-            }
-            elsif (sc&s == t) {
-                # enable this
-                sc.ThyLab = 1
-                return
-                # has arrived at:
+                N = Saturn.N
             }
             else {
-                # then Thy/This/Nine/$Outs
-                # < lv to Outs=meddle
-                $z = me&Pii,t.t+'-Lab'
-                zc&s = t
+                if (ns&efrom != sy&up) {
+                    # first hop, now moves inward
+                    $Fine = ns&efrom
+                    # first hop, to Thy/This/* o Nine
+                    a.z = me&Pii,Fine.t+'-Labine'
+                }
+                elsif (sc&s == t) {
+                    # enable this
+                    sc.ThyLab = 1
+                    # has arrived at:
+                }
+                else {
+                    # then Thy/This/Nine/$Outs
+                    # < lv to Outs=meddle
+                    $z = a.z = me&Pii,t.t+'-Lab'
+                    zc&s = t
+                }
             }
-            !z and return
-            !zy&R and return me&waits,'fwd:inst'
-            # R:here, z:to, s, shade, mix
-            me&nodei,R,z,n,{},mix
+            N.map(&a{
+                $z = a.z
+                if (z) {
+                    # more %%inst for R:next
+                    !zy&R and return me&waits,'fwd:inst'
+                    n = a.n || n
+                    mix = a.mix || mix
+                    # R:here, z:to, %%inst, shade, mix{inst+=1}
+                    me&nodei,R,z,n,{},mix
+                }
+                # R:here behaviour
+                # < tractogram
+                hak(a.sc) and scN.push(sc)
+            })
         })
+        $sc = {}
+        scN.map(c => ex(sc,c))
         me&sync_inst,R,s,sc
     }
     # to make stuff up < GOING for w:TryPiWarmer
@@ -1804,7 +1821,6 @@ me.Sch_The = &acgt{ return [
     ['listen_node_n',0.29611,&acgtRs{
         $E = Rs&E
         !E and throw "should E"
-        Ec&pi != 'n' and debugger
         me&reaw,R,'listen_node_n'
         
         $En = me&fiu,E,'-n'
@@ -1816,6 +1832,7 @@ me.Sch_The = &acgt{ return [
     # target replies with objects (that change)
     ['listen_node_listened','67',&acgtRs{
         me&reaw,R,'listen_node_listened'
+        
         me&jaa,R,'listened' .map(&n{
             # < general repliable
             $to = ns&replyto || ns&efrom
@@ -1829,14 +1846,11 @@ me.Sch_The = &acgt{ return [
     ['listen_node_heard',0.29611,&acgtRs{
         $E = Rs&E
         !E and throw "should E"
-        Ec&pi != 'Eight' and debugger
         me&reaw,R,'listen_node_heard'
+        
         me&jaa,R,'heard' .map(&n{
             $k = ns&heard
             $v = ns&s
-            $now = me&Pii,'now-seven'
-            $hear = '-hat'
-            # <<<
             me&nu,"heard",n.sc
         })
     },'ift,D'],
@@ -4873,6 +4887,15 @@ me.Sch_The = &acgt{ return [
         },'ift,D'],
         
        // -hat -> -Hash etc
+        ['Fez',0.21,&acgtRs{
+            Rc&dl = 2
+            Rc&nl = 66
+            # < no restating refs per ^^-seven
+            me&typeup,R,'hat'
+            me&TXin,'Xshade',{layout:'X'} ({
+                A: {dim:1},
+            })
+        },'ift,D'],
         # expects it to be C
         ['isC',0.21,&acgtRs{
             me&walls,C,'bd:1.5'

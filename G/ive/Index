@@ -722,6 +722,7 @@
        // itself
         me.Sarg_Saturn = &acgtpscq{
             $a = me&paullistify,p,s,c,q
+            $g = c
             # we are presented with a bunch of things to input to
             $first = 1
             a(/\/?([\$@])?(\w+)(\*\*)?( )?/, &{
@@ -730,6 +731,13 @@
                 $wander = p.3
                 $s = p.ull(first ? 'C' : 'ob')
                 me&arkray,c,hashkv(ark,s),{},q
+                if (!first) {
+                    if (!isC(s)) {
+                        # hash (mix or sc) should clone to
+                        #  separate when rows split
+                        ahk(g,'arkex',ark,1)
+                    }
+                }
                 $first = 0
                 
                 q = me&qsimilate,q,{ark}
@@ -742,14 +750,34 @@
             c.show = {N:1,path,before:c.N}
             # < all &Sarg c->g
             $g = c
+            g.split = &ac{
+                $q = g.thisq
+                !q and throw "split rows during &rayplace"
+                $M = q.Max
+                !M and throw "split!q.Max"
+                $ax = me&axsimilate,a,c
+                each kv g.arkex {
+                    $v = ax[k]
+                    !v and continue
+                    isar(v) and ax[k] = v.slice()
+                    else ax[k] = ex({},v)
+                }
+                M.push(ax)
+                return ax
+            }
             me&rayplace,c,{},{},q (&ascqM{
-                $ax = me&axsimilate,a,{}
+                q.Max = M
+                g.thisq = q
+                $ax = me&axsimilate,a,{path}
                 $inst = a.inst
                 # happen in the o $inst first
                 g.gee == 'o' ?
                     me&locate_inst,ax,inst,path
-                    : me&being_inst,ax,inst,path
+                    : me&being_inst,g,ax,q
+                
                 M.push(ax)
+                # < q.Mw?
+                delete g.thisq
             })
             c.show.N = c.N
         }
@@ -774,11 +802,16 @@
                 !next.subframe and ax.nextinst = i+1
             }
         }
-        # do here
-        me.being_inst = &acgta,inst,path{
+        # do here!!
+        me.being_inst = &acgtgaq{
             $ax = a
+            $path = a.path
+            $inst = a.inst
             $s = ax.s
             !s and throw "!somewhere!"
+            $R = sy&R
+            !R and throw "inst s!R"
+            me&R != R and throw "inst !theR"
             $pa = ax.pa
             !pa and throw "!pathbit"
             $next = ax.next
@@ -791,13 +824,12 @@
             # < keep renamed history
             #  < when eg derive from $n again, save back to @Lab
             if (ax.nextinst) {
+                # message to /$z
+                mix.inst = ax.nextinst
                 if (next.slick) {
                     $t = next.name
                 }
                 else {
-                    if (pa.pi == 'Eight') {
-                        sc.listen_node_heard = 1
-                    }
                     if (next.pi == 'Eight') {
                         $n = insts&listen_node
                         !n and throw "listen_node"
@@ -807,7 +839,16 @@
                         $t = 'now'
                     }
                     elsif (next.wander) {
-                        $t = 'firstaspect'
+                        if (insts&listen_node) {
+                            $t = 'firstaspect'
+                        }
+                        elsif (insts&heard) {
+                            
+                            $t = insts&heard
+                        }
+                        else {
+                            throw "unknown wanderment"
+                        }
                         # < would be an interactive-grade -n resolver
                         #   that picks out aspects, ie R%stractia
                         #    to compile back into @Lab/-nodei/-row
@@ -828,22 +869,35 @@
                 else {
                     debugger
                 }
-                # message to /$z
-                mix.inst = ax.nextinst
+                
+                if (pa.pi == 'Eight') {
+                    if (insts&listen_node) {
+                        me&jaa,R,'heard' .map(&n{
+                            # fork the %%inst from here
+                            #  extra row going to z
+                            $a = g.split(ax,{n})
+                        })
+                    }
+                }
             }
             else {
                 if (pa.wander) {
-                    $noderef = insts&listen_node
-                    if (noderef) {
+                    if (insts&listen_node) {
                         # look it up
                         sc&pi = 'n'
-                        sc&s = noderef
+                        sc&s = insts&listen_node
                         ax.final = 'wasn'
                         # then notify them of being listened
                         sc.listen_node_n = 1
                     }
+                    elsif (insts&heard) {
+                        # look at its ...
+                        sc&pi = insts&piable || 'Fez'
+                        sc&s = insts&s
+                        ax.final = 'wass'
+                    }
                     else {
-                        throw "!noderef"
+                        throw "unknown wandering"
                     }
                 }
                 else {
