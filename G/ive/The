@@ -1661,8 +1661,10 @@ me.Sch_The = &acgt{ return [
             $a = {mix,sc}
             $N = [a]
             
-            if (ns&listen_node || ns&heard) {
-                # < fix: c.arg must be in do order for plumbing
+            if (ns&listen_node || ns&heard || ns&n) {
+                # < %%inst to @Thy
+                ns&n && ns&efrom != sy&up and ns&inst += 1
+                # < fix: c.arg must be in do-order for plumbing
                 $Saturn = me&Saturn,<<'',[n,s,sc,mix]
                     i $s** $sc $mix o $inst
                 
@@ -1881,7 +1883,6 @@ me.Sch_The = &acgt{ return [
             }
             else {
                 # then Thy/This/Nine/$Outs
-                # < lv to Outs=meddle
                 $z = me&Pii,t.t+'-Lab'
                 zc&s = t
             }
