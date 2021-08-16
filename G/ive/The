@@ -1658,38 +1658,16 @@ me.Sch_The = &acgt{ return [
             $mix = {}
             $sc = {}
             # to a rowing from this n:row
-            $a = {mix,sc}
-            $N = [a]
             
-            if (ns&listen_node || ns&heard || ns&n) {
-                # < %%inst to @Thy
-                ns&n && ns&efrom != sy&up and ns&inst += 1
-                # < fix: c.arg must be in do-order for plumbing
-                $Saturn = me&Saturn,<<'',[n,s,sc,mix]
-                    i $s** $sc $mix o $inst
-                
-                N = Saturn.N
-            }
-            else {
-                if (ns&efrom != sy&up) {
-                    # first hop, now moves inward
-                    $Fine = ns&efrom
-                    # first hop, to Thy/This/* o Nine
-                    a.z = me&Pii,Fine.t+'-Labine'
-                }
-                elsif (sc&s == t) {
-                    # enable this
-                    sc.ThyLab = 1
-                    # has arrived at:
-                }
-                else {
-                    # then Thy/This/Nine/$Outs
-                    # < lv to Outs=meddle
-                    $z = a.z = me&Pii,t.t+'-Lab'
-                    zc&s = t
-                }
-            }
-            N.map(&a{
+            $usu = ns&listen_node || ns&heard || ns&n
+            !usu and me&tc,"new:%%inst",'b'
+            # < %%inst to @Thy
+            ns&n && ns&efrom != sy&up and ns&inst += 1
+            # < fix: c.arg must be in do-order for plumbing
+            $Saturn = me&Saturn,<<'',[n,s,sc,mix]
+                i $s** $sc $mix o $inst
+
+            Saturn.N.map(&a{
                 $z = a.z
                 if (z) {
                     # more %%inst for R:next
@@ -1867,29 +1845,6 @@ me.Sch_The = &acgt{ return [
         x.ro("Sat",{}) and me&Piing,'Satur-hat',{s,dl:4}
         
         return Saturn
-            $mix = {}
-            if (ns&efrom != sy&up) {
-                # first hop, now moves inward
-                
-                $Fine = ns&efrom
-                # first hop, to Thy/This/* o Nine
-                $z = me&Pii,Fine.t+'-Labine'
-            }
-            elsif (sc&s == t) {
-                # enable this
-                sc.ThyLab = 1
-                return
-                # has arrived at:
-            }
-            else {
-                # then Thy/This/Nine/$Outs
-                $z = me&Pii,t.t+'-Lab'
-                zc&s = t
-            }
-            !z and return
-            !zy&R and return me&waits,'fwd:inst'
-            # R:here, z:to, s, shade, mix
-            me&nodei,R,z,n,{},mix
     }
     },
    // &Saturn %%listen_node strategy
