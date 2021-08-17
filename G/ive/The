@@ -1393,7 +1393,7 @@ me.Sch_The = &acgt{ return [
     ['Names',0.87,&acgtRs{
         me&reaw,R,'Names'
         $Na = Rs&Names
-        me&acting,R and me&nu,"Names",Nas&tw
+        me&acting,R and me&nu,"Names",Na.sc,'forement'
     },'ift,D'],
     &{
     # &Saturn -> %Names
@@ -1434,7 +1434,7 @@ me.Sch_The = &acgt{ return [
     me.Names_set = &acgtRtsc{
         !isst(t) and throw "t!string"
         !isnode(s) and throw "s!node"
-        $Names = me&rollbsc,R,'Names'
+        $Na = me&rollbsc,R,'Names'
         # <<<
         # i $t/$s/$n-naming
         #  and the usu reverse: i $s/$t
@@ -1445,13 +1445,43 @@ me.Sch_The = &acgt{ return [
         #    last io to do highest,
         #    .Name includers having the .pathi they occurred
         #     (for the use case in the scope of many &Saturn)
-        $was = ahsk(Names,'sc','tw',t)
-        ah(Names,'tw',t,s)
-        c.local and ah(Names,'tlocal',t,1)
+        $was = ahsk(Na,'sc','tw',t)
+        ah(Na,'tw',t,s)
+        c.local and ah(Na,'tlocal',t,1)
         s == was and return
         # < climbs & puts. notice other disconnected?
     }
-    me.Names_get = &acgtRtsc{
+    # create outcrop of names looked up in here
+    me.Names_get = &acgtRtc{
+        c = peel(c)
+        $Na = me&rollbsc,R,'Names'
+        $s = ahsk(Na,'sc','tw',t)
+        if (s == null) {
+            $j = me.cbu(R,j => js&Ying || j != R && (js&Names || js&client))
+            js&Ying and j = null
+            if (j) {
+                if (js&Names) {
+                    s = me&Names_get,j,t,{c,outer:1}
+                }
+                # also goes across this link, eg to @Gnome
+                # < becomes %%hire
+                $cl = js&client
+                if (cl && isC(cl) && !s) {
+                    cl = me&yfuture,cl .c.s
+                    s = me&Names_get,j,t,{c,outer:2}
+                }
+            }
+        }
+        # note being asked this
+        !c.outer and ah(Na,'task',t,1)
+        # < who from?
+        else ah(Na,'tasked',t,1)
+        # remember what it was, to contrast later
+        if (s) {
+            $was = ahsk(Na,'sc','tgot',t)
+            ah(Na,'tgot',t,s)
+        }
+        return s
     }
     },
     
@@ -1912,15 +1942,20 @@ me.Sch_The = &acgt{ return [
         $E = Rs&E
         !E and throw "should E"
         me&reaw,R,'listen_node_n'
-        
+        # < &Saturn nodei:
+        # < o %%listened,replyto:@Eight -> o E/-n/%target
+        #   Names for @Eight, E is R%E,
+        #    %target is where to ark=s position
         $En = me&fiu,E,'-n'
         $target = Ens&target
+        $eigh = me&Names_get,R,'Eight'
         $Eight = me.cbu(s,s => sc&pi == 'Eight')
+        me&nu,"Names_get",{eigh,Eight}
         me&nodei,R,target,{listened:1,replyto:Eight}
         #me&nu,"listen",{E,En,target,Eight}
     },'ift,D'],
     # target replies with objects (that change)
-    #  set by ThyerYing
+    #  set by %ThyerYing
     ['listen_node_listened','67',&acgtRs{
         me&reaw,R,'listen_node_listened'
         
@@ -4501,6 +4536,10 @@ me.Sch_The = &acgt{ return [
                     delete Dc&X
                     delete Dc&TX
                     delete Dc&RX
+                    $tar = delete Ds&target
+                    tar and debugger
+                    #Ds&target = "C:"+tar.t
+                    
                     # climb E** after s**/-seven
                     #Cc&pi == 'seven' and d.s = C
                 }}
