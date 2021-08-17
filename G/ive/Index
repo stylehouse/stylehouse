@@ -660,8 +660,8 @@
         }
   
   // 'Sarn' N/slope
-        # @Thy/-This/@Fine-Labine/@Lab-Lab#@n%ThyLab/c&s=@n
-        # make c.path
+        # @Thy/-This/#@Fine-Labine/@-Lab#@n%ThyLab/c&s=@n
+        # make c.path!
         me.Sarg_Sarn = &acgtpscq{
             $a = me&paullistify,p,s,c,q
             # columns for c.N
@@ -674,21 +674,28 @@
             # < compile this in Yingmind? 
             $name = '(\\w+)'
             $pi = '(?:-(\\w+))'
-            $namepi = '(?:'+name+'|'+pi+'|'+name+pi+')'
+            # {gaze,pi+name} for /@-Lab
+            $piname = '(?:-('+name+'))'
+            $namepi = '(?:'+piname+'|'+name+'|'+pi+'|'+name+pi+')'
             $scpeel= '(?:%(\\w+))'
+            # for #@n {spaceref}
             $spaceref = '(?:#@'+name+')'
             $wander = '(\\*\\*)'
             $etc = wander+'?'+spaceref+'?'+scpeel+'?'
-            
-            $naming = '([\\$@])?'+namepi+etc
+            # !
+            $naming = '(#)?([\\$@])?'+namepi+etc
             $subframesetref = 'c\&s=@(\\w+)'
             $chasing = '(?:'+subframesetref+'|'+wander+')'
             $end = '(?:(?=$|\\/)| )'
             a('^\\/?(?:'+naming+'|'+chasing+')'+end, &{
-                $a = hassignar(p.m,'gaze,name,pi,name,pi'
+                $a = hassignar(p.m,'spaceref,gaze,pi,name,name,pi,name,pi'
                     +',wander,spaceref,scpeel,csref,wander')
                 # yua
                 a.gaze && a.gaze != '@' and throw "@refs only"
+                if (a.spaceref == '#') {
+                    a.spaceref = a.name
+                    !isst(a.name) and debugger
+                }
                 a.pi and a.name ||= a.pi
                 # the /c&s=... is not a node
                 a.csref and a.subframe = 1
@@ -858,17 +865,11 @@
                         }
                         # < would be an interactive-grade -n resolver
                         #   that picks out aspects, ie R%stractia
-                        #    to compile back into @Lab/-nodei/-row
+                        #    to compile back into @Labi/-nodei/-row
                     }
                     if (next.gaze == '@') {
                         me&tc,"Lookfor:@"+next.name
-                        if (next.spaceref) {
-                            # the @Name is for &Gomex
-                            $k = next.spaceref
-                            $v = me&tark,a,k,inst
-                            $t = v.t
-                        }
-                        elsif (next.name == 'Fine') {
+                        if (next.spaceref == 'Fine') {
                             # happens to mean this
                             $orig = me.cbu(inst)
                             $j = origy&R
@@ -876,6 +877,12 @@
                             $z = jc&s
                             $t = z.t
                             # < in &Gomex already (or is it &Superargs?)
+                        }
+                        elsif (next.spaceref) {
+                            # the @Name is for &Gomex
+                            $k = next.spaceref
+                            $v = me&tark,a,k,inst
+                            $t = v.t
                         }
                         else {
                             throw "Who",next
@@ -900,9 +907,8 @@
                 
                 if (pa.pi == 'Eight') {
                     if (insts&listen_node) {
+                        # fork the %%inst from here going to z
                         me&jaa,R,'heard' .map(&n{
-                            # fork the %%inst from here
-                            #  extra row going to z
                             $a = g.split(ax,{n})
                         })
                     }
@@ -944,6 +950,7 @@
             }
         }
         
+       // f, types
         # get value for a/$ark
         # < @Name for|from &Gomex!
         me.tark = &acgtakn{
@@ -957,6 +964,7 @@
             }
             return v
         }
+        # adds {k:v} to all rows, or create one
         me.arkray = &acgtgscq{
             if (hak(g.N)) {
                 me&rayplace,g,s,c,q (&ascqM{
@@ -965,7 +973,6 @@
             } else g.N = [ me&axsimilate,s ]
         }
        
-       // types
         # things (and A)
         me.Saturn_isC = &acgtn{
             return isC(n)
