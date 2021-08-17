@@ -1453,6 +1453,7 @@ me.Sch_The = &acgt{ return [
     }
     # create outcrop of names looked up in here
     me.Names_get = &acgtRtc{
+        c == 1 and c = {fatal:1}
         c = peel(c)
         $Na = me&rollbsc,R,'Names'
         $s = ahsk(Na,'sc','tw',t)
@@ -1481,6 +1482,9 @@ me.Sch_The = &acgt{ return [
             $was = ahsk(Na,'sc','tgot',t)
             ah(Na,'tgot',t,s)
         }
+        else
+        # < fix throw ..., tinystring display
+        c.fatal and throw "!Names:"+t
         return s
     }
     },
@@ -1948,9 +1952,9 @@ me.Sch_The = &acgt{ return [
         #    %target is where to ark=s position
         $En = me&fiu,E,'-n'
         $target = Ens&target
-        $eigh = me&Names_get,R,'Eight'
-        $Eight = me.cbu(s,s => sc&pi == 'Eight')
-        me&nu,"Names_get",{eigh,Eight}
+        # < &Names_get for -Eight, or a particular Ey&thing
+        #   see fi&t for wanting formats|parts
+        $Eight = me&Names_get,R,'Eight',1
         me&nodei,R,target,{listened:1,replyto:Eight}
         #me&nu,"listen",{E,En,target,Eight}
     },'ift,D'],
