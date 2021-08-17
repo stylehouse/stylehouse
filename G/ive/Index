@@ -693,8 +693,9 @@
                 # yua
                 a.gaze && a.gaze != '@' and throw "@refs only"
                 if (a.spaceref == '#') {
-                    a.spaceref = a.name
                     !isst(a.name) and debugger
+                    # delete to not name this column that, tries pi
+                    a.spaceref = delete a.name
                 }
                 a.pi and a.name ||= a.pi
                 # the /c&s=... is not a node
@@ -728,6 +729,7 @@
   //  'Saturn' N/slope
        // itself
         me.Sarg_Saturn = &acgtpscq{
+            
             $a = me&paullistify,p,s,c,q
             $g = c
             # we are presented with a bunch of things to input to
@@ -788,6 +790,7 @@
             })
             c.show.N = c.N
         }
+       // realisers
         # realise where we are receiving this %%inst
         # < &Saturn once, expr: 'o %%inst,eto:$s'
         #  < or is that '<- %%inst' ?
@@ -838,6 +841,13 @@
             # sets values of creation
             # < keep renamed history
             #  < when eg derive from $n again, save back to @Lab
+       // in &being_inst
+            if (pa.gaze == '@') {
+                # < keep non-gaze names locally, eg -Eight to its /**
+                #    so eg @Gnome's @This (@Run/@This) > @Thy/@This,
+                #     even to @Thy/@This/-Eight/...
+                ax.Name = pa.name
+            }
             if (ax.nextinst) {
                 # message to /$z
                 mix.inst = ax.nextinst
@@ -867,25 +877,20 @@
                         #   that picks out aspects, ie R%stractia
                         #    to compile back into @Labi/-nodei/-row
                     }
-                    if (next.gaze == '@') {
-                        if (next.spaceref == 'Fine') {
-                            # happens to mean this
-                            $orig = me.cbu(inst)
-                            $j = origy&R
-                            !js&TheFine and debugger
-                            $z = jc&s
-                            $t = z.t
-                            # < in &Gomex already (or is it &Superargs?)
-                        }
-                        elsif (next.spaceref) {
-                            # the @Name is for &Gomex
-                            $k = next.spaceref
-                            $v = me&tark,a,k,inst
-                            $t = v.t
-                        }
-                        else {
-                            throw "Who",next
-                        }
+                    if (next.spaceref == 'Fine') {
+                        # happens to mean this
+                        $orig = me.cbu(inst)
+                        $j = origy&R
+                        !js&TheFine and debugger
+                        $z = jc&s
+                        $t = z.t
+                        # < in &Gomex already (or is it &Superargs?)
+                    }
+                    elsif (next.spaceref) {
+                        # the @Name is from %Names
+                        $k = next.spaceref
+                        $v = me&tark,a,k,inst
+                        $t = v.t
                     }
                 }
                 # can build /#$t:z
