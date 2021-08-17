@@ -1653,12 +1653,11 @@ me.Sch_The = &acgt{ return [
         # R%* to apply
         $scN = []
         me&jaa,R,{inst:1,eto:s} .map(&n{
-            $t = ns&n
             # adding these possibilities
+            # < in io expr: $sc={}, as we only get them off the rows
             $mix = {}
             $sc = {}
-            # to a rowing from this n:row
-            
+            # to rowing from this $inst:n
             $usu = ns&listen_node || ns&heard || ns&n
             !usu and me&tc,"new:%%inst",'b'
             # < %%inst to @Thy
@@ -1672,10 +1671,10 @@ me.Sch_The = &acgt{ return [
                 if (z) {
                     # more %%inst for R:next
                     !zy&R and return me&waits,'fwd:inst'
-                    n = a.n || n
-                    mix = a.mix || mix
+                    # usu clone the same %%inst
+                    a.n ||= n
                     # R:here, z:to, %%inst, shade, mix{inst+=1}
-                    me&nodei,R,z,n,{},mix
+                    me&nodei,R,z,a.n,{},a.mix
                 }
                 # R:here behaviour
                 # < tractogram
@@ -1823,7 +1822,7 @@ me.Sch_The = &acgt{ return [
         return g
     }
     # tu: stuff the machine knows is happening
-    #  eg being the first hop when %%efrom != s^
+    # < eg being the first hop when %%efrom != s^
     # given protocols to handle:
     #  $s** building
     #  $sc  styles of $s (R%*)
@@ -1833,15 +1832,9 @@ me.Sch_The = &acgt{ return [
         $R = me&R
         $x = me&Jx,R
         q ||= {}
-        # <<<
-        # here eg &Piing_inst gives:
-        #    i $s** $sc o $n-inst
-        # to work out these two modes of -inst receiving:
-        
         $Sarn = me&Rsc,R,'^^inster'
         q.st = Sarn
         # n is being stretched by &Piing_inst relay
-        #        i $s** $sc $n-row
         $Saturn = me&Sarg,'Saturn',s,c,q
         $s = Saturn.show
         x.ro("Sat",{}) and me&Piing,'Satur-hat',{s,dl:4}
