@@ -945,7 +945,7 @@ me.Sch_The = &acgt{ return [
     ['TheThy+Piing',0.292,&acgtRs{
         # @Thy, which always runs with @Gnome,
         # < posits a new @Lab time
-        Rs&inster = me&Sarn,<<'',[R]
+        Rs&Sarndat = me&Sarn,<<'',[R]
             i @Thy/-This/#@Fine-Labine/@-Lab#@n%ThyLab/c&s=@n
         
     },'ift,D'],
@@ -1388,6 +1388,73 @@ me.Sch_The = &acgt{ return [
         # Rs&Piing = 1
     },'ift,D'],
   
+  # namespace bridge:
+  // %Names:C
+    ['Names',0.87,&acgtRs{
+        me&reaw,R,'Names'
+        $Na = Rs&Names
+        me&acting,R and me&nu,"Names",Nas&tw
+    },'ift,D'],
+    &{
+    # &Saturn -> %Names
+    me.Names_collector = &acgtR{
+        $g = {}
+        $nameN = []
+        g.from_ax = &a{
+            $na = sex({},a,'Name,name')
+            !hak(na) and return
+            !isC(a.s) and throw "what is it"
+            na.s = a.s
+            nameN.push(na)
+        }
+        g.done = &{
+            !hak(nameN) and return
+            $la
+            each i,na nameN {
+                $c = {}
+                hak(na,'Name') and $t = na.Name
+                else {
+                    $t = na.name
+                    # not known to aboves & beyonds,
+                    #  may give up name inwardly to an above Name
+                    # < except when led into, eg @Thy/@This, @Thy...@seven
+                    #   which is more about using @Thy's Sarndat to climb ...
+                    #    we are really looking for phrasing,
+                    c.local = 1
+                }
+                !isst(t) and throw "!name"
+                la != null && la != t and throw "~name"
+                me&Names_set,R,t,na.s,c
+            }
+        }
+        return g
+    }
+    # name a node, climb the name into place
+    # < whoever might like to know, esp if ~s
+    me.Names_set = &acgtRtsc{
+        !isst(t) and throw "t!string"
+        !isnode(s) and throw "s!node"
+        $Names = me&rollbsc,R,'Names'
+        # <<<
+        # i $t/$s/$n-naming
+        #  and the usu reverse: i $s/$t
+        #  and the usu noticing etc
+        # the -naming defines scope (c&local or not)
+        # < seems like a /believe/ join to &Saturn
+        #   they would all end up with z-indexes
+        #    last io to do highest,
+        #    .Name includers having the .pathi they occurred
+        #     (for the use case in the scope of many &Saturn)
+        $was = ahsk(Names,'sc','tw',t)
+        ah(Names,'tw',t,s)
+        c.local and ah(Names,'tlocal',t,1)
+        s == was and return
+        # < climbs & puts. notice other disconnected?
+    }
+    me.Names_get = &acgtRtsc{
+    }
+    },
+    
   
   # nine wants to join reality:
   # < Travel..@Run by %%hire, %Piing** by %%inst
@@ -1446,7 +1513,7 @@ me.Sch_The = &acgt{ return [
         #   it wants to read %%hire
     },'ift,D'],
     ['PiiRun+Piing',0.293,&acgtRs{
-        Rs&inster = me&Sarn,<<'',[R]
+        Rs&Sarndat = me&Sarn,<<'',[R]
             i @Run/-This/-Eight/-seven/**
         
     },'ift,D'],
@@ -1646,6 +1713,7 @@ me.Sch_The = &acgt{ return [
         }
         # R%* to apply
         $scN = []
+        $Names = me&Names_collector,R
         me&jaa,R,{inst:1,eto:s} .map(&n{
             # adding these possibilities
             # < in io expr: $sc={}, as we only get them off the rows
@@ -1659,6 +1727,7 @@ me.Sch_The = &acgt{ return [
                 i $s** $sc $mix o $inst
 
             Saturn.N.map(&a{
+                a.s != s and debugger
                 $z = a.z
                 if (z) {
                     # more %%inst for R:next
@@ -1671,11 +1740,13 @@ me.Sch_The = &acgt{ return [
                 # R:here behaviour
                 # < tractogram
                 hak(a.sc) and scN.push(sc)
+                Names.from_ax(a)
             })
         })
         $sc = {}
         scN.map(c => ex(sc,c))
         me&sync_inst,R,s,sc
+        Names.done()
     }
     # to make stuff up < GOING for w:TryPiWarmer
     me.Run_initdata = &acgtRsE{
@@ -1799,12 +1870,12 @@ me.Sch_The = &acgt{ return [
         in some state of decoding...
     
     =cut
-    # R%inster = &Sarn schema on the Ec&uber
-    ['inster',0.29611,&acgtRs{
+    # R%Sarndat = &Sarn schema on the Ec&uber
+    ['Sarndat',0.29611,&acgtRs{
         $E = Rs&E
         !Ec&uber and throw "&Sarn inside &Sarn"
-        me&reaw,R,'inster'
-        # just remembers %inster=&Sarn defining schema
+        me&reaw,R,'Sarndat'
+        # just remembers %Sarndat=&Sarn defining schema
     },'ift,D'],
     &{
     # @Run and @Thy define their %%inst-ability with io
@@ -1824,7 +1895,7 @@ me.Sch_The = &acgt{ return [
         $R = me&R
         $x = me&Jx,R
         q ||= {}
-        $Sarn = me&Rsc,R,'^^inster'
+        $Sarn = me&Rsc,R,'^^Sarndat'
         q.st = Sarn
         # n is being stretched by &Piing_inst relay
         $Saturn = me&Sarg,'Saturn',s,c,q

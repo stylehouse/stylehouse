@@ -778,7 +778,6 @@
                 q.Max = M
                 g.thisq = q
                 $ax = me&axsimilate,a,{path}
-                $inst = a.inst
                 # happen in the o $inst first
                 g.gee == 'o' ?
                     me&locate_inst,g,ax,q
@@ -802,11 +801,11 @@
             !insts&efrom and throw "!inst%efrom"
             # %%inst++ along path
             $i = insts&inst*1
-            $pa = path[i-1]
-            !pa and throw "off the path"
-            ax.pa = pa
+            $here = path[i-1]
+            !here and throw "off the path"
+            ax.here = here
             # < deal an -Eight
-            if (!pa.slick) {
+            if (!here.slick) {
                 ax.madeup = 1
             }
             # 
@@ -830,8 +829,8 @@
             $R = sy&R
             !R and throw "inst s!R"
             me&R != R and throw "inst !theR"
-            $pa = ax.pa
-            !pa and throw "!pathbit"
+            $here = ax.here
+            !here and throw "!pathbit"
             $next = ax.next
             # outputs
             $sc = ax.sc
@@ -842,11 +841,14 @@
             # < keep renamed history
             #  < when eg derive from $n again, save back to @Lab
        // in &being_inst
-            if (pa.gaze == '@') {
+            if (here.gaze == '@') {
+                ax.Name = here.name
+            }
+            elsif (isst(here.name)) {
                 # < keep non-gaze names locally, eg -Eight to its /**
                 #    so eg @Gnome's @This (@Run/@This) > @Thy/@This,
                 #     even to @Thy/@This/-Eight/...
-                ax.Name = pa.name
+                ax.name = here.name
             }
             if (ax.nextinst) {
                 # message to /$z
@@ -909,7 +911,7 @@
                     me&tc,"inst!t",'6y'
                 }
                 
-                if (pa.pi == 'Eight') {
+                if (here.pi == 'Eight') {
                     if (insts&listen_node) {
                         # fork the %%inst from here going to z
                         me&jaa,R,'heard' .map(&n{
@@ -919,7 +921,7 @@
                 }
             }
             else {
-                if (pa.wander) {
+                if (here.wander) {
                     if (insts&listen_node) {
                         # look it up
                         sc&pi = 'n'
@@ -942,8 +944,8 @@
                     ax.final = '???'
                 }
             }
-            if (pa.scpeel) {
-                ex(sc,peel(pa.scpeel))
+            if (here.scpeel) {
+                ex(sc,peel(here.scpeel))
             }
             !next and return
             if (next.subframe) {
@@ -954,12 +956,12 @@
             }
         }
         
-       // f, types
+       // f, types!
         # get value for a/$ark
         # < @Name for|from &Gomex!
         me.tark = &acgtakn{
             # is it %%inst,$k
-            hak(n.sc,k) and $v = n.sc[k]
+            (n) && hak(n.sc,k) and $v = n.sc[k]
             else
             # is it an ark
             hak(a,k) and $v = a[k]
