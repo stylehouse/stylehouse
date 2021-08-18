@@ -1390,6 +1390,7 @@ me.Sch_The = &acgt{ return [
   
   # namespace bridge:
   // %Names:C
+    # fame distribution
     ['Names',0.87,&acgtRs{
         me&reaw,R,'Names'
         $Na = Rs&Names
@@ -1429,6 +1430,8 @@ me.Sch_The = &acgt{ return [
         }
         return g
     }
+    # < &sc_collector, agreement diag
+    
     # name a node, climb the name into place
     # < whoever might like to know, esp if ~s
     me.Names_set = &acgtRtsc{
@@ -1748,35 +1751,35 @@ me.Sch_The = &acgt{ return [
         # R%* to apply
         $scN = []
         $Names = me&Names_collector,R
-        me&jaa,R,{inst:1,eto:s} .map(&n{
-            # adding these possibilities
-            # < in io expr: $sc={}, as we only get them off the rows
-            $mix = {}
-            $sc = {}
-            # to rowing from this $inst:n
-            $usu = ns&listen_node || ns&heard || ns&n
-            !usu and me&tc,"new:%%inst",'b'
-            # < fix: c.arg must be in do-order for plumbing
-            $Saturn = me&Saturn,<<'',[n,s,sc,mix]
-                i $s** $sc $mix o $inst
+        $Saturn = me&Saturn,<<'',[s]
+            i $s** $sc={} $mix={} o <- %%inst
 
-            Saturn.N.map(&a{
-                a.s != s and debugger
-                $z = a.z
-                if (z) {
-                    # more %%inst for R:next
-                    !zy&R and return me&waits,'fwd:inst'
-                    # usu clone the same %%inst
-                    a.n ||= n
-                    # R:here, z:to, %%inst, shade, mix{inst+=1}
-                    me&nodei,R,z,a.n,{},a.mix
-                }
-                # R:here behaviour
-                # < tractogram
-                hak(a.sc) and scN.push(sc)
-                Names.from_ax(a)
-            })
+        Saturn.N.map(&a{
+            # < these as io expr. ie @z && @n||=@inst +@mix-> @z
+            #   everything right of && becomes required
+            a.s != s and debugger
+
+            # more %%inst -> $s/$z
+            $z = a.z
+            if (z) {
+                !zy&R and return me&waits,'fwd:inst'
+                # usu clone the same %%inst
+                a.n ||= a.inst
+                !a.n and debugger
+                # R:here, z:to, %%inst, shade, mix{inst+=1}
+                me&nodei,R,z,a.n,{},a.mix
+            }
+
+            $n = a.inst
+            $usu = ns&listen_node || ns&heard || ns&n
+            !usu and debugger
+
+            # R:here behaviour
+            # < tractogram
+            hak(a.sc) and scN.push(a.sc)
+            Names.from_ax(a)
         })
+        
         $sc = {}
         scN.map(c => ex(sc,c))
         me&sync_inst,R,s,sc

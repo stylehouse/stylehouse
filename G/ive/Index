@@ -728,33 +728,60 @@
         }
   //  'Saturn' N/slope
        // itself
+        # i $s** $sc={} $mix={} o <- %%inst
         me.Sarg_Saturn = &acgtpscq{
             
             $a = me&paullistify,p,s,c,q
             $g = c
+            if (g.c && !hak(g.N)) {
+                # plumbed from nothing
+                g.gee == 'i' and return g.empty = 1
+                # o ... o ... may get further when legs empty
+                debugger
+            }
+            
+            # o <- %%inst
+            a(/^(<- )?(?:%%(\S+))$/, &etohere,expr{
+                expr = peel(expr)
+                # < wait for $s to arrive in the i ...
+                $R = me&R
+                etohere and expr.eto = Rc&s
+                hak(g.N) and throw "N before jaa"
+                $N = me&jaa,R,expr
+                $k = haks(expr)[0]
+                # a.inst=%%inst,...
+                g.N = N.map(n => me&axsimilate,hashkv(k,n) )
+            })
+            g.N1 = g.N.slice()
+            # i $s** $sc={} $mix={} 
             # we are presented with a bunch of things to input to
-            $first = 1
-            a(/\/?([\$@])?(\w+)(\*\*)?( )?/, &{
-                $gaze = p.1
-                $ark = p.2
-                $wander = p.3
-                $s = p.ull(first ? 'C' : 'ob')
-                me&arkray,c,hashkv(ark,s),{},q
-                if (!first) {
-                    if (!isC(s)) {
-                        # hash (mix or sc) should clone to
-                        #  separate when rows split
-                        ahk(g,'arkex',ark,1)
-                    }
+            a(/\/?([\$])?(\w+)(=\{([^\}]*)\})?(\*\*)?( )?/,
+                    &gaze,ark,set,set_expr,wander{
+                # < support
+                !gaze and debugger
+                if (set) {
+                    # $sc={} just to have in rowing, not an arg
+                    $s = {}
+                    set_expr and debugger
                 }
-                $first = 0
+                # it probably expresses something about Rc&s, E, etc
+                else {
+                    $s = p.ull('C')
+                }
+                
+                me&arkray,c,hashkv(ark,s),{},q
+                
+                # hash (mix or sc) should separate when rows split
+                !isC(s) and ahk(g,'arkex',ark,1)
                 
                 q = me&qsimilate,q,{ark}
                 
                 gaze != '$' and throw "params only"
             })
             c.fail and return
-       // guts!
+       // being %%inst, etc
+            # < where to get to with empty rows
+            !hak(g.N1) and hak(g.N) and return me&tc,"NoRows:"+g.expr,'q'
             $path = q.st.path
             c.show = {N:1,path,before:c.N}
             # < all &Sarg c->g
@@ -817,6 +844,7 @@
         }
         # do here!!
         # < tractogram the vying for $t-value from various branches of logic
+        #    ~ sc_collection, etc
         # < path has tread, where an arm of thing pushes conf to later path
         #    eg %%listen_node can want to be -n
         #     this might make types more composable
@@ -824,6 +852,7 @@
             $ax = a
             $path = ax.path
             $inst = ax.inst
+            !inst and throw "!%%inst!"
             $s = ax.s
             !s and throw "!somewhere!"
             $R = sy&R
@@ -970,7 +999,7 @@
             }
             return v
         }
-        # adds {k:v} to all rows, or create one
+        # adds s={k:v} to all rows, or creates one
         me.arkray = &acgtgscq{
             if (hak(g.N)) {
                 me&rayplace,g,s,c,q (&ascqM{
