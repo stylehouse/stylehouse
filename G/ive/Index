@@ -744,6 +744,9 @@
                 #g.gee == 'i' and return g.empty = 1
                 # o ... o ... may get further when legs empty
                 g.gee == 'o' and debugger
+                # in i...(i...)o...%%inst with no %%inst
+                #  compulse row @2 but not @3
+                g.empty = 1
             }
             $func
             a(/^&(\w+) /, &{ func = p.1 })
@@ -811,8 +814,7 @@
                 })
             })
             
-       // $s**, etc
-            g.N1 = g.N.slice()
+       // $s**, etc # may compulse a row from empty
             # i $s** $sc={} $mix={} 
             # we are presented with a bunch of things to input to
             a(/\/?([\$])?(\w+)(=\{([^\}]*)\})?(\*\*)?( )?/,
@@ -840,9 +842,12 @@
             })
             c.fail and return
        
-       // being %%inst, etc
-            # < where to get to with empty rows
-            !hak(g.N1) and hak(g.N) and return me&tc,"NoRows:"+g.expr,'q'
+       // being %%inst # 
+            # non-compulsed rows only
+            #  we may not be empty, but only have eg $sc,
+            #   low level side-hustles like realising who you are
+            g.empty and return
+            
             $path = q.st.path
             c.show = {N:1,path,before:c.N}
             # < all &Sarg c->g
@@ -1064,6 +1069,8 @@
             else {
                 !c.easy and throw "!ark",k,a
             }
+            # usu just needs to be known
+            c.fatal && v == null and throw "ark!v",k,a
             return v
         }
         # adds s={k:v} to all rows, or creates one
