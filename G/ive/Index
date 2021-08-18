@@ -510,8 +510,11 @@
             q ||= {}
             
             $p = c.p = me&parserify,s
-            p.p(/\s+$/)
-            $plumb = p.p(/^(.+) (?=o )/) && p.1
+            # remove and multilining, indents, trailing space
+            while (p.p(/\n/," ") //# ...things\ni...
+                || p.p(/  +/," ")
+                || p.p(/^\s+|\s+$/)) {}
+            $plumb = p.p(/^(.+) (?=[io] )/) && p.1
             p.p(/^(i|o) /) and c.gee = p.1
             c.expr = p.s
             c.N ||= []
@@ -521,6 +524,7 @@
             plumb and c = me&Sarg,k,plumb,{c},q
             if (!c.c || plumb) {
                 # outer|&Shx-call-terminating &Sarg
+                # < does everyone get this?
                 if (p.s.length) {
                     # notice leftovers, should all parse
                     me&Sargfail,c,{t:'expr++',part:p.s}
@@ -559,7 +563,7 @@
                 return 1
             }
             # apply a pattern
-            p.a = &regex,y,zzz{
+            p.a = &regex,y{
                 $times = 30
                 while (p.p(regex)) {
                     y (...p.m)
@@ -730,28 +734,84 @@
        // itself
         # i $s** $sc={} $mix={} o <- %%inst
         me.Sarg_Saturn = &acgtpscq{
-            
             $a = me&paullistify,p,s,c,q
             $g = c
             if (g.c && !hak(g.N)) {
                 # plumbed from nothing
-                g.gee == 'i' and return g.empty = 1
+                #  should do everything with no rows
+                #   ie just consume expr
+                # everyone must handle doing nothing
+                #g.gee == 'i' and return g.empty = 1
                 # o ... o ... may get further when legs empty
-                debugger
+                g.gee == 'o' and debugger
             }
-            
+            $func
+            a(/^&(\w+) /, &{ func = p.1 })
+       // brackio
             # o <- %%inst
-            a(/^(<- )?(?:%%(\S+))$/, &etohere,expr{
+            g.gee == 'o' &&
+            a(/(<- )?(?:%%(\S+))$/, &etohere,expr{
+                hak(g.N) and throw "N before jaa"
                 expr = peel(expr)
                 # < wait for $s to arrive in the i ...
+                #   so we might also 'i @z <- %%inst,@variety/'
                 $R = me&R
                 etohere and expr.eto = Rc&s
-                hak(g.N) and throw "N before jaa"
                 $N = me&jaa,R,expr
                 $k = haks(expr)[0]
                 # a.inst=%%inst,...
                 g.N = N.map(n => me&axsimilate,hashkv(k,n) )
             })
+            
+            $ref = '(?:@(\\w+))'
+            # < what += %%brack,comp:@osit,ion++
+            $what = '(|'+ref+'|'+ref+'\\|\\|='+ref+')'
+            # i @z <-+@mix @n||=@inst
+            g.gee == 'i' &&
+            a('^'+ref+"? ?<-(?:\\+"+ref+")? ?"+what+"$",&{
+                $w = hassignar(p.m,
+                    'eto,mix,nothing,n,ndef,or')
+                $R = me&R
+                me&rayplace,g,{},c,q (&ascqM{
+                    # to
+                    if (w.eto) {
+                        s.eto = me&tark,a,w.eto,'easy'
+                        if (!s.eto) {
+                            # lack of the target drops this row
+                            # < shading expr by types of this, oking
+                            return
+                        }
+                    }
+                    s.eto ||= a.z
+                    s.eto ||= theone(havs(a).filter(n => isnode(n)))
+                    !s.eto and throw "eto unclear"
+                    # may not have visited, eg more %%inst -> $s/$z
+                    # < better diag here... is an expected type fail
+                    $z = s.eto
+                    !zy&R and return me&waits,'fwd:inst'
+                    # what
+                    !w.nothing and s.n = a.n
+                    else
+                    w.n and s.n = me&tark,a,w.n
+                    elsif (w.ndef) {
+                        s.n = me&tark,a,w.ndef,'easy'
+                        s.n ||= w.ndef && me&tark,a,w.or
+                    }
+                    !s.n and throw "n unclear"
+                    # what else to merge in as it becomes a brackrow
+                    # < any &nodei c.*
+                    s.mix = w.mix ? a[w.mix] : {}
+                    !s.mix and throw "<-+mix unclear"
+                    # < eg mix being an multitude to be expanded at some point
+                
+                    # R:here, z:to, %%inst, shade, mix{inst+=1}
+                    $n = me&nodei,R,s.eto,s.n,{},s.mix
+                    
+                    M.push(me&axsimilate,a,{n} )
+                })
+            })
+            
+       // $s**, etc
             g.N1 = g.N.slice()
             # i $s** $sc={} $mix={} 
             # we are presented with a bunch of things to input to
@@ -779,6 +839,7 @@
                 gaze != '$' and throw "params only"
             })
             c.fail and return
+       
        // being %%inst, etc
             # < where to get to with empty rows
             !hak(g.N1) and hak(g.N) and return me&tc,"NoRows:"+g.expr,'q'
@@ -786,6 +847,8 @@
             c.show = {N:1,path,before:c.N}
             # < all &Sarg c->g
             $g = c
+            # may split more rows
+            # < wanting an &axsimilate that knows g+q...
             g.split = &ac{
                 $q = g.thisq
                 !q and throw "split rows during &rayplace"
@@ -801,26 +864,25 @@
                 M.push(ax)
                 return ax
             }
-            me&rayplace,c,{},{},q (&ascqM{
-                q.Max = M
-                g.thisq = q
-                $ax = me&axsimilate,a,{path}
-                # happen in the o $inst first
-                g.gee == 'o' ?
-                    me&locate_inst,g,ax,q
-                    : me&being_inst,g,ax,q
-                
-                !q.not and M.push(ax)
-                # < q.Mw?
-                delete g.thisq
-            })
+            # space func
+            if (func) {
+                me&rayplace,c,{},{},q (&ascqM{
+                    q.Max = M
+                    g.thisq = q
+                    $ax = me&axsimilate,a,{path}
+                    me&mearg,'Sargfunc_'+func,[g,ax,q]
+                    # defaults to keeping this row
+                    !q.not and M.push(ax)
+                    # < q.Mw?
+                    delete g.thisq
+                })
+            }
             c.show.N = c.N
         }
        // realisers
         # realise where we are receiving this %%inst
-        # < &Saturn once, expr: 'o %%inst,eto:$s'
-        #  < or is that '<- %%inst' ?
-        me.locate_inst = &acgtgaq{
+        # < from Sarndat
+        me.Sargfunc_locate_inst = &acgtgaq{
             $ax = a
             $path = ax.path
             $inst = ax.inst
@@ -848,7 +910,7 @@
         # < path has tread, where an arm of thing pushes conf to later path
         #    eg %%listen_node can want to be -n
         #     this might make types more composable
-        me.being_inst = &acgtgaq{
+        me.Sargfunc_being_inst = &acgtgaq{
             $ax = a
             $path = ax.path
             $inst = ax.inst
@@ -920,7 +982,7 @@
                     elsif (next.spaceref) {
                         # the @Name is from %Names
                         $k = next.spaceref
-                        $v = me&tark,a,k,inst
+                        $v = me&tark,a,k,{n:inst}
                         $t = v.t
                     }
                 }
@@ -980,7 +1042,7 @@
             if (next.subframe) {
                 # < and all the next subframes? frame = an %%inst ->
                 if (next.csref) {
-                    sc&s = me&tark,a,next.csref,inst
+                    sc&s = me&tark,a,next.csref,{n:inst}
                 }
             }
         }
@@ -988,14 +1050,19 @@
        // f, types!
         # get value for a/$ark
         # < @Name for|from &Gomex!
-        me.tark = &acgtakn{
+        me.tark = &acgtakc{
+            # arkc clues, ie a.n%$k
+            # < basically another a+ with looser roles (hash=role:thing)
+            #   looming around this one's process
+            c = peel(c)
+            $n = c.n
             # is it %%inst,$k
             (n) && hak(n.sc,k) and $v = n.sc[k]
             else
             # is it an ark
             hak(a,k) and $v = a[k]
             else {
-                throw "!ark",k,a
+                !c.easy and throw "!ark",k,a
             }
             return v
         }

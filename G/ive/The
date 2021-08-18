@@ -1491,6 +1491,8 @@ me.Sch_The = &acgt{ return [
         return s
     }
     },
+  // sy&Fames:C
+    # reverse of Names, for being y&thing-consequent
     
   
   # nine wants to join reality:
@@ -1752,27 +1754,22 @@ me.Sch_The = &acgt{ return [
         $scN = []
         $Names = me&Names_collector,R
         $Saturn = me&Saturn,<<'',[s]
-            i $s** $sc={} $mix={} o <- %%inst
-
-        Saturn.N.map(&a{
+            i @z <-+@mix @n||=@inst
+                i &being_inst $s** $sc={} $mix={}
+            o &locate_inst <- %%inst
+        
+        # iterate the middle leg, which always has $sc
+        #  $mix goes nowhere unless $s/@z
+        Saturn.c.N.map(&a{
             # < these as io expr. ie @z && @n||=@inst +@mix-> @z
             #   everything right of && becomes required
             a.s != s and debugger
 
-            # more %%inst -> $s/$z
-            $z = a.z
-            if (z) {
-                !zy&R and return me&waits,'fwd:inst'
-                # usu clone the same %%inst
-                a.n ||= a.inst
-                !a.n and debugger
-                # R:here, z:to, %%inst, shade, mix{inst+=1}
-                me&nodei,R,z,a.n,{},a.mix
-            }
-
             $n = a.inst
-            $usu = ns&listen_node || ns&heard || ns&n
-            !usu and debugger
+            if (n) {
+                $usu = ns&listen_node || ns&heard || ns&n
+                !usu and debugger
+            }
 
             # R:here behaviour
             # < tractogram
