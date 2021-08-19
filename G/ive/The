@@ -2258,6 +2258,7 @@ me.Sch_The = &acgt{ return [
   // &Eref*
    // lookup
     # < Shx o E/$ref:s
+    # < generating the climb 
     
     # search for other R with ref, E^^
     #  X.ref only exist on the Ec&top %X
@@ -4418,16 +4419,32 @@ me.Sch_The = &acgt{ return [
        ... me&Pi_Pier ,
        // Describe
         &{
-            # notices Ey&thing to use or update
+            # notices Ey&thing to use (+link) or update
             me.compLines_Eything = &acgtEd{
                 $t = Ey&thing
                 !t and return
-                if (ty&cv >= 0.2 && ts&string) {
+                # on the node Somewhence-seven,
+                #   E:-seven** encodes itself by %encodeD
+                #    and then also R%E**, by %hoisten
+                #   R%E:Somewhence**
+                #    up on the outEsphere, finds its way into:
+                #     R%E/Bowler etc
+                #    ignoring R%E**//R%hoisten, ie E:-seven
+                if (d.d > 1 && ty&cv >= 0.2 && ts&string) {
+                    # this part of the climbing encode is isolatable
+                    #~>5 Eything: d.d, t.t, ty&cv
+                    $Etop = d.Etop
+                    !Etop and debugger
+                    me&Fame_Ething_add,Etop,E
                     # stops, %string trusted
                     d.nofurther = 1
                     return me&unfixstring,ts&string
                 }
                 else {
+                    # everyone sets a thing at the top
+                    ~>5 Eythingset: d.d, t.t, ty&cv
+                    # < thing awake to see %string change?
+                    d.d != 1 and debugger
                     # %string made here
                     d.for_string = &sdN{
                         ts&string = N.join("\n")+"\n"
@@ -4435,15 +4452,43 @@ me.Sch_The = &acgt{ return [
                         # and percolated to the out-C
                         $CC = Cy&C
                         !CC and return
-                        debugger
+                        #debugger
+                        # supposing C=node%E Ey&C = outsphere
                         CCs&outC = 1
                         sex(CC.sc,t.sc,'string,dige')
                     }
                 }
             }
+            # after you encode t, check dependers to wake
+            me.Fame_Ething_add = &acgtEe{
+                $Et = Ey&thing
+                $R = Ey&R
+                if (!Rs&Piing) {
+                    # -Lab/Lab(i|o)
+                    Rs&Pier == 'Lab' and return
+                    debugger
+                }
+                $s = Rc&s
+                !isnode(s) and debugger
+                $t = ey&thing
+                ac(t,'use',s,'dige',ts&dige)
+                ~>5 Eything: Et.t, t.t
+            }
+            # after you encode t, check dependers to wake
+            me.Fame_Ething = &acgtE{
+                $t = Ey&thing
+                $R = me.cbu(Ey&R,'Piing')
+                each iz ts&use {
+                    $vers = ts&use_dige[i]
+                    vers == ts&dige and continue
+                    ~>6 Eythingup: E.t, joint(zy&path)
+                    me&wants,R,'Fame_Ething',z
+                }
+            }
         },
         ['Top',0.44,&acgtRs{
             Rs&encodeD = 1
+            Rs&hoisten = 1
             Cy&cv = 0.22222
         },'ift,D'],
         ['encodeD',0.44,&acgtRs{
@@ -4462,6 +4507,7 @@ me.Sch_The = &acgt{ return [
                 # found another encoded thing
                 $re = me&compLines_Eything,E,d
                 re and return re
+                # eg %Lab(i|o) (middle|end) of @Lab
                 Ec&encode_thing_here and me&reusable_thing_string,d,E
                 
                 #delete Cc&top
@@ -4473,7 +4519,9 @@ me.Sch_The = &acgt{ return [
                 delete Dc&TX
                 #comp_log(D,d,C)
             } }
+            d.Etop = E
             me&Linets,t,E,d
+            me&Fame_Ething,E
             d.not and me&strange,"&Linets:not"
             
             #me&hu,'encod',"Stevewas"
@@ -4485,30 +4533,33 @@ me.Sch_The = &acgt{ return [
         ['Eight',0.44,&acgtRs{
             $E = Rs&E
             $D = Rs&D
-            Rs&hoisten = 1
+            Rs&hoisten = 2
         },'ift,D'],
         ['seven',0.44,&acgtRs{
             $E = Rs&E
             $D = Rs&D
-            $t = Ey&thing ||= Cye([E.t,1])
+            $t = Ey&thing ||= Cye([E.t,2])
             Ds&Seeving = 3
-            Rs&hoisten = 1
+            Rs&hoisten = 2
         },'ift,D'],
         ['hoisten',0.44,&acgtRs{
             $E = Rs&E
             $D = Rs&D
+            # climb from the node's %E
             $p = Ry&up
             s ||= pc&s
             $Ep = ps&E
-                # compress the entirety!
+            # supposing we (eg -seven) are the only encoder
+            $t = Epy&thing ||= Cye([Ep.t,2])
+                # compress the E, start!
                 # < linking to sevens? T outspheres
                 $d = {what: &sd{
                     # can change s (C) for d.compLines, but not d.for_string
                     # can also not:
                     # E**yD
-                    
                     $r = sy&R
-                    rs&hoisten and return
+                    # doesn't see other E//R%hoisten=2 (-Eight|-seven)
+                    rs&hoisten == 2 and return
                     
                     $E = r && rs&E
                     E != s and throw "E!=s"
@@ -4548,7 +4599,9 @@ me.Sch_The = &acgt{ return [
                     # climb E** after s**/-seven
                     #Cc&pi == 'seven' and d.s = C
                 }}
-                me&Linets,s,Ep,d
+            d.Etop = Ep
+                me&Linets,t,Ep,d
+            me&Fame_Ething,Ep
         },'ift,D'],
         
        // -Bat events
