@@ -1630,10 +1630,20 @@ me.Sch_The = &acgt{ return [
             # < &Effected %hire,efrom=Nine
             #Rs&client = 1
         }
+        
+        # E**
+        # what &Sopi &piinto does, Ey&C=s
+        $p = Ry&up
+        ps&E and Ey&up = ps&E
+    },'ift,D'],
+    # realising s//E, now that &Saturn eg sets sc&pi
+    ['TheingE',0.2951,&acgtRs{
+        $E = Rs&E
         # s->Ec&pi
         if (sc&pi) {
             # ! impersonating E/-seven, is strange
             Ey&ers = s
+            # < going? out-E is not c&pi, only s and E/-pi
             Ec&pi = sc&pi
             # < GOING to look like a &Sopi, eg &piEight
             # outsphere s to outsphere E
@@ -1642,11 +1652,6 @@ me.Sch_The = &acgt{ return [
             s.y [ sc&pi ] = E
             Ey&C = s
         }
-        
-        # E**
-        # what &Sopi &piinto does, Ey&C=s
-        $p = Ry&up
-        ps&E and Ey&up = ps&E
     },'ift,D'],
     # (s|E)**
     ['TheingE',0.296,&acgtRs{
@@ -1699,15 +1704,13 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
     ['Piing',0.296,&acgtRs{
         $E = Rs&E
-        $x = me&Theing
         if (Ec&uber) {
             # see &Sarn
         }
-   
-        # auto -Bat:y&Todo and|or c&pi
-        if (!Ec&uber) {
+        else {
+            # elvis anywhere
             hak(sy&Todo) and me&Piing,'-Bat'
-            
+            # do this node , ie -> A:n
             sc&pi and me&Piing,'-'+sc&pi
         }
     },'ift,D'],
@@ -2430,10 +2433,17 @@ me.Sch_The = &acgt{ return [
             $s = Lc&s
             s != lc&s and debugger
             !ss&z and debugger
-            $Li = ss&z.indexOf(left[offset+1].c.s)
-            Li < 0 and debugger
-            $li = ss&z.indexOf(right[offset+1].c.s)
-            li < 0 and debugger
+            $rl = left[offset+1]
+            $rr = right[offset+1]
+            # look in the E sphere?
+            $Li = ss&z.indexOf(rlc&s)
+            $li = ss&z.indexOf(rrc&s)
+            if (Li<0 || li<0) {
+                # could be found in the E sphere (L%E/rl%E)
+                #  they are likely -all -pis, have no order
+                rls&Pier && rrs&Pier and return 0
+                debugger
+            }
             return li - Li
         }
         elsif (Ls&ball || ls&ball) {
@@ -4595,9 +4605,8 @@ me.Sch_The = &acgt{ return [
         ['hoisten',0.44,&acgtRs{
             $E = Rs&E
             $D = Rs&D
-            # climb from the node's %E
+            # climb from the node's %E (out-E)
             $p = Ry&up
-            s ||= pc&s
             $Ep = ps&E
             # supposing we (eg -seven) are the only encoder
             $t = Epy&thing ||= Cye([Ep.t,2])
@@ -4614,7 +4623,7 @@ me.Sch_The = &acgt{ return [
                     $E = r && rs&E
                     E != s and throw "E!=s"
                     $rp = r && ry&up
-                    $z = r && rc&s
+                    $z = rp && rps&ball && rpc&s
                     
                     # < o p&pi == r%Pier o :p/$s//r
                     if (E && !rs&Piing) {
