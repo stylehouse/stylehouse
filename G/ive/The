@@ -1553,7 +1553,7 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
     ['PiiRun+Piing',0.293,&acgtRs{
         Rs&Sarndat = me&Sarn,<<'',[R]
-            i @Run/-This/-Eight/-seven/**
+            i @Run/-This/-Eight/-seven/**%Ethinging
         
     },'ift,D'],
   
@@ -1754,8 +1754,8 @@ me.Sch_The = &acgt{ return [
         $Names = me&Names_collector,R
         $Saturn = me&Saturn,<<'',[s]
             i @z <-+@mix @n||=@inst
-                i &being_inst $s** $sc={} $mix={}
-            o &locate_inst <- %%inst
+                i &locate_Sarn@2 &being_inst $s** $sc={} $mix={}
+            o <- %%inst
         
         # iterate the middle leg, which always has $sc
         #  $mix goes nowhere unless $s/@z
@@ -1928,11 +1928,16 @@ me.Sch_The = &acgt{ return [
         $R = me&R
         $x = me&Jx,R
         q ||= {}
-        $Sarn = me&Rsc,R,'^^Sarndat'
-        q.st = Sarn
+        # < io climbing: ^^%Sarndat{.path,_dist:pathi}
+        #   that {} taking Sarndat,Sarndat_dist
+        #   and should not usually:
+        # includes everything in between
+        $N = me.cby(R,'^^Sarndat')
+        $Sarn = N[0].sc.Sarndat
+        q.est = {Sarn,Sarn_dist:hak(N)-1}
         # n is being stretched by &Piing_inst relay
         $Saturn = me&Sarg,'Saturn',s,c,q
-        $s = Saturn.show
+        $s = Saturn.c
         x.ro("Sat",{}) and me&Piing,'Satur-hat',{s,dl:4}
         
         return Saturn

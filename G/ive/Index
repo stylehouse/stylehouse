@@ -689,11 +689,11 @@
             # !
             $naming = '(#)?([\\$@])?'+namepi+etc
             $subframesetref = 'c\&s=@(\\w+)'
-            $chasing = '(?:'+subframesetref+'|'+wander+')'
+            $chasing = '(?:'+subframesetref+'|'+wander+')'+scpeel+'?'
             $end = '(?:(?=$|\\/)| )'
             a('^\\/?(?:'+naming+'|'+chasing+')'+end, &{
                 $a = hassignar(p.m,'spaceref,gaze,pi,name,name,pi,name,pi'
-                    +',wander,spaceref,scpeel,csref,wander')
+                    +',wander,spaceref,scpeel,csref,wander,scpeel')
                 # yua
                 a.gaze && a.gaze != '@' and throw "@refs only"
                 if (a.spaceref == '#') {
@@ -748,8 +748,11 @@
                 #  compulse row @2 but not @3
                 g.empty = 1
             }
-            $func
-            a(/^&(\w+) /, &{ func = p.1 })
+            a(/^&(\w+)(?:@(\d+))? /, &func,cv{
+                cv ||= 3
+                ahk(g,'func',cv,func,1)
+            })
+            
        // brackio
             # o <- %%inst
             g.gee == 'o' &&
@@ -814,9 +817,10 @@
                 })
             })
             
-       // $s**, etc # may compulse a row from empty
+       // $s**, etc 
             # i $s** $sc={} $mix={} 
             # we are presented with a bunch of things to input to
+            # may compulse a row from empty
             a(/\/?([\$])?(\w+)(=\{([^\}]*)\})?(\*\*)?( )?/,
                     &gaze,ark,set,set_expr,wander{
                 # < support
@@ -841,15 +845,18 @@
                 gaze != '$' and throw "params only"
             })
             c.fail and return
+            # func@2 for compulse (regardless of any %%inst)
+            #  eg locate on Sarn.path, is about node
+            #   and scpeel, is more scheme than act (%%inst)
+            me&gfunc,g,q,2
+            
        
-       // being %%inst # 
+       // being + %%inst # 
+            # still compulse
             # non-compulsed rows only
             #  we may not be empty, but only have eg $sc,
             #   low level side-hustles like realising who you are
             g.empty and return
-            
-            $path = q.st.path
-            c.show = {N:1,path,before:c.N}
             # < all &Sarg c->g
             $g = c
             # may split more rows
@@ -870,11 +877,18 @@
                 return ax
             }
             # space func
-            if (func) {
-                me&rayplace,c,{},{},q (&ascqM{
+            me&gfunc,g,q,3
+            
+            c.show = c.N
+        }
+        # &Saturn func hooks
+        me.gfunc = &acgtgqi{
+            $h = ahsk(g,'func',i)
+            each func,i h {
+                me&rayplace,g,{},{},q (&ascqM{
                     q.Max = M
                     g.thisq = q
-                    $ax = me&axsimilate,a,{path}
+                    $ax = me&axsimilate,a
                     me&mearg,'Sargfunc_'+func,[g,ax,q]
                     # defaults to keeping this row
                     !q.not and M.push(ax)
@@ -882,31 +896,39 @@
                     delete g.thisq
                 })
             }
-            c.show.N = c.N
         }
        // realisers
         # realise where we are receiving this %%inst
-        # < from Sarndat
-        me.Sargfunc_locate_inst = &acgtgaq{
+        # < as another o leg, see &Saturn, parallel to o <- %%inst
+        #   saves us from running for each %%inst row if there are any...
+        #    i 1 o 0 o 1, perhaps the i 1 can have the o 1 row
+        #     for compulse, even if it goes empty through o 0
+        #      which is really saying do not @3 it, not reality
+        me.Sargfunc_locate_Sarn = &acgtgaq{
             $ax = a
-            $path = ax.path
-            $inst = ax.inst
-            !inst and throw "only read %%inst"
-            !insts&efrom and throw "!inst%efrom"
-            # %%inst++ along path
-            $i = insts&inst*1
-            $here = path[i-1]
+            # scpeel on a node, happens regardless of 
+            $Sarn = q.est.Sarn
+            $path = ax.path = Sarn.path
+            $pathi = ax.pathi = q.est.Sarn_dist
+            pathi *= 1
+            $here = ax.here = path[pathi]
             !here and throw "off the path"
-            ax.here = here
             # < deal an -Eight
             if (!here.slick) {
                 ax.madeup = 1
             }
             # 
-            $next = path[i]
+            $next = path[pathi+1]
             if (next) {
                 ax.next = next
-                !next.subframe and ax.nextinst = i+1
+                !next.subframe and ax.nextinst = pathi+1
+            }
+            
+            
+            $sc = ax.sc
+            !sc and throw "!sc"
+            if (here.scpeel) {
+                ex(sc,peel(here.scpeel))
             }
         }
         # do here!!
@@ -1039,9 +1061,6 @@
                 else {
                     ax.final = '???'
                 }
-            }
-            if (here.scpeel) {
-                ex(sc,peel(here.scpeel))
             }
             !next and return
             if (next.subframe) {
