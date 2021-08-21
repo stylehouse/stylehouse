@@ -565,8 +565,9 @@ me.Sch_Travel = &acgt{ return [
         }
         4s&noelQups = &e{
             ~>4 4%noelQups: e.t
+            # limit to stuff included within Ying**, eg in R%Paving
             $beyond = hak(ec&Qz.filter(n => ny&R.t != 'Pearch'))
-            beyond and 4s&lastnoelQups = e
+            1 || beyond and 4s&lastnoelQups = e
             $Tr = 4s&Travels
             if (Tr) {
                 Tr = me&yfuture,Tr
@@ -4526,7 +4527,7 @@ me.Sch_Travel = &acgt{ return [
     },
         
 // @Introtivity A tool hovers
-   # to feed the outside in (&t notify)
+   # to feed the outside in (&t notify) !
    #  breaks once Fingo reset (e -> v1 spring from somewhere?)
    #  notice everything, a -seven
    #  has things its doing (warm &t cache)
@@ -4542,10 +4543,11 @@ me.Sch_Travel = &acgt{ return [
         #4s&Bthing and me&nu,'B',4s&Bthing
         #Rs&wakeful = 1
         
-        # subscribe:
+        # subscribe:!!!!!!!!
         4s&Travels = s
         # enable:
         $Cating = me&ja,R,'Intro,Cat'
+        Cating ||= xs&Ying.t == 'Thy'
         Cating ||= x.ro("Intro?",{})
         !Cating and delete 4s&lastnoelQups; return
         # for changes in:
@@ -4557,7 +4559,7 @@ me.Sch_Travel = &acgt{ return [
     me.IntroelQups = &acgtRse{
         ec&looki ||= 0
         ec&looki ++
-        ~>5 Intro..:
+        ~>5 Intro...:
         $what = me&rollbs,R,'tdige',{}
         me&nu,"e-thing",e
         each in ec&Qz {
@@ -4569,9 +4571,10 @@ me.Sch_Travel = &acgt{ return [
             
             # < if Cat, check into @Aearch for its version?!
             what[n.t] == ns&dige and return ~>3 goated: n.t
+            ny&R.t == 'Pearch' and me&tc,se,"@Pearch",'y'; continue
             
             #me&mnu,se,n
-            # K%Pave or %SummerCat/%Jrunto !
+            # K%Pave or %SummerCat/%Jrunto !!
             $r = ny&R
             if (rs&Pave || rc&Cat) {
                 if (rc&Cat) {
