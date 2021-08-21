@@ -159,8 +159,6 @@ me.Sch_Travel = &acgt{ return [
     ['Thyer','66',&acgtRs{
         # this sense is X..x merged with its acquisition (ax|arkN etc)
         $x = me&Jx
-        $Intro = xs&Introtivity
-        Intro and me&nodei,R,Intro,{Introtiv:1,t:'Travel'}
         $noq = &{
             $Y = me.cbu(R,'Ying').sc.Ying
             delete Ys&quiet_wakers_too_recently
@@ -191,7 +189,8 @@ me.Sch_Travel = &acgt{ return [
     ['ThyerYing','66',&acgtRs{
         $x = me&Jx
         
-        me&tc,"TheLatestAs"
+        $Intro = xs&Introtivity
+        Intro and me&nodei,R,Intro,{Introtiv:1,t:'Travel'}
         
         $s = 4s&interestoYing
         !s and return me&tc,"awaits"
@@ -643,7 +642,7 @@ me.Sch_Travel = &acgt{ return [
     me.IntroelQups = &acgtRse{
         ec&looki ||= 0
         ec&looki ++
-        ~>5 Intro............m..:
+        ~>5 Intro............:
         $what = me&rollbs,R,'tdige',{}
         #me&nu,"e-thing",e
         each iQ ec&Qz {
@@ -682,6 +681,7 @@ me.Sch_Travel = &acgt{ return [
                 !hak(z) and avoid("!sub"); continue
             }
             else {
+                r.t == 'Wayout' and return ~>5 skipWayout: Q.t
                 debugger
             }
             
@@ -700,36 +700,17 @@ me.Sch_Travel = &acgt{ return [
                 what[Q.t] = Qs&dige
                 me&elvis,R,'elIntro',{wake:zy&R,e:Q}
             }
+            # one sendit() only
             what[Q.t] == Qs&dige and ~>3 already: Q.t
             else {
-                # but first, do the &t,r,Q out of time
+                # first, do the &t,r,Q out of time
                 # < !? isn't it already
                 0 and me&Outoftime_t,R,r,e,Q,sendit
                 else sendit()
             }
             
-            
-                # < from the first of the 2 requests to /wjs/
-                $str = Ps&string
-                if (Pc&of == 'wjs') {
-                    $Live = Pc&s
-                    Live and str = Livec&s
-                }
-                str == null and continue
-                $la = ahsk(s,'y','versh',Q.t)
-                $las = ahsk(s,'y','vershs',Q.t)
-                ah(s,'y','versh',Q.t,P)
-                ah(s,'y','vershs',Q.t,str)
-                
-                $Pis = Cye(['i',1,{},{string:str}])
-                la and me&diffany,R,Pis,Cye(['l',1,{},{string:las}]),{se}
-                la && la == P and me&tc,"SameP"
-                $line = str.split("\n")[0]
-                
-                ey&Travelsed and continue
-                # see &elvis:elIntro above !
+            0 and me&diffPs,R,Q,P,s,se
         }
-        ey&Travelsed = 1
         #4s&lastnoQup and me&nu,'4s&lastnoQup',4s&lastnoQup
         #4s&lastnoelQups and me&nu,'4s&lastnoelQups',4s&lastnoelQups
     }
@@ -754,6 +735,34 @@ me.Sch_Travel = &acgt{ return [
         me&t,r,Q
         delete T.asyncQs
         ac(e,'gotup',Q)
+    }
+    # diff code changes as they come in!
+    # < rather bad diffsplay
+    me.diffPs = &acgtRQPs,se{
+        # not extractable from <script src...>
+        # from the first of the 2 requests to /wjs/
+        $str = Ps&string
+        if (Pc&of == 'wjs') {
+            $Live = Pc&s
+            Live and str = Livec&s
+        }
+        $io = &i{ return (i=='i'?ah:ahsk)(s,'y','diffPs',...[...arguments].slice(1)) }
+        str == null and return
+        io('o','nows') == str and 'same'
+        else {
+            io('i','wass',io('o','nows'))
+            io('i','nows',str)
+        }
+        $las = io('o','wass')
+        !las and return me&tc,"first!"
+        $nonfirstline = &s{
+            return s.replace(/^.+?\n/,'')
+        }
+        str = nonfirstline(str)
+        las = nonfirstline(las)
+        $Pis = Cye(['i',1,{},{string:str}])
+        $las = Cye(['l',1,{},{string:las}])
+        me&diffany,R,Pis,las,{se}
     }
     },
     
