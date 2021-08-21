@@ -155,10 +155,12 @@ me.Sch_Travel = &acgt{ return [
         rs&lastone = 1
     },'ift,D'],
     
-  // @Thyer/@ThyerYing - in time
+  // @Thyer/@ThyerYing - in time!
     ['Thyer','66',&acgtRs{
         # this sense is X..x merged with its acquisition (ax|arkN etc)
         $x = me&Jx
+        $Intro = xs&Introtivity
+        Intro and me&nodei,R,Intro,{Introtiv:1,t:'Travel'}
         $noq = &{
             $Y = me.cbu(R,'Ying').sc.Ying
             delete Ys&quiet_wakers_too_recently
@@ -188,8 +190,6 @@ me.Sch_Travel = &acgt{ return [
     
     ['ThyerYing','66',&acgtRs{
         $x = me&Jx
-        $Intro = xs&Introtivity
-        Intro and me&nodei,R,Intro,{Introtiv:1,t:'Travel'}
         
         me&tc,"TheLatestAs"
         
@@ -643,25 +643,26 @@ me.Sch_Travel = &acgt{ return [
     me.IntroelQups = &acgtRse{
         ec&looki ||= 0
         ec&looki ++
-        ~>5 Intro...........m..:
+        ~>5 Intro............m..:
         $what = me&rollbs,R,'tdige',{}
         #me&nu,"e-thing",e
-        each in ec&Qz {
-            me&nu,"Q-thing",n
+        each iQ ec&Qz {
+            me&nu,"Q-thing",Q
+            $P = Qs&P
             $se = 
             n t 76  %dib
-            n of 1 $s:nc&of %c:G
+            n of 1 $s:Qc&of %c:G
             me&walls,se,'b:2.2h5';
-            me&tcl,se,n.t,'b'
-            $dige = ns&P.sc.dige
-            me&tcl,se,dige,'6y'
+            me&tc,se,Q.t,'b'
+            me&tc,se,Ps&dige,'6y'
+            Qs&dige && Qs&dige != Ps&dige and me&tc,se,",Q#"+Qs&dige,'6y'
             
             # < if Cat, check into @Aearch for its version?!!
-            what[n.t] == dige and return ~>3 goated: n.t
+            what[Q.t] == Ps&dige and return ~>3 goated: Q.t
             $avoid = &t{ me&tc,se,t,'y' .sc.ma=0.5 }
             
             # $r = who re-requests &t pre-waking
-            $r = ny&R
+            $r = Qy&R
             r.t == 'Pearch' and avoid("@Pearch")
             # $z = who to wake
             if (rs&Pave) {
@@ -675,8 +676,8 @@ me.Sch_Travel = &acgt{ return [
             }
             elsif (r.t == "Pearch") {
                 # the weld keeps warm
-                !nc&of.startsWith('w') and avoid("of?"); continue
-                $z = me&jaa,R,{Introtiv:1,t:n.t}
+                !Qc&of.startsWith('w') and avoid("of?"); continue
+                $z = me&jaa,R,{Introtiv:1,t:Q.t}
                     .map(n => ns&efrom)
                 !hak(z) and avoid("!sub"); continue
             }
@@ -691,52 +692,38 @@ me.Sch_Travel = &acgt{ return [
             hak(z) > 1 and debugger
             $z = z[0]
             
-            # we can send it here!!!!
+            # we can send it here!!!!!!!!!!
             $tp = me&tpath,z
             me&tc,se,"->"+tp
             $sendit = &{
                 ~>4 Qwake: tp
-                me&elvis,R,'elIntro',{wake:zy&R,e:n}
+                what[Q.t] = Qs&dige
+                me&elvis,R,'elIntro',{wake:zy&R,e:Q}
+            }
+            what[Q.t] == Qs&dige and ~>3 already: Q.t
+            else {
+                # but first, do the &t,r,Q out of time
+                # < !? isn't it already
+                0 and me&Outoftime_t,R,r,e,Q,sendit
+                else sendit()
             }
             
-            # but first, do the &t,r,Q out of time
-            # < !? isn't it already
-            ac(e,'wantup',n)
-            if (!es&gotup || !es&gotup.includes(n)) {
-                ~>5 wantup: n.t
-                if (0 && !es&gotup) {
-                    # just this, then wake:z
-                    #  would have %Paving call &t, go async
-                    #  bothering Gump with empty then something again
-                    # < not nodei between steps until all ready?
-                    ns&Want_Check = 1
-                    nc&ready_instead = &{
-                        !ns&dige and return ~>5 digeless-ready: n.t
-                        #what[n.t] == ns&dige and return ~>3 goatied: n.t
-                        delete nc&ready_instead
-                        ~>5 goatready: n.t
-                        what[n.t] = ns&dige
-                        
-                        sendit()
-                    }
-                    T.asyncQs = [];
-                    me&t,r,n
-                    delete T.asyncQs
-                    ac(e,'gotup',n)
-                }
-            }
-                        sendit()
-                
+            
                 # < from the first of the 2 requests to /wjs/
-                $str = ns&P.sc.string
+                $str = Ps&string
+                if (Pc&of == 'wjs') {
+                    $Live = Pc&s
+                    Live and str = Livec&s
+                }
                 str == null and continue
-                $la = ahsk(s,'y','versh',n.t)
-                $las = ahsk(s,'y','vershs',n.t)
-                ah(s,'y','versh',n.t,ns&P)
-                ah(s,'y','vershs',n.t,str)
+                $la = ahsk(s,'y','versh',Q.t)
+                $las = ahsk(s,'y','vershs',Q.t)
+                ah(s,'y','versh',Q.t,P)
+                ah(s,'y','vershs',Q.t,str)
                 
-                la and me&diffany,R,ns&P,Cye(['l',1,{},{string:las}]),{se}
-                la && la == ns&P and me&tc,"SameP"
+                $Pis = Cye(['i',1,{},{string:str}])
+                la and me&diffany,R,Pis,Cye(['l',1,{},{string:las}]),{se}
+                la && la == P and me&tc,"SameP"
                 $line = str.split("\n")[0]
                 
                 ey&Travelsed and continue
@@ -745,6 +732,28 @@ me.Sch_Travel = &acgt{ return [
         ey&Travelsed = 1
         #4s&lastnoQup and me&nu,'4s&lastnoQup',4s&lastnoQup
         #4s&lastnoelQups and me&nu,'4s&lastnoelQups',4s&lastnoelQups
+    }
+    me.Outoftime_t = &acgtRreQ,sendit{
+        ac(e,'wantup',n)
+        !es&gotup && es&gotup.includes(Q) and return
+        ~>5 wantup: Q.t
+        # just this, then wake:z
+        #  would have %Paving call &t, go async
+        #  bothering Gump with empty then something again
+        # < not nodei between steps until all ready?
+        Qs&Want_Check = 1
+        Qc&ready_instead = &{
+            !Qs&dige and return ~>5 digeless-ready: Q.t
+            #what[Q.t] == ns&dige and return ~>3 goatied: Q.t
+            delete Qc&ready_instead
+            ~>5 goatready: Q.t
+
+            sendit()
+        }
+        T.asyncQs = [];
+        me&t,r,Q
+        delete T.asyncQs
+        ac(e,'gotup',Q)
     }
     },
     
