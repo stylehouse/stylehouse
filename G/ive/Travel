@@ -155,7 +155,7 @@ me.Sch_Travel = &acgt{ return [
         rs&lastone = 1
     },'ift,D'],
     
-  // @Thyer/@ThyerYing - in time!
+  // @Thyer/@ThyerYing - in time!!
     ['Thyer','66',&acgtRs{
         # this sense is X..x merged with its acquisition (ax|arkN etc)
         $x = me&Jx
@@ -319,7 +319,6 @@ me.Sch_Travel = &acgt{ return [
     }
     me.brackstract_out = &acgtR{
         $D = Rs&stractia ||= {A:R}
-        $Db = Rs&stractiab ||= {A:R}
         # or all: D/astract/$n=Y
         fi&Xsomp,D,{astract:1} .map(&a,Yi{
             $Y = a.n
@@ -338,7 +337,7 @@ me.Sch_Travel = &acgt{ return [
                     #me&tc,""+dis(aa),6 .sc.ma=0.4
 
                     each ia N {
-                        me&boxcap,"a:",'1b' (&m{
+                        me&boxcap,"a:",'5b' (&m{
                             ms&ml = 0.6
                             $n = a.n
                             me&tsc,"nsc",""+dis(n.sc),6
@@ -354,7 +353,6 @@ me.Sch_Travel = &acgt{ return [
             }
             #me&nu,'ZealaY',Y
         })
-        me&nu,'ZealaDb',Db
         me&nu,'ZealaD',D
         
         # info relating to nodes written up first
@@ -622,17 +620,18 @@ me.Sch_Travel = &acgt{ return [
         me&reaw,R,'Introtivity'
         $x = me&Jx,R
         s&bg = 312
+        # < wants to accept anything from anywhere
         #4s&Athing and me&nu,'A',4s&Athing
         #4s&Bthing and me&nu,'B',4s&Bthing
         #Rs&wakeful = 1
         
-        # subscribe:!!!!!!!!
+        # subscribe:
         4s&Travels = s
-        # enable:
-        $Cating = me&ja,R,'Intro,Cat'
-        Cating ||= xs&Ying.t == 'Thy'
-        Cating ||= x.ro("Intro?",{})
-        !Cating and delete 4s&lastnoelQups; return
+            # & enable:
+            $Cating = me&ja,R,'Intro,Cat'
+            Cating ||= xs&Ying.t == 'Thy'
+            Cating ||= x.ro("Intro?",{})
+            !Cating and delete 4s&lastnoelQups; return
         # for changes in:
         $e = 4s&lastnoelQups
         !e and return
@@ -642,7 +641,7 @@ me.Sch_Travel = &acgt{ return [
     me.IntroelQups = &acgtRse{
         ec&looki ||= 0
         ec&looki ++
-        ~>5 Intro............:
+        ~>5 Intro.........:
         $what = me&rollbs,R,'tdige',{}
         #me&nu,"e-thing",e
         each iQ ec&Qz {
@@ -658,9 +657,11 @@ me.Sch_Travel = &acgt{ return [
             
             # < if Cat, check into @Aearch for its version?!!
             what[Q.t] == Ps&dige and return ~>3 goated: Q.t
+            ec&goated and return ~>3 goated: Q.t
+            
             $avoid = &t{ me&tc,se,t,'y' .sc.ma=0.5 }
             
-            # $r = who re-requests &t pre-waking
+            # $r = who re-requests &t pre-waking!!
             $r = Qy&R
             r.t == 'Pearch' and avoid("@Pearch")
             # $z = who to wake
@@ -682,6 +683,7 @@ me.Sch_Travel = &acgt{ return [
             }
             else {
                 r.t == 'Wayout' and return ~>5 skipWayout: Q.t
+                rs&Peace == 9 and return ~>5 skipNiner: Q.t
                 debugger
             }
             
@@ -692,16 +694,17 @@ me.Sch_Travel = &acgt{ return [
             hak(z) > 1 and debugger
             $z = z[0]
             
-            # we can send it here!!!!!!!!!!
+            # we can send it here!!!!!!!!!!!!!
             $tp = me&tpath,z
             me&tc,se,"->"+tp
             $sendit = &{
                 ~>4 Qwake: tp
-                what[Q.t] = Qs&dige
+                what[Q.t] = Ps&dige
+                ec&goated = 1
                 me&elvis,R,'elIntro',{wake:zy&R,e:Q}
             }
             # one sendit() only
-            what[Q.t] == Qs&dige and ~>3 already: Q.t
+            what[Q.t] == Ps&dige and ~>3 already: Q.t
             else {
                 # first, do the &t,r,Q out of time
                 # < !? isn't it already
@@ -755,14 +758,42 @@ me.Sch_Travel = &acgt{ return [
         }
         $las = io('o','wass')
         !las and return me&tc,"first!"
-        $nonfirstline = &s{
-            return s.replace(/^.+?\n/,'')
-        }
-        str = nonfirstline(str)
-        las = nonfirstline(las)
-        $Pis = Cye(['i',1,{},{string:str}])
-        $las = Cye(['l',1,{},{string:las}])
+        
+        $red = {a:str,b:las,nofirstline:1}
+        me&reducefromtheedges,red
+        $Pis = Cye(['i',1,{},{string:red.a}])
+        $las = Cye(['l',1,{},{string:red.b}])
         me&diffany,R,Pis,las,{se}
+    }
+    me.reducefromtheedges = &acgtc{
+        if (c.nofirstline) {
+            $nonfirstline = &s{
+                return s.replace(/^.+?\n/,'')
+            }
+            c.a = nonfirstline(c.a)
+            c.b = nonfirstline(c.b)
+        }
+        $a = c.a.split("\n")
+        $b = c.b.split("\n")
+        
+        $trimsame = &ab{
+            while (a[0] == b[0]) {
+                a.shift(); b.shift()
+                # keep some context leading up to it
+                #  supposedly the first line of each indent going out
+                #  not very chunks
+                a.length < 100 and return
+            }
+        }
+        # reverse first, so we have context leading up to it
+        a.reverse()
+        b.reverse()
+        trimsame(a,b)
+        a.reverse()
+        b.reverse()
+        trimsame(a,b)
+        c.a = a.join("\n")+"\n"
+        c.b = b.join("\n")+"\n"
     }
     },
     
