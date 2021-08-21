@@ -1,4 +1,4 @@
-# pile movie!!!
+# pile movie!!!!
 # < brackolosim: draw 
 # < Yingu pile scollto
 me.Sch_Travel = &acgt{ return [
@@ -155,6 +155,7 @@ me.Sch_Travel = &acgt{ return [
         rs&lastone = 1
     },'ift,D'],
     
+  // @Thyer/@ThyerYing - in time
     ['Thyer','66',&acgtRs{
         # this sense is X..x merged with its acquisition (ax|arkN etc)
         $x = me&Jx
@@ -186,8 +187,15 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
     
     ['ThyerYing','66',&acgtRs{
+        $x = me&Jx
+        $Intro = xs&Introtivity
+        Intro and me&nodei,R,Intro,{Introtiv:1,t:'Travel'}
+        
+        me&tc,"TheLatestAs"
+        
         $s = 4s&interestoYing
         !s and return me&tc,"awaits"
+        
         
         me&brackstract,ss&X,{k:'step'}
 
@@ -248,6 +256,7 @@ me.Sch_Travel = &acgt{ return [
             #  reversing out, should find the latest:
             # < more robust lookup. when parts are mysteries, fail
             $st = S("i $D/stract",D)
+            S("i $D/stral",D)
             # < morekeys later
             #   find things not covered by abstractions:
             # < search by all k, rather that specifics?
@@ -634,60 +643,91 @@ me.Sch_Travel = &acgt{ return [
     me.IntroelQups = &acgtRse{
         ec&looki ||= 0
         ec&looki ++
-        ~>5 Intro...:
+        ~>5 Intro...........m..:
         $what = me&rollbs,R,'tdige',{}
-        me&nu,"e-thing",e
+        #me&nu,"e-thing",e
         each in ec&Qz {
+            me&nu,"Q-thing",n
             $se = 
             n t 76  %dib
-            n of  $s:nc&of %c:G
+            n of 1 $s:nc&of %c:G
             me&walls,se,'b:2.2h5';
             me&tcl,se,n.t,'b'
+            $dige = ns&P.sc.dige
+            me&tcl,se,dige,'6y'
             
-            # < if Cat, check into @Aearch for its version?!
-            what[n.t] == ns&dige and return ~>3 goated: n.t
-            ny&R.t == 'Pearch' and me&tc,se,"@Pearch",'y'; continue
+            # < if Cat, check into @Aearch for its version?!!
+            what[n.t] == dige and return ~>3 goated: n.t
+            $avoid = &t{ me&tc,se,t,'y' .sc.ma=0.5 }
             
-            #me&mnu,se,n
-            # K%Pave or %SummerCat/%Jrunto !!
+            # $r = who re-requests &t pre-waking
             $r = ny&R
-            if (rs&Pave || rc&Cat) {
-                if (rc&Cat) {
-                    # might be in a %Doming Yingbal
-                    r = me.cbu(r,'Jrunto')
-                    $z = r
-                }
-                else {
-                    $z = ry&up
-                }
-                z = zc&s
-                $tp = me&tpath,z
-                me&tc,"->"+tp
-                
-                ac(e,'wantup',n)
-                if (!es&gotup || !es&gotup.includes(n)) {
-                    ~>5 wantup: n.t
-                    if (!es&gotup) {
-                        # just this, then wake:z
-                        #  would have %Paving call &t, go async
-                        #  bothering Gump with empty then something again
-                        # < not nodei between steps until all ready?
-                        ns&Want_Check = 1
-                        nc&ready_instead = &{
-                            !ns&dige and return ~>5 digeless-ready: n.t
-                            #what[n.t] == ns&dige and return ~>3 goatied: n.t
-                            delete nc&ready_instead
-                            ~>5 goatready: n.t
-                            what[n.t] = ns&dige
-                            me&elvis,R,'elIntro',{wake:zy&R,e:n}
-                        }
-                        T.asyncQs = [];
-                        me&t,r,n
-                        delete T.asyncQs
-                        ac(e,'gotup',n)
+            r.t == 'Pearch' and avoid("@Pearch")
+            # $z = who to wake
+            if (rs&Pave) {
+                # Know...K/R%Pave
+                $z = ry&up
+            }
+            elsif (rc&Cat) {
+                # %SummerCat/%Jrunto/...a %Doming Yingbal
+                # <!? we switch r away from who did the &t?
+                $z = r = me.cbu(r,'Jrunto')
+            }
+            elsif (r.t == "Pearch") {
+                # the weld keeps warm
+                !nc&of.startsWith('w') and avoid("of?"); continue
+                $z = me&jaa,R,{Introtiv:1,t:n.t}
+                    .map(n => ns&efrom)
+                !hak(z) and avoid("!sub"); continue
+            }
+            else {
+                debugger
+            }
+            
+            !z and debugger
+            $wasz = z
+            !isar(z) and z = [zc&s]
+            # < pack many ec&wake
+            hak(z) > 1 and debugger
+            $z = z[0]
+            
+            # we can send it here!!!!
+            $tp = me&tpath,z
+            me&tc,se,"->"+tp
+            $sendit = &{
+                ~>4 Qwake: tp
+                me&elvis,R,'elIntro',{wake:zy&R,e:n}
+            }
+            
+            # but first, do the &t,r,Q out of time
+            # < !? isn't it already
+            ac(e,'wantup',n)
+            if (!es&gotup || !es&gotup.includes(n)) {
+                ~>5 wantup: n.t
+                if (0 && !es&gotup) {
+                    # just this, then wake:z
+                    #  would have %Paving call &t, go async
+                    #  bothering Gump with empty then something again
+                    # < not nodei between steps until all ready?
+                    ns&Want_Check = 1
+                    nc&ready_instead = &{
+                        !ns&dige and return ~>5 digeless-ready: n.t
+                        #what[n.t] == ns&dige and return ~>3 goatied: n.t
+                        delete nc&ready_instead
+                        ~>5 goatready: n.t
+                        what[n.t] = ns&dige
+                        
+                        sendit()
                     }
+                    T.asyncQs = [];
+                    me&t,r,n
+                    delete T.asyncQs
+                    ac(e,'gotup',n)
                 }
+            }
+                        sendit()
                 
+                # < from the first of the 2 requests to /wjs/
                 $str = ns&P.sc.string
                 str == null and continue
                 $la = ahsk(s,'y','versh',n.t)
@@ -695,13 +735,12 @@ me.Sch_Travel = &acgt{ return [
                 ah(s,'y','versh',n.t,ns&P)
                 ah(s,'y','vershs',n.t,str)
                 
-                #la and me&diffany,R,ns&P,Cye(['l',1,{},{string:las}]),{se}
+                la and me&diffany,R,ns&P,Cye(['l',1,{},{string:las}]),{se}
                 la && la == ns&P and me&tc,"SameP"
                 $line = str.split("\n")[0]
                 
                 ey&Travelsed and continue
-                # see &elvis:elIntro above
-            }
+                # see &elvis:elIntro above !
         }
         ey&Travelsed = 1
         #4s&lastnoQup and me&nu,'4s&lastnoQup',4s&lastnoQup
