@@ -78,7 +78,7 @@ me.Sch_Travel = &acgt{ return [
         
         4s&intere and me&nu,'intere',4s&intere
     },'ift,D'],
-  // %Yingout
+  // < %Yingout
     # After Ying_8
     ['ball+Yingout','85',&acgtRs{
         $x = me&Yingu_Jx
@@ -156,7 +156,16 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
     
   // @Thyer/@ThyerYing - in time!!
+    ['Thyer','2969',&acgtRs{
+        me&haveextranodes,R,s
+    },'ift,D'],
     ['Thyer','66',&acgtRs{
+        #me&vaguelywantsomenodes,R,s
+        me&baleg,'ThyerYing'
+    },'ift,D'],
+    &{
+    # fabricate Yingate with a bunch of &wants 
+    me.vaguelywantsomenodes = &acgtRs{
         # this sense is X..x merged with its acquisition (ax|arkN etc)
         $x = me&Jx
         $noq = &{
@@ -181,21 +190,55 @@ me.Sch_Travel = &acgt{ return [
             }
             ~>4 chao-bunch: joint(bunch)
             bunch.map(n => me&wants,R,"chaosteps",n )
-            
         }
-        me&baleg,'ThyerYing'
-    },'ift,D'],
-    
+    }
+    me.haveextranodes = &acgtRs{
+        $x = me&Jx
+        $Ying = xs&Ying
+        $More = me&fiu,Ying,'More',7
+        # using &Pii for path name input, not making %Piing
+        me&Pii,More,'Firstly/The'
+        me&Pii,More,'Firstly/Magic'
+        me&Pii,More,'Secondly'
+        me&Pii,More,'Finally'
+    }
+    # mock Ying-gate
+    me.Thyergate = &acgtRs{
+        $x = me&Jx
+        $Ying = xs&Ying
+        $wou = Cye(["Thyinggate",1])
+        wouy&R = R
+        $ha = s => me&bracki,R,wou,s
+        ha({awoke:"tothings"})
+        
+        $More = me&fiu,Ying,'More',7
+        ha({step:me&Pii,More,'Finally' })
+        ha({step:me&fiu,Ying,'Less',7 })
+        ha({step:More})
+        ha({node:me&Pii,More,'Firstly/The' })
+        ha({node:me&Pii,More,'Firstly/Magic' })
+        ha({node:me&Pii,More,'Firstly/Secondly' })
+        return wou
+    }
+    },
+    # main thing: $gate -> &brackstract
     ['ThyerYing','66',&acgtRs{
         $x = me&Jx
         
         $Intro = xs&Introtivity
         Intro and me&nodei,R,Intro,{Introtiv:1,t:'Travel'}
         
-        $s = 4s&interestoYing
-        !s and return me&tc,"awaits"
-        
-        
+        if (0) {
+            # the latest Ying-gate with >1 steps
+            $s = 4s&interestoYing
+            !s and return me&tc,"awaits"
+        }
+        else {
+            $s = me&Thyergate,R,s
+            ss&X.A = R
+        }
+        !ss&X and throw "!X"
+        #return;
         me&brackstract,ss&X,{k:'step'}
 
         me&brackstract,ss&X,{k:'node'}
@@ -235,7 +278,7 @@ me.Sch_Travel = &acgt{ return [
         #me&nu,'Yingu_Jx',x.sc
         return x
     }
-    # makes such expressions of a Km
+    # makes such expressions of a Km!
     # s describes info of expression
     me.brackstract = &acgtXsc{
         $R = me&R
@@ -684,7 +727,9 @@ me.Sch_Travel = &acgt{ return [
             else {
                 r.t == 'Wayout' and return ~>5 skipWayout: Q.t
                 rs&Peace == 9 and return ~>5 skipNiner: Q.t
+                !me.cbu(r,'Ying') and return ~>5 aboveYing?: joint(me.cby(r))
                 debugger
+                return
             }
             
             !z and debugger
