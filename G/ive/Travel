@@ -50,7 +50,6 @@ me.Sch_Travel = &acgt{ return [
         if (!Rc&N.includes(Yingu)) {
             # make it happen anyway
             n Yingu  R %Abodis,Yingu,Peace:1
-            4s&intere = Yingu
         }
     },'ift,D,sleeping'],
     # n Yingu  R %Abodis,Yingu,Peace:1
@@ -76,7 +75,35 @@ me.Sch_Travel = &acgt{ return [
         # -pile wriggles
         me&baleg,"Yingin"
         
-        4s&intere and me&nu,'intere',4s&intere
+  // Abodis+Yingu
+        me&rollbs,R,'seekto'
+        # who we art
+        $f = Rs&Abodis
+        $dish = &{ahk(f,...arguments) };
+        
+        # Loc/** to %seekto
+        dish('o','Codon_click',&fTs{
+            $D = Cye([s.t,1]);
+            # < Codon version puts point on trail
+            Rs&seekto = D;
+            ~>2 Seek: ki(D,2)
+            # as very fast 
+            T.feng = 1;
+        });
+        # from %Abodis f.22 when R%seekto:D
+        dish('o','Codon_point',&fTD{
+            $v = f.M.filter(n => D.t==n.t)[0];
+            !v and ~>2 seek!found: D.t
+            !v and return
+
+            $at = f.at;
+            $on = f.on;
+            
+            $scroll = on.scrollTop + vs&top
+            on.scrollTop = dec(scroll)
+            ~>7 sunk: ki(D,2)
+            delete Rs&seekto;
+        });
     },'ift,D'],
   // < %Yingout
     # After Ying_8
@@ -112,9 +139,6 @@ me.Sch_Travel = &acgt{ return [
         # X by &bracki (ish), make &Shx_isX
         X.A ||= s
         Rs&interesting and 4s&interestoYing = s
-        # i undomed brack about how
-        # < GOING in favour of R%stractia?
-        me&haja
         
         me&boxcap,R.t,'b' (&{
             # whole olosim
@@ -144,15 +168,34 @@ me.Sch_Travel = &acgt{ return [
                 me&tc,joint(haks(ks),',')
             })
         })
-        # declare a syntax construct:
-        #   %%step is expressed,
-        #    then %%node inside
-        #    then any %%other stuff, may hang off
     },'ift,D'],
     ['ball+Yingout','86',&acgtRs{
         $r = me&ioty,R,'interesting' .pop()
-        !r and return me&tc,"-log:none-nodes>1"
+        !r and return
         rs&lastone = 1
+    },'ift,D'],
+  // < %Yingin per ~nodelist
+    ['ball+Yingin','85',&acgtRs{
+        # standard node toc, Ying** reachable
+        $YingR = me.cbu(R,'Ying')
+        $f = me&Rsc,R,'^^Abodis'
+        me&boxcap,"4/*/*:",'5b' (&m{
+            my&label.c.not = 1
+            me&ioty,YingR .map(&r{
+                !rs&ball and return
+                $s = rc&s
+                me&boxcap,"S:",'1b' (&m{
+                    #ms&ml = 0.6
+                    me&ty,s.t (&{
+                        ~>5 workfor: s.t
+                        f.fengi(T,'Codon_click',s);
+                        T.wake = 'not';
+                    })
+                    #me&tsc,"nsc",""+dis(n.sc),6
+                })
+            })
+        })
+        ~>5 hiere: s.t
     },'ift,D'],
     
   // @Thyer/@ThyerYing - in time!!
@@ -212,7 +255,8 @@ me.Sch_Travel = &acgt{ return [
         ha({awoke:"tothings"})
         
         $More = me&fiu,Ying,'More',7
-        ha({step:me&Pii,More,'Finally' })
+        ha({node:me&Pii,More,'Finally' })
+        ha({node:me&Pii,More,'Firstly' })
         ha({step:me&fiu,Ying,'Less',7 })
         ha({step:More})
         ha({node:me&Pii,More,'Firstly/The' })
@@ -220,7 +264,20 @@ me.Sch_Travel = &acgt{ return [
         ha({node:me&Pii,More,'Firstly/Secondly' })
         return wou
     }
+    me._Moreism = &acgtRs{
+        me&inode,R
+        me&acting,R,'Moreism'
+        me&bin,'Moreism'
+        me&reaw,R,'Moreism'
+    }
     },
+    ['Moreism','291',&acgtRs{
+        me&_Moreism,R,s
+    },'ift,D'],
+    ['Moreism','296',&acgtRs{
+        me&ha,R,{Some:23}
+    },'ift,D'],
+  // @ThyerYing main
     # main thing: $gate -> &brackstract
     ['ThyerYing','66',&acgtRs{
         $x = me&Jx
@@ -235,7 +292,8 @@ me.Sch_Travel = &acgt{ return [
         }
         else {
             $s = me&Thyergate,R,s
-            ss&X.A = R
+            # X by &bracki (ish), make &Shx_isX
+            ss&X.A = s
         }
         !ss&X and throw "!X"
         #return;
@@ -282,7 +340,7 @@ me.Sch_Travel = &acgt{ return [
     # s describes info of expression
     me.brackstract = &acgtXsc{
         $R = me&R
-        $D = Rs&stractia ||= {A:R}
+        $D = Rs&stracts ||= {A:R}
         # instances of eg %%step
         $Y = Rs&astract = {A:R}
         
@@ -361,7 +419,7 @@ me.Sch_Travel = &acgt{ return [
         })
     }
     me.brackstract_out = &acgtR{
-        $D = Rs&stractia ||= {A:R}
+        $D = Rs&stracts ||= {A:R}
         # or all: D/astract/$n=Y
         fi&Xsomp,D,{astract:1} .map(&a,Yi{
             $Y = a.n
