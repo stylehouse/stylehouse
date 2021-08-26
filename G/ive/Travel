@@ -105,7 +105,8 @@ me.Sch_Travel = &acgt{ return [
             delete Rs&seekto;
         });
     },'ift,D'],
-  // < %Yingout
+    
+  // < %Yingout -gate visits
     # After Ying_8
     ['ball+Yingout','85',&acgtRs{
         $x = me&Yingu_Jx
@@ -174,8 +175,9 @@ me.Sch_Travel = &acgt{ return [
         !r and return
         rs&lastone = 1
     },'ift,D'],
-  // < %Yingin per ~nodelist
+  // < %Yingin node list
     ['ball+Yingin','85',&acgtRs{
+        
         # standard node toc, Ying** reachable
         $YingR = me.cbu(R,'Ying')
         $f = me&Rsc,R,'^^Abodis'
@@ -205,6 +207,7 @@ me.Sch_Travel = &acgt{ return [
         #me&vaguelywantsomenodes,R,s
         me&baleg,'ThyerYing'
     },'ift,D'],
+    # those other particles 
     &{
     # fabricate Yingate with a bunch of &wants 
     me.vaguelywantsomenodes = &acgtRs{
@@ -244,34 +247,10 @@ me.Sch_Travel = &acgt{ return [
         me&Pii,More,'Secondly'
         me&Pii,More,'Finally'
     }
-    # mock Ying-gate
-    me.Thyergate = &acgtRs{
-        $x = me&Jx
-        $Ying = xs&Ying
-        $wou = Cye(["Thyinggate",1])
-        wouy&R = R
-        $ha = s => me&bracki,R,wou,s
-        ha({awoke:"tothings"})
-        
-        $More = me&fiu,Ying,'More',7
-        ha({node:me&Pii,More,'Finally' })
-        ha({node:me&Pii,More,'Firstly' })
-        ha({step:me&fiu,Ying,'Less',7 })
-        ha({step:More})
-        ha({node:me&Pii,More,'Firstly/The' })
-        ha({node:me&Pii,More,'Firstly/Magic' })
-        ha({node:me&Pii,More,'Firstly/Secondly' })
-        return wou
-    }
-    me._Moreism = &acgtRs{
-        me&inode,R
-        me&acting,R,'Moreism'
-        me&bin,'Moreism'
-        me&reaw,R,'Moreism'
-    }
     },
     ['Moreism','291',&acgtRs{
-        me&_Moreism,R,s
+        me&bin
+        me&acting
     },'ift,D'],
     ['Moreism','296',&acgtRs{
         me&ha,R,{Some:23}
@@ -287,14 +266,16 @@ me.Sch_Travel = &acgt{ return [
         if (0) {
             # the latest Ying-gate with >1 steps
             $s = 4s&interestoYing
-            !s and return me&tc,"awaits"
         }
         else {
-            $s = me&Thyergate,R,s
+            $s = me&mock_Thyergate,R,s
             # X by &bracki (ish), make &Shx_isX
-            ss&X.A = s
+            ss&X.A = R
         }
+        !s and return me&tc,"awaits"
         !ss&X and throw "!X"
+        
+        Rs&origin_X = ss&X
         #return;
         me&brackstract,ss&X,{k:'step'}
 
@@ -303,10 +284,35 @@ me.Sch_Travel = &acgt{ return [
         
         Rs&listen_node_listened = 1
     },'ift,D'],
+    &{
+    # mock Ying-gate
+    me.mock_Thyergate = &acgtRs{
+        $x = me&Jx
+        $Ying = xs&Ying
+        $wou = Cye(["Thyinggate",1])
+        wouy&R = R
+        $ha = s => me&bracki,R,wou,s
+        ha({awoke:"tothings"})
+        
+        
+        
+        
+        
+        $More = me&fiu,Ying,'More',7
+        ha({node:me&Pii,More,'Finally' ,erstly:2})
+        ha({node:me&Pii,More,'Firstly' ,erstly:2})
+        ha({step:me&fiu,Ying,'Less',7 })
+        ha({step:More})
+        ha({node:me&Pii,More,'Firstly/The' })
+        ha({node:me&Pii,More,'Firstly/Magic' })
+        ha({node:me&Pii,More,'Firstly/Secondly' })
+        return wou
+    }
+    },
     
   // Yingu f
     &{
-    # a namespace
+    # a namespace?
     me.Yingu_Jx = &acgt{
         $R = me&R
         $x = me&Jx,R
@@ -337,6 +343,14 @@ me.Sch_Travel = &acgt{ return [
     }
     # makes such expressions of a Km!
     # s describes info of expression
+    =pod
+       < eat k/*/refs
+          some isnode()
+          some climb y&R|up to a node (eg $E)
+         those nodes pile
+         expr for $step/$node compresses eg $k=step|node
+          leaving odd $k to be expressed
+    =cut
     me.brackstract = &acgtXsc{
         $R = me&R
         $D = Rs&stracts ||= {A:R}
@@ -5351,6 +5365,7 @@ me.Sch_Travel = &acgt{ return [
     
     me.bin = &acgtk{
         $R = Cy&R;
+        k ||= T.act.t
         isst(k) and k = G&peel,k;
         each tv k {
             ah(R,'inheritscif','ball',t,v)
