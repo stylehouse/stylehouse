@@ -1334,6 +1334,15 @@
         #  which we don't always know just looking around X.**
         # see arrefs
         me.Shx_determine_c_array = &acgtgaXscq{
+            if (q.param) {
+                # from rowing, eg a.ref,ref_i, see arrefs
+                !hak(a,q.param) and debugger
+                hak(a,q.param+'_i') and return c.array = 1
+            }
+            # or looking at the s.* for being objects or not
+            #  since it is for all Xsimp at once
+            #  should look at the many ax we have,
+            #   many args may have bound,
             $any = {}
             each kv s {
                 v != 1 and any.nonglob = 1
@@ -1401,6 +1410,7 @@
                 $og = T.Sarg && me&Shx_arkfind,c,ark
                 if (og) {
                     # a nearby ax.$ark
+                    # the entire ax.* is joined to ours
                     ahk(c,['ark_from'],ark,og)
                     me&Shx_arkbind,c,og,q,ark
                     return og
@@ -1454,7 +1464,7 @@
                 binds.map(&b{
                     # whole point is to bring this one
                     !hak(b,ark) and debugger
-                    # merge, prefer a's .x|n
+                    # merge, prefer a's .x|n|*, .arkx.*
                     $ax = me&axsimilate,b,a
                     # should have a value
                     !hak(ax,ark) and debugger
