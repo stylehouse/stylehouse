@@ -263,29 +263,12 @@ me.Sch_Travel = &acgt{ return [
         $Intro = xs&Introtivity
         Intro and me&nodei,R,Intro,{Introtiv:1,t:'Travel'}
         
-        if (0) {
-            # the latest Ying-gate with >1 steps
-            $s = 4s&interestoYing
-        }
-        else {
-            $s = me&mock_Thyergate,R,s
-            # X by &bracki (ish), make &Shx_isX
-            ss&X.A = R
-        }
-        !s and return me&tc,"awaits"
-        !ss&X and throw "!X"
-        
-        Rs&origin_X = ss&X
-        #return;
-        me&brackstract,ss&X,{k:'step'}
-
-        me&brackstract,ss&X,{k:'node'}
-        me&brackstract_out,R
+        me&main_Thyergate,R,s
         
         Rs&listen_node_listened = 1
     },'ift,D'],
     &{
-    # mock Ying-gate
+    # mock Ying-gate data
     me.mock_Thyergate = &acgtRs{
         $x = me&Jx
         $Ying = xs&Ying
@@ -307,6 +290,25 @@ me.Sch_Travel = &acgt{ return [
         ha({node:me&Pii,More,'Firstly/Magic' })
         ha({node:me&Pii,More,'Firstly/Secondly' })
         return wou
+    }
+    me.main_Thyergate = &acgtRs{
+        if (0) {
+            # the latest Ying-gate with >1 steps
+            $s = 4s&interestoYing
+        }
+        else {
+            $s = me&mock_Thyergate,R,s
+        }
+        !s and return me&tc,"awaits"
+        !ss&X and throw "!X"
+        # X by &bracki (ish), make &Shx_isX
+        ss&X.A ||= R
+        
+        Rs&origin_X = ss&X
+        
+        me&brackstract,ss&X,{},{}
+
+        me&brackstract_out,R
     }
     },
     
@@ -344,12 +346,26 @@ me.Sch_Travel = &acgt{ return [
     # makes such expressions of a Km!
     # s describes info of expression
     =pod
+      Xio proto
        < eat k/*/refs
           some isnode()
           some climb y&R|up to a node (eg $E)
          those nodes pile
          expr for $step/$node compresses eg $k=step|node
           leaving odd $k to be expressed
+            # < morekeys later
+            #   find things not covered by abstractions:
+            # < search by all k, rather that specifics?
+            #   or decide later that %%step is normal?
+       < Xq|xq knowing the X/(node|nearnode)/$suchness/$ref
+          is a subselect of /ref
+      trivia
+       - curiously the &Xsim c.wild doesnt need to know c.array
+          because &Xsomp after it notices and resolves 'refs'
+          &Xsimp however needs c.array=1, guess by isob()
+          < xq would know this
+          < gleaned at compilation from an io expr somwhere
+       - in comments: see # note:
     =cut
     me.brackstract = &acgtXsc{
         $R = me&R
@@ -361,72 +377,66 @@ me.Sch_Travel = &acgt{ return [
             $args = [...arguments]
             return me&Shx,args.shift(),args
         }
-        S("i $D/astract $Y",D,Y)
-        # < X/$k/$refs, per $n (brackrow)
-        # X/$k=step /$refs
-        S("o $X/...$s {",X,s) (&an{
-            # ark can be anywhere in this iterating Sarg,
+        #S("i $D/astract $Y",D,Y)
+        # X/$k/$ref -> Y/(node,nearnode,...)*,ref/$k
+        # note: word (/ref) is a type of spacer,
+        #  used as o it globs everything (like &jaa c.thing=1)
+        # < the ark-using spacer, eg /#why binds a.why
+        #    derives a word-only spacer from a ref?
+        #     there may be an indexed name for it?
+        #    in Cio instead of Xio, it makes C.t+y&cv copies
+        S("o $X/k/ref {",X) (&an{
+            # note: ark can be anywhere
+            #  in iterating Sarg**
             #  reversing out, should find the latest:
             # < more robust lookup. when parts are mysteries, fail
-            $st = S("i $D/stract",D)
-            S("i $D/straliate",D)
-            # < morekeys later
-            #   find things not covered by abstractions:
-            # < search by all k, rather that specifics?
-            #   or decide later that %%step is normal?
-            $th = S("i stract/...$s",s)
+            #$st = S("i $D/stract",D)
+            # allows later use of that arkx:
+            #$th = S("i stract/...$s",s)
             
-            # curiously the &Xsim c.wild doesn't need to know c.array
-            #  because &Xsomp after it notices and resolves 'refs'
-            #  &Xsimp however needs c.array=1, guess by isob()
-            #  < xq would know this
-            #  < gleaned at compilation from an io expr somwhere
-            $oa = a
-            S("o /ref {") (&a{
-                # < crudge: %wou%X/.../x should .up
-                a.x.up ||= oa.x
-                # rowing switches X cursors: ax.x = X:Y
-                #  they pile up arkx.{X,k,ref,Y}
-                # < construct as a surface tension and slopology from Sarg etc
-                #   perhaps the toplevel tends to o $X and i $Y
-                S('i $Y {',Y) (&a{
+            # < crudge: %wou%X/.../x should .up
+            a.x.up ||= havs(a.arkx).slice(-2)[0]
+            
+            # rowing switches X cursors: ax.x = X:Y
+            #  they pile up arkx.{X,k,ref,Y}
+            # < construct as a surface tension and slopology from Sarg etc
+            #   perhaps the toplevel tends to o $X and i $Y
+            S('i $Y {',Y) (&a{
 
-                    # finds ark=ref in the above
-                    # < following its c.array clue... see arrefs
-                    # < used like this should demand ref defined?
+                # finds ark=ref in the above
+                # < following its c.array clue... see arrefs
+                # < used like this should demand ref defined?
+                $ref = S("i /ref")
+                ref.N.length != 1 and throw "for one ref"
+                T.oncily ||= 1
+                $found = a.ref == 'tothings' && T.oncily++ < 2
+                found and me&nu,"ref-find!",{Y,ref,Sarg:T.Sarg,a}
+                # < may already have it, from another -log/$n mention
+
+                if (0) {
+                    $val = Cye(["DOge",3])
+                    $fleet = 3
+                    $ve = S('i /$val/$fleet',val,fleet)
+
+
+
+
+                    # < check out i + c.wild
+                    #$vi = S('i $Y/val/fleet')
+                    #   val is ark_from the ve, which also merges ax.fleet
+                    #    which is then ark_reused
+                    # < disambiguate with $val=1
+                    #    when you can't use a bare word as such anymore
+
+
+
+                    $vo = S('o /val/fleet',Y)
                     T.oncily ||= 1
-                    T.oncily++ < 2 and me&nu,"ref-find!",{Y,Sarg:T.Sarg,a}
-                    $ref = S("i /ref")
-                    ref.N.length != 1 and throw "for one ref"
-                    # < may already have it, from another -log/$n mention
+                    T.oncily++ < 2 and me&nu,"ref-find",{Sarg:T.Sarg,a,ve:vo}
+                }
 
-                    if (0) {
-                        $val = Cye(["DOge",3])
-                        $fleet = 3
-                        $ve = S('i /$val/$fleet',val,fleet)
+                isnode(a.ref) and S('i /$node',a.ref)
 
-
-
-
-                        # < check out i + c.wild
-                        #$vi = S('i $Y/val/fleet')
-                        #   val is ark_from the ve, which also merges ax.fleet
-                        #    which is then ark_reused
-                        # < disambiguate with $val=1
-                        #    when you can't use a bare word as such anymore
-
-
-
-                        $vo = S('o /val/fleet',Y)
-                        T.oncily ||= 1
-                        T.oncily++ < 2 and me&nu,"ref-find",{Sarg:T.Sarg,a,ve:vo}
-                    }
-
-                    isnode(a.ref) and S('i /$node',a.ref)
-                    # < meaning how Know...$K twines $K into Know
-                    S('i /stractin/...$s',s,a.ref)
-
-                })
             })
             
         })
