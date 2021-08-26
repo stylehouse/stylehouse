@@ -618,6 +618,7 @@
         !(s >= 0 && s <= 1) and debugger
         return (s+'').replace(/^0\./,'')
     }
+    A.I.i.y.tw.toLines.c.code =
     me.enL = &acgts{
         s and C = s;
         $t = C.t;
@@ -650,7 +651,7 @@
         };
         each nk,gk,v h {
             if (!simp(gk)) {
-                lod(n,nk,gk,v);
+                lod(n,nk,gk,v)
                 continue
             }
             if (typeof v != 'string' && typeof v != 'number') {
@@ -718,7 +719,13 @@
         # y.cv = 1 is implied
         !y and y = 1
         y = numf(y)
-        l += "\t"+(y == "1" ? '' : y);
+        y = y == "1" ? '' : y
+        # -suchpi can be attached to it
+        if (h.c.pi && !(n.c && n.c.pi)) {
+            $pi = delete h.c.pi
+            y += '-'+pi
+        }
+        l += "\t"+y
 
         # one way or another
         $hem = ['c','sc'];
@@ -797,6 +804,7 @@
     }
    
   // &deL readLines - string to [C+]
+    A.I.i.y.tw.readLines.c.code =
     me.deL = &acgts,opt{
         
         opt ||= {};
@@ -822,20 +830,27 @@
         $c = li[2];
         $sc = li[3];
         # sc can kick in early, still one \t
-        y && y[0] == '%' and sc = y.slice(1); y = '';
-        c && c[0] == '%' and sc = c.slice(1); c = '';
+        y && y [0] == '%' and sc = y.substr(1); y = '';
+        c && c [0] == '%' and sc = c.substr(1); c = '';
         y && opt.y1 && opt.y1[0] == '%' and (opt.tosc ||= {})[opt.y1.slice(1)] = y; y = '';
         $s = li[4];
-        
+        # t may be crazy string
         t.match(/^\W/) and t = dej(t);
-        
-        y ||= 1
-        y = 1*('0.'+y);
+        if (y && y.includes('-')) {
+            # 33-suchpi
+            y = y.split('-')
+            $pi = y [1]
+            !pi and throw "ohno"
+            y = y [0]
+        }
+        y ||= "1"
+        y * 1 == NaN and debugger
+        y = {cv:1*('0.'+y)}
         
         if (s && s.match(/^\W/)) {
             s = dej(s)
         }
-        if (c && c.match('^"')) {
+        if (c && c.startsWith('"')) {
             s = dej(c)
             c = {}
         }
@@ -847,7 +862,8 @@
         }
         else { c = {} }
         
-        s and c.s = s;
+        s and c.s = s
+        pi and c.pi = pi
         
         if (sc && sc.match(/^\W/)) {
             sc = dej(sc)
@@ -857,7 +873,8 @@
         }
         else { sc = {} }
         
-        $C = {t:t,y:{cv:y},c:c,sc:sc};
+        
+        $C = {t,y,c,sc}
         
       // indented bits
         

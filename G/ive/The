@@ -4298,7 +4298,7 @@ me.Sch_The = &acgt{ return [
         return M
     }
     # 0.33 = scv(33), with floating points (gets floaty at precision=17)
-    # < collect cv type functions
+    # < collect cv type functions, eg is opposite of numf(0.33)
     self.scv = &ov,{
         return dec(sca(ov),15)
     }
@@ -5091,12 +5091,13 @@ me.Sch_The = &acgt{ return [
         ['Fez+Cish',0.262,&acgtRs{
             me&Ri,'limit:Fez,toomuch'
         },'ift,D'],
+       // compresses
         # < i Dc&s = "(@sym )?@t( @cv)" o &modulat 11-131 .t:*
         #   < knowing sym must be \w, cv \d,
         #   < putting other @* after,
         #    < in a form including the .t, stuff about it,
         #      even the entire modulat, or this part of it
-        ['Fez+Cish',0.2637,&acgtRs{
+        ['Cish',0.2637,&acgtRs{
             $D = Rs&D
             # ground usually labels itself around here
             $N = me&modselect,R,{gte:11,lte:13}
@@ -5116,7 +5117,7 @@ me.Sch_The = &acgt{ return [
         #     they can be reconstructed,
         #      even to the %%limit-level,
         #       so your remote data-dumper is cued for The++
-        ['thaw+Fez+Cish',0.312,&acgtRs{
+        ['thaw+Cish',0.312,&acgtRs{
             $sym = Dc&s.match(/^(\w) /)
             sym && sym[1] &&
                 n sym 11 $s:sym[1] fs:13,lh:0.8,hs:757
