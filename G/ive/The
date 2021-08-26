@@ -4274,7 +4274,41 @@ me.Sch_The = &acgt{ return [
         $first = N.filter(r => r.sc[k])[0]
         return !first || M.includes(first)
     }
-   // data
+   // data, &modselect
+    # select ground 102-14 for name (6), 11 for sym (1)
+    me.modselect = &acgtRc{
+        # < mix down modulat into Rs&M anytime?
+        0 and me&modulatM,R
+        else {
+            $N = []
+            Rs&M and N.push(...Rs&M)
+            # < code: havs(Rs&Mw)->havs->N
+            #    auto havs($_)
+            # < io: i N o R/%Mw/*/*/$v
+            # < io: i havs(Rs&Mw)->havs->N
+            each kin Rs&Mw {
+                N.push(n)
+            }}
+        }
+        # select what
+        $M = N.filter(&n{
+            return gteqcv(ny&cv,c)
+        })
+        vsortz(M)
+        return M
+    }
+    # 0.33 = scv(33), with floating points (gets floaty at precision=17)
+    # < collect cv type functions
+    self.scv = &ov,{
+        return dec(sca(ov),15)
+    }
+    self.gteqcv = &vc{
+        v ||= 0
+        return (c.gte == null || v >= scv(c.gte))
+             && (c.lte == null || v <= scv(c.lte))
+             && (c.gt == null || v > scv(c.gt))
+             && (c.lt == null || v < scv(c.lt))
+    }
     # (qua||0) < 2 and leave
     # sizes something, usu ope|interest for snoozing
     self.lt = &lt{
@@ -4285,6 +4319,7 @@ me.Sch_The = &acgt{ return [
         isob(n) and throw "pass value||null"
         return (n || 0) < s
     }
+   // data situations
     # match s=sc strictly against c={has:{limit:t},may:{toomuch:1}}
     me.honly = &acgtsc{
         each kv s {
@@ -5056,43 +5091,45 @@ me.Sch_The = &acgt{ return [
         ['Fez+Cish',0.262,&acgtRs{
             me&Ri,'limit:Fez,toomuch'
         },'ift,D'],
+        # < i Dc&s = "(@sym )?@t( @cv)" o &modulat 11-131 .t:*
+        #   < knowing sym must be \w, cv \d,
+        #   < putting other @* after,
+        #    < in a form including the .t, stuff about it,
+        #      even the entire modulat, or this part of it
         ['Fez+Cish',0.2637,&acgtRs{
             $D = Rs&D
             # ground usually labels itself around here
-            $N = me&modselect,R,{gt:102,lt:14}
+            $N = me&modselect,R,{gte:11,lte:13}
+            # should be simple labels, with .s?
+            $cont = N.filter(n => hak(ns&z))
+            hak(cont) and debugger
             # make a title
             Dc&s = N.map(n => nc&s) .join(" ")
-            Dc&s.startsWith("C ") and 1
+            # usu "C $t"->"$t" but not if then $t="R blah"
+            #return; #
+            $comp = Dc&s.startsWith('C ') && !Dc&s.match(/^C \w /)
+            comp and Dc&s = Dc&s.replace(/^C /,'')
+            # < totally corresponding D-decompression
+        },'ift,D'],
+        # < when Nine/$t brings D** to resolve to nearby same
+        #    having trained on common %Cish modulata,
+        #     they can be reconstructed,
+        #      even to the %%limit-level,
+        #       so your remote data-dumper is cued for The++
+        ['thaw+Fez+Cish',0.312,&acgtRs{
+            $sym = Dc&s.match(/^(\w) /)
+            sym && sym[1] &&
+                n sym 11 $s:sym[1] fs:13,lh:0.8,hs:757
         },'ift,D'],
         &{
-            
-        },
-       // -hat > -Hash etc
-        &{
-            # select ground 102-14 for name (6), 11 for sym (1)
-            me.modselect = &acgtRc{
-                # < mix down modulat into Rs&M anytime?
-                0 and me&modulatM,R
-                else {
-                    $N = []
-                    Rs&M and N.push(...Rs&M)
-                    # < code: havs(Rs&Mw)->havs->N
-                    #    auto havs($_)
-                    # < io: i N o R/%Mw/*/*/$v
-                    # < io: i havs(Rs&Mw)->havs->N
-                    each kin Rs&Mw {
-                        N.push(n)
-                    }}
-                }
-                # select what
-                $M = N.filter(&n{
-                    return (c.gt == null || ny&cv > sca(c.gt))
-                         && (c.lt == null || ny&cv < sca(c.lt))
-                })
-                vsortz(M)
-                return M
+            # see if we can make some compression
+            # < eg `a acs` in G as of now
+            me.acsume = &acgtsc{
+                c.starts && !s.startsWith(c.starts) and return
+                
             }
         },
+       // -hat > -Hash etc
         # expects it to be C
         ['isC',0.21,&acgtRs{
             me&walls,C,'bd:1.5'
@@ -5166,6 +5203,7 @@ me.Sch_The = &acgt{ return [
                 })
             }
         },'ift,D'],
+       // -Hash etc
         ['Hash',0.263,&acgtRs{
             $D = Rs&D
             $E = Rs&E
