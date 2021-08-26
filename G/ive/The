@@ -2937,7 +2937,7 @@ me.Sch_The = &acgt{ return [
         }
     }
     
-   // &Ring, thence:
+  // Pi%Pier &Ring, thence:
    
     me.Pi_Pier = &acgt{ return [
        // %Top|%Pier back
@@ -3175,7 +3175,7 @@ me.Sch_The = &acgt{ return [
         me&sfx_mirage,R,N
     }
     
-   // Top modulat rejigs
+   // Top modulat rejigs # < deprecate Mwty
     # pre-thingo, r%Mw still there
     me.Topping_2 = &acgtr{
         $N = me&ioR,r
@@ -5045,8 +5045,8 @@ me.Sch_The = &acgt{ return [
             
             #me&Ei,{t:'aq',pi:'hat',s:aq,dl:2}
         },'ift,D'],
-        
-       // -hat -> -Hash etc
+       
+       // -Fez > -hat
         ['Fez',0.21,&acgtRs{
             Rc&dl ||= 9
             Rc&nl = 66
@@ -5056,6 +5056,43 @@ me.Sch_The = &acgt{ return [
         ['Fez+Cish',0.262,&acgtRs{
             me&Ri,'limit:Fez,toomuch'
         },'ift,D'],
+        ['Fez+Cish',0.2637,&acgtRs{
+            $D = Rs&D
+            # ground usually labels itself around here
+            $N = me&modselect,R,{gt:102,lt:14}
+            # make a title
+            Dc&s = N.map(n => nc&s) .join(" ")
+            Dc&s.startsWith("C ") and 1
+        },'ift,D'],
+        &{
+            
+        },
+       // -hat > -Hash etc
+        &{
+            # select ground 102-14 for name (6), 11 for sym (1)
+            me.modselect = &acgtRc{
+                # < mix down modulat into Rs&M anytime?
+                0 and me&modulatM,R
+                else {
+                    $N = []
+                    Rs&M and N.push(...Rs&M)
+                    # < code: havs(Rs&Mw)->havs->N
+                    #    auto havs($_)
+                    # < io: i N o R/%Mw/*/*/$v
+                    # < io: i havs(Rs&Mw)->havs->N
+                    each kin Rs&Mw {
+                        N.push(n)
+                    }}
+                }
+                # select what
+                $M = N.filter(&n{
+                    return (c.gt == null || ny&cv > sca(c.gt))
+                         && (c.lt == null || ny&cv < sca(c.lt))
+                })
+                vsortz(M)
+                return M
+            }
+        },
         # expects it to be C
         ['isC',0.21,&acgtRs{
             me&walls,C,'bd:1.5'
