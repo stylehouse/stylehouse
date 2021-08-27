@@ -2616,9 +2616,7 @@ me.Sch_The = &acgt{ return [
         $q = {}
         c.ov and q.ov = delete c.ov
         
-        $rcbits = tax({},c,'nl,dl')
         $r = me&PiRet,R,c
-        ex(r.c,rcbits)
         
         ac(R,'z',r)
         x.ro('noD') and rs&noDisplay = 1
@@ -2801,27 +2799,17 @@ me.Sch_The = &acgt{ return [
         }
         
         # 11 new
+        # GOING these would be only c.E.c.*
+        $rcbits = tax({},c,'nl,dl')
+        hak(rcbits) and debugger
         $r = me&Ret,R,c
         ry&cv = 0
         
         # main act, pre-&Ring
         me&Pieringi,R,r,c
         
-        if (c.Top) {
-            rc&N = []
-            rc&d = 0
-            rc&dl = 15
-            rc&nl = 300
-            delete rc&refR
-            delete rc&refs
-            # lets /Display** recycle Elements
-            me&arriveRbitX,r,r.t
-            # new J, normal mind
-            rs&task ||= 'Pi_The'
-        }
-        # 13 puts on tape or not
-        # < splice in re ry&up, neighbours
-        rc&N.push(r)
+        ex(r.c,rcbits)
+        
         
         # to &Eing
         return r
@@ -2908,8 +2896,9 @@ me.Sch_The = &acgt{ return [
     me.Pieringi = &acgtRrc{
         $E = c.E
         if (E) {
+            # see also E&rc_mix below
             tax(r.sc,E.c,'dupl,noref,inline')
-            Ec&Rs and ex(r.sc,peel(Ec&Rs))
+            Ec&rsc_mix and ex(r.sc,peel(Ec&rsc_mix))
         }
         # may already E
         me&CED,r
@@ -2935,6 +2924,25 @@ me.Sch_The = &acgt{ return [
             # transact Ec&X.ref
             me&Eref_begin,r,E
         }
+        if (c.Top) {
+            rc&N = []
+            rc&d = 0
+            rc&dl = 15
+            rc&nl = 300
+            delete rc&refR
+            delete rc&refs
+            # lets /Display** recycle Elements
+            me&arriveRbitX,r,r.t
+            # new J, normal mind
+            rs&task ||= 'Pi_The'
+        }
+        if (E) {
+            tax(r.c,E.c,'nl,dl')
+            Ec&rc_mix and ex(r.c,Ec&rc_mix)
+        }
+        # 13 puts on tape or not
+        # < splice in re ry&up, neighbours
+        rc&N.push(r)
     }
     
   // Pi%Pier &Ring, thence
@@ -4948,7 +4956,7 @@ me.Sch_The = &acgt{ return [
 
         # look at the e
         if (isC(sc&s)) {
-            me&Ei,{t:'e',pi:'hat',s:sc&s,dl:1,Rsc:'maybrack'}
+            me&Ei,{t:'e',pi:'hat',s:sc&s,dl:1,rsc_mix:'maybrack'}
         }
         # look at tow-Belt
         $Belt = me&ioty,r,'Belt','tow' [0]
@@ -4958,7 +4966,7 @@ me.Sch_The = &acgt{ return [
         $n = me&Ei,{t:'R',pi:'hat',s:Y,dl:1}
         each kv Y.sc {
             !isC(v) and continue
-            $n = me&Ei,{t:k,pi:'hat',s:v,dl:1,Rsc:'maybrack'}
+            $n = me&Ei,{t:k,pi:'hat',s:v,dl:1,rsc_mix:'maybrack'}
         }
 
 
