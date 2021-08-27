@@ -5119,7 +5119,7 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
     # sprawly, C**
     ['Bow',0.21,&acgtRs{
-        Rc&dl = 6
+        Rc&dl = 12
         Rc&nl = 66
         # < no restating refs per ^^-seven
         me&typeup,R,'hat'
@@ -5129,22 +5129,36 @@ me.Sch_The = &acgt{ return [
         $hert = joint(ups,'/')
         # < &hu could increase dl if nl is very low
         # < should be getting %indim here and lowering
-        hert == '0/r/c/X' and me&tc,"HERE"; me&hu,"Thinkab",{p:Ry&up,R},{dl:7}
+        if (hert == '0/r/c/X') {
+            #me&tc,"HERE"
+            #me&hu,"Thinkab",{p:Ry&up,R},{dl:6}
+        }
         #debugger
-        me&tc,"Upwards:"+hert,'6y'
+        #me&tc,"Upwards:"+hert,'6y'
     },'ift,D'],
-    ['Bow+Cish',0.262,&acgtRs{
-        #me&Ri,'limit:Bow,toomuch'
+    # -hat allows qua.dim to sprawl open anyway
+    #  it means we don't want to sprawl C
+    ['Bow+indim',0.265,&acgtRs{
+        #Rc&dl = Rc&d
+        me&Ri,'limit:Bow,toomuch'
+    },'ift,D'],
+    ['Bow+Cish',0.2631,&acgtRs{
+        Rs&sym == 'R' && me&Ri,'limit:Bow-R,toomuch'
         me&TXin,'BowC',{layout:'C**'} ({
             # usu t,ycv are impl by %Ctitle drawing them
             #  and y,c are dim
             #   < which should stop .c.X{} from being > 5,
             y: {dim:1,z:{up: {impl:1}}},
             sc: {dim:1,z:{
-                z: {impl:1}
+                # <wants to be qua.usurped, knowing who
+                z: {impl:1},
+                title: {ope:1},
             }},
         })
         # < to E/y,c,sc,sc.z
+        $z = ss&z
+        # its many
+        hak(z) and me&Ei,{t:'s'+'&z',s:z,nobrackets:1}
     },'ift,D'],
    // compressto $D @2637
     ['String',0.2637,&acgtRs{
@@ -5203,8 +5217,10 @@ me.Sch_The = &acgt{ return [
     ['hat',0.21,&acgtRs{
         $sym = isR(s) ? "R" :
             isC(s) && isst(s.t) ? "C" : 0
-        sym &&
+        if (sym) {
+            Rs&sym = sym
             n sym 11 $s:sym fs:13,lh:0.8,hs:757
+        }
         if (Rs&tiny) {
             # minimal typing up for labels
             #  in diagrams (-Bat) rather than datadumps (-hat)
@@ -5264,6 +5280,25 @@ me.Sch_The = &acgt{ return [
         }
     },'ift,D'],
    // -Hash etc
+        &{
+            # s='['
+            me.modbracket = &acgtsv{
+                $abracket = &tsv{
+                    $be = me&tsc,t,s,''
+                    v and bey&cv = scv(v)
+                    bes&label = 'bracket'
+                    
+                }
+                abracket('begin',s,v||23)
+                $end = s == '[' ? ']'
+                    : s == '{' ? '}'
+                    : '</'+s+'>'
+                return &{
+                    abracket('end',end,77)
+                }
+            }
+            
+        },
         ['Hash',0.263,&acgtRs{
             $D = Rs&D
             $E = Rs&E
@@ -5274,28 +5309,15 @@ me.Sch_The = &acgt{ return [
             # its brackets, 23-77
             # %shym = a %sym that can be mirrored
             Rs&shym ||= isar(s) ? '[' : '{'
-            
             # < G&n should Mw by T.Mw||T.act.t
             #   as &tsc does
             T.Mw = 'shym'
-            $be = me&tsc,'begin',Rs&shym,''
-            bey&cv = 0.23
-            bes&label = 'bracket'
-            #n begin 23 $s:Rs&shym
-            
+            $bracket = Ec&nobrackets ? &{} : me&modbracket,Rs&shym
             # its many
             each kv s {
                 me&Ei,{t:k,s:v}
             }
-            
-            $rev = Rs&shym == '[' ? ']'
-                : Rs&shym == '{' ? '}'
-                : '</'+Rs&shym+'>'
-            
-            $en = me&tsc,'end',rev,''
-            eny&cv = 0.77
-            ens&label = 'bracket'
-            #n end 77 $s:rev
+            bracket()
         },'ift,D'],
         ['String',0.263,&acgtRs{
             $D = Rs&D
@@ -5312,8 +5334,11 @@ me.Sch_The = &acgt{ return [
         c = ex({t,pi:'hat',s,dl:3,noencode:1},c||{})
         c.nl = 400
         $e = me&Ei,c
-        me&Eing,5
+        me&Eing,3
         $r = ey&R
+        $C = rs&C
+        s&hue = 30
+        s&bgh = '731'
     }
 },
  
