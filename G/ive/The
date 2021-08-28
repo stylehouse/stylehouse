@@ -3300,29 +3300,6 @@ me.Sch_The = &acgt{ return [
     }
     
    // f modulat
-    # periodically R%M <- R%Mw/T.act.t|$dome/$modulat**
-    me.modulatM = &acgtR{
-        $M = []
-        each in Rs&M {
-            M.push(n)
-        }
-        
-        
-        each win Rs&Mw {
-            ns&modt = w
-            M.push(n)
-        }}
-        
-        
-        
-        
-        # spatialises, on tv
-        me&cvdeal,M
-        
-        
-        delete Rs&Mw
-        Rs&M = M
-    }
     # tally R%M**c&s
     me.measure_modulat = &acgtN{
         $len = 0
@@ -4488,6 +4465,48 @@ me.Sch_The = &acgt{ return [
         }
         return c
     }
+    
+   // modulat
+    # see '// f modulat' of mirage
+    # periodically R%M <- R%Mw/T.act.t|$dome/$modulat**
+    me.modulatM = &acgtR{
+        $M = []
+        each in Rs&M {
+            M.push(n)
+        }
+        
+        
+        each win Rs&Mw {
+            ns&modt = w
+            M.push(n)
+        }}
+        
+        
+        
+        
+        # spatialises, on tv
+        me&cvdeal,M
+        
+        
+        delete Rs&Mw
+        Rs&M = M
+    }
+    # s='['
+    me.modbracket = &acgtsv{
+        $abracket = &tsv{
+            $be = me&tsc,t,s,''
+            v and bey&cv = scv(v)
+            bes&label = 'bracket'
+
+        }
+        abracket('begin',s,v||23)
+        $end = s == '[' ? ']'
+            : s == '{' ? '}'
+            : '</'+s+'>'
+        return &{
+            abracket('end',end,77)
+        }
+    }
   
  // R'The'
     
@@ -5100,6 +5119,32 @@ me.Sch_The = &acgt{ return [
         #me&Ei,{t:'aq',pi:'hat',s:aq,dl:2}
     },'ift,D'],
 
+   // site office
+    ['Bow',0.66,&acgtRs{
+        $ups = me.cby(R).slice(-4)
+        $hert = joint(ups,'/')
+        # < &hu could increase dl if nl is very low
+        # < should be getting %indim here and lowering
+        if (hert == '0/r/c/X') {
+            #me&tc,"HERE"
+            #me&hu,"Thinkab",{p:Ry&up,R},{dl:6}
+        }
+        #debugger
+        #me&tc,"Upwards:"+hert,'6y'
+    },'ift,D'],
+    # looking at their thingoes
+    ['hat+Top',0.68,&acgtRs{
+        $E = Rs&E
+        #E.t != 'Bowler' and return
+        $N = Rc&N.filter(r => rs&thingo).slice(0,5)
+            .map(&r{ return {r,th:rs&thingo} })
+        # < why too late to do any of this:
+        #me&hu,"thingoes",N
+        #me&tc,"hereth" .sc.fs = 39
+        #me&modulatM,R
+        Rs&lookat = N
+    },'ift,D'],
+   
    // -Fez > -hat
     # fairly sprawly, for X**
     ['Fez',0.21,&acgtRs{
@@ -5112,24 +5157,13 @@ me.Sch_The = &acgt{ return [
     ['Fez+Cish',0.262,&acgtRs{
         me&Ri,'limit:Fez,toomuch'
     },'ift,D'],
+    
     # sprawly, C**
     ['Bow',0.21,&acgtRs{
         Rc&dl = 12
         Rc&nl = 122
         # < no restating refs per ^^-seven
         me&typeup,R,'hat'
-    },'ift,D'],
-    ['Bow',0.66,&acgtRs{
-        $ups = me.cby(R).slice(-4)
-        $hert = joint(ups,'/')
-        # < &hu could increase dl if nl is very low
-        # < should be getting %indim here and lowering
-        if (hert == '0/r/c/X') {
-            #me&tc,"HERE"
-            #me&hu,"Thinkab",{p:Ry&up,R},{dl:6}
-        }
-        #debugger
-        #me&tc,"Upwards:"+hert,'6y'
     },'ift,D'],
     ['Bow',0.88,&acgtRs{
         $E = Rs&E
@@ -5160,17 +5194,7 @@ me.Sch_The = &acgt{ return [
         hak(z) and me&Ei,{t:'🚶',s:z,nobrackets:1}
     },'ift,D'],
    // %thingo -> $D @68
-    # looking at their thingoes
-    ['Fez+Top',0.68,&acgtRs{
-        $N = Rc&N.filter(r => rs&thingo).slice(0,5)
-            .map(&r{ return {r,th:rs&thingo} })
-        # < why too late to do any of this:
-        #me&hu,"thingoes",N
-        #me&tc,"hereth" .sc.fs = 39
-        #me&modulatM,R
-        Rs&lookat = N
-    },'ift,D'],
-    ['Fez+thingo',0.68,&acgtRs{
+    ['thingo',0.68,&acgtRs{
         $E = Rs&E
         $D = Rs&D
         $h = {}
@@ -5183,13 +5207,25 @@ me.Sch_The = &acgt{ return [
             $name = "⛔"
             t != 'limit' and name += t
             me&indo,g,{name} (&sd{
+                s == d.promoted and return
                 if (sc&thing && sy&sym) {
-                    # subthing, promoted to h/$sym
+                    # subthing
                     $z = sy&sym
                     !isst(zc&s) and debugger
-                    d.name = zc&s
                     # dont visit sym
                     d.refs.push(z)
+                    $was = d.promoted
+                    if (was) {
+                        # already in something promoted
+                        #  append sym
+                        # < more ()ing?
+                        haves(d.name,zc&s)
+                    }
+                    else {
+                        # promoted to h/$sym
+                        d.promoted = 1
+                        d.name = zc&s
+                    }
                     return
                 }
                 if (hak(s.c,'s')) {
@@ -5201,6 +5237,8 @@ me.Sch_The = &acgt{ return [
             !hak(M) and continue
             D.sc[k] = M.join(" ")
         }
+        Ds&reallylongtiiiiiiieeeeeeeeeeeeiiiitle = h
+        Ds&reallylongtiiiiiiieeeeeeeeeeeeiiiitles = "Ougha"
         # < enL: (de)peel
         # < mirage by carpentry
         #   the house is seen with a long lense
@@ -5325,25 +5363,6 @@ me.Sch_The = &acgt{ return [
         }
     },'ift,D'],
    // -Hash etc
-        &{
-            # s='['
-            me.modbracket = &acgtsv{
-                $abracket = &tsv{
-                    $be = me&tsc,t,s,''
-                    v and bey&cv = scv(v)
-                    bes&label = 'bracket'
-                    
-                }
-                abracket('begin',s,v||23)
-                $end = s == '[' ? ']'
-                    : s == '{' ? '}'
-                    : '</'+s+'>'
-                return &{
-                    abracket('end',end,77)
-                }
-            }
-            
-        },
         ['Hash',0.263,&acgtRs{
             $D = Rs&D
             $E = Rs&E

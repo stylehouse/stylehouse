@@ -638,7 +638,7 @@
         ty.earlysc = "^%"
         # < return line count?
         ty.multiline = "\\n"
-        ty.wordyspace = "^[\\w ]+$"
+        ty.wordyspace = "^\\w[\\w ]*$"
         
         # v never starts hem. can contain a lot, even ':'
         #  since peel splits by all ',', then one ':' each
@@ -737,32 +737,46 @@
             }
         }}
 
-      // sayableparts
-        # quote freaks, if just a few break the peelability of many
-        each nk,g n { 
-            $v = h[nk];
-            !hak(v) and continue;
-            $complex_keys;
-            each ik g {
-                !is.good_k(k) and complex_keys = 1;
+      // sayableparts!
+        # quote freaks (q), json freaks (n), everything (h)
+        each nk,gkv n {
+            $g = h[nk]
+            !hak(g) and debugger
+            $gnotq = grepout(haks(g),k => !(q[nk]&&q[nk][k]))
+            $gnotnorq = grepout(gnotq,k => !n[nk][k])
+            # reasons not to n -> q
+            # nothing else in the spot
+            !hak(gnotnorq) and continue
+            # complex keys must be json
+            # < making blockquote opener: sc "anykey":
+            #    requires tight match right of :
+            #     requires eny(v) on the next line, as for !string
+            #     < unless parse everything at once
+            haks(gkv).some(k => !is.wordyspace(k)) and continue
+            # reasons to become a quote:
+            # among g that are not q
+            if (hak(gkv) / hak(gnotq) < 0.34) {
+                # mostly not n in the spot
+                each kv gkv {
+                    lod(q,nk,k,v)
+                }
             }
-            complex_keys and continue;
-            
-            if (hak(g) / hak(v) < 0.3) {
-                each ik g {
-                    lod(q,nk,k,h[nk][k]);
+            else {
+                each kv gkv {
+                    is.fitsin(23,k) and continue
+                    lod(q,nk,k,v)
                 }
             }
         }
         
         # remove quoted things and their need of json from the line
         each nk,gk,v q {
-            h[nk] && delete h[nk][gk];
-            n[nk] && delete n[nk][gk];
+            h[nk] and delete h[nk][gk]
+            n[nk] and delete n[nk][gk]
         }}
-        each nk,gks n {
-            # all freaks got quoted:
-            !hak(gks) and delete n[nk]
+        # all freaks got quoted
+        each nk,gkv n {
+            !hak(gkv) and delete n[nk]
         }
       
       // encoded bits
@@ -810,6 +824,7 @@
         # < quoting with Line other N/C looking vals
         each nk,gk,v q {
             # < sanity. nk will be c|sc
+            #   should be covered? see complex keys must be json
             !is.safe_k(gk) and debugger
             # specifically, see &deL $indenting
             !is.wordyspace(gk) and debugger
@@ -817,6 +832,7 @@
             $k = "  "+nk+" "+gk+":";
             if (typeof v != 'string') {
                 # BQ yaml data
+                # < rename T.eny_trace, its error handler uses
                 T.eny_nkgk = [nk,gk];
                 $v = eny(v,T);
                 delete T.eny_nkgk;
@@ -827,9 +843,9 @@
                 }
                 k += "\n"+vs.join("\n");
             }
-            else if (simp(v)) {
+            else if (is.safe_v(v)) {
                 # simple strings
-                # not confusible into 'Thing 2'
+                # < not confusible into 'Thing 2'?
                 k += " "+v;
             }
             else if (!v.match(/\n$/)) {
