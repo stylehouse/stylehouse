@@ -3053,6 +3053,7 @@ me.Sch_The = &acgt{ return [
                     Rs&ope ||= 0
                     Rs&ope += qua.ope
                 }
+                qua.biggish && Rs&String and s&fs = 22
                 qua.impl and me&tc,"~impl~"
                 qua.dim and Rs&isdim = 1
                 me&Ri,s
@@ -5182,6 +5183,9 @@ me.Sch_The = &acgt{ return [
             #  and y,c are dim
             #   < which should stop .c.X{} from being > 5,
             y: {dim:1,z:{up: {impl:1}}},
+            c: {dim:1,z:{
+                s: {biggish:1}
+            }},
             sc: {dim:1,z:{
                 # <wants to be qua.usurped, knowing who
                 z: {impl:1},
@@ -5200,13 +5204,19 @@ me.Sch_The = &acgt{ return [
         $h = {}
         $haves = &ks{
             $M = h[k] ||= []
-            M.push(s)
+            s != null and M.push(s)
         }
         each tg Rs&thingo {
             # D%$name=... can be a symbol
             $name = "⛔"
             t != 'limit' and name += t
             me&indo,g,{name} (&sd{
+                # layout-cap may not
+                #  eg ^-Cish implies y ~:dim < ⇃
+                #  otherwise the RX-cap here   ^
+                #   may vanish if it was only (layouty) (see &TXin)
+                s.c.not and return d.not = 1
+                
                 s == d.promoted and return
                 if (sc&thing && sy&sym) {
                     # subthing
@@ -5225,21 +5235,34 @@ me.Sch_The = &acgt{ return [
                         # promoted to h/$sym
                         d.promoted = 1
                         d.name = zc&s
+                        # ensure layout-sym '~'
+                        #  if unkeen-cap ('<') is c&not
+                        #   < as implied by %Cish?
+                        # also an ~ will not appear on anything being empty
+                        # < however, Lol/figaro/y should maybe have ♲
+                        #    or we are implying it's a new .y={} since then
+                        # < a C with ♲:^/fer should be /* nothing
+                        #    if not being, trusting a previous self
+                        #    need a way to indicate being empty
+                        #  < calling it a self|other referer
+                        #     when same|diff encoding (eg %Pier=hat)
+                        #    needs to have equivalent in|out of time
+                        # < these are bugs in Stories/TryPiWarmer-1
+                        haves(d.name,null)
                     }
                     return
                 }
+                
                 if (hak(s.c,'s')) {
                     haves(d.name,sc&s)
                 }
             })
         }
         each kM h {
-            !hak(M) and continue
-            D.sc[k] = M.join(" ")
+            D.sc[k] = hak(M) ? M.join(" ") : "1"
         }
-        Ds&reallylongtiiiiiiieeeeeeeeeeeeiiiitle = h
-        Ds&reallylongtiiiiiiieeeeeeeeeeeeiiiitles = "Ougha"
-        # < enL: (de)peel
+        #Ds&reallylongtiiiiiiieeeeeeeeeeeeiiiitle = h
+        #Ds&reallylongtiiiiiiieeeeeeeeeeeeiiiitles = "Ougha"
         # < mirage by carpentry
         #   the house is seen with a long lense
     },'ift,D'],
