@@ -5112,29 +5112,10 @@ me.Sch_The = &acgt{ return [
     ['Fez+Cish',0.262,&acgtRs{
         me&Ri,'limit:Fez,toomuch'
     },'ift,D'],
-    # looking at their thingoes
-    ['Fez+Top',0.68,&acgtRs{
-        $N = Rc&N.filter(r => rs&thingo).slice(0,5)
-            .map(&r{ return {r,th:rs&thingo} })
-        # < why too late to do any of this:
-        #me&hu,"thingoes",N
-        #me&tc,"hereth" .sc.fs = 39
-        #me&modulatM,R
-        Rs&lookat = N
-    },'ift,D'],
-    ['Fez+thingo',0.68,&acgtRs{
-        $E = Rs&E
-        $D = Rs&D
-        $h = {}
-        each tg Rs&thingo {
-            # << ⛔ or sym
-            ah(D,'sawthingo',t,g.t)
-        }
-    },'ift,D'],
     # sprawly, C**
     ['Bow',0.21,&acgtRs{
         Rc&dl = 12
-        Rc&nl = 66
+        Rc&nl = 122
         # < no restating refs per ^^-seven
         me&typeup,R,'hat'
     },'ift,D'],
@@ -5177,6 +5158,53 @@ me.Sch_The = &acgt{ return [
         $z = ss&z
         # its many
         hak(z) and me&Ei,{t:'🚶',s:z,nobrackets:1}
+    },'ift,D'],
+   // compressto $D @68
+    # looking at their thingoes
+    ['Fez+Top',0.68,&acgtRs{
+        $N = Rc&N.filter(r => rs&thingo).slice(0,5)
+            .map(&r{ return {r,th:rs&thingo} })
+        # < why too late to do any of this:
+        #me&hu,"thingoes",N
+        #me&tc,"hereth" .sc.fs = 39
+        #me&modulatM,R
+        Rs&lookat = N
+    },'ift,D'],
+    ['Fez+thingo',0.68,&acgtRs{
+        $E = Rs&E
+        $D = Rs&D
+        $h = {}
+        $haves = &ks{
+            $M = h[k] ||= []
+            M.push(s)
+        }
+        each tg Rs&thingo {
+            # D%$name=... can be a symbol if it is known!
+            $name = "⛔"
+            t != 'limit' and name += t
+            me&indo,g,{name} (&sd{
+                if (sc&thing && sy&sym) {
+                    # subthing, promoted to h/$sym
+                    $z = sy&sym
+                    !isst(zc&s) and debugger
+                    d.name = zc&s
+                    # dont visit sym
+                    d.refs.push(z)
+                    return
+                }
+                if (hak(s.c,'s')) {
+                    haves(d.name,sc&s)
+                }
+            })
+        }
+        each kM h {
+            !hak(M) and continue
+            D.sc[k] = M.join(" ")
+        }
+        # < enL: (de)peel:
+        #    /[\w\u{aaa}-\u{fffff}]/u is a safe k, maybe even [ ]?
+        #    v can contain a lot, even [:], but not [,]
+        #     since peel splits by all ',', then the first ':' off that
     },'ift,D'],
    // compressto $D @2637
     ['String',0.2637,&acgtRs{
