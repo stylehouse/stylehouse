@@ -618,6 +618,58 @@
         !(s >= 0 && s <= 1) and debugger
         return (s+'').replace(/^0\./,'')
     }
+    # notice if gk|v will break if encoded via peel()
+    # < dealing with c = enj(number) when eg c&s=5? -5?
+    #   everything except y&cv may decode as string, eg via peel()
+    #    unless it is inside c.* for enj(c)
+    me.Lines_types_is = null
+    me.Lines_types = &acgt{
+        $is = me.Lines_types_is
+        is and return is
+        $is = {}
+        
+        $ty = {}
+        # breaks the \t=09,\n=0a of the enclosing Line
+        ty.lowdown = "[\\u{0}-\\u{a}]"
+        # start of hemisphere (c|sc) that wants dej()
+        ty.jsoning = "^[\\[\\{\"]"
+        # y,c may have %sc,starting,early
+        # < from &enL (now from ws:digwaypoll)
+        ty.earlysc = "^%"
+        # < return line count?
+        ty.multiline = "\\n"
+        ty.wordyspace = "^[\\w ]+$"
+        
+        # v never starts hem. can contain a lot, even ':'
+        #  since peel splits by all ',', then one ':' each
+        ty.unsafe_v = [ty.lowdown,','].join('|')
+        # k might start hem. must not look like jsoning.
+        ty.unsafe_k = [ty.earlysc,ty.jsoning,ty.unsafe_v,':'].join('|')
+        
+        $func = &ty{
+            is[t] = &s{
+                $notstring = typeof s != 'string' && typeof s != 'number'
+                notstring and throw "Lines_types.is!string", s
+                return y (s+'')
+            }
+        }
+        # must define $t for a function
+        haks(ty).map(&t{
+            $m = RegExp(ty[t],'u')
+            func(t, s => m.exec(s) )
+            if (t.startsWith('un')) {
+                # derives is.safe_k(k)
+                func(t.substr(2), s => !is[t](s) )
+            }
+        })
+        # also, aesthetics
+        is.fitsin = (v,s) => (''+s).length <= v
+        is.good_k = s => is.fitsin(23,s) && is.safe_k(s)
+        is.good_v = s => is.fitsin(64,s) && is.safe_v(s)
+        is.screedy = s => !is.fitsin(42,s)  && is.multiline(s)
+        me.Lines_types_is = is
+        return is
+    }
     A.I.i.y.tw.toLines.c.code =
     me.enL = &acgts{
         s and C = s;
@@ -632,25 +684,29 @@
         $n = {};
         # needs blockquote
         $q = {};
+        # as determined by
+        $is = me&Lines_types
       
-      // sayability
+      // sayability!
         # check out how sayable the values on the line are
         # for c/sc as peelable, 
         # < we can know thing:thing:thing
         #   means thing = 'thing:thing'
+        # GOING is.safe_v,safe_k
         $peelok = /^[\w\.\-%\/:]+$/;
         $nameok = /^\w[\w\.\-%\/]*$/;
+        # GOING is.good_k
         $simp = &s{
             s = ''+s;
-            return s.match(nameok) && s.length < 24
+            return is.safe_k(s) && s.length < 24
         };
         # inject 2sphere
         $lod = &n,nk,gk,v{
-            n[nk] ||= {};
-            n[nk][gk] = v;
+            n[nk] ||= {}
+            n[nk][gk] = v
         };
         each nk,gk,v h {
-            if (!simp(gk)) {
+            if (!is.good_k(gk)) {
                 lod(n,nk,gk,v)
                 continue
             }
@@ -667,11 +723,11 @@
                 }
             }
             else {
-                if (v.length > 42 && v.match(/\n/)) {
+                if (is.screedy(v)) {
                     # long enough to quote
                     lod(q,nk,gk,v);
                 }
-                else if ((v+'').match(peelok)) {
+                else if (is.good_v(v)) {
                     # decipherable to G&peel
                 }
                 else {
@@ -688,7 +744,7 @@
             !hak(v) and continue;
             $complex_keys;
             each ik g {
-                !simp(k) and complex_keys = 1;
+                !is.good_k(k) and complex_keys = 1;
             }
             complex_keys and continue;
             
@@ -713,8 +769,8 @@
         # may pass a T.enj_catch, so functions can warn/show up as 'CODE'
         $enj = &s{ return window.enj(s,T) };
 
-        # t can be messy
-        $l = simp(t) ? t : enj(t);
+        # t can be messy, very long (as opposed to is.good_k)
+        $l = is.safe_k(t) ? t : enj(t);
 
         # y.cv = 1 is implied
         !y and y = 1
@@ -735,17 +791,17 @@
                 # blank
                 l += "\t";
             }
-            else if (nk == 'c' && 1 == hak(v) && v.s) {
+            else if (nk == 'c' && 1 == hak(v) && hak(v,'s')) {
                 # t y "the s" sc
-                l += "\t"+enj(v.s);
+                l += "\t"+enj(v.s+'')
             }
             else if (n[nk]) {
                 # json bits: t y {W:"At"} {et:3,se:"te",ra:1}
-                l += "\t"+enj(v);
+                l += "\t"+enj(v)
             }
             else if (hak(v)) {
                 # G&peel bits: t y W:At et:3,se:te,ra
-                l += "\t"+G&depeel,v;
+                l += "\t"+G&depeel,v
             }
         }
 
@@ -753,6 +809,11 @@
         $L = [];
         # < quoting with Line other N/C looking vals
         each nk,gk,v q {
+            # < sanity. nk will be c|sc
+            !is.safe_k(gk) and debugger
+            # specifically, see &deL $indenting
+            !is.wordyspace(gk) and debugger
+            !nk.match(/^\w+$/) and debugger
             $k = "  "+nk+" "+gk+":";
             if (typeof v != 'string') {
                 # BQ yaml data
@@ -808,9 +869,11 @@
     me.deL = &acgts,opt{
         
         opt ||= {};
+        $is = me&Lines_types
         $L = s.split("\n");
         $oL = [];
         $tot = L.length;
+        # N=[C+]
         $N = [];
         $stack = [];
         $paniconce = 0;
@@ -833,28 +896,30 @@
         y && y [0] == '%' and sc = y.substr(1); y = '';
         c && c [0] == '%' and sc = c.substr(1); c = '';
         y && opt.y1 && opt.y1[0] == '%' and (opt.tosc ||= {})[opt.y1.slice(1)] = y; y = '';
-        $s = li[4];
         # t may be crazy string
-        t.match(/^\W/) and t = dej(t);
+        is.jsoning(t) and t = dej(t);
         if (y && y.includes('-')) {
             # 33-suchpi
-            y = y.split('-')
-            $pi = y [1]
-            !pi and throw "ohno"
-            y = y [0]
+            $m = y.split('-')
+            $pi = m [1]
+            !pi || m[2] != null and throw "!33-suchpi",y
+            y = m [0]
         }
         y ||= "1"
         y * 1 == NaN and debugger
+        # < see scv(cv)
         y = {cv:1*('0.'+y)}
         
-        if (s && s.match(/^\W/)) {
+        # c&s as a fifth thing on the line
+        $s = li[4];
+        if (s && is.jsoning(s)) {
             s = dej(s)
         }
         if (c && c.startsWith('"')) {
             s = dej(c)
             c = {}
         }
-        else if (c && c.match(/^\W/)) {
+        else if (c && is.jsoning(c)) {
             c = dej(c)
         }
         else if (c) {
@@ -862,10 +927,10 @@
         }
         else { c = {} }
         
-        s and c.s = s
+        s != null and c.s = s
         pi and c.pi = pi
         
-        if (sc && sc.match(/^\W/)) {
+        if (sc && is.jsoning(sc)) {
             sc = dej(sc)
         }
         else if (sc) {
