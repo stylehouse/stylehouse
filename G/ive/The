@@ -3022,14 +3022,17 @@ me.Sch_The = &acgt{ return [
         R.sc[Rs&Pier] = 1
     }
     
+  // &Piero @264
     # @264 realise minded id
     me.Piero = &acgt{
+        
         $R = me&R
         $E = Rs&E
         $D = Rs&D
         $s = Rc&s
         
         $Xc = {}
+        # < &typeup might immediately:
         Dc&pi and Xc.pi = Dc&pi
         # < replace Ec&s=R future?
         fi&pio,E,Xc
@@ -3053,7 +3056,10 @@ me.Sch_The = &acgt{ return [
                     Rs&ope ||= 0
                     Rs&ope += qua.ope
                 }
-                qua.biggish && Rs&String and s&fs = 22
+                if (qua.biggish) {
+                    me&modselect,R,{modt:'String',t:'string',cv:13}
+                        .map(n => ns&fs = 22)
+                }
                 qua.impl and me&tc,"~impl~"
                 qua.dim and Rs&isdim = 1
                 me&Ri,s
@@ -3072,6 +3078,7 @@ me.Sch_The = &acgt{ return [
             }
             Rs&isdim and me&Ri,{layout:'dim'}
         }
+        
         # ref sense similar, centralised
         me&Rlimiti,R
         
@@ -3122,7 +3129,7 @@ me.Sch_The = &acgt{ return [
         }
         T.Mw = 'Top'
         each ir Rc&N {
-            me&modulatM,r
+            me&modulatM,r,1
         }
         reverse(Rc&N).map(r => me&specialfx1,r)
         #Rc&N.map(r => me&specialfx2,r)
@@ -3139,13 +3146,12 @@ me.Sch_The = &acgt{ return [
             }
         }
         each ir Rc&N {
-            $since = hak(rs&M)
-            rs&Mw and me&modulatM,r
+            # < c=1 may be reassigning cv (&cvdeal)
+            $late = me&modulatM,r,1
+            !hak(late) and continue
             # where some structure has taken over
             # < stream into, degrees of time availing reorg
             if (rs&Msink) {
-                # new since specialfx
-                $late = rs&M.slice(since)
                 $lat = grepout(rs&M,late)
                 hak(lat) != hak(late) and debugger
                 # scooped into a row
@@ -3190,23 +3196,21 @@ me.Sch_The = &acgt{ return [
         me&sfx_mirage,R,N
     }
     
-   // Top modulat rejigs # < deprecate Mwty
+   // Top modulat rejigs
     # pre-thingo, r%Mw still there
     me.Topping_2 = &acgtr{
         $N = me&ioR,r
         # who
-        rs&shym && rs&Ctitle and delete rs&Mw.shym
+        rs&shym && rs&Ctitle and me&moddelete,r,{modt:'shym'}
         if (!hak(N)) {
             if (rs&toomuch) {
                 # hiding all the stuff
                 if (rs&shym && !rs&Cish) {
                     rs&toomuch_shouldcount = 1
-                    me&Mwty,r,'shym','end',''
-                        .map(n => nc&not = 1)
+                    me&moddelete,r,{modt:'shym',t:'end'}
                 }
                 if (rs&indim && rs&Cish) {
-                    me&Mwty,r,'Ctitle'
-                        .map(n => nc&not = 1)
+                    me&moddelete,r,{modt:'Ctitle'}
                 }
             }
             # instead of thing{ ⦄1 }
@@ -3761,7 +3765,7 @@ me.Sch_The = &acgt{ return [
             if (!layouty) {
                 # glow label
                 # < effect At@101, t@12 etc based on match
-                $t = me&Mwty,R,'Pier','At';
+                $t = me&modselect,R,{modt:'Pier',t:'At'}
                 ts&sha = '3 3 3 999'
             }
             
@@ -4266,29 +4270,7 @@ me.Sch_The = &acgt{ return [
         $first = N.filter(r => r.sc[k])[0]
         return !first || M.includes(first)
     }
-   // data, &modselect
-    # select ground 102-14 for name (6), 11 for sym (1)
-    me.modselect = &acgtRc{
-        # < mix down modulat into Rs&M anytime?
-        0 and me&modulatM,R
-        else {
-            $N = []
-            Rs&M and N.push(...Rs&M)
-            # < code: havs(Rs&Mw)->havs->N
-            #    auto havs($_)
-            # < io: i N o R/%Mw/*/*/$v
-            # < io: i havs(Rs&Mw)->havs->N
-            each kin Rs&Mw {
-                N.push(n)
-            }}
-        }
-        # select what
-        $M = N.filter(&n{
-            return gteqcv(ny&cv,c)
-        })
-        vsortz(M)
-        return M
-    }
+   // data
     # 0.33 = scv(33), with floating points (gets floaty at precision=17)
     # < collect cv type functions, eg is opposite of numf(0.33)
     self.scv = &ov,{
@@ -4300,6 +4282,7 @@ me.Sch_The = &acgt{ return [
              && (c.lte == null || v <= scv(c.lte))
              && (c.gt == null || v > scv(c.gt))
              && (c.lt == null || v < scv(c.lt))
+             && (c.cv == null || v == scv(c.cv))
     }
     # (qua||0) < 2 and leave
     # sizes something, usu ope|interest for snoozing
@@ -4467,32 +4450,66 @@ me.Sch_The = &acgt{ return [
         return c
     }
     
-   // modulat
+   // modulat!
+    # select ground 102-14 for name (6), 11 for sym (1)
+    me.modselect = &acgtRc{
+        c ||= {}
+        # < mix down modulat into Rs&M anytime?
+        me&modulatM,R
+        $N = Rs&M
+        1 and 1
+        else {
+            $N = []
+            Rs&M and N.push(...Rs&M)
+            # < code: havs(Rs&Mw)->havs->N
+            #    auto havs($_)
+            # < io: i N o R/%Mw/*/*/$v
+            # < io: i havs(Rs&Mw)->havs->N
+            each kin Rs&Mw {
+                N.push(n)
+            }}
+        }
+        # select what
+        $M = N.filter(&n{
+            return gteqcv(ny&cv,c)
+                && (c.modt == null || c.modt == ns&modt)
+                && (c.t == null || c.t == n.t)
+        })
+        if (c.el == 9) {
+            # wont become R:Display
+            M.map(n => nc&not = 1)
+        }
+        vsortz(M)
+        return M
+    }
+    me.moddelete = &acgtRc{
+        c.el = 9
+        return me&modselect,R,c
+    }
+    # mix down R%Mw.$dome.* -> R%M.*
     # see '// f modulat' of mirage
     # periodically R%M <- R%Mw/T.act.t|$dome/$modulat**
-    me.modulatM = &acgtR{
-        $M = []
-        each in Rs&M {
-            M.push(n)
-        }
-        
-        
+    me.modulatM = &acgtRc{
+        !Rs&Mw and return []
+        $M = (Rs&M||[]).slice()
+        $since = hak(M)
         each win Rs&Mw {
+            # usu T.act.t, or T.Mw='such'
             ns&modt = w
             M.push(n)
         }}
-        
-        
-        
-        
-        # spatialises, on tv
-        me&cvdeal,M
-        
-        
+        if (c) {
+            # spatialises, on tv
+            # < not til Mirage-ish time
+            me&cvdeal,M
+        }
         delete Rs&Mw
         Rs&M = M
+        # new since
+        return Rs&M.slice(since)
     }
     # s='['
+    # < %bracket?
     me.modbracket = &acgtsv{
         $abracket = &tsv{
             $be = me&tsc,t,s,''
