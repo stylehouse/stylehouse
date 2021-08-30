@@ -2952,7 +2952,7 @@ me.Sch_The = &acgt{ return [
         rc&N.push(r)
     }
     
-  // Pi%Pier &Ring, thence
+  // Pi%Pier, &Ring thence
     me.Pi_Pier = &acgt{ return [
        // %Top|%Pier back
         ['Pier',0.2,&acgtRs{
@@ -3750,6 +3750,75 @@ me.Sch_The = &acgt{ return [
         lc&not = 1
         
     }
+    # flatten modulat to D%$sym=modc&s+
+    me.Rthingo_toD = &acgtR{
+        $E = Rs&E
+        $D = Rs&D
+        $h = {}
+        $haves = &ks{
+            $M = h[k] ||= []
+            s != null and M.push(s)
+        }
+        each tg Rs&thingo {
+            # D%$name=... can be a symbol
+            $name = "⛔"
+            t != 'limit' and name += t
+            me&indo,g,{name} (&sd{
+                # layout-cap may not
+                #  eg ^-Cish implies y ~:dim < ⇃
+                #  otherwise the RX-cap here   ^
+                #   may vanish if it was only (layouty) (see &TXin)
+                s.c.not and return d.not = 1
+                
+                s == d.promoted and return
+                if (sc&thing && sy&sym) {
+                    # subthing
+                    $z = sy&sym
+                    !isst(zc&s) and debugger
+                    # dont visit sym
+                    d.refs.push(z)
+                    $was = d.promoted
+                    if (was) {
+                        # already in something promoted
+                        #  append sym
+                        # < more ()ing?
+                        haves(d.name,zc&s)
+                    }
+                    else {
+                        # promoted to h/$sym
+                        d.promoted = 1
+                        d.name = zc&s
+                        # ensure layout-sym '~'
+                        #  if unkeen-cap ('<') is c&not
+                        #   < as implied by %Cish?
+                        # also an ~ will not appear on anything being empty
+                        # < however, Lol/figaro/y should maybe have ♲
+                        #    or we are implying it's a new .y={} since then
+                        # < a C with ♲:^/fer should be /* nothing
+                        #    if not being, trusting a previous self
+                        #    need a way to indicate being empty
+                        #  < calling it a self|other referer
+                        #     when same|diff encoding (eg %Pier=hat)
+                        #    needs to have equivalent in|out of time
+                        # < these are bugs in Stories/TryPiWarmer-1
+                        haves(d.name,null)
+                    }
+                    return
+                }
+                
+                if (hak(s.c,'s')) {
+                    haves(d.name,sc&s)
+                }
+            })
+        }
+        each kM h {
+            D.sc[k] = hak(M) ? M.join(" ") : "1"
+        }
+        #Ds&reallylongtiiiiiiieeeeeeeeeeeeiiiitle = h
+        #Ds&reallylongtiiiiiiieeeeeeeeeeeeiiiitles = "Ougha"
+        # < mirage by carpentry
+        #   the house is seen with a long lense
+    }
   
   // %%RX, %%layout
     # what arrives there
@@ -4531,231 +4600,6 @@ me.Sch_The = &acgt{ return [
     me.Pi_The = &acgt{ return [
    ... me&Pi_Lab ,
    ... me&Pi_Pier ,
-   // Describe
-    &{
-        # notices Ey&thing to use (+link) or update
-        me.compLines_Eything = &acgtEd{
-            $t = Ey&thing
-            !t and return
-            # on the node Somewhence-seven,
-            #   E:-seven** encodes itself by %encodeD
-            #    and then also R%E**, by %hoisten
-            #   R%E:Somewhence**
-            #    up on the outEsphere, finds its way into:
-            #     R%E/Bowler etc
-            #    ignoring R%E**//R%hoisten, ie E:-seven
-            # Etop...E is E...e, a y&thing join
-            $Etop = d.Etop
-            !Etop and debugger
-            if (d.d > 1 && ty&cv >= 0.2) {
-                # this part of the climbing encode is isolatable
-                #~>5 Eything: d.d, t.t, ty&cv
-                me&Fame_Ething_add,Etop,E
-                if (ts&string) {
-                    # stops, %string trusted
-                    d.nofurther = 1
-                    return me&unfixstring,ts&string
-                }
-            }
-                # everyone sets a thing at the top
-                #~>5 Eythingset: d.d, t.t, ty&cv
-                # E-seven always wants E:now (its out-E)
-                # deal nodewake if Etop is already an out-E
-                if (!ts&dige && Etopy&ers) {
-                    # 
-                    $R = Etopy&R
-                    $oR = me.cbu(R,'Piing')
-                    R != oR and debugger
-                    $i = 3
-                    while (i--) {
-                        !oR || !oRs&E and break
-                        $pE = oRs&E
-                        pEy&thing and break
-                        oR = oRy&up
-                    }
-                    !pEy&thing and debugger
-                    #~>5 INIT to: pE.t, '<-', E.t
-                    $z = oRc&s
-                    !isnode(z) and debugger
-                    me&wants,R,'pre_Fame_Ething',z
-                }
-                # < thing awake to see %string change?
-                #d.d != 1 and ~>5 Yondfirst: Etop.t, E.t
-                # %string made here
-                d.for_string = &sdN{
-                    ts&string = N.join("\n")+"\n"
-                    ts&dige = dig(ts&string)
-                    # and percolated to the out-C
-                    $CC = Cy&C
-                    !CC and return
-                    #debugger
-                    # supposing C=node%E Ey&C = outsphere
-                    CCs&outC = 1
-                    sex(CC.sc,t.sc,'string,dige')
-                }
-        }
-        # after you encode t, check dependers to wake
-        me.Fame_Ething_add = &acgtEe{
-            $Et = Ey&thing
-            $R = Ey&R
-            if (!Rs&Piing) {
-                # -Lab/Lab(i|o)
-                Rs&Pier == 'Lab' and return
-                debugger
-            }
-            $s = Rc&s
-            !isnode(s) and debugger
-            $t = ey&thing
-            ac(t,'use',s,'dige',ts&dige||'...')
-            #~>5 Eything: Et.t, t.t
-        }
-        # after you encode t, check dependers to wake!
-        me.Fame_Ething = &acgtE{
-            $t = Ey&thing
-            $R = me.cbu(Ey&R,'Piing')
-            each iz ts&use {
-                $vers = ts&use_dige[i]
-                #~>3 ^^^^Eything: z.t, E.t
-                vers == ts&dige and continue
-                ~>3 Eythingup: z.t, '>5 lovely', E.t
-                me&wants,R,'Fame_Ething',z
-            }
-        }
-    },
-    ['Top',0.44,&acgtRs{
-        $E = Rs&E
-        Cy&cv = 0.22222
-        # draw this E-etc
-        Rs&encodeD = 1
-        # draw together outsphere Ep/*
-        #  merging outsphere: Ep//s**//E, &Piing inners: Ep/-etc 
-        # < could do everything with pi?
-        $Ep = Ey&up
-        $Rp = Epy&R
-        Rps&Ethinging and Rs&hoisten = 1
-    },'ift,D'],
-    # happens on innermost eg E-Fez first
-    ['encodeD',0.7,&acgtRs{
-        $E = Rs&E
-        $D = Rs&D
-        # storable encoding
-        $t = Ey&thing = Dy&thing ||= Cye([D.t,2])
-        # the R//E should have a thing,
-        #  since /E**y&thing may not persist,
-        #  whole node tends to happen
-        $outR = me.cbu(R,'Piing')
-        $outE = outRs&E
-        outEy&thing ||= Cye([outE.t,2])
-
-        $d = {what: &sd{
-            # E**yD
-            return sy&D
-        }, compLines: &DdC{
-            # D is now C, D is a copy to encode
-            $E = Cy&E
-            Ec&noencode and return d.not = 1
-            # found another encoded thing
-            $re = me&compLines_Eything,E,d
-            re and return re
-            # eg %Lab(i|o) (middle|end) of @Lab
-            Ec&encode_thing_here and me&reusable_thing_string,d,E
-
-            #delete Cc&top
-            #Cy&D = D
-            #Cc&pi == 'row' && fi&bug,'Firstlog' and debugger
-            #me&dopi,D,d,C,c
-            Dc&pi ||= Ec&pi
-            delete Dc&cv
-            delete Dc&TX
-            #comp_log(D,d,C)
-        } }
-        d.Etop = E
-        me&Linets,t,E,d
-        me&Fame_Ething,E
-        d.not and me&strange,"&Linets:not"
-
-        #me&hu,'encod',"Stevewas"
-    },'ift,D'],
-    ['This',0.44,&acgtRs{
-        $E = Rs&E
-        $D = Rs&D
-    },'ift,D'],
-    ['Eight',0.44,&acgtRs{
-        $E = Rs&E
-        $D = Rs&D
-        Rs&hoisten = 2
-    },'ift,D'],
-    ['seven',0.44,&acgtRs{
-        $E = Rs&E
-        $D = Rs&D
-        $t = Ey&thing ||= Cye([E.t,2])
-        Ds&Seeving = 3
-        Rs&hoisten = 2
-    },'ift,D'],
-    ['hoisten',0.7,&acgtRs{
-        $E = Rs&E
-        $D = Rs&D
-        # climb from the node's %E (out-E)
-        $p = Ry&up
-        $Ep = ps&E
-        # supposing we (eg -seven) are the only encoder
-        $t = Epy&thing ||= Cye([Ep.t,2])
-            # compress the E, start!
-            # < linking to sevens? T outspheres
-            $d = {what: &sd{
-                # can change s (C) for d.compLines, but not d.for_string
-                # can also not:
-                # E**yD
-                $r = sy&R
-                # doesn't see other E//R%hoisten=2 (-Eight|-seven)
-                rs&hoisten == 2 and return
-                $main = ahsk(d,'up','s','y','main')
-                #main && main != s and return
-
-                $E = r && rs&E
-                E != s and throw "E!=s"
-                #Ec&b and debugger
-                $rp = r && ry&up
-                $z = rp && rps&ball && rpc&s
-
-                # < o p&pi == r%Pier o :p/$s//r
-                if (E && !rs&Piing) {
-                    # should we go into such &Piering
-                    if (rp && rps&ball) {
-                        $sp = rpc&s
-                        if (spc&pi == rs&Pier) {
-                            # being the main r%Pier
-                        }
-                        else {
-                            ~>5 hoistavoid: rp.t, r.t
-                            return
-                        }
-                    }
-                    !rs&Pier and debugger
-                }
-                return E
-            }, compLines: &DdC{
-                $re = me&compLines_Eything,C,d
-                re and return re
-                # upper Ec&cv vanishes
-                delete Dc&cv
-                delete Dc&top
-                delete Dc&b
-                # < should use D...
-                delete Dc&X
-                delete Dc&TX
-                delete Dc&RX
-                $tar = delete Ds&target
-                tar and debugger
-                #Ds&target = "C:"+tar.t
-
-                # climb E** after s**/-seven
-                #Cc&pi == 'seven' and d.s = C
-            }}
-        d.Etop = Ep
-            me&Linets,t,Ep,d
-        me&Fame_Ething,Ep
-    },'ift,D'],
 
    // -Bat events
     # many e
@@ -5160,7 +5004,7 @@ me.Sch_The = &acgt{ return [
         #me&hu,"thingoes",N
         #me&tc,"hereth" .sc.fs = 39
         #me&modulatM,R
-        Rs&lookat = N
+        #Rs&lookat = N
     },'ift,D'],
    
    // -Fez > -hat
@@ -5214,118 +5058,7 @@ me.Sch_The = &acgt{ return [
         # its many
         hak(z) and me&Ei,{t:'🚶',s:z,nobrackets:1}
     },'ift,D'],
-   // %thingo -> $D @68
-    ['thingo',0.68,&acgtRs{
-        $E = Rs&E
-        $D = Rs&D
-        $h = {}
-        $haves = &ks{
-            $M = h[k] ||= []
-            s != null and M.push(s)
-        }
-        each tg Rs&thingo {
-            # D%$name=... can be a symbol
-            $name = "⛔"
-            t != 'limit' and name += t
-            me&indo,g,{name} (&sd{
-                # layout-cap may not
-                #  eg ^-Cish implies y ~:dim < ⇃
-                #  otherwise the RX-cap here   ^
-                #   may vanish if it was only (layouty) (see &TXin)
-                s.c.not and return d.not = 1
-                
-                s == d.promoted and return
-                if (sc&thing && sy&sym) {
-                    # subthing
-                    $z = sy&sym
-                    !isst(zc&s) and debugger
-                    # dont visit sym
-                    d.refs.push(z)
-                    $was = d.promoted
-                    if (was) {
-                        # already in something promoted
-                        #  append sym
-                        # < more ()ing?
-                        haves(d.name,zc&s)
-                    }
-                    else {
-                        # promoted to h/$sym
-                        d.promoted = 1
-                        d.name = zc&s
-                        # ensure layout-sym '~'
-                        #  if unkeen-cap ('<') is c&not
-                        #   < as implied by %Cish?
-                        # also an ~ will not appear on anything being empty
-                        # < however, Lol/figaro/y should maybe have ♲
-                        #    or we are implying it's a new .y={} since then
-                        # < a C with ♲:^/fer should be /* nothing
-                        #    if not being, trusting a previous self
-                        #    need a way to indicate being empty
-                        #  < calling it a self|other referer
-                        #     when same|diff encoding (eg %Pier=hat)
-                        #    needs to have equivalent in|out of time
-                        # < these are bugs in Stories/TryPiWarmer-1
-                        haves(d.name,null)
-                    }
-                    return
-                }
-                
-                if (hak(s.c,'s')) {
-                    haves(d.name,sc&s)
-                }
-            })
-        }
-        each kM h {
-            D.sc[k] = hak(M) ? M.join(" ") : "1"
-        }
-        #Ds&reallylongtiiiiiiieeeeeeeeeeeeiiiitle = h
-        #Ds&reallylongtiiiiiiieeeeeeeeeeeeiiiitles = "Ougha"
-        # < mirage by carpentry
-        #   the house is seen with a long lense
-    },'ift,D'],
-   // -String|-Cish -> $D @2637
-    ['String',0.2637,&acgtRs{
-        $D = Rs&D
-        Dc&s = s
-    },'ift,D'],
-    # < i Dc&s = "(@sym )?@t( @cv)" o &modulat 11-131 .t:*
-    #   < knowing sym must be \w, cv \d,
-    #   < putting other @* after,
-    #    < in a form including the .t, stuff about it,
-    #      even the entire modulat, or this part of it
-    ['Cish',0.2637,&acgtRs{
-        $D = Rs&D
-        # ground usually labels itself around here
-        $N = me&modselect,R,{gte:11,lte:13}
-        # should be simple labels, with .s?
-        $cont = N.filter(n => hak(ns&z))
-        hak(cont) and debugger
-        # make a title
-        Dc&s = N.map(n => nc&s) .join(" ")
-        # usu "C $t"->"$t" but not if then $t="R blah"
-        #return; #
-        $comp = Dc&s.startsWith('C ') && !Dc&s.match(/^C \w /)
-        comp and Dc&s = Dc&s.replace(/^C /,'')
-        # < totally corresponding D-decompression
-    },'ift,D'],
-    # < when Nine/$t brings D** to resolve to nearby same
-    #    having trained on common %Cish modulata,
-    #     they can be reconstructed,
-    #      even to the %%limit-level,
-    #       so your remote data-dumper is cued for The++
-    ['thaw+Cish',0.312,&acgtRs{
-        $sym = Dc&s.match(/^(\w) /)
-        sym && sym[1] &&
-            n sym 11 $s:sym[1] fs:13,lh:0.8,hs:757
-    },'ift,D'],
-    &{
-        # see if we can make some compression
-        # < eg `a acs` in G as of now
-        me.acsume = &acgtsc{
-            c.starts && !s.startsWith(c.starts) and return
-
-        }
-    },
+    
    // -hat > -Hash etc
     # expects it to be C
     ['isC',0.21,&acgtRs{
@@ -5430,6 +5163,285 @@ me.Sch_The = &acgt{ return [
             n string 13 $s:di %fs:8,hs:584
         },'ift,D'],
         
+    
+ // R'The' -> $D ->
+   // %thingo -> $D @68
+    ['thingo',0.68,&acgtRs{
+        me&Rthingo_toD,R
+    },'ift,D'],
+   // -String|-Cish -> $D @2637
+    ['String',0.2637,&acgtRs{
+        $D = Rs&D
+        Dc&s = s
+    },'ift,D'],
+    # < i Dc&s = "(@sym )?@t( @cv)" o &modulat 11-131 .t:*
+    #   < knowing sym must be \w, cv \d,
+    #   < putting other @* after,
+    #    < in a form including the .t, stuff about it,
+    #      even the entire modulat, or this part of it
+    ['Cish',0.2637,&acgtRs{
+        $D = Rs&D
+        # ground usually labels itself around here
+        $N = me&modselect,R,{gte:11,lte:13}
+        # should be simple labels, with .s?
+        $cont = N.filter(n => hak(ns&z))
+        hak(cont) and debugger
+        # make a title
+        Dc&s = N.map(n => nc&s) .join(" ")
+        # usu "C $t"->"$t" but not if then $t="R blah"
+        #return; #
+        $comp = Dc&s.startsWith('C ') && !Dc&s.match(/^C \w /)
+        comp and Dc&s = Dc&s.replace(/^C /,'')
+        # < totally corresponding D-decompression
+    },'ift,D'],
+    # < when Nine/$t brings D** to resolve to nearby same
+    #    having trained on common %Cish modulata,
+    #     they can be reconstructed,
+    #      even to the %%limit-level,
+    #       so your remote data-dumper is cued for The++
+    ['thaw+Cish',0.312,&acgtRs{
+        $sym = Dc&s.match(/^(\w) /)
+        sym && sym[1] &&
+            n sym 11 $s:sym[1] fs:13,lh:0.8,hs:757
+    },'ift,D'],
+    &{
+        # see if we can make some compression
+        # < eg `a acs` in G as of now
+        me.acsume = &acgtsc{
+            c.starts && !s.startsWith(c.starts) and return
+
+        }
+    },
+   
+   
+   // Describe how eg -Eight hoists
+    &{
+        # notices Ey&thing to use (+link) or update
+        me.compLines_Eything = &acgtEd{
+            $t = Ey&thing
+            !t and return
+            # on the node Somewhence-seven,
+            #   E:-seven** encodes itself by %encodeD
+            #    and then also R%E**, by %hoisten
+            #   R%E:Somewhence**
+            #    up on the outEsphere, finds its way into:
+            #     R%E/Bowler etc
+            #    ignoring R%E**//R%hoisten, ie E:-seven
+            # Etop...E is E...e, a y&thing join
+            $Etop = d.Etop
+            !Etop and debugger
+            if (d.d > 1 && ty&cv >= 0.2) {
+                # this part of the climbing encode is isolatable
+                #~>5 Eything: d.d, t.t, ty&cv
+                me&Fame_Ething_add,Etop,E
+                if (ts&string) {
+                    # stops, %string trusted
+                    d.nofurther = 1
+                    return me&unfixstring,ts&string
+                }
+            }
+                # everyone sets a thing at the top
+                #~>5 Eythingset: d.d, t.t, ty&cv
+                # E-seven always wants E:now (its out-E)
+                # deal nodewake if Etop is already an out-E
+                if (!ts&dige && Etopy&ers) {
+                    # 
+                    $R = Etopy&R
+                    $oR = me.cbu(R,'Piing')
+                    R != oR and debugger
+                    $i = 3
+                    while (i--) {
+                        !oR || !oRs&E and break
+                        $pE = oRs&E
+                        pEy&thing and break
+                        oR = oRy&up
+                    }
+                    !pEy&thing and debugger
+                    #~>5 INIT to: pE.t, '<-', E.t
+                    $z = oRc&s
+                    !isnode(z) and debugger
+                    me&wants,R,'pre_Fame_Ething',z
+                }
+                # < thing awake to see %string change?
+                #d.d != 1 and ~>5 Yondfirst: Etop.t, E.t
+                # %string made here
+                d.for_string = &sdN{
+                    ts&string = N.join("\n")+"\n"
+                    ts&dige = dig(ts&string)
+                    # and percolated to the out-C
+                    $CC = Cy&C
+                    !CC and return
+                    #debugger
+                    # supposing C=node%E Ey&C = outsphere
+                    CCs&outC = 1
+                    sex(CC.sc,t.sc,'string,dige')
+                }
+        }
+        # after you encode t, check dependers to wake
+        me.Fame_Ething_add = &acgtEe{
+            $Et = Ey&thing
+            $R = Ey&R
+            if (!Rs&Piing) {
+                # -Lab/Lab(i|o)
+                Rs&Pier == 'Lab' and return
+                debugger
+            }
+            $s = Rc&s
+            !isnode(s) and debugger
+            $t = ey&thing
+            ac(t,'use',s,'dige',ts&dige||'...')
+            #~>5 Eything: Et.t, t.t
+        }
+        # after you encode t, check dependers to wake!
+        me.Fame_Ething = &acgtE{
+            $t = Ey&thing
+            $R = me.cbu(Ey&R,'Piing')
+            each iz ts&use {
+                $vers = ts&use_dige[i]
+                #~>3 ^^^^Eything: z.t, E.t
+                vers == ts&dige and continue
+                ~>3 Eythingup: z.t, '>5 lovely', E.t
+                me&wants,R,'Fame_Ething',z
+            }
+        }
+    },
+    ['Top',0.44,&acgtRs{
+        $E = Rs&E
+        Cy&cv = 0.22222
+        # draw this E-etc
+        Rs&encodeD = 1
+        # draw together outsphere Ep/*
+        #  merging outsphere: Ep//s**//E, &Piing inners: Ep/-etc 
+        # < could do everything with pi?
+        $Ep = Ey&up
+        $Rp = Epy&R
+        Rps&Ethinging and Rs&hoisten = 1
+    },'ift,D'],
+    # happens on innermost eg E-Fez first
+    ['encodeD',0.7,&acgtRs{
+        $E = Rs&E
+        $D = Rs&D
+        # storable encoding
+        $t = Ey&thing = Dy&thing ||= Cye([D.t,2])
+        # the R//E should have a thing,
+        #  since /E**y&thing may not persist,
+        #  whole node tends to happen
+        $outR = me.cbu(R,'Piing')
+        $outE = outRs&E
+        outEy&thing ||= Cye([outE.t,2])
+
+        $d = {what: &sd{
+            # E**yD
+            return sy&D
+        }, compLines: &DdC{
+            # D is now C, D is a copy to encode
+            $E = Cy&E
+            Ec&noencode and return d.not = 1
+            # found another encoded thing
+            $re = me&compLines_Eything,E,d
+            re and return re
+            # eg %Lab(i|o) (middle|end) of @Lab
+            Ec&encode_thing_here and me&reusable_thing_string,d,E
+
+            #delete Cc&top
+            #Cy&D = D
+            #Cc&pi == 'row' && fi&bug,'Firstlog' and debugger
+            #me&dopi,D,d,C,c
+            Dc&pi ||= Ec&pi
+            delete Dc&cv
+            delete Dc&TX
+            #comp_log(D,d,C)
+        } }
+        d.Etop = E
+        me&Linets,t,E,d
+        me&Fame_Ething,E
+        d.not and me&strange,"&Linets:not"
+
+        #me&hu,'encod',"Stevewas"
+    },'ift,D'],
+    ['This',0.44,&acgtRs{
+        $E = Rs&E
+        $D = Rs&D
+    },'ift,D'],
+    ['Eight',0.44,&acgtRs{
+        $E = Rs&E
+        $D = Rs&D
+        Rs&hoisten = 2
+    },'ift,D'],
+    ['seven',0.44,&acgtRs{
+        $E = Rs&E
+        $D = Rs&D
+        $t = Ey&thing ||= Cye([E.t,2])
+        Ds&Seeving = 3
+        Rs&hoisten = 2
+    },'ift,D'],
+    ['hoisten',0.7,&acgtRs{
+        $E = Rs&E
+        $D = Rs&D
+        # climb from the node's %E (out-E)
+        $p = Ry&up
+        $Ep = ps&E
+        # supposing we (eg -seven) are the only encoder
+        $t = Epy&thing ||= Cye([Ep.t,2])
+            # compress the E, start!
+            # < linking to sevens? T outspheres
+            $d = {what: &sd{
+                # can change s (C) for d.compLines, but not d.for_string
+                # can also not:
+                # E**yD
+                $r = sy&R
+                # doesn't see other E//R%hoisten=2 (-Eight|-seven)
+                rs&hoisten == 2 and return
+                $main = ahsk(d,'up','s','y','main')
+                #main && main != s and return
+
+                $E = r && rs&E
+                E != s and throw "E!=s"
+                #Ec&b and debugger
+                $rp = r && ry&up
+                $z = rp && rps&ball && rpc&s
+
+                # < o p&pi == r%Pier o :p/$s//r
+                if (E && !rs&Piing) {
+                    # should we go into such &Piering
+                    if (rp && rps&ball) {
+                        $sp = rpc&s
+                        if (spc&pi == rs&Pier) {
+                            # being the main r%Pier
+                        }
+                        else {
+                            ~>5 hoistavoid: rp.t, r.t
+                            return
+                        }
+                    }
+                    !rs&Pier and debugger
+                }
+                return E
+            }, compLines: &DdC{
+                $re = me&compLines_Eything,C,d
+                re and return re
+                # upper Ec&cv vanishes
+                delete Dc&cv
+                delete Dc&top
+                delete Dc&b
+                # < should use D...
+                delete Dc&X
+                delete Dc&TX
+                delete Dc&RX
+                $tar = delete Ds&target
+                tar and debugger
+                #Ds&target = "C:"+tar.t
+
+                # climb E** after s**/-seven
+                #Cc&pi == 'seven' and d.s = C
+            }}
+        d.Etop = Ep
+            me&Linets,t,Ep,d
+        me&Fame_Ething,Ep
+    },'ift,D'],
+        
+        
+   
    // etc
     
     ] }
