@@ -663,9 +663,102 @@
             ox()
         }
   
-  // 'Sarn' N/slope
+      // ioisms &rayplace, q etc
+        # adds s={k:v} to all rows, or creates one
+        me.arkray = &acgtgscq{
+            !hak(g.N) and g.N = [ me&axsimilate,s ]
+            else {
+                me&rayplace,g,s,c,q (&ascqM{
+                    M.push(me&axsimilate,a,s )
+                })
+            }
+        }
+        # replaces g.N, generating scq, sets up q.param
+        me.rayplace = &acgtgscq{
+            return &y{
+                
+                $per_scq = &ascqM{
+                    # binds q.param from a.$param
+                    if (q.param) {
+                        !hak(a,q.param) and debugger
+                        $v = a [q.param]
+                        s [q.param] = v
+                    }
+                    # you push same+new ax to M
+                    y (a,s,c,q,M)
+                }
+                $per_a = &a{
+                    $M = []
+                    $arg = [s,c,q].map(s => ex({},s||{}))
+                    per_scq(a,...arg,M)
+                    # < geneology mania
+                    return M
+                }
+                
+                $more = []
+                g.N.map(a => more.push(... per_a(a)))
+                g.N = more
+                # you may not be &Shx_io
+                !q and return
+                # later parts dont also get our q.param
+                # < compulsively add layers to s.*, partitions
+                #   wants !c.long &Xsim etc...
+                #    basically wanting ax+ over vx
+                delete q.param
+            }
+        }
+        # q clones at the part through io leg
+        #  so the q-leg has a density at far end
+        # < rename other leg meaning x... or so (qis)
+        #   same thing, other impedance
+        me.qsimilate = &acgtqp{
+            q = ex({},q)
+            p and ex(q,p)
+            return q
+        }
+        
+      // ioisms ax
+        # clone rowing between &Sarg
+        me.axsimilates = &acgtcg{
+            # < stash c.N somewhere. osc page.
+            c.N = g.N.slice()
+                .map(ax => me&axsimilate,ax )
+            ahk(c,['ax_from'],g)
+        }
+        # clone an ax
+        me.axsimilate = &acgtab{
+            $ax = ex({},a)
+            $arkx = ax.arkx = ex({},ax.arkx||{})
+            if (b) {
+                # may mix in b over any of it
+                ex(ax,b)
+                ex(arkx,b.arkx||{})
+                ex(ax,{arkx})
+            }
+            # fi&AoQ sets ax.N to join /believe/
+            ax.N and ax.N = ax.N.slice()
+            return ax
+        }
+        # sanity check when joining rowings
+        #  c + g should share /$n, see &Shx_arkbind
+        me.axcompatible = &acgtcg{
+            $thesen = c.N.map(ax => ax.n)
+            $thosen = g.N.map(ax => ax.n)
+            # thesen not there
+            $undefn = thesen.filter(n => !thosen.includes(n))
+            hak(undefn) and debugger
+            # thosen not here
+            $othern = thosen.filter(n => !thesen.includes(n))
+            hak(othern) and debugger
+            return thosen
+        }
+        
+  
+  
+  // 'Sarn' i slope
         # @Thy/-This/#@Fine-Labine/@-Lab#@n%ThyLab/c&s=@n
-        # make c.path!
+        #  the @n, @Fine arrive in &Saturn
+        # make g.path for &Saturn to fill out
         me.Sarg_Sarn = &acgtpscq{
             $a = me&paullistify,p,s,c,q
             # columns for c.N
@@ -730,9 +823,11 @@
                 
             }
         }
-  //  'Saturn' N/slope
+  //  'Saturn' o slope
        // itself
-        # i $s** $sc={} $mix={} o <- %%inst
+        # i @z <-+@mix @n||=@inst
+        #     i &locate_Sarn@2 &being_inst $s** $sc={} $mix={}
+        # o <- %%inst
         me.Sarg_Saturn = &acgtpscq{
             $a = me&paullistify,p,s,c,q
             $g = c
@@ -742,7 +837,7 @@
                 #   ie just consume expr
                 # everyone must handle doing nothing
                 #g.gee == 'i' and return g.empty = 1
-                # o ... o ... may get further when legs empty
+                # < o ... o ... may get further when legs empty
                 g.gee == 'o' and debugger
                 # in i...(i...)o...%%inst with no %%inst
                 #  compulse row @2 but not @3
@@ -857,7 +952,7 @@
             #  we may not be empty, but only have eg $sc,
             #   low level side-hustles like realising who you are
             g.empty and return
-            # < all &Sarg c->g
+            # < all &Sarg s/c/g/
             $g = c
             # may split more rows
             # < wanting an &axsimilate that knows g+q...
@@ -882,8 +977,9 @@
             c.show = c.N
         }
         # &Saturn func hooks
-        me.gfunc = &acgtgqi{
-            $h = ahsk(g,'func',i)
+        me.gfunc = &acgtgq,cv{
+            cv < 1 and throw "takes whole number cv"
+            $h = ahsk(g,'func',cv)
             each func,i h {
                 me&rayplace,g,{},{},q (&ascqM{
                     q.Max = M
@@ -998,13 +1094,14 @@
                         #    to compile back into @Labi/-nodei/-row
                     }
                     if (next.spaceref == 'Fine') {
+                        # < in &Gomex|&Superargs|%Names
                         # happens to mean this
+                        # ie ...Lab can only be from @Fine
                         $orig = me.cbu(inst)
                         $j = origy&R
                         !js&TheFine and debugger
                         $z = jc&s
                         $t = z.t
-                        # < in &Gomex already (or is it &Superargs?)
                     }
                     elsif (next.spaceref) {
                         # the @Name is from %Names
@@ -1080,7 +1177,7 @@
             #   looming around this one's process
             c = peel(c)
             $n = c.n
-            # is it %%inst,$k
+            # is it %%inst,$k (eg n.sc.n for k=n)
             (n) && hak(n.sc,k) and $v = n.sc[k]
             else
             # is it an ark
@@ -1092,14 +1189,6 @@
             c.fatal && v == null and throw "ark!v",k,a
             return v
         }
-        # adds s={k:v} to all rows, or creates one
-        me.arkray = &acgtgscq{
-            if (hak(g.N)) {
-                me&rayplace,g,s,c,q (&ascqM{
-                    M.push(me&axsimilate,a,s )
-                })
-            } else g.N = [ me&axsimilate,s ]
-        }
        
         # things (and A)
         me.Saturn_isC = &acgtn{
@@ -1109,7 +1198,7 @@
             return isob(s)
         }
   
-  // 'Shx' N/ax
+  // 'Shx' N/ax                   
        // itself, itselves, iterate
         # sound of contorting topologies
         #  it says, hey there's all this stuff in here
@@ -1286,50 +1375,6 @@
                 }
             })
         }
-        # replaces c.N, generating scq, sets up q.param
-        me.rayplace = &acgtgscq{
-            return &y{
-                
-                $per_scq = &ascqM{
-                    # binds q.param from a.$param
-                    if (q.param) {
-                        !hak(a,q.param) and debugger
-                        $v = a [q.param]
-                        s [q.param] = v
-                    }
-                    y (a,s,c,q,M)
-                }
-                $per_a = &a{
-                    $M = []
-                    $arg = [s,c,q].map(s => ex({},s||{}))
-                    per_scq(a,...arg,M)
-                    # < mania
-                    return M
-                }
-                
-                $more = []
-                g.N.map(a => more.push(... per_a(a)))
-                g.N = more
-                # you may not be &Shx_io
-                !q and return
-                # later parts dont also get our q.param
-                # < compulsively add layers to s.*, partitions
-                #   wants !c.long &Xsim etc...
-                #    basically wanting ax+ over vx
-                delete q.param
-            }
-        }
-       
-       // ioisms q etc
-        # q clones at the part through io leg
-        #  so the q-leg has a density at far end
-        # < rename other leg meaning x... or so (qis)
-        #   same thing, other impedance
-        me.qsimilate = &acgtqp{
-            q = ex({},q)
-            p and ex(q,p)
-            return q
-        }
         # &Xsim c.array or not guess
         #  which we don't always know just looking around X.**
         # see arrefs
@@ -1359,43 +1404,7 @@
                 ref and c.array = 1
             }
         }
-        
-       // ioisms ax
-        # clone rowing between &Sarg
-        me.axsimilates = &acgtcg{
-            # < stash c.N somewhere. osc page.
-            c.N = g.N.slice()
-                .map(ax => me&axsimilate,ax )
-            ahk(c,['ax_from'],g)
-        }
-        # clone an ax
-        me.axsimilate = &acgtab{
-            $ax = ex({},a)
-            $arkx = ax.arkx = ex({},ax.arkx||{})
-            if (b) {
-                # may mix in b over any of it
-                ex(ax,b)
-                ex(arkx,b.arkx||{})
-                ex(ax,{arkx})
-            }
-            # fi&AoQ sets ax.N to join /believe/
-            ax.N and ax.N = ax.N.slice()
-            return ax
-        }
-        # sanity check when joining rowings
-        #  c + g should share /$n, see &Shx_arkbind
-        me.axcompatible = &acgtcg{
-            $thesen = c.N.map(ax => ax.n)
-            $thosen = g.N.map(ax => ax.n)
-            # thesen not there
-            $undefn = thesen.filter(n => !thosen.includes(n))
-            hak(undefn) and debugger
-            # thosen not here
-            $othern = thosen.filter(n => !thesen.includes(n))
-            hak(othern) and debugger
-            return thosen
-        }
-        
+       
        // &Shx_ark*
         # look up and join nearby results
         me.Shx_arkmaybe = &acgtcq{
@@ -1518,6 +1527,8 @@
         me.Sharg = &acgtscq{
             return me&Sarg,'chaseout',s,c,q
         }
+        # only used once so far:
+        # o &wants //R** if %strange o $s//E/*
         me.Sarg_chaseout = &acgtpscq{
             $a = me&paullistify,p,s,c,q
             # begin with somethings
