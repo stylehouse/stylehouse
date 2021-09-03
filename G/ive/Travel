@@ -107,6 +107,7 @@ me.Sch_Travel = &acgt{ return [
     },'ift,D'],
     
   // < %Yingout -gate visits
+   // %Yingout
     # After Ying_8
     ['ball+Yingout','85',&acgtRs{
         $x = me&Yingu_Jx
@@ -175,6 +176,233 @@ me.Sch_Travel = &acgt{ return [
         !r and return
         rs&lastone = 1
     },'ift,D'],
+   // for nodes
+    &{
+    # makes such expressions of a Km!
+    # s describes info of expression
+    =pod
+      Xio proto
+       < eat k/*/refs
+          some isnode()
+          some climb y&R|up to a node (eg $E)
+         those nodes pile
+         expr for $step/$node compresses eg $k=step|node
+          leaving odd $k to be expressed
+            # < morekeys later
+            #   find things not covered by abstractions:
+            # < search by all k, rather that specifics?
+            #   or decide later that %%step is normal?
+       < Xq|xq knowing the X/(node|nearnode)/$suchness/$ref
+          is a subselect of /ref
+      trivia
+       - curiously the &Xsim c.wild doesnt need to know c.array
+          because &Xsomp after it notices and resolves 'refs'
+          &Xsimp however needs c.array=1, guess by isob()
+          < xq would know this
+          < gleaned at compilation from an io expr somwhere
+       - in comments: see # note:
+    =cut
+    me.brackstract = &acgtXsc{
+        $R = me&R
+        $D = Rs&stracts ||= {A:R}
+        # instances of eg %%step
+        $Y = Rs&astract = {A:R}
+        
+        $S = &{
+            $args = [...arguments]
+            return me&Shx,args.shift(),args
+        }
+        #S("i $D/astract $Y",D,Y)
+        # X/$k/$ref -> Y/(node,nearnode,...)*,ref/$k
+        # note: word (/ref) is a type of spacer,
+        #  used as o it globs everything (like &jaa c.thing=1)
+        # < the ark-using spacer, eg /#why binds a.why
+        #    derives a word-only spacer from a ref?
+        #     there may be an indexed name for it?
+        #    in Cio instead of Xio, it makes C.t+y&cv copies
+        S("o $X/k/ref {",X) (&an{
+            # note: ark can be anywhere
+            #  in iterating Sarg**
+            #  reversing out, should find the latest:
+            # < more robust lookup. when parts are mysteries, fail
+            #$st = S("i $D/stract",D)
+            # allows later use of that arkx:
+            #$th = S("i stract/...$s",s)
+            
+            # < crudge: %wou%X/.../x should .up
+            a.x.up ||= havs(a.arkx).slice(-2)[0]
+            
+            # rowing switches X cursors: ax.x = X:Y
+            #  they pile up arkx.{X,k,ref,Y}
+            # < construct as a surface tension and slopology from Sarg etc
+            #   perhaps the toplevel tends to o $X and i $Y
+            S('i $Y {',Y) (&a{
+                # finds ark=ref in the above
+                #  following its c.array clue ax.ref_i, see arrefs
+                # < used like this should demand ref defined?
+                # < wasnt this going to be a lot more @ref?
+                $ref = S("i /ref")
+                ref.N.length != 1 and throw "for one ref"
+                #T.oncily ||= 1
+                #$found = a.ref == 'tothings' && T.oncily++ < 2
+                #found and me&nu,"ref-find!",{Y,ref,Sarg:T.Sarg,a}
+                # < may already have it, from another -log/$n mention
+
+                if (0) {
+                    $val = Cye(["DOge",3])
+                    $fleet = 3
+                    $ve = S('i /$val/$fleet',val,fleet)
+
+
+
+
+                    # < check out i + c.wild
+                    #$vi = S('i $Y/val/fleet')
+                    #   val is ark_from the ve, which also merges ax.fleet
+                    #    which is then ark_reused
+                    # < disambiguate with $val=1
+                    #    when you can't use a bare word as such anymore
+
+
+
+                    $vo = S('o /val/fleet',Y)
+                    T.oncily ||= 1
+                    T.oncily++ < 2 and me&nu,"ref-find",{Sarg:T.Sarg,a,ve:vo}
+                }
+
+                isnode(a.ref) and S('i /$node',a.ref)
+                elsif (isC(a.ref)) {
+                    # < climb, want y&R before long
+                }
+            })
+            
+        })
+        
+        me&nodes_climb,X,s,c,D,Y,S
+        0 &&
+        S("o $Y/node {",Y) (&an{
+            $n = a.node
+            $st = S("i $D/stract",D)
+        })
+    }
+    # D /$node/$upfrom:node /$node_tip
+    me.nodes_climb = &acgtXscDYS{
+        # group by $node, not /node/$n:row_with_node
+        # < o $Y/node/ { # maybe?
+        # < all of $D wants no /$n-ness
+        $n = Cye(["nodes_climb",1])
+        $originodes = Y.nodes
+        originodes.map(s => S('i $D/$node $n',D,s,n))
+        # subset of /$node that is still climbing
+        $tips = originodes.slice()
+        $tries = 9
+        while (--tries) {
+            # tips of /$node should converge on one parent
+            tips.length == 1 and break
+            each is tips {
+                $nx = D.node[i]
+                !nx and debugger
+                $ps = me&node_upwards,s
+                if (!ps) {
+                    S('i $D/$node_tip',D,s)
+                }
+                else {
+                    # /$node:ps
+                    $ui = D.nodes.indexOf(ps)
+                    if (ui < 0) {
+                        S('i $D/$node $n',D,ps,n)
+                        $ui = D.nodes.indexOf(ps)
+                    }
+                    $ux = D.node[ui]
+                    
+                    # < refer to $D/$node without ref lookup
+                    #   eg insert /$n:node_i or so (fails type check p.ist('n'))
+                    #   note: array|hash numeric keys are always in numeric order
+                    S('i $ux/upfrom/$node $n',ux,s,n)
+                    S('i $nx/downfrom/$node $n',nx,ps,n)
+                    
+                    if (ux.downfrom) {
+                        # already climbed from
+                    }
+                    else {
+                        ui == i and debugger
+                        tips[ui] = ps
+                    }
+                }
+                # leaves a hole that won't be iterated
+                delete tips[i]
+            }
+        }
+        !tries and D.much_tries = 1
+        
+        each is Y.nodes {
+            $ps = me&node_upwards,s
+            # these i refer between X (naughty)
+            !ps and S("i $D/$node_tip",D,ps)
+            else {
+                
+            }
+        }
+    }
+    # climb up
+    me.node_upwards = &acgts{
+        $r = sy&R
+        # ends on A.4
+        r && rs&Ying and return
+        $ps = sy&up
+        if (!ps && sy&R) {
+            # R** where s** fails (eg pr%eph)
+            $r = sy&R
+            $pr = ry&up
+            # < up from E**
+            prs&Pier and debugger
+            !prs&ball and debugger
+            $ps = prc&s
+        }
+        $pr = psy&R
+        return ps
+    }
+    me.brackstract_out = &acgtR{
+        $D = Rs&stracts ||= {A:R}
+        # or all: D/astract/$n=Y
+        fi&Xsomp,D,{astract:1} .map(&a,Yi{
+            $Y = a.n
+            
+            $nodes = fi&Xsomp,Y,{node:1}
+            # unique $node
+            $h = partN(nodes,a=>a.node)
+            # < by nodemap
+            $startsort = h.ks.slice()
+            each it h.ks {
+                $N = h.vs[i]
+                $aa = N[0]
+                me&boxcap,"n:",'1b' (&m{
+                    Yi > 0 and ms&ml = 0.6
+                    me&tc,aa.node.t,'y'
+                    #me&tc,""+dis(aa),6 .sc.ma=0.4
+
+                    each ia N {
+                        me&boxcap,"a:",'5b' (&m{
+                            ms&ml = 0.6
+                            $n = a.n
+                            me&tsc,"nsc",""+dis(n.sc),6
+                            #me&tsc,"a",""+dis(a),'6y'
+
+                            $nak = fi&Xsomp,a.x,{notall:1,k:1},{},{n}
+                                .map(na => na.k)
+                            hak(nak) and me&tc,'%%...'+joint(nak,','),'g'
+
+                        })
+                    }
+                })
+            }
+            #me&nu,'ZealaY',Y
+        })
+        me&nu,'ZealaD',D
+        
+        # info relating to nodes written up first
+    }
+    },
   // < %Yingin node list
     ['ball+Yingin','85',&acgtRs{
         
@@ -344,145 +572,6 @@ me.Sch_Travel = &acgt{ return [
         }
         #me&nu,'Yingu_Jx',x.sc
         return x
-    }
-    # makes such expressions of a Km!
-    # s describes info of expression
-    =pod
-      Xio proto
-       < eat k/*/refs
-          some isnode()
-          some climb y&R|up to a node (eg $E)
-         those nodes pile
-         expr for $step/$node compresses eg $k=step|node
-          leaving odd $k to be expressed
-            # < morekeys later
-            #   find things not covered by abstractions:
-            # < search by all k, rather that specifics?
-            #   or decide later that %%step is normal?
-       < Xq|xq knowing the X/(node|nearnode)/$suchness/$ref
-          is a subselect of /ref
-      trivia
-       - curiously the &Xsim c.wild doesnt need to know c.array
-          because &Xsomp after it notices and resolves 'refs'
-          &Xsimp however needs c.array=1, guess by isob()
-          < xq would know this
-          < gleaned at compilation from an io expr somwhere
-       - in comments: see # note:
-    =cut
-    me.brackstract = &acgtXsc{
-        $R = me&R
-        $D = Rs&stracts ||= {A:R}
-        # instances of eg %%step
-        $Y = Rs&astract = {A:R}
-        
-        $S = &{
-            $args = [...arguments]
-            return me&Shx,args.shift(),args
-        }
-        #S("i $D/astract $Y",D,Y)
-        # X/$k/$ref -> Y/(node,nearnode,...)*,ref/$k
-        # note: word (/ref) is a type of spacer,
-        #  used as o it globs everything (like &jaa c.thing=1)
-        # < the ark-using spacer, eg /#why binds a.why
-        #    derives a word-only spacer from a ref?
-        #     there may be an indexed name for it?
-        #    in Cio instead of Xio, it makes C.t+y&cv copies
-        S("o $X/k/ref {",X) (&an{
-            # note: ark can be anywhere
-            #  in iterating Sarg**
-            #  reversing out, should find the latest:
-            # < more robust lookup. when parts are mysteries, fail
-            #$st = S("i $D/stract",D)
-            # allows later use of that arkx:
-            #$th = S("i stract/...$s",s)
-            
-            # < crudge: %wou%X/.../x should .up
-            a.x.up ||= havs(a.arkx).slice(-2)[0]
-            
-            # rowing switches X cursors: ax.x = X:Y
-            #  they pile up arkx.{X,k,ref,Y}
-            # < construct as a surface tension and slopology from Sarg etc
-            #   perhaps the toplevel tends to o $X and i $Y
-            S('i $Y {',Y) (&a{
-
-                # finds ark=ref in the above
-                #  following its c.array clue ax.ref_i, see arrefs
-                # < used like this should demand ref defined?
-                # < wasnt this going to be a lot more @ref?
-                $ref = S("i /ref")
-                ref.N.length != 1 and throw "for one ref"
-                #T.oncily ||= 1
-                #$found = a.ref == 'tothings' && T.oncily++ < 2
-                #found and me&nu,"ref-find!",{Y,ref,Sarg:T.Sarg,a}
-                # < may already have it, from another -log/$n mention
-
-                if (0) {
-                    $val = Cye(["DOge",3])
-                    $fleet = 3
-                    $ve = S('i /$val/$fleet',val,fleet)
-
-
-
-
-                    # < check out i + c.wild
-                    #$vi = S('i $Y/val/fleet')
-                    #   val is ark_from the ve, which also merges ax.fleet
-                    #    which is then ark_reused
-                    # < disambiguate with $val=1
-                    #    when you can't use a bare word as such anymore
-
-
-
-                    $vo = S('o /val/fleet',Y)
-                    T.oncily ||= 1
-                    T.oncily++ < 2 and me&nu,"ref-find",{Sarg:T.Sarg,a,ve:vo}
-                }
-
-                isnode(a.ref) and S('i /$node',a.ref)
-
-            })
-            
-        })
-    }
-    me.brackstract_out = &acgtR{
-        $D = Rs&stracts ||= {A:R}
-        # or all: D/astract/$n=Y
-        fi&Xsomp,D,{astract:1} .map(&a,Yi{
-            $Y = a.n
-            
-            $nodes = fi&Xsomp,Y,{node:1}
-            # unique $node
-            $h = partN(nodes,a=>a.node)
-            # < by nodemap
-            $startsort = h.ks.slice()
-            each it h.ks {
-                $N = h.vs[i]
-                $aa = N[0]
-                me&boxcap,"n:",'1b' (&m{
-                    Yi > 0 and ms&ml = 0.6
-                    me&tc,aa.node.t,'y'
-                    #me&tc,""+dis(aa),6 .sc.ma=0.4
-
-                    each ia N {
-                        me&boxcap,"a:",'5b' (&m{
-                            ms&ml = 0.6
-                            $n = a.n
-                            me&tsc,"nsc",""+dis(n.sc),6
-                            #me&tsc,"a",""+dis(a),'6y'
-
-                            $nak = fi&Xsomp,a.x,{notall:1,k:1},{},{n}
-                                .map(na => na.k)
-                            hak(nak) and me&tc,'%%...'+joint(nak,','),'g'
-
-                        })
-                    }
-                })
-            }
-            #me&nu,'ZealaY',Y
-        })
-        me&nu,'ZealaD',D
-        
-        # info relating to nodes written up first
     }
     },
     
