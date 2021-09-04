@@ -202,15 +202,17 @@ me.Sch_Travel = &acgt{ return [
           < gleaned at compilation from an io expr somwhere
        - in comments: see # note:
     =cut
-    me.brackstract = &acgtXsc{
+    me.brackstract = &acgtX{
         $R = me&R
-        $Y = Rs&brackstract_1 = {A:R}
-        $D = Rs&brackstract_2 ||= {A:R}
-        
-        $S = &{
-            $args = [...arguments]
-            return me&Shx,args.shift(),args
-        }
+        Rs&origin_X = X
+        $Y = Rs&brackstract_1 = me&bract_kref,X
+        $D = Rs&brackstract_2 = me&nodes_climb,Y
+        # modulat it here
+        me&brackstract_out,X
+    }
+    me.bract_kref = &acgtXsc{
+        $Y = {A:R}
+        $S = me&Simqis_Shx
         #S("i $D/astract $Y",D,Y)
         # X/$k/$ref -> Y/(node,nearnode,...)*,ref/$k
         # note: word (/ref) is a type of spacer,
@@ -270,19 +272,18 @@ me.Sch_Travel = &acgt{ return [
             })
             
         })
-        
-        me&nodes_climb,X,s,c,D,Y,S
+        return Y
     }
-    # D /$node/$upfrom:node /$node_tip
+    # i D /$node/$upfrom:node /$node_tip     o X/$node
     #  filling in This...(Something,Someact)/Somewhen
     #  from a couple of Somewhen
-    me.nodes_climb = &acgtXscDYS{
+    me.nodes_climb = &acgtX{
+        $D = {A:R}
+        # < all of $D wants no /$n-ness
+        $Si = me&Simqis_st
         # group by $node, not /node/$n:row_with_node
         # < o $Y/node/ { # maybe?!
-        $originodes = Y.nodes
-        # < all of $D wants no /$n-ness
-        #   we're using D.nodes.indexOf() to not autoviv
-        $Si = me&Simplestpossiblei
+        $originodes = X.nodes
         originodes.map(s => Si(D,{node:s}))
         # N plays out: subset of /$node that are still climbing
         # < deloop
@@ -328,7 +329,7 @@ me.Sch_Travel = &acgt{ return [
     }
     # fast, /$n-less i $D/$node
     # < compiling small io to small functions !
-    me.Simplestpossiblei = &acgt{
+    me.Simqis_st = &acgt{
         return &Dc{
             $x = D
             each kv c {
@@ -337,6 +338,12 @@ me.Sch_Travel = &acgt{ return [
                     : me&X_t,x,v,0,k
             }
             return x
+        }
+    }
+    me.Simqis_Shx = &acgt{
+        return &{
+            $args = [...arguments]
+            return me&Shx,args.shift(),args
         }
     }
     # climb up
@@ -357,8 +364,10 @@ me.Sch_Travel = &acgt{ return [
         $pr = psy&R
         return ps
     }
-    me.brackstract_out = &acgtR{
-        $D = Rs&brackstract_2 ||= {A:R}
+    me.brackstract_out = &acgtX{
+        $R = me&R
+        $D = X
+        !D and return me&tc,"NoD"
         # or all: D/astract/$n=Y
         fi&Xsomp,D,{astract:1} .map(&a,Yi{
             $Y = a.n
@@ -531,11 +540,9 @@ me.Sch_Travel = &acgt{ return [
         # X by &bracki (ish), make &Shx_isX
         ss&X.A ||= R
         
-        Rs&origin_X = ss&X
         
-        me&brackstract,ss&X,{},{}
+        me&brackstract,ss&X
 
-        me&brackstract_out,R
     }
     },
     
