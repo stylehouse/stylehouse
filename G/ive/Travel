@@ -296,59 +296,47 @@ me.Sch_Travel = &acgt{ return [
         #   we're using D.nodes.indexOf() to not autoviv
         $Si = me&Simplestpossiblei
         originodes.map(s => Si(D,{node:s}))
-        # subset of /$node that is still climbing
-        $tips = originodes.slice()
-        $tries = 9
-        while (--tries) {
-            # tips of /$node should converge on one parent
-            tips.length <= 1 and break
-            each is tips {
-                $nx = D.node[i]
-                !nx and debugger
+        # N plays out: subset of /$node that is still climbing
+        
+        me&rowplace,{tries:9,N:originodes} (&NM{
+            # $N:tips of /$node should converge on one parent
+            N.length <= 1 and return
+            each is N {
+                $nx = Si(D,{node:s})
                 $ps = me&node_upwards,s
                 if (!ps) {
+                    # no more
                     Si(D,{node_tip:s})
                 }
                 else {
-                    # /$node:ps
-                    $ui = D.nodes.indexOf(ps)
-                    if (ui < 0) {
-                        Si(D,{node:ps})
-                        $ui = D.nodes.indexOf(ps)
-                    }
-                    $ux = D.node[ui]
-                    
-                    # < refer to $D/$node without ref lookup
-                    #   eg insert /$n:node_i or so (fails type check p.ist('n'))
-                    #   note: array|hash numeric keys are always in numeric order
+                    $ux = Si(D,{node:ps})
                     Si(ux,{upfrom:1,node:s})
                     Si(nx,{downfrom:1,node:ps})
-                    
-                    if (ux.downfrom) {
-                        # already climbed from
-                    }
-                    else {
-                        ui == i and debugger
-                        tips[ui] = ps
-                    }
+                    # may have climbed above there already,
+                    #  may be pushing many ps from many $ps/*
+                    !ux.downfrom and M.push(ps)
                 }
-                # leaves a hole that won't be iterated
-                delete tips[i]
             }
-        }
-        !tries and D.much_tries = tips
-        
-        each is Y.nodes {
-            $ps = me&node_upwards,s
-            # these i refer between X (naughty)
-            !ps and S("i $D/$node_tip",D,ps)
-            else {
-                
+        })
+    }
+    # variation on &rayplace
+    # < X about recursing upward, sets of M+ visited
+    me.rowplace = &acgtc{
+        c.tries ||= 99
+        $steam = c.tries
+        $N = c.N
+        return &y{
+            while (--steam) {
+                !hak(N) and break
+                $M = []
+                y (N,M)
+                N = uniq(M)
             }
+            !steam and debugger
         }
     }
     # fast, /$n-less i $D/$node
-    # < compiling small io to small functions
+    # < compiling small io to small functions !
     me.Simplestpossiblei = &acgt{
         return &Dc{
             $x = D
