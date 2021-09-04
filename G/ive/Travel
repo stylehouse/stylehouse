@@ -3161,6 +3161,7 @@ me.Sch_Travel = &acgt{ return [
         
         # Gome, being a macro Dome,
         #  can incorporate sleeping content
+        me&tc,"mot:"+Gos&mot,'g'
         if (Gos&mot == 8) {
             # just to update K to what they think they are
             $N = me&zaa,xc&Goting,{Goable:Gos&Go,Ghoscgk:1,K:1}
@@ -3735,15 +3736,13 @@ me.Sch_Travel = &acgt{ return [
                 # < should stay
                 $Pro = xs&Jproto
                 $Run = xs&Jrunto
-                $F = xs&TheF
                 !Pro and return ha('pur:!Jproto')
                 !Run and return ha('pur:!Jrunto')
-                if (!F) {
-                    !x.ro('!F-ok?') and return ha('pur:!F')
-                }
-                elsif (ts&Con) {
+                if (ts&Con) {
                     # < Story/$t informs Cat modes:
                     # stays %%now until tests satisfied
+                    $F = xs&TheF
+                    !F and return ha('pur:!F')
                     
                     me&Gome_SC_SetTings,R
                     
@@ -3762,19 +3761,21 @@ me.Sch_Travel = &acgt{ return [
                     # observe Proto !now not over finishline
                     
                     Rs&goGome and me&nu,"Fins",{t,SC,Pro,This,F}
+                
+                    x.ro('end') and return
                 }
                 
-                x.ro('end') and return
                 # o Duolish... run
                 $e = me&receivan,'Releasor'
                 !e and return ha('pur:Releasor')
-                e and ha('rec:once,arg',{Releasor:e})
+                ha('rec:once,arg',{Releasor:e})
+                ha('rec:gotReleasor,sayable,gotReleasor')
             }})
             &&
          // 7 Push
             su('Push?',{until:&zaa,jaa,ha,ar{
                 $e = ar.Releasor
-                !e and return
+                !e and ha('pur:Releasor')
                 # n|u all done
                 me&tc,"Push?"
                 # deal with Travel|Duolish

@@ -424,6 +424,16 @@ me.Sch_Pavings = &acgt{ return [
         n species 112 $s:Qc&species %fs:8,hs:157
         
         
+        $P = Qs&P
+        if (P) {
+            # we already asked for this
+            if (me&rolltog,R,{maydo:'↻',once:1} ) {
+                # until digwaypoll covers everything
+                #  you may manually refresh (W have a long ttl)
+                Qs&Want_Check = 1
+            }
+        }
+        
         # Q refinds P each G&t
         $w = me&t,R,Q;
         $P = Qs&P
