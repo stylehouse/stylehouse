@@ -3724,7 +3724,8 @@ me.Sch_Travel = &acgt{ return [
                 $SC = xs&SC
                 
                 # enable @Intro
-                me&nodei,R,xs&Introtivity,{Intro:1,Cat:SC}
+                $Intro = xs&Introtivity
+                Intro and me&nodei,R,Intro,{Intro:1,Cat:SC}
                 
                 # %%Control -> SC => $SC/*
                 me&nodei,R,SC,{Control:1}
@@ -3737,8 +3738,10 @@ me.Sch_Travel = &acgt{ return [
                 $F = xs&TheF
                 !Pro and return ha('pur:!Jproto')
                 !Run and return ha('pur:!Jrunto')
-                !F and return ha('pur:!F')
-                if (ts&Con) {
+                if (!F) {
+                    !x.ro('!F-ok?') and return ha('pur:!F')
+                }
+                elsif (ts&Con) {
                     # < Story/$t informs Cat modes:
                     # stays %%now until tests satisfied
                     
@@ -4280,7 +4283,7 @@ me.Sch_Travel = &acgt{ return [
                     $Q = tings&Q
                     $P = Qs&P
                     
-                    !Ps&string and debugger
+                    !Ps&string && Pc&el != 9 and debugger
                     $equal = De && Des&string == Ps&string
                     equal and me&tc,"=="
                     
