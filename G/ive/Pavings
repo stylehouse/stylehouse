@@ -1314,7 +1314,6 @@ me.Sch_Pavings = &acgt{ return [
             $g = me&opeolo,"Zif",ex({walls:1},c)
             $a = z || s
             $pa = gy&can('m',a.t)
-            pas&mah = 30
             
             # if a.t is implied (in that somewhere)
             #  only label being Zif (gy&label)
@@ -1331,17 +1330,23 @@ me.Sch_Pavings = &acgt{ return [
                 me&zN,di
                 me&Ring,di,{und:di,ov:314}
                 if (c.dont && !gs&ope) {
-                    # leave di unconnected
+                    # leave di unconnected (by @Goting, @Gwatch)
                     ac(pa,'z',dis&summary)
                     dis&noDisplay = 1
                     return di
                 }
                 me&zuct,pa,di
-                pas&dis = 1
                 each in dis&waits {
                     ac(R,'waits',n)
                 }
+                # just the +- summary
                 Rs&summary = dis&summary
+                # diff lines viewport
+                $patch = me&Mwty,di,'','patch'
+                patchs&mw = '100%'
+                patchs&ml = 5
+                patchs&mh = 37
+                patchs&attr = {class:'fathandle'}
             }
             return di
         }
