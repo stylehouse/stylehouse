@@ -296,11 +296,14 @@ me.Sch_Travel = &acgt{ return [
         #   we're using D.nodes.indexOf() to not autoviv
         $Si = me&Simplestpossiblei
         originodes.map(s => Si(D,{node:s}))
-        # N plays out: subset of /$node that is still climbing
-        
+        # N plays out: subset of /$node that are still climbing
+        # < deloop
         me&rowplace,{tries:9,N:originodes} (&NM{
-            # $N:tips of /$node should converge on one parent
-            N.length <= 1 and return
+            #  all the way to Ying, even if converged on one parent
+            #  it doesn't know it's climbing above all originodes
+            #   for all that limb knows it could be between them
+            #   < prioritise deeper nodes? with sy&path.length
+            #N.length <= 1 and return
             each is N {
                 $nx = Si(D,{node:s})
                 $ps = me&node_upwards,s
@@ -519,7 +522,7 @@ me.Sch_Travel = &acgt{ return [
         $More = me&fiu,Ying,'More',7
         ha({node:me&Pii,More,'Finally' ,erstly:2})
         ha({node:me&Pii,More,'Firstly' ,erstly:2})
-        ha({step:me&fiu,Ying,'Less',7 })
+        #ha({step:me&fiu,Ying,'Less',7 })
         ha({step:More})
         ha({node:me&Pii,More,'Firstly/The' })
         ha({node:me&Pii,More,'Firstly/Magic' })
