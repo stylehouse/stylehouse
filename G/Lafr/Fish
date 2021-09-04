@@ -490,7 +490,7 @@ fi.Xios ||= {}
         Qy&A = A
         return Q
     }
-    # the /believe/... index, wildcard or from Q
+    # format query for the /believe/... index, wildcard or from Q
     # believe may be another word, eg /asked/...$P
     fi.Qbel = &acgtQq{
         q ||= {}
@@ -556,6 +556,8 @@ fi.Xios ||= {}
     }
     # o /believe.../$Q
     # look up believe/src/version/$Q
+    # < define /$n mode: intermediaries (eg src.z) may be empty
+    #   they may be hung in the most specific place thus far, etc.
     # sort by believe/$Q, usu return latest one
     # see Attendance: 'to order $Q over any $src|$version'
     fi.believeoQ = &acgtxscq{
@@ -583,7 +585,7 @@ fi.Xios ||= {}
         # become latest /believe/.../$Q
         $belx = fi&believeiQ,oftx,0,Q,q
     }
-    # i /believe/$Q/.../$Q
+    # i /believe(/$Q)/...$s/$Q
     fi.believeiQ = &acgtxsQq{
         q ||= {}
         s ||= fi&Qbel,Q,q
@@ -935,10 +937,12 @@ fi.Xios ||= {}
                 # threading back down to ..A:n
                 # an ax with /believe/... mixed in
                 #  towed in by the resyncing A:more
-                $ax = me&axsimilate,a,beliefs
-                $Q = a.n
-                ax.x = fi&believeiQ,Qx,ax,Q
-                ax.n = Q
+                $ax = me&axsimilate,a
+                # < $believed = &axarkvs ... are ax.arkx.* JOIN ax.*
+                $believed = sex({},a,beliefs)
+                # < would have ax.arkx.believed but not ax.believed?
+                ax.x = fi&believeiQ,Qx,believed,a.n
+                ax.n != a.n and throw "Yaklt"
                 a = ax
             }
         }
@@ -2064,7 +2068,7 @@ fi.Xios ||= {}
                         ns&says and me&tcl,la,ns&says,'g'
                     }
                     $N = me.cby(E,E => Ec&top)
-                    me&nu,'Louge+'+E.t,{s,E,c,q,N}
+                    #me&nu,'Louge+'+E.t,{s,E,c,q,N}
                 }
             },
             7: &Ecq{
