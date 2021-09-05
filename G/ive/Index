@@ -1205,6 +1205,7 @@
   
   // 'Shx' use
     # strung together in reverse by eg &brackstract
+    # < &cvdeal persist Ry&cvdeal_i
     
     # i (-lev/$node)**
     me.node_sort = &acgtDY{
@@ -1212,7 +1213,33 @@
         $H = {A:R}
         # < all of $D wants no /$n-ness
         $Si = me&Simqis_st
-        Si(H,{hello:1})
+        # o D/@node for ( | o
+        $allnx = []
+        $anode = &xn{
+            # o D/@node
+            $nx = Si(D,{node:n})
+            # i H/pile.../@node 
+            $next = Si(x,{node:n})
+            # /$n are x:D/@node
+            # < -hat -anx .z.* may be X|x from elsewhere (no s.up to R^^anx)
+            #   x may be lodged in a variety of weird places,
+            #   note such features of program memory reach
+            #,{n:nx})
+            # x lack visibility of their index
+            next.the_node = n
+            # looping?
+            allnx.includes(nx) and debugger
+            allnx.push(nx)
+            $N = ahsk(nx,'upfrom',1,'nodes')
+            # < sort
+            each iz N {
+                anode(next,z)
+            }
+        }
+        # i H/pile(/@node)+ o D/node_tips:node/upfrom/@node
+        each in D.node_tips {
+            anode(Si(H,{pile:1}),n)
+        }
         return H
     }
     
@@ -1361,12 +1388,14 @@
     # fast, /$n-less i $D/$node
     # < compiling small io to small functions !!
     me.Simqis_st = &acgt{
-        return &Dc{
+        return &Dsc{
             $x = D
-            each kv c {
+            c ||= {}
+            c.n ||= 0
+            each kv s {
                 # r=0 for no /$n
-                x = isob(v) ? me&X_s,x,v,0,k
-                    : me&X_t,x,v,0,k
+                x = isob(v) ? me&X_s,x,v,c.n,k
+                    : me&X_t,x,v,c.n,k
             }
             return x
         }
