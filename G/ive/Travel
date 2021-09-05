@@ -207,51 +207,31 @@ me.Sch_Travel = &acgt{ return [
         Rs&origin_X = X
         $Y = Rs&bract_kref_X = me&bract_kref,X
         $D = Rs&nodes_climb_X = me&nodes_climb,Y
-        $No = Rs&node_sort_X = me&node_sort,D,Y
+        $H = Rs&node_sort_X = me&node_sort,D,Y
         # modulat it here
-        me&brackstract_out,X
+        me&brackstract_out,H
     }
-    me.brackstract_out = &acgtX{
+    # print meaning, formed into /$node** structure
+    # < nodes already got step|node expr join figured,
+    #    extra brack expr may be hung upon them
+    me.brackstract_out = &acgtH{
         $R = me&R
-        $D = X
-        !D and return me&tc,"NoD"
-        # or all: D/astract/$n=Y
-        fi&Xsomp,D,{astract:1} .map(&a,Yi{
-            $Y = a.n
-            
-            $nodes = fi&Xsomp,Y,{node:1}
-            # unique $node
-            $h = partN(nodes,a=>a.node)
-            # < by nodemap
-            $startsort = h.ks.slice()
-            each it h.ks {
-                $N = h.vs[i]
-                $aa = N[0]
+        !H and return me&tc,"NoH"
+        
+        $pile = &x{
+            $atop = x.up == H
+            each in x.nodes {
+                $next = x.node[i]
                 me&boxcap,"n:",'1b' (&m{
-                    Yi > 0 and ms&ml = 0.6
-                    me&tc,aa.node.t,'y'
-                    #me&tc,""+dis(aa),6 .sc.ma=0.4
-
-                    each ia N {
-                        me&boxcap,"a:",'5b' (&m{
-                            ms&ml = 0.6
-                            $n = a.n
-                            me&tsc,"nsc",""+dis(n.sc),6
-                            #me&tsc,"a",""+dis(a),'6y'
-
-                            $nak = fi&Xsomp,a.x,{notall:1,k:1},{},{n}
-                                .map(na => na.k)
-                            hak(nak) and me&tc,'%%...'+joint(nak,','),'g'
-
-                        })
-                    }
+                    !atop and ms&ml = 0.6
+                    me&tc,n.t,'y'
+                    
+                    pile(next)
                 })
             }
-            #me&nu,'ZealaY',Y
-        })
-        me&nu,'ZealaD',D
-        
-        # info relating to nodes written up first
+        }
+        pile(H.pile.1)
+        me&nu,'ZealaD',H
     }
     },
   
