@@ -3775,7 +3775,7 @@ me.Sch_Travel = &acgt{ return [
          // 7 Push
             su('Push?',{until:&zaa,jaa,ha,ar{
                 $e = ar.Releasor
-                !e and ha('pur:Releasor')
+                !e and return
                 # n|u all done
                 me&tc,"Push?"
                 # deal with Travel|Duolish
@@ -3793,6 +3793,7 @@ me.Sch_Travel = &acgt{ return [
             su('Pushed',{until:&zaa,jaa,ha,ar{
                 # n|u all done
                 me&tc,"all-done"
+                ha('rec:Pushed,sayable,all-done')
             }})
             
             return su('done')
