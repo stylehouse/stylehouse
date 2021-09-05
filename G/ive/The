@@ -5188,38 +5188,35 @@ me.Sch_The = &acgt{ return [
             $di = dis(s)
             n string 13 $s:di %fs:8,hs:584
         },'ift,D'],
+   //      etc
         &{
-        me.diverge_ob = &acgtRs{
-            $sym = ''
-            isC(s.A) and sym = 'X'
-            elsif (s.up) {
-                # X...x.up=X
-                $ux = me&hat_x_upwards,R
-                ux == s.up and sym = 'x'
-            }
-            if (sym) {
-                me&typeup,R,'an'+sym
+            me.diverge_ob = &acgtRs{
+                $sym
+                isC(s.A) and sym = 'X'
+                elsif (s.up) {
+                    # X...x.up=X
+                    $ux = me&hat_x_upwards,R
+                    ux == s.up and sym = 'x'
+                }
                 return sym
             }
-        }
-        # -hat^^ with X!!
-        me.hat_x_upwards = &acgtR{
-            $r = me.cbu(R,r => rs&anX || rs&anx)
-            return r && rc&s
-        }
+            # -hat^^ with X|x
+            me.hat_x_upwards = &acgtR{
+                $r = me.cbu(R,r => r != R && (rs&anX || rs&anx))
+                return r && rc&s
+            }
         },
-   //      etc
         ['anX',0.263,&acgtRs{
         },'ift,D'],
         ['anx',0.263,&acgtRs{
             Rs&nobrackets = 1
             # must .up to an X|x we know?
             # < X|x if present
+            #R.t == 'awoke' and debugger
             $ux =  me&hat_x_upwards,R
-            return
-            Rs&interux = ux
             s.up != me&hat_x_upwards,R and return me&tc,"noxup",'y'
-            $style = {up: {impl:1}}
+            $style = {}
+            style.up = {impl:1}
             !hak(s.z) and style.z = {impl:1}
             me&TXin,'anx',{layout:'anx'} (style)
         },'ift,D'],
