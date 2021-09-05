@@ -1961,14 +1961,15 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
     # target replies with objects (that change)
     #  set by %ThyerYing
-    ['listen_node_listened','67',&acgtRs{
+    ['listen_node_listened','57',&acgtRs{
         me&reaw,R,'listen_node_listened'
         
         me&jaa,R,'listened' .map(&n{
             # < general repliable
             $to = ns&replyto || ns&efrom
             each kv R.sc {
-                !(v && v.A == R) and continue
+                !isob(v) || isC(v) and continue
+                !isC(v.A) and continue
                 # the &Saturn %%inst,listen_node there coops these:
                 me&nodei,R,to,{heard:k,s:v}
             }
@@ -2009,8 +2010,8 @@ me.Sch_The = &acgt{ return [
         }
     },
   
-  
 &{
+  
   // time!
   
   // &Piing into $E** proper
@@ -3082,6 +3083,7 @@ me.Sch_The = &acgt{ return [
         
         return M
     }
+  
   
   // R'The'   specialfx
     # magic words in brack engage, like Ring
@@ -4541,6 +4543,7 @@ me.Sch_The = &acgt{ return [
             return gteqcv(ny&cv,c)
                 && (c.modt == null || c.modt == ns&modt)
                 && (c.t == null || c.t == n.t)
+                && (c.y == null || c.y (n))
         })
         if (c.el == 9) {
             # wont become R:Display
@@ -4613,7 +4616,7 @@ me.Sch_The = &acgt{ return [
             #me&hu,"Thinkab",{p:Ry&up,R},{dl:6}
         }
         #debugger
-        #me&tc,"Upwards:"+hert,'6y'
+        me&tc,"U:"+hert,'6y'
                 #T.oncily ||= 1
                 #$found = a.ref == 'tothings' && T.oncily++ < 2
                 #found and me&nu,"ref-find!",{Y,ref,Sarg:T.Sarg,a}
@@ -4622,8 +4625,8 @@ me.Sch_The = &acgt{ return [
     ['hat+Top',0.68,&acgtRs{
         $E = Rs&E
         #E.t != 'Bowler' and return
-        $N = Rc&N.filter(r => rs&thingo).slice(0,5)
-            .map(&r{ return {r,th:rs&thingo} })
+        $N = Rc&N.filter(r => rs&interux).slice(0,5)
+            .map(&r{ return {r,th:rs&interux} })
         # < why too late to do any of this:
         #me&hu,"thingoes",N
         #me&tc,"hereth" .sc.fs = 39
@@ -5023,6 +5026,8 @@ me.Sch_The = &acgt{ return [
     ['Fez+Cish',0.262,&acgtRs{
         me&Ri,'limit:Fez,toomuch'
     },'ift,D'],
+    ['Fez+Hash',0.262,&acgtRs{
+    },'ift,D'],
     
     # sprawly, C**
     ['Bow',0.21,&acgtRs{
@@ -5030,10 +5035,6 @@ me.Sch_The = &acgt{ return [
         Rc&nl = 122
         # < no restating refs per ^^-seven
         me&typeup,R,'hat'
-    },'ift,D'],
-    ['Bow',0.88,&acgtRs{
-        $E = Rs&E
-        Ec&nobrackets and s&bol = '1em solid black'
     },'ift,D'],
     # -hat allows qua.dim to sprawl open anyway
     #  it means we don't want to sprawl C
@@ -5060,7 +5061,15 @@ me.Sch_The = &acgt{ return [
         # < to E/y,c,sc,sc.z
         $z = ss&z
         # its many
-        hak(z) and me&Ei,{t:'🚶',s:z,nobrackets:1}
+        hak(z) and me&Ei,{t:'🚶',s:z,rsc_mix:'nobrackets'}
+    },'ift,D'],
+    
+    ['nobrackets',0.88,&acgtRs{
+        $E = Rs&E
+        s&bol = '1em solid black'
+        
+        $y = n => ns&label == 'bracket'
+        me&moddelete,R,{y}
     },'ift,D'],
     
    // -hat > -Hash etc
@@ -5077,6 +5086,17 @@ me.Sch_The = &acgt{ return [
     ['hat',0.21,&acgtRs{
         $sym = isR(s) ? "R" :
             isC(s) && isst(s.t) ? "C" : 0
+        $Cish = sym
+        if (Cish) {
+            # isA, isJ
+            isA(s) and sym = 'A'
+            isJ(s) and sym = 'J'
+        }
+        elsif (!isar(s)) {
+            # also X, x
+            $asym = me&diverge_ob,R,s
+            sym = asym || sym
+        }
         if (sym) {
             Rs&sym = sym
             n sym 11 $s:sym fs:13,lh:0.8,hs:757
@@ -5096,10 +5116,12 @@ me.Sch_The = &acgt{ return [
                 me&Ri,'limit:tiny,toomuch'
             }
         }
-        sym and me&typeup,R,'Cish'
+        Cish and me&typeup,R,'Cish'
         else
         isob(s) and me&typeup,R,'Hash'
-        else me&typeup,R,'String'
+        else {
+            me&typeup,R,'String'
+        }
     },'ift,D'],
     ['Cish',0.263,&acgtRs{
         Rs&Hash = 1
@@ -5153,7 +5175,7 @@ me.Sch_The = &acgt{ return [
             # < G&n should Mw by T.Mw||T.act.t
             #   as &tsc does
             T.Mw = 'shym'
-            $bracket = Ec&nobrackets ? &{} : me&modbracket,Rs&shym
+            $bracket = me&modbracket,Rs&shym
             # its many
             each kv s {
                 me&Ei,{t:k,s:v}
@@ -5165,6 +5187,41 @@ me.Sch_The = &acgt{ return [
             $E = Rs&E
             $di = dis(s)
             n string 13 $s:di %fs:8,hs:584
+        },'ift,D'],
+        &{
+        me.diverge_ob = &acgtRs{
+            $sym = ''
+            isC(s.A) and sym = 'X'
+            elsif (s.up) {
+                # X...x.up=X
+                $ux = me&hat_x_upwards,R
+                ux == s.up and sym = 'x'
+            }
+            if (sym) {
+                me&typeup,R,'an'+sym
+                return sym
+            }
+        }
+        # -hat^^ with X!!
+        me.hat_x_upwards = &acgtR{
+            $r = me.cbu(R,r => rs&anX || rs&anx)
+            return r && rc&s
+        }
+        },
+   //      etc
+        ['anX',0.263,&acgtRs{
+        },'ift,D'],
+        ['anx',0.263,&acgtRs{
+            Rs&nobrackets = 1
+            # must .up to an X|x we know?
+            # < X|x if present
+            $ux =  me&hat_x_upwards,R
+            return
+            Rs&interux = ux
+            s.up != me&hat_x_upwards,R and return me&tc,"noxup",'y'
+            $style = {up: {impl:1}}
+            !hak(s.z) and style.z = {impl:1}
+            me&TXin,'anx',{layout:'anx'} (style)
         },'ift,D'],
         
     
