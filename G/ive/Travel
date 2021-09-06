@@ -209,13 +209,16 @@ me.Sch_Travel = &acgt{ return [
         $D = Rs&nodes_climb_X = me&nodes_climb,Y
         # /pile(/$node)+ tree
         $H = Rs&node_sort_X = me&node_sort,D,Y
+        #   &node_flavour
+        #    if they were in Y, or implicated in D
+        
         # modulat it here
-        me&brackstract_out,H
+        me&brackstract_out,H,Y
     }
     # print meaning, formed into /$node** structure
     # < nodes already got step|node expr join figured,
     #    extra brack expr may be hung upon them
-    me.brackstract_out = &acgtH{
+    me.brackstract_out = &acgtHY{
         $R = me&R
         !H and return me&tc,"NoH"
         
@@ -225,7 +228,8 @@ me.Sch_Travel = &acgt{ return [
                 $next = x.node[i]
                 me&boxcap,"n:",'1b' (&m{
                     !atop and ms&ml = 0.6
-                    me&tc,n.t,'y'
+                    $t = me&tc,n.t,'y'
+                    !Y.nodes.includes(n) and ts&opa = 0.5
                     
                     pile(next)
                 })
@@ -263,7 +267,16 @@ me.Sch_Travel = &acgt{ return [
     
   // @Thyer/@ThyerYing - in time!!!
     ['Thyer','2969',&acgtRs{
-        me&haveextranodes,R,s
+        $x = me&Jx
+        $Ying = xs&Ying
+        # < bright and early
+        me&ioty,Ying .map(&n{
+            ny&cv ||= 0.1
+            me&fiu,Ying,n
+        })
+            
+        
+        me&haveextranodes,R,s,x
     },'ift,D'],
     ['Thyer','66',&acgtRs{
         #me&vaguelywantsomenodes,R,s
@@ -299,11 +312,8 @@ me.Sch_Travel = &acgt{ return [
             bunch.map(n => me&wants,R,"chaosteps",n )
         }
     }
-    me.haveextranodes = &acgtRs{
-        $x = me&Jx
+    me.haveextranodes = &acgtRsx{
         $Ying = xs&Ying
-        # < bright and early
-        me&ioty,Ying .map(n => me&fiu,Ying,n )
         # as per W:Thy
         $More = me&fiu,Ying,'More',7
         # using &Pii for path name input, not making %Piing
@@ -350,8 +360,6 @@ me.Sch_Travel = &acgt{ return [
         
         $More = me&fiu,Ying,'More',7
         ha({node:me&Pii,More,'Finally' ,erstly:2})
-        ha({node:me&Pii,More,'Firstly' ,erstly:2})
-        #ha({step:me&fiu,Ying,'Less',7 })
         ha({step:More})
         ha({node:me&Pii,More,'Firstly/The' })
         ha({node:me&Pii,More,'Firstly/Magic' })
