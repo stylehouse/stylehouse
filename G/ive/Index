@@ -1207,6 +1207,7 @@
     # strung together in reverse by eg &brackstract
     # < &cvdeal persist Ry&cvdeal_i
     
+   // H - set out nice
     # i (-lev/$node)**
     me.node_sort = &acgtDY{
         $R = me&R
@@ -1232,9 +1233,9 @@
             allnx.push(nx)
             $N = ahsk(nx,'upfrom',1,'nodes')
             # < sort
-            each iz N {
-                anode(next,z)
-            }
+            N = me&node_sort_pickout,n,N
+            # downward
+            havs(N).map(z => anode(next,z))
         }
         # i H/pile(/@node)+ o D/node_tips:node/upfrom/@node
         each in D.node_tips {
@@ -1242,7 +1243,24 @@
         }
         return H
     }
-    
+    # order N by n/*
+    # < after eg resolve $n projects a certainty of who is to be who
+    # < over n)%eph boundary, not n/* but n//R/*/c&s
+    me.node_sort_pickout = &acgtnN{
+        $M = []
+        each iz ns&z {
+            # N may be a subset
+            N.includes(z) and M.push(z)
+        }
+        if (hak(M) != hak(N)) {
+            # < TEST N may be a superset
+            #   news go after the last located one ie lv el=8,el2
+            debugger
+            M.push(grepout(N.slice(),n => !M.includes(n)))
+        }
+        return M
+    }
+   // D - elabourasta
     # s**^^^
     # i D /$node/$upfrom:node /$node_tip     o Y/$node
     #  filling in This...(Something,Someact)/Somewhen
@@ -1301,7 +1319,7 @@
         $pr = psy&R
         return ps
     }
-    
+   // Y - separate from source
     # &brackX's X/$k/$ref -> Y/(node,nearnode,...)*,ref/$k
     #  with notes on &Shx semantics
     me.bract_kref = &acgtXsc{
