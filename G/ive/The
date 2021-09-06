@@ -2015,15 +2015,17 @@ me.Sch_The = &acgt{ return [
   // time!
   
   // &Piing into $E** proper
-    # first, $s** spreads pi-ishly nodes
+    # first, $s** spreads nodes pi-ishly
     # can i -long/bran-ches/of/nodes-hat
     #  may z.t||=long, wont c&pi||=of 
     me.Pii = &acgtsc{
         $R = me&R
+        Rs&Pier and throw "use &Ei in R'The'"
         isst(s) and c = s; s = Rc&s
         $v = me&Rsci,c,{v:s}
         return v
     }
+    
     # node leaps into R'The' with c.t|pi
     me.Piing = &acgtcq{
         isst(c) and c = me&t_tpi,{t:c}
@@ -2080,7 +2082,7 @@ me.Sch_The = &acgt{ return [
     # i E/e hence
     me.Ei = &acgtc{
         $R = me&R
-        !Rs&Pier and throw "!R'The'"
+        !Rs&Pier and throw "use &Ei in R'The'"
         $E = Rs&E
         !c.t and throw "!t"
         c.t = ""+c.t
@@ -4166,38 +4168,6 @@ me.Sch_The = &acgt{ return [
   
   // misc f
    // &Rsci
-    # v=[] for /$n-ism, adding|finding c.n
-    me.Rscin = &acgtscqv{
-        if (c.el == 8) {
-            if (isar(c.n)) {
-                # has a list
-                $all = 1
-                $any = 0
-                each in c.n {
-                    v.includes(n) and any = 1
-                    else all = 0
-                }
-                c.all && !all and return
-                !any and return
-                return 1
-            }
-            else {
-                v.includes(c.n) and return 1
-            }
-        }
-        else {
-            if (isar(c.n)) {
-                # < distribute in between includes
-                each in c.n {
-                    !v.includes(n) and v.push(n)
-                }
-            }
-            else {
-                !v.includes(c.n) and v.push(c.n)
-            }
-            return 1
-        }
-    }
     # c.t may say $t-$pi%qua
     me.t_tpi = &acgtc{
         $tpi = c.t.match(/^(.*)-(\w+)(.*?)$/)
@@ -4311,6 +4281,38 @@ me.Sch_The = &acgt{ return [
             z = v
         }
         return v
+    }
+    # v=[] for /$n-ism, adding|finding c.n
+    me.Rscin = &acgtscqv{
+        if (c.el == 8) {
+            if (isar(c.n)) {
+                # has a list
+                $all = 1
+                $any = 0
+                each in c.n {
+                    v.includes(n) and any = 1
+                    else all = 0
+                }
+                c.all && !all and return
+                !any and return
+                return 1
+            }
+            else {
+                v.includes(c.n) and return 1
+            }
+        }
+        else {
+            if (isar(c.n)) {
+                # < distribute in between includes
+                each in c.n {
+                    !v.includes(n) and v.push(n)
+                }
+            }
+            else {
+                !v.includes(c.n) and v.push(c.n)
+            }
+            return 1
+        }
     }
    // slope
     # proper R/*
