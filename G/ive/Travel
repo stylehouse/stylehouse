@@ -279,39 +279,11 @@ me.Sch_Travel = &acgt{ return [
         me&haveextranodes,R,s,x
     },'ift,D'],
     ['Thyer','66',&acgtRs{
-        #me&vaguelywantsomenodes,R,s
         me&baleg,'ThyerYing'
     },'ift,D'],
     # those other particles 
     &{
-    # fabricate Yingate with a bunch of &wants 
-    me.vaguelywantsomenodes = &acgtRs{
-        # this sense is X..x merged with its acquisition (ax|arkN etc)
-        $x = me&Jx
-        $noq = &{
-            $Y = me.cbu(R,'Ying').sc.Ying
-            delete Ys&quiet_wakers_too_recently
-        }
-        x.ro('noq') and noq()
-        if (x.ro('chao')) {
-            noq()
-            # W/$steps
-            $W = xs&Ying
-            $steps = me&ioty,W
-            grepout(steps,s)
-            grepout(steps,n => n.t == 'Ya')
-            shuffle(steps)
-            $bunch = steps.slice(0,3)
-            # add someone's first node
-            #  which may spill a bunch of wake
-            each in bunch {
-                $r = me&ioty,ny&R,'ball' .shift()
-                r && isnode(rc&s) and bunch.push(rc&s); break
-            }
-            ~>4 chao-bunch: joint(bunch)
-            bunch.map(n => me&wants,R,"chaosteps",n )
-        }
-    }
+    # mock nodes** to mock -gate
     me.haveextranodes = &acgtRsx{
         $Ying = xs&Ying
         # as per W:Thy
@@ -341,8 +313,16 @@ me.Sch_Travel = &acgt{ return [
         Intro and me&nodei,R,Intro,{Introtiv:1,t:'The'}
         Intro and me&nodei,R,Intro,{Introtiv:1,t:'Index'}
         
-        me&main_Thyergate,R,s
+        # < Tool for zooming into Ying-gate
+        #$s = 4s&interestoYing
+        $s = me&mock_Thyergate,R,s
+        !s || !ss&X and return me&tc,"awaits"
+        # X by &bracki (ish), make &Shx_isX
+        # < the &Shx p.ist('X') check is too silent
+        ss&X.A ||= R
+        me&brackstract,ss&X
         
+        # data hose, see &Piing_inst / &Saturn %%listen_node
         Rs&listen_node_listened = 1
     },'ift,D'],
     &{
@@ -366,23 +346,6 @@ me.Sch_Travel = &acgt{ return [
         ha({node:me&Pii,More,'Firstly/Secondly' })
         ha({step:More})
         return wou
-    }
-    me.main_Thyergate = &acgtRs{
-        if (0) {
-            # the latest Ying-gate with >1 steps
-            $s = 4s&interestoYing
-        }
-        else {
-            $s = me&mock_Thyergate,R,s
-        }
-        !s and return me&tc,"awaits"
-        !ss&X and throw "!X"
-        # X by &bracki (ish), make &Shx_isX
-        ss&X.A ||= R
-        
-        
-        me&brackstract,ss&X
-
     }
     },
     
