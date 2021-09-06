@@ -1226,8 +1226,6 @@
             #   x may be lodged in a variety of weird places,
             #   note such features of program memory lateralisings
             #,{n:nx})
-            # x lack visibility of their index
-            next.the_node = n
             # looping?
             allnx.includes(nx) and debugger
             allnx.push(nx)
@@ -1245,18 +1243,44 @@
     }
     # order N by n/*
     # < after eg resolve $n projects a certainty of who is to be who
-    # < over n)%eph boundary, not n/* but n//R/*/c&s
     me.node_sort_pickout = &acgtnN{
+        !hak(N) and return []
         $M = []
         each iz ns&z {
-            # N may be a subset
+            # may be a subset
             N.includes(z) and M.push(z)
         }
         if (hak(M) != hak(N)) {
-            # < TEST N may be a superset
-            #   news go after the last located one ie lv el=8,el2
-            debugger
-            M.push(grepout(N.slice(),n => !M.includes(n)))
+            # superset or over n/*)%eph boundary (not n/* but n//R/*/c&s)
+            # build a more complete picture via R** for the latter
+            #  which will always be in order etc?
+            # see %eph, &supsphere
+            $nr = ny&R
+            if (nr && (nrs&ball || nrs&bell)) {
+                $order = me&ioty,nr .filter(&r{
+                    # < how to backreference in javascript regex
+                    #   and io expr continuous one of either ball|bell
+                    return nrs&ball && rs&ball
+                        || nrs&bell && rs&bell
+                }) .map(r => rc&s)
+            }
+            else {
+                $order = ns&z.slice()
+            }
+            # M[0] = [z-beforeany++]
+            # M[orderi+1] = [z-had,z-new++]
+            $M = []
+            $Mi = 0
+            each iz N {
+                $oi = order.indexOf(z)
+                # news go after the last one located ie lv el=8,el2
+                #  or top posting if before any located
+                Mi = oi < 0 ? Mi : oi + 1
+                $MN = M[Mi] ||= []
+                MN.push(z)
+            }
+            # join inners
+            return flatten(M)
         }
         return M
     }
