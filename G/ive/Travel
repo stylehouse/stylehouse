@@ -222,16 +222,18 @@ me.Sch_Travel = &acgt{ return [
         $R = me&R
         !H and return me&tc,"NoH"
         
-        $pile = &x{
-            $atop = x.up == H
-            each in x.nodes {
-                $next = x.node[i]
+        $pile = &ux,{
+            $atop = ux.up == H
+            
+            each in ux.nodes {
+                $x = ux.node[i]
+                $fla = x.flavour || {}
                 me&boxcap,"n:",'1b' (&m{
                     !atop and ms&ml = 0.6
                     $t = me&tc,n.t,'y'
-                    !Y.nodes.includes(n) and ts&opa = 0.5
+                    fla.implicated and ts&opa = 0.5
                     
-                    pile(next)
+                    pile(x)
                 })
             }
         }
@@ -345,7 +347,6 @@ me.Sch_Travel = &acgt{ return [
             $active = me&jaa,cly&R,'active',1 .filter(n => isnode(n))
             # @Fine, @Lab
             active .map(node => ha({node,active:1}))
-            me&tc,"Allthe:"+joint(active)
             
         })
         return wou

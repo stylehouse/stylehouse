@@ -1317,6 +1317,7 @@ me.Sch_The = &acgt{ return [
             Ninec.ThyF = ThyF
             sy&ThyF = ThyF
         }
+        me&Names_set,R,'Fine',s
     }
     # Nine%TheFine has E-nine'd
     me.Fine_aft_nine = &acgtREsx{
@@ -1437,6 +1438,7 @@ me.Sch_The = &acgt{ return [
     me.Names_set = &acgtRtsc{
         !isst(t) and throw "t!string"
         !isnode(s) and throw "s!node"
+        c ||= {}
         $Na = me&rollbsc,R,'Names'
         # <<<
         # i $t/$s/$n-naming
@@ -5019,8 +5021,10 @@ me.Sch_The = &acgt{ return [
    // -Fez > -hat
     # fairly sprawly, for X**
     ['Fez',0.21,&acgtRs{
-        Rc&dl ||= 9
-        Rc&nl = 166
+        if (Rs&top) {
+            Rc&dl = 22
+            Rc&nl = 166
+        }
         # < no restating refs per ^^-seven
         me&typeup,R,'hat'
     },'ift,D'],

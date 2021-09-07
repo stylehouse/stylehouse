@@ -1203,7 +1203,7 @@
             return isob(s)
         }
   
-  // 'Shx' use
+  // 'Shx' use, &node_sort
     # strung together in reverse by eg &brackstract
     # < &cvdeal persist Ry&cvdeal_i
     
@@ -1216,11 +1216,11 @@
         $Si = me&Simqis_st
         # o D/@node for ( | o
         $allnx = []
-        $anode = &xn{
+        $anode = &ux,n{
             # o D/@node
             $nx = Si(D,{node:n})
             # i H/pile.../@node 
-            $next = Si(x,{node:n})
+            $x = Si(ux,{node:n})
             # /$n are x:D/@node
             # < -hat -anx .z.* may be X|x from elsewhere (no s.up to R^^anx)
             #   x may be lodged in a variety of weird places,
@@ -1229,17 +1229,38 @@
             # looping?
             allnx.includes(nx) and debugger
             allnx.push(nx)
+            
+            # notice things about it
+            me&node_flavour,D,Y,x,n
+            
             $N = ahsk(nx,'upfrom',1,'nodes')
-            # < sort
-            N = me&node_sort_pickout,n,N
-            # downward
-            havs(N).map(z => anode(next,z))
+            me&node_sort_pickout,n,N
+                .map(z => anode(x,z))
         }
         # i H/pile(/@node)+ o D/node_tips:node/upfrom/@node
         each in D.node_tips {
             anode(Si(H,{pile:1}),n)
         }
         return H
+    }
+    me.node_flavour = &acgtDYxn{
+        $flav = &{ ahk(x,'flavour',...arguments) }
+        
+        # implicated if not originating in Y
+        !Y.nodes.includes(n) and flav('implicated',1)
+        
+        $nr = ny&R
+        $Na = nr && nrs&Names
+        if (Na) {
+            each tv Nas&tw {
+                v != n and flav('remark','Names-other',1)
+                else {
+                    $k = ahsk(Na,'sc','tlocal',t) ? "name" : "Name"
+                    flav(k,t)
+                }
+            }
+        }
+            
     }
     # order N by n/*
     # < after eg resolve $n projects a certainty of who is to be who
