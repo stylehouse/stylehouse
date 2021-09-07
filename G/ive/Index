@@ -1242,10 +1242,10 @@
         $Y = Rs&bract_kref_X = me&bract_kref,X
         # /$node climb until all connected
         $D = Rs&nodes_climb_X = me&nodes_climb,Y
-        # /pile(/$node)+ tree
+        # /pile(/$node(/flavour)?)+ tree
         $H = Rs&node_sort_X = me&node_sort,D,Y
-        #   &node_flavour
-        #    if they were in Y, or implicated in D
+        # /pile(/$node(/hand))+ interactive tree
+        $H = Rs&node_hand_X = me&node_hand,H,D,Y
         
         # modulat it here
         me&brackstract_out,H,Y
@@ -1267,6 +1267,7 @@
                     !atop and ms&ml = 0.6
                     $t = me&tc,n.t,'y'
                     fla.implicated and ts&opa = 0.5
+                    fla.Name and me&tc,'@'+fla.Name,'g'
                     
                     pile(x)
                 })
@@ -1275,45 +1276,97 @@
         pile(H.pile.1)
         me&nu,'ZealaD',H
     }
-    # i (-lev/$node)**
+    # < io mode: from $D, wants no /$n-ness
+    # < io might be able to use '^' for the previous x, instead of v:
+    # &xunyv{ ... } for i D/pile(/$node)+ o X(/pile)?(/$node)+
+    me.nodes_iter = &acgtXD{
+        $Si = me&Simqis_st
+        return &y{
+            # < o D:uv/($node_tip|$pile:uv/$node|$node):v
+            #   the latter :uv taking precedence
+            #   oposite to growing rows per :uv defined,
+            #    or shrinking them if @uv ends up aggregated
+            $uv = D
+            $N = D.node_tips
+            if (!N) {
+                N = ahsk(D,'pile',1,'nodes')
+                # where to find /$node moves into /$pile
+                N and uv = D.pile.1
+            }
+            N ||= D.nodes
+            !N and throw "nodes_iter!/$node"
+            
+            $allnx = []
+            $anode = &unvd{
+                d ||= {d:1}
+                # o D...?/$node
+                $uv = v.nodes ? v : D
+                $v = Si(uv,{node:n})
+                !v and debugger
+                # looping?
+                allnx.includes(v) and debugger
+                allnx.push(v)
+                
+                # i .../@node 
+                $x = Si(u,{node:n})
+                
+                $rey = &z{
+                    # given $n/$z+
+                    anode(x,z,v,{up:d,d:d.d+1})
+                }
+                y (x,u,n,v,rey,d)
+            }
+            each in N {
+                $pile = Si(X,{pile:1})
+                anode(pile,n,uv)
+            }
+            
+        }
+    }
+    # i &condensed /$node** o /$node**
+    me.node_hand = &acgtHDY{
+        $R = me&R
+        $U = {A:R}
+        $Si = me&Simqis_st
+        me&nodes_iter,U,H (&xunvyd{
+            # ...u/$node:n = x <- v from H...$node = v
+            
+            # notice things about it
+            me&node_has_flavour,U,D,Y,x,n
+            
+            x.Steve = d.d
+            d.d > 3 and return
+            
+            each iz v.nodes {
+                y (z)
+            }
+        })
+        return U
+    }
+    # i H (-lev/$node)**
     me.node_sort = &acgtDY{
         $R = me&R
         $H = {A:R}
         # < all of $D wants no /$n-ness
         $Si = me&Simqis_st
-        # o D/@node for ( | o
-        $allnx = []
-        $anode = &ux,n{
-            # o D/@node
-            $nx = Si(D,{node:n})
-            # i H/pile.../@node 
-            $x = Si(ux,{node:n})
-            # /$n are x:D/@node
-            # < -hat -anx .z.* may be X|x from elsewhere (no s.up to R^^anx)
-            #   x may be lodged in a variety of weird places,
-            #   note such features of program memory lateralisings
-            #,{n:nx})
-            # looping?
-            allnx.includes(nx) and debugger
-            allnx.push(nx)
-            
-            # notice things about it
-            me&node_flavour,D,Y,x,n
-            
-            $N = ahsk(nx,'upfrom',1,'nodes')
-            me&node_sort_pickout,n,N
-                .map(z => anode(x,z))
-        }
+        # < o D/@node for ( | o
         # i H/pile(/@node)+ o D/node_tips:node/upfrom/@node
-        each in D.node_tips {
-            anode(Si(H,{pile:1}),n)
-        }
+        me&nodes_iter,H,D (&xunvyd{
+            # notice things about it
+            me&node_has_flavour,H,D,Y,x,n
+            
+            $N = ahsk(v,'upfrom',1,'nodes')
+            me&node_sort_pickout,n,N
+                .map(z => y (z))
+        })
         return H
     }
-    me.node_flavour = &acgtDYxn{
+    # sprinkles H x.flavour.* with expr clues
+    # this could be a freestanding X:Fl/$node/$flavour
+    me.node_has_flavour = &acgtHDYxn{
         $flav = &{ ahk(x,'flavour',...arguments) }
         
-        # implicated if not originating in Y
+        # added since Y
         !Y.nodes.includes(n) and flav('implicated',1)
         
         $nr = ny&R
