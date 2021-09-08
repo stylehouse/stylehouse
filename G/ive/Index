@@ -1248,7 +1248,7 @@
         $U = Rs&node_hand_X = me&node_hand,H,D,Y
         
         # modulat it here
-        me&brackstract_out,U,Y
+        me&brackstract_out,H,Y
     }
     # print meaning, formed into /$node** structure
     # < nodes already got step|node expr join figured,
@@ -1267,7 +1267,9 @@
                     !atop and ms&ml = 0.6
                     $t = me&tc,n.t,'y'
                     fla.implicated and ts&opa = 0.5
-                    fla.Name and me&tc,'@'+fla.Name,'g'
+                    $name = fla.Name || fla.name
+                    name and name = me&tc,'@'+name,'g'
+                    fla.name and names&opa = 0.5
                     
                     pile(x)
                 })
@@ -1284,6 +1286,20 @@
         me&nodes_iter,U,H (&xunvyd{
             # ...u/$node:n = x <- v from H...$node = v
             
+            # < &nodes_iter must hook before|after we decide on x placement:
+            # < '...' grouping continuous v.implicated
+            #    sanity: they shouldnt have any brackrows
+            #    include v.implicated if:
+            #     multiple v.implicated diverge from it
+            #      but not when eg imp'@Labine' has /@Lab x2
+            #     name (t+Name) is ambiguous amongst x^$node**
+            #      just a quick rendition of this... try Rc&X?
+            # < imp(TryPiWarmer@Gome/TheF)/TryPiWarmer
+            #    ie lots of different objects all named TryPiWarmer are around
+            #   says @Gome/TheF/⇖, since they share .t
+            #    with a box-link between the ⇖ and @Gome
+            #     even though @Gome doesn't say the .t reused
+            #    even for TryPiWarming-SubNineOne, say ⇖-SubNineOne
             # notice things about it
             me&node_has_flavour,U,D,Y,x,n
             
