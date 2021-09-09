@@ -1248,52 +1248,72 @@
         $U = Rs&node_hand_X = me&node_hand,H,D,Y
         
         # modulat it here
-        me&brackstract_out,H,Y
+        return me&boxcap,'nodelists',"5b" (&m{
+            me&brackstract_out,H,'H'
+            me&brackstract_out,U,'U'
+        })
     }
     # print meaning, formed into /$node** structure
     # < nodes already got step|node expr join figured,
     #    extra brack expr may be hung upon them
-    me.brackstract_out = &acgtHY{
+    me.brackstract_out = &acgtHt{
         $R = me&R
-        !H and return me&tc,"NoH"
-        
-        $pile = &ux,{
-            $atop = ux.up == H
-            
-            each in ux.nodes {
-                $x = ux.node[i]
-                $fla = x.flavour || {}
-                me&boxcap,"n:",'1b' (&m{
-                    !atop and ms&ml = 0.6
-                    $t = me&tc,n.t,'y'
-                    fla.implicated and ts&opa = 0.5
-                    $name = fla.Name || fla.name
-                    name and name = me&tc,'@'+name,'g'
-                    fla.name and names&opa = 0.5
-                    
-                    pile(x)
-                })
+        !H and me&tc,"NoH"; return
+        return me&boxcap,t,"4b" (&ml{
+            ls&fs = 22
+            ms&hue = t == 'U' ? 47 : 255
+            me&walls,m,'bd:3.1'
+
+            $pile = &ux,{
+                $atop = ux.up == H
+
+                each in ux.nodes {
+                    $x = ux.node[i]
+                    $fla = x.flavour || {}
+                    me&boxcap,"n:",'1b' (&m{
+                        !atop and ms&ml = 0.6
+                        $t = me&tc,n.t,'y'
+                        fla.implicated and ts&opa = 0.5
+                        $name = fla.Name || fla.name
+                        name and name = me&tc,'@'+name,'g'
+                        fla.name and names&opa = 0.5
+
+                        pile(x)
+                    })
+                }
             }
-        }
-        pile(H.pile.1)
-        me&nu,'ZealaD',H
+            pile(H.pile.1)
+        })
     }
     # i &condensed /$node** o /$node**
     me.node_hand = &acgtHDY{
         $R = me&R
         $U = {A:R}
         $Si = me&Simqis_st
-        me&nodes_iter,U,H (&xunvyd{
-            # ...u/$node:n = x <- v from H...$node = v
-            
-            # < &nodes_iter must hook before|after we decide on x placement:
+        me&nodes_iter,U,H ({
+            1: &unvyd{
+                $fla = v.flavour || {}
+                fla.implicated and d.nox = 1
+            },
+            # < &nodes_iter must build d**
+            #    we then o v/flavour:sc, so we can then o v%Name etc
+            #   x** after we decide on x placement:
             # < '...' grouping continuous v.implicated
             #    sanity: they shouldnt have any brackrows
-            #    include v.implicated if:
-            #     multiple v.implicated diverge from it
+            #    the following io expr somehow take:
+            #     the first * to mean things with %implicated
+            #     everything else to mean !%implicated,
+            #      unless it's more *
+            #    include an %implicated if:
+            #     only one deep
+            #      o uv/*/v
+            #      can still be ... if squeezed for space
+            #     multiple nodes diverge from it:
+            #      o */*{2,}!%Name
             #      but not when eg imp'@Labine' has /@Lab x2
             #     name (t+Name) is ambiguous amongst x^$node**
-            #      just a quick rendition of this... try Rc&X?
+            #      o ux(/**#t#Name)/*/x
+            #      just a quick rendition of this... try Rc&X**?
             # < imp(TryPiWarmer@Gome/TheF)/TryPiWarmer
             #    ie lots of different objects all named TryPiWarmer are around
             #   says @Gome/TheF/⇖, since they share .t
@@ -1301,14 +1321,18 @@
             #     even though @Gome doesn't say the .t reused
             #    even for TryPiWarming-SubNineOne, say ⇖-SubNineOne
             # notice things about it
-            me&node_has_flavour,U,D,Y,x,n
-            
-            x.Steve = d.d
-            d.d > 3 and return
-            
-            each iz v.nodes {
-                y (z)
-            }
+            3: &xunvyd{
+                if (x) {
+                    sex(x,v,'flavour')
+                }
+                # < d.Xd?
+                #d.d > 3 and return
+                
+
+                each iz v.nodes {
+                    y (z)
+                }
+            },
         })
         return U
     }
@@ -1322,6 +1346,8 @@
         # < o D/@node for ( | o
         # i H/pile(/@node)+ o D/node_tips:node/upfrom/@node
         me&nodes_iter,H,D (&xunvyd{
+            # H...u/$node:n = x <- v from D...$node = v
+            
             # notice things about it
             me&node_has_flavour,H,D,Y,x,n
             
@@ -1350,7 +1376,6 @@
                 }
             }
         }
-            
     }
     # order N by n/*
     # < after eg resolve $n projects a certainty of who is to be who
@@ -1530,7 +1555,7 @@
         return &y{
             # < o D:uv/($node_tip|$pile:uv/$node|$node):v
             #   the latter :uv taking precedence
-            #   oposite to growing rows per :uv defined,
+            #   oposite to growing rows per :uv defined (sql unnest())
             #    or shrinking them if @uv ends up aggregated
             $uv = D
             $N = D.node_tips
@@ -1542,25 +1567,29 @@
             N ||= D.nodes
             !N and throw "nodes_iter!/$node"
             
-            $allnx = []
+            isfu(y) and y = {3:y}
+            
+            $allv = []
             $anode = &unvd{
                 d ||= {d:1}
-                # o D...?/$node
+                $more = &z{
+                    # given each $n/$z
+                    anode((d.x || u), z, v, {up:d,d:d.d+1})
+                }
+                # 0: o D...?/$node
                 $uv = v.nodes ? v : D
-                $v = Si(uv,{node:n})
+                $v = d.v = Si(uv,{node:n})
                 !v and debugger
                 # looping?
-                allnx.includes(v) and debugger
-                allnx.push(v)
+                allv.includes(v) and debugger
+                allv.push(v)
                 
+                y.1 && y.1 (u,n,v,more,d)
+                d.nox and 'u...n shortcut'
                 # i .../@node
-                $x = Si(u,{node:n})
+                else d.x = Si(u,{node:n})
                 
-                $rey = &z{
-                    # given $n/$z+
-                    anode(x,z,v,{up:d,d:d.d+1})
-                }
-                y (x,u,n,v,rey,d)
+                y.3 && y.3 (d.x,u,n,v,more,d)
             }
             each in N {
                 $pile = Si(X,{pile:1})

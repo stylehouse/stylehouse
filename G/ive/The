@@ -5099,10 +5099,15 @@ me.Sch_The = &acgt{ return [
             isA(s) and sym = 'A'
             isJ(s) and sym = 'J'
         }
-        elsif (!isar(s)) {
-            # also X, x
-            $asym = me&diverge_ob,R,s
-            sym = asym || sym
+        elsif (isob(s)) {
+            if (isar(s)) {
+                # becomes a -Hash below
+            }
+            else {
+                # also X, x
+                $asym = me&diverge_ob,R,s
+                sym = asym || sym
+            }
         }
         if (sym) {
             Rs&sym = sym

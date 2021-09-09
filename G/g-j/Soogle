@@ -3416,11 +3416,18 @@ me.styler = &acgt{
         typeof c == 'object' and ex(n.sc,c); c = ''
         c += '';
         $silent = 0
-        c.substr(0,1) == 's' and c=c.substr(1); silent = 1
-        c.substr(0,1) == '1' and c=c.substr(1); y('dis')
-        c.substr(0,1) == '6' and c=c.substr(1); y('fs:6')
-        c.substr(0,1) == '7' and c=c.substr(1); y('fs:7')
-        c.substr(0,1) == '8' and c=c.substr(1); ny&cv = 0.8
+        $eat = &n{
+            c.substr(0,1) == n and c = c.substr(1); return 1
+        }
+        eat('s') and silent = 1
+        eat('1') and y('dis')
+        eat('2') and y('dis:2')
+        eat('3') and y('dis:3')
+        eat('4') and y('dis:4')
+        eat('5') and y('dis:5')
+        eat('6') and y('fs:6')
+        eat('7') and y('fs:7')
+        eat('8') and ny&cv = 0.8
         c == 'B' and y('hs:856,fs:17')
         c == 'T' and y('hs:966,fs:14')
         c == 'b' and y('hs:856')
