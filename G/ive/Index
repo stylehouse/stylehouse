@@ -1207,7 +1207,7 @@
     # strung together in reverse by eg &brackstract
     # < &cvdeal persist Ry&cvdeal_i
     
-   // U - set out nice
+   // top
     =pod
       < makes such expressions of a Km!
       < s describes expression
@@ -1270,13 +1270,24 @@
                 each in ux.nodes {
                     $x = ux.node[i]
                     $fla = x.flavour || {}
-                    me&boxcap,"n:",'1b' (&m{
+                    me&boxcap,"n:",'1b' (&ml{
                         !atop and ms&ml = 0.6
-                        $t = me&tc,n.t,'y'
-                        fla.implicated and ts&opa = 0.5
-                        $name = fla.Name || fla.name
-                        name and name = me&tc,'@'+name,'g'
-                        fla.name and names&opa = 0.5
+                        if (fla.gloss) {
+                            lc&not = 1
+                            $who = joint(fla.glossed_nodes.map(d => d.n),'/')
+                            me&tsc,who,'...','g'
+                        }
+                        else {
+                            $t = me&tc,n.t,'y'
+
+                            fla.implicated and ts&opa = 0.5
+
+                            $name = fla.Name || fla.name
+                            name and name = me&tc,'@'+name,'g'
+                            fla.name and names&opa = 0.5
+                        }
+                        $nec = fla.necessary
+                        nec and me&tc,"nec:"+dis(nec),'6'
 
                         pile(x)
                     })
@@ -1285,6 +1296,7 @@
             pile(H.pile.1)
         })
     }
+   // U - set out nice
     # i &condensed /$node** o /$node**
     me.node_hand = &acgtHDY{
         $R = me&R
@@ -1292,13 +1304,13 @@
         $Si = me&Simqis_st
         me&nodes_iter,U,H ({
             1: &unvyd{
-                $fla = v.flavour || {}
-                fla.implicated and d.nox = 1
+                $skip = me&node_skippable,u,n,v,d
+                skip and d.nox = skip
             },
             # < &nodes_iter must build d**
             #    we then o v/flavour:sc, so we can then o v%Name etc
             #   x** after we decide on x placement:
-            # < '...' grouping continuous v.implicated
+            # < '...' grouping continuous %implicated
             #    sanity: they shouldnt have any brackrows
             #    the following io expr somehow take:
             #     the first * to mean things with %implicated
@@ -1320,6 +1332,7 @@
             #    with a box-link between the ⇖ and @Gome
             #     even though @Gome doesn't say the .t reused
             #    even for TryPiWarming-SubNineOne, say ⇖-SubNineOne
+            # < @Run being for (^%client) @Gnome, some kind of box-link
             # notice things about it
             3: &xunvyd{
                 if (x) {
@@ -1336,6 +1349,69 @@
         })
         return U
     }
+    # overrule $necessary='many-kids', see "but not when eg imp'@Labine' has /@Lab x2"
+    me.all_kids_Name = &acgtv{
+        $ok = 1
+        each ix v.node {
+            !ahsk(x,'flavour','Name') and ok = 0
+        }
+        !i and debugger
+        return ok
+    }
+    # U... may d.nox the non-last %imp, etc
+    me.node_skippable = &acgtunvd{
+        # the innermost %imp/%imp+ speaks for them all
+        if (hak(v.term_impds) > 1) {
+            $N = v.term_impds
+            ahk(v,'flavour','glossed_nodes',N)
+            $saw = "Fin:"+joint(N.map(d => d.n))
+            ahk(v,['flavour'],'necessary',saw)
+        }
+        $fla = v.flavour || {}
+        !fla.implicated and return
+        $nec = fla.necessary
+        $skip = !nec && '!nec'
+        if (!skip) {
+            nec = nec.filter(l => !l.startsWith('Fin:'))
+            if (hak(nec) == 1) {
+                nec[0] == 'one-imp' && d.d == 1 and skip = "root"
+                else
+                nec[0] == 'many-kids' && me&all_kids_Name,v and grepout(fla.necessary,'many-kids')
+            }
+        }
+        # when %imp is necessary just to say ...
+        $nec = fla.necessary
+        if (!skip && hak(nec)) {
+            nec = nec.filter(l => !l.startsWith('Fin:'))
+            !hak(nec) and ahk(v,'flavour','gloss',1)
+        }
+        return skip
+    }
+    # H...d.x.flavour.implicated become d.implication
+    #  part of H but informing U
+    me.implicated_implication = &acgtd{
+        $x = d.x
+        $ud = d.up
+        $u = ud && ud.x
+        $impds = ud && ud.implication
+        if (ahsk(x,'flavour','implicated')) {
+            # more d.implication[d%imp**]
+            impds = (impds||[]).slice()
+            impds.push(d)
+            d.implication = impds
+        }
+        elsif (impds) {
+            # tell previous %imp it is last
+            if (u.term_impds) {
+                u.term_impds != impds and debugger
+                # non-first child of %imp
+                # < unless their %Names are unique enough, eg @Lab
+                ahk(u,['flavour'],'necessary','many-kids')
+            }
+            u.term_impds = impds
+            hak(impds) == 1 and ahk(u,['flavour'],'necessary','one-imp')
+        }
+    }
    // H - node sort, flavour
     # i H (-lev/$node)**
     me.node_sort = &acgtDY{
@@ -1350,6 +1426,9 @@
             
             # notice things about it
             me&node_has_flavour,H,D,Y,x,n
+            
+            # d.x.flavour.implicated become d.implication
+            me&implicated_implication,d
             
             $N = ahsk(v,'upfrom',1,'nodes')
             me&node_sort_pickout,n,N
@@ -1572,6 +1651,7 @@
             $allv = []
             $anode = &unvd{
                 d ||= {d:1}
+                ex(d,{u,n,v})
                 $more = &z{
                     # given each $n/$z
                     anode((d.x || u), z, v, {up:d,d:d.d+1})
