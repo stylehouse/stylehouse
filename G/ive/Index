@@ -1272,22 +1272,29 @@
                     $fla = x.flavour || {}
                     me&boxcap,"n:",'1b' (&ml{
                         !atop and ms&ml = 0.6
-                        if (fla.gloss) {
+                        if (fla.glossed_nodes) {
                             lc&not = 1
-                            $who = joint(fla.glossed_nodes.map(d => d.n),'/')
-                            me&tsc,who,'...','g'
+                            $who = joint(fla.glossed_nodes,'/')
+                            me&tsc,who,'...','6b'
+                            !fla.gloss and debugger
+                        }
+                        if (fla.gloss) {
+                            !fla.glossed_nodes and debugger
+                            #me&tc,"gloss:"+who,6
                         }
                         else {
+                            $name = fla.Name || fla.name
+                            if (name) {
+                                name = me&tc,'@'+name,'g'
+                                fla.name and names&opa = 0.5
+                            }
+                            
                             $t = me&tc,n.t,'y'
 
                             fla.implicated and ts&opa = 0.5
-
-                            $name = fla.Name || fla.name
-                            name and name = me&tc,'@'+name,'g'
-                            fla.name and names&opa = 0.5
                         }
                         $nec = fla.necessary
-                        nec and me&tc,"nec:"+dis(nec),'6'
+                        #nec and me&tc,"nec:"+dis(nec),'6'
 
                         pile(x)
                     })
@@ -1336,12 +1343,14 @@
             # notice things about it
             3: &xunvyd{
                 if (x) {
-                    sex(x,v,'flavour')
+                    each kV v.flavour {
+                        ahk(x,'flavour',k,V)
+                    }
+                    each kV d.flavour {
+                        ahsk(x,'flavour',k) and debugger
+                        ahk(x,'flavour',k,V)
+                    }
                 }
-                # < d.Xd?
-                #d.d > 3 and return
-                
-
                 each iz v.nodes {
                     y (z)
                 }
@@ -1361,18 +1370,18 @@
     # U... may d.nox the non-last %imp, etc
     me.node_skippable = &acgtunvd{
         # the innermost %imp/%imp+ speaks for them all
-        if (hak(v.term_impds) > 1) {
-            $N = v.term_impds
-            ahk(v,'flavour','glossed_nodes',N)
-            $saw = "Fin:"+joint(N.map(d => d.n))
-            ahk(v,['flavour'],'necessary',saw)
+        $nec2 = 0
+        if (hak(v.glossable_nodes) > 1) {
+            $N = v.glossable_nodes
+            # stash on d to apply to x.flav...
+            ahk(d,'flavour','glossed_nodes',N.slice())
+            nec2 = 1
         }
         $fla = v.flavour || {}
         !fla.implicated and return
         $nec = fla.necessary
-        $skip = !nec && '!nec'
+        $skip = !(nec||nec2) && '!nec'
         if (!skip) {
-            nec = nec.filter(l => !l.startsWith('Fin:'))
             if (hak(nec) == 1) {
                 nec[0] == 'one-imp' && d.d == 1 and skip = "root"
                 else
@@ -1381,35 +1390,32 @@
         }
         # when %imp is necessary just to say ...
         $nec = fla.necessary
-        if (!skip && hak(nec)) {
-            nec = nec.filter(l => !l.startsWith('Fin:'))
-            !hak(nec) and ahk(v,'flavour','gloss',1)
+        !hak(nec) and delete fla.necessary
+        if (!skip && (hak(nec)||nec2)) {
+            !hak(nec) and ahk(d,'flavour','gloss',1)
         }
         return skip
     }
-    # H...d.x.flavour.implicated become d.implication
+    # H...d.x.flavour.implicated become x.glossable_nodes
     #  part of H but informing U
     me.implicated_implication = &acgtd{
         $x = d.x
         $ud = d.up
         $u = ud && ud.x
-        $impds = ud && ud.implication
+        $glossing = u && u.glossing_nodes
         if (ahsk(x,'flavour','implicated')) {
-            # more d.implication[d%imp**]
-            impds = (impds||[]).slice()
-            impds.push(d)
-            d.implication = impds
+            glossing ||= []
+            x.glossing_nodes = [...glossing,d.n]
         }
-        elsif (impds) {
-            # tell previous %imp it is last
-            if (u.term_impds) {
-                u.term_impds != impds and debugger
+        elsif (glossing) {
+            # previous %imp is last, terminates glossing -> glossable
+            if (u.glossable_nodes) {
+                u.glossable_nodes != glossing and debugger
                 # non-first child of %imp
-                # < unless their %Names are unique enough, eg @Lab
                 ahk(u,['flavour'],'necessary','many-kids')
             }
-            u.term_impds = impds
-            hak(impds) == 1 and ahk(u,['flavour'],'necessary','one-imp')
+            u.glossable_nodes = glossing
+            hak(glossing) == 1 and ahk(u,['flavour'],'necessary','one-imp')
         }
     }
    // H - node sort, flavour
@@ -1558,7 +1564,7 @@
         $pr = psy&R
         return ps
     }
-   // Y - separate from source
+   // Y - separate by /$node
     # &brackX's X/$k/$ref -> Y/(node,nearnode,...)*,ref/$k
     #  with notes on &Shx semantics
     me.bract_kref = &acgtXsc{
