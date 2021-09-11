@@ -1207,7 +1207,7 @@
     # strung together in reverse by eg &brackstract
     # < &cvdeal persist Ry&cvdeal_i
     
-   // top
+   // spec
     =pod
       < makes such expressions of a Km!
       < s describes expression
@@ -1216,6 +1216,8 @@
         < fast &Shx io compiling that
        some -> /$node
        < some climb y&R|up to a node (eg $E)
+      < say only @Gome, but not only @Lab
+         due to not being unique amongst ^^x/@Lab
        those nodes pile up
        < expr for $step/$node compresses eg $k=step|node
          leaving odd $k to be expressed
@@ -1234,6 +1236,69 @@
           < gleaned at compilation from an io expr somwhere
        - in comments: see # note:
     =cut
+    =todo
+      <<<
+      the expr implying %%step, %%node
+       brackology: (=otherwise)
+        and other (,active) or (,erstly)
+         and More (x2)
+
+        add various thingoish interactivity to .hand
+         want to interact with @Gome/@Thy The-ness
+          its exporting a protocol for customising Yingu**
+           to pile like such a toc
+      
+      sleeping modulat?
+       %Yingupile wants to visit some of them
+      
+        %Name (eg @Lab) may qualify if unique names
+         Names, (our %Name, given to client|@Gome)
+         to expr @Gome...@Lab
+          one @Gome in @Ying**, one @Lab in @Gome**
+           @Lab may mean only the really currently active @Lab,
+            can be undistinguished from an older @Lab in scrollback
+             see 'that these expr get invalidated over time'
+              might we be able to re-late other -gate?
+            perhaps it could be @Lab++ when new?
+             and similar This++ when time moves there
+          < @node_sort noticing when /* (all) are selected
+            could be @Lab* if all labs
+
+         names, (s.t, and local %Name eg @Eight)
+         also s.t may be unique, gain an ark from &Saturn?
+          Know...Fish, if no other Know/**Fish
+           suppose this is a name hoisting, R%X thing
+            say Know/w/Fish if W/Fish also exists
+             and Know/*/Fish (x2) if both
+           or Know/w/(Fish,Dealap) ?
+            ie the mirage inline of a few small items
+            may join brackology on anywhere in there?
+
+          for @Eight:'n:Thyer/ThyerYing'...origin_X
+           then over time, @Eight/suchtime/origin_X
+            that re-mention of @Eight makes a smaller expr of it
+             and @seven is implied
+              ie only use local %Name if it helps
+               proper %Name should always, eg @Gome
+            could even be as lum as a dot,
+             Abodo positioning bordered box-link, ala metro map
+          > @Plot has a @C
+           implies any of the current -Ness/@Eight/@seven
+            which amongst themselves may include @Eight/@seven
+             as per unique names
+           should box-link them, or version?
+            so we dont have to redraw older definitions as such
+            or non-latest could shade or say @Lab-1
+         that these expr get invalidated over time,
+          eg when a more-active @Lab arrives
+     
+     generalising the $identity <-> *
+        the ... that can also squish the git log
+         test failing after merges of them should open them,
+          bisect to where the fails begin
+
+    =cut
+   // top
     me.brackstract = &acgtX{
         $R = me&R
         Rs&origin_X = X
@@ -1380,15 +1445,6 @@
         })
         return U
     }
-    # overrule $necessary='many-kids', see "but not when eg imp'@Labine' has /@Lab x2"
-    me.all_kids_Name = &acgtv{
-        $ok = 1
-        each ix v.node {
-            !ahsk(x,'flavour','Name') and ok = 0
-        }
-        !i and debugger
-        return ok
-    }
     # U... may d.nox the non-last %imp, etc
     me.node_skippable = &acgtunvd{
         # the innermost %imp/%imp+ speaks for them all
@@ -1404,10 +1460,14 @@
         $nec = fla.necessary
         $skip = !(nec||nec2) && '!nec'
         if (!skip) {
-            if (hak(nec) == 1) {
-                nec[0] == 'one-imp' && d.d == 1 and skip = "root"
-                else
-                nec[0] == 'many-kids' && me&all_kids_Name,v and grepout(fla.necessary,'many-kids')
+            $w = hak(nec) && nec[0]
+            # < not if many H/$node
+            w == 'one-imp' && d.d == 1 and skip = "root"
+            # overrule $necessary='many-kids'
+            #  see "but not when eg imp'@Labine' has /@Lab x2"
+            if (w == 'many-kids' && !havs(v.node)
+                .some(x => !ahsk(x,'flavour','Name'))) {
+                grepout(fla.necessary,'many-kids')
             }
         }
         # when %imp is necessary just to say ...
