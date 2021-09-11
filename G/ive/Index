@@ -1305,6 +1305,37 @@
     }
    // U - set out nice
     # i &condensed /$node** o /$node**
+    =pod
+     &nodes_iter
+      can d.nox depending on &node_skippable @1
+      < io: more of a d** to take many waves of sense at it
+        we then o v/flavour:sc, so we can then o v%Name etc
+        and decide on placement:
+     < '...' grouping continuous %implicated
+        sanity: they shouldnt have any brackrows
+        the following io expr somehow take:
+         the first * to mean things with %implicated
+         everything else to mean !%implicated,
+          unless its more *
+        include an %implicated if:
+         only one deep
+          o uv/*/v
+          can still be ... if squeezed for space
+         multiple nodes diverge from it:
+          o */*{2,}!%Name
+          but not when eg imp'@Labine' has /@Lab x2
+         name (t+Name) is ambiguous amongst x^$node**
+          o ux(/**#t#Name)/*/x
+          just a quick rendition of this... try Rc&X**?
+     < imp(TryPiWarmer@Gome/TheF)/TryPiWarmer
+        ie lots of different objects all named TryPiWarmer are around
+       says @Gome/TheF/⇖, since they share .t
+        with a box-link between the ⇖ and @Gome
+         even though @Gome doesnt say the .t reused
+        even for TryPiWarming-SubNineOne, say ⇖-SubNineOne
+     < @Run being for (^%client) @Gnome, some kind of box-link
+     notice things about it
+    =cut
     me.node_hand = &acgtHDY{
         $R = me&R
         $U = {A:R}
@@ -1314,33 +1345,6 @@
                 $skip = me&node_skippable,u,n,v,d
                 skip and d.nox = skip
             },
-            # < &nodes_iter must build d**
-            #    we then o v/flavour:sc, so we can then o v%Name etc
-            #   x** after we decide on x placement:
-            # < '...' grouping continuous %implicated
-            #    sanity: they shouldnt have any brackrows
-            #    the following io expr somehow take:
-            #     the first * to mean things with %implicated
-            #     everything else to mean !%implicated,
-            #      unless it's more *
-            #    include an %implicated if:
-            #     only one deep
-            #      o uv/*/v
-            #      can still be ... if squeezed for space
-            #     multiple nodes diverge from it:
-            #      o */*{2,}!%Name
-            #      but not when eg imp'@Labine' has /@Lab x2
-            #     name (t+Name) is ambiguous amongst x^$node**
-            #      o ux(/**#t#Name)/*/x
-            #      just a quick rendition of this... try Rc&X**?
-            # < imp(TryPiWarmer@Gome/TheF)/TryPiWarmer
-            #    ie lots of different objects all named TryPiWarmer are around
-            #   says @Gome/TheF/⇖, since they share .t
-            #    with a box-link between the ⇖ and @Gome
-            #     even though @Gome doesn't say the .t reused
-            #    even for TryPiWarming-SubNineOne, say ⇖-SubNineOne
-            # < @Run being for (^%client) @Gnome, some kind of box-link
-            # notice things about it
             3: &xunvyd{
                 if (x) {
                     each kV v.flavour {
@@ -1402,19 +1406,22 @@
         $x = d.x
         $ud = d.up
         $u = ud && ud.x
+        # a '...' being formed
         $glossing = u && u.glossing_nodes
         if (ahsk(x,'flavour','implicated')) {
+            # and continuing
             glossing ||= []
             x.glossing_nodes = [...glossing,d.n]
         }
         elsif (glossing) {
-            # previous %imp is last, terminates glossing -> glossable
-            if (u.glossable_nodes) {
-                u.glossable_nodes != glossing and debugger
+            # and terminates glossing -> glossable
+            $was = u.glossable_nodes
+            u.glossable_nodes = glossing
+            if (was) {
                 # non-first child of %imp
+                was != glossing and debugger
                 ahk(u,['flavour'],'necessary','many-kids')
             }
-            u.glossable_nodes = glossing
             hak(glossing) == 1 and ahk(u,['flavour'],'necessary','one-imp')
         }
     }
