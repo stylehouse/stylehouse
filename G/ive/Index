@@ -1217,7 +1217,6 @@
        some -> /$node
        < some climb y&R|up to a node (eg $E)
        those nodes pile up
-       < reduce
        < expr for $step/$node compresses eg $k=step|node
          leaving odd $k to be expressed
             # < morekeys later
@@ -1264,18 +1263,18 @@
             ms&hue = t == 'U' ? 47 : 255
             me&walls,m,'bd:3.1'
 
-            $pile = &ux,{
-                $atop = ux.up == H
+            $pile = &ux,c{
+                c ||= {}
 
                 each in ux.nodes {
                     $x = ux.node[i]
                     $fla = x.flavour || {}
                     me&boxcap,"n:",'1b' (&ml{
-                        !atop and ms&ml = 0.6
+                        !c.noml and ms&ml = 0.6
                         if (fla.glossed_nodes) {
                             lc&not = 1
                             $who = joint(fla.glossed_nodes,'/')
-                            me&tsc,who,'...','6b'
+                            $gloss = me&tsc,who,'...','6b'
                             !fla.gloss and debugger
                         }
                         if (fla.gloss) {
@@ -1285,6 +1284,7 @@
                         else {
                             $name = fla.Name || fla.name
                             if (name) {
+                                # < implies sym=n
                                 name = me&tc,'@'+name,'g'
                                 fla.name and names&opa = 0.5
                             }
@@ -1295,12 +1295,21 @@
                         }
                         $nec = fla.necessary
                         #nec and me&tc,"nec:"+dis(nec),'6'
-
-                        pile(x)
+                        
+                        $next = fla.gloss ? &x{
+                            # m + /* are table-cells, so ... next
+                            glosss&dis = 4
+                            delete ms&ml
+                            me&boxcap,"inside",'4b' (&ml{
+                                lc&not = 1
+                                pile(x,{noml:1})
+                            })
+                        } : pile
+                        next(x)
                     })
                 }
             }
-            pile(H.pile.1)
+            pile(H.pile.1,{noml:1})
         })
     }
    // U - set out nice
@@ -1309,14 +1318,22 @@
      &nodes_iter
       can d.nox depending on &node_skippable @1
       < io: more of a d** to take many waves of sense at it
-        we then o v/flavour:sc, so we can then o v%Name etc
-        and decide on placement:
-     < '...' grouping continuous %implicated
+        making the x before it is attached?
+         relies on nothing being there yet,
+          is a crazy hook into Xsim...
+          but basically allows x** multipath|converginess
+         or might merge, the floating x contrib
+      < io: making %thing refer to v.flavour.thing
+         # assumed in the annotation below
+        we then o (v|d)/flavour:sc, so we can then o v%Name etc
+         this meaning both v + d may contain .flavour,
+          i default to v, unless eg i d%glossed_nodes=$N
+     '...' grouping continuous %implicated
         sanity: they shouldnt have any brackrows
-        the following io expr somehow take:
-         the first * to mean things with %implicated
-         everything else to mean !%implicated,
-          unless its more *
+        < the following io expr somehow take:
+          the first * to mean things with %implicated
+          non-first * to mean anything
+          everything else to mean !%implicated,
         include an %implicated if:
          only one deep
           o uv/*/v
@@ -1324,9 +1341,10 @@
          multiple nodes diverge from it:
           o */*{2,}!%Name
           but not when eg imp'@Labine' has /@Lab x2
-         name (t+Name) is ambiguous amongst x^$node**
+       < name (t andor Name) is ambiguous amongst x^$node**
           o ux(/**#t#Name)/*/x
           just a quick rendition of this... try Rc&X**?
+     
      < imp(TryPiWarmer@Gome/TheF)/TryPiWarmer
         ie lots of different objects all named TryPiWarmer are around
        says @Gome/TheF/⇖, since they share .t
