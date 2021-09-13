@@ -1366,7 +1366,7 @@
                                 tc&s = '⇖'
                                 ts&bri = 1.6
                             }
-                            elsif (fla.mutet) {
+                            elsif (fla.t_mute) {
                                 tc&not = 1
                                 !name and debugger
                                 names&title = namec&s+":"+n.t
@@ -1459,12 +1459,12 @@
             $v = d.v
             $n = d.n
             me&node_t_reused,x,v,d,n
-            me&node_Name_shorten,x,v,d,n
+            me&node_t_mute,x,v,d,n
         })
         return U
     }
     # may shorten to @Gnome if no others about...
-    me.node_Name_shorten = &acgtxvdn{
+    me.node_t_mute = &acgtxvdn{
         $Name = ahsk(x,'flavour','Name')
         !Name and return
         $ok = 1
@@ -1486,13 +1486,13 @@
             s = p
         }
         !ok and return
-        ahk(x,'flavour','mutet',1)
+        ahk(x,'flavour','t_mute',1)
     }
-    # ⇖ to previous thing with .t, even if it %mutet
+    # ⇖ to previous thing with .t (even if they %t_mute)
     me.node_t_reused = &acgtxvdn{
         $far = 7
         while (far-- > 0) {
-            # unlike %mutet, climbds d, target must be displayed
+            # unlike %t_mute: climbds d, they must be displayed
             $p = d.up
             !p and break
             if (!p.nox && p.n.t == n.t) {
