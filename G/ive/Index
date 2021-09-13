@@ -1302,8 +1302,10 @@
     me.brackstract = &acgtX{
         $R = me&R
         Rs&origin_X = X
+        $del = me&modelta
         # find /$node amongst sentences
         $Y = Rs&bract_kref_X = me&bract_kref,X
+        del()
         # /$node climb until all connected
         $D = Rs&nodes_climb_X = me&nodes_climb,Y
         # /pile(/$node(/flavour)?)+ tree
@@ -1312,11 +1314,13 @@
         $U = Rs&node_hand_X = me&node_hand,H,D,Y
         
         # modulat it here
-        return me&boxcap,'nodelists',"1b" (&ml{
+        $m = me&boxcap,'nodelists',"1b" (&ml{
             lc&not = 1
             me&brackstract_out,H,'H'
             me&brackstract_out,U,'U'
         })
+        del()
+        return m
     }
     # print meaning, formed into /$node** structure
     # < nodes already got step|node expr join figured,
@@ -1408,6 +1412,8 @@
         we then o (v|d)/flavour:sc, so we can then o v%Name etc
          this meaning both v + d may contain .flavour,
           i default to v, unless eg i d%glossed_nodes=$N
+     
+     &node_hand
      '...' grouping continuous %implicated
         sanity: they shouldnt have any brackrows
         < the following io expr somehow take:
@@ -1424,15 +1430,16 @@
          < name (t andor Name) is ambiguous amongst x^$node**
           o ux(/**#t#Name)/*/x
           just a quick rendition of this... try Rc&X**?
+          < adjust test data... make w:TryPiWarmer?
      
-     < imp(TryPiWarmer@Gome/TheF)/TryPiWarmer
+     TryPiWarmer@Gome/imp(TheF/TryPiWarmer)/TryPiWarmer@Fine
         ie lots of different objects all named TryPiWarmer are around
-       says @Gome/TheF/⇖, since they share .t
-        with a box-link between the ⇖ and @Gome
+       says @Fine⇖, since they share .t
+       < with a box-link between the ⇖ and @Gome
          even though @Gome doesnt say the .t reused
-        even for TryPiWarming-SubNineOne, say ⇖-SubNineOne
+       < even for TryPiWarming-SubNineOne, say ⇖-SubNineOne
+     
      < @Run being for (^%client) @Gnome, some kind of box-link
-     notice things about it
     =cut
     me.node_hand = &acgtHDY{
         $R = me&R
@@ -1463,6 +1470,7 @@
         })
         return U
     }
+   // U %etc
     # may shorten to @Gnome if no others about...
     me.node_t_mute = &acgtxvdn{
         $Name = ahsk(x,'flavour','Name')
@@ -1511,6 +1519,7 @@
             ahk(x,'flavour',k,V)
         }
     }
+   // U %gloss
     # U... may d.nox the non-last %imp, etc
     me.node_skippable = &acgtunvd{
         # the innermost %imp/%imp+ speaks for them all
@@ -1544,31 +1553,6 @@
         }
         return skip
     }
-    # H...d.x.flavour.implicated become x.glossable_nodes
-    #  part of H but informing U
-    me.implicated_implication = &acgtd{
-        $x = d.x
-        $ud = d.up
-        $u = ud && ud.x
-        # a '...' being formed
-        $glossing = u && u.glossing_nodes
-        if (ahsk(x,'flavour','implicated')) {
-            # and continuing
-            glossing ||= []
-            x.glossing_nodes = [...glossing,d.n]
-        }
-        elsif (glossing) {
-            # and terminates glossing -> glossable
-            $was = u.glossable_nodes
-            u.glossable_nodes = glossing
-            if (was) {
-                # non-first child of %imp
-                was != glossing and debugger
-                ahk(u,['flavour'],'necessary','many-kids')
-            }
-            hak(glossing) == 1 and ahk(u,['flavour'],'necessary','one-imp')
-        }
-    }
    // H - node sort, flavour
     # i H (-lev/$node)**
     me.node_sort = &acgtDY{
@@ -1592,6 +1576,30 @@
                 .map(z => y (z))
         })
         return H
+    }
+    # H x%implicated** become x.glossable_nodes, -> U &node_skippable
+    me.implicated_implication = &acgtd{
+        $x = d.x
+        $ud = d.up
+        $u = ud && ud.x
+        # a '...' being formed
+        $glossing = u && u.glossing_nodes
+        if (ahsk(x,'flavour','implicated')) {
+            # and continuing
+            glossing ||= []
+            x.glossing_nodes = [...glossing,d.n]
+        }
+        elsif (glossing) {
+            # and terminates glossing -> glossable
+            $was = u.glossable_nodes
+            u.glossable_nodes = glossing
+            if (was) {
+                # non-first child of %imp
+                was != glossing and debugger
+                ahk(u,['flavour'],'necessary','many-kids')
+            }
+            hak(glossing) == 1 and ahk(u,['flavour'],'necessary','one-imp')
+        }
     }
     # sprinkles H x.flavour.* with expr clues
     # this could be a freestanding X:Fl/$node/$flavour
