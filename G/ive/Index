@@ -1339,7 +1339,7 @@
                         !c.noml and ms&ml = 0.6
                         if (fla.glossed_nodes) {
                             lc&not = 1
-                            $who = joint(fla.glossed_nodes,'/')
+                            $who = '/'+joint(fla.glossed_nodes,'/')+'/'
                             $gloss = me&tsc,who,'…','6b'
                             !fla.gloss and debugger
                         }
@@ -1357,7 +1357,20 @@
                             
                             $t = me&tc,n.t,'y'
 
-                            fla.mutet and tc&not = 1; me&tc,"<not>",'6g'
+                            if (fla.t_reused) {
+                                $dist = me.cby(x,x => x == fla.t_reused, x=>x.up)
+                                dist = hak(dist.filter(
+                                    x => ahsk(x,'flavour','glossed_nodes')))
+                                ts&title = "t_reused: x^"+dist+": "+n.t
+                                # < box-link
+                                tc&s = '⇖'
+                                ts&bri = 1.6
+                            }
+                            elsif (fla.mutet) {
+                                tc&not = 1
+                                !name and debugger
+                                names&title = namec&s+":"+n.t
+                            }
                             fla.implicated and ts&opa = 0.5
                         }
                         $nec = fla.necessary
@@ -1446,7 +1459,7 @@
             $v = d.v
             $n = d.n
             me&node_t_reused,x,v,d,n
-            || me&node_Name_shorten,x,v,d,n
+            me&node_Name_shorten,x,v,d,n
         })
         return U
     }
@@ -1477,7 +1490,17 @@
     }
     # ⇖ to previous thing with .t, even if it %mutet
     me.node_t_reused = &acgtxvdn{
-        return 0
+        $far = 7
+        while (far-- > 0) {
+            # unlike %mutet, climbds d, target must be displayed
+            $p = d.up
+            !p and break
+            if (!p.nox && p.n.t == n.t) {
+                ahk(x,'flavour','t_reused',p.x)
+                break
+            }
+            d = p
+        }
     }
     me.merge_flavours = &acgtxvd{
         each kV v.flavour {
