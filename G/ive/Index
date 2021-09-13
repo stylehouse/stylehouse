@@ -1312,7 +1312,8 @@
         $U = Rs&node_hand_X = me&node_hand,H,D,Y
         
         # modulat it here
-        return me&boxcap,'nodelists',"5b" (&m{
+        return me&boxcap,'nodelists',"1b" (&ml{
+            lc&not = 1
             me&brackstract_out,H,'H'
             me&brackstract_out,U,'U'
         })
@@ -1339,7 +1340,7 @@
                         if (fla.glossed_nodes) {
                             lc&not = 1
                             $who = joint(fla.glossed_nodes,'/')
-                            $gloss = me&tsc,who,'...','6b'
+                            $gloss = me&tsc,who,'…','6b'
                             !fla.gloss and debugger
                         }
                         if (fla.gloss) {
@@ -1351,11 +1352,12 @@
                             if (name) {
                                 # < implies sym=n
                                 name = me&tc,'@'+name,'g'
-                                fla.name and names&opa = 0.5
+                                fla.name and names&fs = 7
                             }
                             
                             $t = me&tc,n.t,'y'
 
+                            fla.mutet and tc&not = 1; me&tc,"<not>",'6g'
                             fla.implicated and ts&opa = 0.5
                         }
                         $nec = fla.necessary
@@ -1377,7 +1379,7 @@
             pile(H.pile.1,{noml:1})
         })
     }
-   // U - set out nice
+   // U - set out nice!
     # i &condensed /$node** o /$node**
     =pod
      &nodes_iter
@@ -1406,7 +1408,7 @@
          multiple nodes diverge from it:
           o */*{2,}!%Name
           but not when eg imp'@Labine' has /@Lab x2
-       < name (t andor Name) is ambiguous amongst x^$node**
+         < name (t andor Name) is ambiguous amongst x^$node**
           o ux(/**#t#Name)/*/x
           just a quick rendition of this... try Rc&X**?
      
@@ -1423,6 +1425,7 @@
         $R = me&R
         $U = {A:R}
         $Si = me&Simqis_st
+        $N = []
         me&nodes_iter,U,H ({
             1: &unvyd{
                 $skip = me&node_skippable,u,n,v,d
@@ -1430,20 +1433,94 @@
             },
             3: &xunvyd{
                 if (x) {
-                    each kV v.flavour {
-                        ahk(x,'flavour',k,V)
-                    }
-                    each kV d.flavour {
-                        ahsk(x,'flavour',k) and debugger
-                        ahk(x,'flavour',k,V)
-                    }
+                    me&merge_flavours,x,v,d
+                    N.push(d)
                 }
                 each iz v.nodes {
                     y (z)
                 }
             },
         })
+        reverse(N).map(&d{
+            $x = d.x
+            $v = d.v
+            $n = d.n
+            me&node_t_reused,x,v,d,n
+            || me&node_Name_shorten,x,v,d,n
+        })
         return U
+    }
+    # n/* canonical order, /*)%eph-indifferent
+    me.node_downwards = &acgtn{
+        $nr = ny&R
+        if (nr && (nrs&ball || nrs&bell)) {
+            $order = me&ioty,nr .filter(&r{
+                # < how to backreference in javascript regex
+                #   and io expr continuous one of either ball|bell
+                return nrs&ball && rs&ball
+                    || nrs&bell && rs&bell
+            }) .map(r => rc&s)
+        }
+        else {
+            $order = ns&z.slice()
+        }
+        return order
+    }
+    # n^
+    me.node_upwards = &acgts{
+        $r = sy&R
+        # ends on A.4
+        r && rs&Ying and return
+        $ps = sy&up
+        if (!ps && sy&R) {
+            # R** where s** fails (eg pr%eph)
+            $r = sy&R
+            $pr = ry&up
+            # < up from E**
+            prs&Pier and debugger
+            !prs&ball and debugger
+            $ps = prc&s
+        }
+        $pr = psy&R
+        return ps
+    }
+    # may shorten to @Gnome if no others about...
+    me.node_Name_shorten = &acgtxvdn{
+        $Name = ahsk(x,'flavour','Name')
+        !Name and return
+        $ok = 1
+        $far = 2
+        $s = n
+        while (ok && s && far-- > 0) {
+            # o $n^^/#Name==n.Name
+            # < should be checking Name that percolates,
+            #   or we dive into each p/* we didn't come up from
+            $p = me&node_upwards,s
+            $N = me&node_downwards,p
+            each in N {
+                n == s and continue
+                me&node_get_Names,n .map(&a{
+                    a.local and return
+                    a.t == Name and ok = 0
+                })
+            }
+            s = p
+        }
+        !ok and return
+        ahk(x,'flavour','mutet',1)
+    }
+    # ⇖ to previous thing with .t, even if it %mutet
+    me.node_t_reused = &acgtxvdn{
+        return 0
+    }
+    me.merge_flavours = &acgtxvd{
+        each kV v.flavour {
+            ahk(x,'flavour',k,V)
+        }
+        each kV d.flavour {
+            ahsk(x,'flavour',k) and debugger
+            ahk(x,'flavour',k,V)
+        }
     }
     # U... may d.nox the non-last %imp, etc
     me.node_skippable = &acgtunvd{
@@ -1535,17 +1612,26 @@
         # added since Y
         !Y.nodes.includes(n) and flav('implicated',1)
         
+        me&node_get_Names,n .map(&a{
+            a.s != n and flav('remark','Names-other',1)
+            else {
+                $k = a.local ? "name" : "Name"
+                flav(k,a.t)
+            }
+        })
+    }
+    me.node_get_Names = &acgtn{
+        $N = []
         $nr = ny&R
         $Na = nr && nrs&Names
-        if (Na) {
-            each tv Nas&tw {
-                v != n and flav('remark','Names-other',1)
-                else {
-                    $k = ahsk(Na,'sc','tlocal',t) ? "name" : "Name"
-                    flav(k,t)
-                }
-            }
+        !Na and return N
+        
+        each ts Nas&tw {
+            $a = {t,s}
+            ahsk(Na,'sc','tlocal',t) and a.local = 1
+            N.push(a)
         }
+        return N
     }
     # order N by n/*
     # < after eg resolve $n projects a certainty of who is to be who
@@ -1561,18 +1647,7 @@
             # build a more complete picture via R** for the latter
             #  which will always be in order etc?
             # see %eph, &supsphere
-            $nr = ny&R
-            if (nr && (nrs&ball || nrs&bell)) {
-                $order = me&ioty,nr .filter(&r{
-                    # < how to backreference in javascript regex
-                    #   and io expr continuous one of either ball|bell
-                    return nrs&ball && rs&ball
-                        || nrs&bell && rs&bell
-                }) .map(r => rc&s)
-            }
-            else {
-                $order = ns&z.slice()
-            }
+            $order = me&node_downwards,n
             # M[0] = [z-beforeany*]
             # M[orderi+1] = [z-had,z-new*]
             $M = []
@@ -1630,24 +1705,6 @@
             }
         })
         return D
-    }
-    # s^
-    me.node_upwards = &acgts{
-        $r = sy&R
-        # ends on A.4
-        r && rs&Ying and return
-        $ps = sy&up
-        if (!ps && sy&R) {
-            # R** where s** fails (eg pr%eph)
-            $r = sy&R
-            $pr = ry&up
-            # < up from E**
-            prs&Pier and debugger
-            !prs&ball and debugger
-            $ps = prc&s
-        }
-        $pr = psy&R
-        return ps
     }
    // Y - separate by /$node
     # &brackX's X/$k/$ref -> Y/(node,nearnode,...)*,ref/$k
