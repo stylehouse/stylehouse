@@ -1450,40 +1450,6 @@
         })
         return U
     }
-    # n/* canonical order, /*)%eph-indifferent
-    me.node_downwards = &acgtn{
-        $nr = ny&R
-        if (nr && (nrs&ball || nrs&bell)) {
-            $order = me&ioty,nr .filter(&r{
-                # < how to backreference in javascript regex
-                #   and io expr continuous one of either ball|bell
-                return nrs&ball && rs&ball
-                    || nrs&bell && rs&bell
-            }) .map(r => rc&s)
-        }
-        else {
-            $order = ns&z.slice()
-        }
-        return order
-    }
-    # n^
-    me.node_upwards = &acgts{
-        $r = sy&R
-        # ends on A.4
-        r && rs&Ying and return
-        $ps = sy&up
-        if (!ps && sy&R) {
-            # R** where s** fails (eg pr%eph)
-            $r = sy&R
-            $pr = ry&up
-            # < up from E**
-            prs&Pier and debugger
-            !prs&ball and debugger
-            $ps = prc&s
-        }
-        $pr = psy&R
-        return ps
-    }
     # may shorten to @Gnome if no others about...
     me.node_Name_shorten = &acgtxvdn{
         $Name = ahsk(x,'flavour','Name')
@@ -1620,51 +1586,6 @@
             }
         })
     }
-    me.node_get_Names = &acgtn{
-        $N = []
-        $nr = ny&R
-        $Na = nr && nrs&Names
-        !Na and return N
-        
-        each ts Nas&tw {
-            $a = {t,s}
-            ahsk(Na,'sc','tlocal',t) and a.local = 1
-            N.push(a)
-        }
-        return N
-    }
-    # order N by n/*
-    # < after eg resolve $n projects a certainty of who is to be who
-    me.node_sort_pickout = &acgtnN{
-        !hak(N) and return []
-        $M = []
-        each iz ns&z {
-            # may be a subset
-            N.includes(z) and M.push(z)
-        }
-        if (hak(M) != hak(N)) {
-            # superset or over n/*)%eph boundary (not n/* but n//R/*/c&s)
-            # build a more complete picture via R** for the latter
-            #  which will always be in order etc?
-            # see %eph, &supsphere
-            $order = me&node_downwards,n
-            # M[0] = [z-beforeany*]
-            # M[orderi+1] = [z-had,z-new*]
-            $M = []
-            $Mi = 0
-            each iz N {
-                $oi = order.indexOf(z)
-                # news go after the last one located ie lv el=8,el2
-                #  or top posting if before any located
-                Mi = oi < 0 ? Mi : oi + 1
-                $MN = M[Mi] ||= []
-                MN.push(z)
-            }
-            # join inners
-            return flatten(M)
-        }
-        return M
-    }
    // D - elabourasta
     # s**^^^
     # i D /$node/$upfrom:node /$node_tip     o Y/$node
@@ -1773,7 +1694,89 @@
         })
         return Y
     }
-   // common?
+   
+   // common nodal
+    # n/* canonical order, /*)%eph-indifferent
+    me.node_downwards = &acgtn{
+        $nr = ny&R
+        if (nr && (nrs&ball || nrs&bell)) {
+            $order = me&ioty,nr .filter(&r{
+                # < how to backreference in javascript regex
+                #   and io expr continuous one of either ball|bell
+                return nrs&ball && rs&ball
+                    || nrs&bell && rs&bell
+            }) .map(r => rc&s)
+        }
+        else {
+            $order = ns&z.slice()
+        }
+        return order
+    }
+    # n^
+    me.node_upwards = &acgtn{
+        $r = ny&R
+        # ends on A.4
+        r && rs&Ying and return
+        $ps = ny&up
+        if (!ps && ny&R) {
+            # R** where n** fails (eg pr%eph)
+            $r = ny&R
+            $pr = ry&up
+            # < up from E**
+            prs&Pier and debugger
+            !prs&ball and debugger
+            $ps = prc&s
+        }
+        $pr = psy&R
+        return ps
+    }
+    # [{t,s,local?}*] for n)%Name/*
+    me.node_get_Names = &acgtn{
+        $N = []
+        $nr = ny&R
+        $Na = nr && nrs&Names
+        !Na and return N
+        
+        each ts Nas&tw {
+            $a = {t,s}
+            ahsk(Na,'sc','tlocal',t) and a.local = 1
+            N.push(a)
+        }
+        return N
+    }
+    # order N by n/*
+    # < after eg resolve $n projects a certainty of who is to be who
+    me.node_sort_pickout = &acgtnN{
+        !hak(N) and return []
+        $M = []
+        each iz ns&z {
+            # may be a subset
+            N.includes(z) and M.push(z)
+        }
+        if (hak(M) != hak(N)) {
+            # superset or over n/*)%eph boundary (not n/* but n//R/*/c&s)
+            # build a more complete picture via R** for the latter
+            #  which will always be in order etc?
+            # see %eph, &supsphere
+            $order = me&node_downwards,n
+            # M[0] = [z-beforeany*]
+            # M[orderi+1] = [z-had,z-new*]
+            $M = []
+            $Mi = 0
+            each iz N {
+                $oi = order.indexOf(z)
+                # news go after the last one located ie lv el=8,el2
+                #  or top posting if before any located
+                Mi = oi < 0 ? Mi : oi + 1
+                $MN = M[Mi] ||= []
+                MN.push(z)
+            }
+            # join inners
+            return flatten(M)
+        }
+        return M
+    }
+   // common X
     # < io mode: from $D, wants no /$n-ness
     # < io might be able to use '^' for the previous x, instead of v:
     # &xunyv{ ... } for i D/pile(/$node)+ o X(/pile)?(/$node)+
