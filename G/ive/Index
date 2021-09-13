@@ -1304,20 +1304,22 @@
         Rs&origin_X = X
         $del = me&modelta
         # find /$node amongst sentences
-        $Y = Rs&bract_kref_X = me&bract_kref,X
+        $Y = Rs&bract_kref_Y = me&bract_kref,X
         del()
         # /$node climb until all connected
-        $D = Rs&nodes_climb_X = me&nodes_climb,Y
+        $D = Rs&nodes_climb_D = me&nodes_climb,Y
         # /pile(/$node(/flavour)?)+ tree
-        $H = Rs&node_sort_X = me&node_sort,D,Y
+        $H = Rs&node_sort_H = me&node_sort,D,Y
         # /pile(/$node(/hand))+ interactive tree
-        $U = Rs&node_hand_X = me&node_hand,H,D,Y
+        $U = Rs&node_hand_U = me&node_hand,H,D,Y,X
+        # /$node/$k/$ref out of the ordinary
+        $L = Rs&node_brackoddities_L = me&node_brackoddities,U,Y
         
         # modulat it here
         $m = me&boxcap,'nodelists',"1b" (&ml{
             lc&not = 1
-            me&brackstract_out,H,'H'
-            me&brackstract_out,U,'U'
+            me&brackstract_out,H,L,'H'
+            me&brackstract_out,U,L,'U'
         })
         del()
         return m
@@ -1325,7 +1327,7 @@
     # print meaning, formed into /$node** structure
     # < nodes already got step|node expr join figured,
     #    extra brack expr may be hung upon them
-    me.brackstract_out = &acgtHt{
+    me.brackstract_out = &acgtHLt{
         $R = me&R
         !H and me&tc,"NoH"; return
         return me&boxcap,t,"4b" (&ml{
@@ -1343,6 +1345,8 @@
                         !c.noml and ms&ml = 0.6
                         
                         me&node_stractid,x,n,m,l,fla
+                        
+                        me&node_stractoddities,x,n,m,l,fla,L
                         
                         $next = fla.gloss ? &x{
                             # m + /* are table-cells, so ... next
@@ -1395,9 +1399,77 @@
             fla.implicated and ts&opa = 0.5
         }
         $nec = fla.necessary
-        #nec and me&tc,"nec:"+dis(nec),'6'
     }
-   // U - set out nice!
+    # < brackology oddities
+    me.node_stractoddities = &acgtxnml,fla,L{
+        $ni = L.nodes.indexOf(n)
+        ni < 0 and return
+        $nx = L.node[ni]
+        
+        me&boxcap,"%%",'5b' (&ml{
+            delete ls&pa
+        me&boxcap,"ungroupedrows",'5b' (&ml{
+            me&walls,m,'bg'
+            delete ms&pa
+            lc&not = 1
+            
+            each k,kx nx.k {
+                me&boxcap,k,'2b' (&ml{
+                    me&walls,m,'bd:1.4'
+                    delete ls&pa
+                    
+                    $co = me&tc,":",'g'
+                    $vo
+                    each i,refx kx.ref {
+                        $ref = kx.refs[i]
+                        ref != '1' and vo = me&tc,dis(ref),'y'
+                        hak(refx.z) > 1 and me&tc,"x"+hak(refx.z),'6g'
+                    }
+                    !vo and coc&not = 1
+                })
+            }
+        })
+        })
+    }
+   // L %brack extras
+    # big reduction!
+    me.node_brackoddities = &acgtUY{
+        $R = me&R
+        $Si = me&Simqis_st
+        $L = {A:R}
+        # collect odd bracks
+        each i,refx Y.ref {
+            $ref = Y.refs[i]
+            each kx refx.k {
+                # sans stuff implied by U** expression
+                # < check U...x for %ntype=S|n for %%step|node
+                k == 'step' || k == 'node' and continue
+                each i,row x.z {
+                    $rx = Si(L,{row})
+                    $kref_z = rx.kref_z ||= []
+                    kref_z.push({k,ref})
+                }
+            }
+        }
+        # per node
+        # < per node+, eg %%node,wants
+        #  < Ying_8 brings pertinent rows <- %%node,... 
+        each ix Y.node {
+            $n = Y.nodes[i]
+            each i,row x.z {
+                !(L.rows && L.rows.includes(row)) and continue
+                $rx = Si(L,{row})
+                $nx = Si(L,{node:n})
+                each ia rx.kref_z {
+                    $kx = Si(nx,{k:a.k})
+                    $refx = Si(kx,{ref:a.ref},{array:1,n:row})
+                }
+            }
+        }
+        return L
+        #x.disbracko = joint(haks(nx))
+    }
+   // U hand out nice
     # i &condensed /$node** o /$node**
     =pod
      &nodes_iter
@@ -1440,12 +1512,13 @@
          even though @Gome doesnt say the .t reused
        < even for TryPiWarming-SubNineOne, say ⇖-SubNineOne
      
+     the brack row has other stuff on it
+     
      < @Run being for (^%client) @Gnome, some kind of box-link
     =cut
-    me.node_hand = &acgtHDY{
+    me.node_hand = &acgtHDYO{
         $R = me&R
         $U = {A:R}
-        $Si = me&Simqis_st
         $N = []
         me&nodes_iter,U,H ({
             1: &unvyd{
@@ -1886,7 +1959,7 @@
             c.n ||= 0
             each kv s {
                 # r=0 for no /$n
-                x = isob(v) ? me&X_s,x,v,c.n,k
+                x = isob(v)||c.array ? me&X_s,x,v,c.n,k
                     : me&X_t,x,v,c.n,k
             }
             return x
