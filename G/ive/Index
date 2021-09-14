@@ -1212,7 +1212,7 @@
       makes such expressions of a Km!
       Xio proto research:
        eat k/*/refs
-        < fast &Shx io compiling that
+        < fast &Shx io compiling that, currently with &Xs[io]mp
        some -> /$node
        < some climb y&R|up to a node (eg $E)
        say only @Gome, but not only @Lab
@@ -1315,14 +1315,12 @@
         $del = me&modelta
         # find /$node amongst sentences
         $Y = Rs&bract_kref_Y = me&bract_kref,X
-        del()
         # /$node climb until all connected
         $D = Rs&nodes_climb_D = me&nodes_climb,Y
         # /pile(/$node(/flavour)?)+ tree
         $H = Rs&node_sort_H = me&node_sort,D,Y
         # /pile(/$node(/hand))+ interactive tree
         $U = Rs&node_hand_U = me&node_hand,H,D,Y,X
-        del()
         # /$node/$k/$ref out of the ordinary
         $L = Rs&node_brackoddities_L = me&node_brackoddities,U,Y
         del()
@@ -1800,6 +1798,23 @@
     me.bract_kref = &acgtXsc{
         $R = me&R
         $Y = {A:R}
+        
+        # faster with &Xs[io]mp
+        # o $X/k/ref {
+        fi&Xsomp,X,{k:1,ref:1} .map(&a{
+            # i $Y/@ref/@k
+            $x = fi&Xsimp,Y,{ref:a.ref},{n:a.n,array:1}
+            fi&Xsimp,x,{k:a.k},{n:a.n}
+            # i $Y/$node if isnode()
+            isnode(a.ref) and fi&Xsimp,Y,{node:a.ref},{n:a.n,array:1}
+            elsif (isC(a.ref)) {
+                # < climb, want y&R before long
+            }
+        })
+        return Y
+        
+        # < compile io:
+        
         $S = me&Simqis_Shx
         #S("i $D/astract $Y",D,Y)
         # note: word (/ref) is a type of spacer,
