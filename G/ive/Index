@@ -7,7 +7,9 @@
         # ongoingly to index N-news into X
         me.brackX = &acgtNX{
             X ||= {}
+            X.z ||= []
             each in N {
+                X.z.push(n)
                 each kv n.sc {
                     # the keys
                     $kx = me&X_t,X,k,n,'k'
@@ -1214,7 +1216,9 @@
        eat k/*/refs
         < fast &Shx io compiling that, currently with &Xs[io]mp
        some -> /$node
-       < rows with no node eg %%awoke
+       rows without any $node** eg %%awoke
+         &brackX i X/$n (X.z) ~~ wous&z
+         
        < some climb y&R|up to a node (eg $E)
        say only @Gome, but not only @Lab
          due to not being unique amongst ^^x/@Lab
@@ -1237,6 +1241,7 @@
        %ntype=n implied for %Name, eg '...@Gnome'
       
       &brackoddities
+       is per $node, so Y.nonode is not here
        (x2)
         how many eg %%node... rows are for it
          even if none contain oddities
@@ -1347,6 +1352,9 @@
             ms&hue = t == 'U' ? 47 : 255
             me&walls,m,'bd:3.1'
             ms&lh = 0.7
+            
+            # rows without any $node** up top
+            Y.nonode and me&stractKns,Y.nonode
 
             $pile = &ux,c{
                 c ||= {}
@@ -1376,6 +1384,7 @@
             pile(H.pile.1,{noml:1})
         })
     }
+    # < %Ctitle in the wild
     me.node_stractid = &acgtxnml,fla{
         if (fla.glossed_nodes) {
             lc&not = 1
@@ -1415,6 +1424,7 @@
         }
         $nec = fla.necessary
     }
+    
     # < brackology oddities
     me.node_stractoddities = &acgtxnml,fla,L,Y{
         # < (Y|L)...$node might be wired from this H...$node = x
@@ -1438,27 +1448,30 @@
                 # no interesting keys
                 !nx and return
             }
-            
-            each k,kx nx.k {
-                me&boxcap,k,'02b' (&ml{
-                    # Kn style
-                    me&walls,m,'bd:1.4'
-                    ms&bgh = 581
-                    ms&fs = 6
-                    delete ls&pa
-                    
-                    $co = me&tc,":",'g'
-                    coy&cv = 0.01
-                    $vo
-                    each i,refx kx.ref {
-                        $ref = kx.refs[i]
-                        ref != '1' and vo = me&stract_drawref,m,ref
-                        hak(refx.z) > 1 and me&tc,"x"+hak(refx.z),'6g'
-                    }
-                    !vo and coc&not = 1
-                })
-            }
+            me&stractKns,x
         })
+    }
+    # o /@k/@ref
+    me.stractKns = &acgtx{
+        each k,kx x.k {
+            me&boxcap,k,'02b' (&ml{
+                # Kn style
+                me&walls,m,'bd:1.4'
+                ms&bgh = 581
+                ms&fs = 6
+                delete ls&pa
+
+                $co = me&tc,":",'g'
+                coy&cv = 0.01
+                $vo
+                each i,refx kx.ref {
+                    $ref = kx.refs[i]
+                    ref != '1' and vo = me&stract_drawref,m,ref
+                    hak(refx.z) > 1 and me&tc,"x"+hak(refx.z),'6g'
+                }
+                !vo and coc&not = 1
+            })
+        }
     }
     # display C etc in space=2
     me.stract_drawref = &acgtmv{
@@ -1656,6 +1669,7 @@
    // U %gloss
     # U... may d.nox the non-last %imp, etc
     me.node_skippable = &acgtunvd{
+        
         # the innermost %imp/%imp+ speaks for them all
         $nec2 = 0
         if (hak(v.glossable_nodes) > 1) {
@@ -1816,16 +1830,25 @@
         
         # faster with &Xs[io]mp
         # o $X/k/ref {
+        $nodalrows = []
         fi&Xsomp,X,{k:1,ref:1} .map(&a{
+            $n = a.n
             # i $Y/@ref/@k
-            $x = fi&Xsimp,Y,{ref:a.ref},{n:a.n,array:1}
-            fi&Xsimp,x,{k:a.k},{n:a.n}
-            # i $Y/$node if isnode()
-            isnode(a.ref) and fi&Xsimp,Y,{node:a.ref},{n:a.n,array:1}
+            $x = fi&Xsimp,Y,{ref:a.ref},{n,array:1}
+            fi&Xsimp,x,{k:a.k},{n}
+            if (isnode(a.ref)) {
+                # i $Y/$node
+                fi&Xsimp,Y,{node:a.ref},{n,array:1}
+                !nodalrows.includes(n) and nodalrows.push(n)
+            }
             elsif (isC(a.ref)) {
                 # < climb, want y&R before long
             }
         })
+        $nonode = X.z.filter(n => !nodalrows.includes(n))
+        # i $Y/nonode/@k/@ref?
+        hak(nonode) and Y.nonode = me&brackX,nonode
+        
         return Y
         
         # < compile io:
