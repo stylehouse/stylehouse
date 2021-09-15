@@ -1236,7 +1236,16 @@
        %ntype=n implied for %Name, eg '...@Gnome'
       
       &brackoddities
+       (x2)
+        how many eg %%node... rows are for it
+         even if none contain oddities
       <<<
+        making pile of many -gate
+         eg time selection
+         the datasystem (&brackstract) being Tooled...
+          which is sprouted via and next to a -Bat for it?
+           the %Yingupile and %Yingulog
+       
        some s describes expression:
         %%step|node
          expectation of it being %ntype=S|n
@@ -1246,15 +1255,6 @@
            so draw the othern, kind of %implicated, to box-link to it
         may have neither,
          brackology saying (=otherkey)
-       (x2)
-        how many eg %%node... rows are for it
-         even if none contain oddities
-        making pile of many -gate
-         eg time selection
-         the datasystem (&brackstract) being Tooled...
-          which is sprouted via and next to a -Bat for it?
-           the %Yingupile and %Yingulog
-       
        various thingoish interactivity to .hand
          want to interact with @Gome/@Thy The-ness
           its exporting a protocol for customising Yingu**
@@ -1317,10 +1317,10 @@
         $Y = Rs&bract_kref_Y = me&bract_kref,X
         # /$node climb until all connected
         $D = Rs&nodes_climb_D = me&nodes_climb,Y
-        # /pile(/$node(/flavour)?)+ tree
+        # /pile(/$node(/flavour...)?)+ tree
         $H = Rs&node_sort_H = me&node_sort,D,Y
         # /pile(/$node(/hand))+ interactive tree
-        $U = Rs&node_hand_U = me&node_hand,H,D,Y,X
+        $U = Rs&node_hand_U = me&node_hand,H
         # /$node/$k/$ref out of the ordinary
         $L = Rs&node_brackoddities_L = me&node_brackoddities,U,Y
         del()
@@ -1328,8 +1328,8 @@
         # modulat it here
         $m = me&boxcap,'nodelists',"1b" (&ml{
             lc&not = 1
-            me&brackstract_out,H,L,'H'
-            me&brackstract_out,U,L,'U'
+            me&brackstract_out,'H',H,L,Y
+            me&brackstract_out,'U',U,L,Y
         })
         del()
         return m
@@ -1337,7 +1337,7 @@
     # print meaning, formed into /$node** structure
     # < nodes already got step|node expr join figured,
     #    extra brack expr may be hung upon them
-    me.brackstract_out = &acgtHLt{
+    me.brackstract_out = &acgttHLY{
         $R = me&R
         !H and me&tc,"NoH"; return
         return me&boxcap,t,"4b" (&ml{
@@ -1357,7 +1357,7 @@
                         
                         me&node_stractid,x,n,m,l,fla
                         
-                        me&node_stractoddities,x,n,m,l,fla,L
+                        me&node_stractoddities,x,n,m,l,fla,L,Y
                         
                         $next = fla.gloss ? &x{
                             # m + /* are table-cells, so ... next
@@ -1414,15 +1414,28 @@
         $nec = fla.necessary
     }
     # < brackology oddities
-    me.node_stractoddities = &acgtxnml,fla,L{
+    me.node_stractoddities = &acgtxnml,fla,L,Y{
+        # < (Y|L)...$node might be wired from this H...$node = x
+        #    just need -Fez-anx to %%toomuch it (x.y.Y|L?)
         $ni = L.nodes.indexOf(n)
-        ni < 0 and return
-        $nx = L.node[ni]
+        $nx = ni >= 0 && L.node[ni]
+        # also, if it has multiple rows
+        $Yi = Y.nodes.indexOf(n)
+        $Yx = Yi >= 0 && Y.node[Yi]
+        $many = Yx && hak(Yx.z) || 1
+        many == 1 and many = 0
+        !nx && !many and return
         
         me&boxcap,"ungroupedrows",'05b' (&ml{
             # Km style
             me&walls,m,'bd:1.4'
             lc&not = 1
+            if (many) {
+                # more rows than usual
+                me&tc,"x"+many,'6g'
+                # no interesting keys
+                !nx and return
+            }
             
             each k,kx nx.k {
                 me&boxcap,k,'02b' (&ml{
@@ -1460,6 +1473,7 @@
    // L %brack extras
     # big reduction!
     me.node_brackoddities = &acgtUY{
+        
         $R = me&R
         $Si = me&Simqis_st
         $L = {A:R}
@@ -1493,7 +1507,6 @@
             }
         }
         return L
-        #x.disbracko = joint(haks(nx))
     }
    // U hand out nice
     # i &condensed /$node** o /$node**
@@ -1540,7 +1553,7 @@
      
      < @Run being for (^%client) @Gnome, some kind of box-link
     =cut
-    me.node_hand = &acgtHDYO{
+    me.node_hand = &acgtH{
         $R = me&R
         $U = {A:R}
         $N = []
