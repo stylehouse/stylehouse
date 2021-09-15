@@ -66,15 +66,15 @@ me.Sch_Travel = &acgt{ return [
         s&fs = 15.51
         s&over = 1
         
-        n Yingito  R %Tool
+        #n Yingito  R %Tool
         
         # < glow the pile of all? nodes from Outlog wake etc
         #   1-2 line display hoist?
         #   their times!!
-        # -log entries
-        me&baleg,"Yingout"
+        # -log entries (-gate?)
+        me&baleg,"Yingulog"
         # -pile wriggles
-        me&baleg,"Yingin"
+        me&baleg,"Yingupile"
         
   // Abodis+Yingu
         me&rollbs,R,'seekto'
@@ -105,10 +105,10 @@ me.Sch_Travel = &acgt{ return [
         });
     },'ift,D'],
     
-  // < %Yingout -gate visits
-   // %Yingout
+  // < %Yingulog -gate visits
+   // %Yingulog
     # After Ying_8
-    ['ball+Yingout','85',&acgtRs{
+    ['ball+Yingulog','85',&acgtRs{
         $x = me&Yingu_Jx
         $Outlog = xs&Outlog
         Rs&onlyish = 1
@@ -120,15 +120,16 @@ me.Sch_Travel = &acgt{ return [
             !num(lc&i) and throw '-log!c&i'
             # not %ball due to l/*:rows we eat
             #n $k  $s:l %R,Yingoutlog
-            $r = me&Ret,R,{t:k,s:l,Yingoutlog:1}
+            $r = me&Ret,R,{t:k,s:l,aYingulog:1}
+            
             $N = me&bracko,R,l,{step:1},1
             hak(uniq(N)) > 2 and rs&interesting = 1
         }
         !r and return
         rs&lastone = 1
     },'ift,D'],
-    ['Yingoutlog','85',&acgtRs{
-        me&reaw,R,'Yingoutlog,lastone,interesting'
+    ['aYingulog','85',&acgtRs{
+        me&reaw,R,'aYingulog,lastone,interesting'
         Rs&interesting and Rs&lastone = 1
         !me&ollbs,R,'lastone' && me&sleepic,R and return
         s&dis = 1
@@ -137,8 +138,7 @@ me.Sch_Travel = &acgt{ return [
         !X && !hak(ss&z) and return me&tc,"empty"
         # o Outlog/-log%X
         !X.k and throw "!wou"
-        # X by &bracki (ish), make &Shx_isX
-        X.A ||= s
+        !X.A and throw "!X.A"
         Rs&interesting and 4s&interestoYing = s
         
         me&boxcap,R.t,'b' (&{
@@ -170,15 +170,15 @@ me.Sch_Travel = &acgt{ return [
             })
         })
     },'ift,D'],
-    ['ball+Yingout','86',&acgtRs{
+    ['ball+Yingulog','86',&acgtRs{
         $r = me&ioty,R,'interesting' .pop()
         !r and return
         rs&lastone = 1
     },'ift,D'],
   
   
-  // < %Yingin node list
-    ['ball+Yingin','85',&acgtRs{
+  // < %Yingupile node list
+    ['ball+Yingupile','85',&acgtRs{
         
         # standard node toc, Ying** reachable
         $YingR = me.cbu(R,'Ying')
@@ -226,11 +226,11 @@ me.Sch_Travel = &acgt{ return [
         
         # < Tool for zooming into Ying-gate
         #$s = 4s&interestoYing
-        $s = me&mock_Thyergate,R,s
+        $s = me&mock_Thyergate,R
         !s || !ss&X and return me&tc,"awaits"
+        ss&X.A != R and debugger
         # X by &bracki (ish), make &Shx_isX
         # < the &Shx p.ist('X') check is too silent
-        ss&X.A ||= R
         me&brackstract,ss&X
         
         # data hose, see &Piing_inst / &Saturn %%listen_node
@@ -250,12 +250,14 @@ me.Sch_Travel = &acgt{ return [
         me&Pii,More,'Finally'
     }
     # mock -gate
-    me.mock_Thyergate = &acgtRs{
+    me.mock_Thyergate = &acgtR{
         $x = me&Jx
         $Ying = xs&Ying
         $wou = Cye(["Thyinggate",1])
         wouy&R = R
         $ha = s => me&bracki,R,wou,s
+        
+        # < no node...
         ha({awoke:"tothings"})
         
         # of mock nodes
@@ -322,7 +324,7 @@ me.Sch_Travel = &acgt{ return [
         # give xs&Outlog etc
         $arg = {Y,RYing,CYing,YYing,Outlog}
         each kv arg {
-            x.sc[k] && x.sc[k] != v and me&tc,"Jx!!"+k,'B'
+            x.sc[k] && x.sc[k] != v and debugger; me&tc,"Jx!!"+k,'B'
             else {
                 x.sc[k] = v
             }
