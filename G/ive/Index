@@ -1643,7 +1643,12 @@
     # may shorten to @Gnome if no others about...
     me.node_t_mute = &acgtxvdn{
         $Name = ahsk(x,'flavour','Name')
-        !Name and return
+        if (Name == null) {
+            # eg '@This This'
+            ahsk(x,'flavour','name') == n.t
+                && ahk(x,'flavour','t_mute','name-same')
+            return
+        }
         $ok = 1
         $far = 2
         $s = n
@@ -1659,11 +1664,13 @@
                     a.local and return
                     a.t == Name and ok = 0
                 })
+                !ok and break
             }
             s = p
+            !ok and break
         }
         !ok and return
-        ahk(x,'flavour','t_mute',1)
+        ahk(x,'flavour','t_mute','Name-fame')
     }
     # ⇖ to previous thing with .t (even if they %t_mute)
     me.node_t_reused = &acgtxvdn{
