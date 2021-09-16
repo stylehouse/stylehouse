@@ -609,8 +609,8 @@ fi.Xios ||= {}
         $x = fi&Xsim,X,'X',[],s,c,q
         return x
     }
-    # rowing arks, returns [r+]
-    #  simpler (no arrefs, qas...) prototype of Xio
+    # &Xsimp with rowing arks: returns [ax+]
+    #  simpler prototype of Xio
     fi.Xsomp = &acgtXscq{
         # shared by &Xsim, which does many s simple for each bit of s.*
         c ||= {}
@@ -801,6 +801,7 @@ fi.Xios ||= {}
             #  to make it seem: x.had.have = {k,v}
             #   grepping for $n in: x.had.have.k.v=x
             #q and hs[k] = v; continue
+            c.el == 8 && !hak(hs,k) and return
             $vx = hs[k] ||= (c.array ? [] : {})
             # see vx form, &Xsomp
             c.wild == k and return vx
@@ -811,7 +812,10 @@ fi.Xios ||= {}
                 # index values in an array
                 $refs = hs[k+'s'] ||= []
                 $vi = refs.indexOf(v)
-                vi < 0 and vi = refs.push(v)-1
+                if (vi < 0) {
+                    c.el == 8 and return
+                    vi = refs.push(v)-1
+                }
                 v = vi
             }
             $x = vx[v] ||= {}

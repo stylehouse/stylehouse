@@ -1439,11 +1439,9 @@
     me.node_stractoddities = &acgtxnml,fla,L,Y{
         # < (Y|L)...$node might be wired from this H...$node = x
         #    just need -Fez-anx to %%toomuch it (x.y.Y|L?)
-        $ni = L.nodes.indexOf(n)
-        $nx = ni >= 0 && L.node[ni]
+        $nx = fi&Xsimp,L,{node:n},{el:8,array:1}
         # also, if it has multiple rows
-        $Yi = Y.nodes.indexOf(n)
-        $Yx = Yi >= 0 && Y.node[Yi]
+        $Yx = fi&Xsimp,Y,{node:n},{el:8,array:1}
         $many = Yx && hak(Yx.z) || 1
         many == 1 and many = 0
         !nx && !many and return
@@ -1533,7 +1531,7 @@
         each ix Y.node {
             $n = Y.nodes[i]
             each i,row x.z {
-                !(L.rows && L.rows.includes(row)) and continue
+                !(L.rows||[]).includes(row) and continue
                 $rx = Si(L,{row})
                 $nx = Si(L,{node:n})
                 # < use &brackX here
