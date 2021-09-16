@@ -1971,10 +1971,11 @@ me.Sch_The = &acgt{ return [
             # < general repliable
             $to = ns&replyto || ns&efrom
             each kv R.sc {
-                !isob(v) || isC(v) and continue
-                !isC(v.A) and continue
+                !k.endsWith('W') && (!isob(v) || isC(v) || !isC(v.A)) and continue
                 # the &Saturn %%inst,listen_node there coops these:
-                me&nodei,R,to,{heard:k,s:v}
+                $s = {heard:k,s:v}
+                k.endsWith('W') and s.piable = 'Womb'
+                me&nodei,R,to,s
             }
         })
     },'ift,D'],
@@ -5029,12 +5030,30 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
    
    // -Fez > -hat
+    # copy modulat straight to D**
+    ['Womb',0.21,&acgtRs{
+        Rs&top and Rc&dl = 26; Rc&nl = 166
+        !isC(s) and return me&strange,"!C"
+        $E = Rs&E
+        $D = Rs&D
+        D.t = s.t
+        Dy&cv = sy&cv
+        ex(D.c,s.c)
+        !Rs&top and ah(E,'D_hides','c','pi')
+        ex(D.sc,s.sc)
+        # its many
+        each iz ss&z {
+            zc&not and continue
+            me&Ei,{t:i,s:z}
+        }
+        # < measure modulat?
+        s&pa = 0.1
+        Rc&d > 2 and Rs&nofurtherDisplay = 1
+    },'ift,D'],
+    
     # fairly sprawly, for X**
     ['Fez',0.21,&acgtRs{
-        if (Rs&top) {
-            Rc&dl = 26
-            Rc&nl = 166
-        }
+        Rs&top and Rc&dl = 26; Rc&nl = 166
         # < no restating refs per ^^-seven
         me&typeup,R,'hat'
     },'ift,D'],
@@ -5401,7 +5420,7 @@ me.Sch_The = &acgt{ return [
         $Rp = Epy&R
         Rps&Ethinging and Rs&hoisten = 1
     },'ift,D'],
-    # happens on innermost eg E-Fez first
+    # &ind to innermost eg E-Fez first, making string
     ['encodeD',0.7,&acgtRs{
         $E = Rs&E
         $D = Rs&D
@@ -5432,6 +5451,10 @@ me.Sch_The = &acgt{ return [
             #Cc&pi == 'row' && fi&bug,'Firstlog' and debugger
             #me&dopi,D,d,C,c
             Dc&pi ||= Ec&pi
+            # < &Ring a sliver of @7 time for everyone now
+            each nk,gk Es&D_hides {
+                delete D[nk][gk]
+            }
             delete Dc&cv
             delete Dc&TX
             #comp_log(D,d,C)
