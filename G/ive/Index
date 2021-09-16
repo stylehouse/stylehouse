@@ -1362,7 +1362,7 @@
             ms&lh = 0.7
             
             # rows without any $node** up top
-            Y.nonode and me&stractKns,Y.nonode
+            me&nonode_stractoddities,m,l,Y
 
             $pile = &ux,c{
                 c ||= {}
@@ -1434,31 +1434,6 @@
         }
         $nec = fla.necessary
     }
-    
-    # < brackology oddities
-    me.node_stractoddities = &acgtxnml,fla,L,Y{
-        # < (Y|L)...$node might be wired from this H...$node = x
-        #    just need -Fez-anx to %%toomuch it (x.y.Y|L?)
-        $nx = fi&Xsimp,L,{node:n},{el:8,array:1}
-        # also, if it has multiple rows
-        $Yx = fi&Xsimp,Y,{node:n},{el:8,array:1}
-        $many = Yx && hak(Yx.z) || 1
-        many == 1 and many = 0
-        !nx && !many and return
-        
-        me&boxcap,"ungroupedrows",'05b' (&ml{
-            # Km style
-            me&walls,m,'bd:1.4'
-            lc&not = 1
-            if (many) {
-                # more rows than usual
-                me&tc,"x"+many,'6g'
-                # no interesting keys
-                !nx and return
-            }
-            me&stractKns,nx,n
-        })
-    }
     # o /@k/@ref
     me.stractKns = &acgtxn{
         # may $n(ode) if in the pile
@@ -1504,10 +1479,11 @@
         #me&tc,dis(ref),'y'
         return vo
     }
-   // L %brack extras
+   // L brack oddities
     # big reduction!
+    # < check k=step|node agrees with %ntype
+    #    or drop %ntype_implied and oddity
     me.node_brackoddities = &acgtUY{
-        
         $R = me&R
         $Si = me&Simqis_st
         $L = {A:R}
@@ -1542,6 +1518,35 @@
             }
         }
         return L
+    }
+    # output
+    # < brackology oddities
+    me.node_stractoddities = &acgtxnml,fla,L,Y{
+        # < (Y|L)...$node might be wired from this H...$node = x
+        #    just need -Fez-anx to %%toomuch it (x.y.Y|L?)
+        $nx = fi&Xsimp,L,{node:n},{el:8,array:1}
+        # also, if it has multiple rows
+        $Yx = fi&Xsimp,Y,{node:n},{el:8,array:1}
+        $many = Yx && hak(Yx.z) || 1
+        many == 1 and many = 0
+        !nx && !many and return
+        
+        me&boxcap,"ungroupedrows",'05b' (&ml{
+            # Km style
+            me&walls,m,'bd:1.4'
+            lc&not = 1
+            if (many) {
+                # more rows than usual
+                me&tc,"x"+many,'6g'
+                # no interesting keys
+                !nx and return
+            }
+            me&stractKns,nx,n
+        })
+    }
+    # rows without any $node** up top
+    me.nonode_stractoddities = &acgtmlY{
+        Y.nonode and me&stractKns,Y.nonode
     }
    // U hand out nice
     # i &condensed /$node** o /$node**
