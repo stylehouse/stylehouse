@@ -94,7 +94,7 @@ me.Sch_The = &acgt{ return [
     
     =cut
   
-  // @Gnomp/@Gnome perceiver
+  // @Gnomp/@Gnome perceiver # < separate from w:Travel
    
    # n Ya 6  %Gnomp
    // @Gnomp/@Gnome allowing S connect
@@ -695,7 +695,7 @@ me.Sch_The = &acgt{ return [
             return z
         }
         
-  // &Superarg, -> &Gnome_Jx
+  // &Superarg, -> &Gnome_Jx # < separate from w:Travel
         # < ceremoniously knowing
         me.Superarg = &acgtsc{
             $h = T.sute
@@ -738,21 +738,101 @@ me.Sch_The = &acgt{ return [
         #   via Cat%client=Gnome
         # we have a more non-fatal &Gome_Jx
         # not waiting on much to get ready
+        
+        # &Gome_Jx is used:
+        #  w:Travel: only in &SuperGome
+        #  w:Story: for %*Fine, we use
+        #  w:The:
+        #   &SuperGnome Reside (can not?)
+        #   Pi%Lab -n
+        #    < conceptually brackstract for one-line rurl (relative url)
+        #   &Theing, for all %Piing
+        #    < halts %Yingulog, can't find ^^%client
+        #       should look down %active
+        
+        # revisit &fabioty
+        
+        # replacing map, [] or {}, waves of y(v,k)
+        self.rap = &N{
+            $ys = [...arguments].slice(1)
+            $array = isar(N)
+            each iy ys {
+                $M = []
+                each in N {
+                    array and i *= 1
+                    M.push(y (n,i))
+                }
+                each in N {
+                    N[i] = M.shift()
+                }
+            }
+            return N
+        }
         me.Gnome_Jx = &acgtR,cl{
+            $arg = {}
+            if (cl) {
+                # GOING, wrapped in &Gome_Jx
+                $GOING = 1
+                arg.Gnome = cl
+            }
+            else {
+                # o R^^?%client
+                $cl = me.cbu(R,'client')
+                if (!cl) {
+                    # we may Ying/*(/*)?%active%client
+                    # < do we need to be before Peace makes %Ace(.4=Ying)?
+                    # < some locales may not grant %active automatically?
+                    $Ying = me.cbu(R,'Ying')
+                    each ir Yings&z {
+                        !rs&active and continue
+                        rs&client and cl = r; break
+                        each ij rs&z {
+                            !rs&active and continue
+                            js&client and cl = j; break
+                        }
+                    }
+                }
+                # if %client is someone else
+                #  eg @Cat)%client = @Gnome)%client=1
+                $hi = cl && isC(cls&client) && cls&client
+                if (hi) {
+                    # @Gnome:hi hired @Cat:cl
+                    arg.Hire = cl
+                    arg.Hired = hi
+                    arg.Gnome = hi
+                }
+                else {
+                    arg.Gnome = cl
+                }
+            }
+            rap(arg,r => ry&R)
+            
+            $cl = arg.Gnome
+            !cl and throw "!client"
             !isR(cl) and debugger
-            $arg = {Gome:cl,Gnome:cl}
+            !(cls&Gnome || cls&Piing) and debugger
+            # < xs&Gome going
+            arg.Gome = arg.Gnome
+            
             # < your use case may be sensitive to rough landings
             # < Superarg that arent nodes
             ex(arg,me&Superarg_arrive,cl )
-            # putting Gome gives Gome/*, eg xs&Fories
-            each kv arg {
-                !isR(v) and arg[k] = vy&R
-            }
+            rap(arg,r => ry&R)
+            
+            # arg.Gome gives Gome/*, eg xs&Fories
             $x = me&Jx,R,{c:arg}
+            
             # the Run/This > Thy/This, etc
             xs&Run && xs&This && xs&This.y.up != xs&Run and debugger
+            
+            if (GOING) {
+                # what &Gome_Jx does
+                Rs&Gomex = x
+            }
             return x
         }
+        
+        
       // f
         # find one such %%Superarg=$k (exclusive gk)
         me.Superarg_find = &acgtkc{
@@ -1570,10 +1650,8 @@ me.Sch_The = &acgt{ return [
  // &Piing R:'The'
  
    # < Thy%client=Run:Gome
-  // 1 %Piing nodes
+  // 1 %Piing nodes &Thee %Theing
     ['Piing',0.291,&acgtRs{
-        # E**
-        Rs&TheingE = 1
         $x = me&Thee
         !xs&Gome and me&tc,'noGome','G'
     },'ift,D'],
@@ -1585,8 +1663,10 @@ me.Sch_The = &acgt{ return [
         $c = {}
         $x = me&Theing,c
         xy&c = c
+        # %Piing**
         !c.long and throw "Thee!long"
         me&bin,c.long
+        # E**
         Rs&TheingE = 1
         Rs&onlyish = 1
         return x
@@ -1597,8 +1677,9 @@ me.Sch_The = &acgt{ return [
         $s = Rc&s
         Rs&Theingx && c and throw "const"
         Rs&Theingx and return Rs&Theingx
-        # this finds ^^%client then hooks &Gnome_Jx
-        $x = me&Gome_Jx,R
+        
+        # finds ^^%client and (here|their|Ying)/*
+        $x = me&Gnome_Jx,R
         Rs&Theingx = x
         c ||= {}
         # believing something
@@ -1611,6 +1692,7 @@ me.Sch_The = &acgt{ return [
         c.long ||= T.act.t
         c.long and me&reaw,R,c.long+',elvis,tow'
         c.short ||= c.long
+        Rs&Yingulog and debugger
         c.short and xy&go = me&acting,R,c.short
         c.in and me&bin,c.in
         
