@@ -711,7 +711,8 @@
         c.el > 1 and 'times'
         Ey&up ||= s
         # see fi&piinto, perhaps same pi wants to replace?
-        Ey&up != s && Ey&up.c.pi == sc&pi and debugger
+        $p = sy&up
+        !(p && py&ers) && Ey&up != s && Ey&up.c.pi == sc&pi and debugger
         return E
     }
     # s%node remembers ...z b by &pipath
@@ -756,7 +757,11 @@
     }
     # s^^^y&R
     me.uptoR = &acgts{
-        $z = me.cbu(s,z => zy&R)
+        $z = me.cbu(s,&z{
+            # skip RE to s** from E** (which sy&E = zy&Ey&up across s**)            
+            zy&ers and z = zy&ers
+            return zy&path && zy&R
+        })
         !z and debugger
         return zy&R
     }
@@ -764,15 +769,18 @@
     me.uptonode = &acgtsc{
         c ||= {}
         c.beyond ||= []
-        $z = me.cbu(s,&z{
+        $node
+        me.cbu(s,&z{
+            # skip RE to s** from E** (which sy&E = zy&Ey&up across s**)            
+            zy&ers and z = zy&ers
             # < demand zy&path, yet we want $seven which isn't a node
-            zy&path && zy&R && zy&R.c.s == z and return 1
+            zy&path && zy&R && zy&R.c.s == z and return node = z
             c.beyond.unshift(z)
         })
-        !z and debugger
-        c.path = zy&path.slice()
-        c.node = z
-        return z
+        !node and debugger
+        c.path = nodey&path.slice()
+        c.node = node
+        return node
     }
     # c.non[pi+] path, off the end of c.path[node+]
     me.pipath = &acgtsc{
