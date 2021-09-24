@@ -1871,7 +1871,7 @@ me.Sch_Story = &acgt{ return [
     # < cultivate
     ['TheFine',0.295,&acgtRs{
         
-        me&reaw,R,'TheFine,bal_tw_s'
+        me&reaw,R,'TheFine,bal_tw_s,Gnomey'
         Rs&noRsync = 1
         Rs&acceptables = 1
         $go = me&acting,R,'Fine'
@@ -1935,6 +1935,7 @@ me.Sch_Story = &acgt{ return [
         # < Leave causes a scope-out
         
         $gotN = Es&Is || []
+        # < &lczt{
         me&twlic,gotN,s (&lzct{
             t = t.replace(/[^A-Z\d_-]+/gi,'_')
             $r = c.surprise ? me&bal,t,'eph'
@@ -1952,7 +1953,7 @@ me.Sch_Story = &acgt{ return [
         $E = sy&nine
         $x = me&Gome_Jx,R
         !x and return
-        Rs&Gnomey and me&Fine_aft_nine,R,E,s,x
+        me&Fine_aft_nine,R,E,s,x
     },'ift,D'],
    
    // Fine &acceptables
@@ -2069,8 +2070,16 @@ me.Sch_Story = &acgt{ return [
         # init being from $got, then Fine 
         sc&pi = t && tc&pi || z && zc&pi
         # for merge
-        Rs&Fe36 = 12
         me&Feacceptable,R,s,t,z
+        # while Accepting, forward cha to This**
+        # < to &brackology
+        # < $E = xs&nine ?
+        $p = Ry&up
+        !ps&Gnomey and return
+        !me&ja,R,'Accepting' and return
+        $E = pc&s.y.nine
+        !E and debugger
+        me&Fe_mergent,R,E,s,t,z
     },'ift,D'],
     &{
         # %TheFe stills got:z%dige
@@ -2128,8 +2137,6 @@ me.Sch_Story = &acgt{ return [
             $Q = me&PaveQ,R,selfy&That
 
             me&Qdiff,R,z,Q
-            # < to &brackology
-            # < mergible
         }
     },
    
