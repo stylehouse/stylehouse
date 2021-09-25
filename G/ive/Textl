@@ -671,6 +671,36 @@
         me.Lines_types_is = is
         return is
     }
+    # Lines C may have indented bits after
+    # < at one space, inconfusible with C/C indent
+    me.LinesBQ_indent = '  '
+    # &ind uses '  ', BQ-ish things use:
+    self.indents = &lv{
+        !isst(l) and throw "indent '  '"
+        $vs = [];
+        v = isar(v) ? v : v.split("\n");
+        each is v {
+            vs.push(l+s)
+        }
+        return vs.join("\n")
+    }
+    # we take the indent off to make it Cy&deLines!
+    self.unindents = &dv{
+        !num(d) and throw "indent d"
+        # &ind uses '  '
+        d *= 2
+        $vs = [];
+        v = isar(v) ? v : v.split("\n");
+        each is v {
+            # bite off space
+            $space = s.substr(0,d)
+            space.split('').some(a => a!=' ') and debugger
+            
+            vs.push(s.substr(d))
+        }
+        return vs.join("\n")
+    }
+    
     A.I.i.y.tw.toLines.c.code =
     me.enL = &acgts{
         s and C = s;
@@ -830,19 +860,16 @@
             # specifically, see &deL $indenting
             !is.wordyspace(gk) and debugger
             !nk.match(/^\w+$/) and debugger
-            $k = "  "+nk+" "+gk+":";
+            $k = me.LinesBQ_indent
+                +nk+" "+gk+":";
             if (typeof v != 'string') {
                 # BQ yaml data
                 # < rename T.eny_trace, its error handler uses
                 T.eny_nkgk = [nk,gk];
                 $v = eny(v,T);
                 delete T.eny_nkgk;
-                $vs = [];
-                v = v.split("\n");
-                each is v {
-                    vs.push("    "+s);
-                }
-                k += "\n"+vs.join("\n");
+                k += "\n"+indents(me.LinesBQ_indent
+                    +'  '+v)
             }
             else if (is.safe_v(v)) {
                 # simple strings
@@ -855,12 +882,8 @@
             }
             else {
                 # BQ string
-                $vs = [];
-                v = v.split("\n");
-                each is v {
-                    vs.push("    "+s);
-                }
-                k += " |\n"+vs.join("\n");
+                k += " |\n"+indents(me.LinesBQ_indent
+                    +'  '+v)
             }
             k = k.replace(/\n\s*$/,'');
             L.push(k);
@@ -898,6 +921,9 @@
         
       // rowing
         $l = L.shift();
+        # rebuild what y&toLine was here
+        $Line = [l]
+        # first line of each Line only, a trace
         oL.push(l);
         !l.length and continue
         $lin = l.match(/^(\s*)(.*)$/);
@@ -963,12 +989,13 @@
         $k
         $v
         $indenting = &{
-            !L.length and return;
-            $m = L[0].match("^"+ind+"  (\\w[\\w ]+):(?: (\\||.+))?$");
-            !m and return;
-            k = m[1];
-            v = m[2];
-            return 1;
+            !L.length and return
+            $m = L[0].match("^"+ind+me.LinesBQ_indent
+                +"(\\w[\\w ]+):(?: (\\||.+))?$")
+            !m and return
+            k = m[1]
+            v = m[2]
+            return 1
         };
         while (indenting()) {
             $string
@@ -977,7 +1004,7 @@
                 v = undefined;
             }
             v && v.match(/^\W/) and v = dej(v)
-            L.shift();
+            Line.push(L.shift())
             k = k.split(' ');
             $nk = k.shift();
             $gk = k.join(' ');
@@ -986,7 +1013,8 @@
                 $one;
                 $blockquoting = &{
                     !L.length and return;
-                    $m = L[0].match("^"+ind+"    (.*)$");
+                    $m = L[0].match("^"+ind+me.LinesBQ_indent
+                        +"  (.*)$");
                     !m and return;
                     one = m[1];
                     return 1;
@@ -1008,6 +1036,8 @@
         }
       
       // attach
+        # the chunk of string goes with it
+        Cy&deLines = unindents(d,Line)
         d.toFixed() != d and ~fractionalind: d, C, T.readinglv
         d = 1 * d.toFixed();
         if (d > 0) {
@@ -1019,8 +1049,10 @@
             }
             if (dl < d - 1) {
                 $few = oL.slice(-3);
-                if (! paniconce++)
+                if (! paniconce++) {
                     ~toomuchind: d, dl, T.readinglv, few
+                    debugger
+                }
                 d = dl+1;
             }
             # use io?
