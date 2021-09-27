@@ -1309,8 +1309,16 @@ me.settleblab = 1
         $E = me&piEffect,j,to
         
         # i E/fpath:node/fpith/t
-        me&Effect_i,E,fpath,fnode,fpith,t
+        $Et = me&Effect_i,E,fpath,fnode,fpith,t
+        $Ep = Ety&up
+        # have we everything from this node yet?
+        #  see resolve $n
+        # j Effects[] -> e
+        # 
+        # < &brackstill repeatedly as the list of Effects fills up
         
+        # leaving a &wants to &not when complete is fine
+        # < &brackstill parts so far, against copy from &Effected
         # c qualia mix in, shade
         me&ha,j,{Effect:t,Eto:to},c,q
         
@@ -1371,29 +1379,27 @@ me.settleblab = 1
             $fempty = 1
             me&ioty,Ef .map(&Ep,{
                 $empty = 1
+                # E/fpath:s/fpith:E (Ep) targeted brackstill group
+                $pistill = []
                 me&ioty,Ep .map(&Et,{
                     # the node must still be sending it
                     $N = me&jaaz,fromy&R,{Effect:Et.t,Eto:1}
-                    # < could yfuture to e, may be further than ey&b:past
-                    # using the name path resolved:
-                    N = N.filter(&n{
-                        # o Etoy&Effect
-                        # this is -eight, which replaces
-                        $Eto = ns&Eto
-                        # but re-surrects E
-                        $Eb = Etoy&Effect
-                        Eb == E and return 1
-                        # < the node might el=2 (replace)
-                        # we may see other -Fez that look alike
-                        #Ebc&tpith == Ec&tpith and debugger
-                    })
+                    # %%Eto is eg s-seven//E-seven, which replaces
+                    #  but re-finds its Effect
+                    N = N.filter(n => E == ahsk(n,'sc','Eto','y','Effect'))
+                    # < the node might el=2 (replace)
+                    # those y&Effects may have same tpith, differ in fpath
+                    #  ie tpith=-Fez, yet fpath says y&up=suchathing-six
+                    #  < slope|pile short name for E**, say if not y&main
                     if (!N.length) {
                         # or is de-applied
                         return me&fiu,Ep,Et,9
                     }
                     empty = 0
                     M.push(...N)
+                    pistill.push(...N)
                     # < &brackstill on Ep? Ef? sortably?
+                    
                 })
                 empty and me&fiu,Ef,Ep,9
                 else { fempty = 0 }
@@ -1402,18 +1408,34 @@ me.settleblab = 1
         })
         return M
     }
+    # < is node awake?
+    # and Doming brack
+    me.node_ispresent = &acgts{
+        $j = sy&R
+        # < is connected to &uptonode R
+        #    Rc&N compare across R//E boundary (wants R&ip)
+        return jy&cv >= 0.2 && jy&cv <= 0.7
+    }
     
    // &Effected out
     # to: user wants qualia computed !
     me.Effected = &acgtec{
-        
+        # e  the s** or E** to receive on
+        $se = me&uptonode,e
+        $J = sey&R
         # someone Ringing and awake
+        #  might be -Fez (jc&s = data)
+        #  eg &Piing may -Effected //E to configure (eg ope:0)
+        #   in this case we are other to the E, but know what it is
         $j = Cy&R
-        $z = jc&s
+        # < R'The' doing -Effected
+        js&Pier and debugger
         # might be the self
         $R = ey&R
         !R and throw "to!node"
         $self = R == j
+        # see &node_ispresent
+        
         # gets -Effects @1 (~ toy&efroms)
         #  on to, self to j (unless other)
         $E = me&piEffect,j,e
@@ -1428,13 +1450,28 @@ me.settleblab = 1
             me&nu,'-Effect',E
             $Ms = M.map(m => m.sc)
             me&nu,'Ms',Ms
+            me&nu,'Je',{se,e}
         }
+        
         # all modes take many values of gk=ope
         #  and eg mode=num makes lav=most-wanted-%ope
         c.gk ||= haks(c)[0]
         c.mode ||= 'num'
         $lav = me.Effectsum[c.mode](A,C,G,T,c,M)
         c.v = lav
+        
+        if (me&node_ispresent,J) {
+            # copies to %%Effected on the destination...
+            me&ha,J,{Effectsum:1},c
+            each in M {
+                # < able to be from //E
+                $Efrom = ny&R.c.s
+                !isnode(Efrom) and debugger
+                $ed = ex({Effected:ns&Effect,Efrom},n.sc)
+                delete ed.Effect
+                me&ha,J,ed
+            }
+        }
         
         # <
         if (self) {

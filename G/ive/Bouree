@@ -118,12 +118,14 @@ lookup tracks within these .webm
   sudo modprobe snd-aloop
   play stream: chrome:rad -> Loopback audio
   capture stream:
-   arecord --device="hw:2,1" -f cd  `date -Ins`.wav
+   arecord --device="hw:2,1" -f cd  `thtime`.wav
   capture meta:
    wget http://www.radioactive.fm/remote/appdata/play/nowplaying.xml\
-    -O `date -Ins`-nowplaying.xml
+    -O `thtime`-nowplaying.xml
   seems to be for 2021-02-03 -06-14
   < correct time, match times
+  alias thtime="echo $(date -Ins | sed 's/\W//g')"
+
 
 =sound
 
