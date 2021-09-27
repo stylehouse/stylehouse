@@ -243,6 +243,15 @@
         !b || bc&allks.length != zc&allks.length and cha = 2
         return cha
     }
+    # za|ha[n+] compare over time
+    #  things out of order is change
+    me.brackstillzaha = &acgta{
+        hak(a.za) != hak(a.ha) and return 1
+        each in a.ha {
+            $z = a.za[i]
+            !heq(z.sc,n.sc) and return 1
+        }
+    }
   
    // nodes
         window.isnode = s => s && isC(s) && sy&path && sy&path[0]
@@ -1322,7 +1331,7 @@ me.settleblab = 1
         x.z ||= []
         x.z.push(n)
         
-        return {za,ha:x.z}
+        return {v,x,za,ha:x.z}
     }
     # < is node awake?
     # and Doming brack
@@ -1367,18 +1376,31 @@ me.settleblab = 1
         # < &brackstill parts so far, against copy from &Effected
         # c qualia mix in, shade
         $n = me&ha,j,{Effect:t,Eto:to},c,q
+        
         # adding n%%Effect,... to a list that za-ha per R
         $la = me&spoolR,Ep.c,'Rave',R,n
-        ~>5 spoolRave: hak(la.za), '~~', hak(la.ha)
         
-        $toR = me&uptoR,to
-        # the Effected R is waking, hasn't yet &Effected:
-        jc&N.includes(toR) && !(Ey&R && jc&N.includes(Ey&R)) and 'ok'
+        $cha = me&brackstillzaha,la
+        $want = la.x.want
+        $chat = cha ? "~" : "=="
+        ~>5 spoolRave: hak(la.za), chat, hak(la.ha)
+        if (!cha) {
+            if (want) {
+                wantc&drop = 1
+                delete la.x.want
+            }
+            # done, until maybe extra
+        }
         else {
-            # < not noising the brack here (direct to R:Ying)
-            # < waits_8 noticing if it did wake (just not yet)
-            !isC(toRc&s) and debugger
-            me&wants,j,'Effect',toRc&s
+            $toR = me&uptoR,to
+            # the Effected R is waking, hasn't yet &Effected:
+            jc&N.includes(toR) && !(Ey&R && jc&N.includes(Ey&R)) and 'ok'
+            else {
+                # < not noising the brack here (direct to R:Ying)
+                # < waits_8 noticing if it did wake (just not yet)
+                !isC(toRc&s) and debugger
+                !want and la.x.want = me&wants,j,'Effect',toRc&s
+            }
         }
         # < compute now if already &Effected
         #    diff -> wake e
