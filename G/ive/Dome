@@ -1392,14 +1392,25 @@ me.settleblab = 1
             # done, until maybe extra
         }
         else {
+            # is change
+            # < or periodic fuller wake
             $toR = me&uptoR,to
-            # the Effected R is waking, hasn't yet &Effected:
-            jc&N.includes(toR) && !(Ey&R && jc&N.includes(Ey&R)) and 'ok'
+            # the Effected R is waking
+            $waking = jc&N.includes(toR)
+            $unEffected = !(Ey&R && jc&N.includes(Ey&R))
+            if (waking && unEffected) {
+                # awaits &Effected
+                # < more certainty about whether it can still happen
+                #   Ep remembers all &Effected calls? assume then again?
+                # < can probably be woken from anywhere not already woke?
+            }
             else {
                 # < not noising the brack here (direct to R:Ying)
                 # < waits_8 noticing if it did wake (just not yet)
                 !isC(toRc&s) and debugger
-                !want and la.x.want = me&wants,j,'Effect',toRc&s
+                if (!want) {
+                    la.x.want = me&wants,j,'Effect',toRc&s
+                }
             }
         }
         # < compute now if already &Effected

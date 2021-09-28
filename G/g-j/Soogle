@@ -3996,7 +3996,7 @@ me.Differingness = &acgt{ return [
         $h = {};
         $diff = 0;
         each in Rs&Comp {
-            if (nc&s.indexOf("\n") < 0) {
+            if (!nc&s.includes("\n")) {
                 # in-line boundary means something is changing, a little
                 # note that once per line
                 if (!diff) {
@@ -4031,8 +4031,20 @@ me.Differingness = &acgt{ return [
     };
     # textdiffN - clean up/fold
     # < reconduity el wai
+    me.getindent = &acgtl{
+        $shall = []
+        while (1) {
+            $anind = l.substr(0,2)
+            anind != '  ' and break
+            shall.push(anind)
+            l = l.substr(2)
+        }
+        return hak(shall)
+    }
     me.textdiffN = &acgtNc{
+      // per indents
         $M = [];
+        # 1-fer per indent not near change
         each in N {
             $m =
             m bit  $s:nc&s %
@@ -4045,52 +4057,130 @@ me.Differingness = &acgt{ return [
                 mc&s.match(/^\s+|\s+$/) and mc&s = mc&s.replace(/\n/,"↯\n")
                 continue
             }
-
+        }
+        N = M
+        M = []
+        # deepen multiline mc&s
+        each in N {
             !c.fold and continue
-
-            $s = mc&s;
-            s.length < 40 and continue
-            if (0 && !s.match(/\n/)) {
-                ms&shortfor = [s];
-                mc&s = s.slice(0,20)+" ... "+s.slice(-20);
+            # only the same will fold away,
+            #  only hiding lines not leading to change
+            $L = mc&s.split("\n")
+            
+            # < func line splits. L=["thing\n","  further\n"]
+            $las = L.pop()
+            L = L.map(s => s+"\n")
+            las != '' and L.push(las)
+            
+            each il L {
+                $level = me&getindent,l
+                $e = 0 == i ? n : Cye([n.t,1])
+                ec&s = l
+                es&level = level
+                
+                M.push(e)
             }
-            else {
-                $L = s.split("\n");
-                $las = L.pop();
-                L = L.map(&s{ return s+"\n" });
-                las != '' and L.push(las);
-                $w = []; # to be
-                # fold ind level
-                # deep is shallow+1, when shallow bit grouper found
-                $deep = null;
-                $la = null;
-                $finalN = i*1+1 == N.length;
-                $firstN = i == 0;
-                each il L {
-                    # not 3 lines near a change
-                    if ((firstN || i > 1) &&
-                        (finalN || i < L.length - 3)) {
-                        if (la && deep && l.match(deep)) {
-                            !la and throw "no la";
-                            $sh =
-                            las&shortfor ||= [];
-                            sh.push(l);
-                            continue;
-                        }
-                    }
-                    la = null;
-                    w.push(l);
-                    $shall = l.match(/^(  +)/);
-                    if (shall) {
-                        deep = new RegExp('^'+shall[1]+'  ');
-                        la =
-                        m $m.t  $s:w.join("") %
-                        w = [];
+        }
+        N = M
+        # solve indent from previous if !same
+        $la = null
+        each in N {
+            if (la) {
+                # a line split has trailing \n on the prior
+                lac&s.includes("\n") and continue
+                # if not a line split, is a new|gone|diff split
+                n.t == la.t and debugger
+                # carry indent forwards if ==   thing\t++3 "blah"
+                #  and if ==\n    ++T--t==hing\t
+                ns&level == las&level and debugger
+                ns&wasle = ns&level
+                ns&level = las&level
+            }
+            la = n
+        }
+      // layout
+        # assign opality from --++ to siblings at each level out
+        $out = &iplg{
+            # limited to level < l, l = where the ++-- was
+            # g=5 limits to i+5
+            g and g = i + g
+            $ope = g ? 1.5 : 1
+            while (1) {
+                i = i + p
+                $prev = N[i]
+                !prev and return
+                g && i == g and return
+                prevs&level > l and return
+                prevs&ope ||= ope
+            }
+        }
+        each in N {
+            n.t == 'same' and continue
+            ns&ope = 2
+            # perc to every heading before
+            #  and after the trip up from ++--
+            out(i*1,1,ns&level)
+            out(i*1,-1,ns&level)
+            # and 3 either side of here
+            out(i*1,1,999,3)
+            out(i*1,-1,999,-3)
+        }
+        M = []
+        # output scrunches
+        $la = null
+        each in N {
+            if (!ns&ope) {
+                && la && las&level <= ns&level) {
+                # we may roll into the last one
+                ac(la,'moren',n)
+                continue
+            }
+            M.push(n)
+            la = n
+        }
+        N = M
+        M = []
+        each in N {
+            #ns&moren and nc&s += ns&moren.map(z => zc&s)
+        }
+        
+        #!
+        each in M {
+            $w = []; # to be
+            # fold ind level
+            # deep is shallow+1, when shallow bit grouper found
+            $deep = null;
+            $la = null;
+            $finalN = i*1+1 == N.length;
+            $firstN = i == 0;
+            each il L {
+                $level = me&getindent,l
+                # not 3 lines near a change
+                if ((firstN || i > 1) &&
+                    (finalN || i < L.length - 3)) {
+                    if (la && deep && deep(l)) {
+                        !la and throw "no la";
+                        $sh =
+                        las&shortfor ||= [];
+                        sh.push(l);
+                        continue;
                     }
                 }
-                mc&s = w.join("");
+                la = null;
+                w.push(l);
+                if (hak(shall)) {
+                    $inden = shall.join('')
+                    deep = l => l.substr(0,inden.length+2) == inden+'  '
+                    la =
+                    m $m.t  $s:w.join("") %dealbata
+                    w = [];
+                }
             }
-        } 
+            mc&s = w.join("");
+        }
+        $N = M
+        M = []
+        
         each in M {
             ns&hue || ns&bri and continue
             # shortened inside lines
