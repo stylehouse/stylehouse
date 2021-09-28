@@ -3998,7 +3998,7 @@ me.Differingness = &acgt{ return [
         each in Rs&Comp {
             if (!nc&s.includes("\n")) {
                 # in-line boundary means something is changing, a little
-                # note that once per line
+                # < note that once per line
                 if (!diff) {
                     h.diff ||= 0;
                     h.diff++;
@@ -4010,6 +4010,7 @@ me.Differingness = &acgt{ return [
 
                 $Lines = nc&s.split("\n");
                 $lines = Lines.length;
+                # < func lines splits
                 Lines.slice(-1)[0] == '' and lines--
                 h[n.t] ||= 0;
                 h[n.t] += lines;
@@ -4029,6 +4030,7 @@ me.Differingness = &acgt{ return [
         # < putting yay many things approximately where they are,
         # < putting in names shaded to their thisthatty
     };
+    
     # textdiffN - clean up/fold
     # < reconduity el wai
     me.getindent = &acgtl{
@@ -4058,14 +4060,14 @@ me.Differingness = &acgt{ return [
                 continue
             }
         }
+        !c.fold and return M
         N = M
         M = []
         # deepen multiline mc&s
         each in N {
-            !c.fold and continue
             # only the same will fold away,
             #  only hiding lines not leading to change
-            $L = mc&s.split("\n")
+            $L = nc&s.split("\n")
             
             # < func line splits. L=["thing\n","  further\n"]
             $las = L.pop()
@@ -4082,22 +4084,30 @@ me.Differingness = &acgt{ return [
             }
         }
         N = M
-        # solve indent from previous if !same
+        M = []
+        # solve indent from previous if !same !
         $la = null
         each in N {
             if (la) {
                 # a line split has trailing \n on the prior
-                lac&s.includes("\n") and continue
+                lac&s.endsWith("\n") and la = n; continue
                 # if not a line split, is a new|gone|diff split
                 n.t == la.t and debugger
                 # carry indent forwards if ==   thing\t++3 "blah"
                 #  and if ==\n    ++T--t==hing\t
-                ns&level == las&level and debugger
+                $lev = las&level
                 ns&wasle = ns&level
-                ns&level = las&level
+                if (ns&level > 0) {
+                    # eg (==10                    )(++1  maaaagic -String "1")
+                    ns&waslev = ns&level
+                    lev += ns&level
+                }
+                ns&level == lev and debugger
+                ns&level = lev
             }
             la = n
         }
+        
       // layout
         # assign opality from --++ to siblings at each level out
         $out = &iplg{
@@ -4105,12 +4115,14 @@ me.Differingness = &acgt{ return [
             # g=5 limits to i+5
             g and g = i + g
             $ope = g ? 1.5 : 1
+            $slope = []
             while (1) {
                 i = i + p
                 $prev = N[i]
                 !prev and return
                 g && i == g and return
-                prevs&level > l and return
+                prevs&level > l and continue
+                prevs&level < l and l = prevs&level
                 prevs&ope ||= ope
             }
         }
@@ -4125,11 +4137,11 @@ me.Differingness = &acgt{ return [
             out(i*1,1,999,3)
             out(i*1,-1,999,-3)
         }
-        M = []
-        # output scrunches
+        
+        # output scrunches !
         $la = null
         each in N {
-            if (!ns&ope) {
+            if (!ns&ope
                 && la && las&level <= ns&level) {
                 # we may roll into the last one
                 ac(la,'moren',n)
@@ -4141,68 +4153,42 @@ me.Differingness = &acgt{ return [
         N = M
         M = []
         each in N {
-            #ns&moren and nc&s += ns&moren.map(z => zc&s)
+            if (ns&moren) {
+                ns&hue || ns&bri and debugger
+                ns&shortfor = nc&s + ns&moren.map(z => zc&s).join("")
+                nc&s = nc&s.replace(/\n$/,'')
+                nc&s += " ... +"+(ns&shortfor.length-1)+"\n"
+                # < &tt, using a path pointer from out():
+                #    ["Everything","  thing 3 %etc",",enmode:3"]
+                #   < set ny&up while out()ing, then elvis assembles:
+                #      being +=- space, pointer/$t** can be nc&s
+                #      then ec&patch = scrunch of ["++ thingy"+]
+                ns&fs = '90%'
+                ns&bri = 0.6
+                ns&dow = 'do/Swaps'
+            }
+            nc&s = (ns&ope||0)+(ns&level||'?')+" "+nc&s
         }
+        return N
         
-        #!
-        each in M {
-            $w = []; # to be
-            # fold ind level
-            # deep is shallow+1, when shallow bit grouper found
-            $deep = null;
-            $la = null;
-            $finalN = i*1+1 == N.length;
-            $firstN = i == 0;
-            each il L {
-                $level = me&getindent,l
-                # not 3 lines near a change
-                if ((firstN || i > 1) &&
-                    (finalN || i < L.length - 3)) {
-                    if (la && deep && deep(l)) {
-                        !la and throw "no la";
-                        $sh =
-                        las&shortfor ||= [];
-                        sh.push(l);
-                        continue;
-                    }
-                }
-                la = null;
-                w.push(l);
-                if (hak(shall)) {
-                    $inden = shall.join('')
-                    deep = l => l.substr(0,inden.length+2) == inden+'  '
-                    la =
-                    m $m.t  $s:w.join("") %dealbata
-                    w = [];
-                }
+        # < debugia
+        if (0) {
+            each in N {
+                nc&s = (ns&ope||'-')+(ns&level||'?')+" "+nc&s
             }
-            mc&s = w.join("");
-        }
-        $N = M
-        M = []
+            each in N {
+                n.t == 'same' and continue
+                ~>4 other: n.t
+                i*=1
+                $ti = i - 3
+                ti < 0 and ti = 0
+                me&nu,"Lint"+ti,[n,...N.slice(i-3,6)]
+                me&tc,"lovelaa"
+                return N
+            }
+            return N
         
-        each in M {
-            ns&hue || ns&bri and continue
-            # shortened inside lines
-            $text = ns&shortfor;
-            !text and continue
-            # falsify a heading, 't y ... +n':
-            $m = nc&s.match(/^(  \S[^\t]*\t[^\t]*\t)/);
-            if (m) {
-                text.unshift(nc&s);
-                nc&s = m[1] + " ... +"+(text.length-1);
-                nc&s += "\n";
-            }
-            else { # never misses? 
-                #
-            }
-            !text.join and debugger;
-            ns&shortfor = text.join("");
-            ns&fs = '80%';
-            ns&bri = 0.6;
-            ns&dow = 'do/Swaps';
         }
-        return M;
     };
 
 #c Lines
