@@ -1493,6 +1493,7 @@ me.Sch_The = &acgt{ return [
         #     so eg $got...seveny&thing is joined on
         #      as a pool of sense to help finding stringsat the -Ness/#@Eight
         # < -Effect to /This/
+        Comp = Comp.slice(0,6)
         me&bal,'mergent',{eph:1,Zuist:{Ness,Comp}}
         #{Ness,t,z,exp,Diff,This}
     }
@@ -1584,36 +1585,51 @@ me.Sch_The = &acgt{ return [
             
             me&boxcap,"App",'g' (&ml{
                 me&walls,m,'bd:2.2h3'
+              // pick a Lines
+                
+                # hit E, y&D y&toLines!
+                $th = ny&thing
                 
                 $Lines = ny&toLines
-                !Lines and return me&tc,"!toL",'b'
+                # cmp
                 $l = Comp[upto]
+                if (null != ahsk(d,'up','moren')) {
+                    # l is not in Comp/*
+                    $ul = d.up.l
+                    $i = d.up.moren
+                    d.up.moren = i*1+1
+                    l = uls&moren [i]
+                    !l and debugger
+                    me&tc,"^moren"
+                }
                 !l and return me&tc,"off","b"
+                d.l = l
+                ls&moren and me&tc,"x"+hak(ls&moren),'6d'; d.moren = 0
                 
-                # < func text lib
-                L = Lines.split("\n")
-                L.slice(-1)[0] == '' and L.pop()
-                L = L.map(s => s+"\n")
-                # if we indent this
-                $indLines = indents(ls&level,Lines)
-                # it should look like the rest of l
-                lc&s == indLines and upto++; me&tc,"2"; return
-                # maybe just the start of l
-                
-                n.t == 'firstaspect' && me&boxcap,"l",'5' (&m{
-                    $to = me&tc,lc&s,'y'
+                n.t == '-n' && me&boxcap,"l",'5' (&m{
+                    me&nu,"Squa",d
+                    $to = me&tc,ls&string,'y'
                     tos&ws = 1
                     me&walls,to,'bd:2.2,bg:000'
                 })
-                if (ny&toLines) {
-                    lc&s.includes(ny&toLines) and me&tc,"oooook"
+                if (Lines) {
+                    # < func text lib
+                    # if we indent this
+                    $indLines = indents(ls&level,Lines)
+                    
+                    # it should look like the rest of l
+                    ls&string == indLines and upto++; me&tc,"2"; return
+                    
+                    # maybe just the start of it
+                    if (ny&toLines) {
+                        ls&string.includes(ny&toLines) and me&tc,"oooook"; return
+                    }
                 }
                 else {
-                    # hit E, y&D y&toLines
                     $nu = ny&up
                     #$nu
                     #und.t == 'origin_X'
-                    n.t == '-n' and me&nu,"Tolre",{d,n}
+                    n.t == '-n' and me&nu,"Tolre",{d,n,th}
                     return me&tc,"!toL",'b'
                 }
                 
@@ -1635,7 +1651,7 @@ me.Sch_The = &acgt{ return [
                 $next = ns&z
             }
             each iz next {
-                anywhere(z,ex({},d))
+                anywhere(z,ex(ex({},d),{up:d}))
             }
             
             })

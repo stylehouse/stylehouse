@@ -606,7 +606,7 @@
         }
     }
   
-  // &enL toLines - C to string
+  // Lines types
     # < use from o that can conjoin the many C
     # aims for simplicity of notation for &deL, G&C, G&peel
     # block quotes (BQ) big strings or data after the  line
@@ -682,7 +682,6 @@
         v = isar(v) ? v : v.split("\n")
         # take off the tail end
         v.slice(-1)[0] == '' and v.pop()
-        L = L.map(s => s+"\n")
         each is v {
             vs.push(l+s)
         }
@@ -690,12 +689,14 @@
         return vs.join("\n")
     }
     # we take the indent off to make it Cy&deLines!
-    self.unindents = &dv{
+    self.unindents = &d,v,notailn{
         !num(d) and throw "indent d"
         # &ind uses '  '
         d *= 2
         $vs = [];
         v = isar(v) ? v : v.split("\n");
+        # take off the tail end
+        v.slice(-1)[0] == '' and v.pop()
         each is v {
             # bite off space
             $space = s.substr(0,d)
@@ -703,9 +704,11 @@
             
             vs.push(s.substr(d))
         }
+        !notailn and vs.push('')
         return vs.join("\n")
     }
-    
+  
+  // &enL toLines - C to string
     A.I.i.y.tw.toLines.c.code =
     me.enL = &acgts{
         s and C = s;
@@ -1040,7 +1043,7 @@
       
       // attach
         # the chunk of string goes with it
-        Cy&deLines = unindents(d,Line)
+        Cy&deLines = unindents(d,Line,1)
         d.toFixed() != d and ~fractionalind: d, C, T.readinglv
         d = 1 * d.toFixed();
         if (d > 0) {
