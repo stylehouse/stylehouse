@@ -4085,7 +4085,7 @@ me.Differingness = &acgt{ return [
         }
         N = M
         M = []
-        # solve indent from previous if !same !
+        # solve indent from previous if !same
         $la = null
         each in N {
             if (la) {
@@ -4099,6 +4099,7 @@ me.Differingness = &acgt{ return [
                 ns&wasle = ns&level
                 if (ns&level > 0) {
                     # eg (==10                    )(++1  maaaagic -String "1")
+                    #  shall be (==10...)(++11...)
                     ns&waslev = ns&level
                     lev += ns&level
                 }
@@ -4112,18 +4113,18 @@ me.Differingness = &acgt{ return [
         # assign opality from --++ to siblings at each level out
         $out = &iplg{
             # limited to level < l, l = where the ++-- was
-            # g=5 limits to i+5
-            g and g = i + g
+            # g=5 limits to i+5, and %ope=1.5
             $ope = g ? 1.5 : 1
             $slope = []
             while (1) {
                 i = i + p
-                $prev = N[i]
-                !prev and return
-                g && i == g and return
-                prevs&level > l and continue
-                prevs&level < l and l = prevs&level
-                prevs&ope ||= ope
+                $n = N[i]
+                !n and return
+                ns&level > l and continue
+                # climbing to whole-line levels
+                ns&level < l && nc&s.endsWith("\n") and l = ns&level
+                ns&ope ||= ope
+                g && 0 == --g and return
             }
         }
         each in N {
@@ -4134,8 +4135,9 @@ me.Differingness = &acgt{ return [
             out(i*1,1,ns&level)
             out(i*1,-1,ns&level)
             # and 3 either side of here
-            out(i*1,1,999,3)
-            out(i*1,-1,999,-3)
+            # < working
+            out(i*1,1,ns&level,3)
+            out(i*1,-1,ns&level,3)
         }
         
         # output scrunches !
@@ -4167,7 +4169,7 @@ me.Differingness = &acgt{ return [
                 ns&bri = 0.6
                 ns&dow = 'do/Swaps'
             }
-            nc&s = (ns&ope||0)+(ns&level||'?')+" "+nc&s
+            #nc&s = (ns&ope||'_')+"_"+(ns&level||'?')+" "+nc&s
         }
         return N
         
