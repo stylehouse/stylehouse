@@ -1433,8 +1433,24 @@ me.Sch_The = &acgt{ return [
             })
         }
     }
+    # wild repurposing the symbols of &Rthingo
+    me.thingosym = &acgts{
+        $sym = me&tc,s,'b'
+        syms&lh = 0.5
+        syms&fs = 20
+        return sym
+    }
+    # < nibble-sized view of thing?
+    #    2-nibble top Line's t,y + whole textsize
+    me.textsize = &acgts{
+        !isst(s) and throw "textsize!st"
+        $lin = s.split("\n")
+        lin.slice(-1)[0] == '' and lin.pop()
+        return 'x'+hak(lin)+'*'+s.length
+    }
     # Accepting ~ Nine/Fe, forward cha
     me.Fe_mergent = &acgtREstz{
+      // env
         # < o E, /Ness:/#@t
         $EN = me&fiu,E,'Ness',7
         # < to tv
@@ -1465,9 +1481,76 @@ me.Sch_The = &acgt{ return [
             Rs&Ply = []
         }
         
+        me&boxcap,'Ply','1' (&ml{
+        ms&dis = 1
+      // Ply stuff<->things
+        # Ness** as long as possible
+        #  y&thing are for the outsphere
+        #  y&C=This/Eight** follow E** down
+        #   once Ness** runs out
         # < wander into Ness**, with diff )
+        $anywhere = &nc{
+            c ||= {}
+            c.slope = (c.slope||[]).slice()
+            me&boxcap,":"+n.t,'1G' (&ml{
+            hak(c.slope) and ms&ml = 1
+            
+            # intoable insphere, y&C from Ness**
+            $z
+            me&boxcap,"Out",'g' (&ml{
+                me&walls,m,'bd:2.2h3'
+                ms&fs = 6
+
+                ny&toLines && me&boxcap,"toL",'5' (&ml{
+                    $to = me&tc,ny&toLines,'y'
+                    me&walls,to,'bd:2.2,bg:000'
+                })
+                # in Ness**//(This**/)E-seven**
+                #  slope begins This/here**
+
+                z = ny&C
+                z || c.ins and c.slope.push(z||n)
+            
+                # < swathes of %moren may be entirely
+                $oth = ny&thing
+                oth && me&boxcap,"thing",'5' (&ml{
+                    me&walls,m,'bd:2.2h6'
+                    $sum = me&textsize,oths&string
+                    me&thingosym,'⦄' .sc.fs = 15
+                    me&tc,sum,'y'
+                })
+            })
+            
+            hak(c.slope) > 3 and return me&thingosym,'⦄'
+      // Ply stuff<->things
+            #!
+            # at Ness..-seven the ** dries up
+            if (!hak(ns&z) && !c.ins) {
+                c.ins = 1
+                !z and throw "notosphere"
+                !hak(zs&z) and throw "deadend"
+                $th = zy&thing
+                !th and throw "tosphere!thing"
+                !hak(ths&use) and throw "tosphere!use"
+                $slopers = c.slope.map(z => zy&ers)
+                !hak(slopers) and throw "!slopers"
+                !hak(grepout(slopers,ths&use)) and throw "tosphere!used"
+                me&tc,"Gotto-seven"
+                $next = zs&z
+            }
+            else {
+                $next = ns&z
+            }
+            each iz next {
+                anywhere(z,ex({},c))
+            }
+            
+            })
+        }
+        anywhere(Ness)
+        
+        })
         each in Nesss&z {
-            # in This**
             $eight = ny&C
             each ie ns&z {
                 $seven = ey&C
@@ -1496,7 +1579,8 @@ me.Sch_The = &acgt{ return [
         #     so eg $got...seveny&thing is joined on
         #      as a pool of sense to help finding stringsat the -Ness/#@Eight
         # < -Effect to /This/
-        me&nu,"mergent",{Ness,t,z,exp,Diff,This}
+        me&nu,"mergent",{Ness,Comp:Diffs&Comp}
+        #{Ness,t,z,exp,Diff,This}
         if (Diff) {
             
             #me&Pii,This,'Diff/now/'+t.t+'-Fez'
