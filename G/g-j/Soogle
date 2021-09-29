@@ -4054,11 +4054,6 @@ me.Differingness = &acgt{ return [
             n.t == 'new' and ms&hue = '265deg'
             n.t == 'gone' and ms&hue = '111deg'
             n.t != 'same' && !nc&s.includes("\n") and ms&deco = 1
-            if (ms&hue) {
-                # visible trailing \n
-                mc&s.match(/^\s+|\s+$/) and mc&s = mc&s.replace(/\n/,"↯\n")
-                continue
-            }
         }
         !c.fold and return M
         N = M
@@ -4109,7 +4104,7 @@ me.Differingness = &acgt{ return [
             la = n
         }
         
-      // layout
+      // open out
         # assign opality from --++ to siblings at each level out
         $out = &iplg{
             # limited to level < l, l = where the ++-- was
@@ -4140,11 +4135,16 @@ me.Differingness = &acgt{ return [
             out(i*1,-1,ns&level,3)
         }
         
+      // open out
         # output scrunches !
         $la = null
         each in N {
             # permanent record
             ns&string = nc&s
+            if (ns&hue) {
+                # visible trailing \n
+                nc&s.match(/^\s+|\s+$/) and nc&s = nc&s.replace(/\n/,"↯\n")
+            }
             if (!ns&ope
                 && la && las&level <= ns&level) {
                 # we may roll into the last one

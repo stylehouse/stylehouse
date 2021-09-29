@@ -1550,9 +1550,8 @@ me.Sch_The = &acgt{ return [
         #   once Ness** runs out
         # < wander into Ness**, with diff )
         $upto = 0
-        
-        
         $anywhere = &nd{
+        
             d ||= {}
             d.slope = (d.slope||[]).slice()
             me&boxcap,":"+n.t,'1G' (&ml{
@@ -1635,6 +1634,7 @@ me.Sch_The = &acgt{ return [
                 !Lines and return me&tc,"lost-string",'b'
                 !hak(ns&z) and me&tc,'/$','g'
                 
+              // easy
                 # < func text lib
                 # if we indent this
                 $indLines = indents(ls&level,Lines)
@@ -1679,8 +1679,13 @@ me.Sch_The = &acgt{ return [
                         if (!nd && !ls&string.endsWith("\n")) {
                             if (aLine.startsWith(ls&string)) {
                                 me&tc,"+",'6y'
-                                Lin[Li] = '  '+aLine.substr(ls&string.length)
+                                aLine = aLine.substr(ls&string.length)
+                                $waslev = ls&level
                                 l = Comp[++upto]
+                                $islev = ls&level
+                                # level might increase onto a change
+                                waslev < islev and aLine = indents(islev-waslev,aLine,1)
+                                Lin[Li] = aLine
                                 continue
                             }
                         }
@@ -1699,7 +1704,10 @@ me.Sch_The = &acgt{ return [
                 }
                 
                 
+              // outward
                 (
+                1
+                ||
                 (n.t == 'maaaagic' && n.y.up.t == 'origin_X')
                 ||
                 (n.t == 'A' && n.y.up.t == '-Fez'
@@ -1708,7 +1716,6 @@ me.Sch_The = &acgt{ return [
                 (n.t == 'maaaagic')
                 )
                 && me&boxcap,"l",'5' (&m{
-                    #n.t == '-Fez' and debugger
                     #me&nu,"Squa",{d,l,Lines}
                     #n.t == '-n' and me&nu,"Tolre",{d,n,th}
                     me&walls,m,'bd:4.1'
@@ -1726,34 +1733,12 @@ me.Sch_The = &acgt{ return [
                 # maybe just the start of it
                 if (Lines) {
                     if (ls&string.includes(Lines)) {
-                        d.morend == d and upto++
                         me&tc,"oooook"
                         return
                     }
                 }
-                else {
-                    $nu = ny&up
-                    #$nu
-                    #und.t == 'origin_X'
-                    n.t == '-n' and me&nu,"Tolre",{d,n,th}
-                    return me&tc,"!toL",'b'
-                }
                 
             })
-            
-            $not = 0
-            #n.y.up.t == 'origin_X'
-            # don't recurse unless Comp says
-            $ln = Comp[upto]
-            if (!d.morend && lns&level <= ls&level) {
-                return me&thingosym,'⦄E...' .sc.fs = 15
-            }
-            # and l itself says
-            !(l && ls&ope) and return me&thingosym,'⦄l' .sc.fs = 15
-            else
-            ls&moren and return me&thingosym,'⦄m' .sc.fs = 15
-            # and not far
-            #hak(d.slope) > 5 and return me&thingosym,'⦄>'
             
             
             
@@ -1771,6 +1756,23 @@ me.Sch_The = &acgt{ return [
             else {
                 $next = ns&z
             }
+            
+            if (hak(next)) {
+                $not = 0
+                #n.y.up.t == 'origin_X'
+                # don't recurse unless Comp says
+                $ln = Comp[upto]
+                if (!d.morend && ln && l && lns&level <= ls&level) {
+                    return me&thingosym,'⦄E...' .sc.fs = 15
+                }
+                # and l itself says
+                !(l && ls&ope) and return me&thingosym,'⦄l' .sc.fs = 15
+                else
+                ls&moren and return me&thingosym,'⦄m' .sc.fs = 15
+                # and not far
+                #hak(d.slope) > 5 and return me&thingosym,'⦄>'
+            }
+            
             each iz next {
                 anywhere(z,ex(ex({},d),{up:d}))
             }
