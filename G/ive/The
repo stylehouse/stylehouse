@@ -1528,16 +1528,8 @@ me.Sch_The = &acgt{ return [
             }
             
             return 1
-        }
-        me&boxcap,'Ply','1' (&ml{
-        ms&dis = 1
-      // Ply stuff<->things!
-        # Ness** as long as possible
-        #  y&thing are for the outsphere
-        #  y&C=This/Eight** follow E** down
-        #   once Ness** runs out
-        # < wander into Ness**, with diff )
-        $drawthing = &tdn{
+         }
+         $drawthing = &tdn{
             $oth = ny&thing
             oth && me&boxcap,t,'5' (&ml{
                 me&walls,m,'bd:2.2h6'
@@ -1548,12 +1540,22 @@ me.Sch_The = &acgt{ return [
                 me&tc,sum,'y'
             })
         }
+        me&boxcap,'Ply','1' (&ml{
+        ms&dis = 1
+      // Ply stuff<->things!
+        # Ness** as long as possible
+        #  y&thing are for the outsphere
+        #  y&C=This/Eight** follow E** down
+        #   once Ness** runs out
+        # < wander into Ness**, with diff )
+        $upto = 0
+        
         
         $anywhere = &nd{
             d ||= {}
             d.slope = (d.slope||[]).slice()
             me&boxcap,":"+n.t,'1G' (&ml{
-            hak(d.slope) and ms&ml = 1
+            ms&ml = 1
             
             # intoable insphere, y&C from Ness**
             $z
@@ -1564,6 +1566,7 @@ me.Sch_The = &acgt{ return [
 
                 ny&toLines && me&boxcap,"toL",'5' (&ml{
                     $to = me&tc,ny&toLines,'y'
+                    tos&ws = 1
                     me&walls,to,'bd:2.2,bg:000'
                 })
                 # in Ness**//(This**/)E-seven**
@@ -1577,12 +1580,35 @@ me.Sch_The = &acgt{ return [
                 $D = ny&D
                 D && Dy&thing && Dy&thing != ny&thing
                     && drawthing('Dthing',d,D)
-                
             })
             
             me&boxcap,"App",'g' (&ml{
-                $und = d.slope.slice(-2)[0]
-                if (!ny&toLines) {
+                me&walls,m,'bd:2.2h3'
+                
+                $Lines = ny&toLines
+                !Lines and return me&tc,"!toL",'b'
+                $l = Comp[upto]
+                !l and return me&tc,"off","b"
+                
+                # < func text lib
+                L = Lines.split("\n")
+                L.slice(-1)[0] == '' and L.pop()
+                L = L.map(s => s+"\n")
+                # if we indent this
+                $indLines = indents(ls&level,Lines)
+                # it should look like the rest of l
+                lc&s == indLines and upto++; me&tc,"2"; return
+                # maybe just the start of l
+                
+                n.t == 'firstaspect' && me&boxcap,"l",'5' (&m{
+                    $to = me&tc,lc&s,'y'
+                    tos&ws = 1
+                    me&walls,to,'bd:2.2,bg:000'
+                })
+                if (ny&toLines) {
+                    lc&s.includes(ny&toLines) and me&tc,"oooook"
+                }
+                else {
                     # hit E, y&D y&toLines
                     $nu = ny&up
                     #$nu
@@ -1594,7 +1620,7 @@ me.Sch_The = &acgt{ return [
             })
             
             hak(d.slope) > 3 and return me&thingosym,'⦄'
-      // **
+      // recursion
             #!
             # at Ness..-seven the ** dries up
             if (!hak(ns&z) && !d.ins) {

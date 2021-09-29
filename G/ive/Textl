@@ -675,13 +675,18 @@
     # < at one space, inconfusible with C/C indent
     me.LinesBQ_indent = '  '
     # &ind uses '  ', BQ-ish things use:
-    self.indents = &lv{
+    self.indents = &l,v,notailn{
+        num(l) and l = new Array(1+l*1).join('  ')
         !isst(l) and throw "indent '  '"
         $vs = [];
-        v = isar(v) ? v : v.split("\n");
+        v = isar(v) ? v : v.split("\n")
+        # take off the tail end
+        v.slice(-1)[0] == '' and v.pop()
+        L = L.map(s => s+"\n")
         each is v {
             vs.push(l+s)
         }
+        !notailn and vs.push('')
         return vs.join("\n")
     }
     # we take the indent off to make it Cy&deLines!
@@ -861,20 +866,19 @@
             !is.wordyspace(gk) and debugger
             !nk.match(/^\w+$/) and debugger
             $k = me.LinesBQ_indent
-                +nk+" "+gk+":";
+                +nk+" "+gk+":"
             if (typeof v != 'string') {
                 # BQ yaml data
                 # < rename T.eny_trace, its error handler uses
-                T.eny_nkgk = [nk,gk];
-                $v = eny(v,T);
-                delete T.eny_nkgk;
-                k += "\n"+indents(me.LinesBQ_indent
-                    +'  '+v)
+                T.eny_nkgk = [nk,gk]
+                $v = eny(v,T)
+                delete T.eny_nkgk
+                k += "\n"+indents(me.LinesBQ_indent+'  ',v,1)
             }
             else if (is.safe_v(v)) {
                 # simple strings
                 # < not confusible into 'Thing 2'?
-                k += " "+v;
+                k += " "+v
             }
             else if (!v.match(/\n$/)) {
                 # BQ implies trailing \n
@@ -882,8 +886,7 @@
             }
             else {
                 # BQ string
-                k += " |\n"+indents(me.LinesBQ_indent
-                    +'  '+v)
+                k += " |\n"+indents(me.LinesBQ_indent+'  ',v,1)
             }
             k = k.replace(/\n\s*$/,'');
             L.push(k);
