@@ -679,14 +679,20 @@
         num(l) and l = new Array(1+l*1).join('  ')
         !isst(l) and throw "indent '  '"
         $vs = [];
-        v = isar(v) ? v : v.split("\n")
-        # take off the tail end
-        v.slice(-1)[0] == '' and v.pop()
+        # "the","lines" <- "the\n","lines\n"
+        v = Lin_Lines(v)
         each is v {
             vs.push(l+s)
         }
         !notailn and vs.push('')
         return vs.join("\n")
+    }
+    # ["the","lines"] <- "the\nlines\n"
+    self.Lin_Lines = &v{
+        v = isar(v) ? v : v.split("\n")
+        # chomp off the tail end
+        v.slice(-1)[0] == '' and v.pop()
+        return v
     }
     # we take the indent off to make it Cy&deLines!
     self.unindents = &d,v,notailn{
@@ -694,9 +700,7 @@
         # &ind uses '  '
         d *= 2
         $vs = [];
-        v = isar(v) ? v : v.split("\n");
-        # take off the tail end
-        v.slice(-1)[0] == '' and v.pop()
+        v = Lin_Lines(v)
         each is v {
             # bite off space
             $space = s.substr(0,d)

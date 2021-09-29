@@ -1566,6 +1566,7 @@ me.Sch_The = &acgt{ return [
                 ms&fs = 6
 
                 ny&toLines && me&boxcap,"toL",'5' (&ml{
+                    me&walls,m,'bd:1.1'
                     $to = me&tc,ny&toLines,'y'
                     tos&ws = 1
                     me&walls,to,'bd:2.2,bg:000'
@@ -1583,46 +1584,139 @@ me.Sch_The = &acgt{ return [
                     && drawthing('Dthing',d,D)
             })
             
-            me&boxcap,"App",'g' (&ml{
+            # lingering l, or nothing
+            $l = null
+            me&boxcap,"App",'g' (&m{
                 me&walls,m,'bd:2.2h3'
               // pick a Lines
+                # eitherings, any substring of Lines
+                l = Comp[upto]
+                if (d.morend) {
+                    $nd = d.morend
+                    # n's l is not in Comp/*, last one that was:
+                    $ul = nd.l
+                    nd.moreni ||= 0
+                    l = uls&moren [nd.moreni]
+                    me&tsc,'morening',"^"
+                }
+                !l and return me&tc,"off","b"
+                ls&ope and me&tc,"ope",'y'
+                ls&ope && ls&ope != 1 and me&tc,ls&ope,'y'
+                d.l = l
+                if (ls&moren) {
+                    me&tc,"x"+hak(ls&moren),'6d'
+                    d.morend and me&tc,"inside-morend",'!','b'
+                    d.morend = d
+                }
                 
-                # hit E, y&D y&toLines!
+                # into R'The'
+                $D = ny&D
+                D and me&tc,"D",'G'
                 $th = ny&thing
                 
                 $Lines = ny&toLines
-                # cmp
-                $l = Comp[upto]
-                if (null != ahsk(d,'up','moren')) {
-                    # l is not in Comp/*
-                    $ul = d.up.l
-                    $i = d.up.moren
-                    d.up.moren = i*1+1
-                    l = uls&moren [i]
-                    !l and debugger
-                    me&tc,"^moren"
+                #D && Dy&toLines and me&tc,"DtoL"
+                #D && Dy&thing and me&tc,"Dth"
+                D && Dy&thing and Lines = Dy&thing.sc.string; me&tc,"Dth",'6y'
+                if (!Lines) {
+                    Lines ||= th && ths&string
+                    Lines and me&tc,"th",6
+                    Lines ||= D && Dy&toLines
+                    if (!Lines && D) {
+                        me&tc,"Dth",6
+                        $Dth = Dy&thing
+                        Lines = Dth && Dths&string
+                    }
+                    
                 }
-                !l and return me&tc,"off","b"
-                d.l = l
-                ls&moren and me&tc,"x"+hak(ls&moren),'6d'; d.moren = 0
+                !Lines and return me&tc,"lost-string",'b'
+                !hak(ns&z) and me&tc,'/$','g'
                 
-                n.t == '-n' && me&boxcap,"l",'5' (&m{
-                    me&nu,"Squa",d
-                    $to = me&tc,ls&string,'y'
+                # < func text lib
+                # if we indent this
+                $indLines = indents(ls&level,Lines)
+                # and we aren't looking at the first l of ul%moren
+                if (!d.morend) {
+                    # it should look like the rest of l
+                    ls&string == indLines and upto++; me&tc,"2"; return
+                }
+                
+                # or break it apart
+                $Lin = Lin_Lines(indLines)
+                #(n.t == '-Fez' && n.y.up.t == 'origin_X') and debugger
+                $Li = 0
+                $nd = d.morend
+                nd = nd != d && nd
+                $ul = nd && nd.l
+                while (l) {
+                    $aLine = Lin[Li]
+                    # non-first bit
+                    Li && nd and l = uls&moren [nd.moreni]
+                    aLine == null and break
+                    
+                    ul && ls&moren and me&tc,"(moremore)",'6y'
+                    
+                    # first bit should look good
+                    if (ls&string == aLine+"\n") {
+                        Li++
+                        if (nd) {
+                            nd.moreni ++
+                            # if we're in ul%moren/l, we can't be l%ope
+                            #  so checks the entirety of y&thing if possible
+                        }
+                        else {
+                            me&tc,"1"
+                            Li == 1 and upto++; return
+                            break
+                        }
+                    }
+                    else {
+                        me&tc,",."+Li,'c'
+                        break
+                    }
+                }
+                Li and me&tc,"("+Li+")",'6y'
+                if (!l) {
+                    me&tc,"7"
+                    # already counted upto++ going into ul%moren
+                    return
+                }
+                if (hak(Lin) > 1) {
+                    # others may then!
+                    me&tc,"+more"
+                }
+                
+                
+                (
+                (n.t == '-Fez' && n.y.up.t == 'origin_X')
+                ||
+                (n.t == 'A' && n.y.up.t == '-Fez'
+                    && n.y.up.y.up.t == 'node_hand_U')
+                ||
+                (n.t == 'node_hand_U')
+                )
+                && me&boxcap,"l",'5' (&m{
+                    #n.t == '-Fez' and debugger
+                    #me&nu,"Squa",{d,l,Lines}
+                    #n.t == '-n' and me&nu,"Tolre",{d,n,th}
+                    me&walls,m,'bd:4.1'
+                    $to = me&tc,ls&string,'6'
+                    tos&ws = 1
+                    me&walls,to,'bd:2.2,bg:000'
+                }) && me&boxcap,"a",'5' (&m{
+                    me&walls,m,'bd:4.1'
+                    $to = me&tc,aLine,'6'
                     tos&ws = 1
                     me&walls,to,'bd:2.2,bg:000'
                 })
+                
+                
+                # maybe just the start of it
                 if (Lines) {
-                    # < func text lib
-                    # if we indent this
-                    $indLines = indents(ls&level,Lines)
-                    
-                    # it should look like the rest of l
-                    ls&string == indLines and upto++; me&tc,"2"; return
-                    
-                    # maybe just the start of it
-                    if (ny&toLines) {
-                        ls&string.includes(ny&toLines) and me&tc,"oooook"; return
+                    if (ls&string.includes(Lines)) {
+                        d.morend == d and upto++
+                        me&tc,"oooook"
+                        return
                     }
                 }
                 else {
@@ -1635,7 +1729,20 @@ me.Sch_The = &acgt{ return [
                 
             })
             
-            hak(d.slope) > 3 and return me&thingosym,'⦄'
+            $not = 0
+            #n.y.up.t == 'origin_X'
+            # don't recurse unless Comp says
+            $ln = Comp[upto]
+            if (!d.morend && lns&level <= ls&level) {
+                return me&thingosym,'⦄E...' .sc.fs = 15
+            }
+            # and l itself says
+            !(l && ls&ope) and return me&thingosym,'⦄' .sc.fs = 15
+            # and not far
+            #hak(d.slope) > 5 and return me&thingosym,'⦄>'
+            
+            
+            
       // recursion
             #!
             # at Ness..-seven the ** dries up
