@@ -98,6 +98,10 @@ me.Sch_The = &acgt{ return [
    
    # n Ya 6  %Gnomp
    // @Gnomp/@Gnome allowing S connect
+    ['Zuist',0.296,&acgtRs{
+        me&acting,R,'Zuist'
+        me&nu,"Zuist",Rs&Zuist
+    },'ift,D'],
     ['Gnomp',0.296,&acgtRs{
         me&acting,R,'Gnomp'
         Rs&wakeperc = 1
@@ -1471,32 +1475,89 @@ me.Sch_The = &acgt{ return [
         !isC(w) and debugger
         
         # <<<<
+        # slep follow Diff, following Ness + $got
+        $Comp = Diffs&Comp
         me&rollbs,R,'Ply,DiffDigs'
         (Diffs&boost||0) > 0 and delete Rs&Ply
-        # follow Diff, following Ness + $got
         Rs&DiffDigs != Diffs&Digs and delete Rs&Ply
         Rs&DiffDigs = Diffs&Digs
-        if (!Rs&Ply) {
+        if (1 || !Rs&Ply) {
             # < -six+ to enervate
-            Rs&Ply = []
+            Rs&Ply = me&Plymergent,R,E,s,Ness,Comp
         }
-        
+        # < is parsing the diff (from and) into two trees,
+        #     to $z|$exp
+        #      < &deL giving y&toLines
+        #     and $t|$got, which we Lineso'd from things in This/**
+        #      applying lv kind of mind
+        #     so eg $got...seveny&thing is joined on
+        #      as a pool of sense to help finding stringsat the -Ness/#@Eight
+        # < -Effect to /This/
+        me&bal,'mergent',{eph:1,Zuist:{Ness,Comp}}
+        #{Ness,t,z,exp,Diff,This}
+    }
+    me.Plymergent = &acgtREs,Ness,Comp{
+        # into z requires zy&thing used on slope
+        # < was %%oust to slope
+        $oktothing = &d,z,fatal{
+            # it must exist in order to z
+            $th = zy&thing
+            if (!th) {
+                !fatal and return null
+                throw "tosphere!thing"
+            }
+            
+            if (!hak(ths&use)) {
+                !fatal and return 0
+                throw "tosphere!use"
+            }
+            $slopers = d.slope.map(z => zy&ers)
+            !hak(slopers) and throw "!slopers"
+            if (!hak(grepout(slopers,ths&use))) {
+                if (!slopers.slice(-2)[0]) {
+                    # sloper no ers, perhaps because it was synthesized
+                    $nu = zy&up
+                    nu && nu.t != d.slope.slice(-2)[0].t and debugger
+                    if (nu && ths&use.includes(nuy&C)) {
+                        !fatal and me&tc,"//^//",'G'
+                        return 1
+                    }
+                }
+                !fatal and return 0
+                throw "tosphere!used"
+            }
+            
+            return 1
+        }
         me&boxcap,'Ply','1' (&ml{
         ms&dis = 1
-      // Ply stuff<->things
+      // Ply stuff<->things!
         # Ness** as long as possible
         #  y&thing are for the outsphere
         #  y&C=This/Eight** follow E** down
         #   once Ness** runs out
         # < wander into Ness**, with diff )
-        $anywhere = &nc{
-            c ||= {}
-            c.slope = (c.slope||[]).slice()
+        $drawthing = &tdn{
+            $oth = ny&thing
+            oth && me&boxcap,t,'5' (&ml{
+                me&walls,m,'bd:2.2h6'
+                othy&cv != 0.1 and me&tc,cvf(othy&cv),'G'
+                !oktothing(d,n) and me&tc,"!used"
+                $sum = me&textsize,oths&string
+                me&thingosym,'⦄' .sc.fs = 15
+                me&tc,sum,'y'
+            })
+        }
+        
+        $anywhere = &nd{
+            d ||= {}
+            d.slope = (d.slope||[]).slice()
             me&boxcap,":"+n.t,'1G' (&ml{
-            hak(c.slope) and ms&ml = 1
+            hak(d.slope) and ms&ml = 1
             
             # intoable insphere, y&C from Ness**
             $z
+            # notice outsphere features...
             me&boxcap,"Out",'g' (&ml{
                 me&walls,m,'bd:2.2h3'
                 ms&fs = 6
@@ -1509,32 +1570,38 @@ me.Sch_The = &acgt{ return [
                 #  slope begins This/here**
 
                 z = ny&C
-                z || c.ins and c.slope.push(z||n)
+                z || d.ins and d.slope.push(z||n)
             
                 # < swathes of %moren may be entirely
-                $oth = ny&thing
-                oth && me&boxcap,"thing",'5' (&ml{
-                    me&walls,m,'bd:2.2h6'
-                    $sum = me&textsize,oths&string
-                    me&thingosym,'⦄' .sc.fs = 15
-                    me&tc,sum,'y'
-                })
+                drawthing('thing',d,n)
+                $D = ny&D
+                D && Dy&thing && Dy&thing != ny&thing
+                    && drawthing('Dthing',d,D)
+                
             })
             
-            hak(c.slope) > 3 and return me&thingosym,'⦄'
-      // Ply stuff<->things
+            me&boxcap,"App",'g' (&ml{
+                $und = d.slope.slice(-2)[0]
+                if (!ny&toLines) {
+                    # hit E, y&D y&toLines
+                    $nu = ny&up
+                    #$nu
+                    #und.t == 'origin_X'
+                    n.t == '-n' and me&nu,"Tolre",{d,n}
+                    return me&tc,"!toL",'b'
+                }
+                
+            })
+            
+            hak(d.slope) > 3 and return me&thingosym,'⦄'
+      // **
             #!
             # at Ness..-seven the ** dries up
-            if (!hak(ns&z) && !c.ins) {
-                c.ins = 1
+            if (!hak(ns&z) && !d.ins) {
+                d.ins = 1
                 !z and throw "notosphere"
                 !hak(zs&z) and throw "deadend"
-                $th = zy&thing
-                !th and throw "tosphere!thing"
-                !hak(ths&use) and throw "tosphere!use"
-                $slopers = c.slope.map(z => zy&ers)
-                !hak(slopers) and throw "!slopers"
-                !hak(grepout(slopers,ths&use)) and throw "tosphere!used"
+                oktothing(d,z,'fatal')
                 me&tc,"Gotto-seven"
                 $next = zs&z
             }
@@ -1542,7 +1609,7 @@ me.Sch_The = &acgt{ return [
                 $next = ns&z
             }
             each iz next {
-                anywhere(z,ex({},c))
+                anywhere(z,ex({},d))
             }
             
             })
@@ -1550,6 +1617,7 @@ me.Sch_The = &acgt{ return [
         anywhere(Ness)
         
         })
+      // etc
         each in Nesss&z {
             $eight = ny&C
             each ie ns&z {
@@ -1570,20 +1638,6 @@ me.Sch_The = &acgt{ return [
                     }
                 }
             }
-        }
-        # < is parsing the diff (from and) into two trees,
-        #     to $z|$exp
-        #      < &deL giving y&toLines
-        #     and $t|$got, which we Lineso'd from things in This/**
-        #      applying lv kind of mind
-        #     so eg $got...seveny&thing is joined on
-        #      as a pool of sense to help finding stringsat the -Ness/#@Eight
-        # < -Effect to /This/
-        me&nu,"mergent",{Ness,Comp:Diffs&Comp}
-        #{Ness,t,z,exp,Diff,This}
-        if (Diff) {
-            
-            #me&Pii,This,'Diff/now/'+t.t+'-Fez'
         }
         #Diff and me&Piing,'Duk-Fez',{s:Diff.sc}
         # < t/* are -eight/-seven copying -nine%Is[-Ness:t+]
