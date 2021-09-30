@@ -4066,14 +4066,23 @@ me.Differingness = &acgt{ return [
     }
     me.textdiff_indentstickline = &acgtN{
         # (==...\n)(==    ):n(++  newindent\n):e(++    ):l(==...\n):f
-        # sould be (==...\n)(++      newindent\n):e(==...\n):f
+        # should be (==...\n)(++      newindent\n):e(==...\n):f
+        # bail if going weird
+        #  this is used all through the editor
+        $weird = 0
+        $strange = &t{
+            weird ||= []
+            weird.push(l)
+        }
+        $any_done = 0
         $drops = []
         each in N {
+            weird and break
             i*=1
             # $n = (==    )
             !(n.t == 'same' && !nc&s.endsWith("\n")) and continue
             $anynot = nc&s.split('').filter(s => s != ' ')
-            hak(anynot) and debugger
+            hak(anynot) and strange('somenotspace')
             # < >= ns&level?
             # $l = (++    )
             $tol = []
@@ -4084,21 +4093,33 @@ me.Differingness = &acgt{ return [
                 l.t == 'new' && lc&s == nc&s and break
                 tol.push(l)
             }
-            !l and debugger
-            hak(tol) > 1 and debugger
+            !l and strange('!l')
+            hak(tol) > 1 and strange('lx'+hak(tol))
             # $e = (++  newindent\n)
             $e = tol[0]
-            e.t != 'new' and debugger
+            !e and strange('!e')
+            e.t != 'new' and strange('e!new')
             # $f = (==...\n)
             $f = N[i+1]
-            f.t != 'same' and debugger
-            fc&s.startsWith(" ") and debugger
+            !f and strange('!f')
+            else {
+                f.t != 'same' and strange('f!same')
+                fc&s.startsWith(" ") and strange('f!startspace')
+            }
+            weird and break
+            
             # $n is the misappropriated indent for $f
             # $e is new thing, without indent
             # ==:n ++:e ++:l ==:f -> ++:l+e ==:n+f
             ec&s = lc&s+ec&s
             fc&s = nc&s+fc&s
             drops.push(l,n)
+            any_done++
+        }
+        if (weird) {
+            any_done and debugger
+            ~>3 weird textdiff_indentstickline: weird.join(", ")
+            return N
         }
         each in drops {
             grepout(N,n)
