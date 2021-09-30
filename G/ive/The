@@ -1587,7 +1587,6 @@ me.Sch_The = &acgt{ return [
             Omy&toLs and Omy&toLs.sc.dis=0
             return 1
         }
-    
     me.Plymergent = &acgtREs,Ness,Comp{
         # see ds&morenth
         # < trace ourselves through every ^^^*y&thing%string
@@ -1601,7 +1600,6 @@ me.Sch_The = &acgt{ return [
         #    $exp** to resurrect relics from,
         #     for D->modulat totality,
         #      so we can then Diff the modulats, and make good visual
-
         me&boxcap,'Ply','1' (&ml{
         ms&dis = 1
       // Ply stuff<->things!
@@ -1678,8 +1676,9 @@ me.Sch_The = &acgt{ return [
                 }
                 !l and return me&tc,"off","b"
                 d.l = l
+                
+                # last l%ope, l/* (indentitively) is folded into l%moren
                 if (ls&moren) {
-                    # last l%ope, l/* (indentitively) is folded into l%moren
                     me&tc,"x"+hak(ls&moren),'6d'
                     # < &strange <-> T.ab
                     d.morend and debugger; me&tc,"inside-morend",'!','b'
@@ -1689,6 +1688,7 @@ me.Sch_The = &acgt{ return [
                         ds&morenth = 1
                     }
                 }
+                
                 # everything we visit should be open
                 ls&ope == '1' and 'ok'
                 else
@@ -1713,15 +1713,17 @@ me.Sch_The = &acgt{ return [
                     !Lines and debugger
                 }
                 if (!Lines) {
-                    Lines ||= th && ths&string
+                    Lines = th && ths&string
                     Lines and me&tc,"th",6
-                    Lines ||= D && Dy&toLines
-                    if (!Lines && D) {
-                        me&tc,"Dth",6
-                        $Dth = Dy&thing
-                        Lines = Dth && Dths&string
-                    }
-                    
+                }
+                if (!Lines) {
+                    Lines = D && Dy&toLines
+                    Lines and me&tc,"DtoL",6
+                }
+                if (!Lines && D) {
+                    $Dth = Dy&thing
+                    Lines = Dth && Dths&string
+                    Lines and me&tc,"Dth",6
                 }
                 
                 !Lines && me&mergent_avoids_unLinesed,d,n and return
@@ -1734,9 +1736,11 @@ me.Sch_The = &acgt{ return [
                 $indLines = indents(ls&level,Lines)
                 # and we aren't looking at folded or interesting l
                 if (!d.morend && l.t == 'same'
-                    && ls&string == indLines) {
                     # it should look like the rest of l
+                    && ls&string == indLines) {
                     ds&good = me&tc,"2"
+                    # and we associate d (for E**) with it
+                    ac(d,'subComp',l)
                     upto++
                     return
                 }
@@ -1752,27 +1756,28 @@ me.Sch_The = &acgt{ return [
                     # non-first bit
                     Li && nd and l = uls&moren [nd.moreni]
                     aLine == null and break
-                    l.t != 'same' and me&tc,"["+l.t+"]"
+                    l.t != 'same' and ac(d,'chaComp',l)
                     
                     ul && ul != l && ls&moren and me&tc,"(moremore)",'6y'
                     
                     # first bit should look good
                     if (ls&string == aLine+"\n") {
                         Li++
+                        ac(d,'subComp',l)
                         if (nd) {
                             nd.moreni ++
                             # if we're in ul%moren/l, we can't be l%ope
                             #  so checks the entirety of y&thing if possible
                         }
                         elsif (ds&morenth) {
+                            # check off a bunch more l in this while
+                            #  already has Lines from y&thing
                             if (!th) {
                                 ds&good = me&tc,"1+"
                                 me&tc,"no-th",'b'
                                 Li == 1 and upto++; return
                                 break
                             }
-                            # -six has a y&thing, check off a bunch more l in this while
-                            # < move this up to the Lines stuff?
                             $ul = l
                             # start using uls%moren
                             $nd = d
@@ -1787,10 +1792,11 @@ me.Sch_The = &acgt{ return [
                         }
                     }
                     else {
-                        # or at least start with l
+                        # or at least starts with l
                         me&tc,",."+Li,'c'
                         if (!nd && !ls&string.endsWith("\n")) {
                             if (aLine.startsWith(ls&string)) {
+                                ac(d,'subComp',l)
                                 # sub-Line at a time
                                 me&tc,"+",'6y'
                                 aLine = aLine.substr(ls&string.length)
@@ -1868,7 +1874,22 @@ me.Sch_The = &acgt{ return [
                 $next = ns&z
             }
             
-            ds&good and me&tc,"OK"
+            if (ds&good) {
+                # mute toL!
+                $Ls = Omy&toLs
+                Ls and Lsc&not = 1
+                me&tc,"OK"
+            }
+            if (ds&chaComp) {
+                me&boxcap,"~",'1g' (&m{
+                    each in ds&subComp {
+                        me&textliner,d,i,n
+                    }
+                    # and the non-same ones
+                    #  may inc the non-match after, not in %subComp
+                    me&tc,"["+joint(ds&chaComp)+"]"
+                })
+            }
             
             if (hak(next)) {
                 $not = 0
