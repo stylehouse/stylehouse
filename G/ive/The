@@ -1484,7 +1484,7 @@ me.Sch_The = &acgt{ return [
         #{Ness,t,z,exp,Diff,This}
     }
     // Plymergent f
-      // thing
+      // draw thing
         # wild repurposing the symbols of &Rthingo
         me.thingosym = &acgts{
             $sym = me&tc,s,'b'
@@ -1499,6 +1499,21 @@ me.Sch_The = &acgt{ return [
             $lin = s.split("\n")
             lin.slice(-1)[0] == '' and lin.pop()
             return 'x'+hak(lin)+'*'+s.length
+        }
+        # any string
+        # < know where in l|E...
+        me.drawtextliner = &acgtdts{
+            !isst(t) and throw "drawtextliner!title"
+            !isst(s) and throw "drawtextliner!text"
+            $Om = T.ab
+            me&boxcap,t,'5' (&ml{
+                me&walls,m,'bd:1.1'
+                Om.y [t] = m
+                $to = me&tc,s,'y'
+                tos&ws = 1
+                me&walls,to,'bd:2.2,bg:000'
+                Om.y [t+'s'] = to
+            })
         }
         # passing y&thing acknowledged
         me.drawtextthing = &acgttdn{
@@ -1543,19 +1558,6 @@ me.Sch_The = &acgt{ return [
             }
             
             return 1
-        }
-        me.drawtextliner = &acgtdts{
-            !isst(t) and throw "drawtextliner!title"
-            !isst(s) and throw "drawtextliner!text"
-            $Om = T.ab
-            me&boxcap,t,'5' (&ml{
-                me&walls,m,'bd:1.1'
-                Om.y [t] = m
-                $to = me&tc,s,'y'
-                tos&ws = 1
-                me&walls,to,'bd:2.2,bg:000'
-                Om.y [t+'s'] = to
-            })
         }
       // close
         # if no Lines can be found
@@ -1662,7 +1664,7 @@ me.Sch_The = &acgt{ return [
             $l = null
             me&boxcap,"E",'g' (&m{
                 me&walls,m,'bd:2.2h3'
-             // Comp/l and E...n...Lines
+            // Comp/l and E...n...Lines
               // l = Comp[upto]
                 # eitherings, any substring of Lines
                 l = Comp[upto]
@@ -1730,7 +1732,7 @@ me.Sch_The = &acgt{ return [
                 !Lines and return me&tc,"lost-string",'b'
                 !hak(ns&z) and me&tc,'/$','g'
                 
-             // could be easy
+              // could be easy
                 # < func text lib
                 # if we indent this
                 $indLines = indents(ls&level,Lines)
@@ -1745,13 +1747,14 @@ me.Sch_The = &acgt{ return [
                     return
                 }
                 
-             // or break apart Lines, gradually l
+              // or break apart Lines, gradually l
                 $Lin = Lin_Lines(indLines)
                 $Li = 0
                 $nd = d.morend
                 nd = nd != d && nd
                 $ul = nd && nd.l
                 while (l) {
+                    
                     $aLine = Lin[Li]
                     # non-first bit
                     Li && nd and l = uls&moren [nd.moreni]
@@ -1813,7 +1816,7 @@ me.Sch_The = &acgt{ return [
                     }
                 }
              
-             // OK
+              // non-easy OK
                 Li and me&tc,"("+Li+")",'6y'
                 if (!l) {
                     ds&good = me&tc,"7"
@@ -1824,8 +1827,7 @@ me.Sch_The = &acgt{ return [
                     # others may then!
                     me&tc,"+more"
                 }
-                
-                
+            
             // lingering confusedly?
                 (
                 1
@@ -1860,7 +1862,7 @@ me.Sch_The = &acgt{ return [
                     }
                 }
             })
-      // recursion
+      // stat
             # at Ness..-seven the ** dries up
             if (!hak(ns&z) && !d.ins) {
                 d.ins = d
@@ -1882,8 +1884,8 @@ me.Sch_The = &acgt{ return [
             }
             if (ds&chaComp) {
                 me&boxcap,"~",'1g' (&m{
-                    each in ds&subComp {
-                        me&textliner,d,i,n
+                    each il ds&subComp {
+                        me&drawtextliner,d,i,n
                     }
                     # and the non-same ones
                     #  may inc the non-match after, not in %subComp
@@ -1891,6 +1893,7 @@ me.Sch_The = &acgt{ return [
                 })
             }
             
+      // recursion?
             if (hak(next)) {
                 $not = 0
                 # don't recurse unless Comp says
