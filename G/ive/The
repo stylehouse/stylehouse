@@ -1437,58 +1437,8 @@ me.Sch_The = &acgt{ return [
             })
         }
     }
-    # wild repurposing the symbols of &Rthingo
-    me.thingosym = &acgts{
-        $sym = me&tc,s,'b'
-        syms&lh = 0.5
-        syms&fs = 20
-        return sym
-    }
-    # < nibble-sized view of thing?
-    #    2-nibble top Line's t,y + whole textsize
-    me.textsize = &acgts{
-        !isst(s) and throw "textsize!st"
-        $lin = s.split("\n")
-        lin.slice(-1)[0] == '' and lin.pop()
-        return 'x'+hak(lin)+'*'+s.length
-    }
-    me.drawtextliner = &acgtdts{
-        !isst(t) and throw "drawtextliner!title"
-        !isst(s) and throw "drawtextliner!text"
-        $Om = T.ab
-        me&boxcap,t,'5' (&ml{
-            me&walls,m,'bd:1.1'
-            Om.y [t] = m
-            $to = me&tc,s,'y'
-            tos&ws = 1
-            me&walls,to,'bd:2.2,bg:000'
-            Om.y [t+'s'] = to
-        })
-    }
-    # if !Lines can be found
-    # eg E...-inx/up|z are hidden from stringify
-    me.mergent_avoids_unLinesed = &acgtdn{
-        # anything goes so long as marked by layout symbol '~' above
-        !ahsk(n,'y','up','y','D','sc','~') and return
-        me&drawtextnofurther,d,'layout:hid'
-        # relies on returning from anywhere()
-        return 1
-    }
-    # &Rthingo-ish complaint
-    me.drawtextnofurther = &acgtdt{
-        !isst(t) and throw "complain"
-        me&thingosym,'⛔'
-        me&tc,t,'6y'
-        d.nofurther = 1
-        # fade line
-        $O = d.O
-        $Om = d.Om
-        Os&opa = 0.6
-        # (toL s/string//)
-        Omy&toLs and Omy&toLs.sc.dis=0
-        return 1
-    }
     # Accepting ~ Nine/Fe, forward cha
+    # < real as the E|exp**:n walk
     me.Fe_mergent = &acgtREstz{
       // env
         # < o E, /Ness:/#@t
@@ -1533,25 +1483,38 @@ me.Sch_The = &acgt{ return [
         me&bal,'mergent',{eph:1,Zuist:{Ness,Comp}}
         #{Ness,t,z,exp,Diff,This}
     }
-    // plymergfunc
-        
-    me.Plymergent = &acgtREs,Ness,Comp{
-        # see ds&morenth
-        # < trace ourselves through every ^^^*y&thing%string
-        #    kind of like a report vortex
-        #    lets go as it wanders off the -Ness/*/*
-        #     seeing slope into W
-        #   ind slice it for all Lines at l%moren
-        #  < isnt as real as the E|exp**:n walk
-        #    many **:n to navigate with Comp
-        #     exp having gone, E having new
-        #    $exp** to resurrect relics from,
-        #     for D->modulat totality,
-        #      so we can then Diff the modulats, and make good visual
-
-        # into z requires zy&thing used on slope
+    // Plymergent f
+      // thing
+        # wild repurposing the symbols of &Rthingo
+        me.thingosym = &acgts{
+            $sym = me&tc,s,'b'
+            syms&lh = 0.5
+            syms&fs = 20
+            return sym
+        }
+        # < nibble-sized view of thing?
+        #    2-nibble top Line's t,y + whole textsize
+        me.textsize = &acgts{
+            !isst(s) and throw "textsize!st"
+            $lin = s.split("\n")
+            lin.slice(-1)[0] == '' and lin.pop()
+            return 'x'+hak(lin)+'*'+s.length
+        }
+        # passing y&thing acknowledged
+        me.drawtextthing = &acgttdn{
+            $oth = ny&thing
+            oth && me&boxcap,t,'5' (&ml{
+                me&walls,m,'bd:2.2h6'
+                othy&cv != 0.1 and me&tc,cvf(othy&cv),'G'
+                !me&mergent_oktothing,d,n and me&tc,"!used"
+                $sum = me&textsize,oths&string
+                me&thingosym,'⦄' .sc.fs = 15
+                me&tc,sum,'y'
+            })
+        }
+        # y&thing sanity check: into z requires zy&thing used on slope
         # < was %%oust to slope
-        $oktothing = &d,z,fatal{
+        me.mergent_oktothing = &acgtdz,fatal{
             # it must exist in order to z
             $th = zy&thing
             if (!th) {
@@ -1580,18 +1543,65 @@ me.Sch_The = &acgt{ return [
             }
             
             return 1
-         }
-         $drawthing = &tdn{
-            $oth = ny&thing
-            oth && me&boxcap,t,'5' (&ml{
-                me&walls,m,'bd:2.2h6'
-                othy&cv != 0.1 and me&tc,cvf(othy&cv),'G'
-                !oktothing(d,n) and me&tc,"!used"
-                $sum = me&textsize,oths&string
-                me&thingosym,'⦄' .sc.fs = 15
-                me&tc,sum,'y'
+        }
+        me.drawtextliner = &acgtdts{
+            !isst(t) and throw "drawtextliner!title"
+            !isst(s) and throw "drawtextliner!text"
+            $Om = T.ab
+            me&boxcap,t,'5' (&ml{
+                me&walls,m,'bd:1.1'
+                Om.y [t] = m
+                $to = me&tc,s,'y'
+                tos&ws = 1
+                me&walls,to,'bd:2.2,bg:000'
+                Om.y [t+'s'] = to
             })
         }
+      // close
+        # if no Lines can be found
+        # eg E...-inx/up|z are hidden from stringify
+        me.mergent_avoids_unLinesed = &acgtdn{
+            # anything goes so long as marked by layout symbol '~' above
+            !ahsk(n,'y','up','y','D','sc','~') and return
+            me&drawtextnofurther,d,'layout:hid'
+            # relies on returning from anywhere()
+            return 1
+        }
+        # &Rthingo-ish complaint
+        me.drawtextnofurther = &acgtdt{
+            !isst(t) and throw "complain"
+            me&thingosym,'⛔'
+            me&tc,t,'6y'
+            d.nofurther = 1
+            # fade line
+            $O = d.O
+            $Om = d.Om
+            Os&opa = 0.6
+            # shrink everything inside, since indent O%ml depends on O%fs
+            each in Os&z {
+                ns&fs = 6
+                # < make faster grounding for T.ab<-{&tc}
+                #   these are attached now because they are the label or more T.ab
+            }
+            # (toL s/string//)
+            Omy&toLs and Omy&toLs.sc.dis=0
+            return 1
+        }
+    
+    me.Plymergent = &acgtREs,Ness,Comp{
+        # see ds&morenth
+        # < trace ourselves through every ^^^*y&thing%string
+        #    kind of like a report vortex
+        #    lets go as it wanders off the -Ness/*/*
+        #     seeing slope into W
+        #   ind slice it for all Lines at l%moren
+        #  < real as the E|exp**:n walk
+        #    many **:n to navigate with Comp
+        #     exp having gone, E having new
+        #    $exp** to resurrect relics from,
+        #     for D->modulat totality,
+        #      so we can then Diff the modulats, and make good visual
+
         me&boxcap,'Ply','1' (&ml{
         ms&dis = 1
       // Ply stuff<->things!
@@ -1625,17 +1635,18 @@ me.Sch_The = &acgt{ return [
                 ms&fs = 6
                 
                 # gives Omy&toL(s)?
-                ny&toLines && me&drawtextliner,d,"toL",ny&toLines
+                ny&toLines
+                    && me&drawtextliner,d,"toL",ny&toLines
 
                 z = ny&C
                 z || d.ins and d.slope.push(z||n)
             
                 # < swathes of %moren may be entirely
-                drawthing('thing',d,n)
+                me&drawtextthing,'thing',d,n
                 
                 $D = ny&D
                 D && Dy&thing && Dy&thing != ny&thing
-                    && drawthing('Dthing',d,D)
+                    && me&drawtextthing,'Dthing',d,D
 
                 # < &Saturn into here!
                 if (d.up && d.ins == d.up) {
@@ -1651,7 +1662,7 @@ me.Sch_The = &acgt{ return [
             
             # lingering l, or nothing
             $l = null
-            me&boxcap,"App",'g' (&m{
+            me&boxcap,"E",'g' (&m{
                 me&walls,m,'bd:2.2h3'
              // Comp/l and E...n...Lines
               // l = Comp[upto]
@@ -1795,6 +1806,7 @@ me.Sch_The = &acgt{ return [
                         break
                     }
                 }
+             
              // OK
                 Li and me&tc,"("+Li+")",'6y'
                 if (!l) {
@@ -1848,7 +1860,7 @@ me.Sch_The = &acgt{ return [
                 d.ins = d
                 !z and throw "notosphere"
                 !hak(zs&z) and throw "deadend"
-                oktothing(d,z,'fatal')
+                me&mergent_oktothing,d,z,'fatal'
                 me&tc,"yC",'G'
                 $next = zs&z
             }
