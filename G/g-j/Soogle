@@ -4043,6 +4043,48 @@ me.Differingness = &acgt{ return [
         }
         return hak(shall)
     }
+    me.textdiff_indentstickline = &acgtN{
+        # (==...\n)(==    ):n(++  newindent\n):e(++    ):l(==...\n):f
+        # sould be (==...\n)(++      newindent\n):e(==...\n):f
+        $drops = []
+        each in N {
+            i*=1
+            # $n = (==    )
+            !(n.t == 'same' && !nc&s.endsWith("\n")) and continue
+            $anynot = nc&s.split('').filter(s => s != ' ')
+            hak(anynot) and debugger
+            # < >= ns&level?
+            # $l = (++    )
+            $tol = []
+            $l
+            while (1) {
+                $l = N[++i]
+                !l and break
+                l.t == 'new' && lc&s == nc&s and break
+                tol.push(l)
+            }
+            !l and debugger
+            hak(tol) > 1 and debugger
+            # $e = (++  newindent\n)
+            $e = tol[0]
+            e.t != 'new' and debugger
+            # $f = (==...\n)
+            $f = N[i+1]
+            f.t != 'same' and debugger
+            fc&s.startsWith(" ") and debugger
+            # $n is the misappropriated indent for $f
+            # $e is new thing, without indent
+            # ==:n ++:e ++:l ==:f -> ++:l+e ==:n+f
+            debugger
+            ec&s = lc&s+ec&s
+            fc&s = nc&s+fc&s
+            drops.push(l,n)
+        }
+        each in drops {
+            grepout(N,n)
+        }
+        return N
+    }
     me.textdiffN = &acgtNc{
       // per indents
         $M = [];
@@ -4056,6 +4098,7 @@ me.Differingness = &acgt{ return [
             n.t != 'same' && !nc&s.includes("\n") and ms&deco = 1
         }
         !c.fold and return M
+        
         N = M
         M = []
         # deepen multiline mc&s
@@ -4070,15 +4113,16 @@ me.Differingness = &acgt{ return [
             las != '' and L.push(las)
             
             each il L {
-                $level = me&getindent,l
                 $e = 0 == i ? n : Cye([n.t,1])
                 ec&s = l
-                es&level = level
-                
                 M.push(e)
             }
         }
         N = M
+        N = me&textdiff_indentstickline,N
+        each in N {
+            ns&level = me&getindent,nc&s
+        }
         M = []
         # solve indent from previous if !same
         $la = null
