@@ -1587,54 +1587,57 @@ me.Sch_The = &acgt{ return [
         # < wander into Ness**, with diff )
         $upto = 0
         $anywhere = &nd{
-        
             d ||= {}
             d.slope = (d.slope||[]).slice()
-            me&boxcap,":"+n.t,'1G' (&ml{
+            me&boxcap,"Ply"+n.t,'1' (&ml{
+            ls&deco = 1
+            lc&s = n.t
             ms&ml = 1
             $O = d.O = m
             $pl = me&tc,"place"
-            delete plc&s
+            plc&s = ''
             # intoable insphere, y&C from Ness**
+            # in (Ness|This|exp)**//E-seven**
+            #  slope begins This/here**
+
             $z
             $Om
             # notice outsphere features...
             me&boxcap,"Out",'g' (&ml{
+                d.Om = Om = m
                 me&walls,m,'bd:2.2h3'
                 ms&fs = 6
-                Om = m
+                
                 # gives Omy&toL(s)?
                 ny&toLines && me&drawtextliner,d,"toL",ny&toLines
-
-                # in Ness**//(This**/)E-seven**
-                #  slope begins This/here**
 
                 z = ny&C
                 z || d.ins and d.slope.push(z||n)
             
                 # < swathes of %moren may be entirely
                 drawthing('thing',d,n)
+                
                 $D = ny&D
                 D && Dy&thing && Dy&thing != ny&thing
                     && drawthing('Dthing',d,D)
+
+                # < &Saturn into here!
+                if (d.up && d.ins == d.up) {
+                    me&tc,pl,"-six",'G'
+                    me&walls,O,'bd:4.2h3'
+                    # < which E** are selected
+                    # see TheingE 2951: sets y&C
+                    #  like there is up in Ness/*/*, see &EsyncThis
+                    !z and me&drawtextnofurther,d,"non-main"
+                }
             })
-            d.Om = Om
-            
-            # < &Saturn into here!
-            if (d.up && d.ins == d.up) {
-                me&tc,pl,"-six",'G'
-                Os&hue = 36
-                # < which E** are selected
-                # see TheingE 2951: sets y&C
-                #  like there is up in Ness/*/*, see &EsyncThis
-                !z and me&drawtextnofurther,d,"non-main"
-            }
             d.nofurther and return
             
             # lingering l, or nothing
             $l = null
             me&boxcap,"App",'g' (&m{
                 me&walls,m,'bd:2.2h3'
+             // Comp/l and E...n...Lines
               // l = Comp[upto]
                 # eitherings, any substring of Lines
                 l = Comp[upto]
@@ -1664,8 +1667,13 @@ me.Sch_The = &acgt{ return [
                 
                 $Lines = ny&toLines
                 #D && Dy&toLines and me&tc,"DtoL"
-                #D && Dy&thing and me&tc,"Dth"
+                D && Dy&thing and me&tc,"Dth"
                 D && Dy&thing and Lines = Dy&thing.sc.string; me&tc,"Dth",'6y'
+                # -six whole y&thing check
+                if (d.morend == d && d.ins == d.up) {
+                    Lines = ths&string
+                    !Lines and debugger
+                }
                 if (!Lines) {
                     Lines ||= th && ths&string
                     Lines and me&tc,"th",6
@@ -1681,17 +1689,17 @@ me.Sch_The = &acgt{ return [
                 !Lines and return me&tc,"lost-string",'b'
                 !hak(ns&z) and me&tc,'/$','g'
                 
-              // easy
+             // could be easy
                 # < func text lib
                 # if we indent this
                 $indLines = indents(ls&level,Lines)
                 # and we aren't looking at the first l of ul%moren
-                if (!d.morend) {
+                if (!d.morend && l.t == 'same') {
                     # it should look like the rest of l
                     ls&string == indLines and upto++; me&tc,"2"; return
                 }
                 
-                # or break it apart
+             // or break apart Lines, gradually l
                 $Lin = Lin_Lines(indLines)
                 #(n.t == '-Fez' && n.y.up.t == 'origin_X') and debugger
                 $Li = 0
@@ -1705,7 +1713,7 @@ me.Sch_The = &acgt{ return [
                     aLine == null and break
                     l.t != 'same' and me&tc,"["+l.t+"]"
                     
-                    ul && ls&moren and me&tc,"(moremore)",'6y'
+                    ul && ul != l && ls&moren and me&tc,"(moremore)",'6y'
                     
                     # first bit should look good
                     if (ls&string == aLine+"\n") {
@@ -1715,13 +1723,31 @@ me.Sch_The = &acgt{ return [
                             # if we're in ul%moren/l, we can't be l%ope
                             #  so checks the entirety of y&thing if possible
                         }
+                        elsif (d.morend == d && d.ins == d.up) {
+                            if (!th) {
+                                me&tc,"1+"
+                                me&tc,"no-th"
+                                Li == 1 and upto++; return
+                                break
+                            }
+                            # -six has a y&thing, check off a bunch more l in this while
+                            # < move this up to the Lines stuff?
+                            $ul = l
+                            # start using uls%moren
+                            $nd = d
+                            d.moreni = 0
+                            d.morenth = 1
+                            # eventually seek next Comp/l
+                            upto++
+                        }
                         else {
-                            me&tc,"1"
+                            d.good = me&tc,"1"
                             Li == 1 and upto++; return
                             break
                         }
                     }
                     else {
+                        # or at least start with l
                         me&tc,",."+Li,'c'
                         if (!nd && !ls&string.endsWith("\n")) {
                             if (aLine.startsWith(ls&string)) {
@@ -1740,6 +1766,7 @@ me.Sch_The = &acgt{ return [
                         break
                     }
                 }
+             // OK
                 Li and me&tc,"("+Li+")",'6y'
                 if (!l) {
                     me&tc,"7"
@@ -1752,7 +1779,7 @@ me.Sch_The = &acgt{ return [
                 }
                 
                 
-              // outward
+            // outward
                 (
                 1
                 ||
@@ -1785,11 +1812,7 @@ me.Sch_The = &acgt{ return [
                         return
                     }
                 }
-                
             })
-            
-            
-            
       // recursion
             # at Ness..-seven the ** dries up
             if (!hak(ns&z) && !d.ins) {
