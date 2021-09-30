@@ -1452,6 +1452,42 @@ me.Sch_The = &acgt{ return [
         lin.slice(-1)[0] == '' and lin.pop()
         return 'x'+hak(lin)+'*'+s.length
     }
+    me.drawtextliner = &acgtdts{
+        !isst(t) and throw "drawtextliner!title"
+        !isst(s) and throw "drawtextliner!text"
+        $Om = T.ab
+        me&boxcap,t,'5' (&ml{
+            me&walls,m,'bd:1.1'
+            Om.y [t] = m
+            $to = me&tc,s,'y'
+            tos&ws = 1
+            me&walls,to,'bd:2.2,bg:000'
+            Om.y [t+'s'] = to
+        })
+    }
+    # if !Lines can be found
+    # eg E...-inx/up|z are hidden from stringify
+    me.mergent_avoids_unLinesed = &acgtdn{
+        # anything goes so long as marked by layout symbol '~' above
+        !ahsk(n,'y','up','y','D','sc','~') and return
+        me&drawtextnofurther,d,'layout:hid'
+        # relies on returning from anywhere()
+        return 1
+    }
+    # &Rthingo-ish complaint
+    me.drawtextnofurther = &acgtdt{
+        !isst(t) and throw "complain"
+        me&thingosym,'⛔'
+        me&tc,t,'6y'
+        d.nofurther = 1
+        # fade line
+        $O = d.O
+        $Om = d.Om
+        Os&opa = 0.6
+        # (toL s/string//)
+        Omy&toLs and Omy&toLs.sc.dis=0
+        return 1
+    }
     # Accepting ~ Nine/Fe, forward cha
     me.Fe_mergent = &acgtREstz{
       // env
@@ -1556,21 +1592,20 @@ me.Sch_The = &acgt{ return [
             d.slope = (d.slope||[]).slice()
             me&boxcap,":"+n.t,'1G' (&ml{
             ms&ml = 1
-            $ncap = m
-            
+            $O = d.O = m
+            $pl = me&tc,"place"
+            delete plc&s
             # intoable insphere, y&C from Ness**
             $z
+            $Om
             # notice outsphere features...
             me&boxcap,"Out",'g' (&ml{
                 me&walls,m,'bd:2.2h3'
                 ms&fs = 6
+                Om = m
+                # gives Omy&toL(s)?
+                ny&toLines && me&drawtextliner,d,"toL",ny&toLines
 
-                ny&toLines && me&boxcap,"toL",'5' (&ml{
-                    me&walls,m,'bd:1.1'
-                    $to = me&tc,ny&toLines,'y'
-                    tos&ws = 1
-                    me&walls,to,'bd:2.2,bg:000'
-                })
                 # in Ness**//(This**/)E-seven**
                 #  slope begins This/here**
 
@@ -1583,6 +1618,18 @@ me.Sch_The = &acgt{ return [
                 D && Dy&thing && Dy&thing != ny&thing
                     && drawthing('Dthing',d,D)
             })
+            d.Om = Om
+            
+            # < &Saturn into here!
+            if (d.up && d.ins == d.up) {
+                me&tc,pl,"-six",'G'
+                Os&hue = 36
+                # < which E** are selected
+                # see TheingE 2951: sets y&C
+                #  like there is up in Ness/*/*, see &EsyncThis
+                !z and me&drawtextnofurther,d,"non-main"
+            }
+            d.nofurther and return
             
             # lingering l, or nothing
             $l = null
@@ -1630,8 +1677,7 @@ me.Sch_The = &acgt{ return [
                     }
                     
                 }
-                # -inx/up|z hidden from stringify
-                !Lines && ahsk(n,'y','up','y','D','sc') and ncapc&not = 1; return
+                !Lines && me&mergent_avoids_unLinesed,d,n and return
                 !Lines and return me&tc,"lost-string",'b'
                 !hak(ns&z) and me&tc,'/$','g'
                 
@@ -1747,11 +1793,11 @@ me.Sch_The = &acgt{ return [
       // recursion
             # at Ness..-seven the ** dries up
             if (!hak(ns&z) && !d.ins) {
-                d.ins = 1
+                d.ins = d
                 !z and throw "notosphere"
                 !hak(zs&z) and throw "deadend"
                 oktothing(d,z,'fatal')
-                me&tc,"Gotto-seven"
+                me&tc,"yC",'G'
                 $next = zs&z
             }
             else {
@@ -1804,24 +1850,31 @@ me.Sch_The = &acgt{ return [
                 }
             }
         }
-        #Diff and me&Piing,'Duk-Fez',{s:Diff.sc}
-        # < t/* are -eight/-seven copying -nine%Is[-Ness:t+]
-        #   need to via -nine/Ness/$t
-        #   compare with z (The, copied to Fe)
-        $mai = Comp.findIndex(l => ls&string.includes("maaaagic"))
-        me&boxcap,'wonk','1' (&ml{
-            $some = Comp.slice(mai-3,mai+3)
-            each in some {
-                me&boxcap,'line','1G' (&ml{
-                    lc&s = n.t
-                    lc&s.length == 3 and lc&s += "!"
-                    $t = me&tc,'doov','g'
-                    tc&s = enj(ns&string)
-                    ts&ws = 1
-                    
-                })
-            }
-        })
+        if (0 && 'look-around-lines') {
+            $mai = Comp.findIndex(l => ls&string.includes("maaaagic"))
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            me&boxcap,'wonk','1' (&ml{
+                $some = Comp.slice(mai-3,mai+3)
+                each in some {
+                    me&boxcap,'line','1G' (&ml{
+                        lc&s = n.t
+                        lc&s.length == 3 and lc&s += "!"
+                        $t = me&tc,'doov','g'
+                        tc&s = enj(ns&string)
+                        ts&ws = 1
+
+                    })
+                }
+            })
+        }
     }
     },
   
