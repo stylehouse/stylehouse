@@ -1533,7 +1533,22 @@ me.Sch_The = &acgt{ return [
         me&bal,'mergent',{eph:1,Zuist:{Ness,Comp}}
         #{Ness,t,z,exp,Diff,This}
     }
+    // plymergfunc
+        
     me.Plymergent = &acgtREs,Ness,Comp{
+        # see ds&morenth
+        # < trace ourselves through every ^^^*y&thing%string
+        #    kind of like a report vortex
+        #    lets go as it wanders off the -Ness/*/*
+        #     seeing slope into W
+        #   ind slice it for all Lines at l%moren
+        #  < isnt as real as the E|exp**:n walk
+        #    many **:n to navigate with Comp
+        #     exp having gone, E having new
+        #    $exp** to resurrect relics from,
+        #     for D->modulat totality,
+        #      so we can then Diff the modulats, and make good visual
+
         # into z requires zy&thing used on slope
         # < was %%oust to slope
         $oktothing = &d,z,fatal{
@@ -1589,6 +1604,7 @@ me.Sch_The = &acgt{ return [
         $anywhere = &nd{
             d ||= {}
             d.slope = (d.slope||[]).slice()
+            d.sc = {}
             me&boxcap,"Ply"+n.t,'1' (&ml{
             ls&deco = 1
             lc&s = n.t
@@ -1650,13 +1666,24 @@ me.Sch_The = &acgt{ return [
                     me&tsc,'morening',"^"
                 }
                 !l and return me&tc,"off","b"
-                ls&ope and me&tc,"ope",'y'
-                ls&ope && ls&ope != 1 and me&tc,ls&ope,'y'
                 d.l = l
                 if (ls&moren) {
+                    # last l%ope, l/* (indentitively) is folded into l%moren
                     me&tc,"x"+hak(ls&moren),'6d'
-                    d.morend and me&tc,"inside-morend",'!','b'
+                    # < &strange <-> T.ab
+                    d.morend and debugger; me&tc,"inside-morend",'!','b'
                     d.morend = d
+                    if (d.ins == d.up) {
+                        # -six whole y&thing check
+                        ds&morenth = 1
+                    }
+                }
+                # everything we visit should be open
+                ls&ope == '1' and 'ok'
+                else
+                ls&ope and me&tc,dis({ope:ls&ope}),'y'
+                else {
+                    me&tc,'shut','y'
                 }
                 
               // Lines = ny&toLines or so
@@ -1669,8 +1696,8 @@ me.Sch_The = &acgt{ return [
                 #D && Dy&toLines and me&tc,"DtoL"
                 D && Dy&thing and me&tc,"Dth"
                 D && Dy&thing and Lines = Dy&thing.sc.string; me&tc,"Dth",'6y'
-                # -six whole y&thing check
-                if (d.morend == d && d.ins == d.up) {
+                if (ds&morenth) {
+                    # -six whole y&thing check
                     Lines = ths&string
                     !Lines and debugger
                 }
@@ -1685,6 +1712,7 @@ me.Sch_The = &acgt{ return [
                     }
                     
                 }
+                
                 !Lines && me&mergent_avoids_unLinesed,d,n and return
                 !Lines and return me&tc,"lost-string",'b'
                 !hak(ns&z) and me&tc,'/$','g'
@@ -1693,15 +1721,17 @@ me.Sch_The = &acgt{ return [
                 # < func text lib
                 # if we indent this
                 $indLines = indents(ls&level,Lines)
-                # and we aren't looking at the first l of ul%moren
-                if (!d.morend && l.t == 'same') {
+                # and we aren't looking at folded or interesting l
+                if (!d.morend && l.t == 'same'
+                    && ls&string == indLines) {
                     # it should look like the rest of l
-                    ls&string == indLines and upto++; me&tc,"2"; return
+                    ds&good = me&tc,"2"
+                    upto++
+                    return
                 }
                 
              // or break apart Lines, gradually l
                 $Lin = Lin_Lines(indLines)
-                #(n.t == '-Fez' && n.y.up.t == 'origin_X') and debugger
                 $Li = 0
                 $nd = d.morend
                 nd = nd != d && nd
@@ -1723,10 +1753,10 @@ me.Sch_The = &acgt{ return [
                             # if we're in ul%moren/l, we can't be l%ope
                             #  so checks the entirety of y&thing if possible
                         }
-                        elsif (d.morend == d && d.ins == d.up) {
+                        elsif (ds&morenth) {
                             if (!th) {
-                                me&tc,"1+"
-                                me&tc,"no-th"
+                                ds&good = me&tc,"1+"
+                                me&tc,"no-th",'b'
                                 Li == 1 and upto++; return
                                 break
                             }
@@ -1736,12 +1766,11 @@ me.Sch_The = &acgt{ return [
                             # start using uls%moren
                             $nd = d
                             d.moreni = 0
-                            d.morenth = 1
                             # eventually seek next Comp/l
                             upto++
                         }
                         else {
-                            d.good = me&tc,"1"
+                            ds&good = me&tc,"1"
                             Li == 1 and upto++; return
                             break
                         }
@@ -1769,8 +1798,8 @@ me.Sch_The = &acgt{ return [
              // OK
                 Li and me&tc,"("+Li+")",'6y'
                 if (!l) {
-                    me&tc,"7"
-                    # already counted upto++ going into ul%moren
+                    ds&good = me&tc,"7"
+                    # already counted upto++ going into ul%moren (either of two ways)
                     return
                 }
                 if (hak(Lin) > 1) {
@@ -1779,7 +1808,7 @@ me.Sch_The = &acgt{ return [
                 }
                 
                 
-            // outward
+            // lingering confusedly?
                 (
                 1
                 ||
@@ -1827,16 +1856,25 @@ me.Sch_The = &acgt{ return [
                 $next = ns&z
             }
             
+            ds&good and me&tc,"OK"
+            
             if (hak(next)) {
                 $not = 0
                 # don't recurse unless Comp says
                 $ln = Comp[upto]
                 if (!d.morend && ln && l && lns&level <= ls&level) {
+                    # may end on a single line E, so no l%moren
+                    #  eg X.A is a one-liner, yet we can see n/* t,y,c,sc
                     return me&thingosym,'⦄E...' .sc.fs = 15
                 }
-                # and l itself says
+                # < should only l%moren instead of !l%ope
                 !(l && ls&ope) and return me&thingosym,'⦄l' .sc.fs = 15
                 else
+                # see ds&morenth for -six whole y&thing check
+                #  doesn't involve E**, what we avoid here:
+                # since E** feeds Lines one-C at a time, avoid the folds.
+                #  essentially ignoring a bunch of stuff already marked as boring.
+                #  they must be opened back in Diff.
                 ls&moren and return me&thingosym,'⦄m' .sc.fs = 15
                 # and not far
                 #hak(d.slope) > 5 and return me&thingosym,'⦄>'
