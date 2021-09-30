@@ -4043,6 +4043,27 @@ me.Differingness = &acgt{ return [
         }
         return hak(shall)
     }
+    me.textdiff_expandmultiline = &acgtN{
+        $M = []
+        each in N {
+            # only the same will fold away,
+            #  only hiding lines not leading to change
+            $L = nc&s.split("\n")
+            
+            # < func line splits. L=["thing\n","  further\n"]
+            $las = L.pop()
+            L = L.map(s => s+"\n")
+            las != '' and L.push(las)
+            
+            each il L {
+                $e = 0 == i ? n : Cye([n.t,1])
+                ec&s = l
+                M.push(e)
+            }
+        }
+        
+        return M
+    }
     me.textdiff_indentstickline = &acgtN{
         # (==...\n)(==    ):n(++  newindent\n):e(++    ):l(==...\n):f
         # sould be (==...\n)(++      newindent\n):e(==...\n):f
@@ -4075,7 +4096,6 @@ me.Differingness = &acgt{ return [
             # $n is the misappropriated indent for $f
             # $e is new thing, without indent
             # ==:n ++:e ++:l ==:f -> ++:l+e ==:n+f
-            debugger
             ec&s = lc&s+ec&s
             fc&s = nc&s+fc&s
             drops.push(l,n)
@@ -4099,37 +4119,23 @@ me.Differingness = &acgt{ return [
         }
         !c.fold and return M
         
-        N = M
+        # deepen multiline nc&s
+        N = me&textdiff_expandmultiline,M
         M = []
-        # deepen multiline mc&s
-        each in N {
-            # only the same will fold away,
-            #  only hiding lines not leading to change
-            $L = nc&s.split("\n")
-            
-            # < func line splits. L=["thing\n","  further\n"]
-            $las = L.pop()
-            L = L.map(s => s+"\n")
-            las != '' and L.push(las)
-            
-            each il L {
-                $e = 0 == i ? n : Cye([n.t,1])
-                ec&s = l
-                M.push(e)
-            }
-        }
-        N = M
+        # now n always end with \n$, if they finish a line
+        
+        # some line-grouped preceeding indent hack
         N = me&textdiff_indentstickline,N
-        each in N {
-            ns&level = me&getindent,nc&s
-        }
-        M = []
-        # solve indent from previous if !same
+        
+        # indent becomes, 
+        # < works for n > 2 per line?
         $la = null
         each in N {
-            if (la) {
-                # a line split has trailing \n on the prior
-                lac&s.endsWith("\n") and la = n; continue
+            # indent becomes
+            ns&level = me&getindent,nc&s
+            
+            # may sum with previous n on same line
+            if (la && !lac&s.endsWith("\n")) {
                 # if not a line split, is a new|gone|diff split
                 n.t == la.t and debugger
                 # carry indent forwards if ==   thing\t++3 "blah"
