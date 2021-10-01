@@ -1515,14 +1515,17 @@ me.Sch_The = &acgt{ return [
                 Om.y [t+'s'] = to
             })
         }
-        # < to having diff chunks floating around
+        # < to having diff chunks floating around!
         me.textarrow = &acgtO{
+            !isC(O) and debugger
             $b = me&tc,O,"=>",'B'
             bs&fs = 20
             bs&lh = 0.6
             bs&ab = 1
             bs&ml = -2
-            Os&z.unshift(Os&z.pop())
+            $got = grepout(Os&z,b)
+            #hak(got) != 1 and debugger
+            Os&z.unshift(b)
             return b
         }
         # passing y&thing acknowledged
@@ -1685,7 +1688,7 @@ me.Sch_The = &acgt{ return [
                 # at Ness..-seven the ** dries up
                 if (!hak(ns&z) && !d.ins) {
                     d.ins = d
-                    me&tc,pl,"-seven",'G'
+                    ds&pi = 'seven'
                     nc&pi != ds&pi and debugger
                     !z and throw "notosphere"
                     !hak(zs&z) and throw "deadend"
@@ -1976,14 +1979,16 @@ me.Sch_The = &acgt{ return [
             # to visit E
             to_ope.push(d)
             # and -six/-Fez too
-            ds&pi == 'six' and ds&z.map(mark)
+            #ds&pi == 'six' and ds&z.map(mark)
         }
-        all.filter(d => ds&changey && ds&pi).map(mark)
+        $see = d => ds&changey && (ds&pi || d.up && d.up.sc.pi == 'six')
+        # Ok!
+        all.filter(see).map(mark)
         
         $Es = []
         each id to_ope {
             $E = ds&E
-            !E and debugger
+            #!E and debugger
             # sending to $node:-six/E-Fez
             #me&Effect,s,e,'showy-'+ds&pi,{show:1,ope:1}
             Es.push(E)
