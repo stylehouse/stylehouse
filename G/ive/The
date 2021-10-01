@@ -1515,6 +1515,16 @@ me.Sch_The = &acgt{ return [
                 Om.y [t+'s'] = to
             })
         }
+        # < to having diff chunks floating around
+        me.textarrow = &acgtO{
+            $b = me&tc,O,"=>",'B'
+            bs&fs = 20
+            bs&lh = 0.6
+            bs&ab = 1
+            bs&ml = -2
+            Os&z.unshift(Os&z.pop())
+            return b
+        }
         # passing y&thing acknowledged
         me.drawtextthing = &acgttdn{
             $oth = ny&thing
@@ -1621,6 +1631,8 @@ me.Sch_The = &acgt{ return [
             d.n = n
             d.slope = (d.slope||[]).slice()
             d.sc = {}
+            d.sc.z ||= []
+            d.up and d.up.sc.z.push(d)
             all.push(d)
       
       // Ply stuff<->things!
@@ -1647,11 +1659,6 @@ me.Sch_The = &acgt{ return [
                 ny&toLines
                     && me&drawtextliner,d,"toL",ny&toLines
 
-                z = ny&C
-                z || d.ins and d.slope.push(z||n)
-                # < isn't always E?
-                z and ds&E = z
-            
                 # < swathes of %moren may be entirely
                 me&drawtextthing,'thing',d,n
                 
@@ -1659,10 +1666,16 @@ me.Sch_The = &acgt{ return [
                 D && Dy&thing && Dy&thing != ny&thing
                     && me&drawtextthing,'Dthing',d,D
 
+                z = ny&C
+                z || d.ins and d.slope.push(z||n)
+                # < isn't always E?
+                z and ds&E = z
+                else
+                d.ins and ds&E = n
+                
                 # < &Saturn into here!
                 if (d.up && d.ins == d.up) {
                     ds&pi = 'six'
-                    me&tc,pl,"-six",'G'
                     me&walls,O,'bd:4.2h3'
                     # < which E** are selected
                     # see TheingE 2951: sets y&C
@@ -1671,15 +1684,15 @@ me.Sch_The = &acgt{ return [
                 }
                 # at Ness..-seven the ** dries up
                 if (!hak(ns&z) && !d.ins) {
-                    ds&pi = 'seven'
+                    d.ins = d
                     me&tc,pl,"-seven",'G'
                     nc&pi != ds&pi and debugger
-                    d.ins = d
                     !z and throw "notosphere"
                     !hak(zs&z) and throw "deadend"
                     me&mergent_oktothing,d,z,'fatal'
                     me&tc,"yC",'G'
                 }
+                ds&pi and me&tc,pl,"-"+ds&pi,'G'
             })
             d.nofurther and return
             
@@ -1939,7 +1952,7 @@ me.Sch_The = &acgt{ return [
             })
         }
         
-      // aft
+      // aft !
         anywhere(Ness)
         # get -seven/-six with change inside
         $radiate = &vd{
@@ -1951,22 +1964,31 @@ me.Sch_The = &acgt{ return [
             $cha = hak(ds&chaComp)
             cha and radiate(cha,d)
         })
-        all.filter(d => ds&changey && ds&pi)
-            .map(&d{
-                $n = d.n
-                $O = d.O
-                $b = me&tc,O,"=>",'B'
-                bs&fs = 20
-                bs&ab = 1
-                bs&ml = -2
-                Os&z.unshift(Os&z.pop())
-                $E = ds&E
-                !E and me&tc,"nodce"
-                me&tc,"La"+dis(E),'1d'
-                # sending to $node:-six/E-Fez
-                me&Effect,s,E,'showy-'+ds&pi,{show:1,ope:1}
-            })
         
+        $to_ope = []
+        # < boxlink Diff|Ply**
+        #   scopes the change could be viewed from
+        # < -six should redirect %%ope, as it is REy&main
+        $mark = &d{
+            $O = d.O
+            # mark Ply**
+            me&textarrow,d.O
+            # to visit E
+            to_ope.push(d)
+            # and -six/-Fez too
+            ds&pi == 'six' and ds&z.map(mark)
+        }
+        all.filter(d => ds&changey && ds&pi).map(mark)
+        
+        $Es = []
+        each id to_ope {
+            $E = ds&E
+            !E and debugger
+            # sending to $node:-six/E-Fez
+            #me&Effect,s,e,'showy-'+ds&pi,{show:1,ope:1}
+            Es.push(E)
+        }
+            me&nu,"Wouldvis",Es
         
         # /box:Ply
         })
