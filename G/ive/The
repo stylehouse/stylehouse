@@ -1589,6 +1589,8 @@ me.Sch_The = &acgt{ return [
             Omy&toLs and Omy&toLs.sc.dis=0
             return 1
         }
+      // mo
+      
     me.Plymergent = &acgtREs,Ness,Comp{
         # see ds&morenth
         # < trace ourselves through every ^^^*y&thing%string
@@ -1604,17 +1606,24 @@ me.Sch_The = &acgt{ return [
         #      so we can then Diff the modulats, and make good visual
         me&boxcap,'Ply','1' (&ml{
         ms&dis = 1
-      // Ply stuff<->things!
+        # l = Comp[upto]
+        $upto = 0
+        # [d+]
+        $all = []
         # Ness** as long as possible
         #  y&thing are for the outsphere
         #  y&C=This/Eight** follow E** down
         #   once Ness** runs out
         # < wander into Ness**, with diff )
-        $upto = 0
         $anywhere = &nd{
             d ||= {}
+            # < for a set of trees
+            d.n = n
             d.slope = (d.slope||[]).slice()
             d.sc = {}
+            all.push(d)
+      
+      // Ply stuff<->things!
             me&boxcap,"Ply"+n.t,'1' (&ml{
             ls&deco = 1
             lc&s = n.t
@@ -1640,6 +1649,8 @@ me.Sch_The = &acgt{ return [
 
                 z = ny&C
                 z || d.ins and d.slope.push(z||n)
+                # < isn't always E?
+                z and ds&E = z
             
                 # < swathes of %moren may be entirely
                 me&drawtextthing,'thing',d,n
@@ -1650,6 +1661,7 @@ me.Sch_The = &acgt{ return [
 
                 # < &Saturn into here!
                 if (d.up && d.ins == d.up) {
+                    ds&pi = 'six'
                     me&tc,pl,"-six",'G'
                     me&walls,O,'bd:4.2h3'
                     # < which E** are selected
@@ -1657,9 +1669,21 @@ me.Sch_The = &acgt{ return [
                     #  like there is up in Ness/*/*, see &EsyncThis
                     !z and me&drawtextnofurther,d,"non-main"
                 }
+                # at Ness..-seven the ** dries up
+                if (!hak(ns&z) && !d.ins) {
+                    ds&pi = 'seven'
+                    me&tc,pl,"-seven",'G'
+                    nc&pi != ds&pi and debugger
+                    d.ins = d
+                    !z and throw "notosphere"
+                    !hak(zs&z) and throw "deadend"
+                    me&mergent_oktothing,d,z,'fatal'
+                    me&tc,"yC",'G'
+                }
             })
             d.nofurther and return
             
+      // E<->l
             # lingering l, or nothing
             $l = null
             me&boxcap,"E",'g' (&m{
@@ -1862,19 +1886,10 @@ me.Sch_The = &acgt{ return [
                     }
                 }
             })
+      
       // stat
-            # at Ness..-seven the ** dries up
-            if (!hak(ns&z) && !d.ins) {
-                d.ins = d
-                !z and throw "notosphere"
-                !hak(zs&z) and throw "deadend"
-                me&mergent_oktothing,d,z,'fatal'
-                me&tc,"yC",'G'
-                $next = zs&z
-            }
-            else {
-                $next = ns&z
-            }
+            # < dodgy
+            $next = ds&pi == 'seven' ? zs&z : ns&z
             
             if (ds&good) {
                 # mute toL!
@@ -1882,6 +1897,7 @@ me.Sch_The = &acgt{ return [
                 Ls and Lsc&not = 1
                 me&tc,"OK"
             }
+            
             if (ds&chaComp) {
                 me&boxcap,"~",'1g' (&m{
                     each il ds&subComp {
@@ -1922,10 +1938,39 @@ me.Sch_The = &acgt{ return [
             
             })
         }
-        anywhere(Ness)
         
+      // aft
+        anywhere(Ness)
+        # get -seven/-six with change inside
+        $radiate = &vd{
+            ds&changey ||= 0
+            ds&changey += v
+            d.up && radiate(v*0.3,d.up)
+        }
+        reverse(all).map(&d{
+            $cha = hak(ds&chaComp)
+            cha and radiate(cha,d)
         })
-      // old
+        all.filter(d => ds&changey && ds&pi)
+            .map(&d{
+                $n = d.n
+                $O = d.O
+                $b = me&tc,O,"=>",'B'
+                bs&fs = 20
+                bs&ab = 1
+                bs&ml = -2
+                Os&z.unshift(Os&z.pop())
+                $E = ds&E
+                !E and me&tc,"nodce"
+                me&tc,"La"+dis(E),'1d'
+                # sending to $node:-six/E-Fez
+                me&Effect,s,E,'showy-'+ds&pi,{show:1,ope:1}
+            })
+        
+        
+        # /box:Ply
+        })
+        return
         each in Nesss&z {
             $eight = ny&C
             each ie ns&z {
