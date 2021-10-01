@@ -1677,16 +1677,8 @@ me.Sch_The = &acgt{ return [
                 d.ins and ds&E = n
                 
                 # < &Saturn into here!
-                if (d.up && d.ins == d.up) {
-                    ds&pi = 'six'
-                    me&walls,O,'bd:4.2h3'
-                    # < which E** are selected
-                    # see TheingE 2951: sets y&C
-                    #  like there is up in Ness/*/*, see &EsyncThis
-                    !z and me&drawtextnofurther,d,"non-main"
-                }
                 # at Ness..-seven the ** dries up
-                if (!hak(ns&z) && !d.ins) {
+                if (!d.ins && !hak(ns&z)) {
                     d.ins = d
                     ds&pi = 'seven'
                     nc&pi != ds&pi and debugger
@@ -1694,6 +1686,19 @@ me.Sch_The = &acgt{ return [
                     !hak(zs&z) and throw "deadend"
                     me&mergent_oktothing,d,z,'fatal'
                     me&tc,"yC",'G'
+                }
+                if (d.up && d.ins == d.up) {
+                    # the RE
+                    ds&pi = 'six'
+                    me&walls,O,'bd:4.2h3'
+                    # < which E** are selected
+                    # see TheingE 2951: sets y&C
+                    #  like there is up in Ness/*/*, see &EsyncThis
+                    !z and me&drawtextnofurther,d,"non-main"
+                }
+                if (d.up && d.up.sc.pi == 'six') {
+                    # the Ey&main itself
+                    ds&pi = 'five'
                 }
                 ds&pi and me&tc,pl,"-"+ds&pi,'G'
             })
@@ -1968,32 +1973,26 @@ me.Sch_The = &acgt{ return [
             cha and radiate(cha,d)
         })
         
-        $to_ope = []
         # < boxlink Diff|Ply**
         #   scopes the change could be viewed from
         # < -six should redirect %%ope, as it is REy&main
-        $mark = &d{
-            $O = d.O
+        $Es = []
+        each id all {
+            !ds&changey and continue
+            # we only make -seven/-six/-five out to d%pi
+            #  they may not reflect the Ec&pi
+            #  eg RE-Fez/E-Fez are -six/-five to d
+            !ds&pi and continue
             # mark Ply**
             me&textarrow,d.O
-            # to visit E
-            to_ope.push(d)
-            # and -six/-Fez too
-            #ds&pi == 'six' and ds&z.map(mark)
-        }
-        $see = d => ds&changey && (ds&pi || d.up && d.up.sc.pi == 'six')
-        # Ok!
-        all.filter(see).map(mark)
-        
-        $Es = []
-        each id to_ope {
+            # to visit d%E
             $E = ds&E
-            #!E and debugger
+            !E and debugger
             # sending to $node:-six/E-Fez
-            #me&Effect,s,e,'showy-'+ds&pi,{show:1,ope:1}
+            me&Effect,s,E,'showy-'+ds&pi,{show:1,ope:1}
             Es.push(E)
         }
-            me&nu,"Wouldvis",Es
+        me&nu,"Wouldvis",Es
         
         # /box:Ply
         })
