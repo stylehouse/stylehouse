@@ -3960,6 +3960,7 @@ me.Differingness = &acgt{ return [
 
             # the job
             $c = {chunk:'word',fold:1};
+            Rs&stickline and c.stickline = 1
             $N = Rs&Diff ||= diff(xs&string||'',gs&string||'',c);
 
             # CompN - sum noise
@@ -4125,6 +4126,7 @@ me.Differingness = &acgt{ return [
         return N
     }
     me.textdiffN = &acgtNc{
+        c ||= {}
       // per indents
         $M = [];
         # 1-fer per indent not near change
@@ -4143,8 +4145,10 @@ me.Differingness = &acgt{ return [
         M = []
         # now n always end with \n$, if they finish a line
         
-        # some line-grouped preceeding indent hack
-        N = me&textdiff_indentstickline,N
+        if (c.stickline) {
+            # some line-grouped preceeding indent hack
+            N = me&textdiff_indentstickline,N
+        }
         
         # indent becomes, 
         # < works for n > 2 per line?

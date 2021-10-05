@@ -2075,11 +2075,12 @@ me.Sch_Story = &acgt{ return [
         # < to &brackology
         # < $E = xs&nine ?
         $p = Ry&up
-        !ps&Gnomey and return
-        !me&ja,R,'Accepting' and return
-        $E = pc&s.y.nine
-        !E and debugger
-        me&Fe_mergent,R,E,s,t,z
+        if (ps&Gnomey) {
+            !me&ja,R,'Accepting' and return
+            $E = pc&s.y.nine
+            !E and debugger
+            me&Fe_mergent,R,E,s,t,z
+        }
     },'ift,D'],
     &{
         # %TheFe stills got:z%dige
@@ -2124,7 +2125,7 @@ me.Sch_Story = &acgt{ return [
             if (me&za,R,'unready' ) {
                 me&log,R,"Failing",{got:z}
                 if (Rs&trailing) {
-                    # beyond last expected thing
+                    # beyond last expected thing!
                     me&log,R,"Trailing"
                 }
             }
@@ -2136,7 +2137,7 @@ me.Sch_Story = &acgt{ return [
 
             $Q = me&PaveQ,R,selfy&That
 
-            me&Qdiff,R,z,Q
+            me&Qdiff,R,z,Q,{stickline:1}
         }
     },
    
