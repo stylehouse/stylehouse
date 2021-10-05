@@ -4072,7 +4072,7 @@ me.Differingness = &acgt{ return [
         $weird = 0
         $strange = &t{
             weird ||= []
-            weird.push(l)
+            weird.push([t,n])
         }
         $any_done = 0
         $drops = []
@@ -4118,12 +4118,10 @@ me.Differingness = &acgt{ return [
         }
         if (weird) {
             any_done and debugger
-            ~>3 weird textdiff_indentstickline: weird.join(", ")
+            ~>3 weird textdiff_indentstickline: weird.map(l=>l[0]).join(", ")
             return N
         }
-        each in drops {
-            grepout(N,n)
-        }
+        N = N.filter(n => !drops.includes(n))
         return N
     }
     me.textdiffN = &acgtNc{
@@ -4169,7 +4167,8 @@ me.Differingness = &acgt{ return [
                     ns&waslev = ns&level
                     lev += ns&level
                 }
-                ns&level == lev and debugger
+                # may stay 0
+                lev && ns&level == lev and debugger
                 ns&level = lev
             }
             la = n
