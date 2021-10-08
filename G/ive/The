@@ -1433,7 +1433,7 @@ me.Sch_The = &acgt{ return [
     },
   
   # < here's a twinning io structure deal
-  // @Nine <-> @Thy
+  // @Nine <-> @Thy + @Ply
     &{
     # Gnome/Thy/This/#@Fine/Lab
     # see &EsyncThis c.ThyF, puts @Lab -> E/Ness/* -> Nine/*
@@ -1760,6 +1760,7 @@ me.Sch_The = &acgt{ return [
             me&boxcap,"E",'g' (&m{
                 me&walls,m,'bd:2.2h3'
             // Comp/l and E...n...Lines
+              
               // l = Comp[upto]
                 # eitherings, any substring of Lines
                 l = Comp[upto]
@@ -1926,13 +1927,14 @@ me.Sch_The = &acgt{ return [
                                 # go forwards, skipping goners
                                 l = Comp[++upto]
                                 l = skipgone(l) || l
-                                # line-splitting not near folds
-                                ls&moren and debugger
                                 $islev = ls&level
                                 # level might increase onto a change
                                 # < really?
-                                waslev < islev and debugger
-                                #aLine = indents(1+islev-waslev,aLine,1)
+                                if (waslev < islev) {
+                                    $morelev = islev-waslev
+                                    me&tc,"ind+="+morelev,'6y'
+                                    aLine = indents(morelev,aLine,1)
+                                }
                                 Lin[Li] = aLine
                                 continue
                             }
@@ -1966,7 +1968,7 @@ me.Sch_The = &acgt{ return [
                 if (interesting) {
                     me&drawtextliner,d,"l",ls&string
                     me&drawtextliner,d,"a",aLine
-                    me&drawtextliner,d,"L",Lines
+                    #me&drawtextliner,d,"L",Lines
                 }
                 
                 

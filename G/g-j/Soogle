@@ -4059,6 +4059,7 @@ me.Differingness = &acgt{ return [
             each il L {
                 $e = 0 == i ? n : Cye([n.t,1])
                 ec&s = l
+                ex(e.sc,n.sc)
                 M.push(e)
             }
         }
@@ -4082,8 +4083,10 @@ me.Differingness = &acgt{ return [
             i*=1
             # $n = (==    )
             !(n.t == 'same' && !nc&s.endsWith("\n")) and continue
+            # we deal only with empty space
             $anynot = nc&s.split('').filter(s => s != ' ')
-            hak(anynot) and strange('somenotspace')
+            hak(anynot) and continue
+                #strange('somenotspace')
             # < >= ns&level?
             # $l = (++    )
             $tol = []
@@ -4091,21 +4094,23 @@ me.Differingness = &acgt{ return [
             while (1) {
                 $l = N[++i]
                 !l and break
-                l.t == 'new' && lc&s == nc&s and break
+                l.t != 'same' && lc&s == nc&s and break
                 tol.push(l)
             }
             !l and strange('!l')
-            hak(tol) > 1 and strange('lx'+hak(tol))
+            #hak(tol) > 1 and strange('lx'+hak(tol))
             # $e = (++  newindent\n)
             $e = tol[0]
             !e and strange('!e')
-            e.t != 'new' and strange('e!new')
+            e.t == 'same' and strange('e!cha')
             # $f = (==...\n)
             $f = N[i+1]
             !f and strange('!f')
             else {
                 f.t != 'same' and strange('f!same')
-                fc&s.startsWith(" ") and strange('f!startspace')
+                if (fc&s.startsWith(" ")) {
+                    fs&level * 0.7 < ns&level and strange('f+n:bigspace')
+                }
             }
             weird and break
             
@@ -4160,7 +4165,7 @@ me.Differingness = &acgt{ return [
             # may sum with previous n on same line
             if (la && !lac&s.endsWith("\n")) {
                 # if not a line split, is a new|gone|diff split
-                n.t == la.t and debugger
+                #n.t == la.t and debugger
                 # carry indent forwards if ==   thing\t++3 "blah"
                 #  and if ==\n    ++T--t==hing\t
                 $lev = las&level
@@ -4215,12 +4220,12 @@ me.Differingness = &acgt{ return [
         each in N {
             # permanent record
             ns&string = nc&s
-            if (ns&hue) {
+            if (n.t != 'same') {
                 # visible trailing \n
                 nc&s.match(/^\s+|\s+$/) and nc&s = nc&s.replace(/\n/,"↯\n")
             }
-            if (!ns&ope
-                && la && las&level <= ns&level) {
+            elsif (!ns&ope
+                && la && la.t == 'same' && las&level <= ns&level) {
                 # we may roll into the last one
                 ac(la,'moren',n)
                 continue
@@ -4233,7 +4238,7 @@ me.Differingness = &acgt{ return [
         each in N {
             
             if (ns&moren) {
-                ns&hue || ns&bri and debugger
+                n.t != 'same' and debugger
                 ns&shortfor = nc&s + ns&moren.map(z => zc&s).join("")
                 nc&s = nc&s.replace(/\n$/,'')
                 nc&s += " ... +"+(ns&shortfor.length-1)+"\n"
