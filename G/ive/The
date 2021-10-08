@@ -1786,6 +1786,25 @@ me.Sch_The = &acgt{ return [
                     }
                 }
                 
+                $skipgone = &L{
+                    # L == l that may be gone!
+                    L.t != 'gone' and return
+                    me&tc,"Agone",'6y'
+                    # wash up on the next E in iteration
+                    ac(d,'goners',L)
+                    ac(d,'subComp',L)
+                    ac(d,'chaComp',L)
+                    # pull until we uncover a same, continue as
+                    l = Comp[++upto]
+                    l = skipgone(l) || l
+                    # dedupes (see this line in while(l) below)
+                    l.t != 'same' and ac(d,'chaComp',l)
+                    # line-splitting not near folds
+                    l && ls&moren && l.t != 'same' and debugger
+                    return l
+                }
+                l = skipgone(l) || l
+                
                 # everything we visit should be open, may %moren
                 ls&ope == '1' and 'ok'
                 else
@@ -1848,23 +1867,6 @@ me.Sch_The = &acgt{ return [
                 $nd = d.morend
                 nd = nd != d && nd
                 $ul = nd && nd.l
-                $skipgone = &L{
-                    # L == l that may be gone!
-                    L.t != 'gone' and return
-                    me&tc,"Agone",'6y'
-                    # wash up on the next E in iteration
-                    ac(d,'goners',L)
-                    ac(d,'subComp',L)
-                    ac(d,'chaComp',L)
-                    # pull until we uncover a same, continue as
-                    l = Comp[++upto]
-                    l = skipgone(l) || l
-                    # dedupes (see this line in while(l) below)
-                    l.t != 'same' and ac(d,'chaComp',l)
-                    # line-splitting not near folds
-                    l && ls&moren && l.t != 'same' and debugger
-                    return l
-                }
                 while (l) {
                     
                     $aLine = Lin[Li]
@@ -1928,7 +1930,9 @@ me.Sch_The = &acgt{ return [
                                 ls&moren and debugger
                                 $islev = ls&level
                                 # level might increase onto a change
-                                #waslev < islev and aLine = indents(1+islev-waslev,aLine,1)
+                                # < really?
+                                waslev < islev and debugger
+                                #aLine = indents(1+islev-waslev,aLine,1)
                                 Lin[Li] = aLine
                                 continue
                             }
