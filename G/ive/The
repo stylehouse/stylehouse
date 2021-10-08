@@ -952,7 +952,8 @@ me.Sch_The = &acgt{ return [
         # < these... chaining Go, mixing things in
         =pod
          Gump... %%Go,tid,Goting... -> Ya
-         Gnome %%Go,tid,n=^
+         Gnome %%Go,tid,Gome,Goting... -> Travel
+         Travel...
         =cut
         # i @Gome:s # declares a Name
             me&Superarg,{Gome:s}
@@ -981,7 +982,6 @@ me.Sch_The = &acgt{ return [
             $t = me&Superarg,{t:ns&Travelable}
             $Cat = me&Superarg,{Cat:ns&Cat}
         me&Superready and return
-        # i @Travelable @Cat o &wanta %%Travelable,Cat,n
             # %%Control -> $Cat/* may now
             me&nodei,R,Cat,{Control:1,n}
 
@@ -1486,6 +1486,8 @@ me.Sch_The = &acgt{ return [
     # Accepting ~ Nine/Fe, forward cha
     # < real as the E|exp**:n walk
     me.Fe_mergent = &acgtREstz{
+        # unexpected Fe
+        !t and return
       // env
         # < o E, /Ness:/#@t
         $EN = me&fiu,E,'Ness',7
@@ -1525,7 +1527,8 @@ me.Sch_The = &acgt{ return [
         #     so eg $got...seveny&thing is joined on
         #      as a pool of sense to help finding stringsat the -Ness/#@Eight
         # < -Effect to /This/
-        Comp = Comp.slice(0,6)
+        $out = 34
+        Comp = Comp.slice(out,out+8)
         me&bal,'mergent',{eph:1,Zuist:{Ness,Comp}}
         #{Ness,t,z,exp,Diff,This}
     }
@@ -1623,6 +1626,7 @@ me.Sch_The = &acgt{ return [
         # eg E...-inx/up|z are hidden from stringify
         me.mergent_avoids_unLinesed = &acgtdn{
             # anything goes so long as marked by layout symbol '~' above
+            # < could be on the thing above, value =~ / \*$/
             !ahsk(n,'y','up','y','D','sc','~') and return
             me&drawtextnofurther,d,'layout:hid'
             # relies on returning from anywhere()
@@ -1651,6 +1655,7 @@ me.Sch_The = &acgt{ return [
       // mo
       
     me.Plymergent = &acgtREs,Ness,Comp{
+      // Ply box, all[] from anywhere(n**)
         # see ds&morenth
         # < trace ourselves through every ^^^*y&thing%string
         #    kind of like a report vortex
@@ -1843,6 +1848,23 @@ me.Sch_The = &acgt{ return [
                 $nd = d.morend
                 nd = nd != d && nd
                 $ul = nd && nd.l
+                $skipgone = &L{
+                    # L == l that may be gone!
+                    L.t != 'gone' and return
+                    me&tc,"Agone",'6y'
+                    # wash up on the next E in iteration
+                    ac(d,'goners',L)
+                    ac(d,'subComp',L)
+                    ac(d,'chaComp',L)
+                    # pull until we uncover a same, continue as
+                    l = Comp[++upto]
+                    l = skipgone(l) || l
+                    # dedupes (see this line in while(l) below)
+                    l.t != 'same' and ac(d,'chaComp',l)
+                    # line-splitting not near folds
+                    l && ls&moren && l.t != 'same' and debugger
+                    return l
+                }
                 while (l) {
                     
                     $aLine = Lin[Li]
@@ -1850,6 +1872,11 @@ me.Sch_The = &acgt{ return [
                     Li && nd and l = uls&moren [nd.moreni]
                     aLine == null and break
                     l.t != 'same' and ac(d,'chaComp',l)
+                    if (ls&string.length && !hak(ls&string.split('')
+                        .filter(s => s != ' ')) ) {
+                        me&tc,"Aspacey",'6y'
+                    }
+                    skipgone(l) and continue
                     
                     ul && ul != l && ls&moren and me&tc,"(moremore)",'6y'
                     
@@ -1894,10 +1921,14 @@ me.Sch_The = &acgt{ return [
                                 me&tc,"+",'6y'
                                 aLine = aLine.substr(ls&string.length)
                                 $waslev = ls&level
+                                # go forwards, skipping goners
                                 l = Comp[++upto]
+                                l = skipgone(l) || l
+                                # line-splitting not near folds
+                                ls&moren and debugger
                                 $islev = ls&level
                                 # level might increase onto a change
-                                waslev < islev and aLine = indents(islev-waslev,aLine,1)
+                                #waslev < islev and aLine = indents(1+islev-waslev,aLine,1)
                                 Lin[Li] = aLine
                                 continue
                             }
@@ -1947,7 +1978,7 @@ me.Sch_The = &acgt{ return [
                 # maybe just the start of it
                 if (Lines) {
                     if (ls&string.includes(Lines)) {
-                        me&tc,"oooook"
+                        me&tc,"oooook@"+upto
                         return
                     }
                 }
@@ -2037,7 +2068,7 @@ me.Sch_The = &acgt{ return [
             me&Effect,s,E,'showy-'+ds&pi,{show:1,ope:1}
             Es.push(E)
         }
-        me&nu,"Wouldvis",Es
+        #me&nu,"Wouldvis",Es
         
         # /box:Ply
         })
@@ -2253,7 +2284,6 @@ me.Sch_The = &acgt{ return [
         
         $n = sy&Gorow
         !n and debugger
-        #me&nu,"Gorow",n
         
         # < switch off Ec&uber)%client
         $cl = Rs&client = ns&Gome
@@ -2262,7 +2292,7 @@ me.Sch_The = &acgt{ return [
         # Travel/$t/$s
         $t = trc&s
         t != sy&up and debugger
-        #me&Garn,<<'',[R]
+        #me&Garn, < < '',[R]
         #    i @Run/-This/-Eight/-seven/**%Ethinging
         me&haveGorowgetControl,R,s,t and return
         
@@ -2283,9 +2313,16 @@ me.Sch_The = &acgt{ return [
     ['PiiInc',0.2901,&acgtRs{
         # < @Intro routes news
         # < each resource may be directed
+        #return
+        
+        # load up w:$story
         $w = me&fiu,s,'w'
-        me&bal,'w','Pavings:w'
-        #me&fiu,w,
+        me&bal,'w','Pavings:1'
+        #ws&Pavings = 'w'
+        ws&Paving = 'w'
+        $cl = me&Rsc,R,'^^client'
+        !cl and debugger
+        cl and me&fiu,w,cl.t
     },'ift,D'],
     # have steps, todos
     #  e heading for A:n rather than Run/The...
@@ -2298,6 +2335,7 @@ me.Sch_The = &acgt{ return [
     ['PiiRun',0.2901,&acgtRs{
         !me&ja,R,'mayRun' and return me&tc,"!mayRun..."
         Rs&Piing = 1
+        G&way,"TryPiWarmer"
         # < &Gnome_Jx: its def @Run should match up
         #   it basically discovers its way to @Gnome, @Cat, etc
         #   from anywhere in @Thy, @Cat, etc
