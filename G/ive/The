@@ -1786,7 +1786,7 @@ me.Sch_The = &acgt{ return [
                     }
                 }
                 
-                # everything we visit should be open
+                # everything we visit should be open, may %moren
                 ls&ope == '1' and 'ok'
                 else
                 ls&ope and me&tc,dis({ope:ls&ope}),'y'
@@ -1950,8 +1950,7 @@ me.Sch_The = &acgt{ return [
                 }
             
             // lingering confusedly?
-                (
-                1
+                $interesting = 1
                 ||
                 (n.t == 'maaaagic' && n.y.up.t == 'origin_X')
                 ||
@@ -1959,20 +1958,12 @@ me.Sch_The = &acgt{ return [
                     && n.y.up.y.up.t == 'node_hand_U')
                 ||
                 (n.t == 'maaaagic')
-                )
-                && me&boxcap,"l",'5' (&m{
-                    #me&nu,"Squa",{d,l,Lines}
-                    #n.t == '-n' and me&nu,"Tolre",{d,n,th}
-                    me&walls,m,'bd:4.1'
-                    $to = me&tc,ls&string,'6'
-                    tos&ws = 1
-                    me&walls,to,'bd:2.2,bg:000'
-                }) && me&boxcap,"a",'5' (&m{
-                    me&walls,m,'bd:4.1'
-                    $to = me&tc,aLine,'6'
-                    tos&ws = 1
-                    me&walls,to,'bd:2.2,bg:000'
-                })
+                
+                if (interesting) {
+                    me&drawtextliner,d,"l",ls&string
+                    me&drawtextliner,d,"a",aLine
+                    me&drawtextliner,d,"L",Lines
+                }
                 
                 
                 # maybe just the start of it
