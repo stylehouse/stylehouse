@@ -192,7 +192,6 @@ me.Sch_The = &acgt{ return [
         me&acting,R,'Gnome'
         Rs&client = 1
         me&Names_set,R,'Gnome',s
-        ss&tid ||= 1
         # %%active:Lab|Nine here
         #  early so **Nine can activate this time
         me&activator
@@ -201,7 +200,7 @@ me.Sch_The = &acgt{ return [
         # invent Go (Gome gets permit)
         # < ++ for a new @Cat
         #   known replacements, reset strategy
-        me&ha,R,{Go:s.t,tid:ss&tid}
+        me&ha,R,{Go:s.t,tid:1}
         me&tc,"\n"
         
         !me&SuperGnome,R,s,{} and return
@@ -961,13 +960,24 @@ me.Sch_The = &acgt{ return [
             me&Superarg,{Gome:s}
         # i @Travel <-+{@Gome,Catfunc:PiiCat} $Go
           # get @Cat to control
+            if (x.ro('++')) {
+                me&wants,R,'Gnome-tid++',xs&Travel
+                ss&tid = (ss&tid||0) + 1
+            }
+            Go = Cye(Go)
+            if (ss&tid) {
+                !Gos&tid and debugger
+                Gos&tid += "."+ss&tid
+            }
+            # < mutate $tid, gather the right @Cat
             me&nodei,R,xs&Travel,Go,{},{Gome:s,Catfunc:'PiiCat'}
         # i @Travelable @Cat o &wanta %%Travelable,Cat,n
         #  declares Names, also sanity for a single row
         #  will %%pur if Named things not ready looking
             # fires back with Travel/$Travelable/$Cat
             # < show this to Josh
-            $n = theone(me&jaa,R,'Travelable,Cat,n' )
+            $n = theone(me&jaa,R,'Travelable,Cat,n'
+                .filter(n => me&etoward,ns&n,Go ))
             !n and return ha('pur:!Cat')
             # must be inherited from the Go we currently have
             #  ~Go might $tid++, becoming a fresh $Cat
@@ -977,8 +987,6 @@ me.Sch_The = &acgt{ return [
             #     essentially copying itself from W again,
             #      to erase (branch from) any Accepting
             #       we were thinking of committing
-            #     
-            !me&etoward,ns&n,Go and return ha('pur:~Cat')
             
             # along with @Gome, we now know:
             $t = me&Superarg,{t:ns&Travelable}
