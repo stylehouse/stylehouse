@@ -97,7 +97,9 @@ me.Sch_The = &acgt{ return [
      < The..#$D
        your clicks being configured
        selected one shows CED columns over slope rows
-    
+     
+     fi&balein
+     see 'switched off Fe->Lab'
     =cut
   
   // @Gnomp/@Gnome perceiver # < separate from w:Travel
@@ -483,7 +485,6 @@ me.Sch_The = &acgt{ return [
                     zc&vators ++
                     zy&C && zy&C != s and debugger
                     zy&C = s
-                    
                     # gather opinions on there
                     $defs = me&jaa,sy&R,'Superdef'
                     each in defs {
@@ -493,6 +494,7 @@ me.Sch_The = &acgt{ return [
                     if (!hak(defs)) {
                         zc&wakenode = 1
                         me&tc,"!def?",'b'
+                        return
                     }
 
                     # < make it active when time
@@ -1475,7 +1477,7 @@ me.Sch_The = &acgt{ return [
                 !ok and break
                 continue
             }
-            
+            return 'switched off Fe->Lab'
             # externalisings defined, undertaken
             me&Superdef,{f:'Flight',of:'inst',to:Thy,wakenode:1} (&{
                 # %%n%tige brackstills
@@ -1729,10 +1731,16 @@ me.Sch_The = &acgt{ return [
                 # < &Saturn into here!
                 # at Ness..-seven the ** dries up
                 if (!d.ins && !hak(ns&z)) {
+                    if (!z) {
+                        # we may be on a missing -seven
+                        ds&goneseven = 1
+                        d.nofurther = 1
+                        return me&tc,"GONE",'b'
+                    }
                     d.ins = d
                     ds&pi = 'seven'
-                    nc&pi != ds&pi and debugger
-                    !z and throw "notosphere"
+                    # must =be a 
+                    !z and return me&tc,"GONE",'b'
                     !hak(zs&z) and throw "deadend"
                     me&mergent_oktothing,d,z,'fatal'
                     me&tc,"yC",'G'
@@ -2332,11 +2340,57 @@ me.Sch_The = &acgt{ return [
     ['PiiRun',0.2901,&acgtRs{
         !me&ja,R,'mayRun' and return me&tc,"!mayRun..."
         Rs&Piing = 1
-        G&way,"TryPiWarmer"
         # < &Gnome_Jx: its def @Run should match up
         #   it basically discovers its way to @Gnome, @Cat, etc
         #   from anywhere in @Thy, @Cat, etc
         #   it wants to read %%hire
+    },'ift,D'],
+    ['PiiRun',0.298,&acgtRs{
+        $x = me&Jx,R
+        $inr = &zsc{
+            # z must be the above s
+            s = me&Pii,z,s
+            !zy&R and debugger
+            zy&R != z and z = zy&R
+            C = zs&C
+            !C and debugger
+            # s may be string
+            $spec = isst(s) ? [s] : [s.t,s]
+            while (1) {
+                $r = me&bal,...spec
+                if (!rs&sleeping) {
+                    if (wasat != null) {
+                        grepout(zs&z,r)
+                        zs&z.splice(wasat,0,r)
+                    }
+                    break
+                }
+                # drop the recycling
+                $wasat = zs&z.indexOf(r)
+                grepout(zs&z,r)
+            }
+            s = rc&s
+            if (c) {
+                tax(s.c,c,'s,pi')
+                ex(s.sc,c)
+            }
+            if (!Rc&N.includes(sy&R)) {
+                # they get sy&R @293
+                me&Ring,r,{und:r,ov:0.31}
+            }
+            return s
+        }
+        if (x.ro("Run") || 0 && !Rc&b) {
+            $value = {its:'o3'}
+            ~>7 begin: 1
+            $This = inr(s,'This')
+            $So = inr(This,'Something-Eight')
+            $Wh = inr(So,'Whence-seven')
+            $ting = inr(Wh,'ting-Fez',{s:value,lo:'ve'})
+            value.french = 33
+            # ...
+            ~>7 overall: 1
+        }
     },'ift,D'],
     ['PiiRun+Piing',0.293,&acgtRs{
         Rs&Sarndat = me&Sarn,<<'',[R]
@@ -2478,6 +2532,7 @@ me.Sch_The = &acgt{ return [
   // 3 %Piing** influx, &Piing
     # influx router
     ['Piing',0.295,&acgtRs{
+        ~>7 insted: R.t
         me&Piing_inst,R,s
     },'ift,D'],
     # on the -six (which is really -hat|Fez...)
