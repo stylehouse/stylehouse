@@ -2329,10 +2329,10 @@ me.Sch_The = &acgt{ return [
         #return
         
         # load up w:$story
-        $w = me&fiu,s,'w'
-        me&bal,'w','Pavings:1'
-        #ws&Pavings = 'w'
-        ws&Paving = 'w'
+        $w = me&fiu,s,'wjs'
+        me&bal,'wjs','Pavings:1'
+        ws&args = 's'
+        ws&Paving = 'wjs'
         $cl = me&Rsc,R,'^^client'
         !cl and debugger
         cl and me&fiu,w,cl.t
@@ -2403,21 +2403,26 @@ me.Sch_The = &acgt{ return [
         }
         # such-Eight opens for a process that will add -six
         me.openEight = &acgtt{
+            A.time != A and debugger
+            $time = A.time.c.time
             A = G&Aye,'-Eight...'
             $R = me&R
             $s = Rc&s
             $Eight = me&legramp,s,'-This',t+'-Eight'
+            $Ya = A
             return &{
+                A = Ya
                 A = G&Aye,'-Eight...-six'
                 $args = [...arguments]
-                $sev = ss&time
-                $six = me&legramp,Eight,sev+'-seven',...args
+                $six = me&legramp,Eight,time+'-seven',...args
                 return six
             }
         }
         me.Runpin = &acgttv{
             $time = v
             A = G&Aye,'Run@'+time
+            A.time = A
+            A&time = time
             # only do S 1 if time
             # ! dont use R%Ace because of missing 4c&Srupto
             #   strange fact of R-life, so far very little A
@@ -2431,8 +2436,10 @@ me.Sch_The = &acgt{ return [
         if (x.ro("Run") || 0 && !Rc&b) {
             # synth a thing
             ss&time ||= 0
-            ss&time ++
-            me&Runpin,"TryPiWarmer",ss&time
+            $time = ss&time + 1
+            me&Runpin,"TryPiWarmer",time
+            # may not make it back
+            ss&time = time
         }
     },'ift,D'],
     ['PiiRun+Piing',0.293,&acgtRs{
@@ -2958,6 +2965,7 @@ me.Sch_The = &acgt{ return [
         $q = {}
         c.ov and q.ov = delete c.ov
         $r = me&PiRet,R,c
+        !r and debugger
         ac(R,'z',r)
         
         # the tendency to hide eg -seven/*
