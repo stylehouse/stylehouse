@@ -2403,30 +2403,36 @@ me.Sch_The = &acgt{ return [
         }
         # such-Eight opens for a process that will add -six
         me.openEight = &acgtt{
+            A = G&Aye,'-Eight...'
             $R = me&R
             $s = Rc&s
             $Eight = me&legramp,s,'-This',t+'-Eight'
             return &{
+                A = G&Aye,'-Eight...-six'
                 $args = [...arguments]
                 $sev = ss&time
                 $six = me&legramp,Eight,sev+'-seven',...args
                 return six
             }
         }
+        me.Runpin = &acgttv{
+            $time = v
+            A = G&Aye,'Run@'+time
+            # only do S 1 if time
+            # ! dont use R%Ace because of missing 4c&Srupto
+            #   strange fact of R-life, so far very little A
+            A&Sonly = time
+            ~>7 Atry: time
+            me&way,R,t
+        }
     },
     ['PiiRun',0.298,&acgtRs{
         $x = me&Jx,R
         if (x.ro("Run") || 0 && !Rc&b) {
             # synth a thing
-            $twas = (ss&time||0)*1
-            $time = twas + 1
-            # only do S 1 if time
-            # ! dont use R%Ace because of missing 4c&Srupto
-            #   strange fact of R-life, so far very little A
-            A = G&Aye,'Run@'+time
-            ss&time = A&Sonly = time
-            ~>7 Atry: time
-            G&way,"TryPiWarmer"
+            ss&time ||= 0
+            ss&time ++
+            me&Runpin,"TryPiWarmer",ss&time
         }
     },'ift,D'],
     ['PiiRun+Piing',0.293,&acgtRs{
