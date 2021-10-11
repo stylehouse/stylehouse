@@ -2292,7 +2292,7 @@ me.Sch_The = &acgt{ return [
     # see %Travelables, which is R^2 of here
     # @Cat ~ %SummerCat, has %client=Gnome
     ['PiiCat',0.2901,&acgtRs{
-        me&reaw,R,'PiiCat'
+        me&reaw,R,'PiiCat,Inn,client'
         me&acting,R
         
         $n = sy&Gorow
@@ -2314,10 +2314,16 @@ me.Sch_The = &acgt{ return [
         me&bin,'PiiOther'
         me&fiu,s,'Inc'
         me&fiu,s,'Pro'
+        $Ru =
         me&fiu,s,'Run'
+        me&nu,"Ru",Ru
+    },'ift,D'],
+    ['sleeping+PiiCat',0.2971,&acgtRs{
+        me&rollbs,R,'Inn,other'
     },'ift,D'],
     
     ['PiiOther',0.2901,&acgtRs{
+        me&reaw,R,'PiiOther'
         me&acting,R
         me&supsphere,s
         R.sc['Pii'+s.t] = 1
@@ -2327,7 +2333,9 @@ me.Sch_The = &acgt{ return [
         # < @Intro routes news
         # < each resource may be directed
         #return
-        
+        Rs&Aearch = 1;
+        me&ha,R,'loaded'
+        return
         # load up w:$story
         $w = me&fiu,s,'wjs'
         me&bal,'wjs','Pavings:1'
@@ -2340,12 +2348,18 @@ me.Sch_The = &acgt{ return [
     # have steps, todos
     #  e heading for A:n rather than Run/The...
     ['PiiPro',0.2901,&acgtRs{
+        $Cat = me.cbu(R,'client')
+        $t = Caty&up.t
+        me&way,R,t,{},'noop'
+        me&settle_prev,R and return
+        me&ha,R,'loaded'
     },'ift,D'],
    // @Run %Piing**
     # @Run ~ %Jrunto
     #  exp by random clicks and %%initdata
     # see TheThy 2901
     ['PiiRun',0.2901,&acgtRs{
+        me&settle_prev,R and return
         !me&ja,R,'mayRun' and return me&tc,"!mayRun..."
         Rs&Piing = 1
         # < &Gnome_Jx: its def @Run should match up
@@ -2432,6 +2446,7 @@ me.Sch_The = &acgt{ return [
         }
     },
     ['PiiRun',0.298,&acgtRs{
+        me&bin,'PiiRunThis'
         $x = me&Jx,R
         if (x.ro("Run") || 0 && !Rc&b) {
             # synth a thing
@@ -2447,6 +2462,9 @@ me.Sch_The = &acgt{ return [
             i @Run/-This/-Eight/-seven/**%Ethinging
         
     },'ift,D'],
+    ['PiiRunThis',0.298,&acgtRs{
+        s.t != "This" and return
+    },'ift,D'],
   
   # through the valvework of:
  # to cluster state:
@@ -2456,6 +2474,7 @@ me.Sch_The = &acgt{ return [
   // 1 %Piing nodes &Thee &Theing
     ['Piing',0.291,&acgtRs{
         $x = me&Thee
+        
         !xs&Gome and me&tc,'noGome','G'
     },'ift,D'],
     &{
