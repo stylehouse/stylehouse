@@ -722,16 +722,18 @@ me.Sch_The = &acgt{ return [
             !k and debugger
             c.Superarg = k
             if (c.viatw) {
-                $sk = c.viatw
                 # < from other $sutes?
-                $z = me&Superarg_find,sk
+                $z = me&Superarg_find,c.viatw
                 if (z) {
                     $v = me&fiu,z,k,8
                     !v && hak(z.y.tv) and debugger
                     !v and c.fail = "viatw!t:"+k
+                    else
+                    # if climbing from a node, only return lit nodes
+                    isnode(z) && !isnode(v) and c.fail = "viatw!node:"+k
                     else s [k] = v
                 }
-                else c.fail = "viatw!arg:"+sk
+                else c.fail = "viatw!arg:"+c.viatw
             }
             c.arg = 1
             # c must be so the k:v after arg
@@ -849,8 +851,7 @@ me.Sch_The = &acgt{ return [
       // f
         # find one such %%Superarg=$k (exclusive gk)
         me.Superarg_find = &acgtkc{
-            $jaa = T.sute && T.sute.jaa
-            !jaa and $j = me&R; jaa = (c) => me&jaa,j,c
+            $jaa = me&hajasute,'jaa'
             $is = theone(jaa({Superarg:k}))
             c and c.n = is
             is && !iss&fail and return is.sc[k]
@@ -889,6 +890,15 @@ me.Sch_The = &acgt{ return [
                 $v = me&Superarg_find,ns&viatw
                 v and c.pre = v
             }
+        }
+        # return a ha|ja etc, possing through T.sute &Supe*
+        # < similar to an Xio front end
+        #    the flavour of the interation, besides expr through it
+        me.hajasute = &acgtk{
+            k != 'jaa' and throw "pluginise"
+            $jaa = T.sute && T.sute.jaa
+            !jaa and $j = me&R; jaa = (c) => me&jaa,j,c
+            return jaa
         }
     
   // Supe@Gnome
