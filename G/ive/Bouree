@@ -89,6 +89,14 @@ https://blog.scottlogic.com/2020/03/19/offscreen-canvas.html
  wasm https://fileconverter.digital/
  de-MOV:
   find . -regex '.*MOV' -exec ffmpeg -i {} -b:v 5M -c:a flac {}.mkv \;
+   < keep creation timestamp
+     -movflags use_metadata_tags doesnt work?
+   then making a .mp4 for editors:
+    find 16* -regex '.*mkv' -exec ffmpeg -i {} -c:v copy {}.mp4 \;
+     < or just splitting a flac?
+    renaming back to $t.mp4:
+     find 16* -maxdepth 0 -exec bash -c 'cd {}; rename -n "s/\.(MOV|mkv)//g" *.mp4' \;
+      # drop the -n for !noop
  speed up audio:
   ffmpeg -i MVI_0661.MOV -filter:a "atempo=2.0,atempo=2.0,atempo=2.0,atempo=1.2" MVI_0661.mp3
  speed up video: (-an: no audio)
@@ -108,10 +116,13 @@ https://blog.scottlogic.com/2020/03/19/offscreen-canvas.html
 =music
 
 bpm|key finder etc: https://vocalremover.org/
- 
+
+to .webm
+ with music: https://loader.to/en21/youtube-flac-converter.html
 lookup tracks within these .webm
  Agua De La Tierra
-  elusive
+  elusive to download
+  < buy
  Mezclando Ritmos #5
   too much talking, re-edit from originals?
  Otro Mundo & El Búho @Netil Radio 2018
