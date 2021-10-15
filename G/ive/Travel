@@ -67,6 +67,7 @@ me.Sch_Travel = &acgt{ return [
         s&over = 1
         
         #n Yingito  R %Tool
+        me&watchforthe,'Travel/TryPiWarmer/v1/Run/This'
         
         # < glow the pile of all? nodes from Outlog wake etc
         #   1-2 line display hoist?
@@ -104,6 +105,25 @@ me.Sch_Travel = &acgt{ return [
             delete Rs&seekto;
         });
     },'ift,D'],
+    &{
+    me.watchforthe = &acgt,tpath{
+        $R = me&R
+        $Ying = me.cbu(R,'Ying') .c.s
+        $watchmem = Yingy&watchmem ||= {}
+        $l = tpath.split('/')
+        $s = Ying
+        each it l {
+            0 < i and me&tc,"/",'6y'
+            s = me&node_downwards,s
+                .filter(n => n.t == t)[0]
+            !s and me&tc,"!"+t,'g'; return
+            me&tc,t,'G'
+        }
+        $was = watchmem[tpath]
+        watchmem[tpath] = s
+        was && was != s and debugger
+    }
+    },
     
   // < %Yingulog -gate visits
    // %Yingulog

@@ -2361,7 +2361,7 @@ me.Sch_The = &acgt{ return [
     ['PiiPro',0.2901,&acgtRs{
         $Cat = me.cbu(R,'client')
         $t = Caty&up.t
-        me&way,R,t,{},'noop'
+        me&way,R,t,{R:1},'noop'
         me&settle_prev,R and return
         me&ha,R,'loaded'
     },'ift,D'],
@@ -2445,8 +2445,10 @@ me.Sch_The = &acgt{ return [
             }
         }
         me.Runpin = &acgttv{
+            $R = me&R
             $time = v
             A = G&Aye,'Run@'+time
+            A.Run = R
             A.time = A
             A&time = time
             # only do S 1 if time
