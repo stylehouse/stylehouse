@@ -1198,16 +1198,19 @@ me.Sch_Story = &acgt{ return [
             if (cursed) {
                 # < refer to this @This in &SuperSC
                 me&tc,"cursed:",'b'
-                # light up the Leave button
-                # < call this tied-e?
-                ah(R,'c','b','sc','Leave',1)
+                s&bgh = 183
+                if (x.ro('pull?')) {
+                    # light up the Leave button
+                    # < call this tied-e?
+                    ah(R,'c','b','sc','Leave',1)
+                }
             }
         }
         # < a buttoner|Effector that can glow 'Leave' because c.pull
         # then harness %Live into TheNine
         # < harness self (TheNine<->...) <-> other (Paving)
         x.ro('Leave') and c.pull = 1
-        cursed && c.pull != 1 and debugger
+        #cursed && c.pull != 1 and debugger
         $self = me&selfThat,R,that,c
         
         # doesn't reload Nine/Eigh
