@@ -2365,7 +2365,10 @@ me.Sch_The = &acgt{ return [
     ['PiiPro',0.2901,&acgtRs{
         $Cat = me.cbu(R,'client')
         $t = Caty&up.t
+        T.asyncQs = []
         me&way,R,t,{R:1},'noop'
+        $was = delete T.asyncQs
+        hak(was) and return me&waits,"preload-w"
         me&settle_prev,R and return
         me&ha,R,'loaded'
     },'ift,D'],
