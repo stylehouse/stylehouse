@@ -3402,6 +3402,8 @@ me.arriveRbitX = &acgtR,bit{
     X.x ||= {};
     X.z ||= [];
     X.z.length and 'dups allowed'
+    # it could also be a sleeping stub eg under an %onlyish
+    X.recycled && me.unrecycleRbitx and me&unrecycleRbitx,R,X
     $i = X.z.push(R);
     # me&Re gives children X from this point
     Rs&X = X;
@@ -3426,6 +3428,8 @@ me.arriveRbitX = &acgtR,bit{
     # care to leave history (Re)
     # = V ? me&RbitXtend,V : {};
     Rc&V = V;
+    Rc&V == Rc&X and debugger
+    R == b and debugger
     b and Rc&b = b
 };
 # clone for destructive history
@@ -3506,6 +3510,7 @@ me.applyRbitX = &acgtR{
         # eg. the second slep/slan takes over X.newz
         #   after a deleteRbitX reduces X.z
         #Rc&V.newz.indexOf(R) >= 0 and continue
+        b == R and debugger
         by&future = R;
         # no further back
         !bc&b and continue
@@ -3576,6 +3581,7 @@ me.unrecycleRbitX = &acgtRtr{
     $oV = Rc&X.x[bit];
     !oV and return
     delete Rc&X.x[bit];
+    Rc&X.unrecycleX = 1
     !Rs&z and return
     each in oV.z {
         $ni = Rs&z.indexOf(n);
