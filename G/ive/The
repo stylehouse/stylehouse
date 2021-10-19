@@ -1051,6 +1051,7 @@ me.Sch_The = &acgt{ return [
             $N = me&Supervator,{}
             each iz N {
                 $s = zy&C
+                # < sort these into cv 2-6 being their %Names
                 sc&pi == 'nine' and me&Superarg,{Fine:s}
                 else
                 # new @Lab go quiet, then @Fine wants to OK their init
@@ -1071,13 +1072,58 @@ me.Sch_The = &acgt{ return [
                 nc&drop = 1
             })
             
-            $Fine = me&Superarg_find,'Fine'
-            
             # changes xs&This=Run/Thisy&This...
             $This = me&Gome_This,R
             !This and return ha('pur:!This')
             ha({sensitivity:'Gome_Thischa_other',otherable:'F'})
             me&Gome_Thischa_self,R,F,ha
+            
+            # < this should be just noact if !Superread
+        me&Superready and return
+            $Fine = me&Superarg_find,'Fine'
+            !Fine and debugger
+            $nine = Finey&nine
+            !nine and debugger
+            
+            # o @nine/Ness/@n//Outs == @Fine/@Ness
+            $more_ok = 0
+            $oks = 0
+            each in nines&Is {
+                $Ness = ny&Outs
+                $ok = me&za,Nessy&R,'ready' && me&za,Nessy&R,'ok'
+                !ok and break
+                ok and oks += 1
+                $c = {became_ok:Ness,rec:'becomesing'}
+                !zaa(c) and ha(c); more_ok = 1
+            }
+            # see also &Acceptings
+            me&boxcap,'prog','g' (&m{
+                me&walls,m,'bd:9'
+                ms&ma = 0.2
+                me&tc,"OKs" .c.s = oks
+                me&tc,'/','6y'
+                $sofar = hak(nines&Is)
+                me&tc,"sofar" .c.s = sofar
+                oks == sofar and me&tc,"OK...",'g'
+                # < completes? additions?
+            })
+            $advc = {rec:'advancing'}
+            if (more_ok || zaa(advc)) {
+                me&tc,(more_ok?"MORE_OK":"more_ok"),'B'
+                advc = ha(advc)
+                $next = ninec&Into
+                $Ness = next && nexty&Outs
+                # if next @Ness is -Ness (may be -Lab)
+                if (Ness && Nessc&pi == 'Ness') {
+                    $r = Runy&R
+                    rs&Run = 1
+                    me&tc,"Run++"
+                    me&wants,R,'Run++',Run
+                }
+                # < without //Outs?
+                Ness and advcc&drop = 1
+            }
+            
 
             # observe Proto !now not over finishline
 
