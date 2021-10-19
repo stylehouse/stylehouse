@@ -451,6 +451,7 @@ me.Sch_The = &acgt{ return [
         me.Supervator = &acgtc{
             $h = T.sute
             $R = me&R
+            $act_z = []
             # that seem ready, by @5
             me&boxcap,"vator:",'1p' (&{
                 # vator has a proper list of %active=C...
@@ -459,8 +460,11 @@ me.Sch_The = &acgt{ return [
                 $N = me&jaa,R,{active:1,eto:Rc&s}
                 
                 # &rowcap doesn't start anything until called back
+                #  only shows 'seems ready' if non-empty (besides my&label)
+                # < drawing tables left->right
+                # < expr for yon c&el=? follow
                 $row = me&rowcap,N,'active'
-                row('seems ready',&s{
+                row('seems ready',&sm{
                     # < and E^^^c&uber
                     $g = me&Sharg,<<'',[s]
                         o &wants //R** if %strange o $s//E/*
@@ -473,16 +477,23 @@ me.Sch_The = &acgt{ return [
 
                 actc&vators ||= 0
                 actc&vators ++
-                me&tc,dis(sex({},act.c,'vators,times'))
+                me&tc,dis(sex({},act.c,'vators,times')),'6'
 
-                $acha = 0
-                row('@',&sn{
-                    ns&dis = 5
-                    # < a follow?
+                # @Gnome/%active/$z
+                $N = []
+                row('@',&sm{
+                    ms&dis = 5
+                    # < a follow? see &EsyncThis etc functionalia
                     $z = me&fiu,act,s.t
+                    act_z.push(z)
                     zc&vators ||= 0
                     zc&vators ++
-                    zy&C && zy&C != s and debugger
+                    !zy&C and zc&el = 1
+                    else
+                    zy&C && zy&C != s and zc&el = 2
+                    else {
+                        zc&el = 8
+                    }
                     zy&C = s
                     # gather opinions on there
                     $defs = me&jaa,sy&R,'Superdef'
@@ -503,7 +514,7 @@ me.Sch_The = &acgt{ return [
                         zc&ov = ov
                     }
                     me&tc,'@'+numf(zc&ov||0),'q'
-                    me&tc,'.'+zc&vators,'b'
+                    me&tc,'.'+zc&vators,'y'
 
                     if (zc&ov != zc&cv) {
                         me&tc,'/'+numf(zc&ov||0),'q'
@@ -514,6 +525,7 @@ me.Sch_The = &acgt{ return [
                     }
                 })
             })
+            return act_z
         }
      // f
      // &activator: Gnomp, Gnome hoist bunches
@@ -902,7 +914,7 @@ me.Sch_The = &acgt{ return [
         }
     
   // Supe@Gnome
-   // 1 'Reside' @Gome
+   // 1 write @Gome
        # 
         me.Goget = &acgtRsce{
         }
@@ -930,7 +942,7 @@ me.Sch_The = &acgt{ return [
             # < later that will be for any wanting-%%active,
             #   %%active-proper once &Superdef allows
             # < we may be pushing Nine some other agenda
-            me&activate and return ha('pur:!active')
+            me&activate and debugger; return ha('pur:!active')
             
           # begin @Nine + @Thy
             # < s/ies/y/
@@ -958,7 +970,7 @@ me.Sch_The = &acgt{ return [
             !xs&Thy and ha('pur:!Thy')
         me&Superready and return
       // 
-   // 2 -> Travel... < &Sarg
+   // 2 write -> Travel...
             # < &Sarg behind io
         # < these... chaining Go, mixing things in
         =pod
@@ -987,16 +999,19 @@ me.Sch_The = &acgt{ return [
             # fires back with Travel/$Travelable/$Cat
             # < show this to Josh
             $n = theone(me&jaa,R,'Travelable,Cat,n'
-                .filter(n => me&etoward,ns&n,Go ))
-            !n and return ha('pur:!Cat')
-            # must be inherited from the Go we currently have
-            #  ~Go might $tid++, becoming a fresh $Cat
+            # must be inherited from this Go
+            #  ~Go (tid++) becomes a fresh @Cat
             #   Gump or so might have motivation to reuse Gome
             #    TheFine can be shook loose in a similar fashion
             #     it has reself|Leave buttons around to do so
             #     essentially copying itself from W again,
             #      to erase (branch from) any Accepting
             #       we were thinking of committing
+                .filter(n => me&etoward,ns&n,Go ))
+            !n and return ha('pur:!Cat')
+            # @Thy** -> @Cat** would resync if <7,
+            #  usu auto resync, come back when quet,
+            # < as supervisor, @Gnome grabs moment of @Thy needing resync
             
             # along with @Gome, we now know:
             $t = me&Superarg,{t:ns&Travelable}
@@ -1033,12 +1048,31 @@ me.Sch_The = &acgt{ return [
             $Run = ar.Run
             $F = ar.F
             
-            me&Supervator,{}
-
-            #'everything' and return ha('pur:!everything')
-            #!
+            $N = me&Supervator,{}
+            each iz N {
+                $s = zy&C
+                sc&pi == 'nine' and me&Superarg,{Fine:s}
+                else
+                # new @Lab go quiet, then @Fine wants to OK their init
+                if (sc&pi == 'Lab') {
+                    zc&el <3 and ha('rec:+@Lab',{quiet_visitable:'Fine',pur:'@Fine<@Lab',cos:z})
+                }
+                else {
+                    debugger
+                }
+            }
+            # these fit into the Gnome@8 throat as %%pur
+            Rs&is_quiet && zaa('quiet_visitable').map(&n{
+                $to = ns&quiet_visitable
+                isst(to) and to = me&Superarg_find,to
+                !to and return ha({pur:"!arg:"+dis(to.sc)})
+                me&wants,R,'visitable:'+ns&rec,to
+                # < does an == %%rec per dome drop others?
+                nc&drop = 1
+            })
             
-
+            $Fine = me&Superarg_find,'Fine'
+            
             # changes xs&This=Run/Thisy&This...
             $This = me&Gome_This,R
             !This and return ha('pur:!This')

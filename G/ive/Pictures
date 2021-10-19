@@ -78,19 +78,14 @@
             #  confusingly, &tc,C,t,c will return C/thing
             me&tcl,m,t,c
             
-            $Tap = me&Tap,{ab:m}
-            # listen for &tc
-            $capture = me&Mwcap,R,'box:'+t
-            # allow m/m (sees a/m) to stream before inner &boxcap
-            $Mwcap = me&Tap,{Mwcap:&{capture(m,'partial')}}
+            $capture = me&abTap,R,'box:'+t,m
             
             return &y{
                 # for &boxcap,t,c (&m{...})
                 y and y (m,my&label)
-                Tap()
-                # without 'partial' sets T.Mw=was
-                capture(m)
-                Mwcap()
+                
+                capture()
+                
                 # consider thing done
                 $N = me&ioty,m .filter(n => n != my&label)
                 if (!hak(N)) {
@@ -102,6 +97,22 @@
                 }
                 # < &dupfiu seq may have gaps ^
                 return m
+            }
+        }
+        # captures modulat around y(m...)
+        me.abTap = &acgtRtm{
+            
+            $Tap = me&Tap,{ab:m}
+            # listen for &tc
+            $capture = me&Mwcap,R,t
+            # allow m/m (sees a/m) to stream before inner &boxcap
+            $Mwcap = me&Tap,{Mwcap:&{capture(m,'partial')}}
+            
+            return &{
+                Tap()
+                # without 'partial' sets T.Mw=was
+                capture(m)
+                Mwcap()
             }
         }
         // testing of 
@@ -134,7 +145,7 @@
             $a = T.ab
             !a and throw "rowcap in a boxcap"
             return &ty{
-                !hak(N) and me&tc,"empty",'6p'
+                !hak(N) and me&tc,t+"!rows",'6p'
                 each in N {
                     $args = haks(c).map(k => n.sc[k])
                     $s = args[0]
