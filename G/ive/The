@@ -1090,7 +1090,10 @@ me.Sch_The = &acgt{ return [
             $oks = 0
             each in nines&Is {
                 $Ness = ny&Outs
-                $ok = me&za,Nessy&R,'ready' && me&za,Nessy&R,'ok'
+                # new steps must be accepted and @Fine reselfed
+                #  before they appear, non-%eph
+                $ok = Ness && me&za,Nessy&R,'ready'
+                    && me&za,Nessy&R,'ok'
                 !ok and break
                 ok and oks += 1
                 $c = {became_ok:Ness,rec:'becomesing'}
@@ -2432,15 +2435,6 @@ me.Sch_The = &acgt{ return [
         #return
         Rs&Aearch = 1;
         me&ha,R,'loaded'
-        return
-        # load up w:$story
-        $w = me&fiu,s,'wjs'
-        me&bal,'wjs','Pavings:1'
-        ws&args = 's'
-        ws&Paving = 'wjs'
-        $cl = me&Rsc,R,'^^client'
-        !cl and debugger
-        cl and me&fiu,w,cl.t
     },'ift,D'],
     # have steps, todos
     #  e heading for A:n rather than Run/The...
@@ -2448,7 +2442,7 @@ me.Sch_The = &acgt{ return [
         $Cat = me.cbu(R,'client')
         $t = Caty&up.t
         T.asyncQs = []
-        me&way,R,t,{R:1},'noop'
+        me&way,R,t,{},'noop'
         $was = delete T.asyncQs
         hak(was) and return me&waits,"preload-w"
         me&settle_prev,R and return
@@ -2535,20 +2529,6 @@ me.Sch_The = &acgt{ return [
                 return six
             }
         }
-        me.Runpin = &acgttv{
-            $R = me&R
-            $time = v
-            A = G&Aye,'Run@'+time
-            A.Run = R
-            A.time = A
-            A&time = time
-            # only do S 1 if time
-            # ! dont use R%Ace because of missing 4c&Srupto
-            #   strange fact of R-life, so far very little A
-            A&Sonly = time
-            ~>7 Atry: time
-            me&way,R,t
-        }
      // &watchfor*
         me.watchforthe = &acgt,tpath{
             $R = me&R
@@ -2622,6 +2602,21 @@ me.Sch_The = &acgt{ return [
                     # on to &arriveRbitX, we become the only /$r there
                 }
             }
+        }
+     // &Runpin
+        me.Runpin = &acgttv{
+            $R = me&R
+            $time = v
+            A = G&Aye,'Run@'+time
+            A.Run = R
+            A.time = A
+            A&time = time
+            # only do S 1 if time
+            # ! dont use R%Ace because of missing 4c&Srupto
+            #   strange fact of R-life, so far very little A
+            A&Sonly = time
+            ~>7 Atry: time
+            me&way,R,t
         }
     },
     ['PiiRun',0.299,&acgtRs{
