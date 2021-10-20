@@ -1048,30 +1048,14 @@ me.Sch_The = &acgt{ return [
             $Run = ar.Run
             $F = ar.F
             
+            # o %active/:z//C:s
             $N = me&Supervator,{}
-            each iz N {
-                $s = zy&C
-                # < sort these into cv 2-6 being their %Names
-                sc&pi == 'nine' and me&Superarg,{Fine:s}
-                else
-                # new @Lab go quiet, then @Fine wants to OK their init
-                if (sc&pi == 'Lab') {
-                    zc&el <3 and ha('rec:+@Lab',{quiet_visitable:'Fine',pur:'@Fine<@Lab',cos:z})
-                }
-                else {
-                    debugger
-                }
-            }
-            # these fit into the Gnome@8 throat as %%pur
-            Rs&is_quiet && zaa('quiet_visitable').map(&n{
-                $to = ns&quiet_visitable
-                isst(to) and to = me&Superarg_find,to
-                !to and return ha({pur:"!arg:"+dis(to.sc)})
-                me&wants,R,'visitable:'+ns&rec,to
-                # < does an == %%rec per dome drop others?
-                nc&drop = 1
-            })
+            # @Fine = active -nine
+            # +@Lab...quiet wakes @Fine
+            me&SG_vatorings,R,N
+            me&SG_do_quiet_visitables,R
             
+            # old ~ otherer
             # changes xs&This=Run/Thisy&This...
             $This = me&Gome_This,R
             !This and return ha('pur:!This')
@@ -1141,6 +1125,45 @@ me.Sch_The = &acgt{ return [
         }})
             
         return su('done')
+        }
+    // SG_ f
+        # < as &Supervator c
+        # stuff @Gnome notices about who is active
+        me.SG_vatorings = &acgtRN{
+            each iz N {
+                $s = zy&C
+                # < sort these into cv 2-6 being their %Names
+                sc&pi == 'nine' and me&Superarg,{Fine:s}
+                else
+                # new @Lab go quiet, then @Fine wants to OK their init
+                if (sc&pi == 'Lab') {
+                    zc&el <3 and me&SG_quiet_visitable,R,'+@Lab','Fine',{cos:z}
+                }
+                else {
+                    debugger
+                }
+            }
+        }
+        # remember somewhere to wake after the next quiet
+        me.SG_quiet_visitable = &acgtRt,to,c{
+            $h = T.sute
+            # < to will find %Names if string
+            c = ex({rec:t,quiet_visitable:to},c||{})
+            # spur from the Gnome@8 throat as %%pur
+            c.pur = t+'...'
+            h.ha(c)
+        }
+        me.SG_do_quiet_visitables = &acgtR{
+            $h = T.sute
+            !Rs&is_quiet and return
+            h.zaa('quiet_visitable') .map(&n{
+                $to = ns&quiet_visitable
+                isst(to) and to = me&Superarg_find,to
+                !to and return h.ha({pur:"!arg:"+dis(to.sc)})
+                me&wants,R,'visitable:'+ns&rec,to
+                # < does an == %%rec per dome drop others?
+                nc&drop = 1
+            })
         }
  },
   
