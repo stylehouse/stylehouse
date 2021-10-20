@@ -482,6 +482,9 @@ me.Sch_The = &acgt{ return [
                     $z = me&copi,act,s
                     act_z.push(z)
                     
+                    # policy on what to do when new, -suchpi
+                    me&copipol,z,c
+                    
                     zc&vators ||= 0
                     zc&vators ++
                     me&tsc,"z.c",dis(z.c),'6'
@@ -518,6 +521,25 @@ me.Sch_The = &acgt{ return [
             return act_z
         }
        // vator f
+        # do policy when new, -suchpi
+        # after &copi, the mirrored state has some hooks
+        me.copipol = &acgtzc{
+            $s = zy&C
+            !s and debugger
+            $some = 0
+            each ky c.pi_any {
+                sc&pi != k and continue
+                some = 1
+                y (s,z)
+            }
+            each ky c.pi_new {
+                sc&pi != k and continue
+                !(zc&el <3) and continue
+                some = 1
+                y (s,z)
+            }
+            c.should && !some and debugger
+        }
         # check some s//E/* for %strange
         # < and E^^^c&uber
         # < how ready?
@@ -1051,11 +1073,19 @@ me.Sch_The = &acgt{ return [
             $Run = ar.Run
             $F = ar.F
             
+            # stuff @Gnome notices about who is active
+            # < look like %TX? stream -> {pi:nine,el<3} -> @Fine++ plan
             # o %active/:z//C:s
-            $N = me&Supervator,{}
+            $vat = {should:1}
             # @Fine = active -nine
+            # < sort these into cv 2-6 being their %Names
+            ahk(vat,'pi_any','nine',
+                &sz{ me&Superarg,{Fine:s} })
             # +@Lab...quiet wakes @Fine
-            me&SG_vatorings,R,N
+            # new @Lab go quiet, then @Fine wants to OK their init
+            ahk(vat,'pi_new','Lab',
+                &sz{ me&SG_quiet_visitable,R,'+@Lab','Fine',{cos:z} })
+            $N = me&Supervator,vat
             me&SG_do_quiet_visitables,R
             
             # old ~ otherer
@@ -1114,24 +1144,7 @@ me.Sch_The = &acgt{ return [
         return su('done')
         }
     // SG_ f
-      // around %%quiet_visitable
-        # < as &Supervator c
-        # stuff @Gnome notices about who is active
-        me.SG_vatorings = &acgtRN{
-            each iz N {
-                $s = zy&C
-                # < sort these into cv 2-6 being their %Names
-                sc&pi == 'nine' and me&Superarg,{Fine:s}
-                else
-                # new @Lab go quiet, then @Fine wants to OK their init
-                if (sc&pi == 'Lab') {
-                    zc&el <3 and me&SG_quiet_visitable,R,'+@Lab','Fine',{cos:z}
-                }
-                else {
-                    debugger
-                }
-            }
-        }
+      // %%quiet_visitable
         # remember somewhere to wake after the next quiet
         me.SG_quiet_visitable = &acgtRt,to,c{
             $h = T.sute
