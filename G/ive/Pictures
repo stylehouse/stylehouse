@@ -129,6 +129,10 @@
             c = peel(c)
             $a = T.ab
             !a and throw "rowcap in a boxcap"
+            $head = me&tc,'head','3y'
+            $space = me&tc,head,'space','4y'
+            delete headc&s
+            delete spacec&s
             return &ty{
                 !isst(t) and throw "rowcap!t"
                 !isfu(y) and throw "rowcap!y"
@@ -140,11 +144,14 @@
                     !s and throw "row!such", c, n
                     # piling into each %%active id
                     #  the $el=2 repeating $m per ty
-                    me&boxcap,s.t,'1y',2 (&m{
+                    me&boxcap,s.t,'3y',2 (&ml{
                         # < checking for multiple-same-named s.t
                         # for a phase of its activation-think
-                        me&boxcap,t,'1b' (&m{
-                            y(...args,m)
+                        me&boxcap,t,'4b' (&ml{
+                            me&fiu,m,l,9
+                            me&fiu,head,l
+                            ls&dis = 4
+                            y(...args,m,l)
                         })
                     })
                 }
