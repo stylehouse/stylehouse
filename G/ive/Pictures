@@ -49,7 +49,7 @@
             ls&pa = 0.2
             return n
         }
-   // &rawcap, &boxcap modulat zones
+   // &rowcap, &boxcap modulat zones
         # build out modulat with whatever turns up
         #  so we can &dupfiu for t=iofail/suchexpr
         #  revoking the thing if nothing turns up (suchexpr)
@@ -115,7 +115,7 @@
                 Mwcap()
             }
         }
-        // testing of 
+        # < testing of ^
         me.boxcap_test_situation = &acgt{
             $two = me&boxcap,"pile1",'1y'
             me&tc,"<"
@@ -140,17 +140,22 @@
             two()
         }
         # iterate N in boxcaps, callback with c.* args from current row
+        # < row nesting, splitting via mirage
         me.rowcap = &acgtNc{
-            c = peli(c)
+            c = peel(c)
             $a = T.ab
             !a and throw "rowcap in a boxcap"
             return &ty{
+                !isst(t) and throw "rowcap!t"
+                !isfu(y) and throw "rowcap!y"
                 !hak(N) and me&tc,t+"!rows",'6p'
                 each in N {
                     $args = haks(c).map(k => n.sc[k])
+                    !hak(args) and args = [n]
                     $s = args[0]
                     !s and throw "row!such", c, n
                     # piling into each %%active id
+                    #  the $el=2 repeating $m per ty
                     me&boxcap,s.t,'1y',2 (&m{
                         # < checking for multiple-same-named s.t
                         # for a phase of its activation-think
@@ -367,7 +372,7 @@
     }
     
   // peel(), arq()
-    # hash from k:v, v=1 if not given
+    # hash from 'k:v' or , v=1 if not given
     # < nestings of the : and , separators
     window.peel = &s,sep,kep{
         s == null || s == '' and return {}
@@ -385,9 +390,16 @@
             #    < rebuild a subset of yaml mostly,
             return G&peel,s
         }
+        # < peel token might include [keys], maybe json
+        isar(s) and return hashkv(s.map(k => [k,1]))
         isar(s) and debugger
         isha(s) and return s
         throw "not peely", s
+    }
+    # null-fatal peel
+    window.peli = &l{
+        !(isst(l) || isar(l) || isha(l)) and throw "!peli", l
+        return peel(l)
     }
     # looks like something to peel,
     #  supposing it will always be 
@@ -555,13 +567,7 @@
         }
         return s
     }
-    # peel list: hash coerced from list of keys or peel
-    window.peli = &l{
-        isst(l) and return peel(l)
-        isar(l) and return hashkv(l)
-        isha(l) and return l
-        throw "!peli", l
-    }
+    # < generating type loosen|tighten from pex = p + ex
     window.pex = &sc{
         return ex(peel(s),peel(c))
     }

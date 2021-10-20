@@ -1105,6 +1105,18 @@ me.Sch_The = &acgt{ return [
             $okc = me&SG_tally_oks,nine
             me&SG_draw_oks,okc
             
+            $heretoo = [This,Run,Fine]
+            #    .filter(r => Rc&N.includes(me&yfuture,r ))
+            # < Names from object? for Superarg?
+            hak(heretoo) && me&boxcap,"heretoo",1 (&m{
+                me&rowcap,heretoo ('Name',&sm{
+                    $t = me&Name_of,s
+                    me&tc,"@"+t,'G'
+                })
+            })
+            
+            
+            
             # here at idle moments, arrive plot
             # < decide to advance, then see that we do...
             $starting = !okc.done
@@ -2429,6 +2441,15 @@ me.Sch_The = &acgt{ return [
         #     which all share to @Gnome%Names
         #     where we can find them
         
+    }
+    # for a given node, return its name
+    me.Name_of = &acgts{
+        $R = sy&R
+        !R and return
+        $Na = me&rollbsc,R,'Names'
+        each tn Nas&tw {
+            s == n and return t
+        }
     }
     # create outcrop of names looked up in here
     me.Names_get = &acgtRtc{
