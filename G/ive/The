@@ -1065,38 +1065,16 @@ me.Sch_The = &acgt{ return [
             # < this should be just noact if !Superread
         me&Superready and return
             $Fine = me&Superarg_find,'Fine'
-            !Fine and debugger
+            !Fine and debugger; return ha('pur:...Fine')
             $nine = Finey&nine
             !nine and debugger
             
-            # o @nine/Ness/@n//Outs == @Fine/@Ness
-            $more_ok = 0
-            $oks = 0
-            each in nines&Is {
-                $Ness = ny&Outs
-                # new steps must be accepted and @Fine reselfed
-                #  before they appear, non-%eph
-                $ok = Ness && me&za,Nessy&R,'ready'
-                    && me&za,Nessy&R,'ok'
-                !ok and break
-                ok and oks += 1
-                $c = {became_ok:Ness,rec:'becomesing'}
-                !zaa(c) and ha(c); more_ok = 1
-            }
-            # see also &Acceptings
-            me&boxcap,'prog','g' (&m{
-                me&walls,m,'bd:9'
-                ms&ma = 0.2
-                me&tc,"OKs" .c.s = oks
-                me&tc,'/','6y'
-                $sofar = hak(nines&Is)
-                me&tc,"sofar" .c.s = sofar
-                oks == sofar and me&tc,"OK...",'g'
-                # < completes? additions?
-            })
+            $okc = me&SG_tally_oks,nine
+            me&SG_draw_oks,okc
+            
             $advc = {rec:'advancing'}
-            if (more_ok || zaa(advc)) {
-                me&tc,(more_ok?"MORE_OK":"more_ok"),'B'
+            if (okc.more_ok || zaa(advc)) {
+                me&tc,(okc.more_ok?"MORE_OK":"more_ok"),'B'
                 advc = ha(advc)
                 $next = ninec&Into
                 $Ness = next && nexty&Outs
@@ -1114,7 +1092,7 @@ me.Sch_The = &acgt{ return [
 
             # observe Proto !now not over finishline
 
-            Rs&goGome and me&nu,"Fins",{Run,This,F}
+            Rs&goGome and me&nu,"Fins",{Run,This,F,Fine,nine}
 
             x.ro('end') and return
             return ha('pur:notend')
@@ -1127,6 +1105,7 @@ me.Sch_The = &acgt{ return [
         return su('done')
         }
     // SG_ f
+      // around %%quiet_visitable
         # < as &Supervator c
         # stuff @Gnome notices about who is active
         me.SG_vatorings = &acgtRN{
@@ -1163,6 +1142,53 @@ me.Sch_The = &acgt{ return [
                 me&wants,R,'visitable:'+ns&rec,to
                 # < does an == %%rec per dome drop others?
                 nc&drop = 1
+            })
+        }
+      // tallies
+        # check nine%Is
+        me.SG_tally_oks = &acgt,nine{
+            $h = T.sute
+            # o @nine/Ness/@n//Outs == @Fine/@Ness
+            $more_ok = 0
+            $oks = 0
+            each in nines&Is {
+                $Ness = ny&Outs
+                # new steps must be accepted and @Fine reselfed
+                #  before they appear, non-%eph
+                # o Ness %%ready %%ok
+                $ok = Ness && me&za,Nessy&R,'ready'
+                    && me&za,Nessy&R,'ok'
+                !ok and break
+                ok and oks += 1
+                # < we should D the ok steps, may be avoided if reself
+                $be = {became_ok:Ness,rec:'becomesing'}
+                !h.zaa(be) and h.ha(be); more_ok = 1
+            }
+            # the outsphere|accepted bunch of @Fine/@Ness
+            # < rename from The (as part of a rebuild)
+            $bunch = me&fiu,nine,'The',7
+            $total = hak( me&ioty,bunch )
+            return {more_ok,oks,done:hak(nines&Is),total}
+        }
+        # draw the above
+        me.SG_draw_oks = &acgtc{
+            # see also &Acceptings
+            $t = (t,s) => me&tc,t .c.s = s
+            me&boxcap,'prog','g' (&m{
+                me&walls,m,'bd:9'
+                ms&ma = 0.2
+                t("OKs",c.oks)
+                if (c.done != c.total) {
+                    me&tc,'/','6y'
+                    t("done",c.done)
+                }
+                if (c.oks != c.total) {
+                    me&tc,'/','6y'
+                    t("total",c.total)
+                }
+                c.oks == c.done and me&tc,"OK",'g'
+                c.oks != c.total and me&tc,"...",'g'
+                # < completes? additions?
             })
         }
  },
