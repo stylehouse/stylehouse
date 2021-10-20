@@ -464,39 +464,27 @@ me.Sch_The = &acgt{ return [
                 # &rowcap doesn't start anything until called back
                 #  only shows 'seems ready' if non-empty (besides my&label)
                 # < drawing tables left->right
-                # < expr for yon c&el=? follow
+                # < row.i|o(), row.N...
                 $row = me&rowcap,N,'active'
                 row('seems ready',&sm{
-                    # < and E^^^c&uber
-                    $g = me&Sharg,<<'',[s]
-                        o &wants //R** if %strange o $s//E/*
-
-                    # ends up with none that are strange
-                    hak(g.N) and me&tc,"%strange",'B'
+                    me&Sup_Eokay,s
                 })
-            
                 me&Superready and return
-
                 actc&vators ||= 0
                 actc&vators ++
-                me&tc,dis(sex({},act.c,'vators,times')),'6'
-
+                me&tsc,"act.c",dis(act.c),'6'
+                #me&tc,dis(sex({},act.c,'vators,times')),'6'
+                
                 # @Gnome/%active/$z
-                $N = []
                 row('@',&sm{
                     ms&dis = 5
                     # < a follow? see &EsyncThis etc functionalia
-                    $z = me&fiu,act,s.t
+                    $z = me&copi,act,s
                     act_z.push(z)
+                    
                     zc&vators ||= 0
                     zc&vators ++
-                    !zy&C and zc&el = 1
-                    else
-                    zy&C && zy&C != s and zc&el = 2
-                    else {
-                        zc&el = 8
-                    }
-                    zy&C = s
+                    me&tsc,"z.c",dis(z.c),'6'
                     # gather opinions on there
                     $defs = me&jaa,sy&R,'Superdef'
                     each in defs {
@@ -529,6 +517,19 @@ me.Sch_The = &acgt{ return [
             })
             return act_z
         }
+       // vator f
+        # check some s//E/* for %strange
+        # < and E^^^c&uber
+        # < how ready?
+        me.Sup_Eokay = &acgts{
+            # &Sharg&wants may ha %%pur, direct wake
+            $g = me&Sharg,<<'',[s]
+                o &wants //R** if %strange o $s//E/*
+
+            # ends up with none that are strange
+            hak(g.N) and me&tc,"%strange",'B'
+        }
+        
      // f
      // &activator: Gnomp, Gnome hoist bunches
         # R%active, the list is had
@@ -1067,7 +1068,7 @@ me.Sch_The = &acgt{ return [
             # < this should be just noact if !Superread
             $unsure = me&Superready
             $Fine = me&Superarg_find,'Fine'
-            !Fine and debugger; return ha('pur:...Fine')
+            !Fine and return ha('pur:...Fine')
             $nine = Finey&nine
             !nine and debugger
             
@@ -1200,7 +1201,6 @@ me.Sch_The = &acgt{ return [
             })
         }
       // sus
-        
         me.SG_maytodo = &acgtc{
             $h = T.sute
             $k = haks(c)[0]

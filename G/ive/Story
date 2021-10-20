@@ -1308,7 +1308,7 @@ me.Sch_Story = &acgt{ return [
             # -nine/* from Fine/*
             $The = me&fiu,E,'The'
             # < sync proper, beyond el:2
-            me&clintout,s,The,'' .map(&g{
+            me&copis,s,The,'','tige' .map(&g{
                 $n = gy&C
                 if (nc&pi == 'Lab') {
                     $z = me&iNess,Ness,{t:n.t}
@@ -1376,12 +1376,10 @@ me.Sch_Story = &acgt{ return [
     // -nine/This
      // io-adapti
         # list filter by M=$pi and N=$scgk
-        me.pity = &acgtsMN{
-            $N = me&ioty,s,N
-            $pi = M && M[0] == '-' && M.substr(1)
+        me.pity = &acgts,pi,scgk{
+            $N = me&ioty,s,scgk
+            pi = pi && pi[0] == '-' && pi.substr(1)
             pi and N = N.filter(n => nc&pi == pi)
-            else
-            M and debugger
             return N
         }
         
@@ -1401,17 +1399,22 @@ me.Sch_Story = &acgt{ return [
             }
         }
         # E/The|This/** have yC=The|This/**
-        me.clintout = &acgtszk{
-            return me&pity,s,k .map(&n{
-                $Eig = me&fiu,z,n.t
-                $el = 8
-                Eigs&tige != ns&tige and el = 3
-                Eigy&C != n and el = 2
-                Eigy&C = n
-                Eigs&tige = ns&tige
-                Eigc&el = el
-                return Eig
+        #  may $pi=-suchpi
+        me.copis = &acgtsz,pi,c{
+            return me&pity,s,pi .map(&n{
+                return me&copi,z,n,c
             })
+        }
+        me.copi = &acgtznc{
+            $Eig = me&fiu,z,n.t
+            $el = 8
+            Eigs&tige != ns&tige and el = 3
+            Eigy&C != n and el = 2
+            !Eigy&C and el = 1
+            Eigy&C = n
+            c and sex(Eig.sc,n.sc,c)
+            Eigc&el = el
+            return Eig
         }
         
         # This

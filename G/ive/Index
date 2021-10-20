@@ -473,18 +473,10 @@
         ah(n,'attr',way+'span',i)
     }
   
- // &Sa
+ // &Sarg io proto
  
   // < &Sa %%stuff and ^^%Piing
-    me.Sa = &acgtc{
-        return &s{
-            $g = me&Sarg,'chaseout',s,c
-            g.fail and me&Sargfailhandle,g
-            return hak(g,'return') ? g.return : g.N
-        }
-    }
-    
-    
+    # or so
     
     
     
@@ -2452,14 +2444,14 @@
                     #   that is in good time
         }
         
-  // 'chaseout' N/s
+  // &Sharg N/s, //E etc
         # Sarg with &boxcap error diag
         me.Sharg = &acgtscq{
-            return me&Sarg,'chaseout',s,c,q
+            return me&Sarg,'Sharg',s,c,q
         }
         # only used once so far:
         # o &wants //R** if %strange o $s//E/*
-        me.Sarg_chaseout = &acgtpscq{
+        me.Sarg_Sharg = &acgtpscq{
             $a = me&paullistify,p,s,c,q
             # begin with somethings
             a(/^\$s/, &{
@@ -2469,7 +2461,7 @@
             # go somewhere
             a(/^\/\/(\w+)/, &{
                 c.N = c.N.map(&s{
-                    # s//E == s//R//E
+                    # < s//E may be s//R//E, yet s//C not s//R//C
                     $r = sy&R
                     !r and return me&Sargfail,c,{t:'!%R',s}
                     $ark = p.m[0]
@@ -2498,7 +2490,7 @@
                 $f = c
                 if (plumb) {
                     # eg filter by %strange
-                    f = me&Sarg,'chaseout',plumb,{c}
+                    f = me&Sarg,c.sargk,plumb,{c}
                     # out of a total bunch that might &wants
                     f.M = c.N
                     # return from &Sarg the filtered
