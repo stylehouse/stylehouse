@@ -1105,13 +1105,16 @@ me.Sch_The = &acgt{ return [
             $okc = me&SG_tally_oks,nine
             me&SG_draw_oks,okc
             
-            $heretoo = [This,Run,Fine]
-                .filter(r => Rc&N.includes(me&yfuture,r ))
-            hak(heretoo) && me&boxcap,"heretoo",1 (&m{
-                me&rowcap,heretoo ('Name',&sm{
-                    $t = me&Name_of,s
-                    me&tc,"@"+t,'G'
-                })
+            $comrades = [This,Run,Fine]
+            me&rowcap,comrades ('Name',&sm{
+                # < Names may be The//E, or from it?
+                # go Out
+                sy&ers and s = sy&ers
+                $t = me&Name_of,s
+                me&tc,"@"+t,'G'
+                # we async
+                $heretoo = Rc&N.includes(me&yfuture,s )
+                heretoo and debugger
             })
             
             

@@ -4254,11 +4254,11 @@ me.Sch_Travel = &acgt{ return [
         me.supetime = &acgtRk{
           
           // 1 supe
-            $supen = me&tcl,k+':','B'
-            supens&dis = 5
+            $desupen = me&boxcap,k+':','5B'
+            $supen = T.ab
             me&walls,supen,'b:3.2h2'
             Rs&Superpost = 1
-            me&ty,supen,'reset?' (&{
+            me&ty,'reset?' (&{
                 me&jaa,R,{supe:k} .map(n => nc&drop = 1)
             })
             
@@ -4297,7 +4297,7 @@ me.Sch_Travel = &acgt{ return [
                 # su() checks still ok, like su(...)
                 t == null and return !faulty
                 
-          // 2   sute
+            // 2   sute
                 $inq = {supe:k,sute:t}
                 $inc = c => ex(ex({},inq),peel(c))
                 $dome = inq.supe+'-'+inq.sute
@@ -4310,7 +4310,8 @@ me.Sch_Travel = &acgt{ return [
                 $jaa = (c,i) => me&jaa,R,inc(c) .filter(n => !nc&recycled || i)
                 $ha = (c,s) => me&ha,R,ex({dome},inc(c)),{},s
                 
-                $talk = me&mtsc,supen,'sute:'+t,0,'1'
+                $desuten = me&boxcap,'sute:'+t,'1'
+                $talk = T.ab
                 me&walls,talk,'b:1.2h2'
                 me&tcl,talk,inq.sute,'T'
                 $ta = talkat(talk)
@@ -4324,7 +4325,7 @@ me.Sch_Travel = &acgt{ return [
                 T.sute = c
                 sutes.push(c)
                 
-          // 3 when
+            // 3 when
                 # < make this %%pre,
                 #    &diagno for a %%supe,sute
                 $tried = zaa('tried')[0]
@@ -4389,14 +4390,14 @@ me.Sch_Travel = &acgt{ return [
                     return 1
                 }
                 
-          // 6 doing it
+            // 6 doing it
                 $doing = &k{
                     $y = c[k]
                     !y and return
                     y (zaa,jaa,ha,ar)
                 }
                 # all other modulat already in talk
-                $capture = me&Mwcap,R,dome,talk
+                #$capture = me&Mwcap,R,dome,talk
                 if (c.once) {
                     if (!tried) {
                         doing('once')
@@ -4409,16 +4410,14 @@ me.Sch_Travel = &acgt{ return [
                 }
                 !complete and doing('until')
                 doing('perm')
-                capture(&{
-                    # figure container
-                    $m = ta('figure','s1')
-                    delete mc&s
-                    ms&dis = 1
+                
+                
+                desuten(&ml{
+                    lc&not = 1
                     c.permasay and ha({figure_container:m})
-                    return m
                 })
                 
-          // 7 tried
+            // 7 tried
                 tried = (tried && trieds&tried||0)+1
                 ha({tried})
                 
@@ -4481,6 +4480,9 @@ me.Sch_Travel = &acgt{ return [
                     faulty = 1
                 }
             }
+            desupen(&ml{
+                lc&not = 1
+            })
         }
        
   // funcs
