@@ -154,17 +154,20 @@ me.Sch_The = &acgt{ return [
             
             # take any quiet opportunities when %%pur
             # < or just when %%pur,pre?
-            if (me&sa,R,'pur' ) {
-                # which allows loop of quiet wake=%%active
+            $pur = me&sa,R,'pur',1
+            if (pur) {
+                # < allows so much loop of quiet wake for eg %%active
                 me&rollbs,R,'purloop'
-                if (!Rs&purloop) {
+                pur = joint(pur)
+                if (Rs&purloop != pur) {
                     # < generalise, for Superquiets,Pending etc
                     #    add a &brackstill?
                     #   and an infinite noise source would use a clock
-                    Rs&purloop = 1
+                    Rs&purloop = pur
+                    ~>2 pur: pur
                     return 'pur'
                 }
-                ~>2 purloop:
+                ~>2 purloop: pur
             }
             
             # any tractorbeams
@@ -1073,7 +1076,7 @@ me.Sch_The = &acgt{ return [
             me&SG_draw_oks,okc
             
             $advc = {rec:'advancing'}
-            if (okc.more_ok || zaa(advc)) {
+            if (okc.more_ok || hak(zaa(advc))) {
                 me&tc,(okc.more_ok?"MORE_OK":"more_ok"),'B'
                 advc = ha(advc)
                 $next = ninec&Into
@@ -1095,7 +1098,7 @@ me.Sch_The = &acgt{ return [
             Rs&goGome and me&nu,"Fins",{Run,This,F,Fine,nine}
 
             x.ro('end') and return
-            return ha('pur:notend')
+            return ha('pur:.....')
         }})&&
         su('Done',{until:&zaa,jaa,ha,ar{
             # n|u all done
