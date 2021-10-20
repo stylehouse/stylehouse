@@ -164,8 +164,7 @@ me.Sch_The = &acgt{ return [
                     #    add a &brackstill?
                     #   and an infinite noise source would use a clock
                     Rs&purloop = pur
-                    ~>2 pur: pur
-                    return 'pur'
+                    return 'pur:'+pur
                 }
                 ~>2 purloop: pur
             }
@@ -1066,7 +1065,7 @@ me.Sch_The = &acgt{ return [
             me&Gome_Thischa_self,R,F,ha
             
             # < this should be just noact if !Superread
-        me&Superready and return
+            $unsure = me&Superready
             $Fine = me&Superarg_find,'Fine'
             !Fine and debugger; return ha('pur:...Fine')
             $nine = Finey&nine
@@ -1075,10 +1074,14 @@ me.Sch_The = &acgt{ return [
             $okc = me&SG_tally_oks,nine
             me&SG_draw_oks,okc
             
-            $advc = {rec:'advancing'}
-            if (okc.more_ok || hak(zaa(advc))) {
-                me&tc,(okc.more_ok?"MORE_OK":"more_ok"),'B'
-                advc = ha(advc)
+            # here at idle moments, arrive plot
+            # < decide to advance, then see that we do...
+            $starting = !okc.done
+            $advancing = starting || okc.more_ok
+            $done = me&SG_maytodo,{advancing}
+            # keep ^^^ while noticing ~This:
+            unsure and return
+            if (done) {
                 $next = ninec&Into
                 $Ness = next && nexty&Outs
                 # if next @Ness is -Ness (may be -Lab)
@@ -1088,8 +1091,10 @@ me.Sch_The = &acgt{ return [
                     me&tc,"Run++"
                     me&wants,R,'Run++',Run
                 }
-                # < without //Outs?
-                Ness and advcc&drop = 1
+                # < start a &SG_maytodo {advanced} until Run%time++?
+                # < allow vaguely accepted without //Outs
+                #   @Thy** manages wanderings of many @Gnome
+                done()
             }
             
 
@@ -1194,6 +1199,24 @@ me.Sch_The = &acgt{ return [
                 # < completes? additions?
             })
         }
+      // sus
+        
+        me.SG_maytodo = &acgtc{
+            $h = T.sute
+            $k = haks(c)[0]
+            $rec = {maytodo:1,rec:k}
+            $permit = c[k] || hak(h.zaa(rec))
+            !permit and return
+            # keep|overwrite permit until done
+            $n = h.ha(rec)
+            return &t{
+                # on failure to complete it
+                t and return h.ha('pur:maytodo',{k,t})
+                # revoke
+                nc&drop = 1
+            }
+        }
+        
  },
   
   // Supe@Lab
