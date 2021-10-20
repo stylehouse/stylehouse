@@ -99,22 +99,6 @@
                 return m
             }
         }
-        # captures modulat around y(m...)
-        me.abTap = &acgtRtm{
-            
-            $Tap = me&Tap,{ab:m}
-            # listen for &tc
-            $capture = me&Mwcap,R,t
-            # allow m/m (sees a/m) to stream before inner &boxcap
-            $Mwcap = me&Tap,{Mwcap:&{capture(m,'partial')}}
-            
-            return &{
-                Tap()
-                # without 'partial' sets T.Mw=was
-                capture(m)
-                Mwcap()
-            }
-        }
         # < testing of ^
         me.boxcap_test_situation = &acgt{
             $two = me&boxcap,"pile1",'1y'
@@ -167,6 +151,22 @@
             }
         }
   // capsulating, &Mwcap
+    # captures modulat around y(m...)
+    me.abTap = &acgtRtm{
+
+        $Tap = me&Tap,{ab:m}
+        # listen for &tc
+        $capture = me&Mwcap,R,t
+        # allow m/m (sees a/m) to stream before inner &boxcap
+        $Mwcap = me&Tap,{Mwcap:&{capture(m,'partial')}}
+
+        return &{
+            Tap()
+            # without 'partial' sets T.Mw=was
+            capture(m)
+            Mwcap()
+        }
+    }
     # transact ~T.*
     me.Tap = &acgtc{
         $was = sex({},T,c)
