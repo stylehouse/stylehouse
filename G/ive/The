@@ -455,23 +455,20 @@ me.Sch_The = &acgt{ return [
                 actc&vators ||= 0
                 actc&vators ++
                 me&tsc,"act.c",dis(act.c),'26'
-                # contrib via %%active
+                # o contrib via %%active
                 $N = me&jaa,R,{active:1,eto:Rc&s}
+                # i @Gnome/%active/$z
                 
                 # &rowcap doesn't start anything until called back
                 #  only shows 'seems ready' if non-empty (besides my&label)
                 # < drawing tables left->right
                 # < row.i|o(), row.N...
                 $row = me&rowcap,N,'active'
-                row('okay',&sm{
+                row('okay',&sma{
                     me&Sup_Eokay,s
-                })
-                me&Superready and return
-                
-                # @Gnome/%active/$z
-                row('@',&sm{
+                    # < no danger making $act/z if !Eokay?
                     # < a follow? see &EsyncThis etc functionalia
-                    $z = me&copi,act,s
+                    $z = a.z = me&copi,act,s
                     act_z.push(z)
                     
                     # policy on what to do when new, -suchpi
@@ -480,18 +477,23 @@ me.Sch_The = &acgt{ return [
                     zc&vators ||= 0
                     zc&vators ++
                     me&tsc,"z.c",dis(z.c),'6'
+                })
+                me&Superready and return
+                # < persist modulat while fuguing !ready...
+                #   tables penting change rows|columns
+                
+                row('@',&sma{
+                    $z = a.z
                     # gather opinions on there
                     $defs = me&jaa,sy&R,'Superdef'
                     each in defs {
                         ns&wakenode and zc&wakenode = 1
                     }
+                    me&tc,"x"+hak(defs),'y'
                     # &Sargfunc_wants also demands some
-                    if (!hak(defs)) {
-                        zc&wakenode = 1
-                        me&tc,"!def?",'b'
-                        return
-                    }
-
+                    !hak(defs) and return; zc&wakenode = 1
+                    
+                    
                     # < make it active when time
                     $ov = 0.2
                     if (zc&ov != ov) {
@@ -1096,17 +1098,7 @@ me.Sch_The = &acgt{ return [
             $okc = me&SG_tally_oks,nine
             me&SG_draw_oks,okc
             
-            $comrades = [This,Run,Fine]
-            me&rowcap,comrades ('Name',&sm{
-                # < Names may be The//E, or from it?
-                # go Out
-                sy&ers and s = sy&ers
-                $t = me&Name_of,s
-                me&tc,"@"+t,'G'
-                # we async
-                $heretoo = Rc&N.includes(me&yfuture,s )
-                heretoo and debugger
-            })
+            me&SG_draw_comrades,[This,Run,Fine]
             
             # here at idle moments, arrive plot
             # < decide to advance, then see that we do...
@@ -1231,6 +1223,26 @@ me.Sch_The = &acgt{ return [
                 # revoke
                 nc&drop = 1
             }
+        }
+        # check @Gnome is async to Fine, etc
+        me.SG_draw_comrades = &acgtN{
+            $R = me&R
+            N.map(s => sy&ers || s)
+                .filter(s => Rc&N.includes(me&yfuture,s ))
+                .map(&r{
+                    debugger
+                })
+            return
+            me&rowcap,N ('Name',&sm{
+                # < Names may be The//E, or from it?
+                # go Out
+                sy&ers and s = sy&ers
+                $t = me&Name_of,s
+                me&tc,"@"+t,'G'
+                # we async
+                $heretoo = Rc&N.includes(me&yfuture,s )
+                heretoo and debugger
+            })
         }
         
  },
