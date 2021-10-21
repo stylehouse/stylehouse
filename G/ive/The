@@ -102,15 +102,7 @@ me.Sch_The = &acgt{ return [
      see 'switched off Fe->Lab'
     =cut
   
-  // @Gnomp/@Gnome perceiver # < separate from w:Travel
-   
-   
-   # n Ya 6  %Gnomp
-   // @Gnomp/@Gnome allowing S connect
-    ['Zuist',0.296,&acgtRs{
-        me&acting,R,'Zuist'
-        me&nu,"Zuist",Rs&Zuist
-    },'ift,D'],
+  // @Gnomp/@Gnome # < separate from w:Travel
     ['Gnomp',0.296,&acgtRs{
         me&acting,R,'Gnomp'
         Rs&wakeperc = 1
@@ -121,9 +113,34 @@ me.Sch_The = &acgt{ return [
         (Rs&boost||0) < 0 and delete c.quietready
         me&activator,c and return
     },'ift,D'],
+    # and any SC,Run in between
+    ['Gnome',0.296,&acgtRs{
+        me&acting,R,'Gnome'
+        Rs&client = 1
+        me&Names_set,R,'Gnome',s
+        # %%active:Lab|Nine here
+        #  early so **Nine can activate this time
+        me&activator
+    },'ift,D'],
+    ['Gnome',0.5,&acgtRs{
+        # invent Go (Gome gets permit)
+        # < ++ for a new @Cat
+        #   known replacements, reset strategy
+        me&ha,R,{Go:s.t,tid:1}
+        me&tc,"\n"
+        
+        !me&SuperGnome,R,s,{} and return
+        # < de-activate? or put &activate in a
+        #    sute perm,til=testcomplete
+        delete Rs&wakeful
+    },'ift,D'],
+    # random &bal eph dumpber
+    ['Zuist',0.296,&acgtRs{
+        me&acting,R,'Zuist'
+        me&nu,"Zuist",Rs&Zuist
+    },'ift,D'],
+  // @Gnome 8 other time
     &{ 
-     # other time
-     // Gnomp** glob quiet_wake check
         # Gnomp &quietready ambiently checks any @active
         me.Gnomp_any_quiet_wake = &acgtR{
             $any = me&zaa,R,'active',1 .filter(&z{
@@ -188,31 +205,8 @@ me.Sch_The = &acgt{ return [
             is and is = 'sens:'+is
             return is
         }
-    },
-    # and any SC,Run in between
-    ['Gnome',0.296,&acgtRs{
-        me&acting,R,'Gnome'
-        Rs&client = 1
-        me&Names_set,R,'Gnome',s
-        # %%active:Lab|Nine here
-        #  early so **Nine can activate this time
-        me&activator
-    },'ift,D'],
-    ['Gnome',0.5,&acgtRs{
-        # invent Go (Gome gets permit)
-        # < ++ for a new @Cat
-        #   known replacements, reset strategy
-        me&ha,R,{Go:s.t,tid:1}
-        me&tc,"\n"
-        
-        !me&SuperGnome,R,s,{} and return
-        # < de-activate? or put &activate in a
-        #    sute perm,til=testcomplete
-        delete Rs&wakeful
-    },'ift,D'],
     # %Superpost then &wants %pre 
-   &{
-   // &Superdef & %%active
+  // &Superdef & %%active
        =doc
         time barrel:
          you may find yourself Ying@8, able to quiet_wake
@@ -455,9 +449,12 @@ me.Sch_The = &acgt{ return [
             $R = me&R
             $act_z = []
             # that seem ready, by @5
-            me&boxcap,"vator:",'1p' (&{
+            me&boxcap,"vator:",'1p' (&m{
                 # vator has a proper list of %active=C...
                 $act = Rs&active
+                actc&vators ||= 0
+                actc&vators ++
+                me&tsc,"act.c",dis(act.c),'26'
                 # contrib via %%active
                 $N = me&jaa,R,{active:1,eto:Rc&s}
                 
@@ -466,18 +463,13 @@ me.Sch_The = &acgt{ return [
                 # < drawing tables left->right
                 # < row.i|o(), row.N...
                 $row = me&rowcap,N,'active'
-                row('seems ready',&sm{
+                row('okay',&sm{
                     me&Sup_Eokay,s
                 })
                 me&Superready and return
-                actc&vators ||= 0
-                actc&vators ++
-                me&tsc,"act.c",dis(act.c),'6'
-                #me&tc,dis(sex({},act.c,'vators,times')),'6'
                 
                 # @Gnome/%active/$z
                 row('@',&sm{
-                    ms&dis = 5
                     # < a follow? see &EsyncThis etc functionalia
                     $z = me&copi,act,s
                     act_z.push(z)
@@ -940,9 +932,6 @@ me.Sch_The = &acgt{ return [
     
   // Supe@Gnome
    // 1 write @Gome
-       # 
-        me.Goget = &acgtRsce{
-        }
         me.SuperGnome = &acgtRsce{
             $x = me&Jx,R
             c.t ||= 'Gnome'
@@ -996,7 +985,6 @@ me.Sch_The = &acgt{ return [
         me&Superready and return
       // 
    // 2 write -> Travel...
-            # < &Sarg behind io
         # < these... chaining Go, mixing things in
         =pod
          Gump... %%Go,tid,Goting... -> Ya
@@ -1064,10 +1052,12 @@ me.Sch_The = &acgt{ return [
             #me&nodei,R,xs&Introtivity,{Intro:1,Cat:SC}
         }})&&
    // 3 'See'
-        #  until %%Releasor exits
+        # watch progress
+        # < %%Releasor the n made, u used
         #   < should only have to pause until pushed:
         #    to store J osc via Duolish** &SuperGansp
         su('See',{until:&zaa,jaa,ha,ar{
+            
             #x.ro('init',{}) and me&nodei,R,not,'initdata'
             # Reside guaratees:
             $Run = ar.Run
@@ -1088,7 +1078,8 @@ me.Sch_The = &acgt{ return [
             $N = me&Supervator,vat
             me&SG_do_quiet_visitables,R
             
-            # old ~ otherer
+            # This -> Fine
+            #  old ~ otherer
             # changes xs&This=Run/Thisy&This...
             $This = me&Gome_This,R
             !This and return ha('pur:!This')
@@ -1116,8 +1107,6 @@ me.Sch_The = &acgt{ return [
                 $heretoo = Rc&N.includes(me&yfuture,s )
                 heretoo and debugger
             })
-            
-            
             
             # here at idle moments, arrive plot
             # < decide to advance, then see that we do...
