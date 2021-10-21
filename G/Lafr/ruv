@@ -60,12 +60,18 @@ me.Srupto = &A,C,G,T,s,t,talk,params{
     A&Srupto and return A&Srupto(...arguments)
     #~Sonly: s, ':', t, '%', talk
     
-    A&Sonly && num(s) && s != A&Sonly and return 0
-    
     t ||= s;
-    
     A&doings ||= {};
-    $l = A&doings[t] ||= {};
+    A&doords ||= {};
+    $l = A&doings[t] ||= {}
+    $ld = A&doords[s] ||= l
+    ld != l and debugger
+    l.num = s
+    l.t = t
+    
+    # going for a time
+    A&Sonly && num(s) && s != A&Sonly and return 0
+    # or until done
     l.done and return
     l.done = 1;
     #~sttalk: ki([s,t,talk,params]);

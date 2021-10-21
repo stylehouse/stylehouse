@@ -2728,6 +2728,8 @@ me.Sch_The = &acgt{ return [
         me.Runpin = &acgttv{
             $R = me&R
             $time = v
+            # < these go somewhere, copy %SummerCat some more
+            #   to allow -nine to glean a title @Run's latest bunch
             A = G&Aye,'Run@'+time
             A.Run = R
             A.time = A
@@ -2738,6 +2740,18 @@ me.Sch_The = &acgt{ return [
             A&Sonly = time
             ~>7 Atry: time
             me&way,R,t
+            
+            $now = A&doords[time]
+            $nums = haks(A&doords)
+            $ti = nums.indexOf(time+'')
+            # < &strange?
+            ti < 0 and return me&tc,"no-time:"+time,'B'
+            $ni = nums.slice(ti)[1]
+            $next = A&doords[ni]
+            next and me&ha,R,{next_Ness_title_clue:next.t,dome:"ranRun"}
+            
+            me&ha,R,{time:time,title:now.t,dome:"ranRun"}
+            
         }
     },
     ['PiiRun',0.299,&acgtRs{
