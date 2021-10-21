@@ -1640,7 +1640,7 @@ me.Sch_The = &acgt{ return [
     },
   
   # < here's a twinning io structure deal
-  // @Nine <-> @Thy + @Ply
+  // @Nine <-> @Thy
     &{
     # Gnome/Thy/This/#@Fine/Lab
     # see &EsyncThis c.ThyF, puts @Lab -> E/Ness/* -> Nine/*
@@ -1690,42 +1690,52 @@ me.Sch_The = &acgt{ return [
             })
         }
     }
+  // @Nine/@Fe &Ply
     # Accepting ~ Nine/Fe, forward cha
     # < real as the E|exp**:n walk
     me.Fe_mergent = &acgtREstz{
-        # unexpected Fe
-        !t and return
-      // env
         # < o E, /Ness:/#@t
         $EN = me&fiu,E,'Ness',7
         # < to tv
-        $Ness = me&fiu,EN,t.t,7
+        $Ness = me&fiu,EN,z.t,7
         # Ness/** y&C to This/**
         $This = me&fiu,E,'This',7
         
         $Diff = theone( me&ioty,R,'Diff' )
-        !Diff and return me&tc,"!Diff",'y'
-        # z is just the outsphere exp
-        # get a Q for the insphere exp
-        #  shortly after its outsphere mis-diges
-        #   due to including the insphere dige
-        $exp = Diffs&exp
-        !expc&of == 'W' and debugger
-        # then the C** insphere (with y&deLines)
-        $w = expc&s
-        !isC(w) and debugger
-        
-        # <<<<
-        # slep follow Diff, following Ness + $got
-        $Comp = Diffs&Comp
         me&rollbs,R,'Ply,DiffDigs'
-        (Diffs&boost||0) > 0 and delete Rs&Ply
-        Rs&DiffDigs != Diffs&Digs and delete Rs&Ply
-        Rs&DiffDigs = Diffs&Digs
-        if (1 || !Rs&Ply) {
-            # < -six+ to enervate
-            Rs&Ply = me&Plymergent,R,E,s,Ness,Comp
+        if (!Diff) {
+            # wait for it? if we have t:exp and a z:got
+            t and debugger; return me&tc,"!Diff",'y'
+            # no t:exp, make an all-new diff
+            delete Rs&Ply
+            # mock output of diff()
+            $N = [Cye(['new',1,{s:zs&string}])]
+            Comp = me&textdiffN,N,{fold:1}
         }
+        else {
+            # hang Ply caching on Diff caching
+            
+            # < GOING?
+            # z is just the outsphere exp
+            # get a Q for the insphere exp
+            #  shortly after its outsphere mis-diges
+            #   due to including the insphere dige
+            $exp = Diffs&exp
+            expc&of != 'W' and debugger
+            # then the C** insphere (with y&deLines)
+            $w = expc&s
+            !isC(w) and debugger
+        
+            # <<<<
+            # slep follow Diff, following Ness + $got
+            $Comp = Diffs&Comp
+            # < follow Comp itself? ref changes when Diff%boost
+            (Diffs&boost||0) > 0 and delete Rs&Ply
+            Rs&DiffDigs != Diffs&Digs and delete Rs&Ply
+            Rs&DiffDigs = Diffs&Digs
+        }
+        Rs&Ply ||= me&Plymergent,R,E,s,Ness,Comp
+        
         $x = me&Jx
         !x.ro('Plys') and Rs&Ply.c.not = 1
         # < is parsing the diff (from and) into two trees,
@@ -1775,15 +1785,13 @@ me.Sch_The = &acgt{ return [
         }
         # < to having diff chunks floating around!
         me.textarrow = &acgtO{
-            !isC(O) and debugger
-            $b = me&tc,O,"=>",'B'
+            $b = O ? me&tc,O,"=>",'B' : me&tc,"=>",'B'
+            by&cv = 0.0001
             bs&fs = 20
             bs&lh = 0.6
             bs&ab = 1
             bs&ml = -2
-            $got = grepout(Os&z,b)
-            #hak(got) != 1 and debugger
-            Os&z.unshift(b)
+            O and grepout(Os&z,b); Os&z.unshift(b)
             return b
         }
         # passing y&thing acknowledged
@@ -2248,7 +2256,7 @@ me.Sch_The = &acgt{ return [
             })
         }
         
-      // aft !
+      // aft: radiate changey %ope -> E !
         anywhere(Ness)
         # get -seven/-six with change inside
         $radiate = &vd{
@@ -2278,7 +2286,7 @@ me.Sch_The = &acgt{ return [
             !E and debugger
             # sending to $node:-six/E-Fez
             # < anything that changes when we do this is sus
-            me&Effect,s,E,'showy-'+ds&pi,{show:1,ope:1}
+            me&Effect,s,E,'showy-'+ds&pi,{show:1,ope:1,arrowy:1}
             Es.push(E)
         }
         #me&nu,"Wouldvis",Es
@@ -3289,11 +3297,13 @@ me.Sch_The = &acgt{ return [
         ac(R,'z',r)
         
         # the tendency to hide eg -seven/*
-        if (Rs&Ehidey)
+        if (Rs&Ehidey) {
             me&Effect,s,E,'hidey-six',{hid:1,ope:0}
+        }
         # < TX to unhide?
-        if (M.some(aq=>ahsk(aq,'sc','qua','ope')))
+        if (M.some(aq=>ahsk(aq,'sc','qua','ope'))) {
             me&Effect,s,E,'RX-ope',{RXope:1,ope:1,dom:1}
+        }
         
         me&boxcap,'E:'+r.t (&ml{
             lc&s = r.t
@@ -3310,6 +3320,9 @@ me.Sch_The = &acgt{ return [
         # ope may be set to 0|1
         $ope = me&Effected,E,{ope:1}
         ope != null && !ope and rs&noDisplay = 1
+        $arrow = me&Effected,E,{arrowy:1}
+        # < why not into C/*?
+        arrow and me&textarrow
         
         me&Ring,r,q
         
