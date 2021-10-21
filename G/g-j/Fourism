@@ -689,16 +689,21 @@ me.Elvisingness = &acgt{ return [
         $l = es&tunnel
         
         # < &tunnelArrive might do this better, as a give up?
-        # must hist (may not %flatup)
+        # must hist (may not %flatup)!
         $flatup = es&flatup || [es&tunnel]
         each in es&flatup {
             $end = 0
+            $la = 0
             each ir n {
                 # gaps occur when some branches end
                 !r and end = 1; continue
                 end and debugger
                 
                 # take this to mean a reself of eg W:Thy
+                if (rs&Peace && la) {
+                    !me&Xt,la,r.t and return ~>8 eQuit: "Xt--", la.t, r.t, i
+                }
+                la = r
                 if (rs&Peace == 4) {
                     # non-branching option has the unfutured things
                     if (es&tunnel_raw) {
@@ -765,6 +770,11 @@ me.Elvisingness = &acgt{ return [
     me.tunnelArrive = &acgtRec{
         c ||= {};
         $l = es&tunnel;
+        if (!Rc&b && Rs&Peace == 9 && Rs&igV) {
+            # catching &ewake early cant see %igV coming, see newsphere
+            # < can|should we still receive e in new things?
+            return es&beawake ||= {igVing:R}
+        }
         !Rc&b and throw "NOb"
         !l and throw "no l"
         $p = Ry&up;
