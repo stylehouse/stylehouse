@@ -450,7 +450,7 @@ me.Elvisingness = &acgt{ return [
     me.unpacke = &acgtRe{
         $flat = &e{
             !ec&pack and return [e]
-            $N = [];
+            $N = []
             each in es&z {
                 N.push(... flat(n))
             }
@@ -465,7 +465,12 @@ me.Elvisingness = &acgt{ return [
             !r and debugger;
             !isR(r) and r = ns&R
             !isR(r) and throw "wake!R", n
+            $j = r
             r = me&yfuture,r,null,{merged:1}
+            # the s may have changed
+            1 && (js&ball||js&bell||rs&ball||rs&bell)
+                && rc&s && rc&s != jc&s
+                && ac(e,'newsphere',r)
             $l = me.cby(r)
             $tpath = l.slice(1).map(r=>r.t)
             $path = [Ic&b, ... me&Xt,Ic&b,tpath ]
@@ -637,7 +642,7 @@ me.Elvisingness = &acgt{ return [
     };
     },
   
-  //#c ewake along the way to, tunneling:
+  //#c ewake from &elvis to tunneling
     &{
     #  to find some strategy for sneaking in
     #   past R%sleeping to the wakers
@@ -663,13 +668,11 @@ me.Elvisingness = &acgt{ return [
     me.ewake = &acgtRe{
         # pointer
         $r = ec&wake;
-        # wake everything modes
-        !Rc&b || r == 1 and return
-        if (isar(r)) {
-            # multipath from unpacke, already yfuture
-            es&tunnel = l = r
-            #debugger;
-        }
+        # must hist
+        !Rc&b || r == 1 and return ~>8 eQUIT: "!top b"
+        
+        # multipath from unpacke, already yfuture
+        isar(r) and es&tunnel = r
         else {
             !isR(r) and throw "non-R ecwake"
 
@@ -680,7 +683,40 @@ me.Elvisingness = &acgt{ return [
             es&tunnel_raw = l;
             # Rc&b - last R to happen
             #  yfuture can climb to unapplied X.newz
-            es&tunnel = l = l.map(n => me&yfuture,n,0,{merged:1} );
+            es&tunnel = l.map(n => me&yfuture,n,0,{merged:1} );
+        }
+        
+        $l = es&tunnel
+        
+        # < &tunnelArrive might do this better, as a give up?
+        # must hist (may not %flatup)
+        $flatup = es&flatup || [es&tunnel]
+        each in es&flatup {
+            $end = 0
+            each ir n {
+                # gaps occur when some branches end
+                !r and end = 1; continue
+                end and debugger
+                
+                # take this to mean a reself of eg W:Thy
+                if (rs&Peace == 4) {
+                    # non-branching option has the unfutured things
+                    if (es&tunnel_raw) {
+                        $raw = es&tunnel_raw[i]
+                        rawc&s != rc&s and return ~>8 eQuit: "raw ++s", r.t, i
+                    }
+                    if (es&newsphere && es&newsphere.includes(r)) {
+                        return ~>8 eQuit: "new ++s", r.t, i
+                    }
+                }
+                # !rc&b always on I, the very-very-top R (some A above it)
+                #  indicates wanting a node that just turned up
+                # if we tunnel in and find no Rc&b on the now, throw 'NOb'
+                if (!rc&b) {
+                    ac(e,'dodge','yon:'+r.t)
+                    ~>8 eQuit: "yon !b", r.t , i
+                }
+            }
         }
         
         # this R
@@ -689,6 +725,7 @@ me.Elvisingness = &acgt{ return [
         $froml = l.slice(es&tunneli);
         es&path = me&printpath,froml;
         T.msg.set('pathin',es&path);
+        # < %beawake should %edone?
         es&beawake and return
 
         # < J sync Te/X, jump to
