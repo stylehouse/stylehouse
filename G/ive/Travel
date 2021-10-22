@@ -502,9 +502,11 @@ me.Sch_Travel = &acgt{ return [
   // &eis matches when &Dtunneling
     # see what R%tunnel=e is, for proto ein
     me.eis = &acgtc{
-        isst(c) and {t:c}
+        isst(c) and c = {t:c}
+        c ||= {}
         c.R ||= me&R
-        $e = me&Dtunneling,c.R
+        c.D ||= Cye(["Dtunneling",1])
+        $e = me&Dtunneling,c.R,c.D
         !e and return
         c.t && c.t != e.t and return
         return e
@@ -661,9 +663,9 @@ me.Sch_Travel = &acgt{ return [
                 $z = ry&up
             }
             elsif (rs&PiiCat || rs&PiiOther) {
-                # < receive change there, or not... -pipe?
-                # it is usually in a flurry of activity anyway
-                return
+                # < about being in something @Gnome manages
+                $j = me.cbu(r,'PiiCat')
+                $z = js&client
             }
             elsif (rc&Cat) {
                 # %SummerCat/%Jrunto/...a %Doming Yingbal
@@ -687,7 +689,10 @@ me.Sch_Travel = &acgt{ return [
             
             !z and debugger
             $wasz = z
-            !isar(z) and z = [zc&s]
+            # < may many at once
+            !isar(z) and z = [z]
+            # R?//s
+            z = z.map(z => isR(z) ? zc&s : z)
             # < pack many ec&wake
             hak(z) > 1 and debugger
             $z = z[0]
