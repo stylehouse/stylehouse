@@ -137,15 +137,48 @@ S 3 Pictures hashy misc
         hashkv('key',{thing:1}))
         
     hat('hashkv()',abunch)
-    
-   // peel()
     abunch = {}
+    
+   // peel(), arq()
     em("one",peel("can"))
     em("two",peel("can,you"))
     em("two.5",peel("can,you:feel"))
     em("three, first : only",peel("the:lunch:tonight,that,was::fiver"))
    
     hat('peel()', abunch)
+    abunch = {}
+    
+    try {
+    em("already",
+        arq({seeing:{theeing:"is"}},{qk:{seeing:1}}))
+    # < catch
+    #em("c.seeing!housey",
+    #    arq({seeing:"lovely,ness"}, {qk:{seeing:1}}))
+    em("put into",
+        arq({thanks:3}, {qk:{seeing:1}}))
+    em("!peel, put into",
+        arq({thanks:"diat"}, {qk:{seeing:1},peely:1}))
+    em("peel, put into 2",
+        arq({thanks:"figaro,thjin:k"}, {qk:{seeing:1,thanks:1},peely:1}))
+    em("peel some, dont put into",
+        arq({thanks:"figaro,thjin:k",seeing:"fully:knowing,myself"},
+            {qk:{seeing:1},peely:1}))
+    em("peel, dont put into",
+        arq({thanks:"figaro,thjin:k",seeing:{fully:2,five:5}},
+            {qk:{seeing:1,thanks:1},peely:1}))
+    
+    em("see nothing",
+        arq({thanks:"figaro,thjin:k",se:{fully:2,five:5}},
+            {qk:{seeing:1},peely:1}))
+    em("see nothing qk/$k=dept",
+        arq({thanks:"figaro,thjin:k",se:{fully:2,five:5}},
+            {qk:{seeing:'abranchof'},peely:1}))
+    }
+    catch(er) {
+        bunch.an_error = ''+er
+    }
+    hat('arq()', abunch)
+    abunch = {}
     
    // ex()
     $ro = {ela:'borate',ti:3}
