@@ -307,11 +307,12 @@
             $nk = 'sc'
             # or in .c|y (making .sc.c... impossible)
             k == 'c' || k == 'y' and nk = k; k = M.shift()
-            $h = t[nk][k] ||= {}
+            $h = t[nk]
         }
         else {
-            $h = t[k] ||= {}
+            $h = t
         }
+        M.unshift(k)
         while (M.length) {
             k = M.shift()
             k == null and debugger

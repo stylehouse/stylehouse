@@ -140,7 +140,7 @@ me.Sch_The = &acgt{ return [
         me&nu,"Zuist",Rs&Zuist
     },'ift,D'],
   // @Gnome 8 other time
-    &{ 
+        &{ 
         # Gnomp &quietready ambiently checks any @active
         me.Gnomp_any_quiet_wake = &acgtR{
             $any = me&zaa,R,'active',1 .filter(&z{
@@ -1100,6 +1100,9 @@ me.Sch_The = &acgt{ return [
             
             me&SG_draw_comrades,[This,Run,Fine]
             
+            $wantrun = 0
+            x.ro('again') and Runs&time--; wantrun = 1
+            
             # here at idle moments, arrive plot
             # < decide to advance, then see that we do...
             $starting = !okc.done
@@ -1112,10 +1115,7 @@ me.Sch_The = &acgt{ return [
                 $Ness = next && nexty&Outs
                 # if next @Ness is -Ness (may be -Lab)
                 if (Ness && Nessc&pi == 'Ness') {
-                    $r = Runy&R
-                    rs&Run = 1
-                    me&tc,"Run++"
-                    me&wants,R,'Run++',Run
+                    wantrun = 1
                 }
                 # < start a &SG_maytodo {advanced} until Run%time++?
                 # < allow vaguely accepted without //Outs
@@ -1123,6 +1123,12 @@ me.Sch_The = &acgt{ return [
                 done()
             }
             
+            if (wantrun) {
+                $r = Runy&R
+                rs&Run = 1
+                me&tc,"Run++"
+                me&wants,R,'Run++',Run
+            }
 
             # observe Proto !now not over finishline
 
