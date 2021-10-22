@@ -1,4 +1,4 @@
-# test, runs on W:Thy
+# test, runs on W:Thy!
 n doafew 1 s:Things!
 $R = A.Run
 S 1 test data for -hat ref noticing, limits, specialfx
@@ -114,6 +114,38 @@ S 3 Pictures hashy misc
     ahk(notC,'y','varo',1)
     ahk(notC,'c','all','was','3',1)
     hat('ahk()',{aC,notC})
+    
+   // hashkv()
+    # < an n@3 hook to pipe s through eg hashkv and arrange the results
+    $abunch = {}
+    $em = (t,s) => abunch[t] = s
+    
+    $abc = {aye:4,bee:3,cee:2}
+    $disc = hashkv(haks(abc).map(k => ['the '+k,"said "+abc[k]]))
+    em("remap",{abc,disc})
+
+    em("ark:$v",
+        hashkv('ark','$v'))
+    # ! string object k
+    em("'it' -> {it:1}",
+        hashkv('it'))
+    em("[[nc&sip,n]+] -> {'0 1 2':n}",
+        hashkv([['0 1 2','One'],['0 1 2 1','Two']]))
+    em("!N.length -> {}",
+        hashkv([]))
+    em("'key',{thing:1} -> {key:{thing:1}}",
+        hashkv('key',{thing:1}))
+        
+    hat('hashkv()',abunch)
+    
+   // peel()
+    abunch = {}
+    em("one",peel("can"))
+    em("two",peel("can,you"))
+    em("two.5",peel("can,you:feel"))
+    em("three, first : only",peel("the:lunch:tonight,that,was::fiver"))
+   
+    hat('peel()', abunch)
     
    // ex()
     $ro = {ela:'borate',ti:3}
