@@ -233,7 +233,7 @@ me.Sch_Travel = &acgt{ return [
         $nonode = ss&z.filter(n => !ns&step && !ns&node)
         me&nu,"non",nonode[0]
         # !
-        $Intro = 1 && xs&Introtivity
+        $Intro = 0 && xs&Introtivity
         Intro and me&nodei,R,Intro,{Introtiv:1,t:'Travel'}
         Intro and me&nodei,R,Intro,{Introtiv:1,t:'The'}
         Intro and me&nodei,R,Intro,{Introtiv:1,t:'Index'}
@@ -499,7 +499,16 @@ me.Sch_Travel = &acgt{ return [
         quiet.length && c.wakers.length == quiet.length and throw "all!q"
     }
   
-  // &Dtunneling
+  // &eis matches when &Dtunneling
+    # see what R%tunnel=e is, for proto ein
+    me.eis = &acgtc{
+        isst(c) and {t:c}
+        c.R ||= me&R
+        $e = me&Dtunneling,c.R
+        !e and return
+        c.t && c.t != e.t and return
+        return e
+    }
     # < merge in &Yingwhen, early sense e, how to %onlyish
     #  < how to gradually work when fed A leashes
     me.Yingtunneling = &acgt{
