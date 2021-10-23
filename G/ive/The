@@ -1195,7 +1195,27 @@ me.Sch_The = &acgt{ return [
                 nc&drop = 1
             })
         }
-      // tallies
+      // tallies, draws
+        # check @Gnome is async to Fine, etc
+        me.SG_draw_comrades = &acgtN{
+            $R = me&R
+            N.map(s => sy&ers || s)
+                .filter(s => Rc&N.includes(me&yfuture,s ))
+                .map(&r{
+                    debugger
+                })
+            return
+            me&rowcap,N ('Name',&sm{
+                # < Names may be The//E, or from it?
+                # go Out
+                sy&ers and s = sy&ers
+                $t = me&Name_of,s
+                me&tc,"@"+t,'G'
+                # we async
+                $heretoo = Rc&N.includes(me&yfuture,s )
+                heretoo and debugger
+            })
+        }
         # check nine%Is
         me.SG_tally_oks = &acgt,nine{
             $h = T.sute
@@ -1243,74 +1263,6 @@ me.Sch_The = &acgt{ return [
             })
         }
       // sus
-        me.SG_maytodo = &acgtc{
-            $h = T.sute
-            # keyword first
-            $k = haks(c)[0]
-            $rec = {maytodo:1,rec:k}
-            # given|had keyword true
-            $permit = c[k] || hak(h.zaa(rec))
-            !permit and return
-            # keep|overwrite permit until done
-            $n = h.ha(rec)
-            return &t{
-                # on failure to complete it
-                t and return h.ha('pur:maytodo',{k,t})
-                # revoke
-                nc&drop = 1
-            }
-        }
-        # check @Gnome is async to Fine, etc
-        me.SG_draw_comrades = &acgtN{
-            $R = me&R
-            N.map(s => sy&ers || s)
-                .filter(s => Rc&N.includes(me&yfuture,s ))
-                .map(&r{
-                    debugger
-                })
-            return
-            me&rowcap,N ('Name',&sm{
-                # < Names may be The//E, or from it?
-                # go Out
-                sy&ers and s = sy&ers
-                $t = me&Name_of,s
-                me&tc,"@"+t,'G'
-                # we async
-                $heretoo = Rc&N.includes(me&yfuture,s )
-                heretoo and debugger
-            })
-        }
-      // <- @Intro
-        me.SG_sustain_elIntro = &acgtR,gs,Inc{
-            # keep these per t?
-            gs = me&SG_sustain,{elIntro:gs}
-            if (gs) {
-                # compose sustain idc from s={k:v} + gs
-                # text-like value (not Q, steps) or el
-                $gsc = s => ex(s,nex({},tex({},gs),'el'))
-                
-                # < there is a way to want a node to wake
-                $bef = me&SG_sustain,gsc({IncBefore:{}})
-                if (bef.el == 2) {
-                    ~>2 elIntro->Inc: gs.Q.t
-                    me&wants,R,'elIntro->Inc',Inc
-                    gs.pur()
-                }
-                else {
-                    $IncAfter = Rs&is_quiet && {}
-                    $aft = me&SG_sustain,gsc({IncAfter})
-                    !aft and return gs.pur()
-                    else {
-                        # managed to @Inc,quiet without ~gs
-                        # < steps-disturbed should sustain more
-                        me&tc,"NOWTORUN"
-                    }
-                }
-            }
-            
-            me&tc,dis(gs),'y'
-            me&nu,{gs,Inc}
-        }
         # $s = &sustain {keyword:$latest_s} {per:'this'} [0]
         #  eg e = &sustain {latest_elQuip:e} [0]
         #   remembers the latest $e that was true, or est this one
@@ -1351,6 +1303,55 @@ me.Sch_The = &acgt{ return [
                 v.el = el
             }
             return v
+        }
+        # < GOING proto sustain?
+        me.SG_maytodo = &acgtc{
+            $h = T.sute
+            # keyword first
+            $k = haks(c)[0]
+            $rec = {maytodo:1,rec:k}
+            # given|had keyword true
+            $permit = c[k] || hak(h.zaa(rec))
+            !permit and return
+            # keep|overwrite permit until done
+            $n = h.ha(rec)
+            return &t{
+                # on failure to complete it
+                t and return h.ha('pur:maytodo',{k,t})
+                # revoke
+                nc&drop = 1
+            }
+        }
+      // <- @Intro
+        me.SG_sustain_elIntro = &acgtR,gs,Inc{
+            # keep these per t?
+            gs = me&SG_sustain,{elIntro:gs}
+            if (gs) {
+                # compose sustain idc from s={k:v} + gs
+                # text-like value (not Q, steps) or el
+                $gsc = s => ex(s,nex({},tex({},gs),'el'))
+                
+                # < there is a way to want a node to wake
+                $bef = me&SG_sustain,gsc({IncBefore:{}})
+                if (bef.el == 2) {
+                    ~>2 elIntro->Inc: gs.Q.t
+                    me&wants,R,'elIntro->Inc',Inc
+                    gs.pur()
+                }
+                else {
+                    $IncAfter = Rs&is_quiet && {}
+                    $aft = me&SG_sustain,gsc({IncAfter})
+                    !aft and return gs.pur()
+                    else {
+                        # managed to @Inc,quiet without ~gs
+                        # < steps-disturbed should sustain more
+                        me&tc,"NOWTORUN"
+                    }
+                }
+            }
+            
+            me&tc,dis(gs),'y'
+            me&nu,{gs,Inc}
         }
         # get $gs, diff from ec&e=Q
         me.SG_elIntro = &acgtR,Run{
