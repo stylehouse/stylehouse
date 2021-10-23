@@ -3990,7 +3990,7 @@ me.Differingness = &acgt{ return [
     ] };
 
 
-    #c diffy
+    #c diffsum, textdiffN
     me.diffproximate = &acgtR{
         # how many lines +- approx
         $M = me&Mw,R,'diffproximate';
@@ -4161,7 +4161,10 @@ me.Differingness = &acgt{ return [
         each in N {
             # indent becomes
             ns&level = me&getindent,nc&s
-            
+            # may copy previous while blank?
+            if (la && ns&level < las&level) {
+                !nc&s.match(/\S/) and ns&level = las&level
+            }
             # may sum with previous n on same line
             if (la && !lac&s.endsWith("\n")) {
                 # if not a line split, is a new|gone|diff split

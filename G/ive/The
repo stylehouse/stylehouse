@@ -1114,7 +1114,7 @@ me.Sch_The = &acgt{ return [
             # @Gnome can also listen for any item
             #  < only being those coming for @Run**
             #me&nodei,R,xs&Introtivity,{Introtiv:1,t:'Travel'}
-            
+          // wants
             # < decide to advance, then see that we do...
             $starting = !okc.done
             $advancing = starting || okc.more_ok
@@ -1281,26 +1281,15 @@ me.Sch_The = &acgt{ return [
                 if (ie.t == 'elIntro') {
                     $Q = iec&e
                     $P = Qs&P
-                    
-                    $a = {}
-                    if (Qc&of == 'wjs') {
-                        # default from, seems to stay initial?
-                        # < be the latest pulled-in version
-                        #    once it is commit
-                        #     < this change might join an existing effort
-                        $Qs = Qc&s
-                        # the ready P, not awaken to Q
-                        $P = Qs&P
-                        $Ps = Pc&s
-                    }
-                    else {
-                        me&tc,"usualQ|P%string-things?"
-                    }
-                    # Q is fairly permanent? gets y&diffP...
+                    Qc&of != 'wjs' and me&tc,"non-of:wjs",'B'
+                    # < knowing the latest pulled-in version
+                    #  < this change might join an existing effort
+                    # Q is permanent? gets y&diffP...
+                    #  starts diffing Q-P, then laP-P
                     $memory = Q
                     $se = me&tc,"diffPs"
                     $di = me&diffPs,R,Q,P,memory,se
-                    me&zu,{di,ie}
+                    me&zu,{di,ie,Comp:dis&Comp}
                 }
             }
         }
