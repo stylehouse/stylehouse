@@ -743,22 +743,26 @@ me.Sch_Travel = &acgt{ return [
         ac(e,'gotup',Q)
     }
     # diff code changes as they come in!
-    # < rather bad diffsplay
     me.diffPs = &acgtRQPs,se{
-        # not extractable from <script src...>
-        # from the first of the 2 requests to /wjs/
-        $str = Ps&string
-        if (Pc&of == 'wjs') {
-            $Live = Pc&s
-            Live and str = Livec&s
-        }
         $io = &i{ return (i=='i'?ah:ahsk)(s,'y','diffPs',...[...arguments].slice(1)) }
+        # < string not extractable from <script src...> ?
+        # from the first of the 2 requests to /wjs/
+        $str = me&stringofP,P
         str == null and return
-        io('o','nows') == str and 'same'
+        $reduce = {a:str}
+        Pc&of == 'wjs' and reduce.nofirstline = 1
+        
+        $now = io('o','nows')
+        # the very first time the already is the Q
+        #  which seems to never update to latest used version
+        !now and io('i','wass',me&stringofP,Q )
+        else
+        now == str and 'idle'
         else {
+            # now -> was
             io('i','wass',io('o','nows'))
-            io('i','nows',str)
         }
+        io('i','nows',str)
         $las = io('o','wass')
         !las and return me&tc,"first!"
         
@@ -766,18 +770,23 @@ me.Sch_Travel = &acgt{ return [
         me&reducefromtheedges,red
         $Pis = Cye(['i',1,{},{string:red.a}])
         $las = Cye(['l',1,{},{string:red.b}])
-        me&diffany,R,Pis,las,{se}
+        # may put on modulat $se
+        return me&diffany,R,Pis,las,{se}
+    }
+    me.stringofP = &acgtP{
+        $str = Ps&string
+        if (Pc&of == 'wjs') {
+            $Live = Pc&s
+            Live and str = Livec&s
+        }
+        !str and debugger
+        return str
     }
     me.reducefromtheedges = &acgtc{
-        if (c.nofirstline) {
-            $nonfirstline = &s{
-                return s.replace(/^.+?\n/,'')
-            }
-            c.a = nonfirstline(c.a)
-            c.b = nonfirstline(c.b)
-        }
         $a = c.a.split("\n")
         $b = c.b.split("\n")
+        # ignore function declaration, has a dige in it
+        c.nofirstline and a.shift(); b.shift()
         
         $trimsame = &ab{
             while (a[0] == b[0]) {

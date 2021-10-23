@@ -1108,26 +1108,11 @@ me.Sch_The = &acgt{ return [
             # <<<
             
             # @Gnome receives notifies for @Inc
-            $Inc = me&nodes_below,Run .filter(n => n.t == 'Inc') [0]
-            # somewhere in an envolping
-            #$e = me&eis,'elIntro'
-            if (e) {
-                me&tc,"wchangey"
-            }
-            $e = me&eis,'elvoids'
-            me&tc,dis({eis:e})
-            if (e) {
-                me&ha,R,{latest_elQuip:e,dome:'latestelQuip'}
-            }
-            $e = me&jaa,R,'latest_elQuip',1 .slice(-1)[0]
-            me&tc,dis({lat:e})
-            # < e** until !y&pack, to the point of e:elIntro
-            #   that +etc should be indexed on ec&X, what the e concerns, deeply
-            me&nu,"The",e
+            me&SG_elIntro,R,Run
             
             #me&wants,R,'Intro->Inc',Inc
             # @Gnome can also listen for any item
-            #  < only being those coming for
+            #  < only being those coming for @Run**
             #me&nodei,R,xs&Introtivity,{Introtiv:1,t:'Travel'}
             
             # < decide to advance, then see that we do...
@@ -1275,6 +1260,66 @@ me.Sch_The = &acgt{ return [
                 $heretoo = Rc&N.includes(me&yfuture,s )
                 heretoo and debugger
             })
+        }
+      // <- @Intro
+        me.SG_elIntro = &acgtR,Run{
+            # @Gnome receives notifies for @Inc
+            $Inc = me&nodes_below,Run .filter(n => n.t == 'Inc') [0]
+            # somewhere in an envolping
+            #$e = me&eis,'elIntro'
+            if (e) {
+                me&tc,"wchangey"
+            }
+            $e = me&eis,'elvoids'
+            (e) and me&ha,R,{latest_elQuip:e,dome:'latestelQuip'}
+            $e = me&jaa,R,'latest_elQuip',1 .slice(-1)[0]
+            me&tc,dis({lat:e})
+            if (e) {
+                # < arrive e** it goes, have ebits for us
+                $ie = me&through_packs,e
+                me&tc,dis({ie})
+                if (ie.t == 'elIntro') {
+                    $Q = iec&e
+                    $P = Qs&P
+                    
+                    $a = {}
+                    if (Qc&of == 'wjs') {
+                        # default from, seems to stay initial?
+                        # < be the latest pulled-in version
+                        #    once it is commit
+                        #     < this change might join an existing effort
+                        $Qs = Qc&s
+                        # the ready P, not awaken to Q
+                        $P = Qs&P
+                        $Ps = Pc&s
+                    }
+                    else {
+                        me&tc,"usualQ|P%string-things?"
+                    }
+                    # Q is fairly permanent? gets y&diffP...
+                    $memory = Q
+                    $se = me&tc,"diffPs"
+                    $di = me&diffPs,R,Q,P,memory,se
+                    me&zu,{di,ie}
+                }
+            }
+        }
+        # the e that causes tunneling doesnt arrive e** as it goes
+        # < should do, know what is for here, anywhere
+        #    that +etc should be indexed on ec&X, what the e concerns, deeply
+        # so we go looking from the top
+        me.through_packs = &acgte{
+            $ie
+            # e** until !y&pack, to the point of eg e:elIntro
+            me&indo,e (&ed{
+                # an enveloping, at %JRom or so..? see elvoids
+                ec&pack and return
+                # only one without arrive
+                ie and debugger
+                ie = e
+                d.not = 1
+            })
+            return ie
         }
         
  },
