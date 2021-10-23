@@ -1064,7 +1064,6 @@ me.Sch_The = &acgt{ return [
             $Run = ar.Run
             $F = ar.F
           // %%active are, This -> Fine
-            
             # stuff @Gnome notices about who is active
             # < look like %TX? stream -> {pi:nine,el<3} -> @Fine++ plan
             # o %active/:z//C:s
@@ -1101,6 +1100,7 @@ me.Sch_The = &acgt{ return [
             me&SG_draw_comrades,[This,Run,Fine]
             
           // Run?
+            
             $wantrun = 0
             x.ro('again') and Runs&time--; wantrun = 1
             
@@ -1264,8 +1264,8 @@ me.Sch_The = &acgt{ return [
             })
         }
       // sus
-        # $s = &sustain {keyword:$latest_s} {per:'this'} [0]
-        #  eg e = &sustain {latest_elQuip:e} [0]
+        # $wo = &sustain {word:$latest_s} {per:'this'} [0]
+        #  eg c = &sustain {latest_elQuip:e} [0]
         #   remembers the latest $e that was true, or est this one
         #  you may nc&drop them
         me.SG_sustain = &acgtcq{
@@ -1274,41 +1274,51 @@ me.Sch_The = &acgt{ return [
             $k = haks(c)[0]
             $v = c[k]
             $idc = nex({},c,[k])
-            # < rec by k + dis(idc)? has dome_traction
             $rec = k
-            rec = ex({sustain:1,rec:k},idc)
+            # < rec by k + dis(idc)? has dome_traction
+            # maybe we are many keyword:$id
+            q and rec += ':'+v
+            $name = rec
+            rec = ex({sustain:1,rec},idc)
             $remember = h.zaa(rec)
-            # given|had keyword true
-            $permit = 
-            permit and return {el:9}
-            # giving v a later time doesn't mean anything
+            
             $el = 1
             if (!v && !hak(remember)) {
-                $el = 9
-                v = {}
+                # not yet
+                $el = 10
+                $a = {}
             }
             elsif (!v) {
-                # remember latest v
-                v = remember .slice(-1)[0]
+                # remembers latest n
             }
             elsif (!hak(remember)) {
-                # giving v the first time
+                # v true for the first time
                 $el = 2
-                # keep|overwrite permit until done
-                # < eventually, its effect is noted on it
+                # it may be the sustain
+                rec.sustain = isho(v) ? v : {v}
+                # keep permit until done
                 remember = [h.ha(rec,c)]
             }
-            
-            # < isho() see ishousey
-            if (isha(v) && !isC(v)) {
-                # on failure|enduring to complete it
-                v.pur = t => h.ha('pur:sustain',{k,t})
-                # revoke
-                v.done = () => remember .map(n => nc&drop = 1)
-                # know first time
-                v.el = el
+            else {
+                # v true again
             }
-            return v
+            
+            # eventually, its effect is noted on it over time
+            #  by others (in sute) doing re-rec on ov++
+            $n = remember .slice(-1)[0]
+            a ||= ns&sustain
+            !a and throw "!a"
+            
+            # on failure|enduring to complete it
+            a.pur = say => h.ha('pur:sustain',dex(c,{say}))
+            # revoke
+            a.done = () => remember .map(n => nc&drop = 1)
+            # know first time
+            a.el = el
+            a.n = n
+            # may also a.v if !isho
+            
+            return a
         }
         # < GOING proto sustain?
         me.SG_maytodo = &acgtc{
@@ -1333,41 +1343,46 @@ me.Sch_The = &acgt{ return [
             $h = T.sute
             # keep these per t?
             gs = me&SG_sustain,{elIntro:gs}
-            gs.el == 9 and return
+            gs.el > 8 and return
+            !gs.Q and debugger
             
-            me&tc,dis(gs),'y'
-            me&nu,{gs,Inc}
-            # compose sustain idc from s={k:v} + gs
+            # compose idc from s={k:v} + gs
             # text-like value (not Q, steps) or el
             $gsc = s => ex(s,nex({},tex({},gs),'el'))
+            
+            me&tc,dis(gsc({})),'y'
+            me&nu,{gs,Inc}
 
             # < there is a way to want a node to wake
+            # classic leave this time
             $be = me&SG_sustain,gsc({IncBefore:{}})
             if (be.el == 2) {
                 ~>2 elIntro->Inc: gs.Q.t
                 me&wants,R,'elIntro->Inc',Inc
                 # < pur({wants})
-                bef.pur()
+                be.pur()
                 return
             }
             
+            # arrive after
             $IncAfter = Rs&is_quiet && {}
             $af = me&SG_sustain,gsc({IncAfter})
-            af.el == 9 and return af.pur()
+            af.el > 8 and return af.pur()
+            # managed to @Inc,quiet without ~gs
+            # < double check from a be{el2} stashed Incy&R
             
-            if (af.el == 2) {
-                ~>2 elIntro->Run: joint(gs.steps,', ')
-                gs.steps.map(&i{
-                    $me&SG_sustain,{elIntroRunstep:i}
-                    
+            # < any steps disturbed should sustain more
+            af.el == 2 and ~>2 elIntro->Run: joint(gs.steps,', ')
+            gs.steps.map(&i{
+                $ro = me&SG_sustain,gsc({RunStep:i}),{}
+                $n = ro.n
+                me&boxcap,"step:"+i (&m{
+                    me&walls,m,'b:2.2h5'
+                    ns&ov > 0.8 and me&tc,"done"
+                    else me&tc,".."
                 })
-                # rec:'elIntroRunstep'+i})
-            }
-            else {
-                # managed to @Inc,quiet without ~gs
-                # < steps-disturbed should sustain more
-                me&tc,"NOWTORUN"
-            }
+            })
+            
         }
         # get $gs, diff from ec&e=Q
         me.SG_elIntro = &acgtR,Run{
