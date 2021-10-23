@@ -1109,11 +1109,14 @@ me.Sch_The = &acgt{ return [
             
             # @Gnome receives notifies for @Inc
             me&SG_elIntro,R,Run
-            
+            # < Name @Cat/*
+            $Inc = me&nodes_below,Run .filter(n => n.t == 'Inc') [0]
             #me&wants,R,'Intro->Inc',Inc
+            
             # @Gnome can also listen for any item
             #  < only being those coming for @Run**
             #me&nodei,R,xs&Introtivity,{Introtiv:1,t:'Travel'}
+            
           // wants
             # < decide to advance, then see that we do...
             $starting = !okc.done
@@ -1230,6 +1233,7 @@ me.Sch_The = &acgt{ return [
             $h = T.sute
             $k = haks(c)[0]
             $rec = {maytodo:1,rec:k}
+            # given|had true
             $permit = c[k] || hak(h.zaa(rec))
             !permit and return
             # keep|overwrite permit until done
@@ -1263,8 +1267,6 @@ me.Sch_The = &acgt{ return [
         }
       // <- @Intro
         me.SG_elIntro = &acgtR,Run{
-            # @Gnome receives notifies for @Inc
-            $Inc = me&nodes_below,Run .filter(n => n.t == 'Inc') [0]
             # somewhere in an envolping
             #$e = me&eis,'elIntro'
             if (e) {
@@ -1289,9 +1291,29 @@ me.Sch_The = &acgt{ return [
                     $memory = Q
                     $se = me&tc,"diffPs"
                     $di = me&diffPs,R,Q,P,memory,se
-                    me&zu,{di,ie,Comp:dis&Comp}
+                    $gs = me&yio,Q,'diffPs' ('o','doing')
+                    if (!gs.steps) {
+                        gs.steps = []
+                        $Comp = dis&Comp
+                        # determine step
+                        each il Comp {
+                            ls&level > 0 and continue
+                            !ls&chain and continue
+                            $m = lc&s.match(/^(?:} )?while \(G.h\([\w,]+,"S",([\d\.]+),/)
+                            !m and continue
+                            gs.steps.push(m[1])
+                        }
+                    }
+                    # < make maytodo to @Inc,quiet based on gs
+                    #   until completed with same gs
+                    #  
+                    # < to be cached per P%dige
+                    #   rolled out while P%dige same
+                    me&zu,{di,ie,Comp,gs}
                 }
             }
+            # < have certain P%dige changes for steps
+            #   is where we want to have a /$node, inc @Fe that come up
         }
         # the e that causes tunneling doesnt arrive e** as it goes
         # < should do, know what is for here, anywhere
@@ -1310,6 +1332,7 @@ me.Sch_The = &acgt{ return [
             })
             return ie
         }
+        
         
  },
   

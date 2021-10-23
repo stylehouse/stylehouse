@@ -4192,29 +4192,43 @@ me.Differingness = &acgt{ return [
             # limited to level < l, l = where the ++-- was
             # g=5 limits to i+5, and %ope=1.5
             $ope = g ? 1.5 : 1
-            $slope = []
             while (1) {
                 i = i + p
                 $n = N[i]
                 !n and return
                 ns&level > l and continue
+                isfu(g) and g (n,l) and return
+                else {
+                    ns&ope ||= ope
+                    g && 0 == --g and return
+                }
                 # climbing to whole-line levels
                 ns&level < l && nc&s.endsWith("\n") and l = ns&level
-                ns&ope ||= ope
-                g && 0 == --g and return
             }
         }
         each in N {
             n.t == 'same' and continue
             ns&ope = 2
-            # perc to every heading before
+            i*=1
+            # perc to every heading along before
             #  and after the trip up from ++--
-            out(i*1,1,ns&level)
-            out(i*1,-1,ns&level)
+            out(i,1,ns&level)
+            out(i,-1,ns&level)
             # and 3 either side of here
             # < working
-            out(i*1,1,ns&level,3)
-            out(i*1,-1,ns&level,3)
+            out(i,1,ns&level,3)
+            out(i,-1,ns&level,3)
+            # perc to every heading containing change
+            # < as a &slope with n^^ +%chain, very easy
+            out(i,-1,ns&level,&nl{
+                # want things beyond our current level
+                l <= ns&level and return
+                ns&chain ||= 0
+                ns&chain += 1
+                # not strictly necessary
+                #  we avoid our soon-to-be-current l
+                !ns&level and return 1
+            })
         }
         
       // layout

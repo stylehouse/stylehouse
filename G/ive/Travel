@@ -742,34 +742,54 @@ me.Sch_Travel = &acgt{ return [
         delete T.asyncQs
         ac(e,'gotup',Q)
     }
+    me.yio = &acgtst{
+        return &i{
+            $y = i == 'i' ? ah : ahsk
+            return y (s,'y',t, ...[...arguments].slice(1))
+        }
+    }
     # diff code changes as they come in!
     me.diffPs = &acgtRQPs,se{
-        $io = &i{ return (i=='i'?ah:ahsk)(s,'y','diffPs',...[...arguments].slice(1)) }
+        $io = me&yio,s,'diffPs'
         # < string not extractable from <script src...> ?
         # from the first of the 2 requests to /wjs/
         $str = me&stringofP,P
         str == null and return
         $reduce = {a:str}
-        Pc&of == 'wjs' and reduce.nofirstline = 1
         
         $now = io('o','nows')
-        # the very first time the already is the Q
-        #  which seems to never update to latest used version
-        !now and io('i','wass',me&stringofP,Q )
-        else
-        now == str and 'idle'
+        if (!now || now != str) {
+            if (!now) {
+                # the very first time the already is the Q
+                #  which seems to never update to latest used version,
+                #  so we use it as per-thing persistence
+                io('i','wass',me&stringofP,Q )
+            }
+            else {
+                # now -> was
+                io('i','wass',io('o','nows'))
+            }
+            # random c that will change + have different values
+            $gs = {t:P.t,dige:Ps&dige}
+            # < the expanded &oft Qc&* spec
+            sex(gs,P.c,'of,species,el')
+            io('i','doing',gs)
+        }
         else {
-            # now -> was
-            io('i','wass',io('o','nows'))
+            # idle
         }
         io('i','nows',str)
         $las = io('o','wass')
         !las and return me&tc,"first!"
         
-        $red = {a:str,b:las,nofirstline:1}
-        me&reducefromtheedges,red
-        $Pis = Cye(['i',1,{},{string:red.a}])
-        $las = Cye(['l',1,{},{string:red.b}])
+        if (Pc&of == 'wjs') {
+            # ignores function declaration, has a dige in it
+            $notfirstline = s => s.replace(/^.+?\n/,'')
+            str = notfirstline(str)
+            las = notfirstline(las)
+        }
+        $Pis = Cye(['i',1,{},{string:str}])
+        $las = Cye(['l',1,{},{string:las}])
         # may put on modulat $se
         return me&diffany,R,Pis,las,{se}
     }
@@ -782,28 +802,30 @@ me.Sch_Travel = &acgt{ return [
         !str and debugger
         return str
     }
+    # < GOING
     me.reducefromtheedges = &acgtc{
         $a = c.a.split("\n")
         $b = c.b.split("\n")
-        # ignore function declaration, has a dige in it
         c.nofirstline and a.shift(); b.shift()
-        
-        $trimsame = &ab{
-            while (a[0] == b[0]) {
-                a.shift(); b.shift()
-                # keep some context leading up to it
-                #  supposedly the first line of each indent going out
-                #  not very chunks
-                a.length < 100 and return
+        if (1) {
+            # 
+            $trimsame = &ab{
+                while (a[0] == b[0]) {
+                    a.shift(); b.shift()
+                    # keep some context leading up to it
+                    #  supposedly the first line of each indent going out
+                    #  not very chunks
+                    a.length < 100 and return
+                }
             }
+            # reverse first, so we have context leading up to it
+            a.reverse()
+            b.reverse()
+            trimsame(a,b)
+            a.reverse()
+            b.reverse()
+            trimsame(a,b)
         }
-        # reverse first, so we have context leading up to it
-        a.reverse()
-        b.reverse()
-        trimsame(a,b)
-        a.reverse()
-        b.reverse()
-        trimsame(a,b)
         c.a = a.join("\n")+"\n"
         c.b = b.join("\n")+"\n"
     }
