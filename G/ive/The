@@ -1059,11 +1059,11 @@ me.Sch_The = &acgt{ return [
         #   < should only have to pause until pushed:
         #    to store J osc via Duolish** &SuperGansp
         su('See',{until:&zaa,jaa,ha,ar{
-          // %%active are, This -> Fine
-            #x.ro('init',{}) and me&nodei,R,not,'initdata'
             # Reside guaratees:
+            $Cat = ar.Cat
             $Run = ar.Run
             $F = ar.F
+          // %%active are, This -> Fine
             
             # stuff @Gnome notices about who is active
             # < look like %TX? stream -> {pi:nine,el<3} -> @Fine++ plan
@@ -1106,18 +1106,32 @@ me.Sch_The = &acgt{ return [
             
             # here at random moments, arrive plot
             # <<<
-            
-            # @Gnome receives notifies for @Inc
-            me&SG_elIntro,R,Run
+
+            $done = me&boxcap,'elIntro','1s'
+            me&walls,T.ab,'bd:3.3'
             # < Name @Cat/*
-            $Inc = me&nodes_below,Run .filter(n => n.t == 'Inc') [0]
-            #me&wants,R,'Intro->Inc',Inc
+            $Inc = me&nodes_below,Cat .filter(n => n.t == 'Inc') [0]
+            !Inc and return ha('pur:!Inc')
+            # @Gnome receives notifies for @Inc
+            $gs = me&SG_elIntro,R,Run
+            me&SG_sustain_elIntro,R,gs,Inc
             
+            done()
+            
+            
+            
+            # < make maytodo to @Inc,quiet based on gs
+            #   until completed with same gs
+            #  
+            # < to be cached per P%dige
+            #   rolled out while P%dige same
+            
+            
+          // < wants
             # @Gnome can also listen for any item
             #  < only being those coming for @Run**
             #me&nodei,R,xs&Introtivity,{Introtiv:1,t:'Travel'}
             
-          // wants
             # < decide to advance, then see that we do...
             $starting = !okc.done
             $advancing = starting || okc.more_ok
@@ -1231,9 +1245,10 @@ me.Sch_The = &acgt{ return [
       // sus
         me.SG_maytodo = &acgtc{
             $h = T.sute
+            # keyword first
             $k = haks(c)[0]
             $rec = {maytodo:1,rec:k}
-            # given|had true
+            # given|had keyword true
             $permit = c[k] || hak(h.zaa(rec))
             !permit and return
             # keep|overwrite permit until done
@@ -1266,6 +1281,78 @@ me.Sch_The = &acgt{ return [
             })
         }
       // <- @Intro
+        me.SG_sustain_elIntro = &acgtR,gs,Inc{
+            # keep these per t?
+            gs = me&SG_sustain,{elIntro:gs}
+            if (gs) {
+                # compose sustain idc from s={k:v} + gs
+                # text-like value (not Q, steps) or el
+                $gsc = s => ex(s,nex({},tex({},gs),'el'))
+                
+                # < there is a way to want a node to wake
+                $bef = me&SG_sustain,gsc({IncBefore:{}})
+                if (bef.el == 2) {
+                    ~>2 elIntro->Inc: gs.Q.t
+                    me&wants,R,'elIntro->Inc',Inc
+                    gs.pur()
+                }
+                else {
+                    $IncAfter = Rs&is_quiet && {}
+                    $aft = me&SG_sustain,gsc({IncAfter})
+                    !aft and return gs.pur()
+                    else {
+                        # managed to @Inc,quiet without ~gs
+                        # < steps-disturbed should sustain more
+                        me&tc,"NOWTORUN"
+                    }
+                }
+            }
+            
+            me&tc,dis(gs),'y'
+            me&nu,{gs,Inc}
+        }
+        # $s = &sustain {keyword:$latest_s} {per:'this'} [0]
+        #  eg e = &sustain {latest_elQuip:e} [0]
+        #   remembers the latest $e that was true, or est this one
+        #  you may nc&drop them
+        me.SG_sustain = &acgtcq{
+            $h = T.sute
+            # keyword first
+            $k = haks(c)[0]
+            $v = c[k]
+            $idc = nex({},c,[k])
+            # < rec by k + dis(idc)
+            $rec = ex({sustain:1,rec:k},idc)
+            $remember = h.zaa(rec)
+            # given|had keyword true
+            $permit = v || hak(remember)
+            !permit and return
+            # giving v a second time doesn't mean anything
+            $el = 1
+            if (!v) {
+                # remember latest v
+                v = remember .slice(-1)[0]
+            }
+            elsif (!hak(remember)) {
+                # giving v the first time
+                $el = 2
+                # keep|overwrite permit until done
+                # < eventually, its effect is noted on it
+                remember = [h.ha(rec,c)]
+            }
+            
+            # < isho() see ishousey
+            if (isha(v) && !isC(v)) {
+                # on failure|enduring to complete it
+                v.pur = t => h.ha('pur:sustain',{k,t})
+                # revoke
+                v.done = () => remember .map(n => nc&drop = 1)
+                # know first time
+                v.el = el
+            }
+            return v
+        }
+        # get $gs, diff from ec&e=Q
         me.SG_elIntro = &acgtR,Run{
             # somewhere in an envolping
             #$e = me&eis,'elIntro'
@@ -1275,11 +1362,11 @@ me.Sch_The = &acgt{ return [
             $e = me&eis,'elvoids'
             (e) and me&ha,R,{latest_elQuip:e,dome:'latestelQuip'}
             $e = me&jaa,R,'latest_elQuip',1 .slice(-1)[0]
-            me&tc,dis({lat:e})
+            #me&tc,dis({lat:e})
             if (e) {
                 # < arrive e** it goes, have ebits for us
                 $ie = me&through_packs,e
-                me&tc,dis({ie})
+                #me&tc,dis({ie})
                 if (ie.t == 'elIntro') {
                     $Q = iec&e
                     $P = Qs&P
@@ -1289,10 +1376,13 @@ me.Sch_The = &acgt{ return [
                     # Q is permanent? gets y&diffP...
                     #  starts diffing Q-P, then laP-P
                     $memory = Q
-                    $se = me&tc,"diffPs"
-                    $di = me&diffPs,R,Q,P,memory,se
+                    $done = me&boxcap,'diffP:'+P.t,'1s'
+                    me&walls,T.ab,'bd:3.3'
+                    $di = me&diffPs,R,Q,P,memory
+                    done()
                     $gs = me&yio,Q,'diffPs' ('o','doing')
                     if (!gs.steps) {
+                        gs.Q = Q
                         gs.steps = []
                         $Comp = dis&Comp
                         # determine step
@@ -1304,12 +1394,8 @@ me.Sch_The = &acgt{ return [
                             gs.steps.push(m[1])
                         }
                     }
-                    # < make maytodo to @Inc,quiet based on gs
-                    #   until completed with same gs
-                    #  
-                    # < to be cached per P%dige
-                    #   rolled out while P%dige same
-                    me&zu,{di,ie,Comp,gs}
+                    #me&zu,{di,ie,Comp,gs}
+                    return gs
                 }
             }
             # < have certain P%dige changes for steps
