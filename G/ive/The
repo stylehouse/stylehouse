@@ -1264,25 +1264,47 @@ me.Sch_The = &acgt{ return [
             })
         }
       // sus
-        # $wo = &sustain {word:$latest_s} {per:'this'} [0]
-        #  eg c = &sustain {latest_elQuip:e} [0]
-        #   remembers the latest $e that was true, or est this one
-        #  you may nc&drop them
-        me.SG_sustain = &acgtcq{
+        # watch the thing, $v, until true|changey
+        #  eg a = &sustain {} {latest_elQuip:e}
+        #   remembers the latest a.v=e that was true, or est this one
+        #  you may nc&drop them via a.done()
+        me.SG_sustain = &acgtscq{
             $h = T.sute
+            !ish(s) || !ish(c) and debugger
             # keyword first
+            c = peel(c)
             $k = haks(c)[0]
             $v = c[k]
-            $idc = nex({},c,[k])
+           // $remember
+            $idc = {}
+            if (haks(s)) {
+                # inherit identity eg another &sustain
+                #  eg another &sustain or &diffPs
+                ex(idc,nex({},tex({},s),'el'))
+            }
+            # all c.* and most s.* except c.$k
+            #  what to group by, become a.*
+            idc = nex(idc,c,[k])
+            #!
             $rec = k
             # < rec by k + dis(idc)? has dome_traction
             # maybe we are many keyword:$id
             q and rec += ':'+v
-            $name = rec
-            rec = ex({sustain:1,rec},idc)
-            $remember = h.zaa(rec)
             
+            $grouping = ex({sustain:1,rec},idc)
+            
+            $remember = h.zaa(grouping)
+            
+           // $el
             $el = 1
+            # housey things become latest
+            if (v && hak(remember) && ish(v)) {
+                $wasn = remember .slice(-1)[0]
+                $wasv = wasn.sc [k]
+                if (v != wasv) {
+                    $el = 2
+                }
+            }
             if (!v && !hak(remember)) {
                 # not yet
                 $el = 10
@@ -1294,29 +1316,46 @@ me.Sch_The = &acgt{ return [
             elsif (!hak(remember)) {
                 # v true for the first time
                 $el = 2
-                # it may be the sustain
-                rec.sustain = isho(v) ? v : {v}
-                # keep permit until done
-                remember = [h.ha(rec,c)]
             }
             else {
                 # v true again
             }
+            if (el == 2) {
+                # may promote $v to being the %%sustain=$a
+                #  or a.v will be it, you would know
+                #  eg  &sustain {} {SomeCached:cthing}
+                #   takes on the life of cthing
+                #    allows its source to stop producing it
+                #     < interesting
+                $a = grouping.sustain = ish(v) ? v : {v}
+                # a += c.*!$k > s.*
+                # < how much of c.* to take... til q?
+                ex(a,idc)
+                
+                # keep permit until done
+                remember = [h.ha(grouping,c)]
+            }
             
-            # eventually, its effect is noted on it over time
-            #  by others (in sute) doing re-rec on ov++
+           // $n
+            # < eventually, its effect is noted on it over time
+            #   by others (in sute) doing re-rec on ov++
+            # < q might resolve $n c+s over idc
+            
             $n = remember .slice(-1)[0]
+            
             a ||= ns&sustain
             !a and throw "!a"
             
             # on failure|enduring to complete it
-            a.pur = say => h.ha('pur:sustain',dex(c,{say}))
+            #  pur after $k+$index?
+            a.pur = say => h.ha(dex({pur:'sustain:'+rec},{say}))
             # revoke
             a.done = () => remember .map(n => nc&drop = 1)
+            
             # know first time
             a.el = el
-            a.n = n
-            # may also a.v if !isho
+            (n) and a.n = n
+            # may also a.v if !ish()
             
             return a
         }
@@ -1342,20 +1381,26 @@ me.Sch_The = &acgt{ return [
         me.SG_sustain_elIntro = &acgtR,gs,Inc{
             $h = T.sute
             # keep these per t?
-            gs = me&SG_sustain,{elIntro:gs}
+            $orig = gs
+            gs = me&SG_sustain,{},{elIntro:gs}
             gs.el > 8 and return
             !gs.Q and debugger
             
+            # GOING
             # compose idc from s={k:v} + gs
             # text-like value (not Q, steps) or el
             $gsc = s => ex(s,nex({},tex({},gs),'el'))
             
             me&tc,dis(gsc({})),'y'
             me&nu,{gs,Inc}
+            # &sustain {} {elIntro:gs} # to sample $gs
+            # &sustain gs {untility:maybe} # to inherit gs id
+            #  and then $a=maybe if housey, avoids 
+            #   also el=2 if maybe changes amongst true
 
             # < there is a way to want a node to wake
             # classic leave this time
-            $be = me&SG_sustain,gsc({IncBefore:{}})
+            $be = me&SG_sustain,gs,{IncBefore:1}
             if (be.el == 2) {
                 ~>2 elIntro->Inc: gs.Q.t
                 me&wants,R,'elIntro->Inc',Inc
@@ -1365,16 +1410,16 @@ me.Sch_The = &acgt{ return [
             }
             
             # arrive after
-            $IncAfter = Rs&is_quiet && {}
-            $af = me&SG_sustain,gsc({IncAfter})
-            af.el > 8 and return af.pur()
+            $IncAfter = Rs&is_quiet && 1
+            $af = me&SG_sustain,gs,{IncAfter}
+            af.el > 8 and return af.pur("Thingoe")
             # managed to @Inc,quiet without ~gs
             # < double check from a be{el2} stashed Incy&R
             
             # < any steps disturbed should sustain more
             af.el == 2 and ~>2 elIntro->Run: joint(gs.steps,', ')
             gs.steps.map(&i{
-                $ro = me&SG_sustain,gsc({RunStep:i}),{}
+                $ro = me&SG_sustain,gs,{RunStep:i}
                 $n = ro.n
                 me&boxcap,"step:"+i (&m{
                     me&walls,m,'b:2.2h5'
@@ -1426,7 +1471,7 @@ me.Sch_The = &acgt{ return [
                             gs.steps.push(m[1])
                         }
                     }
-                    #me&zu,{di,ie,Comp,gs}
+                    me&zu,{di,ie,Comp,gs}
                     return gs
                 }
             }

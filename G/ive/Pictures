@@ -266,6 +266,16 @@
         return out.map(i => N.splice(i,1)[0]).reverse()
     }
   // misc() 
+    # string
+    self.iskeyish =
+    self.iske = k => typeof k == 'string' || typeof k == 'number'
+    # housey, eg a random c, see %%sustain
+    self.ish =
+    self.isho = v => isha(v) && !isC(v)
+    # itemic
+    self.isi =
+    self.isit = v => !isha(v) || isC(v)
+    
     # defor... inverted
     self.oneor = &ckv{
         $is = c [k]
@@ -356,9 +366,6 @@
     # waves have a skin
     # skins relate posture
     # < for even ...arguments, like perl's {@kvs}
-    window.iskeyish = &k{
-        return typeof k == 'string' || typeof k == 'number'
-    }
     window.hashkv = &kv{
         $args = [...arguments]
         if (args.length == 1) {
@@ -448,9 +455,9 @@
         $K = qk[0]
         $gk = q.qk[K]
         # how c and any c.K should end up
-        $housey = v => isha(v) && !isC(v)
+        $housey = isho
         # v must be beyond housey (index)
-        $itemic = v => !isha(v) || isC(v)
+        $itemic = isit
         
         # try to leave c(.*)? housey
         # may not be possible, if v=C and no more qk
@@ -575,6 +582,13 @@
     self.tex = &sc{
         each kv c {
             iskeyish(v) and s [k] = c[k]
+        }
+        return s
+    }
+    # defined only
+    self.dex = &sc{
+        each kv c {
+            v != null and s [k] = c[k]
         }
         return s
     }
