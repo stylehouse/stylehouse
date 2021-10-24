@@ -4282,7 +4282,7 @@ me.Sch_Travel = &acgt{ return [
         #  has steps %%sute=$t,supe,dome=$k-$t,...
         me.supetime = &acgtRk{
           
-          // 1 supe
+           // 1 supe
             $desupen = me&boxcap,k+':','5B'
             $supen = T.ab
             me&walls,supen,'b:3.2h2'
@@ -4326,7 +4326,7 @@ me.Sch_Travel = &acgt{ return [
                 # su() checks still ok, like su(...)
                 t == null and return !faulty
                 
-            // 2   sute
+           // 2   sute
                 $inq = {supe:k,sute:t}
                 $inc = c => ex(ex({},inq),peel(c))
                 $dome = inq.supe+'-'+inq.sute
@@ -4337,6 +4337,8 @@ me.Sch_Travel = &acgt{ return [
                 #   weird - usu one column mode (see &bracko)
                 $zaa = c => me&jaa,R,inc(c) .filter(n => nc&recycled)
                 $jaa = (c,i) => me&jaa,R,inc(c) .filter(n => !nc&recycled || i)
+                # saa(c) via jaa(c,i=1) - selects either     ^
+                #  see also &hajasute for maybe-sute bracking
                 $ha = (c,s) => me&ha,R,ex({dome},inc(c)),{},s
                 
                 $desuten = me&boxcap,'sute:'+t,'1T'
@@ -4354,7 +4356,7 @@ me.Sch_Travel = &acgt{ return [
                 T.sute = c
                 sutes.push(c)
                 
-            // 3 when
+           // 3 when
                 # < make this %%pre,
                 #    &diagno for a %%supe,sute
                 $tried = zaa('tried')[0]
@@ -4419,7 +4421,7 @@ me.Sch_Travel = &acgt{ return [
                     return 1
                 }
                 
-            // 6 doing it
+           // 6 doing it
                 $doing = &k{
                     $y = c[k]
                     !y and return
@@ -4445,7 +4447,7 @@ me.Sch_Travel = &acgt{ return [
                     c.permasay and ha({figure_container:m})
                 })
                 
-            // 7 tried
+           // 7 tried
                 tried = (tried && trieds&tried||0)+1
                 ha({tried})
                 
@@ -4460,7 +4462,10 @@ me.Sch_Travel = &acgt{ return [
                         )
                         return !hasnew
                     })
-                    .map(n => ha(n.sc))
+                    .map(&n{
+                        # move zaa->jaa
+                        ha(n.sc)
+                    })
                 # pickup %%arg from new time, + any %%rec,arg
                 argon(jaa)
                 sayables(jaa,talk)
@@ -4513,7 +4518,38 @@ me.Sch_Travel = &acgt{ return [
        
   // funcs
       // Superfuncs
-       // f
+       // &hajasute for maybe-T.sute bracking
+        # return a ha|ja etc, possing through T.sute &Supe*
+        # < similar to an Xio front end
+        #    the flavour of the interation, besides expr through it
+        me.hajasute = &acgt{
+            $h = T.sute
+            $j = me&R
+            if (h) {
+                # has:
+            }
+            else {
+                h = {}
+                h.ha = (c,s) => me&ha,j,c,{},s
+                h.jaa = (c) => me&jaa,j,c
+                h.zaa = (c) => me&zaa,j,c
+            }
+            # %%rec-tractioned zaa+jaa
+            #  used when jaa(c,1) gives dupes from neu+old %%rec
+            h.saa = &c{
+                $neu = h.jaa(c)
+                # < use a grouper instead of...
+                $recn = {}
+                each in neu {
+                    ns&rec and recn[ns&rec] = 1
+                }
+                return [...h.zaa(c)
+                    .filter(n => !ns&rec || !recn[ns&rec]),
+                    ...neu]
+            }
+            return h
+        }
+       // &superclasspile, &purforate
         # prep row per call to &Superquiet etc
         me.superclasspile = &acgtqck{
             # name or seq per sute
@@ -4588,7 +4624,7 @@ me.Sch_Travel = &acgt{ return [
             q.ha(present)
             return 1
         }
-     // f
+     // near but not supe
        
        // &diagno, &receivan, &zaone, theone() when to what why
         # responds to each q=(%%fault),... once
