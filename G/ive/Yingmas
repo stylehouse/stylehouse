@@ -508,12 +508,15 @@ me.Sch_ema = &acgt{ return [
         # no &Ying for $R/$nonp (Yingu)
         !two.length and return 1
     };
+  // will &gosleep|may &sleepic)
+    # definitely will
     me.gosleep = &acgtRt{
         me&recycleRbitXz,R
         Rs&sleeping = t||'gosleep'
     }
-    # lets go to sleep
+    # may, if sensible (!%wakeful, !%tunneling)
     me.sleepic = &acgtRk{
+        # that big ro Peace:2 is for waking all s/*
         me&ollbs,Ry&up,'numberclicked' and return
         $b = Rc&b
         !b and return
@@ -525,21 +528,68 @@ me.Sch_ema = &acgt{ return [
         Rs&wou = Rs&wou_accepted
         return 1
     }
-    # climb Rc&b until R is real
-    # < not used anymore, since &sleepic makes &ja as &za
-    #   probably some instances of this around though
-    me.lastnonsleepingR = &acgtR{
-        # R:start, y:wanted, y:climb
-        return me.cbu(
-            me&yfuture,R ,
-            r => !rs&sleeping,
-            r => rc&b
-        )
+  // &wokesince R future scanner
+    # find first+notnow (or c.last|all) real awake yfuture since r
+    me.wokesince = &acgtRrc{
+        c = peel(c) || {}
+        c.last and $all = c.last = c.notnow = 1
+        else
+        !c.all and c.first = c.notnow = 1
+        else {
+            $all = c.all
+        }
+        $i = c.i || 50
+
+        # list
+        c.all = []
+        c.sleep = []
+        c.wake = []
+        $ac = &k{
+            $N = c[k] ||= []
+            N.includes(r) and debugger
+            N.push(r)
+        }
+        # callback
+        $cb = &k{
+            c[k] and c[k] (r)
+            else
+            # usu into %%pur=${k}yet
+            c.cb and c.cb (k,r)
+        }
+        while (1) {
+            $was = r
+            r = ry&future
+            i-- < 0 and return cb('farout')
+            if (!r) {
+                # &yfuture goes one further,
+                #  using the uncommit X...
+                r = me&yfuture,was
+                if (!r || r == was) {
+                    all and break
+                    return cb('not')
+                }
+            }
+            ac('all')
+            if (Rc&N.includes(r)) {
+                c.now = r
+                # supposedly the end?
+                all and break
+                c.notnow and return cb('now')
+            }
+            if (rs&sleeping) {
+                ac('sleep')
+                continue
+            }
+            ac('wake')
+            c.first and return r
+        }
+        c.last and return (c.wake||[]).slice(-1)[0]
     }
+  
     },
    
-  // %onlyish
-    # me&tunnel a cul de sac, to $p/*%sleeping
+  // %onlyish tend to sleep /*
+    # me&tunnel a cul de sac (or not)
     ['Peace+onlyish','294',&acgtRs{
         $b = Rc&b;
         !b and return
@@ -557,7 +607,7 @@ me.Sch_ema = &acgt{ return [
             me&tunnelin,R,c
         }
     },'ift,D'],
-    # go %sleeping after arriveRbitX (@17), like tunneling @18
+    # may go %sleeping after arriveRbitX (@17), like tunneling @18
     ['aleeping','18',&acgtRs{
         me&sleepic,R,Rs&aleeping and me&rollbs,R,'bal_tw_s'; return
     },'ift,D'],
@@ -568,29 +618,7 @@ me.Sch_ema = &acgt{ return [
         }
         delete Rs&aleeping
     },'ift,D'],
-   
-  // %supr
-    #
-    # the %eph and its /** become %supr
-    #  and %$sy&supr - suprise puts that
-    ['ball+supr','291',&acgtRs{
-        sy&R = R;
-        # children get %supr in time to get here
-        ac(R,'inheritsc','supr');
-        # our %ball/%fix appear after @4
-        
-        
-        
-        
-        
-        Rs&fixatfour = 1;
-        # %supr only becomes %$supr if a node:
-        #  me&suprise mostly just transfers it
-        #   to sy&supr on entering a node
-        sy&supr and R.sc[sy&supr] = 1
-        # see Y:Steps about %nextlifesc %nottilund
-    },'ift,D'],
-
+  
   // schema %KnowThee auto compilation
     # http://hereth.localhost:1812/?Wayout/Fingo
     ['KnowThee','2924',&acgtRs{
@@ -627,6 +655,27 @@ me.Sch_ema = &acgt{ return [
 
         hy&domed()
     },'ift,D'],
+   // %supr
+    #
+    # the %eph and its /** become %supr
+    #  and %$sy&supr - suprise puts that
+    ['ball+supr','291',&acgtRs{
+        throw "supr GOING"
+        sy&R = R;
+        # children get %supr in time to get here
+        ac(R,'inheritsc','supr');
+        # our %ball/%fix appear after @4
+        
+        
+        
+        
+        Rs&fixatfour = 1;
+        # %supr only becomes %$supr if a node:
+        #  me&suprise mostly just transfers it
+        #   to sy&supr on entering a node
+        sy&supr and R.sc[sy&supr] = 1
+        # see Y:Steps about %nextlifesc %nottilund
+    },'ift,D'],
 
   // schema %TravelThee play stories
     # http://hereth.localhost:1812/?Wayout/Lingo
@@ -643,6 +692,7 @@ me.Sch_ema = &acgt{ return [
 
         hy&domed()
     },'ift,D'],
+  
   // schema %ThyThee basic stories
     # http://hereth.localhost:1812/?Wayout/Thy
     # %Gnomp is new and simplified test running

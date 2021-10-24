@@ -341,7 +341,7 @@ me.Sch_Travel = &acgt{ return [
     }
     },
     
-// Detection - whats going on
+// Detection - whats going on (see &Yingwhen etc)
   &{
   // &Yingate_2|8: %OutLog += $D-gate
     # Ying happens
@@ -552,7 +552,6 @@ me.Sch_Travel = &acgt{ return [
     }
     
     },
-  
   
 // about Qup
     &{
@@ -831,7 +830,6 @@ me.Sch_Travel = &acgt{ return [
     }
     },
     
- 
 
 // Story ext
  // %Nodar views
@@ -3837,62 +3835,6 @@ me.Sch_Travel = &acgt{ return [
                 })
             }})
             return su('done')
-        }
-        # find first+notnow (or c.last|all) real awake yfuture since r
-        me.wokesince = &acgtRrc{
-            c = peel(c) || {}
-            c.last and $all = c.last = c.notnow = 1
-            else
-            !c.all and c.first = c.notnow = 1
-            else {
-                $all = c.all
-            }
-            $i = c.i || 50
-            
-            # list
-            c.all = []
-            c.sleep = []
-            c.wake = []
-            $ac = &k{
-                $N = c[k] ||= []
-                N.includes(r) and debugger
-                N.push(r)
-            }
-            # callback
-            $cb = &k{
-                c[k] and c[k] (r)
-                else
-                # usu into %%pur=${k}yet
-                c.cb and c.cb (k,r)
-            }
-            while (1) {
-                $was = r
-                r = ry&future
-                i-- < 0 and return cb('farout')
-                if (!r) {
-                    # &yfuture goes one further,
-                    #  using the uncommit X...
-                    r = me&yfuture,was
-                    if (!r || r == was) {
-                        all and break
-                        return cb('not')
-                    }
-                }
-                ac('all')
-                if (Rc&N.includes(r)) {
-                    c.now = r
-                    # supposedly the end?
-                    all and break
-                    c.notnow and return cb('now')
-                }
-                if (rs&sleeping) {
-                    ac('sleep')
-                    continue
-                }
-                ac('wake')
-                c.first and return r
-            }
-            c.last and return (c.wake||[]).slice(-1)[0]
         }
        
        // &SuperGansp auto %MayGansp
