@@ -1098,77 +1098,37 @@ me.Sch_The = &acgt{ return [
             
           // Run?
             # here at random moments, arrive plot
-            # no auto in motion
+            # usu motion of This>Nine
             $unsure = me&Superready
-            $wantrun = 0
-            
-            # user
-            # < ha('rec,RunStep:1') -> %%rec:'RunStep:1',RunStep:1
-            x.ro('again') and me&SG_sustain,{},{RunStep:Runs&time,autonine:1},{}
-            
-            # auto
-            me&boxcap,'elIntro','1s' (&m{
-                me&walls,m,'bd:3.3'
-
-                # @Gnome receives notifies for @Inc
-                $gs = me&SG_elIntro,R,Run
-                # @Inc must happen while gs is stable
-                me&SG_sustain_elIntro,R,gs,Inc
-            })
-            
-            x.ro('Leap') and ha('RunStep:1,rec:whimsies')
-            # they both, clobberatively, make %%RunStep to progress
-            $N = me&hajasute .saa('RunStep')
-            $row = me&rowcap,N
-            row('okay',&n{
-                me&tc,"Is:"+ns&RunStep,'6'
-                
-            })
-            row('keep',&n{
-                unsure ?
-                me&tc,"unsure" :
-                me&tc,"calm"
-                # < could &tt,drop (&{...}) imply oncer?
-                me&tt,"drop" ({once:&v{ nc&drop = 1 }})
-            })
-            
-            
-            # < to be cached per P%dige
-            #   rolled out while P%dige same
-            
-            
-          // < wants
-            # @Gnome can also listen for any item
-            #  < only being those coming for @Run**
-            #me&nodei,R,xs&Introtivity,{Introtiv:1,t:'Travel'}
-            
-            # < decide to advance, then see that we do...
+            # usu first time here
             $starting = !okc.done
-            $advancing = starting || okc.more_ok
-            $done = me&SG_maytodo,{advancing}
-            # keep ^^^ while noticing ~This:
-            unsure and return
-            if (done) {
-                $next = ninec&Into
-                $Ness = next && nexty&Outs
-                # if next @Ness is -Ness (may be -Lab)
-                if (Ness && Nessc&pi == 'Ness') {
-                    wantrun = 1
-                }
-                # < start a &SG_maytodo {advanced} until Run%time++?
-                # < allow vaguely accepted without //Outs
-                #   @Thy** manages wanderings of many @Gnome
-                done()
-            }
+            # this time
+            $more_ok = okc.more_ok
             
-            if (wantrun) {
-                $r = Runy&R
-                rs&Run = 1
-                me&tc,"Run++"
-                me&wants,R,'Run++',Run
-            }
-
+            
+            # i RunStep o ~P > @Cat
+            #  must be rolled out while P%dige same
+            me&SG_elIntro
+            # @Gnome can also listen for any t
+            #me&nodei,R,xs&Introtivity,{Introtiv:1,t:'Travel'}
+            # < ask|do per &t|Q coming for @Run**
+            
+            # < proto for async state through to a @Story here
+            $c = {unsure,starting,more_ok}
+            ex(c,{Fine,nine,This})
+            
+            me&SG_RunStep,c
+            # <<<
+            # Thy holds what you type|open, cursors for what you're up to
+            #  6s of:mem commit
+            # Be gen certs for code mentioned on good sites, giving trust
+            # w change emerges
+            #  code branch index
+            #   prioritises steps and speeds up slowmo test farm
+            #  to use the users
             # observe Proto !now not over finishline
+            
+
 
    // 4 the end
             Rs&goGome and me&nu,"Fins",{Run,This,F,Fine,nine}
@@ -1184,16 +1144,97 @@ me.Sch_The = &acgt{ return [
         return su('done')
         }
    // SG_ f
+   
       // Run
-        me.SG_sustrain = &acgtscq{
-            $h = T.sute
-            !ish(s) || !ish(c) and debugger
-            # keyword first
-            c = peel(c)
-            $k = haks(c)[0]
-            $v = c[k]
+        # < an ult
+        # < @Ta for hs&Ta rowing ark, h.ar the @Gnome Names
+        # %%RunStep flock
+        #  heading, @Run-ing as Nine-that-could-be[Run%step]
+        me.SG_RunStep = &acgtc{
+            $h = me&hajasute
+            $Fine = c.Fine
+            $nine = c.nine
+            $Run = h.ar.Run
+            $time = Runs&time
+            $next = (time||0) + 1
+            c.starting && next != 1 and debugger
+            
+            # user
+            # < ha('rec,RunStep:1') -> %%rec:'RunStep:1',RunStep:1
+            me&tt,'again' ({once:r => me&SG_sustain,{},{RunStep:time},{} })
+            # having its own row?
+            me&tt,'Leap' ({once:r => h.ha('RunStep:1,rec:whimsies') })
+            
+            # various, clobberatively, to progress
+            $N = h.saa('RunStep')
+            if (!hak(N)) {
+                if (c.starting || c.more_ok) {
+                    # auto keep going
+                    N = [ me&SG_sustain,{},{RunStep:next},{} .n ]
+                }
+            }
+            
+            $row = me&rowcap,N
+            row('okay',&n{
+                $time = ns&RunStep
+                # Fe for
+                $Fe = me&ioty,Fine,'TheFe' [time-1]
+                
+                me&tc,"Is:"+n.t,'6'
+                
+                
+            })
+            
+            # < decide to advance, then see that we do...
+            $advancing = c.starting || c.more_ok
+            $done = me&SG_maytodo,{advancing}
+            
+            # keep ^^^ while noticing ~This:
+            c.unsure and return
+            $wantrun = 0
+            if (done) {
+                # < with &Shx
+                $next = ninec&Into
+                $Ness = next && nexty&Outs
+                # if next @Ness is -Ness (may be -Lab)
+                if (Ness && Nessc&pi == 'Ness') {
+                    wantrun = 1
+                }
+                # < start a &SG_maytodo {advanced} until Run%time++?
+                # < allow vaguely accepted without //Outs
+                #   @Thy** manages wanderings of many @Gnome
+                done()
+            }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            row('keep',&n{
+                c.unsure and me&tc,"unsure"
+                else me&tc,"calm"
+                # < could &tt,drop (&{...}) imply oncer?
+                me&tt,"drop" ({once:&v{ nc&drop = 1 }})
+            })
+            
+            # is async
+            if (wantrun) {
+                $r = Runy&R
+                rs&Run = 1
+                me&tc,"Run++"
+                me&wants,R,'Run++',Run
+            }
+            
+            
+            
         }
-       
+      
       // %%quiet_visitable
         # remember somewhere to wake after the next quiet
         me.SG_quiet_visitable = &acgtRt,to,c{
@@ -1217,6 +1258,7 @@ me.Sch_The = &acgt{ return [
                 nc&drop = 1
             })
         }
+      
       // tallies, draws
         # check @Gnome is async to Fine, etc
         me.SG_draw_comrades = &acgtN{
@@ -1284,6 +1326,7 @@ me.Sch_The = &acgt{ return [
                 # < completes? additions?
             })
         }
+      
       // sus
         # watch the thing, $v, until true|changey
         #  eg a = &sustain {} {latest_elQuip:e}
@@ -1398,10 +1441,28 @@ me.Sch_The = &acgt{ return [
                 nc&drop = 1
             }
         }
-      // <- @Intro
+      
+      // elIntro <- @Intro
+        =pod
+          < have a tiny pile of what might effect what
+             might know which time was edited easy
+        =cut
+        me.SG_elIntro = &acgt{
+            # auto
+            me&boxcap,'elIntro','1s' (&m{
+                me&walls,m,'bd:3.3'
+
+                # @Gnome receives notifies for @Inc
+                $gs = me&SG_ei_elIntro
+                # @Inc must happen while gs is stable
+                me&SG_sustain_elIntro,gs
+            })
+            
+        }
         # produce %%RunStep when @Inc ready
-        me.SG_sustain_elIntro = &acgtR,gs,Inc{
+        me.SG_sustain_elIntro = &acgt,gs{
             $h = T.sute
+            $R = me&R
             # keep these per t?
             $orig = gs
             gs = me&SG_sustain,{},{elIntro:gs}
@@ -1427,7 +1488,9 @@ me.Sch_The = &acgt{ return [
             $be = me&SG_sustain,gs,{IncBefore:1}
             if (be.el == 2) {
                 ~>2 elIntro->Inc: gs.Q.t
-                me&wants,R,'elIntro->Inc',Inc
+                $to = h.at.Inc
+                !to and debugger
+                me&wants,R,'elIntro->Inc',to
                 # < pur({wants})
                 be.pur()
                 return
@@ -1455,7 +1518,8 @@ me.Sch_The = &acgt{ return [
             
         }
         # get $gs, diff from ec&e=Q
-        me.SG_elIntro = &acgtR,Run{
+        me.SG_ei_elIntro = &acgt{
+            $R = me&R
             # somewhere in an envolping
             #$e = me&eis,'elIntro'
             if (e) {
@@ -1486,7 +1550,6 @@ me.Sch_The = &acgt{ return [
                     me&walls,T.ab,'bd:3.3'
                     $di = me&diffPs,R,Q,P,memory
                     
-                    done()
                     $gs = me&yio,Q,'diffPs' ('o','doing')
                     if (!gs.steps) {
                         gs.Q = Q
@@ -1501,30 +1564,33 @@ me.Sch_The = &acgt{ return [
                             gs.steps.push(m[1])
                         }
                     }
-                    me&zu,{di,ie,Comp,gs}
+                    me&tt,"Compgs" (&v{
+                        v and me&zu,{di,ie,Comp,gs}
+                    }) 
+                    done()
                     return gs
                 }
             }
             # < have certain P%dige changes for steps
             #   is where we want to have a /$node, inc @Fe that come up
-        }
-        # the e that causes tunneling doesnt arrive e** as it goes
-        # < should do, know what is for here, anywhere
-        #    that +etc should be indexed on ec&X, what the e concerns, deeply
-        # so we go looking from the top
-        me.through_packs = &acgte{
-            $ie
-            # e** until !y&pack, to the point of eg e:elIntro
-            me&indo,e (&ed{
-                # an enveloping, at %JRom or so..? see elvoids
-                ec&pack and return
-                # only one without arrive
-                ie and debugger
-                ie = e
-                d.not = 1
-            })
-            return ie
-        }
+            }
+            # the e that causes tunneling doesnt arrive e** as it goes
+            # < should do, know what is for here, anywhere
+            #    that +etc should be indexed on ec&X, what the e concerns, deeply
+            # so we go looking from the top
+            me.through_packs = &acgte{
+                $ie
+                # e** until !y&pack, to the point of eg e:elIntro
+                me&indo,e (&ed{
+                    # an enveloping, at %JRom or so..? see elvoids
+                    ec&pack and return
+                    # only one without arrive
+                    ie and debugger
+                    ie = e
+                    d.not = 1
+                })
+                return ie
+            }
         
         
  },
