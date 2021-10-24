@@ -256,7 +256,41 @@
             N.map(n => ac(m,'z',n))
         }
     }
-   
+  
+  // main
+   # < oos: grammar, compiletypes
+   # < drink NutGravy. see `a '(dow|self)\.is'`
+   // types
+    self.isba = j => js&ball || js&bell
+    # string
+    self.iskeyish =
+    self.iske = k => typeof k == 'string' || typeof k == 'number'
+    # housey, eg a random c, see %%sustain
+    self.ish =
+    self.isho = v => isha(v) && !isC(v)
+    # itemic
+    self.isi =
+    self.isit = v => !isha(v) || isC(v)
+
+    # make lots of fatal versions of isba(), etc
+    # < put it through me.Yingminds?
+    self.fatal = {}
+    fatal.refresh = &{
+        # < o self/ ~~^is # left on an upswing, s=/$k
+        #   where via group by $k ~~ /^is/
+        #    and then not grouping anyway
+        #    as no thing is tgere
+        haks(self)
+            .filter(k => k.startsWith('is'))
+        # < i fatal/$k = &{ !self[k] && die }
+        #    Babz it into die(capturing etc)
+        #     has to be die for "try not to die", "it's trad to die"
+            .map(k => fatal[k] = &{
+                $v = self[k](...arguments)
+                !v and throw "!"+k, s
+            })
+    }
+    G&yl:0.04,&{ fatal.refresh() }
   // misc() array
     # slices hash keys or array values
     # note num()-able hash keys all come in order first,
