@@ -1093,8 +1093,6 @@ me.Sch_The = &acgt{ return [
             ha({sensitivity:'Gome_Thischa_other',otherable:'F'})
             me&Gome_Thischa_self,R,F,ha
             
-            # < this should be just noact if !Superread
-            $unsure = me&Superready
             $Fine = me&Superarg_find,'Fine'
             !Fine and return ha('pur:...Fine')
             $nine = Finey&nine
@@ -1103,29 +1101,45 @@ me.Sch_The = &acgt{ return [
             $okc = me&SG_tally_oks,nine
             me&SG_draw_oks,okc
             
+            # < including Run things of late
+            # < comes before draw_oks for some reason?
             me&SG_draw_comrades,[This,Run,Fine]
             
           // Run?
-            
-            $wantrun = 0
-            x.ro('again') and Runs&time--; wantrun = 1
-            
             # here at random moments, arrive plot
-            # <<<
-
+            # no auto in motion
+            $unsure = me&Superready
+            $wantrun = 0
+            
+            # user
+            # < ha('rec,RunStep:1') -> %%rec:'RunStep:1',RunStep:1
+            x.ro('again') and me&SG_sustain,{},{RunStep:Runs&time,autonine:1},{}
+            
+            # auto
             me&boxcap,'elIntro','1s' (&m{
                 me&walls,m,'bd:3.3'
 
                 # @Gnome receives notifies for @Inc
                 $gs = me&SG_elIntro,R,Run
+                # @Inc must happen while gs is stable
                 me&SG_sustain_elIntro,R,gs,Inc
             })
             
+            x.ro('Leap') and ha('RunStep:1,rec:whimsies')
+            # they both, clobberatively, make %%RunStep to progress
+            $N = zaa('RunStep')
+            $row = me&rowcap,N
+            row('okay',&n{
+                me&tc,"Is:"+ns&RunStep,'6'
+                
+            })
+            row('keep',&n{
+                unsure ?
+                me&tc,"unsure" :
+                me&tc,"calm"
+                me&ty,"drop" and nc&drop = 1
+            })
             
-            
-            # < make maytodo to @Inc,quiet based on gs
-            #   until completed with same gs
-            #  
             # < to be cached per P%dige
             #   rolled out while P%dige same
             
@@ -1163,6 +1177,7 @@ me.Sch_The = &acgt{ return [
 
             # observe Proto !now not over finishline
 
+   // 4 the end
             Rs&goGome and me&nu,"Fins",{Run,This,F,Fine,nine}
 
             x.ro('end') and return
@@ -1175,7 +1190,17 @@ me.Sch_The = &acgt{ return [
             
         return su('done')
         }
-    // SG_ f
+   // SG_ f
+      // Run
+        me.SG_sustrain = &acgtscq{
+            $h = T.sute
+            !ish(s) || !ish(c) and debugger
+            # keyword first
+            c = peel(c)
+            $k = haks(c)[0]
+            $v = c[k]
+        }
+       
       // %%quiet_visitable
         # remember somewhere to wake after the next quiet
         me.SG_quiet_visitable = &acgtRt,to,c{
@@ -1186,6 +1211,7 @@ me.Sch_The = &acgt{ return [
             c.pur = t+'...'
             h.ha(c)
         }
+        # progress the above state
         me.SG_do_quiet_visitables = &acgtR{
             $h = T.sute
             !Rs&is_quiet and return
@@ -1269,7 +1295,7 @@ me.Sch_The = &acgt{ return [
         # watch the thing, $v, until true|changey
         #  eg a = &sustain {} {latest_elQuip:e}
         #   remembers the latest a.v=e that was true, or est this one
-        #  you may nc&drop them via a.done()
+        #  you may nc&drop them via a.done(), q includes $v in %%rec (dome)
         me.SG_sustain = &acgtscq{
             $h = T.sute
             !ish(s) || !ish(c) and debugger
@@ -1421,7 +1447,7 @@ me.Sch_The = &acgt{ return [
             # < any steps disturbed should sustain more
             af.el == 2 and ~>2 elIntro->Run: joint(gs.steps,', ')
             gs.steps.map(&i{
-                $ro = me&SG_sustain,gs,{RunStep:i}
+                $ro = me&SG_sustain,gs,{RunStep:i},{}
                 $n = ro.n
                 me&boxcap,"step:"+i (&m{
                     me&walls,m,'b:2.2h5'
