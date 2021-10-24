@@ -1123,7 +1123,8 @@ me.Sch_The = &acgt{ return [
             me&SG_RunStep,c
             # <<<
             # Thy holds what you type|open, cursors for what you're up to
-            #  6s of:mem commit
+            #  6s of:mem commit (auto-save)
+            #  my EQ does save|save-auto|load
             # Be gen certs for code mentioned on good sites, giving trust
             # w change emerges
             #  code branch index
@@ -1154,17 +1155,22 @@ me.Sch_The = &acgt{ return [
         # %%RunStep flock
         #  heading, @Run-ing as Nine-that-could-be[Run%step]
         me.SG_RunStep = &acgtc{
+            $R = me&R
             $h = me&hajasute
             $Fine = c.Fine
             $nine = c.nine
             $Run = h.ar.Run
+           // time is
             $time = Runs&time
-            $next = (time||0) + 1
-            c.starting && next != 1 and debugger
+            # < io @Fe+1|-1 $Fe1|_1? etc
+            $time1 = (time||0) + 1
+            c.starting && time1 != 1 and me&tc,'just-starting','6y'
+            # < &tt uglies
+            # < ha('rec,RunStep:1') -> %%rec:'RunStep:1',RunStep:1
+            # < &rowcap de-group-by
             
             # user
-            # < ha('rec,RunStep:1') -> %%rec:'RunStep:1',RunStep:1
-            me&tt,'again' ({once:r => me&SG_sustain,{},{RunStep:time},{} })
+            me&tt,'again' ({once:r => me&SG_sustain,{},{RunStep:time1},{} })
             # having its own row?
             me&tt,'Leap' ({once:r => h.ha('RunStep:1,rec:whimsies') })
             
@@ -1173,69 +1179,89 @@ me.Sch_The = &acgt{ return [
             if (!hak(N)) {
                 if (c.starting || c.more_ok) {
                     # auto keep going
-                    N = [ me&SG_sustain,{},{RunStep:next},{} .n ]
+                    N = [ me&SG_sustain,{},{RunStep:time1},{} .n ]
                 }
             }
             
-            $row = me&rowcap,N,'RunStep'
-            row('okay',&Smal{
+            # todolist + attention
+            # < next to each other
+            # < which expe()-ish makes 'th' -> {k:th}?
+            $th = me&rowcap,[1],{},{k:'th'}
+            $row = me&rowcap,N,'RunStep',{k:'S'}
+            
+            # Steps are known
+            row('Ness',&Smal{
                 # Fe for
                 $Fe = a.Fe = me&iot,Fine,'%TheFe' [S-1]
-                
-                me&tc,"Is:"+a.n.t,'6'
-                Fe and me&tc,"Fe:"+Fe.t,'6'
-                
-                
+                !Fe and return me&tc,"!Fe",'b'
+                me&tc,"Fe:"+Fe.t,'6'
+                # < Fe**, aware relevant muckings
+            })
+            # also the -nine says the next one
+            # < not always expected:
+            # < nine%Into follows Fe1 or vice versa
+            $Fe1 = Cof(ninec&Into)
+            # < wait for -Lab...? does %Into point to them til @3
+            #   this must be part of that...
+            #   
+            # < of(Fe1,'-Ness') returns Fe1 if such
+            $forNess = Fe1 && Fe1c&Ness
+            
+           // time to
+            # we want to do, attend time
+            # < decide to advance, then see that we do...
+            #   is ++time ... time++, becauses, political
+            #  < time wanders along the sync: Run ... Fe%%ok
+            # < allow vaguely accepted without //Outs
+            #   @Thy** manages wanderings of many @Gnome
+            th('atti',&vma{
+                c.unsure and me&tc,"unsure"
             })
             
-            # < decide to advance, then see that we do...
-            $advancing = c.starting || c.more_ok
-            $done = me&SG_maytodo,{advancing}
-            
-            # keep ^^^ while noticing ~This:
-            c.unsure and return
-            $wantrun = 0
-            if (done) {
-                # < with &Shx
-                $next = ninec&Into
-                $Ness = next && nexty&Outs
-                # if next @Ness is -Ness (may be -Lab)
-                if (Ness && Nessc&pi == 'Ness') {
-                    wantrun = 1
+            # they want to do
+            # <<<
+            # < &sustain one (bunch), til they nine%Is
+            #   usu carry on if some !ok, with less Plying later,
+            #    or maybe do all the Plying on the final thing,
+            #     as in brackstract, the complete picture is best
+            $any = []
+            row('c',&Smal{
+                $n = a.n
+                # < replace %rec later. happens naturally?
+                a.sc1 = ex({},n.sc)
+                
+                if (!c.unsure && !hak(any)) {
+                    me&tc,"could",'y'
+                    $will = 0
+                    # < &tt per row
+                    me&tt,"will",'y' ({once:&v{ will = 1 }})
+                    if (will || (ns&ov||0) < 0.6) {
+                        me&tc,"Run++"
+                        # < many steps
+                        # Run increments itself
+                        Runs&time = ns&RunStep - 1
+                        
+                        # if ro Run oncer on
+                        $r = Runy&R
+                        rs&Run = 1
+                        # go there
+                        me&wants,R,'Run++',Run
+                        
+                        ns&ov = 0.6
+                        any.push(n)
+                    }
                 }
-                # < start a &SG_maytodo {advanced} until Run%time++?
-                # < allow vaguely accepted without //Outs
-                #   @Thy** manages wanderings of many @Gnome
-                done()
-            }
+                me&tc,'@','6y'
+                me&tc,cvf(ns&ov),'6y'
+            })
             
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            row('keep',&n{
+            row('keep',&Sma{
                 c.unsure and me&tc,"unsure"
                 else me&tc,"calm"
                 # < could &tt,drop (&{...}) imply oncer?
+                $n = a.n
                 me&tt,"drop" ({once:&v{ nc&drop = 1 }})
             })
-            
-            # is async
-            if (wantrun) {
-                $r = Runy&R
-                rs&Run = 1
-                me&tc,"Run++"
-                me&wants,R,'Run++',Run
-            }
-            
-            
-            
         }
       
       // %%quiet_visitable
@@ -1479,7 +1505,7 @@ me.Sch_The = &acgt{ return [
             
             me&tc,dis(gsc({})),'6y' .y.cv = 0.101
             T.ab.c.sortcv = 1
-            me&nu,{gs,Inc}
+            me&nu,{gs}
             # &sustain {} {elIntro:gs} # to sample $gs
             # &sustain gs {untility:maybe} # to inherit gs id
             #  and then $a=maybe if housey, avoids 
@@ -1491,7 +1517,7 @@ me.Sch_The = &acgt{ return [
             $be = me&SG_sustain,gs,{IncBefore:1}
             if (be.el == 2) {
                 ~>2 elIntro->Inc: gs.Q.t
-                $to = h.at.Inc
+                $to = h.ar.Inc
                 !to and debugger
                 me&wants,R,'elIntro->Inc',to
                 # < pur({wants})

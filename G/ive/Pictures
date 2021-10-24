@@ -173,14 +173,18 @@
         # &rowcap,N,'key' ('astep',&vmal{ ... })
         #  a persists per &rowcap (table)
         # < row nesting, splitting via mirage
-        me.rowcap = &acgtNc{
+        me.rowcap = &acgtNcq{
             c = peel(c)
+            q = peel(q)
             $a = T.ab
             !a and throw "rowcap in a boxcap"
-            $head = me&tc,'head','3y'
+            $head = me&tc,'rowcap-tablehead','3y'
             $space = me&tc,head,'space','4y'
             delete headc&s
             delete spacec&s
+            # < from first c.*
+            # < from args for first callback
+            q.k and spacec&s = q.k
             $Na = []
             return &ty{
                 !isst(t) and throw "rowcap!t"
@@ -293,7 +297,7 @@
     G&yl:0.04,&{ fatal.refresh() }
    # < iot(s,c,q) with callbacks, see 'where via group by'
    // access
-    # the usual sphere change
+    # climb into a R//s, the usu sphere change
     self.sof = &j{
         # < any Cish? have to not disappear inside
         !isR(j) and return j
@@ -302,6 +306,10 @@
         fatal.isC(jc&s)
         return jc&s
     }
+    # climb over a usu separation (&clonover, &copi, etc)
+    #  where multiple C over dimensions, most grabable.
+    self.Cof = s => s && (sy&C || sy&Outs) || s
+    
     # &ioty with easier s//R, tends to R//s
     me.iot = &acgtscg{
         # Such c is forming
