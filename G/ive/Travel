@@ -3894,45 +3894,6 @@ me.Sch_Travel = &acgt{ return [
             }
             c.last and return (c.wake||[]).slice(-1)[0]
         }
-        # make groups aggregating values
-        # < hooks for begin|end each grouped value
-        # < integrating with &columns...
-        #   the general modulat -> structure thing (KnowC?)
-        #    shall wrap titles into cells, so things can align
-        #     loosely, shove other says in spare rooms
-        me.sortulat = &acgtNqc{
-            c = peel(c)||{}
-            if (!c.y) {
-                # < Babz like BlockQuote, for &trailing (&callback{...}
-                return &y{
-                    c.y = y
-                    me&sortulat,N,q,c
-                }
-            }
-            c.rows ||= []
-            q = ex({},peel(q))
-            $k = haks(q)[0]
-            $v = delete q [k]
-            $more = hak(q)
-            $cee = c
-            me&sortial,N,k .map(&Nk,{
-                c = ex({},cee)
-                c.y = cee.y
-                $K = Nk[0].sc[k]
-                # first or non-last get b-igger title
-                $tc = [joint([K]),((!c.into || more) ? 'b' : 'G')]
-                c.into and tc.unshift(c.into)
-                c.into = me&tcl,...tc
-                c.args = [...(cee.args||[]),K]
-                if (more) {
-                    me&sortulat,Nk,q,c
-                }
-                else {
-                    $No = c.firstonly ? [Nk[0]] : Nk
-                    No.map(g => c.y (...c.args,g,Nk))
-                }
-            })
-        }
        
        // &SuperGansp auto %MayGansp
         # supervise %MayGansp/%MayTwine**
@@ -4518,7 +4479,7 @@ me.Sch_Travel = &acgt{ return [
        
   // funcs
       // Superfuncs
-       // &hajasute for maybe-T.sute bracking
+       // &hajasute for maybe-T.sute brackcess
         # return a ha|ja etc, possing through T.sute &Supe*
         # < similar to an Xio front end
         #    the flavour of the interation, besides expr through it
@@ -4576,7 +4537,7 @@ me.Sch_Travel = &acgt{ return [
                 h.ha(c)
             })
         }
-       // ready quiets waits
+       // &Super(ready|quiets|waits)
         # return true if you should wait (and return)
         
         # detect readiness, fatalise mild oddnesses
@@ -4624,6 +4585,7 @@ me.Sch_Travel = &acgt{ return [
             q.ha(present)
             return 1
         }
+     
      // near but not supe
        
        // &diagno, &receivan, &zaone, theone() when to what why

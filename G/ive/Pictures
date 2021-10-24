@@ -210,6 +210,45 @@
     }
    
   // misc() array
+    # slices hash keys or array values
+    # note num()-able hash keys all come in order first,
+    #  otherwise in order of appearance
+    self.ksaf = &sc{
+        $keys = haks(s)
+        !isob(c) and c = {aft:c,inc:1}
+        isar(s) and keys = s
+        $ki = keys.indexOf(c.aft||c.bow)
+        ki < 0 and throw "no ksaf",c
+        # slice arg2 is first one not to include
+        # splice arg2 is length of selection
+        $N = keys.slice(... c.aft ? [ki+1] : [0,ki])
+        # may include the point, usu just what's behind it
+        c.inc and c.aft ? N.unshift(keys[ki]) : N.push[keys[ki]]
+        # c.near for closest to ki first (reverse the bow)
+        c.aft ? c.rev : c.near && !c.rev and N.reverse()
+        return N
+    }
+    # removing .filter, y=[n+]|&n{1}|$n
+    window.grepout = &Ny{
+        $out = []
+        isar(y) and $z = y; y = n => z.includes(n)
+        !isfu(y) and $v = y; y = n => n == v
+        each in N {
+            i *= 1
+            y (n,i) and out.unshift(i)
+        }
+        return out.map(i => N.splice(i,1)[0]).reverse()
+    }
+    # [1,1,2] = flatten([1,[1,2]])
+    window.flatten = &M{
+        $N = []
+        each il M {
+            !l and continue
+            !isar(l) and throw "flatten!ar:"+ki(l,2)
+            N.push(...l)
+        }
+        return N
+    }
     # "$t1-$t2" for [C,C,C{.t==not}]
     window.joint = &N,join,not{
         # ioty may N=C/*
@@ -235,35 +274,6 @@
             a[j] = x;
         }
         return a;
-    }
-    # slices hash keys or array values
-    # note num()-able hash keys all come in order first,
-    #  otherwise in order of appearance
-    self.ksaf = &sc{
-        $keys = haks(s)
-        !isob(c) and c = {aft:c,inc:1}
-        isar(s) and keys = s
-        $ki = keys.indexOf(c.aft||c.bow)
-        ki < 0 and throw "no ksaf",c
-        # slice arg2 is first one not to include
-        # splice arg2 is length of selection
-        $N = keys.slice(... c.aft ? [ki+1] : [0,ki])
-        # may include the point, usu just what's behind it
-        c.inc and c.aft ? N.unshift(keys[ki]) : N.push[keys[ki]]
-        # c.near for closest to ki first (reverse the bow)
-        c.aft ? c.rev : c.near && !c.rev and N.reverse()
-        return N
-    }
-    # removing .filter
-    window.grepout = &Ny{
-        $out = []
-        isar(y) and $z = y; y = n => z.includes(n)
-        !isfu(y) and $v = y; y = n => n == v
-        each in N {
-            i *= 1
-            y (n,i) and out.unshift(i)
-        }
-        return out.map(i => N.splice(i,1)[0]).reverse()
     }
   // misc() 
     # string
