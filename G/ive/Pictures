@@ -169,7 +169,9 @@
             me&tc,"additional"
             two()
         }
-        # iterate N in boxcaps, callback with c.* args from current row
+        # horizontal N>table iterator in boxcaps
+        # &rowcap,N,'key' ('astep',&vmal{ ... })
+        #  a persists per &rowcap (table)
         # < row nesting, splitting via mirage
         me.rowcap = &acgtNc{
             c = peel(c)
@@ -179,11 +181,11 @@
             $space = me&tc,head,'space','4y'
             delete headc&s
             delete spacec&s
+            $Na = []
             return &ty{
                 !isst(t) and throw "rowcap!t"
                 !isfu(y) and throw "rowcap!y"
                 !hak(N) and me&tc,t+"!rows",'6p'
-                $Na = []
                 each in N {
                     $a = Na[i] ||= {s,n}
                     $args = haks(c).map(k => a[k] = n.sc[k])
@@ -192,7 +194,7 @@
                     !s and throw "row!such", c, n
                     # piling into each %%active id
                     #  the $el=2 repeating $m per ty
-                    me&boxcap,s.t,'3y',2 (&ml{
+                    me&boxcap,dis(s,2),'3y',2 (&ml{
                         # should be one row l
                         ls&dis = 4
                         # < checking for multiple-same-named s.t
@@ -355,9 +357,9 @@
     }
     # < C:Thing@2
     self.dis = &sc{
-        c ||= {}
         # light over slope
-        c.dl = 4.23
+        c ||= 4.23
+        isnu(c) and c = {dl:c}
         return ki(s,c.dl)
     }
   // misc() hash
