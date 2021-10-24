@@ -3362,7 +3362,7 @@ me.ing = &acgtsR{
     }
     return R
 };
-#c RbitX
+#c RbitX arrives
 =pod
 
 Receive the past (V) and make a now (X)
@@ -3450,7 +3450,7 @@ me.resetRbitX = &acgtRr{
     }
 };
 
-#c and is supposed to be completed by 4
+#c   and is supposed to be completed by 4
 # < by the time it is 4?
 # < decide moves by new/gone pairs with similar appearance
 #   the thing producing changes may be willing to help
@@ -3522,9 +3522,20 @@ me.applyRbitX = &acgtR{
         delete bc&b;
     }
 };
-#c RbitX etc
+#c   RbitX ops
+
+
+# X a name tp $r or [name+] to [$r+]
+#  used by &unpacke
+me.Xt = &acgtnt{
+    # < sub this
+    isar(t) and return t.map(&t{ n = n && me&Xt,n,t; return n })
+    $X = nc&X
+    $oX = X && X.x && X.x[t]
+    oX && oX.z and return oX.z[0]
+}
+# keep history of unhad children
 # sleeping @28 may do this for you
-# keeps history of unhad children
 #  and adds them to Rs&z
 # they may still arrive: unrecycle
 me.recycleRbitXz = &acgtRc{
