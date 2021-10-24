@@ -1137,7 +1137,8 @@ me.Sch_The = &acgt{ return [
                 unsure ?
                 me&tc,"unsure" :
                 me&tc,"calm"
-                me&ty,"drop" and nc&drop = 1
+                # < could &tt,drop (&{...}) imply oncer?
+                me&tt,"drop" ({once:&v{ nc&drop = 1 }})
             })
             
             # < to be cached per P%dige
@@ -1406,6 +1407,7 @@ me.Sch_The = &acgt{ return [
             }
         }
       // <- @Intro
+        # produce %%RunStep when @Inc ready
         me.SG_sustain_elIntro = &acgtR,gs,Inc{
             $h = T.sute
             # keep these per t?
@@ -1419,7 +1421,8 @@ me.Sch_The = &acgt{ return [
             # text-like value (not Q, steps) or el
             $gsc = s => ex(s,nex({},tex({},gs),'el'))
             
-            me&tc,dis(gsc({})),'y'
+            me&tc,dis(gsc({})),'6y' .y.cv = 0.101
+            T.ab.c.sortcv = 1
             me&nu,{gs,Inc}
             # &sustain {} {elIntro:gs} # to sample $gs
             # &sustain gs {untility:maybe} # to inherit gs id
@@ -1453,6 +1456,7 @@ me.Sch_The = &acgt{ return [
                     me&walls,m,'b:2.2h5'
                     ns&ov > 0.8 and me&tc,"done"
                     else me&tc,".."
+                    me&tt,"drop" ({once:&v{ gs.done() }})
                 })
             })
             
@@ -1466,7 +1470,8 @@ me.Sch_The = &acgt{ return [
             }
             $e = me&eis,'elvoids'
             (e) and me&ha,R,{latest_elQuip:e,dome:'latestelQuip'}
-            $e = me&jaa,R,'latest_elQuip',1 .slice(-1)[0]
+            $en = me&jaa,R,'latest_elQuip' .slice(-1)[0]
+            $e = en && ens&latest_elQuip
             #me&tc,dis({lat:e})
             if (e) {
                 # < arrive e** it goes, have ebits for us
@@ -1482,8 +1487,12 @@ me.Sch_The = &acgt{ return [
                     #  starts diffing Q-P, then laP-P
                     $memory = Q
                     $done = me&boxcap,'diffP:'+P.t,'1s'
+                    # < async drop, with visit
+                    me&tt,"drop" ({once:&v{ enc&drop = 1 }})
+                    
                     me&walls,T.ab,'bd:3.3'
                     $di = me&diffPs,R,Q,P,memory
+                    
                     done()
                     $gs = me&yio,Q,'diffPs' ('o','doing')
                     if (!gs.steps) {
@@ -3574,6 +3583,7 @@ me.Sch_The = &acgt{ return [
         
         return &y{
             # check state
+            # < deeper path? T.sute + T.ab?
             $qua = ahsk(s,'y','tt',m.t,t)
             $was = qua
             $l = me&ty,t,c (&zTe{
@@ -3601,6 +3611,13 @@ me.Sch_The = &acgt{ return [
             y.always and y.always (qua.on)
             # < style in y.async
             qua.on and ls&bri = 1.6
+            # < having qua.el for moment cha of qua
+            #   depending on hoisty commit qua.ok=1 on res-merge
+            # do thing once per click
+            if (y.once && qua.on) {
+                y.once (qua.on)
+                qua.on = 0
+            }
         }
         
     }
