@@ -933,7 +933,7 @@ me.Sch_The = &acgt{ return [
         }
     
   // Supe@Gnome
-   // 1 write @Gome
+   // 1 @Gome
         me.SuperGnome = &acgtRsce{
             $x = me&Jx,R
             c.t ||= 'Gnome'
@@ -1035,7 +1035,9 @@ me.Sch_The = &acgt{ return [
             # %%Control -> $Cat/* may now
             me&nodei,R,Cat,{Control:1,n}
 
-            # Cat/* checkable anywhere via &Gome_Jx
+            # < Cat/* checkable anywhere via &Gome_Jx
+            $Inc = me&Superarg,{Inc:0},{viatw:'Cat'}
+            $Pro = me&Superarg,{Pro:0},{viatw:'Cat'}
             $Run = me&Superarg,{Run:0},{viatw:'Cat'}
         me&Superready and return
             !x.ro('maynotRun',{}) and me&nodei,R,Run,'mayRun'
@@ -1061,7 +1063,11 @@ me.Sch_The = &acgt{ return [
         su('See',{until:&zaa,jaa,ha,ar{
             # Reside guaratees:
             $Cat = ar.Cat
+            # < Name @Cat/*
+            $Inc = ar.Inc
+            $Pro = ar.Pro
             $Run = ar.Run
+            !Inc and return ha('pur:!Inc')
             $F = ar.F
           // %%active are, This -> Fine
             # stuff @Gnome notices about who is active
@@ -1107,17 +1113,13 @@ me.Sch_The = &acgt{ return [
             # here at random moments, arrive plot
             # <<<
 
-            $done = me&boxcap,'elIntro','1s'
-            me&walls,T.ab,'bd:3.3'
-            # < Name @Cat/*
-            $Inc = me&nodes_below,Cat .filter(n => n.t == 'Inc') [0]
-            !Inc and return ha('pur:!Inc')
-            
-            # @Gnome receives notifies for @Inc
-            $gs = me&SG_elIntro,R,Run
-            me&SG_sustain_elIntro,R,gs,Inc
-            
-            done()
+            me&boxcap,'elIntro','1s' (&m{
+                me&walls,m,'bd:3.3'
+
+                # @Gnome receives notifies for @Inc
+                $gs = me&SG_elIntro,R,Run
+                me&SG_sustain_elIntro,R,gs,Inc
+            })
             
             
             
