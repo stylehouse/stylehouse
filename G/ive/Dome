@@ -109,6 +109,7 @@
             me&reaw,j,zak;
             zy&get_zaz = &j{ return j.sc[zak] };
         }
+        # simpler
         me.haja = &acgtR{
             $j = R || me&R
             # < de-hard-code $k
@@ -125,8 +126,40 @@
             rs&wou_accepted = rs&wou
         }
         
+       // &hajasute, proto &saa, &jaaz
+        # return h={ha,jaa,etc}, possing through T.sute &Supe*
+        # < similar to an Xio front end
+        #    the flavour of the interation, besides expr through it
+        me.hajasute = &acgt{
+            $h = T.sute
+            $j = me&R
+            if (h) {
+                # has:
+            }
+            else {
+                h = {}
+                h.ha = (c,s) => me&ha,j,c,{},s
+                h.jaa = (c) => me&jaa,j,c
+                h.zaa = (c) => me&zaa,j,c
+            }
+            # %%rec-tractioned zaa+jaa
+            #  used when jaa(c,1) gives dupes from neu+old %%rec
+            h.saa = &c{
+                $neu = h.jaa(c)
+                # < use a grouper instead of...
+                $recn = {}
+                each in neu {
+                    ns&rec and recn[ns&rec] = 1
+                }
+                return [...h.zaa(c)
+                    .filter(n => !ns&rec || !recn[ns&rec]),
+                    ...neu]
+            }
+            return h
+        }
         # &zaa it when it might not be entered yet
         #  or when j%sleeping
+        #  used only by &Effect_o
         # oddness... Xio time to straighten?
         #  see also &supetime's ja, has similar
         # < perhaps &sa means &ja even if sleeping?

@@ -4420,38 +4420,7 @@ me.Sch_Travel = &acgt{ return [
         }
        
   // funcs
-      // Superfuncs
-       // &hajasute for maybe-T.sute brackcess
-        # return a ha|ja etc, possing through T.sute &Supe*
-        # < similar to an Xio front end
-        #    the flavour of the interation, besides expr through it
-        me.hajasute = &acgt{
-            $h = T.sute
-            $j = me&R
-            if (h) {
-                # has:
-            }
-            else {
-                h = {}
-                h.ha = (c,s) => me&ha,j,c,{},s
-                h.jaa = (c) => me&jaa,j,c
-                h.zaa = (c) => me&zaa,j,c
-            }
-            # %%rec-tractioned zaa+jaa
-            #  used when jaa(c,1) gives dupes from neu+old %%rec
-            h.saa = &c{
-                $neu = h.jaa(c)
-                # < use a grouper instead of...
-                $recn = {}
-                each in neu {
-                    ns&rec and recn[ns&rec] = 1
-                }
-                return [...h.zaa(c)
-                    .filter(n => !ns&rec || !recn[ns&rec]),
-                    ...neu]
-            }
-            return h
-        }
+      // Superfuncs, see also &Super(def|vator)
        // &superclasspile, &purforate
         # prep row per call to &Superquiet etc
         me.superclasspile = &acgtqck{
