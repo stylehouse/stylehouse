@@ -2482,6 +2482,7 @@ me.Sch_The = &acgt{ return [
         me&settle_prev,R and return
         me&ha,R,'loaded'
     },'ift,D'],
+    
    // @Run %Piing**
     # @Run ~ %Jrunto
     #  exp by random clicks and %%initdata
@@ -2500,9 +2501,12 @@ me.Sch_The = &acgt{ return [
      // &inramp etc for Run** inflation
         # builds a @Run/**r
         # < returning r** with E@36?
+        # < expets() it. {s,pi,t}
         me.inramp = &acgtzsc{
             # z must be above s
-            s = me&Pii,z,s
+            $ins = me&Pii,z,s
+            !ins and debugger
+            s = ins
             !zy&R and debugger
             zy&R != z and z = zy&R
             C = zs&C
@@ -2688,8 +2692,6 @@ me.Sch_The = &acgt{ return [
     ['PiiRunThis',0.298,&acgtRs{
         s.t != "This" and return
         me&tc,"Thising",'y'
-        me&watchfora,'sThis',s
-        me&watchfora,'REThis',Rs&E
         # < what does &Gome_This do
     },'ift,D'],
   
@@ -3115,6 +3117,7 @@ me.Sch_The = &acgt{ return [
         Rs&Pier and throw "use &Ei in R'The'"
         isst(s) and c = s; s = Rc&s
         $v = me&Rsci,c,{v:s}
+        !v and debugger
         return v
     }
     
@@ -5295,7 +5298,7 @@ me.Sch_The = &acgt{ return [
    // &Rsci
     # c.t may say $t-$pi%qua
     me.t_tpi = &acgtc{
-        $tpi = c.t.match(/^(.*)-(\w+)(.*?)$/)
+        $tpi = c.t.match(/^(.*)-(\w+)((?:%\w.*)?)$/)
         if (tpi) {
             c.t = tpi[1]+tpi[3]
             c.pi = tpi[2]
