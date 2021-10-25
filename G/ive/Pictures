@@ -176,22 +176,31 @@
         me.rowcap = &acgtNcq{
             c = peel(c)
             q = peel(q)
-            $a = T.ab
-            !a and throw "rowcap in a boxcap"
-            $head = me&tc,'rowcap-tablehead','3y'
-            $space = me&tc,head,'space','4y'
-            delete headc&s
-            delete spacec&s
-            # < from first c.*
-            # < from args for first callback
-            q.k and spacec&s = q.k
+            $name = q.k || joint(haks(c),',') || ''
+            $table
+            $head
+            me&boxcap,"rowcap:"+name,'5' (&ml{
+                table = m
+                lc&not = 1
+                head = me&tc,'rowcap-tablehead','3y'
+                $space = me&tc,head,'space','4y'
+                delete headc&s
+                delete spacec&s
+                # the first column's title
+                # < from args for first callback?
+                hak(name) and spacec&s = name
+                # closes until putting a column:
+            })
             $Na = []
             return &ty{
-                !isst(t) and throw "rowcap!t"
-                !isfu(y) and throw "rowcap!y"
+                # rejoing rowcap table closed above
+                $Tap = me&Tap,{ab:table}
+                fatal.isst(t)
+                fatal.isfu(y)
                 !hak(N) and me&tc,t+"!rows",'6p'
                 each in N {
                     $a = Na[i] ||= {s,n}
+                    # c.* list n%* as args, or just n
                     $args = haks(c).map(k => a[k] = n.sc[k])
                     !hak(args) and args = [n]
                     $s = args[0]
@@ -215,6 +224,7 @@
                         })
                     })
                 }
+                Tap()
             }
         }
   // capsulating, &Mwcap
