@@ -332,14 +332,32 @@
     }
         
   // misc() array
-    # slices hash keys or array values
+    # slices hash-keys|array by key|value|matcher:
+    #  c = {aft: 'akey'|v|v=>1 } | 'akey'
+    #  returns
+    #   slices of arrays
+    #   arrays of keys of hashes
     # note num()-able hash keys all come in order first,
     #  otherwise in order of appearance
     self.ksaf = &sc{
         $keys = haks(s)
+        # < default to !inc the match?
+        # < variations for
         !isob(c) and c = {aft:c,inc:1}
-        isar(s) and keys = s
-        $ki = keys.indexOf(c.aft||c.bow)
+        $it = c.aft||c.bow
+        if (iskeyish(it)){
+            $ki = keys.indexOf(it)
+        }
+        else {
+            # slice by value
+            $ki = -1
+            each ik keys {
+                $v = s [k]
+                !(isfu(it) ? it(v,i) : v == it) and continue
+                ki = i*1
+                break
+            }
+        }
         ki < 0 and throw "no ksaf",c
         # slice arg2 is first one not to include
         # splice arg2 is length of selection
@@ -348,6 +366,7 @@
         c.inc and c.aft ? N.unshift(keys[ki]) : N.push[keys[ki]]
         # c.near for closest to ki first (reverse the bow)
         c.aft ? c.rev : c.near && !c.rev and N.reverse()
+        isar(s) and N = N.map(k => s [k])
         return N
     }
     # removing .filter, y=[n+]|&n{1}|$n
