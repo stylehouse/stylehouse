@@ -275,6 +275,8 @@
     # itemic
     self.isi =
     self.isit = v => !isha(v) || isC(v)
+    # -suchpi
+    self.ispi = (v,pi) => isC(v) && (!pi ? vc&pi : vc&pi == pi)
 
     # make lots of fatal versions of isba(), etc
     # < put it through me.Yingminds?
@@ -289,7 +291,7 @@
         # < i fatal/$k = &{ !self[k] && die }
         #    Babz it into die(capturing etc)
         #     has to be die for "try not to die", "it's trad to die"
-            .map(k => fatal[k] = &{
+            .map(k => fatal[k] = &s{
                 $v = self[k](...arguments)
                 !v and throw "!"+k, s
             })
@@ -320,7 +322,7 @@
 
         $N = me&ioty,s,c
         # < gs.* can identify, clue how it should be elsewhere
-        g.suchpi and grepout(N,n => nc&pi == g.suchpi)
+        g.suchpi and grepout(N,n => nc&pi != g.suchpi)
         $fromr = isR(s)
         each in N {
             if (fromr) {
