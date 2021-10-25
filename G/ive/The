@@ -1170,16 +1170,16 @@ me.Sch_The = &acgt{ return [
             # < &rowcap de-group-by
             
             # user
-            me&tt,'again' ({once:r => me&SG_sustain,{},{RunStep:time1},{} })
+            me&tt,'again' ({once:r => me&SG_sustain,{},{RunStep:time},{} })
             # having its own row?
             me&tt,'Leap' ({once:r => h.ha('RunStep:1,rec:whimsies') })
             
             # various, clobberatively, to progress
             $N = h.saa('RunStep')
             if (!hak(N)) {
-                if (c.starting || c.more_ok) {
+                if (c.starting) {
                     # auto keep going
-                    N = [ me&SG_sustain,{},{RunStep:time1},{} .n ]
+                    N = [ me&SG_sustain,{},{RunStep:time1,through:1},{} .n ]
                 }
             }
             
@@ -1191,11 +1191,15 @@ me.Sch_The = &acgt{ return [
             
             # Steps are known
             row('Ness',&Smal{
-                # Fe for
-                $Fe = a.Fe = me&iot,Fine,'%TheFe' [S-1]
+                $n = a.n
+                # the Fe that are -Ness correspond to steps
+                $Fe = a.Fe = me&SG_SteptoNess,Fine,S
                 !Fe and return me&tc,"!Fe",'b'
-                me&tc,"Fe:"+Fe.t,'6'
-                # < Fe**, aware relevant muckings
+                me&tc,Fe.t,'6'
+                # dome this sc...
+                # < replace %rec later. happens naturally?
+                a.sc1 = ex({},n.sc)
+                ns&ov ||= 0.5
             })
             # also the -nine says the next one
             # < not always expected:
@@ -1205,7 +1209,7 @@ me.Sch_The = &acgt{ return [
             #   this must be part of that...
             #   
             # < of(Fe1,'-Ness') returns Fe1 if such
-            $forNess = Fe1 && Fe1c&Ness
+            $forNess = Fe1 && Fe1c&pi == 'Ness'
             
            // time to
             # we want to do, attend time
@@ -1220,40 +1224,118 @@ me.Sch_The = &acgt{ return [
             
             # they want to do
             # <<<
+            #  it's hard to tell when a particular Run has propagated to OK
+            #  Aip as canopy lighting timeclock
             # < &sustain one (bunch), til they nine%Is
             #   usu carry on if some !ok, with less Plying later,
             #    or maybe do all the Plying on the final thing,
             #     as in brackstract, the complete picture is best
-            $any = []
+            # a bunch of RunningSteps
+            $any = h.zaa('RunningStep')
+            # waiting on quiet++
+            $quiettime = theone(h.zaa('quiettime').map(q => qs&quiettime)) || 0
+            Rs&is_quiet and quiettime += 1
+            me&tc,dis({quiettime}),'G'
+            h.ha({quiettime,rec:'quiettimeclock'})
+            
             row('c',&Smal{
                 $n = a.n
-                # < replace %rec later. happens naturally?
-                a.sc1 = ex({},n.sc)
                 
-                if (!c.unsure && !hak(any)) {
-                    me&tc,"could",'y'
-                    $will = 0
-                    # < &tt per row
-                    me&tt,"will",'y' ({once:&v{ will = 1 }})
-                    if (will || (ns&ov||0) < 0.6) {
-                        me&tc,"Run++"
-                        # < many steps
-                        # Run increments itself
-                        Runs&time = ns&RunStep - 1
+                !quiettime and c.unsure = 'neverquiet'
+                
+                if (!c.unsure && ns&ov >= 0.5) {
+                    # not while This>Fine
+                    
+                    # notice completing this step
+                    $z = theone(any.filter(z => zs&RunningStep == ns&RunStep))
+                    if (z) {
+                        # requests quietwake
+                        #  purloop per pur
+                        h.ha('pur:RunningStep:'+zs&RunningStep)
+                        if (zs&quiettime_now < quiettime) {
+                            me&tc,"..7",'6G'
+                            zc&drop = 1
+                            ns&ov = 0.7
+                        }
                         
-                        # if ro Run oncer on
-                        $r = Runy&R
-                        rs&Run = 1
-                        # go there
-                        me&wants,R,'Run++',Run
-                        
-                        ns&ov = 0.6
-                        any.push(n)
+                    }
+                    
+                    # have a moment to run this step
+                    if (!hak(any)) {
+                        me&tsc,"could-Run-this","?",'y'
+                        $will = 0
+                        # < &tt per row
+                        me&tt,"will",'y' ({once:&v{ will = 1 }})
+                        if (will || (ns&ov||0) < 0.6) {
+                            me&tc,"Run++"
+                            # < many steps
+                            # < -Effect it there
+                            # Run increments itself
+                            Runs&time = ns&RunStep - 1
+
+                            # if ro Run oncer on
+                            $r = Runy&R
+                            rs&Run = 1
+                            # go there
+                            me&wants,R,'Run++',Run
+
+                            # we are now:
+                            !quiettime and debugger
+                            ns&ov = 0.6
+                            $RingS = {
+                                RunningStep: ns&RunStep,
+                                quiettime_now: quiettime,
+                            }
+                            $gs = me&SG_sustain,{},RingS
+                            any.push(gs.n)
+                        }
+                    }
+                    
+                    # checkable .> ok
+                    if (ns&ov >= 0.7) {
+                        # time to look for an OK
+                        # see &SG_tally_oks
+                        if (a.Fe && me&isFe_ok,a.Fe ) {
+                            me&tc,"OK"
+                            ns&ov == 0.7 and ns&ov = 0.8
+                        }
+                        else {
+                            # Fine will have your attention
+                            # < keep going, with|after fugue
+                            ns&dodge = 1
+                        }
+                        if (ns&ov == 0.8) {
+                            if (ns&through) {
+                                me&tc,"through..?"
+                                $next = me&SG_throughNess,Fine,a.Fe
+                                if (next) {
+                                    $S1 = me&SG_NesstoStep,Fine,next
+                                    S1 != time1 and debugger
+                                    ns&ov = 0.9
+                                    $through = ns&through + 1
+                                    me&SG_sustain,{},{RunStep:S1,through},{}
+                                    # < having that row ^ join this iteration
+                                    #    is the dome stream
+                                    # these are enduring this event
+                                    h.ha('pur:RunnableStep:'+S1)
+                                }
+                                else {
+                                    me&tc,"alldone?"
+                                }
+                            }
+                        }
                     }
                 }
+                        
+                $looks = ns&looks || 0
+                ns&looks = looks + 1
                 me&tc,'@','6y'
                 me&tc,cvf(ns&ov),'6y'
+                
+                $late = ksaf(n.sc,'rec')
+                me&tc,dis(late),'6G'
             })
+            
             
             row('keep',&Sma{
                 c.unsure and me&tc,"unsure"
@@ -1262,9 +1344,11 @@ me.Sch_The = &acgt{ return [
                 $n = a.n
                 me&tt,"drop" ({once:&v{ nc&drop = 1 }})
             })
+            
         }
       
       // %%quiet_visitable
+        # < generalise to two parts
         # remember somewhere to wake after the next quiet
         me.SG_quiet_visitable = &acgtRt,to,c{
             $h = T.sute
@@ -1309,23 +1393,55 @@ me.Sch_The = &acgt{ return [
                 heretoo and debugger
             })
         }
+        me.isFe_ok = &acgt,Fe{
+            $j = Fe && Fey&R
+            !j and throw "!Fe"
+            # < &zam,['ready','ok']
+            $ok = me&za,j,'ready' && me&za,j,'ok'
+            return ok
+        }
+        # Nesswork
+        # Steps start from 1, may return nothing
+        me.SG_SteptoNess = &acgt,Fine,S{
+            fatal.ispi(Fine,'nine')
+            fatal.isnum(S)
+            return me&iot,Fine,'-Ness' [S-1]
+        }
+        me.SG_NesstoStep = &acgt,Fine,Ness{
+            fatal.ispi(Fine,'nine')
+            fatal.ispi(Ness,'Ness')
+            $N = me&iot,Fine,'-Ness'
+            $i = N.indexOf(Ness)
+            0>i and throw "!Ness",Ness,N,Fine
+            return i+1
+        }
+        # from this Fe-Ness til the next one
+        me.SG_throughNess = &acgt,Fine,Fe{
+            fatal.ispi(Fine,'nine')
+            fatal.ispi(Fe,'Ness')
+            $N = ksaf(me&ioty,Fine ,{aft:Fe,inc:0})
+            each in N {
+                ispi(n,'Ness') and return n
+                # eg -Lab must ok first
+                !me&isFe_ok,n and break
+            }
+        }
         # check nine%Is
         me.SG_tally_oks = &acgt,nine{
             $h = T.sute
-            # o @nine/Ness/@n//Outs == @Fine/@Ness
+            # o @nine/Ness/@n//Outs == @Fine/@Fe
             $more_ok = 0
             $oks = 0
             each in nines&Is {
-                $Ness = ny&Outs
+                $Fe = ny&Outs
                 # new steps must be accepted and @Fine reselfed
                 #  before they appear, non-%eph
                 # o Ness %%ready %%ok
-                $ok = Ness && me&za,Nessy&R,'ready'
-                    && me&za,Nessy&R,'ok'
+                $ok = me&isFe_ok,Fe
                 !ok and break
                 ok and oks += 1
                 # < we should D the ok steps, may be avoided if reself
-                $be = {became_ok:Ness,rec:'becomesing'}
+                $be = {became_ok:Fe,rec:'becomesing'}
                 !h.zaa(be) and h.ha(be); more_ok = 1
             }
             # the outsphere|accepted bunch of @Fine/@Ness
