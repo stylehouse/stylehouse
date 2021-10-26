@@ -1104,8 +1104,6 @@ me.Sch_The = &acgt{ return [
             $unsure = me&Superready
             # usu first time here
             $starting = !okc.done
-            # this time
-            $more_ok = okc.more_ok
             
             
             # i RunStep o ~P > @Cat
@@ -1117,7 +1115,7 @@ me.Sch_The = &acgt{ return [
             
             # < proto for async state through to a @Story here
             #   see Doming & Beeping will separate
-            $c = {unsure,starting,more_ok}
+            $c = {unsure,starting}
             ex(c,{Fine,nine,This})
             
             me&SG_RunStep,c
@@ -1347,7 +1345,27 @@ me.Sch_The = &acgt{ return [
             
         }
       
-      // %%quiet_visitable
+      // misc %%quiet_visitable
+        # check @Gnome is async to Fine, etc
+        me.SG_draw_comrades = &acgtN{
+            $R = me&R
+            N.map(s => sy&ers || s)
+                .filter(s => Rc&N.includes(me&yfuture,s ))
+                .map(&r{
+                    debugger
+                })
+            return
+            me&rowcap,N ('Name',&sm{
+                # < Names may be The//E, or from it?
+                # go Out
+                sy&ers and s = sy&ers
+                $t = me&Name_of,s
+                me&tc,"@"+t,'G'
+                # we async
+                $heretoo = Rc&N.includes(me&yfuture,s )
+                heretoo and debugger
+            })
+        }
         # < generalise to two parts
         # remember somewhere to wake after the next quiet
         me.SG_quiet_visitable = &acgtRt,to,c{
@@ -1372,34 +1390,7 @@ me.Sch_The = &acgt{ return [
             })
         }
       
-      // tallies, draws
-        # check @Gnome is async to Fine, etc
-        me.SG_draw_comrades = &acgtN{
-            $R = me&R
-            N.map(s => sy&ers || s)
-                .filter(s => Rc&N.includes(me&yfuture,s ))
-                .map(&r{
-                    debugger
-                })
-            return
-            me&rowcap,N ('Name',&sm{
-                # < Names may be The//E, or from it?
-                # go Out
-                sy&ers and s = sy&ers
-                $t = me&Name_of,s
-                me&tc,"@"+t,'G'
-                # we async
-                $heretoo = Rc&N.includes(me&yfuture,s )
-                heretoo and debugger
-            })
-        }
-        me.isFe_ok = &acgt,Fe{
-            $j = Fe && Fey&R
-            !j and throw "!Fe"
-            # < &zam,['ready','ok']
-            $ok = me&za,j,'ready' && me&za,j,'ok'
-            return ok
-        }
+      // @Fine Ness
         # Nesswork
         # Steps start from 1, may return nothing
         me.SG_SteptoNess = &acgt,Fine,S{
@@ -1425,6 +1416,15 @@ me.Sch_The = &acgt{ return [
                 # eg -Lab must ok first
                 !me&isFe_ok,n and break
             }
+        }
+      
+      // @Fine Fe ok
+        me.isFe_ok = &acgt,Fe{
+            $j = Fe && Fey&R
+            !j and throw "!Fe"
+            # < &zam,['ready','ok']
+            $ok = me&za,j,'ready' && me&za,j,'ok'
+            return ok
         }
         # check nine%Is
         me.SG_tally_oks = &acgt,nine{
@@ -1453,18 +1453,20 @@ me.Sch_The = &acgt{ return [
         # draw the above
         me.SG_draw_oks = &acgtc{
             # see also &Acceptings
+            # < ts?
             $t = (t,s) => me&tc,t .c.s = s
+            
             me&boxcap,'prog','g' (&m{
                 me&walls,m,'bd:9'
                 ms&ma = 0.2
-                t("OKs",c.oks)
+                me&ts,"OKs",c.oks
                 if (c.done != c.total) {
                     me&tc,'/','6y'
-                    t("done",c.done)
+                    me&ts,"done",c.done
                 }
                 if (c.oks != c.total) {
                     me&tc,'/','6y'
-                    t("total",c.total)
+                    me&ts,"total",c.total
                 }
                 c.oks == c.done and me&tc,"OK",'g'
                 c.oks != c.total and me&tc,"...",'g'
@@ -2132,8 +2134,8 @@ me.Sch_The = &acgt{ return [
     ] }
     },
   
-  # < here's a twinning io structure deal
-  // @Nine <-> @Thy
+  # < io deal
+  // @Nine <-> @Thy, Ply
     &{
     # Gnome/Thy/This/#@Fine/Lab
     # see &EsyncThis c.ThyF, puts @Lab -> E/Ness/* -> Nine/*
@@ -2185,7 +2187,6 @@ me.Sch_The = &acgt{ return [
             })
         }
     }
-  // @Nine/@Fe &Ply
     # Accepting ~ Nine/Fe, forward cha
     # < real as the E|exp**:n walk
     me.Fe_mergent = &acgtREstz{

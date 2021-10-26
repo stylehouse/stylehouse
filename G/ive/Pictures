@@ -13,6 +13,13 @@
         me&zuct,g,nu;
     };
    // &tc, &tcl, &ty, &tt modulat bits
+        # explicitly s-having, will s=0 (&tsc s||=t)
+        me.ts = &acgttsc{
+            $n = me&tc,t,c
+            nc&s = s
+            return n
+        }
+        # s = t, like &tsc,'becomes',0,'6y'
         me.tc = &acgtmtcb{
             !isC(m) and b = c; c = t; t = m; m = 0
             $args = [t]
@@ -124,7 +131,7 @@
             #  confusingly, &tc,C,t,c will return C/thing
             me&tcl,m,t,c
             
-            $capture = me&abTap,R,'box:'+t,m
+            $capture = me&abTap,'box:'+t,m
             
             return &y{
                 # for &boxcap,t,c (&m{...})
@@ -229,7 +236,8 @@
         }
   // capsulating, &Mwcap
     # captures modulat around y(m...)
-    me.abTap = &acgtRtm{
+    me.abTap = &acgttm{
+        $R = me&R
 
         $Tap = me&Tap,{ab:m}
         # listen for &tc
@@ -237,11 +245,13 @@
         # allow m/m (sees a/m) to stream before inner &boxcap
         $Mwcap = me&Tap,{Mwcap:&{capture(m,'partial')}}
 
-        return &{
+        return &y{
+            y and y(m)
             Tap()
             # without 'partial' sets T.Mw=was
             capture(m)
             Mwcap()
+            return m
         }
     }
     # transact ~T.*
