@@ -262,6 +262,13 @@ https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
 
 =ffmpeg
  wasm https://fileconverter.digital/
+ de-VOB:
+  cat VIDEO_TS/VTS_02_{1,2,3,4}.VOB > 1.vob
+   # see which to join
+  ffmpeg -analyzeduration 100M -probesize 100M -i 1.vob -map 0:1 -map 0:2 -map 0:3 -c:a copy -b:v 1000 1.mkv
+   # -maps required to keep quad audio
+   #  only 192kb ac3?
+   # video defaults to ~600kb, down from 28mb
  de-MOV:
   find . -regex '.*MOV' -exec ffmpeg -i {} -b:v 5M -c:a flac {}.mkv \;
    < keep creation timestamp
@@ -292,6 +299,12 @@ https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
  friends let friends in
  
 =music
+
+part of shape sorter
+ join dupey islands of eg Music/*
+  Music,Steve,Pictures is another islanding
+   different drives, partially replicated, guess everything
+  with tasks for rooting out nice bits of Newmsic
 
 bpm|key finder etc: https://vocalremover.org/
 
