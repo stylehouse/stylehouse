@@ -1347,13 +1347,9 @@ me.Sch_The = &acgt{ return [
             })
             
             th('tude',&vma{
+                # < c.* should be brack, for an in-sute per row?
                 $odd = grep(nex({},c,'Fine,nine,This'))
                 me&tc,dis(odd),'6G'
-                # < c.* should be brack, for an in-sute per row?
-                $topics = ['tude','allis']
-                each ik topics {
-                    #c[k] and me&ts,'c.'+k,c[k]
-                }
             })
         }
       
@@ -1511,6 +1507,7 @@ me.Sch_The = &acgt{ return [
             #!
             $rec = k
             # < rec by k + dis(idc)? has dome_traction
+            # < supposing v not always given... trying to select these somethings?
             # maybe we are many keyword:$id
             q and rec += ':'+v
             
@@ -1528,13 +1525,15 @@ me.Sch_The = &acgt{ return [
                     $el = 2
                 }
             }
-            if (!v && !hak(remember)) {
-                # not yet
-                $el = 10
-                $a = {}
-            }
-            elsif (!v) {
-                # remembers latest n
+            if (!v) {
+                if (hak(remember)) {
+                    # remembers
+                }
+                else {
+                    # not yet
+                    $el = 10
+                    $a = {}
+                }
             }
             elsif (!hak(remember)) {
                 # v true for the first time
@@ -1550,7 +1549,7 @@ me.Sch_The = &acgt{ return [
                 #   takes on the life of cthing
                 #    allows its source to stop producing it
                 #     < interesting
-                $a = grouping.sustain = ish(v) ? v : {v}
+                $a = grouping.sustain = ish(v) ? v : {}
                 # a += c.*!$k > s.*
                 # < how much of c.* to take... til q?
                 ex(a,idc)
@@ -1569,16 +1568,21 @@ me.Sch_The = &acgt{ return [
             a ||= ns&sustain
             !a and throw "!a"
             
+            # know first time etc
+            a.el = el
+            (n) and a.n = n
+            if (a.el <3) {
+                # latest true value
+                $v = n.sc[k]
+                # if it wasn't something becoming a
+                !ish(v) and a.v = v
+            }
+            
             # on failure|enduring to complete it
             #  pur after $k+$index?
             a.pur = say => h.ha(dex({pur:'sustain:'+rec},{say}))
             # revoke
             a.done = () => remember .map(n => nc&drop = 1)
-            
-            # know first time
-            a.el = el
-            (n) and a.n = n
-            # may also a.v if !ish()
             
             return a
         }
@@ -1607,7 +1611,7 @@ me.Sch_The = &acgt{ return [
              might know which time was edited easy
         =cut
         me.SG_elIntro = &acgt{
-            # auto
+            # auto!
             me&boxcap,'elIntro','1s' (&m{
                 me&walls,m,'bd:3.3'
 
@@ -1679,77 +1683,70 @@ me.Sch_The = &acgt{ return [
         # get $gs, diff from ec&e=Q
         me.SG_ei_elIntro = &acgt{
             $R = me&R
-            # somewhere in an envolping
-            #$e = me&eis,'elIntro'
-            if (e) {
-                me&tc,"wchangey"
-            }
+            # keep latest e:elvoids
             $e = me&eis,'elvoids'
-            (e) and me&ha,R,{latest_elQuip:e,dome:'latestelQuip'}
-            $en = me&jaa,R,'latest_elQuip' .slice(-1)[0]
-            $e = en && ens&latest_elQuip
-            #me&tc,dis({lat:e})
-            if (e) {
-                # < arrive e** it goes, have ebits for us
-                $ie = me&through_packs,e
-                #me&tc,dis({ie})
-                if (ie.t == 'elIntro') {
-                    $Q = iec&e
-                    $P = Qs&P
-                    Qc&of != 'wjs' and me&tc,"non-of:wjs",'B'
-                    # < knowing the latest pulled-in version
-                    #  < this change might join an existing effort
-                    # Q is permanent? gets y&diffP...
-                    #  starts diffing Q-P, then laP-P
-                    $memory = Q
-                    $done = me&boxcap,'diffP:'+P.t,'1s'
-                    # < async drop, with visit
-                    me&tt,"drop" ({once:&v{ enc&drop = 1 }})
-                    
-                    me&walls,T.ab,'bd:3.3'
-                    $di = me&diffPs,R,Q,P,memory
-                    
-                    $gs = me&yio,Q,'diffPs' ('o','doing')
-                    if (!gs.steps) {
-                        gs.Q = Q
-                        gs.steps = []
-                        $Comp = dis&Comp
-                        # determine step
-                        each il Comp {
-                            ls&level > 0 and continue
-                            !ls&chain and continue
-                            $m = lc&s.match(/^(?:} )?while \(G.h\([\w,]+,"S",([\d\.]+),/)
-                            !m and continue
-                            gs.steps.push(m[1])
-                        }
-                    }
-                    me&tt,"Compgs" (&v{
-                        v and me&zu,{di,ie,Comp,gs}
-                    }) 
-                    done()
-                    return gs
+            e = me&SG_sustain,{},{elvoids:e} .v
+            !e and return
+            # e**:locating/e:meaning
+            # < arrive e** it goes, have multiple ebits for us
+            #    @Pro strategy about which ebits to do now etc
+            e = me&through_packs,e
+            e.t != 'elIntro' and return
+            
+            $Q = ec&e
+            $P = Qs&P
+            Qc&of != 'wjs' and me&tc,"non-of:wjs",'B'
+            # < knowing the latest pulled-in version
+            #  < this change might join an existing effort
+            # Q is permanent? gets y&diffP...
+            #  starts diffing Q-P, then laP-P
+            $memory = Q
+            $done = me&boxcap,'diffP:'+P.t,'1s'
+            # < async drop, with visit
+            me&tt,"drop" ({once:&v{ enc&drop = 1 }})
+
+            me&walls,T.ab,'bd:3.3'
+            $di = me&diffPs,R,Q,P,memory
+
+            $gs = me&yio,Q,'diffPs' ('o','doing')
+            if (!gs.steps) {
+                gs.Q = Q
+                gs.steps = []
+                $Comp = dis&Comp
+                # determine step
+                each il Comp {
+                    ls&level > 0 and continue
+                    !ls&chain and continue
+                    $m = lc&s.match(/^(?:} )?while \(G.h\([\w,]+,"S",([\d\.]+),/)
+                    !m and continue
+                    gs.steps.push(m[1])
                 }
             }
+            me&tt,"Compgs" (&{
+                me&zu,{di,e,Comp,gs}
+            }) 
+            done()
             # < have certain P%dige changes for steps
             #   is where we want to have a /$node, inc @Fe that come up
-            }
-            # the e that causes tunneling doesnt arrive e** as it goes
-            # < should do, know what is for here, anywhere
-            #    that +etc should be indexed on ec&X, what the e concerns, deeply
-            # so we go looking from the top
-            me.through_packs = &acgte{
-                $ie
-                # e** until !y&pack, to the point of eg e:elIntro
-                me&indo,e (&ed{
-                    # an enveloping, at %JRom or so..? see elvoids
-                    ec&pack and return
-                    # only one without arrive
-                    ie and debugger
-                    ie = e
-                    d.not = 1
-                })
-                return ie
-            }
+            return gs
+        }
+        # the e that causes tunneling doesnt arrive e** as it goes
+        # < should do, know what is for here, anywhere
+        #    that +etc should be indexed on ec&X, what the e concerns, deeply
+        # so we go looking from the top
+        me.through_packs = &acgte{
+            $ie
+            # e** until !y&pack, to the point of eg e:elIntro
+            me&indo,e (&ed{
+                # an enveloping, at %JRom or so..? see elvoids
+                ec&pack and return
+                # only one without arrive
+                ie and debugger
+                ie = e
+                d.not = 1
+            })
+            return ie
+        }
         
         
  },
