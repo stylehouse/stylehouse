@@ -262,14 +262,40 @@ S 3 Pictures hashy misc
         Lying at my feet
         A trampled rose
     
-    $h = hashkv(tom.split("\n").map(s => s.split(' ',2)))
-    $a = hashkv(haks(h).map(s => [s,1]))
+    # perl split()
+    self.split = &s,by,times{
+        $N = s.split(by)
+        times && hak(N) > times and N = [N[0],N.slice(1).join(by)]
+        return N
+    }
+    $h = hashkv(grep(tom.split("\n")).map(s => split(s,' ',1)))
+    $a = haks(h)
+    # < returned sliced hash..? returns sliced arrays!
     hat('ksaf()',{
+        origin: {h,a},
         'on hash': {
             before: ksaf(h,{bow:'Skys'}),
             before_only: ksaf(h,{bow:'Gone',inc:0}),
             after_only: ksaf(h,{aft:'Gone',inc:0}),
             after: ksaf(h,{aft:'At'}),
         },
+        'on array': {
+            before: ksaf(a,{bow:'Skys'}),
+            before_only: ksaf(a,{bow:'Gone',inc:0}),
+            after_only: ksaf(a,{aft:'Gone',inc:0}),
+            after: ksaf(a,{aft:'At'}),
+        },
+        'where': {
+            # given c, no default c.inc=1
+            'v aft': ksaf(h,{aft:(v) => v.includes('est')}),
+            # < return sliced hash?
+            'v twice': ksaf(ksaf(h,{aft:(v) => v.includes('est')}),
+                {bow:(v) => v.startsWith('A')}),
+            'v match': ksaf(h,{bow:(v) => v.includes('indo')}),
+            'k match': ksaf(h,{aft:(v,k) => k.includes('ing'),inc:1}),
+        },
     })
+    $na = {
+    }
+    #e!
 

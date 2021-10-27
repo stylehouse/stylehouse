@@ -1718,7 +1718,7 @@ me.Sch_The = &acgt{ return [
                 $di = me&diffPs,R,Q,P,memory
                 $Comp = dis&Comp
 
-                $gs = me&yio,Q,'diffPs' ('o','doing')
+                gs = me&yio,Q,'diffPs' ('o','doing')
                 if (!gs.steps) {
                     gs.Q = Q
                     gs.steps = []
@@ -1733,6 +1733,7 @@ me.Sch_The = &acgt{ return [
                 }
                 me&tt,"Compgs" (&{ me&zu,{di,e,Comp,gs} })
             })
+            fatal.ish(gs)
             return gs
         }
         # the e that causes tunneling doesnt arrive e** as it goes
@@ -2257,7 +2258,7 @@ me.Sch_The = &acgt{ return [
             me&Effect,s,E,'showy-'+ds&pi,{show:1,ope:1,arrowy:1}
         }
         $x = me&Jx
-        !x.ro('Plys') and Rs&Ply.c.not = 1
+        Rs&Ply.c.not = !x.ro('Plys',{})
         # < is parsing the diff (from and) into two trees,
         #     to $z|$exp
         #      < &deL giving y&toLines

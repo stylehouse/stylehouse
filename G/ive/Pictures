@@ -373,14 +373,14 @@
         !isob(c) and c = {aft:c,inc:1}
         $it = c.aft||c.bow
         if (iskeyish(it)){
-            $ki = keys.indexOf(it)
+            $ki = (isar(s) ? s : keys).indexOf(it)
         }
         else {
             # slice by value
             $ki = -1
             each ik keys {
                 $v = s [k]
-                !(isfu(it) ? it(v,i) : v == it) and continue
+                !(isfu(it) ? it(v,k,i) : v == it) and continue
                 ki = i*1
                 break
             }
