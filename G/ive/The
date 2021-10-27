@@ -1691,7 +1691,8 @@ me.Sch_The = &acgt{ return [
             $R = me&R
             # keep latest e:elvoids
             $e = me&eis,'elvoids'
-            e = me&SG_sustain,{},{elvoids:e} .v
+            $en = me&SG_sustain,{},{elvoids:e}
+            e = en.v
             !e and return
             # e**:locating/e:meaning
             # < arrive e** it goes, have multiple ebits for us
@@ -1712,15 +1713,15 @@ me.Sch_The = &acgt{ return [
                 #  starts diffing Q-P, then laP-P
                 $memory = Q
                 # < async drop, with visit
-                me&tt,"drop" ({once:&v{ enc&drop = 1 }})
+                me&tt,"drop" (en.done,1)
 
                 $di = me&diffPs,R,Q,P,memory
+                $Comp = dis&Comp
 
                 $gs = me&yio,Q,'diffPs' ('o','doing')
                 if (!gs.steps) {
                     gs.Q = Q
                     gs.steps = []
-                    $Comp = dis&Comp
                     # determine step
                     each il Comp {
                         ls&level > 0 and continue
@@ -1730,9 +1731,7 @@ me.Sch_The = &acgt{ return [
                         gs.steps.push(m[1])
                     }
                 }
-                me&tt,"Compgs" (&{
-                    me&zu,{di,e,Comp,gs}
-                })
+                me&tt,"Compgs" (&{ me&zu,{di,e,Comp,gs} })
             })
             return gs
         }
