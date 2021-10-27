@@ -391,6 +391,21 @@
         isar(s) and N = N.map(k => s [k])
         return N
     }
+    # < Babz in as perl does
+    #   expr like 'grep {...} grep {...} N' need a lot of magic?
+    self.grep = &cs{
+        $args = [...arguments]
+        hak(args) == 1 and s = c; c = v => v
+        isfu(c) and c = {y:c}
+        $array = isar(s)
+        $o = array ? [] : {}
+        each kv s {
+            !c.y (v,k,o,s) and continue
+            array and o.push(v)
+            else o[k] = v
+        }
+        return o
+    }
     # removing .filter, y=[n+]|&n{1}|$n
     window.grepout = &Ny{
         $out = []

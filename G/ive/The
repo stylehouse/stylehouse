@@ -1188,7 +1188,7 @@ me.Sch_The = &acgt{ return [
             $row = me&rowcap,N,'RunStep',{k:'S'}
             
             # Steps are known
-            row('Ness',&Smal{
+            row('Fe',&Smal{
                 $n = a.n
                 # the Fe that are -Ness correspond to steps
                 $Fe = a.Fe = me&SG_SteptoNess,Fine,S
@@ -1199,10 +1199,11 @@ me.Sch_The = &acgt{ return [
                 a.sc1 = ex({},n.sc)
                 ns&ov ||= 0.5
             })
-            # also the -nine says the next one
-            # < not always expected:
+            # misc!
+            # the -nine says the next one to fill
             # < nine%Into follows Fe1 or vice versa
             $Fe1 = Cof(ninec&Into)
+            !Fe1 and me&tc,"offtrail",'6g'
             # < wait for -Lab...? does %Into point to them til @3
             #   this must be part of that...
             #   
@@ -1210,41 +1211,44 @@ me.Sch_The = &acgt{ return [
             $forNess = Fe1 && Fe1c&pi == 'Ness'
             
            // time to
-            # we want to do, attend time
+            # waiting on quiet++
+            # < Aip as canopy lighting timeclock
+            #   it's hard to tell when a particular Run has propagated to OK
+            $quiettime = theone(h.zaa('quiettime').map(q => qs&quiettime)) || 0
+            Rs&is_quiet and quiettime += 1
+            h.ha({quiettime,rec:'quiettimeclock'})
+            
+            # say our ability to attend time
+            th('atti',&vma{
+                !quiettime and c.unsure = 'neverquiet'
+                # < &tkc: for a k if in c, v may be :something
+                c.unsure and me&tc,"unsure"
+                else me&tc,"calm"
+            })
+            
+            # RunStep => RunningStep
             # < decide to advance, then see that we do...
             #   is ++time ... time++, becauses, political
             #  < time wanders along the sync: Run ... Fe%%ok
             # < allow vaguely accepted without //Outs
             #   @Thy** manages wanderings of many @Gnome
-            th('atti',&vma{
-                c.unsure and me&tc,"unsure"
-            })
-            
-            # they want to do
-            # <<<
-            #  it's hard to tell when a particular Run has propagated to OK
-            #  Aip as canopy lighting timeclock
             # < &sustain one (bunch), til they nine%Is
             #   usu carry on if some !ok, with less Plying later,
             #    or maybe do all the Plying on the final thing,
             #     as in brackstract, the complete picture is best
+            #   depending on a multi-Step intention object (Plot)
             # a bunch of RunningSteps
             $any = h.zaa('RunningStep')
-            # waiting on quiet++
-            $quiettime = theone(h.zaa('quiettime').map(q => qs&quiettime)) || 0
-            Rs&is_quiet and quiettime += 1
-            me&tc,dis({quiettime}),'G'
-            h.ha({quiettime,rec:'quiettimeclock'})
-            
             row('c',&Smal{
                 $n = a.n
                 
-                !quiettime and c.unsure = 'neverquiet'
                 
                 if (!c.unsure && ns&ov >= 0.5) {
                     # not while This>Fine
                     
                     # notice completing this step
+                    # < &iot1 any/%RunningStep==$n%RunStep
+                    #   or sep|def them with io, so n iterates with its z
                     $z = theone(any.filter(z => zs&RunningStep == ns&RunStep))
                     if (z) {
                         # requests quietwake
@@ -1304,7 +1308,7 @@ me.Sch_The = &acgt{ return [
                         }
                         if (ns&ov == 0.8) {
                             if (ns&through) {
-                                me&tc,"through..?"
+                                c.tude = 'through'
                                 $next = me&SG_throughNess,Fine,a.Fe
                                 if (next) {
                                     $S1 = me&SG_NesstoStep,Fine,next
@@ -1318,7 +1322,7 @@ me.Sch_The = &acgt{ return [
                                     h.ha('pur:RunnableStep:'+S1)
                                 }
                                 else {
-                                    me&tc,"alldone?"
+                                    c.allis = 'done'
                                 }
                             }
                         }
@@ -1330,19 +1334,27 @@ me.Sch_The = &acgt{ return [
                 me&tc,'@','6y'
                 me&tc,cvf(ns&ov),'6y'
                 
-                $late = ksaf(n.sc,'rec')
-                me&tc,dis(late),'6G'
+                $late = ksaf(n.sc,{aft:'rec',inc:0})
+                $odd = nex({},sex({},n.sc,late),'RunStep,ov')
+                me&tc,dis(odd),'6G'
             })
             
             
             row('keep',&Sma{
-                c.unsure and me&tc,"unsure"
-                else me&tc,"calm"
                 # < could &tt,drop (&{...}) imply oncer?
                 $n = a.n
                 me&tt,"drop" ({once:&v{ nc&drop = 1 }})
             })
             
+            th('tude',&vma{
+                $odd = grep(nex({},c,'Fine,nine,This'))
+                me&tc,dis(odd),'6G'
+                # < c.* should be brack, for an in-sute per row?
+                $topics = ['tude','allis']
+                each ik topics {
+                    #c[k] and me&ts,'c.'+k,c[k]
+                }
+            })
         }
       
       // misc %%quiet_visitable
