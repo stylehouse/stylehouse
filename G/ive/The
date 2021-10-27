@@ -1622,7 +1622,7 @@ me.Sch_The = &acgt{ return [
             })
             
         }
-        # produce %%RunStep when @Inc ready
+        # produce %%RunStep when @Inc ready, per $gs
         me.SG_sustain_elIntro = &acgt,gs{
             $h = T.sute
             $R = me&R
@@ -1673,13 +1673,19 @@ me.Sch_The = &acgt{ return [
                 $n = ro.n
                 me&boxcap,"step:"+i (&m{
                     me&walls,m,'b:2.2h5'
-                    ns&ov > 0.8 and me&tc,"done"
+                    ns&ov >= 0.8 and me&tc,"done"
                     else me&tc,".."
                     me&tt,"drop" ({once:&v{ gs.done() }})
+                    me&tc,dis(nex({},n.sc,'dome,supe,sute,rec,sustain')),'6G'
                 })
             })
             
         }
+        # switch on, insync
+        # me&tt,"Compgs" (&{
+        # < async drop, with visit
+        # me&tt,"drop" ({once:&v{ enc&drop = 1 }})
+        
         # get $gs, diff from ec&e=Q
         me.SG_ei_elIntro = &acgt{
             $R = me&R
@@ -1696,38 +1702,38 @@ me.Sch_The = &acgt{ return [
             $Q = ec&e
             $P = Qs&P
             Qc&of != 'wjs' and me&tc,"non-of:wjs",'B'
-            # < knowing the latest pulled-in version
-            #  < this change might join an existing effort
-            # Q is permanent? gets y&diffP...
-            #  starts diffing Q-P, then laP-P
-            $memory = Q
-            $done = me&boxcap,'diffP:'+P.t,'1s'
-            # < async drop, with visit
-            me&tt,"drop" ({once:&v{ enc&drop = 1 }})
-
-            me&walls,T.ab,'bd:3.3'
-            $di = me&diffPs,R,Q,P,memory
-
-            $gs = me&yio,Q,'diffPs' ('o','doing')
-            if (!gs.steps) {
-                gs.Q = Q
-                gs.steps = []
-                $Comp = dis&Comp
-                # determine step
-                each il Comp {
-                    ls&level > 0 and continue
-                    !ls&chain and continue
-                    $m = lc&s.match(/^(?:} )?while \(G.h\([\w,]+,"S",([\d\.]+),/)
-                    !m and continue
-                    gs.steps.push(m[1])
-                }
-            }
-            me&tt,"Compgs" (&{
-                me&zu,{di,e,Comp,gs}
-            }) 
-            done()
+            
             # < have certain P%dige changes for steps
             #   is where we want to have a /$node, inc @Fe that come up
+            $gs
+            me&boxcap,'diffP:'+P.t,'1s' (&ml{
+                me&walls,m,'bd:3.3'
+                # Q is permanent? gets y&diffP...
+                #  starts diffing Q-P, then laP-P
+                $memory = Q
+                # < async drop, with visit
+                me&tt,"drop" ({once:&v{ enc&drop = 1 }})
+
+                $di = me&diffPs,R,Q,P,memory
+
+                $gs = me&yio,Q,'diffPs' ('o','doing')
+                if (!gs.steps) {
+                    gs.Q = Q
+                    gs.steps = []
+                    $Comp = dis&Comp
+                    # determine step
+                    each il Comp {
+                        ls&level > 0 and continue
+                        !ls&chain and continue
+                        $m = lc&s.match(/^(?:} )?while \(G.h\([\w,]+,"S",([\d\.]+),/)
+                        !m and continue
+                        gs.steps.push(m[1])
+                    }
+                }
+                me&tt,"Compgs" (&{
+                    me&zu,{di,e,Comp,gs}
+                })
+            })
             return gs
         }
         # the e that causes tunneling doesnt arrive e** as it goes
