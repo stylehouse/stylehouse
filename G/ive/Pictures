@@ -431,6 +431,12 @@
         }
         return out.map(i => N.splice(i,1)[0]).reverse()
     }
+    # perl split()
+    self.split = &s,by,times{
+        $N = s.split(by)
+        times && hak(N) > times and N = [N[0],N.slice(1).join(by)]
+        return N
+    }
     # [1,1,2] = flatten([1,[1,2]])
     window.flatten = &M{
         $N = []

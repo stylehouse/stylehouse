@@ -2672,45 +2672,48 @@ me.Sch_The = &acgt{ return [
             $name = ''
             c.time and name += '@'+c.time
             A = G&Aye,'Run'+name
+            c.time and A.time = A
             ex(A.c,c)
+            A&Srupto = me.Sunpit
             
             $h = A.h = {}
+            
+            # -Eight++
             # get A.time+id handle, for i-ing thence
             h.o = &t{
                 $h = {}
+                # -seven/-six++
                 # interfaces, not sharing A
                 h.sixer = me&openEight,t
                 # most pi
-                $ipihat = (t,s,c,k) => sixer([t,ex({pi:k,s},c||{})])
-                # hat data, unsprawly
-                # Fez sprawly until C (eg X**)
-                # Bow sprawly while C (eg s**)
-                haks(peel('hat,Fez,Bow')).map(&k{
-                    # < mep h { (t,s,c) => ipihat(t,s,c,$k) } 'hat,Fez,Bow'
-                    #    coalesce via peel(). or perl's qw{}
-                    h[k] = (t,s,c) => ipihat(t,s,c,k)
-                })
                 # like n $t -pi $s=suchacall()
                 h.tys = &tysc{
                     # < c -> Ec?
-                    return ipihat(t,s,c,y)
+                    return h.sixer([t,ex({pi:y,s},c||{})])
                 }
+                # hat data, unsprawly
+                # Fez sprawly until C (eg X**)
+                # Bow sprawly while C (eg s**)
+                haks(peel('hat,Fez,Bow')).map(&pi,{
+                    # < mep h { (t,s,c) => ipihat(t,s,c,$k) } 'hat,Fez,Bow'
+                    #    coalesce via peel(). or perl's qw{}
+                    h[pi] = (t,s,c) => h.tys(t,pi,s,c)
+                })
                 return h
             }
+            return A
         }
         me.Runpin = &acgttv{
             $R = me&R
             $time = v
+            
+            $A = me&RunA,{time}
+            A.Run = R
             # < these go somewhere, copy %SummerCat some more
             #   to allow -nine to glean a title @Run's latest bunch
-            A.Run = R
-            A.time = A
-            A&time = time
             # only do S 1 if time
             # ! dont use R%Ace because of missing 4c&Srupto
             #   strange fact of R-life, so far very little A
-            A&Sonly = time
-            A&Srupto = me.Sunpit
             ~>7 Atry: time
             me&way,R,t
             
@@ -2729,7 +2732,6 @@ me.Sch_The = &acgt{ return [
         # S for an osc pin, bump through segments of the work
         me.Sunpit = &acgtit,talk,params{
             !i && !t and throw "no io"
-            hak(t) > 30 and debugger
             $m =
             ~>2 Sunpit: dis(cint(i,t)), 'thought was'
             
@@ -2743,10 +2745,13 @@ me.Sch_The = &acgt{ return [
             l.num = i
             l.t = t
 
-            # going for a time
-            A&Sonly && num(i) && i != A&Sonly and return 0
+            if (A&time && num(i)) {
+                A&time != i and return 0
+            }
+            
             # or until done
             l.done and return
+            
             l.done = 1;
             #~sttalk: ki([s,t,talk,params]);
             return 1;
