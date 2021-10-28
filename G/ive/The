@@ -1611,12 +1611,15 @@ me.Sch_The = &acgt{ return [
              might know which time was edited easy
         =cut
         me.SG_elIntro = &acgt{
+            $h = T.sute
             # auto!
             me&boxcap,'elIntro','1s' (&m{
                 me&walls,m,'bd:3.3'
 
                 # @Gnome receives notifies for @Inc
                 $gs = me&SG_ei_elIntro
+                # unless &diffP wasnt ready
+                !gs and return h.ha('pur:!&diffP,of:elIntro')
                 # @Inc must happen while gs is stable
                 me&SG_sustain_elIntro,gs
             })
@@ -1632,14 +1635,6 @@ me.Sch_The = &acgt{ return [
             gs.el > 8 and return
             !gs.Q and debugger
             
-            # GOING
-            # compose idc from s={k:v} + gs
-            # text-like value (not Q, steps) or el
-            $gsc = s => ex(s,nex({},tex({},gs),'el'))
-            
-            me&tc,dis(gsc({})),'6y' .y.cv = 0.101
-            T.ab.c.sortcv = 1
-            me&nu,{gs}
             # &sustain {} {elIntro:gs} # to sample $gs
             # &sustain gs {untility:maybe} # to inherit gs id
             #  and then $a=maybe if housey, avoids 
@@ -1716,6 +1711,7 @@ me.Sch_The = &acgt{ return [
                 me&tt,"drop" (en.done,1)
 
                 $di = me&diffPs,R,Q,P,memory
+                !di and return
                 $Comp = dis&Comp
 
                 gs = me&yio,Q,'diffPs' ('o','doing')
