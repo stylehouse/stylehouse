@@ -4075,17 +4075,12 @@ me.Differingness = &acgt{ return [
             weird ||= []
             weird.push([t,n])
         }
-        $any_done = 0
-        $drops = []
+        $M = []
         each in N {
             weird and break
             i*=1
             # $n = (==    )
-            !(n.t == 'same' && !nc&s.endsWith("\n")) and continue
-            # we deal only with empty space
-            $anynot = nc&s.split('').filter(s => s != ' ')
-            hak(anynot) and continue
-                #strange('somenotspace')
+            !(n.t == 'same' && !nc&s.match(/^ +$/)) and continue
             # < >= ns&level?
             # $l = (++    )
             $tol = []
@@ -4113,20 +4108,25 @@ me.Differingness = &acgt{ return [
             }
             weird and break
             
+            M.push(n,e,l,f)
+        }
+        if (weird) {
+            ~>3 weird textdiff_indentstickline: weird.map(l=>l[0]).join(", ")
+            return N
+        }
+        # apply
+        $nelf = &nelf{
             # $n is the misappropriated indent for $f
             # $e is new thing, without indent
             # ==:n ++:e ++:l ==:f -> ++:l+e ==:n+f
             ec&s = lc&s+ec&s
             fc&s = nc&s+fc&s
-            drops.push(l,n)
-            any_done++
+            
+            lc&not = nc&not = 1
         }
-        if (weird) {
-            #any_done and debugger
-            ~>3 weird textdiff_indentstickline: weird.map(l=>l[0]).join(", ")
-            return N
-        }
-        N = N.filter(n => !drops.includes(n))
+        M.map(l => nelf(...l))
+        
+        N = N.filter(n => !nc&not)
         return N
     }
     me.textdiffN = &acgtNc{
