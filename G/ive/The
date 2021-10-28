@@ -1429,7 +1429,8 @@ me.Sch_The = &acgt{ return [
       // @Fine Fe ok
         me.isFe_ok = &acgt,Fe{
             $j = Fe && Fey&R
-            !j and throw "!Fe"
+            !j and return 0
+            !js&TheFe and debugger
             # < &zam,['ready','ok']
             $ok = me&za,j,'ready' && me&za,j,'ok'
             return ok
@@ -2571,22 +2572,29 @@ me.Sch_The = &acgt{ return [
             }
             return S
         }
-        # such-Eight opens for a process that will add -six
-        me.openEight = &acgtt{
-            A.time != A and debugger
-            $time = A.time.c.time
+        # such-Eight opens for a V:process that will add -six
+        me.openEight = &acgttY{
+            # eventually, further
+            Y.time != Y and debugger
+            $V = Y.time
+            A = V
+            $time = A&time
             A = G&Aye,'-Eight...'
             $R = me&R
             $s = Rc&s
             $Eight = me&legramp,s,'-This',t+'-Eight'
             $Ya = A
             return &{
+                # < receive their ACGT from &n, etc
+                # < handlers etc may keep logging after Run time ends
+                #    anything othering makes a tinkling noise
+                #     via async Yingpile
+                #    and does the Eight** on the now-8 A:Run@3
+                #    every 2s or so they EsyncThis
+                #    
                 $args = [...arguments]
                 A = Ya
                 A = G&Aye,'-Eight...-six'
-                $intime = A.time.c.time
-                # < handlers etc may keep logging after A8
-                intime != time and debugger
                 $six = me&legramp,Eight,time+'-seven',...args
                 return six
             }
@@ -2671,12 +2679,12 @@ me.Sch_The = &acgt{ return [
         me.RunA = &acgtc{
             $name = ''
             c.time and name += '@'+c.time
-            A = G&Aye,'Run'+name
-            c.time and A.time = A
-            ex(A.c,c)
-            A&Srupto = me.Sunpit
+            $V = G&Aye,'Run'+name
+            c.time and V.time = V
+            ex(V.c,c)
+            Vc&Srupto = me.Sunpit
             
-            $h = A.h = {}
+            $h = V.h = {}
             
             # -Eight++
             # get A.time+id handle, for i-ing thence
@@ -2684,7 +2692,7 @@ me.Sch_The = &acgt{ return [
                 $h = {}
                 # -seven/-six++
                 # interfaces, not sharing A
-                h.sixer = me&openEight,t
+                h.sixer = me&openEight,t,V
                 # most pi
                 # like n $t -pi $s=suchacall()
                 h.tys = &tysc{
@@ -2701,7 +2709,7 @@ me.Sch_The = &acgt{ return [
                 })
                 return h
             }
-            return A
+            return V
         }
         me.Runpin = &acgttv{
             $R = me&R
