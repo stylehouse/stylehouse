@@ -12,6 +12,7 @@
         me&zN,nu;
         me&zuct,g,nu;
     };
+   
    // &tc, &tcl, &ty, &tt modulat bits
         # explicitly s-having, will s=0 (&tsc s||=t)
         me.ts = &acgttsc{
@@ -42,55 +43,118 @@
                 return n
             }
         }
-        # &ty toggling, oncing. has ytt storage
-        # < async
+        # &tt ({onto|once}) toggling, oncing.
+        #  self: &tt,t () and 'while on'
+        #  self: &tt,t (&{}) a
+        # has ytt storage, async|other
         me.tt = &acgttc{
             $m = T.ab
             $R = me&R
             $s = Rc&s
 
-            return &yo{
+            return &y,async{
+                
+                
+                # may visit to handle events there
                 # < they might give a light level to start it at
                 #   topics it magnetises to, etc
-                isfu(y) and y = o ? {once:y} : {onto:y}
+                #  &tt,'la' () and "sync"
+                !y and y = {rebool:1,onto:&{}}
+                else
+                #  &tt,'lap' (1) and "sync once"
+                y == 1 and y = {rebool:1,once:&{}}
+                else
+                # usu with a visit (other callback happens immediately)
+                isfu(y) and y = {once:y}; y [async ? 'async' : 'other'] = 1
+                
                 # check state
                 # < deeper path? T.sute + T.ab?
-                $qua = ahsk(s,'y','tt',m.t,t)
-                $was = qua
+                $qua = ahsk(s,'y','tt',m.t,t) || {}
+                # < why not C?
+                #   what shape are %TX**?
+                fatal.ish(qua)
+                # v = qua.on | e
+                $handler = &v{
+                    $args = [...arguments]
+                    # v varies, and what the handler does
+                    # only called where it can:
+                    # < X log on things it changes, eg l%bri, io ideally
+                    #    the txn out of time is obvious next time
+                    #    and our v|e|qua eyes its theoretical reality
+                    #     eg observe where exp on it,
+                    #      wake for yay much ~
+                    #   Effect being a nearby proto of that
+                    # or simply:
+                    #  be visiting, like x.ro
+                    
+                    # < rename is?
+                    y.always and y.always (...args)
+                    # < style flash in y.async
+                    if (qua.on) {
+                        y.on = qua.on
+                        ls&bri = 1.6
+
+                        y.onto and y.onto (...args)
+                        # < having qua.el for moment cha of qua
+                        #   depending on hoisty commit qua.ok=1 on res-merge
+                        #    see emerge or submerge from Thying
+                        # do thing once per click
+                        if (y.once) {
+                            y.once (...args)
+                            qua.on = 0
+                        }
+                    }
+                }
                 $l = me&ty,t,c (&zTe{
                     z != l and debugger
-                    # invoked when toggled
-                    qua = was ||= ahk(s,'y','tt',m.t,t,{})
+                    # invoked asap when toggled
+                    qua = ahk(s,'y','tt',m.t,t,qua)
                     qua.on = !qua.on ? 1 : 0
-                    if (y.async) {
+                    if (y.other || y.async) {
                         # < know we are to Effect somewhere, and
                         #  < apply an async Effected handler
+                            # < async if Effect... completely async
+                            #  < as Be by Y:Easy
                         # < for overriding an R%noDisplay=1 default,
                         #   we must sync R without it first
                         #    subsequent togglings may just &Csse dis:0
                         #   < Babz: tie io expr this?
                         #      with X flock of impulse, joinables...
-                        T.wake = 'not'
-                        debugger
+                        
+                        # ignoring the above,
+                        # handler would expect e at this point
+                        # while other|async
+                        handler (e)
+                        
+                        if (y.async) {
+                            T.wake = 'not'
+                        }
+                        else 'visit R'
                     }
-                    else {
-                        # will then visit R
-                    }
+                    else 'visit R'
                     ~>7 tt: m.t, t, qua.on
                 })
-                qua ||= {}
-                # < style in y.async
-                qua.on and ls&bri = 1.6
-                y.always and y.always (qua.on)
                 
-                y.onto && qua.on and y.onto (qua.on)
-                # < having qua.el for moment cha of qua
-                #   depending on hoisty commit qua.ok=1 on res-merge
-                # do thing once per click
-                if (y.once && qua.on) {
-                    y.once (qua.on)
-                    qua.on = 0
+                if (y.other || y.async) {
+                    # < may happen both occasions if Effect
+                    #    would notice X txn done
+                    #   
+                    #    it might choose to leave
+                    # see 'only called where it can'
                 }
+                else {
+                    # handle while visiting
+                    #   sync, self, awake, etc etc
+                    handler (qua.on,T)
+                }
+                
+                # y.rebool is for a mesh of logic functions that return true
+                # < another school (&Superready) return true for abort
+                
+                # &tt,'lap' (1) and "sync once"
+                y.rebool and return y.on
+                
+                return l
             }
         }
         # make both $n/$label%styled
@@ -107,6 +171,7 @@
             ls&pa = 0.2
             return n
         }
+   
    // &rowcap, &boxcap modulat zones
         # build out modulat with whatever turns up
         #  so we can &dupfiu for t=iofail/suchexpr
@@ -239,6 +304,7 @@
                 Tap()
             }
         }
+  
   // capsulating, &Mwcap
     # captures modulat around y(m...)
     me.abTap = &acgttm{
@@ -449,12 +515,12 @@
     }
     # < types for weird sorts of compression!!
     #   for eg W.t storable (filename sanity)
-    self.cint = () => aroint([...arguments],':')
-    self.daint = () => aroint([...arguments],'-')
+    self.cint = &{ aroint([...arguments],':') }
+    self.daint = &{ aroint([...arguments],'-') }
     # < dis() that goes peel:1 if big
     #    or value types could be separators, as in R%Cit
-    self.coint = () => aroint([...arguments],',')
-    self.slaint = () => aroint([...arguments],'/')
+    self.coint = &{ aroint([...arguments],',') }
+    self.slaint = &{ aroint([...arguments],'/') }
     # allows the above to be eg cint(i,t) or cint([i,t])
     self.aroint = (N,k) => joint((hak(N) == 1 && isar(N[0]) ? N[0] : N),k)
     # "$t1-$t2" for [C,C,C{.t==not}]

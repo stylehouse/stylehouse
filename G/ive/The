@@ -1168,9 +1168,9 @@ me.Sch_The = &acgt{ return [
             # < &rowcap de-group-by
             
             # user
-            me&tt,'again' ({once:r => me&SG_sustain,{},{RunStep:time},{} })
+            me&tt,'again' (1) and me&SG_sustain,{},{RunStep:time},{}
             # having its own row?
-            me&tt,'Leap' ({once:r => h.ha('RunStep:1,rec:whimsies') })
+            me&tt,'Leap' (1) and h.ha('RunStep:1,rec:whimsies')
             
             # various, clobberatively, to progress
             $N = h.saa('RunStep')
@@ -1265,9 +1265,8 @@ me.Sch_The = &acgt{ return [
                     # have a moment to run this step
                     if (!hak(any)) {
                         me&tsc,"could-Run-this","?",'y'
-                        $will = 0
                         # < &tt per row
-                        me&tt,"will",'y' ({once:&v{ will = 1 }})
+                        $will = me&tt,"will",'y' (1)
                         if (will || (ns&ov||0) < 0.6) {
                             me&tc,"Run++"
                             # < many steps
@@ -1341,9 +1340,9 @@ me.Sch_The = &acgt{ return [
             
             
             row('keep',&Sma{
-                # < could &tt,drop (&{...}) imply oncer?
                 $n = a.n
-                me&tt,"drop" ({once:&v{ nc&drop = 1 }})
+                # async once with visit
+                me&tt,"drop" (1) and nc&drop = 1
             })
             
             th('tude',&vma{
@@ -1671,7 +1670,9 @@ me.Sch_The = &acgt{ return [
                     me&walls,m,'b:2.2h5'
                     ns&ov >= 0.8 and me&tc,"done"
                     else me&tc,".."
-                    me&tt,"drop" ({once:&v{ gs.done() }})
+                    me&tt,"drop" (&e{
+                        gs.done()
+                    })
                     me&tc,dis(nex({},n.sc,'dome,supe,sute,rec,sustain')),'6G'
                 })
             })
@@ -1707,8 +1708,11 @@ me.Sch_The = &acgt{ return [
                 # Q + y&diffP perm, esp .doing
                 #  starts diffing Q-P, then laP-P
                 $memory = Q
-                # < async drop, with visit
-                me&tt,"drop" (en.done,1)
+                # async once, with visit
+                me&tt,"drop" (&{ 
+                    ~>6 introDrop:
+                    debugger
+                    en.done() })
 
                 $di = me&diffPs,R,Q,P,memory
                 me&tc,dis(sex({},P.sc,'dige')),'6G'
@@ -1728,7 +1732,7 @@ me.Sch_The = &acgt{ return [
                         gs.steps.push(m[1])
                     }
                 }
-                me&tt,"Compgs" (&{ me&zu,{di,e,Comp,gs} })
+                me&tt,"Compgs" () and me&zu,{di,e,Comp,gs}
             })
             fatal.ish(gs)
             return gs
@@ -2741,8 +2745,8 @@ me.Sch_The = &acgt{ return [
         me.Sunpit = &acgtit,talk,params{
             !i && !t and throw "no io"
             $m =
-            ~>2 Sunpit: dis(cint(i,t)), 'thought was'
-            
+            ~>3 Sunpit: dis(cint(i,t)), 'thought was'
+            !num(i) and debugger
             
             
             A&doings ||= {};
@@ -3386,14 +3390,17 @@ me.Sch_The = &acgt{ return [
         me&boxcap,'E:'+r.t (&ml{
             lc&s = r.t
             me&walls,m,'b:1.2h6'
-            me&tt,'D' ({always:&v{
-                v and me&Effect,s,E,'togope',{togope:1,ope:1,dom:1}
-            }})
-            me&tt,'R' ({always:&v{
-                # only controller of this, so no -Effect layer
-                v and rs&sleeping = 1
-                # < is too late, now E/e, Epending, etc
-            }})
+            
+            # the buttons (this &tt) override the jets (other Effect:ope)
+            # < first async Effect (if possible - wasnt always hidden)
+            me&tt,'D' () and me&Effect,s,E,'togope',{togope:1,ope:1,dom:1}
+            
+            # no -Effect layer
+            # < may change. might sleep well?
+            #    or Y:Easy instead, for extra tunnel sanity
+            # < is too late, now E/e, Epending, etc
+            me&tt,'R' () and rs&sleeping = 1
+            
         })
         # ope may be set to 0|1
         $ope = me&Effected,E,{ope:1}
