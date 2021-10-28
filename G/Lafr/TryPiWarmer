@@ -249,7 +249,7 @@ S 3 Pictures hashy misc
     })
     
    // misc() array
-    $tom = <<''
+    $Tom = <<''
         Long way going to
         Get my medicine
         Skys the autumn grey of a lonely wren
@@ -268,34 +268,52 @@ S 3 Pictures hashy misc
         times && hak(N) > times and N = [N[0],N.slice(1).join(by)]
         return N
     }
-    $h = hashkv(grep(tom.split("\n")).map(s => split(s,' ',1)))
+    $h = hashkv(grep(Tom.split("\n")).map(s => split(s,' ',1)))
     $a = haks(h)
-    # < returned sliced hash..? returns sliced arrays!
+    
+    # given c, no default c.inc=1
+    # < return sliced hash..? already returns sliced arrays
+    # < until, (til, aft), after
+    #    io etc shall know... til(C) the T.iteration?
+    #    and til1, aft1 for the :p/$s<1 maneuvre
+    #     also looking for aft(tow)
+    $yesterday = v => v.includes('yesterday')
     hat('ksaf()',{
         origin: {h,a},
         'on hash': {
-            before: ksaf(h,{bow:'Skys'}),
-            before_only: ksaf(h,{bow:'Gone',inc:0}),
-            after_only: ksaf(h,{aft:'Gone',inc:0}),
-            after: ksaf(h,{aft:'At'}),
+            until: ksaf(h,{bow:'Skys'}),
+            til: ksaf(h,{bow:'Skys',inc:1}),
+            aft: ksaf(h,'Gone'),
+            after: ksaf(h,{aft:'Gone'}),
         },
+        # < Textl notice ^ and v are mostly same!
         'on array': {
-            before: ksaf(a,{bow:'Skys'}),
-            before_only: ksaf(a,{bow:'Gone',inc:0}),
-            after_only: ksaf(a,{aft:'Gone',inc:0}),
-            after: ksaf(a,{aft:'At'}),
+            until: ksaf(a,{bow:'Skys'}),
+            til: ksaf(a,{bow:'Skys',inc:1}),
+            aft: ksaf(a,'Gone'),
+            after: ksaf(a,{aft:'Gone'}),
         },
         'where': {
-            # given c, no default c.inc=1
-            'v aft': ksaf(h,{aft:(v) => v.includes('est')}),
-            # < return sliced hash?
-            'v twice': ksaf(ksaf(h,{aft:(v) => v.includes('est')}),
-                {bow:(v) => v.startsWith('A')}),
-            'v match': ksaf(h,{bow:(v) => v.includes('indo')}),
-            'k match': ksaf(h,{aft:(v,k) => k.includes('ing'),inc:1}),
+            "after v~~/yesterday/":
+                ksaf(h,{aft:yesterday}),
+            "after v~~/yesterday/ til k~~'At'":
+                ksaf(ksaf(h,{aft:yesterday}), {bow:'At',inc:1}),
+            " same + hash sliced":
+                sex({},h, ksaf(ksaf(h,{aft:yesterday}),
+                    {bow:'At',inc:1})),
+            "after v~~/yesterday/ til v~~/^L/ + hash sliced":
+                sex({},h, ksaf(ksaf(h,{aft:yesterday}),
+                    {bow:v => v.startsWith('L'),inc:1})),
+            'until v~~/indo/':
+                ksaf(h,{bow:(v) => v.includes('indo')}),
+            'aft k~~/ing/':
+                ksaf(h,{aft:(v,k) => k.includes('ing'),inc:2}),
         },
     })
-    $na = {
-    }
+    
+    # < the above as range args to grep:
+    #    $N = grep /yesterday/../^L/ 
+    #    $N = grep ..(/^indo/) # range makes () less-selecting. usu more? <art.
+    #    $N = grep ..k~~/ing/ # range makes bare k ok?
     #e!
 
