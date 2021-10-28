@@ -396,12 +396,21 @@
         isar(s) and N = N.map(k => s [k])
         return N
     }
+    # ! (s)ubject is passed in from the right, as perl does
     # < Babz in as perl does
     #   expr like 'grep {...} grep {...} N' need a lot of magic?
+    #   and /such/, and ../such/ like ksaf() til
     self.grep = &cs{
-        $args = [...arguments]
-        hak(args) == 1 and s = c; c = v => v
+        # no function greps for true
+        #  see also nex(), for not-null
+        arguments.length == 1 and s = c; c = {y:v => v}
+        else
+        # function
         isfu(c) and c = {y:c}
+        else
+        # item: usu C to look for in /$n
+        isit(c) and $z = c; c = {y:v => v == z}
+        
         $array = isar(s)
         $o = array ? [] : {}
         each kv s {
@@ -432,7 +441,19 @@
         }
         return N
     }
+    # < types for weird sorts of compression!!
+    #   for eg W.t storable (filename sanity)
+    self.cint = () => aroint([...arguments],':')
+    self.daint = () => aroint([...arguments],'-')
+    # < dis() that goes peel:1 if big
+    #    or value types could be separators, as in R%Cit
+    self.coint = () => aroint([...arguments],',')
+    self.slaint = () => aroint([...arguments],'/')
+    # allows the above to be eg cint(i,t) or cint([i,t])
+    self.aroint = (N,k) => joint((hak(N) == 1 && isar(N[0]) ? N[0] : N),k)
     # "$t1-$t2" for [C,C,C{.t==not}]
+    # < not used once in a year in weird times (&pilegs)
+    #   path making (from climbing) shall where itself by now
     window.joint = &N,join,not{
         # ioty may N=C/*
         $M = me&ioty,N .map(n => isC(n) ? n.t : n)
