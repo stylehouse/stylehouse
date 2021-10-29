@@ -1344,8 +1344,9 @@ me.Sch_The = &acgt{ return [
             
             row('keep',&Sma{
                 $n = a.n
+                $a = ns&sustain
                 # async once with visit
-                me&tt,"drop" (1) and nc&drop = 1
+                me&tt,"drop" (a.done)
             })
             
             th('tude',&vma{
@@ -1497,7 +1498,7 @@ me.Sch_The = &acgt{ return [
             c = peel(c)
             $k = haks(c)[0]
             $v = c[k]
-           // $remember
+           // $remember idc
             $idc = {}
             if (haks(s)) {
                 # inherit identity eg another &sustain
@@ -1581,11 +1582,28 @@ me.Sch_The = &acgt{ return [
                 !ish(v) and a.v = v
             }
             
+            # we don't always &sustain what is sustained
+            #  ie %%rec lets it glide along
+            #   eg the %%RunStep are started only once by &sustain
+            #    the free-er will event, doesn't keep occurring
+            #    then is fairly &sustain-indifferent
+            #  so:
+            # a.pur() is now-only, while you &sustain your something
+            #  after a while it points to old R etc
+            # a.done() avoids that problem by updating a.n
+            
             # on failure|enduring to complete it
-            #  pur after $k+$index?
+            #  < pur after $k+$index? see &hajasute
+            #    the pur changing lets loopier
             a.pur = say => h.ha(dex({pur:'sustain:'+rec},{say}))
             # revoke
-            a.done = () => remember .map(n => nc&drop = 1)
+            a.done = &{
+                # a.n updates, see %%rec... copy to %%wou after
+                $n = a.n
+                nc&drop = 1
+                # unless of course it's being sustained by another sustain
+                # as in elIntro...RunStep
+            }
             
             return a
         }
@@ -1712,11 +1730,7 @@ me.Sch_The = &acgt{ return [
                 #  starts diffing Q-P, then laP-P
                 $memory = Q
                 # async once, with visit
-                me&tt,"drop" (&{ 
-                    ~>6 introDrop:
-                    en.wasdrop = 1
-                    en.done()
-                })
+                me&tt,"drop" (en.done)
                 en.wasdrop and me&tc,"wasdrop",'6y'
 
                 $di = me&diffPs,R,Q,P,memory

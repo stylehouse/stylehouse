@@ -4355,20 +4355,34 @@ me.Sch_Travel = &acgt{ return [
                 tried = (tried && trieds&tried||0)+1
                 ha({tried})
                 
-                # %%rec... are permanent, remain while going faulty
-                #  per %%supe,sute,rec
-                #   so the value of %%rec works like a %%dome
-                # < dome within dome
+                # %%rec... copy to %%wou after
+                #  as opposed to before, like %%dome in &dome_o3
+                #  dome-within-dome, since we %%dome=supe+sute
+                #  an extra persistence.
+                #  more permanent than %%dome, remain while going faulty.
+                #   ie the step becomes unreachable
+                #    are more plot points, goals than state
+                #    eg check w:Try via elIntro etc
+                # < use &hajasute .saa()
                 zaa('rec')
                     .filter(&n{
+                        # the all%rec == n%rec
                         $hasnew = hak(jaa({rec:ns&rec})
                             .filter(n => !nc&recycled)
                         )
+                        nc&drop and debugger
                         return !hasnew
                     })
                     .map(&n{
                         # move zaa->jaa
-                        ha(n.sc)
+                        $z = ha(n.sc)
+                        # < after handlers eg %%sustain.done() set up
+                        #    to drop the row that was (from &zaa via &saa)
+                        #   before it gets copied into this %wou
+                        #   iterating it with something that does this 
+                        zs&sustain and zs&sustain.n = z
+                        ny&future = z
+                        zy&prerec = n
                     })
                 # pickup %%arg from new time, + any %%rec,arg
                 argon(jaa)
