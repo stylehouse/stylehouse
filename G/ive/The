@@ -2322,6 +2322,12 @@ me.Sch_The = &acgt{ return [
   
   # namespace bridge:
   // %Names:C
+    =Names
+     
+       local
+        alludes to their scope on the slope.
+        perhaps @Cat and /@Run/* are name-perc-stopping.
+    =cut
     # fame distribution
     ['Names',0.87,&acgtRs{
         me&reaw,R,'Names'
@@ -2370,6 +2376,7 @@ me.Sch_The = &acgt{ return [
         !isst(t) and throw "t!string"
         !isnode(s) and throw "s!node"
         c ||= {}
+        # < &yio? activate R%Names from R%Piing noticing it?
         $Na = me&rollbsc,R,'Names'
         # <<<
         # i %Names:Na (knowing somewhere it should C:Names)
@@ -2385,13 +2392,28 @@ me.Sch_The = &acgt{ return [
         $was = ahsk(Na,'sc','tw',t)
         ah(Na,'tw',t,s)
         c.local and ah(Na,'tlocal',t,1)
+        # < keep putting above?
+        #  < be told when our Names are outshon? notice where til?
         s == was and return
-        # < climbs & puts. notice other disconnected?
-        #  < when %%active, puts @Lab|@Nine for @Gnome,
-        #    which makes it a %%Superarg,
-        #     which all share to @Gnome%Names
-        #     where we can find them
-        
+        if (!c.local) {
+            # climbs & puts.
+            #  < when %%active, puts @Lab|@Nine for @Gnome,
+            #    which makes it a %%Superarg,
+            #     which all share to @Gnome%Names
+            #     where we can find them
+            $climbput = &j{
+                $Na = js&Names || me&rollbs,j,'Names'
+                !Na and return
+                $was = ahsk(Na,'sc','tw',t)
+                # < outshine
+                s != was and ~>5 ++: '@'+t
+                
+                ah(Na,'tw',t,s)
+                ah(Na,'tinner',t,1)
+                climbput(jy&up)
+            }
+            climbput(Ry&up)
+        }
     }
     # for a given node, return its name
     me.Name_of = &acgts{
@@ -2477,6 +2499,7 @@ me.Sch_The = &acgt{ return [
         
         # rebuild %SummerCat?
         # each has a This|The?
+        me&Names_set,R,'Cat',s
         me&bin,'PiiOther'
         me&fiu,s,'Inc'
         me&fiu,s,'Pro'
@@ -2488,6 +2511,7 @@ me.Sch_The = &acgt{ return [
         me&acting,R
         me&supsphere,s
         R.sc['Pii'+s.t] = 1
+        me&Names_set,R,s.t,s
     },'ift,D'],
     # a Paving for this way. see %SummerCat/Inc%Aearch
     ['PiiInc',0.2901,&acgtRs{
@@ -2854,18 +2878,11 @@ me.Sch_The = &acgt{ return [
     # so RsE outspheres. R%E(y&R=R)
     # R%TheingE**/Ec&top - containers also have E
     # R%E
-    &{
-        me.This_TheingE = &acgt{
-            $trail = 1 + 1
-            me&tc,"Isonsno"
-        }
-    },
     ['TheingE',0.291,&acgtRs{
         me&bin,'TheingE'
         me&reaw,R,'TheingE,E'
         Rs&rowish = 2
         
-        R.t == 'This' and me&This_TheingE
         me&rollbs,R,'E'
         $E = Rs&E ||= Cye([R.t,1])
         Ey&R = R
@@ -3013,6 +3030,13 @@ me.Sch_The = &acgt{ return [
             if (n) {
                 $usu = ns&listen_node || ns&heard || ns&n
                 !usu and debugger
+            }
+            
+            if (a.here.pi == 'This') {
+                # the dualism. is an allism.
+                #  the This,The split is created in &Sarn
+                # < but could add %%inst according to input
+                a.Name = s.t
             }
 
             # R:here behaviour
@@ -3445,7 +3469,7 @@ me.Sch_The = &acgt{ return [
         # 11 new
         # GOING these would be only c.E.c.*
         $rcbits = tax({},c,'nl,dl')
-        hak(rcbits) and debugger
+        #hak(rcbits) and debugger
         $r = me&Ret,R,c
         ry&cv = 0
         
