@@ -573,11 +573,16 @@
     self.havs = &s{
         return haks(s).map(k => s [k])
     }
-    # < C:Thing@2
     self.dis = &sc{
         # light over slope
         c ||= 4.23
         isnu(c) and c = {dl:c}
+        if (c.dl == 2 && isC(s)) {
+            # C:Thing@2 used for &rowcap PK
+            $cv = sy&cv && sy&cv != 0.1 ? '@'+cvf(sy&cv) : ''
+            $sym = isnode(s) ? 'n:' : 'C:'
+            return sym+s.t+cv
+        }
         return ki(s,c.dl)
     }
   // misc() hash

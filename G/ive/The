@@ -450,6 +450,7 @@ me.Sch_The = &acgt{ return [
             $act_z = []
             # that seem ready, by @5
             me&boxcap,"vator:",'1p' (&m{
+                me&walls,m,'bd:1.4,hu:3'
                 # vator has a proper list of %active=C...
                 $act = Rs&active
                 actc&vators ||= 0
@@ -1189,6 +1190,8 @@ me.Sch_The = &acgt{ return [
             
             # Steps are known
             row('Fe',&Smal{
+                # < a.table etc could contain above slope...
+                me&walls,my&up.y.up,'bd:2.4,hu:8'
                 $n = a.n
                 # the Fe that are -Ness correspond to steps
                 $Fe = a.Fe = me&SG_SteptoNess,Fine,S
@@ -1220,6 +1223,7 @@ me.Sch_The = &acgt{ return [
             
             # say our ability to attend time
             th('atti',&vma{
+                me&walls,my&up.y.up,'bd:2.4,hu:8'
                 !quiettime and c.unsure = 'neverquiet'
                 # < &tkc: for a k if in c, v may be :something
                 c.unsure and me&tc,"unsure"
@@ -1337,7 +1341,6 @@ me.Sch_The = &acgt{ return [
                 $odd = nex({},sex({},n.sc,late),'RunStep,ov')
                 me&tc,dis(odd),'6G'
             })
-            
             
             row('keep',&Sma{
                 $n = a.n
@@ -1711,8 +1714,10 @@ me.Sch_The = &acgt{ return [
                 # async once, with visit
                 me&tt,"drop" (&{ 
                     ~>6 introDrop:
-                    debugger
-                    en.done() })
+                    en.wasdrop = 1
+                    en.done()
+                })
+                en.wasdrop and me&tc,"wasdrop",'6y'
 
                 $di = me&diffPs,R,Q,P,memory
                 me&tc,dis(sex({},P.sc,'dige')),'6G'
@@ -1736,23 +1741,6 @@ me.Sch_The = &acgt{ return [
             })
             fatal.ish(gs)
             return gs
-        }
-        # the e that causes tunneling doesnt arrive e** as it goes
-        # < should do, know what is for here, anywhere
-        #    that +etc should be indexed on ec&X, what the e concerns, deeply
-        # so we go looking from the top
-        me.through_packs = &acgte{
-            $ie
-            # e** until !y&pack, to the point of eg e:elIntro
-            me&indo,e (&ed{
-                # an enveloping, at %JRom or so..? see elvoids
-                ec&pack and return
-                # only one without arrive
-                ie and debugger
-                ie = e
-                d.not = 1
-            })
-            return ie
         }
         
         
