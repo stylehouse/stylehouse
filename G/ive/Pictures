@@ -43,6 +43,18 @@
                 return n
             }
         }
+        # climb a path from modulat rowcap|bowcap**
+        #  very temporary
+        me.ttpath = &acgt{
+            $g = {slope:[]}
+            me.cbu(T.ab,&m{
+                # < a.table etc could contain above slope...
+                ms&dis and ahk(g,'bydis',ms&dis,m)
+                # path
+                g.slope.unshift(m)
+            })
+            return g
+        }
         # &tt ({onto|once}) toggling, oncing.
         #  self: &tt,t () and 'while on'
         #  self: &tt,t (&{}) a
@@ -53,7 +65,6 @@
             $s = Rc&s
 
             return &y,async{
-                
                 
                 # may visit to handle events there
                 # < they might give a light level to start it at
@@ -67,9 +78,9 @@
                 # usu with a visit (other callback happens immediately)
                 isfu(y) and y = {once:y}; y [async ? 'async' : 'other'] = 1
                 
-                # check state
-                # < deeper path? T.sute + T.ab?
-                $qua = ahsk(s,'y','tt',m.t,t) || {}
+                # check state, hang on all ^^^&boxcap
+                $path = slaint(me&ttpath .slope)
+                $qua = ahsk(s,'y','tt',path,t) || {}
                 # < why not C?
                 #   what shape are %TX**?
                 fatal.ish(qua)
@@ -108,7 +119,7 @@
                 $l = me&ty,t,c (&zTe{
                     z != l and debugger
                     # invoked asap when toggled
-                    qua = ahk(s,'y','tt',m.t,t,qua)
+                    qua = ahk(s,'y','tt',path,t,qua)
                     qua.on = !qua.on ? 1 : 0
                     if (y.other || y.async) {
                         # < know we are to Effect somewhere, and
@@ -132,7 +143,7 @@
                         else 'visit R'
                     }
                     else 'visit R'
-                    ~>7 tt: m.t, t, qua.on
+                    ~>7 tt 8: m.t, t, qua.on
                 })
                 
                 if (y.other || y.async) {
@@ -146,6 +157,7 @@
                     # handle while visiting
                     #   sync, self, awake, etc etc
                     handler (qua.on,T)
+                    qua.on and ~>7 tt 4: m.t, t, qua.on
                 }
                 
                 # y.rebool is for a mesh of logic functions that return true
@@ -515,12 +527,12 @@
     }
     # < types for weird sorts of compression!!
     #   for eg W.t storable (filename sanity)
-    self.cint = &{ aroint([...arguments],':') }
-    self.daint = &{ aroint([...arguments],'-') }
+    self.cint = &{ return aroint([...arguments],':') }
+    self.daint = &{ return aroint([...arguments],'-') }
     # < dis() that goes peel:1 if big
     #    or value types could be separators, as in R%Cit
-    self.coint = &{ aroint([...arguments],',') }
-    self.slaint = &{ aroint([...arguments],'/') }
+    self.coint = &{ return aroint([...arguments],',') }
+    self.slaint = &{ return aroint([...arguments],'/') }
     # allows the above to be eg cint(i,t) or cint([i,t])
     self.aroint = (N,k) => joint((hak(N) == 1 && isar(N[0]) ? N[0] : N),k)
     # "$t1-$t2" for [C,C,C{.t==not}]
