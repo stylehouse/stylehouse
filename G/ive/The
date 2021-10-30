@@ -1134,8 +1134,7 @@ me.Sch_The = &acgt{ return [
 
 
    // 4 the end
-            Rs&goGome and me&nu,"Fins",{Run,This,F,Fine,nine}
-
+            # Rs&goGome and me&nu,"Fins",{Run,This,F,Fine,nine}
             x.ro('end') and return
             return ha('pur:.....')
         }})&&
@@ -1143,23 +1142,22 @@ me.Sch_The = &acgt{ return [
             # n|u all done
             me&tc,"all-done"
         }})
-            
         return su('done')
         }
-   // SG_ f
-   
+  
+  // @Gnome <-> @Run
       // Run(ning)Step
         # < an ult
         # < @Ta for hs&Ta rowing ark, h.ar the @Gnome Names
         # %%RunStep flock
         #  heading, @Run-ing as Nine-that-could-be[Run%step]
         me.SG_RunStep = &acgtc{
+           // time is
             $R = me&R
             $h = me&hajasute
             $Fine = c.Fine
             $nine = c.nine
             $Run = h.ar.Run
-           // time is
             $time = Runs&time
             # < io @Fe+1|-1 $Fe1|_1? etc
             $time1 = (time||0) + 1
@@ -1170,7 +1168,8 @@ me.Sch_The = &acgt{ return [
             # user
             me&tt,'again' (1) and me&SG_sustain,{},{RunStep:time},{}
             # having its own row?
-            me&tt,'Leap' (1) and h.ha('RunStep:1,rec:whimsies')
+            # < ha RunStep:$time1,rec:whim
+            me&tt,'Leap' (1) and h.ha('RunStep:'+time1+',rec:whimsies')
             
             # various, clobberatively, to progress
             $N = h.saa('RunStep')
@@ -1181,11 +1180,14 @@ me.Sch_The = &acgt{ return [
                 }
             }
             
-            # todolist + attention
+           // RunStep/$S+ todolist + attention
             # < next to each other
             # < which expe()-ish makes 'th' -> {k:th}?
             $th = me&rowcap,[1],{},{k:'th'}
-            $row = me&rowcap,N,'RunStep',{k:'S'}
+            # N[n-row] will Na[a] mixed with the n%sustain=a
+            #  since we are not always iterating sustain-compatible stuff,
+            #   we shall a.done ||= such for a -row (nc&drop=1)
+            $row = me&rowcap,N,'RunStep',{k:'S',agk:'sustain'}
             
             # Steps are known
             row('Fe',&Smal{
@@ -1201,18 +1203,20 @@ me.Sch_The = &acgt{ return [
                 a.sc1 = ex({},n.sc)
                 ns&ov ||= 0.5
             })
-            # misc!
-            # the -nine says the next one to fill
-            # < nine%Into follows Fe1 or vice versa
-            $Fe1 = Cof(ninec&Into)
-            !Fe1 and me&tc,"offtrail",'6g'
-            # < wait for -Lab...? does %Into point to them til @3
-            #   this must be part of that...
-            #   
-            # < of(Fe1,'-Ness') returns Fe1 if such
-            $forNess = Fe1 && Fe1c&pi == 'Ness'
             
-           // time to
+           // peripherals
+            if (0) {
+                # the -nine says the next one to fill
+                # < nine%Into follows Fe1 or vice versa
+                $Fe1 = Cof(ninec&Into)
+                !Fe1 and me&tc,"offtrail",'6g'
+                # < wait for -Lab...? does %Into point to them til @3
+                #   this must be part of that...
+                #   
+                # < of(Fe1,'-Ness') returns Fe1 if such
+                $forNess = Fe1 && Fe1c&pi == 'Ness'
+            }
+            
             # waiting on quiet++
             # < Aip as canopy lighting timeclock
             #   it's hard to tell when a particular Run has propagated to OK
@@ -1343,7 +1347,6 @@ me.Sch_The = &acgt{ return [
             
             row('keep',&Sma{
                 $n = a.n
-                $a = ns&sustain
                 # async once with visit
                 me&tt,"drop" (a.done)
             })

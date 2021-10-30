@@ -58,11 +58,11 @@
         # &tt ({onto|once}) toggling, oncing.
         #  self: &tt,t () and 'while on'
         #  self: &tt,t (&{}) a
-        # has ytt storage, async|other
+        # a &ty with state shared between self|other moments
         me.tt = &acgttc{
             $R = me&R
             $s = Rc&s
-            # storage
+            # storage on y&tt
             $tt = me&yio,s,'tt'
             # locates all ^^^&boxcap
             $path = slaint(me&ttpath .slope)
@@ -268,6 +268,7 @@
         me.rowcap = &acgtNcq{
             c = peel(c)
             q = peel(q)
+            # < q.t
             $name = q.k || joint(haks(c),',') || ''
             $table
             $head
@@ -285,14 +286,45 @@
             })
             $Na = []
             return &ty{
-                # rejoing rowcap table closed above
+                # rejoing rowcap table closed above!
                 $Tap = me&Tap,{ab:table}
                 fatal.isst(t)
                 fatal.isfu(y)
                 !hak(N) and me&tc,t+"!rows",'6p'
                 each in N {
-                    $a = Na[i] ||= {s,n}
-                    # c.* list n%* as args, or just n
+                    $a = Na[i]
+                    if (!a) {
+                        # start a row
+                        a = {}
+                        $agka = q.agk && n.sc[q.agk]
+                        if (agka) {
+                            # branch ish eg %%sustain
+                            ex(a,agka)
+                            a.a = agka
+                        }
+                        ex(a,{n})
+                        if (!a.done) {
+                            # must have: sense of how to be done() with it
+                            #  removes N/$n
+                            !isC(n) and a.done = grepout(N,n)
+                            else
+                            #  dropping the row
+                            #   is how &sustain works underneath
+                            #    < with hooks
+                            # < stretch from sustain source downstream to refractions
+                            #    it may read self|other args
+                            #     for whatever out-there is doing with its ...
+                            #   ||= here allows later processes to cancel earlier
+                            #    up until a %%sustain redoes a.done() for its $n
+                            # non-R can use yfuture
+                            #  these may have got it by being %%rec-copied to a future
+                            # < other wires. this is a short wire, anyway.!
+                            ny&brack and a.done = () => ahk(me&yfuture,n ,'c','drop',1)
+                            else throw "how to el9",n,c,q
+                        }
+                        Na[i] = a
+                    }
+                    # a.* = n%* in &rowcap c.*
                     $args = haks(c).map(k => a[k] = n.sc[k])
                     !hak(args) and args = [n]
                     $s = args[0]
