@@ -306,7 +306,7 @@
                         if (!a.done) {
                             # must have: sense of how to be done() with it
                             #  removes N/$n
-                            !isC(n) and a.done = grepout(N,n)
+                            !isC(n) and a.done = grepout(N,{is:n})
                             else
                             #  dropping the row
                             #   is how &sustain works underneath
@@ -548,8 +548,10 @@
     # removing .filter, y=[n+]|&n{1}|$n
     window.grepout = &Ny{
         $out = []
-        isar(y) and $z = y; y = n => z.includes(n)
-        !isfu(y) and $v = y; y = n => n == v
+        # < expets is|includes
+        isar(y)     and $Z = y;    y = n => Z.includes(n)
+        hak(y,'is') and $v = y.is; y = n => n == y.is
+        !isfu(y)    and $v = y;    y = n => n == v
         each in N {
             i *= 1
             y (n,i) and out.unshift(i)
