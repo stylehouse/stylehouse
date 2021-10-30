@@ -85,7 +85,7 @@ me.Sch_The = &acgt{ return [
     =cut
     =phil
      Ya/$story
-      /Fories... deps load
+      /Shelf... deps load
       ...Fine W:$story instance
       /Thy... backstage %Piing
      hires:
@@ -98,7 +98,7 @@ me.Sch_The = &acgt{ return [
        your clicks being configured
        selected one shows CED columns over slope rows
      
-     fi&balein
+     
      see 'switched off Fe->Lab'
     =cut
   
@@ -2329,24 +2329,30 @@ me.Sch_The = &acgt{ return [
          /$tw=n.t = $n
         not /$n, one absolute $n
        /$tw = $n
+        a name here, for $n
         then some qualities to its being a Name are:
        /$local = 1
         supplied to set
         alludes to their scope on the slope.
-        < perhaps @Cat and /@Run/* are name-perc-stopping.
-       /$inner = 1
-        names announced to $s from $s/**
        # not reliant on a corresponding /$tw:
-       /$task|$tasked = 1
-         what we are ask(ing|ed)
-       /$tgot = $n
+       /$tup
         pulled from above, only return from &Names_get
+       /$task|$tasked
+        what we are ask(ing|ed) for /$tup
+       /$tdown
+        names announced to $s from $s/**
       
-      there is a push, leading to $tw+$inner
-      and the pull (of more fame to less), only $tgot
+      push up /$tdown, pull down /$tup
+       up = more fame
       
-      < should /$tw only be for here?
-        as it climbs & puts /$tw:
+      get can source $n from /$tw|$tup|$tdown
+      
+      < perhaps @Cat and /@Run/* are name-perc-stopping.
+        the slope folds names
+      < perc one big /$tw
+         currently only for names defined here,
+          /$tup|$tdown the not-here
+        if it climbs & puts /$tw:
          we are %%oust-ing, Fame negotiates where we can what
           and coordinates with other users of a name we want to change
            this would usually be pushing This++ -> &EsyncThis
@@ -2356,9 +2362,23 @@ me.Sch_The = &acgt{ return [
            nice soft layer of advertising a feature over spacetime (the breaker)
             which brings in awareness to decide the exact relativity,
              if and when it even matters
-      
+           A^^crux...C
+            A asked all the way to crux, who led ...somewhere
+             who you can believe into there is up to formulas
+              ie needing something on screen now to hang out with
+               that is like it in some way
+        leading back to
+         osc push j > J, Aip, relativity
+          whos truth gets where|when
+           and should certain things be prioritised
+        /media/s/Elvis/Music/Stevetop/1Gosh/Spartacus R/08 The curse.mp3
+         is a good constricted space soundtrack
+         our threads of perception build a picture, eg:
+          A == A, Ay, !AyA, Aytime, Atime
+        
       see &node_get_Names into N[a+]
-       and &brackstract for a front to this data
+       < converting wou%X/$k/$v back into rows
+      see &brackstract for a front to this data
        
     =cut
     # fame distribution
@@ -2424,29 +2444,27 @@ me.Sch_The = &acgt{ return [
         #     (for the use case in the scope of many &Saturn)
         $was = ahsk(Na,'sc','tw',t)
         ah(Na,'tw',t,s)
-        c.local and ah(Na,'tlocal',t,1)
+        if (c.local) {
+            ah(Na,'tlocal',t,1)
+            return
+        }
         # < keep putting above?
         #  < be told when our Names are outshon? notice where til?
         s == was and return
-        if (!c.local) {
-            # climbs & puts.
-            #  < when %%active, puts @Lab|@Nine for @Gnome,
-            #    which makes it a %%Superarg,
-            #     which all share to @Gnome%Names
-            #     where we can find them
-            $climbput = &j{
-                $Na = js&Names || me&rollbs,j,'Names'
-                !Na and return
-                $was = ahsk(Na,'sc','tw',t)
-                # < outshine
-                s != was and ~>5 ++: '@'+t
-                
-                ah(Na,'tw',t,s)
-                ah(Na,'tinner',t,1)
-                climbput(jy&up)
-            }
-            climbput(Ry&up)
+        
+        # climbs & puts.
+        #  < when %%active, puts @Lab|@Nine for @Gnome,
+        #    which makes it a %%Superarg,
+        #     which all share to @Gnome%Names
+        #     where we can find them
+        $climbput = &j{
+            $Na = js&Names || me&rollbs,j,'Names'
+            !Na and return
+            # < outshine what is there?
+            ah(Na,'tdown',t,s)
+            climbput(jy&up)
         }
+        climbput(Ry&up)
     }
     # for a given node, return its name
     me.Name_of = &acgts{
@@ -2458,12 +2476,26 @@ me.Sch_The = &acgt{ return [
             sy&ers == n || s == n and return t
         }
     }
+    # does j have a client, return its s
+    me.clientmight = &acgtj{
+        j = jy&R
+        $cl = js&client
+        !cl || !isC(cl) and return
+        $z = fatal.sof( me&yfuture,cl )
+        return z
+    }
     # create outcrop of names looked up in here
     me.Names_get = &acgtRtc{
         c == 1 and c = {fatal:1}
         c = peel(c)
+        R = Ry&R
         $Na = me&rollbsc,R,'Names'
+        # here
         $s = ahsk(Na,'sc','tw',t)
+        if (s == null) {
+            # put here
+            s = ahsk(Na,'sc','tdown',t)
+        }
         if (s == null) {
             $j = me.cbu(R,j => js&Ying || j != R && (js&Names || js&client))
             js&Ying and j = null
@@ -2473,26 +2505,29 @@ me.Sch_The = &acgt{ return [
                 }
                 # also goes across this link, eg to @Gnome
                 # < becomes %%hire
-                $cl = js&client
-                if (cl && isC(cl) && !s) {
-                    cl = me&yfuture,cl .c.s
-                    s = me&Names_get,j,t,{c,outer:2}
+                $cl = me&clientmight,j
+                if (cl && s == null) {
+                    s = me&Names_get,cl,t,{c,outer:2}
+                    s and throw "first &Names_get via %client"
                 }
             }
         }
+        
+        # < climb for /** for /$tasked until /$task
         # note asking this
         !c.outer and ah(Na,'task',t,1)
         # being asked
-        # < who from?
         else ah(Na,'tasked',t,1)
-        # remember what it was, to contrast later
+        
+        # remember what it was, all the way down
         if (s) {
-            $was = ahsk(Na,'sc','tgot',t)
-            ah(Na,'tgot',t,s)
+            $was = ahsk(Na,'sc','tup',t)
+            ah(Na,'tup',t,s)
         }
         else
         # < fix throw ..., tinystring display
         c.fatal and throw "!Names:"+t
+        
         return s
     }
     },
