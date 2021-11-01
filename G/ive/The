@@ -5079,7 +5079,7 @@ me.Sch_The = &acgt{ return [
     }
   
   
- // thingo
+ // thingo limitoids
   # magic words in brack engage, like Ring
   # globalised pseudo-Ringing parts of Ringing
   # affects of consciousness showing up somewhere
@@ -6721,6 +6721,19 @@ me.Sch_The = &acgt{ return [
             else {
                 # < large, Lines, binary, base64 etc
             }
+            
+            # rudimentary large safety
+            if (di.length > 20) {
+                $geo = {}
+                $size = me&textsize,di,geo
+                if (geo.lines > 5 || geo.length > 200) {
+                    me&ha,R,'limit:Longstring',{},{size}
+                    di = cint(size,dig(s))
+                    # becomes Dc&s
+                    Rs&Longstring = di
+                }
+            }
+            
             n string 13 $s:di %fs:8,hs:584
         },'ift,D'],
    //      etc
@@ -6770,6 +6783,10 @@ me.Sch_The = &acgt{ return [
     ['String',0.2637,&acgtRs{
         $D = Rs&D
         Dc&s = s
+        if (Rs&Longstring) {
+            Ds&Longstring = 1
+            Dc&s = Rs&Longstring
+        }
     },'ift,D'],
     # < i Dc&s = "(@sym )?@t( @cv)" o &modulat 11-131 .t:*
     #   < knowing sym must be \w, cv \d,

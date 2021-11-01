@@ -17,11 +17,14 @@
         }
         # < nibble-sized view of thing?
         #    2-nibble top Line's t,y + whole textsize
-        me.textsize = &acgts{
+        me.textsize = &acgtsc{
+            c ||= {}
             !isst(s) and throw "textsize!st"
             $lin = s.split("\n")
             lin.slice(-1)[0] == '' and lin.pop()
-            return 'x'+hak(lin)+'*'+s.length
+            c.lines = hak(lin)
+            c.length = s.length
+            return 'x'+c.lines+'*'+c.length
         }
         # any string
         # < know where in l|E...
