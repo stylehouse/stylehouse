@@ -3300,6 +3300,7 @@ me.Sch_The = &acgt{ return [
     },
   
 &{
+ 
  // resolve
  
   // Aip
@@ -3586,7 +3587,7 @@ me.Sch_The = &acgt{ return [
         ex(e.c,c)
         return e
     }
-   // lowlevels
+    # lowlevels
     # after somehow &Pieri, this &Pieringi
     # 1 R/r for E/* from c
     me.PiRet = &acgtRc{
@@ -3620,7 +3621,7 @@ me.Sch_The = &acgt{ return [
         me&Pieringi,R,r,c
         
         ex(r.c,rcbits,r.c)
-        c.Top and me&tc,dis(tex({},r.c)),'6y'
+        #c.Top and me&tc,dis(tex({},r.c)),'6y'
         
         # to &Eing
         return r
@@ -6709,7 +6710,17 @@ me.Sch_The = &acgt{ return [
         ['String',0.263,&acgtRs{
             $D = Rs&D
             $E = Rs&E
+            # < says n*ll...
             $di = dis(s)
+            
+            # data was number
+            isnu(s) and me&typeup,R,'Number'
+            else
+            # number-looking and number-acting
+            num(s) and me&typeup,R,'Num'
+            else {
+                # < large, Lines, binary, base64 etc
+            }
             n string 13 $s:di %fs:8,hs:584
         },'ift,D'],
    //      etc
