@@ -395,6 +395,11 @@
     self.isit = v => !isha(v) || isC(v)
     # -suchpi
     self.ispi = (v,pi) => isC(v) && (!pi ? vc&pi : vc&pi == pi)
+    
+    # can see '  ' as lengthy and == what it casts to
+    $spacechars = hashkv(" \n\t".split(''))
+    self.isspace = s => hak(s) && !havs(s).some(s => !spacechars[s])
+    self.num = s => (isnu(s) || s && s.length && !isspace(s)) && s*1 == s
 
     # make lots of fatal versions of isba(), etc
     # < put it through me.Yingminds?
