@@ -2651,15 +2651,14 @@ me.Sch_The = &acgt{ return [
                 grepout(zs&z,r)
             }
             s = rc&s
-            if (c) {
-                tax(s.c,c,'s,pi')
-                ex(s.sc,c)
-            }
-            if (1 || !zc&N.includes(sy&R)) {
-                # they get sy&R @293, &Piing @296
-                #  the //E/* will be @333 after:
-                me&Ring,r,{und:r,ov:0.333}
-            }
+            # c -> s.c -> main E &Piing/&PiRet c
+            #  certain (nl,dl) may end up in Rc&*, else R%*
+            c and ex(s.c,c)
+            
+            # they get sy&R @293, &Piing @296
+            #  the //E/* will be @333 after:
+            me&Ring,r,{und:r,ov:0.333}
+            
             return s
         }
         # for This/such-Eight/so-seven/[thing-Fez,{sc&s,...sc}]
@@ -2805,7 +2804,7 @@ me.Sch_The = &acgt{ return [
                 # Fez sprawly until C (eg X**)
                 # Bow sprawly while C (eg s**)
                 haks(peel('hat,Fez,Bow')).map(&pi,{
-                    # < mep h { (t,s,c) => ipihat(t,s,c,$k) } 'hat,Fez,Bow'
+                    # < mep h { (t,s,c) => h.tys(t,$k,s,c) } 'hat,Fez,Bow'
                     #    coalesce via peel(). or perl's qw{}
                     h[pi] = (t,s,c) => h.tys(t,pi,s,c)
                 })
@@ -3301,7 +3300,8 @@ me.Sch_The = &acgt{ return [
     },
   
 &{
-  
+ // resolve
+ 
   // Aip
       =Aip
        things add on, inside, etc
@@ -3358,6 +3358,7 @@ me.Sch_The = &acgt{ return [
          geometry for evolution
       
       =cut
+  
   // time!
       =time
        are Aip intralaced
@@ -3438,21 +3439,25 @@ me.Sch_The = &acgt{ return [
         $R = me&R
         $s = Rc&s
         $E = Rs&E
-        
-        # resolves sy&RXing, which -> E below
-        me&PiiE_pre_Piering,R,E,s,c,x
-
-        # A thus much, more @36
-        c.ov ||= 333
         # last permanent E, of a node
         #  aka RE|PE|Ep herein, is sometimes E in E/e
         $RE = E
         $del = me&modelta
         
+        
+        # resolves sy&RXing (to the node), -> E below
+        me&PiiE_pre_Piering,R,E,s,c,x
+
+        # A thus much while Piing@296, the rest @36
+        c.ov ||= 333
+        # the REy&main=E, what sc&* is about
+        #  sc&* -> &Piing c.*
+        #  nex(c,s,c) extends what isnt in c.* yet
+        c.pi == sc&pi and nex(c,s.c,c)
+        
         c.Pier ||= c.pi || sc&pi
-        c.t ||= "-"+c.Pier
+        c.t == '' and c.t = "-"+c.Pier
         c.Top = 1
-        !hak(c,'s') && hak(s.c,'s') and c.s = sc&s
         $V = c.V = s
         # the first insphere E
         $E = c.E = Cye([c.t,1])
@@ -3470,24 +3475,73 @@ me.Sch_The = &acgt{ return [
         # then starts matching, usu in &Eing
         $M = me&Pieri,RE,E
         
-        $q = {}
-        c.ov and q.ov = delete c.ov
+        # separate the args for &Ring later
+        $Ringc = tax({},c,'ov')
+        # clearly rc&* = c.* > sc&* > Ec&* > defaults > Rc&*
+        # rc&nl|dl comes from, in ascending precedence:
+        #  Rc&* inheriting to rc&*
+        #   a thing that R do
+        #  -suchpi's sane defaults here
+        #   better than inheriting nl|dl through a %Top
+        #  &PiRet/&Pieringi
+        #   may have Ec&nl|dl|rc_mix over it
+        #  &PiRet
+        #   then takes rcbits from c over any of that
+        #    see 'sc&* -> &Piing c.*'
+        # < let them suchpi@02, very-early R'The', here
+        # < was not setting these properly (it's %Top not %top)
+        #   they may want tuning
+        c.soft_rcbits =
+            c.pi == 'Womb' ? {dl:26,nl:166}
+        #   was nl:166:
+            : c.pi == 'Fez' ? {dl:26,nl:300}
+            : c.pi == 'Bow' ? {dl:12,nl:122}
+        # -hat etc should get it done by:
+            : {dl:15,nl:300}
+        # < after a long dl, -hat is compelled to go way over the nl
+        #   to get back?
+        
+        # contains &Pieringi, which:
+        #  E[cs]&knownbits -> r[cs]&*
+        #   along with explicitly eg Ec&rsc_mix
+        # &PiRet gets the last word on rcbits, from c
+        #  as in, we dont copy sc&* or c.* to Ec&*
+        #   it is already above on sc&* or otherwise implicit
+        #    we only intimate the limits as they happen
         $r = me&PiRet,R,c
-        !r and debugger
+        fatal.isR(r)
         ac(R,'z',r)
-        
-        # the tendency to hide eg -seven/*
-        if (Rs&Ehidey) {
-            me&Effect,s,E,'hidey-six',{hid:1,ope:0}
+        if (c.Top) {
+            # &Piing is always %Top
+            # < GONER:
+            rc&top = r
+            # capsule of %TX
+            Ec&top != E and debugger
+            # transact Ec&X.ref
+            me&Eref_begin,r,E
+            
+            rc&d = 0
+            delete rc&refR
+            delete rc&refs
+            # lets /Display** recycle Elements
+            me&arriveRbitX,r,r.t
+            # new J, normal mind
+            rs&task ||= 'Pi_The'
         }
-        # < TX to unhide?
-        if (M.some(aq=>ahsk(aq,'sc','qua','ope'))) {
-            me&Effect,s,E,'RX-ope',{RXope:1,ope:1,dom:1}
-        }
-        
         me&boxcap,'E:'+r.t (&ml{
             lc&s = r.t
             me&walls,m,'b:1.2h6'
+        
+            # the tendency to hide eg -seven/*
+            if (Rs&Ehidey) {
+                me&Effect,s,E,'hidey-six',{hid:1,ope:0}
+            }
+            # < TX to unhide?
+            if (M.some(aq=>ahsk(aq,'sc','qua','ope'))) {
+                me&Effect,s,E,'RX-ope',{RXope:1,ope:1,dom:1}
+            }
+            
+            
             
             # the buttons (this &tt) override the jets (other Effect:ope)
             # < first async Effect (if possible - wasnt always hidden)
@@ -3499,15 +3553,18 @@ me.Sch_The = &acgt{ return [
             # < is too late, now E/e, Epending, etc
             me&tt,'R' () and rs&sleeping = 1
             
-        })
-        # ope may be set to 0|1
-        $ope = me&Effected,E,{ope:1}
-        ope != null && !ope and rs&noDisplay = 1
-        $arrow = me&Effected,E,{arrowy:1}
+            
+            # ope may be set to 0|1
+            $ope = me&Effected,E,{ope:1}
+            ope != null && !ope and rs&noDisplay = 1
+            
+            
+            })
+            $arrow = me&Effected,E,{arrowy:1}
         # < why not into C/*?
         arrow and me&textarrow
         
-        me&Ring,r,q
+        me&Ring,r,Ringc
         
         del()
         xy&go and me&zu,"r:"+r.t,r
@@ -3525,6 +3582,7 @@ me.Sch_The = &acgt{ return [
         $e = me&dupfiu,E,t
         c.cv and ey&cv = scaf(c.cv); delete c.cv
         c.pi ||= Rs&Pier || 'blank'
+        # &Ei c.* -> ec&*
         ex(e.c,c)
         return e
     }
@@ -3540,17 +3598,29 @@ me.Sch_The = &acgt{ return [
         }
         
         # 11 new
-        # GOING these would be only c.E.c.*
+        # < GOING these would be only c.E.c.*?
+        $soft = delete c.soft_rcbits
         $rcbits = tax({},c,'nl,dl')
         #hak(rcbits) and debugger
+        
+        # R'Peace'-like Ringing
+        # < Voicing
         $r = me&Ret,R,c
+        c.Top and rc&N = []
         ry&cv = 0
+        # used to put on tape or not depending on limits
+        #  now %limit etc are the way, &PiRet already mediated by &Pieri
+        # < splice in re ry&up, neighbours
+        rc&N.push(r)
+        # greater precedence than Rc&* inheriting to rc&*
+        #  a thing that R do
+        hak(soft) and ex(r.c,soft)
         
         # main act, pre-&Ring
         me&Pieringi,R,r,c
         
-        ex(r.c,rcbits)
-        
+        ex(r.c,rcbits,r.c)
+        c.Top and me&tc,dis(tex({},r.c)),'6y'
         
         # to &Eing
         return r
@@ -4304,9 +4374,10 @@ me.Sch_The = &acgt{ return [
    // &Pieri, +r, &Pieringi
    
     # @02 early realise
-    # either by &Piering, from R%Piing
-    #  or &Eing_some c.would, from R%Pier &Eing
-    # < also nab brack as it goes
+    # called from:
+    #  &Piing on R%Piing
+    #  &Eing on R%Pier via &Eing_some c.would
+    # < also nab brack as it goes (into &rowcap for it etc)
     me.Pieri = &acgtEe{
         # < many
         # bunches of
@@ -4336,6 +4407,8 @@ me.Sch_The = &acgt{ return [
     }
     
     # @1 R/r, pre-&Ring
+    # called from:
+    #  &PiRet, wraps this with lowlevels
     me.Pieringi = &acgtRrc{
         $E = c.E
         if (E) {
@@ -4360,32 +4433,11 @@ me.Sch_The = &acgt{ return [
         Ec&pi and rs&Pier = Ec&pi
         Ec&pi ||= rs&Pier
         
-        if (c.Top) {
-            rc&top = r
-            # capsule of %TX
-            Ec&top != E and debugger
-            # transact Ec&X.ref
-            me&Eref_begin,r,E
-        }
-        if (c.Top) {
-            rc&N = []
-            rc&d = 0
-            rc&dl = 15
-            rc&nl = 300
-            delete rc&refR
-            delete rc&refs
-            # lets /Display** recycle Elements
-            me&arriveRbitX,r,r.t
-            # new J, normal mind
-            rs&task ||= 'Pi_The'
-        }
         if (E) {
+            # see also sc&* -> &Piing c.*
             tax(r.c,E.c,'nl,dl')
             Ec&rc_mix and ex(r.c,Ec&rc_mix)
         }
-        # 13 puts on tape or not
-        # < splice in re ry&up, neighbours
-        rc&N.push(r)
     }
     
   // Pi%Pier, &Ring thence
@@ -6468,7 +6520,6 @@ me.Sch_The = &acgt{ return [
    // -Fez > -hat
     # copy modulat straight to D**
     ['Womb',0.21,&acgtRs{
-        Rs&top and Rc&dl = 26; Rc&nl = 166
         !isC(s) and return me&strange,"!C"
         $E = Rs&E
         $D = Rs&D
@@ -6488,7 +6539,6 @@ me.Sch_The = &acgt{ return [
     
     # fairly sprawly, for X**
     ['Fez',0.21,&acgtRs{
-        Rs&top and Rc&dl = 26; Rc&nl = 166
         # < no restating refs per ^^-seven
         me&typeup,R,'hat'
     },'ift,D'],
@@ -6501,8 +6551,6 @@ me.Sch_The = &acgt{ return [
     
     # sprawly, C**
     ['Bow',0.21,&acgtRs{
-        Rc&dl = 12
-        Rc&nl = 122
         # < no restating refs per ^^-seven
         me&typeup,R,'hat'
     },'ift,D'],
