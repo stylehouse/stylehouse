@@ -329,45 +329,61 @@ awaiting my picture of whats where:
    https://www.theguardian.com/world/2021/jun/26/anthonie-tonnon-the-pop-star-operating-new-zealands-oldest-public-underground-lift
    https://thespinoff.co.nz/society/19-11-2018/rail-land-a-eulogy-for-new-zealands-lost-passenger-rail-services/
 
+=builds
+
+   faster evaporation in the summer see-sawing on a watering system
+
 =vectoria
+  pic
+    regrouping by non-$n
+     pie charts that hold a peace sign shape
+      assign an age at each boundary
+       for festival crowd analysis
+     tell of life time
 
-regrouping by non-$n
- pie charts that hold a peace sign shape
-  assign an age at each boundary
-   for festival crowd analysis
- tell of life time
+    unicode
+     char2path
+     indexes
+     https://unicode-table.com/en/sets/arrow-symbols/
 
-unicode
- char2path
- indexes
- https://unicode-table.com/en/sets/arrow-symbols/
+
+    to get:
+     foreground objects - bitmap cutouts
+     > background in-fill
+      tiling/reflect-stretch the background
+       in: across the hole the foreground leaves
+       out: off the edges of the image,
+        continuing lines outward,
+        esp finding a horizon, joining that sensibly
+
+    bitmap -> svg:
+     https://github.com/jankovicsandras/imagetracerjs
+    line/shape -> locating: 
+     http://paperjs.org/reference/shape/#intersects-item
+     http://paperjs.org/reference/pathitem/#getintersections-path
+      then pull apart shapes until the exact line
+    reflect-stretch the background:
+     ?
+
+    the edgy image pile:
+     clip to shapes near the edge
+
+    https://blog.scottlogic.com/2020/03/19/offscreen-canvas.html
+    https://jakearchibald.com/2021/cors/
+     seems <img crossorigin src="…" /> is all it takes
+    https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
+
+=web
  
+ pages <- multi-level list
+  like this
+ host images
+  ipfs <- do?
+  imgz.org ?
+ <a href="mailto:someone@yoursite.com?subject=Big%20News&body=Body-goes-here">Email Us</a>
+  check for max size
+ friends let friends in
 
-to get:
- foreground objects - bitmap cutouts
- > background in-fill
-  tiling/reflect-stretch the background
-   in: across the hole the foreground leaves
-   out: off the edges of the image,
-    continuing lines outward,
-    esp finding a horizon, joining that sensibly
-
-bitmap -> svg:
- https://github.com/jankovicsandras/imagetracerjs
-line/shape -> locating: 
- http://paperjs.org/reference/shape/#intersects-item
- http://paperjs.org/reference/pathitem/#getintersections-path
-  then pull apart shapes until the exact line
-reflect-stretch the background:
- ?
-
-the edgy image pile:
- clip to shapes near the edge
-
-https://blog.scottlogic.com/2020/03/19/offscreen-canvas.html
-https://jakearchibald.com/2021/cors/
- seems <img crossorigin src="…" /> is all it takes
-https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
 
 =ffmpeg
  wasm https://fileconverter.digital/
@@ -396,42 +412,39 @@ https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
   < better mov removal check:
   cat movanywhere | perl -l -n -e "print qq{\$_ isnt\n} if (-e $_) && !(-e qq{\$_.mkv})" 
  
-=web
- 
- pages <- multi-level list
-  like this
- host images
-  ipfs <- do?
-  imgz.org ?
- <a href="mailto:someone@yoursite.com?subject=Big%20News&body=Body-goes-here">Email Us</a>
-  check for max size
- friends let friends in
- 
 =music
+    part of shape sorter
+     join dupey islands of eg Music/*
+      Music,Steve,Pictures is another islanding
+       different drives, partially replicated, guess everything
+      with tasks for rooting out nice bits of Newmsic
 
-part of shape sorter
- join dupey islands of eg Music/*
-  Music,Steve,Pictures is another islanding
-   different drives, partially replicated, guess everything
-  with tasks for rooting out nice bits of Newmsic
 
-bpm|key finder etc: https://vocalremover.org/
 
-to .webm
- with music: https://loader.to/en21/youtube-flac-converter.html
-lookup tracks within these .webm
- Agua De La Tierra
-  elusive to download
-  < buy
- Mezclando Ritmos #5
-  too much talking, re-edit from originals?
- Otro Mundo & El Búho @Netil Radio 2018
-  too much talking, silence @ 23:30
- Nicola Cruz
-  silence @ 7:40... have full mp4
+
+
+
+
+
+
+
+
+    bpm|key finder etc: https://vocalremover.org/
+
+    to .webm
+     with music: https://loader.to/en21/youtube-flac-converter.html
+    lookup tracks within these .webm
+     Agua De La Tierra
+      elusive to download
+      < buy
+     Mezclando Ritmos #5
+      too much talking, re-edit from originals?
+     Otro Mundo & El Búho @Netil Radio 2018
+      too much talking, silence @ 23:30
+     Nicola Cruz
+      silence @ 7:40... have full mp4
 
 =radio
-
  (rad)ioactive via:
   sudo modprobe snd-aloop
   play stream: chrome:rad -> Loopback audio
@@ -442,35 +455,52 @@ lookup tracks within these .webm
     -O `thtime`-nowplaying.xml
   seems to be for 2021-02-03 -06-14
   < correct time, match times
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   alias thtime="echo $(date -Ins | sed 's/\W//g')"
 
 
 =sound
+    a
+     splatter:
+      las(agna)+
 
- splatter:
-  las(agna)+
 
-let audio = new (AudioContext() || webkitAudioContext);
-let gain = audio.createGain();
-let osc = audio.createOscillator();
-osc.type = 'square';
-osc.connect(gain);
-gain.connect(audio.destination);
-osc.start();
 
-  osc.frequency.setValueAtTime(65.4 * 2 ** (n / 12), t);
-  gain.gain.setValueAtTime((~k & 8) >> 3, t);
-  gain.gain.setValueAtTime(0, t);
+
+
+
+
+
+    let audio = new (AudioContext() || webkitAudioContext);
+    let gain = audio.createGain();
+    let osc = audio.createOscillator();
+    osc.type = 'square';
+    osc.connect(gain);
+    gain.connect(audio.destination);
+    osc.start();
+
+      osc.frequency.setValueAtTime(65.4 * 2 ** (n / 12), t);
+      gain.gain.setValueAtTime((~k & 8) >> 3, t);
+      gain.gain.setValueAtTime(0, t);
 
 
 =cut
 
-$N = [1,2,3,4,5,6,4,7,8];
-each iv N {
-    $n = me&tsc,"a"+v,0,"p";
-    ns&fs = v*3;
-    ns&hue = v*40*ie
-}
+    $N = [1,2,3,4,5,6,4,7,8];
+    each iv N {
+        $n = me&tsc,"a"+v,0,"p";
+        ns&fs = v*3;
+        ns&hue = v*40*ie
+    }
 =vluk
     house was the first artifact by the animals
       (nest building is happening all around us)
@@ -493,7 +523,6 @@ each iv N {
    fuse-zip perl-doc perl6 unifont
 
 =ca network
-
     # webchat in iframes!?!
     # https://www.oftc.net/WebChat/
     # https://webchat.freenode.net/
