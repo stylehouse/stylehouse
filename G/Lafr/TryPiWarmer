@@ -312,10 +312,27 @@ S 3 Pictures hashy misc
         use = 3
         $use = n
     })
-    
+    # < Plying test output to here,
+    #   generating blog with <code>1+1 # 2</code>
     hat('null <>-ier than undefined',{
-        undef_lt_6: undefined < 0.6,
-        null_lt_6: null < 0.6,
+        null_lt_6: null < 6,
+        null_gt_6: null > 6,
+        null_gt_neg6: null > -6,
+        undef_lt_6: undefined < 6,
+        undef_gt_6: undefined > 6,
+        undef_gt_neg6: undefined > -6,
+    })
+    hat('more types',{
+        'zero': [
+            '' == 0,
+            '0' == 0,
+            '' == '0',
+        ],
+        'undef': [
+            false == undefined,
+            false == null,
+            null == undefined,
+        ]
     })
     
     # has to be &{} to get arguments
