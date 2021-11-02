@@ -723,6 +723,19 @@
     $spacechars = hashkv(" \n\t".split(''))
     self.isspace = s => hak(s) && !havs(s).some(s => !spacechars[s])
     self.num = s => (isnu(s) || s && s.length && !isspace(s)) && s*1 == s
+    
+    # 's' -> 'sc'
+    self.isnk = &k{
+        !(k == 'y' || k == 'c' || k == 's') and return
+        k == 's' and k = 'sc'
+        return k
+    }
+    # 'sthing' -> ['sc','thing']
+    #  could go further into subframe if !string?
+    self.splitnkgk = &s{
+        $k = isnk(s [0])
+        return k ? [k,s.substr(1)] : [s]
+    }
 
   // peel(), arq()
     # hash from 'k:v' or , v=1 if not given

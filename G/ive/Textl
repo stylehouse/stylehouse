@@ -15,17 +15,6 @@
             syms&fs = 20
             return sym
         }
-        # < nibble-sized view of thing?
-        #    2-nibble top Line's t,y + whole textsize
-        me.textsize = &acgtsc{
-            c ||= {}
-            !isst(s) and throw "textsize!st"
-            $lin = s.split("\n")
-            lin.slice(-1)[0] == '' and lin.pop()
-            c.lines = hak(lin)
-            c.length = s.length
-            return 'x'+c.lines+'*'+c.length
-        }
         # any string
         # < know where in l|E...
         me.drawtextliner = &acgtdts{
@@ -127,7 +116,6 @@
             Omy&toLs and Omy&toLs.sc.dis=0
             return 1
         }
-      // mo
       
     me.Plymergent = &acgtREs,Ness,Comp{
       // Ply box, all[] from anywhere(n**)
@@ -905,7 +893,26 @@
         }
     }
 
-  
+ // common
+     // about text
+        # < nibble-sized view of thing?
+        #    2-nibble top Line's t,y + whole textsize
+        me.textsize = &acgtsc{
+            c ||= {}
+            !isst(s) and throw "textsize!st"
+            $lin = s.split("\n")
+            lin.slice(-1)[0] == '' and lin.pop()
+            c.lines = hak(lin)
+            c.length = s.length
+            return 'x'+c.lines+'*'+c.length
+        }
+     // forms of text
+        # turn %string back into y&toLines
+        # huh
+        me.unfixstring = &acgts{
+            return s.replace(/\n$/,'')
+        }
+ 
  // Storables
     # check t%dige%string
     # sanity Quanta: 
