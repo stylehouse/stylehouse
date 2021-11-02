@@ -235,6 +235,8 @@ me.fiu = &acgtstc{
     isnu(c) and c = {el:c}
     # read only
     $n = fio(s,t,0);
+    # 4 is a dupey 1
+    c.el == 4 && n == t and return n
     # 2 must be new or same (see lv el:2 == only such t)
     if (c.el == 2) {
         if (n) {
@@ -254,7 +256,7 @@ me.fiu = &acgtstc{
         # remove the one we found
         c.el == 1 || c.el == 9 and fio(s,n,9)
     }
-    if (c.el == 1) {
+    if (c.el == 1 || c.el == 4) {
         $n = fio(s,t);
         # inputting sets y&up
         ny&up = s

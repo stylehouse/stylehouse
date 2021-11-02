@@ -987,15 +987,24 @@
     #  was &Copy (made R:Copy)
     # < more like &acceptables_reself, %string -> lv sense etc
     me.Clone = &acgtsd{
-        return me&indo,s,d (&sd{
+        $dupN = []
+        $neu = me&indo,s,d (&sd{
             $z = d.O = Cye(s)
             z.y [d.ytag||'Clone'] = s
             $du = d.up
             $pz = du && du.O
             # rebuilding y&tw and s&z, dup fatal
-            pz and me&fiu,pz,z,2
+            if (pz) {
+                me&fiu,pz,z,8 and dupN.push(z)
+                # el:4 for leaving dups in pz%z
+                me&fiu,pz,z,4
+            }
             return z
         }) [0]
+        if (hak(dupN)) {
+            ~>3 Clone dups: s.t, joint(dupN)
+        }
+        return neu
     }
     
     # &ballLines climbing s, knowing R
