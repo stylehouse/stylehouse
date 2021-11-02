@@ -636,11 +636,12 @@
     }
     # [1,1,2] = flatten([1,[1,2]])
     window.flatten = &M{
+        !isar(M) and throw "flatten!ar"
         $N = []
         each il M {
-            !l and continue
-            !isar(l) and throw "flatten!ar:"+ki(l,2)
-            N.push(...l)
+            l == null and continue
+            isar(l) and N.push(...l)
+            else N.push(l)
         }
         return N
     }

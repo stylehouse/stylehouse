@@ -274,21 +274,29 @@ S 3 Pictures hashy misc
     
     
    // misc() array
-    $Tom = <<''
-        Long way going to
-        Get my medicine
-        Skys the autumn grey of a lonely wren
+    // data
+        $Tom = <<''
+            Long way going to
+            Get my medicine
+            Skys the autumn grey of a lonely wren
+            
+            Piano from a window played
+            Gone tomorrow, gone yesterday
+            
+            I found it in the street
+            At first I did not see
+            Lying at my feet
+            A trampled rose
+
+        $h = hashkv(grep(Tom.split("\n")).map(s => split(s,' ',1)))
         
-        Piano from a window played
-        Gone tomorrow, gone yesterday
         
-        I found it in the street
-        At first I did not see
-        Lying at my feet
-        A trampled rose
-    
-    $h = hashkv(grep(Tom.split("\n")).map(s => split(s,' ',1)))
-    $a = haks(h)
+        
+        
+        
+        
+        
+        $a = haks(h)
     
     # given c, no default c.inc=1
     # < return sliced hash..? already returns sliced arrays
@@ -342,6 +350,12 @@ S 3 Pictures hashy misc
         "no a": grep(v => !v.match('a'),h),
         "a value": grep('at my feet',h),
         "for truth": grep({la:1,non:0,li:4,fe:0}),
+    })
+    
+    # !!!!
+    hat('flatten()',{
+        "doc": flatten([1,[1,2]]),
+        "N = z|N": flatten([[1]]),
     })
 
    // js trivia
