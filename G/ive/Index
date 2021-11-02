@@ -191,6 +191,139 @@
         # curve, etc
         return a
     }
+   
+   // &twlic, &twlim - tw matchup
+        # expand twlim to &l,z,c,either.t{} everything
+        #  will c.surprise|wanted
+        me.twlic = &acgtNL{
+            return &y{
+                $M = []
+                # returns list of y returns
+                $ya = &lzc{
+                    c ||= {}
+                    c.t ||= l && l.t || z.t
+                    $t = delete c.t
+                    !z and c.wanted = 1
+                    !l and c.surprise = 1
+                    M.push(y(l,z,c,t))
+                }
+                $seek = me&twlim,L (&lc{ ya(l,null,c,l.t) })
+                
+                # N[got] match into the expected stream
+                N.map(&t{
+                    $z = isR(t) && ts&ball ? tc&s : t
+                    $l = seek(z)
+                    ya(l,z)
+                })
+                seek()
+                
+                return M
+            }
+        }
+        # consume expectations: L/*
+        # by t one at a time in order
+        #  returns L/l per found thing,
+        #   or calls y(l,c) with c.missing|trailing
+        me.twlim = &acgtL{
+            $have = L ? me&ioty,L : []
+            return &y{
+                $for_missing = y || &{}
+                # each had s:
+                $some = 0
+                return &s{
+                    if (s) {
+                        some = 1
+                        # a name to find
+                        $l = L && me&fiu,L,s,8
+                        if (l) {
+                            $li = have.indexOf(l)
+                            # unfound L/* before l are now missing
+                            # ! splice(in,length), slice(in,out)
+                            #    [0,1,2,3].slice(0,2) = [0,1]
+                            #                   (1,2) = [1]
+                            #   [0,1,2,3].splice(0,2) = [0,1]/[2,3]
+                            #                   (1,2) = [1,2]/[0,3]
+                            li > 0 && have.splice(0,li)
+                                .map(l => for_missing(l,{missing:1}))
+                            $thel = have.shift()
+                            thel != l and debugger
+                        }
+                    }
+                    else {
+                        # finish
+                        $c = {}
+                        some and c.trailing = 1
+                        have.map(l => for_missing(l,ex({},c)))
+                    }
+                    return l
+                }
+            }
+        }
+     
+   // slope of nodes
+    # proper R/*
+    me.ioR = &acgtr{
+        $args = [...arguments].slice(4)
+        isR(r) and args.shift()
+        else r = 0
+        R = r || me&R
+        return me&ioty,R,...args
+            .filter(r => me&Risreal,r )
+    }
+    me.Risreal = &acgtr{
+        # < tends not to happen nowadays
+        return rc&N.includes(r) && !rc&not
+    }
+    me.Rnodepath = &acgtR{
+        # < rowing for...
+        $N = me.cby(R,R => Rs&ball && Rc&s.y.path)
+        $p = N.shift()
+        # &inode puts a:
+        $path = p && pc&s.y.path
+        
+        return joint(path,'/')+'//'+joint(N,'/')
+    }
+    # see also 'common nodal', &node_sort in &Shx
+    
+   // C stackups # dup, spool
+    # dedupe same t
+    # < accept t=c with .t, strat for The $n++
+    me.dupfiu = &acgtEt{
+        t = t+''
+        !t.length and debugger
+        $du = me&fiu,E,t,8
+        if (du) {
+            duc&dupfiu ||= 1
+            t = t+' '+(++duc&dupfiu)
+            $du = me&fiu,E,t,8
+            du and throw "dupdup"
+        }
+        $d = me&fiu,E,t
+        return d
+    }
+    # limitor: maintains an infinite list
+    me.Nserial = &acgtNc{
+        # assign serial numbers, continuing from last
+        c.nk ||= 'sc'
+        c.back = reverse(N)
+        c.serial ||= 0
+        c.neu = []
+        each ie c.back {
+            $Bati = e[c.nk][c.gk]
+            Bati != null and c.serial = Bati; break
+            c.neu.unshift(e)
+        }
+        each ie c.neu {
+            e[c.nk][c.gk] = ++c.serial
+        }
+        # length limit
+        while (c.ll && hak(N) > c.ll) {
+            N.shift()
+            c.back.pop()
+        }
+        return c
+    }
+    
   
  
   // 0.columns @Gump tables
@@ -2855,7 +2988,7 @@
             to be put back together
   =spec
  
- // togcon
+ // togcon # < GOING for &tt|%TX (is pre The) 
     # temperate -ology clusters
     #  R%Te %togcon.$pt serves .$ok for $p**
     # < generalise from label only
@@ -3047,137 +3180,3 @@
     }
    
  
-// jobs
-   // &twlic, &twlim - tw matchup
-        # expand twlim to &l,z,c,either.t{} everything
-        #  will c.surprise|wanted
-        me.twlic = &acgtNL{
-            return &y{
-                $M = []
-                # returns list of y returns
-                $ya = &lzc{
-                    c ||= {}
-                    c.t ||= l && l.t || z.t
-                    $t = delete c.t
-                    !z and c.wanted = 1
-                    !l and c.surprise = 1
-                    M.push(y(l,z,c,t))
-                }
-                $seek = me&twlim,L (&lc{ ya(l,null,c,l.t) })
-                
-                # N[got] match into the expected stream
-                N.map(&t{
-                    $z = isR(t) && ts&ball ? tc&s : t
-                    $l = seek(z)
-                    ya(l,z)
-                })
-                seek()
-                
-                return M
-            }
-        }
-        # consume expectations: L/*
-        # by t one at a time in order
-        #  returns L/l per found thing,
-        #   or calls y(l,c) with c.missing|trailing
-        me.twlim = &acgtL{
-            $have = L ? me&ioty,L : []
-            return &y{
-                $for_missing = y || &{}
-                # each had s:
-                $some = 0
-                return &s{
-                    if (s) {
-                        some = 1
-                        # a name to find
-                        $l = L && me&fiu,L,s,8
-                        if (l) {
-                            $li = have.indexOf(l)
-                            # unfound L/* before l are now missing
-                            # ! splice(in,length), slice(in,out)
-                            #    [0,1,2,3].slice(0,2) = [0,1]
-                            #                   (1,2) = [1]
-                            #   [0,1,2,3].splice(0,2) = [0,1]/[2,3]
-                            #                   (1,2) = [1,2]/[0,3]
-                            li > 0 && have.splice(0,li)
-                                .map(l => for_missing(l,{missing:1}))
-                            $thel = have.shift()
-                            thel != l and debugger
-                        }
-                    }
-                    else {
-                        # finish
-                        $c = {}
-                        some and c.trailing = 1
-                        have.map(l => for_missing(l,ex({},c)))
-                    }
-                    return l
-                }
-            }
-        }
-        
-        
-   // slope of nodes
-    # proper R/*
-    me.ioR = &acgtr{
-        $args = [...arguments].slice(4)
-        isR(r) and args.shift()
-        else r = 0
-        R = r || me&R
-        return me&ioty,R,...args
-            .filter(r => me&Risreal,r )
-    }
-    me.Risreal = &acgtr{
-        # < tends not to happen nowadays
-        return rc&N.includes(r) && !rc&not
-    }
-    me.Rnodepath = &acgtR{
-        # < rowing for...
-        $N = me.cby(R,R => Rs&ball && Rc&s.y.path)
-        $p = N.shift()
-        # &inode puts a:
-        $path = p && pc&s.y.path
-        
-        return joint(path,'/')+'//'+joint(N,'/')
-    }
-    # see also 'common nodal', &node_sort in &Shx
-    
-   // C stackups
-    # dedupe same t
-    # < accept t=c with .t, strat for The $n++
-    me.dupfiu = &acgtEt{
-        t = t+''
-        !t.length and debugger
-        $du = me&fiu,E,t,8
-        if (du) {
-            duc&dupfiu ||= 1
-            t = t+' '+(++duc&dupfiu)
-            $du = me&fiu,E,t,8
-            du and throw "dupdup"
-        }
-        $d = me&fiu,E,t
-        return d
-    }
-    # limitor: maintains an infinite list
-    me.Nserial = &acgtNc{
-        # assign serial numbers, continuing from last
-        c.nk ||= 'sc'
-        c.back = reverse(N)
-        c.serial ||= 0
-        c.neu = []
-        each ie c.back {
-            $Bati = e[c.nk][c.gk]
-            Bati != null and c.serial = Bati; break
-            c.neu.unshift(e)
-        }
-        each ie c.neu {
-            e[c.nk][c.gk] = ++c.serial
-        }
-        # length limit
-        while (c.ll && hak(N) > c.ll) {
-            N.shift()
-            c.back.pop()
-        }
-        return c
-    }
-    
