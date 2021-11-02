@@ -718,7 +718,7 @@
         return c || {}
     }
   
-  // more type, form
+  // more type
     # can see '  ' as lengthy and == what it casts to
     $spacechars = hashkv(" \n\t".split(''))
     self.isspace = s => hak(s) && !havs(s).some(s => !spacechars[s])
@@ -732,6 +732,35 @@
     self.numf = &s{
         !(s >= 0 && s <= 1) and throw "numf!cv"
         return (s+'').substr(2)
+    }
+    # 0.33 = scv(33), with floating points (gets floaty at precision=17)
+    # < collect cv type functions, eg is opposite of numf(0.33)
+    self.scv = &ov,{
+        return dec(sca(ov),15)
+    }
+    self.gteqcv = &vc{
+        v ||= 0
+        return (c.gte == null || v >= scv(c.gte))
+             && (c.lte == null || v <= scv(c.lte))
+             && (c.gt == null || v > scv(c.gt))
+             && (c.lt == null || v < scv(c.lt))
+             && (c.cv == null || v == scv(c.cv))
+    }
+    
+    # < vague. for sz(c.ov,2) and return
+    #    turn into: sz(c,'ov') (2)+
+    #     could t='ycv', or t={io expr} to tug measures
+    #      of what it wants to think about against this number
+    #    is a paradigm of osc access
+    # (qua||0) < 2 and leave
+    # sizes something, usu ope|interest for snoozing
+    self.lt = &lt{
+        t > 1 and t = '0.'+t
+        return sz(l,t)
+    }
+    self.sz = &ns{
+        isob(n) and throw "pass value||null"
+        return (n || 0) < s
     }
     
     # 's' -> 'sc'
