@@ -1171,7 +1171,7 @@ me.Sch_The = &acgt{ return [
             # < &rowcap de-group-by
             
             # user
-            me&tt,'again' (1) and me&SG_sustain,{},{RunStep:time},{}
+            me&tt,'again' (1) and me&sustain,{},{RunStep:time},{}
             # having its own row?
             # < ha RunStep:$time1,rec:whim
             me&tt,'Leap' (1) and h.ha('RunStep:'+time1+',rec:whimsies')
@@ -1181,7 +1181,7 @@ me.Sch_The = &acgt{ return [
             if (!hak(N)) {
                 if (c.starting) {
                     # auto keep going
-                    N = [ me&SG_sustain,{},{RunStep:time1,through:1},{} .n ]
+                    N = [ me&sustain,{},{RunStep:time1,through:1},{} .n ]
                 }
             }
             
@@ -1300,7 +1300,7 @@ me.Sch_The = &acgt{ return [
                                 RunningStep: ns&RunStep,
                                 quiettime_now: quiettime,
                             }
-                            $gs = me&SG_sustain,{},RingS
+                            $gs = me&sustain,{},RingS
                             any.push(gs.n)
                         }
                     }
@@ -1327,7 +1327,7 @@ me.Sch_The = &acgt{ return [
                                     S1 != time1 and debugger
                                     ns&ov = 0.9
                                     $through = ns&through + 1
-                                    me&SG_sustain,{},{RunStep:S1,through},{}
+                                    me&sustain,{},{RunStep:S1,through},{}
                                     # < having that row ^ join this iteration
                                     #    is the dome stream
                                     # these are enduring this event
@@ -1500,9 +1500,9 @@ me.Sch_The = &acgt{ return [
         #  eg a = &sustain {} {latest_elQuip:e}
         #   remembers the latest a.v=e that was true, or est this one
         #  you may nc&drop them via a.done(), q includes $v in %%rec (dome)
-        me.SG_sustain = &acgtscq{
-            $h = T.sute
-            !ish(s) || !ish(c) and debugger
+        me.sustain = &acgtscq{
+            !ish(s) || !ish(c) and throw "s,c"
+            $h = me&hajasute
             # keyword first
             c = peel(c)
             $k = haks(c)[0]
@@ -1524,7 +1524,10 @@ me.Sch_The = &acgt{ return [
             # maybe we are many keyword:$id
             q and rec += ':'+v
             
-            $grouping = ex({sustain:1,rec},idc)
+            $tiel = {sustain:1}
+            T.sute and tiel.rec = rec
+            else tiel.dome = "rec:"+rec
+            $grouping = ex(tiel,idc)
             
             $remember = h.zaa(grouping)
             
@@ -1627,24 +1630,6 @@ me.Sch_The = &acgt{ return [
             
             return a
         }
-        # < GOING proto sustain?
-        me.SG_maytodo = &acgtc{
-            $h = T.sute
-            # keyword first
-            $k = haks(c)[0]
-            $rec = {maytodo:1,rec:k}
-            # given|had keyword true
-            $permit = c[k] || hak(h.zaa(rec))
-            !permit and return
-            # keep|overwrite permit until done
-            $n = h.ha(rec)
-            return &t{
-                # on failure to complete it
-                t and return h.ha('pur:maytodo',{k,t})
-                # revoke
-                nc&drop = 1
-            }
-        }
       
       // elIntro <- @Intro
         =pod
@@ -1672,7 +1657,7 @@ me.Sch_The = &acgt{ return [
             $R = me&R
             # keep these per t?
             $orig = gs
-            gs = me&SG_sustain,{},{elIntro:gs}
+            gs = me&sustain,gs,{elIntro:gs}
             gs.el > 8 and debugger; return
             !gs.Q and debugger
             
@@ -1684,7 +1669,7 @@ me.Sch_The = &acgt{ return [
             # < there is a way to want a node to wake
             #    see &wokesince
             # classic leave this time
-            $be = me&SG_sustain,gs,{IncBefore:1}
+            $be = me&sustain,gs,{IncBefore:1}
             if (be.el == 2) {
                 ~>2 elIntro->Inc: gs.Q.t
                 $to = h.ar.Inc
@@ -1697,7 +1682,7 @@ me.Sch_The = &acgt{ return [
             
             # arrive after
             $IncAfter = Rs&is_quiet && 1
-            $af = me&SG_sustain,gs,{IncAfter}
+            $af = me&sustain,gs,{IncAfter}
             af.el > 8 and return af.pur("Thingoe")
             # managed to @Inc,quiet without ~gs
             # < double check from a be{el2} stashed Incy&R
@@ -1705,7 +1690,7 @@ me.Sch_The = &acgt{ return [
             # < any steps disturbed should sustain more
             af.el == 2 and ~>2 elIntro->Run: joint(gs.steps,', ')
             gs.steps.map(&i{
-                $ro = me&SG_sustain,gs,{RunStep:i},{}
+                $ro = me&sustain,gs,{RunStep:i},{}
                 $n = ro.n
                 me&boxcap,"step:"+i (&m{
                     me&walls,m,'b:2.2h5'
@@ -1726,7 +1711,7 @@ me.Sch_The = &acgt{ return [
             $h = T.sute
             # keep latest e:elvoids
             $e = me&eis,'elvoids'
-            $en = me&SG_sustain,{},{elvoids:e}
+            $en = me&sustain,{},{elvoids:e}
             e = en.v
             !e and return
             # e**:locating/e:meaning
