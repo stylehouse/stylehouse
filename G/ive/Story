@@ -1308,7 +1308,8 @@ me.Sch_Story = &acgt{ return [
             # -nine/* from Fine/*
             $The = me&fiu,E,'The'
             # < sync proper, beyond el:2
-            me&copis,s,The,'','tige' .map(&g{
+            
+            me&copis,s,The,'','tige',c.copiq .map(&g{
                 $n = gy&C
                 if (nc&pi == 'Lab') {
                     $z = me&iNess,Ness,{t:n.t}
@@ -1415,12 +1416,14 @@ me.Sch_Story = &acgt{ return [
         }
         # E/The|This/** have yC=The|This/**
         #  may $pi=-suchpi
-        me.copis = &acgtsz,pi,c{
+        me.copis = &acgtsz,pi,c,q{ //}
             return me&pity,s,pi .map(&n{
-                return me&copi,z,n,c
-            })
+                return me&copi,z,n,c,q
+            }) .filter(n => n)
         }
-        me.copi = &acgtznc{
+        me.copi = &acgtzncq{
+            q ||= {}
+            q.match && !q.match(n,z) and return
             $Eig = me&fiu,z,n.t
             $el = 8
             Eigs&tige != ns&tige and el = 3
@@ -1445,7 +1448,7 @@ me.Sch_Story = &acgt{ return [
         me.clinto = &acgtszkq{
             q ||= {}
             return me&pity,s,k .map(&n{
-                q.is_ready && !q.is_ready(n,z) and return
+                q.match && !q.match(s,n,z) and return
                 $Eig = me&fiu,z,n.t
                 $el = 8
                 $nt = me&digeward,n,'easy'
@@ -1574,11 +1577,11 @@ me.Sch_Story = &acgt{ return [
             
             # find batch of E/This/g/e wanting update
             # < o This/:g/:e{el<8}
-            $N = me&clinto,This,Eis,'-Eight' .map(&g{
+            $N = me&clinto,This,Eis,'-Eight',c.clintoq .map(&g{
                 # E/This/$g from This/$n
                 $n = gy&C
                 # E/This/$g/$gh+ from This/$n/$nh
-                return {g,N: me&clinto,n,g,'-seven' }
+                return {g,N: me&clinto,n,g,'-seven',c.clintoq }
             })
             $sevens = []
             $assigning = &{

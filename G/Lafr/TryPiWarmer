@@ -391,13 +391,33 @@ S 4 @Gnome
     $This = Thisy&This
     $Nine = Cye(['TryNine','-nine'])
     # inflates Ness** from Fine/Ness**
-    me&EsyncThe,Nine,Fine,{}
+        # isolating Ness < this one
+        $stop = 0
+        $copiq = {match:&nz{
+            n.t == '-Gnome-4' and stop = 1
+            stop and return
+            return 1
+        }}
+    me&EsyncThe,Nine,Fine,{copiq}
     !Ninec&Into and throw "!Into"
-    me&EsyncThis,Nine,Fine,{This}
+        # isolating This** < now
+        $clintoq = {match: &snz{
+            # s:from(This|Eight) n:item(Eight|seven) z:to(Eis|Ei)
+            s == This and return n.t.match(/^(Some(thing|act)|brackstract)$/)
+            nc&pi != 'seven' and debugger
+            # before this step
+            return n.t < 4
+        }}
+    me&EsyncThis,Nine,Fine,{This,clintoq}
     
     # contain %dige, subject to change
     me&fiu,Nine,'The',9
     me&fiu,Nine,'This',9
+    # can sometimes see %%next_Ness_title_clue (not after first Run)
+    $next = delete Ninec&Into
+    $Ness = me&fiu,Nine,'Ness',7
+    me&fiu,Ness,next,9
+    
     
     h.Bow('reself resync',{Nine},{nl:300})
     
