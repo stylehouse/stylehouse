@@ -724,6 +724,16 @@
     self.isspace = s => hak(s) && !havs(s).some(s => !spacechars[s])
     self.num = s => (isnu(s) || s && s.length && !isspace(s)) && s*1 == s
     
+    # print 0.123 as 123, !cv-fatal
+    #  see unfatal: cvf(), opposite: scv() (or sca()==scaf())
+    # < rename cvs() (convention of translating, from cv to s)
+    #    and opposite of scv(), where an s-ended (&deL origin)
+    #     cv expr becomes decimal
+    self.numf = &s{
+        !(s >= 0 && s <= 1) and throw "numf!cv"
+        return (s+'').substr(2)
+    }
+    
     # 's' -> 'sc'
     self.isnk = &k{
         !(k == 'y' || k == 'c' || k == 's') and return

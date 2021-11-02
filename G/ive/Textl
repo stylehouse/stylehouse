@@ -1189,11 +1189,11 @@
     # z insides done by the process around this one Line
     #  - they have the same indent as BQs
     #    but their t should json or not look like BQ
-    # print 0.123 as 123
-    self.numf = &s{
-        !(s >= 0 && s <= 1) and debugger
-        return (s+'').replace(/^0\./,'')
-    }
+    # < put BQ at an odd indent... 1 space for keys, 3 for values
+    #    as long as key|value|nextC always ^\S
+    #   needs to convert all of W/ for this
+    #    probably not that many instances of it
+    
     # notice if gk|v will break if encoded via peel()
     # < dealing with c = enj(number) when eg c&s=5? -5?
     #   everything except y&cv may decode as string, eg via peel()
@@ -1262,7 +1262,7 @@
         !notailn and vs.push('')
         return vs.join("\n")
     }
-    # ["the","lines"] <- "the\nlines\n"
+    # $L = ["the","lines"] <- "the\nlines\n"
     self.Lin_Lines = &v{
         v = isar(v) ? v : v.split("\n")
         # chomp off the tail end
@@ -1495,7 +1495,7 @@
         
         opt ||= {};
         $is = me&Lines_types
-        $L = s.split("\n");
+        $L = Lin_Lines(s);
         $oL = [];
         $tot = L.length;
         # N=[C+]
@@ -1508,8 +1508,10 @@
         $l = L.shift();
         # rebuild what y&toLine was here
         $Line = [l]
-        # first line of each Line only, a trace
+        # first line of each Line+indented-stuff only, a trace
+        # < a stack
         oL.push(l);
+        # < shouldn't happen, BQ blank lines are indented
         !l.length and continue
         $lin = l.match(/^(\s*)(.*)$/);
         $ind = lin[1];
