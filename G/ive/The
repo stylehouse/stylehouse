@@ -1281,6 +1281,7 @@ me.Sch_The = &acgt{ return [
                         $will = me&tt,"will",'y' (1)
                         if (will || (ns&ov||0) < 0.6) {
                             me&tc,"Run++"
+                            h.ha('pur:Run++')
                             # < many steps
                             # < -Effect it there
                             # Run increments itself
@@ -1493,7 +1494,8 @@ me.Sch_The = &acgt{ return [
             })
         }
       
-      // sus
+      // &sustain
+        # < use dome="rec:$rec" if !T.sute
         # watch the thing, $v, until true|changey
         #  eg a = &sustain {} {latest_elQuip:e}
         #   remembers the latest a.v=e that was true, or est this one
@@ -1532,7 +1534,14 @@ me.Sch_The = &acgt{ return [
             if (v && hak(remember) && ish(v)) {
                 $wasn = remember .slice(-1)[0]
                 $wasv = wasn.sc [k]
-                if (v != wasv) {
+                $wasa = wasns&sustain
+                # wasv follows v type
+                !ish(wasv) and throw "wasv!ish"
+                # from v = &sustain
+                $via = isfu(v.done)
+                via && !ish(wasa.a) and throw "wasa.a!ish"
+                $was = via ? wasa.a : wasv
+                if (v != was) {
                     $el = 2
                 }
             }
@@ -1554,13 +1563,17 @@ me.Sch_The = &acgt{ return [
                 # v true again
             }
             if (el == 2) {
-                # may promote $v to being the %%sustain=$a
-                #  or a.v will be it, you would know
-                #  eg  &sustain {} {SomeCached:cthing}
-                #   takes on the life of cthing
-                #    allows its source to stop producing it
-                #     < interesting
-                $a = grouping.sustain = ish(v) ? v : {}
+                if (ish(v)) {
+                    # may follow v = &sustain
+                    #  or just {...} from some id scraper
+                    # < iteresting
+                    $a = ex({},v)
+                    a.a = v
+                }
+                else {
+                    $a = {}
+                }
+                grouping.sustain = a
                 # a += c.*!$k > s.*
                 # < how much of c.* to take... til q?
                 ex(a,idc)
@@ -1660,7 +1673,7 @@ me.Sch_The = &acgt{ return [
             # keep these per t?
             $orig = gs
             gs = me&SG_sustain,{},{elIntro:gs}
-            gs.el > 8 and return
+            gs.el > 8 and debugger; return
             !gs.Q and debugger
             
             # &sustain {} {elIntro:gs} # to sample $gs
@@ -1706,7 +1719,7 @@ me.Sch_The = &acgt{ return [
             })
             
         }
-        # switch on, insync
+        # switch on, insync!
         # get $gs, diff from ec&e=Q
         me.SG_ei_elIntro = &acgt{
             $R = me&R
@@ -1761,6 +1774,7 @@ me.Sch_The = &acgt{ return [
                 me&tt,"Compgs" () and me&zu,{di,e,Comp,gs}
             })
             fatal.ish(gs)
+            gs = ex(en,gs)
             return gs
         }
         
