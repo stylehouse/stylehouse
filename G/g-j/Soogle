@@ -1,4 +1,4 @@
-# yip[]
+# yip[!]
   // start from Sevo
     $me = 4c&me;
     !me and throw "no me";
@@ -3989,7 +3989,7 @@ me.Differingness = &acgt{ return [
     ] };
 
 
-#c diffsum, textdiffN
+//#c diffsum, textdiffN
     me.diffproximate = &acgtR{
         # how many lines +- approx
         $M = me&Mw,R,'diffproximate';
@@ -4036,10 +4036,10 @@ me.Differingness = &acgt{ return [
     me.getindent = &acgtl{
         $shall = []
         while (1) {
-            $anind = l.substr(0,2)
-            anind != '  ' and break
+            $anind = l.substr(0,1)
+            anind != ' ' and break
             shall.push(anind)
-            l = l.substr(2)
+            l = l.substr(1)
         }
         return hak(shall)
     }
@@ -4160,12 +4160,20 @@ me.Differingness = &acgt{ return [
         each in N {
             # indent becomes
             ns&level = me&getindent,nc&s
+            
+            if (!la) {
+                nc&s.endsWith("\n") and ns&whole = 1
+                la = n
+                continue
+            }
+            
             # may copy previous while blank?
-            if (la && ns&level < las&level) {
+            if (ns&level < las&level) {
                 !nc&s.match(/\S/) and ns&level = las&level
             }
+            
             # may sum with previous n on same line
-            if (la && !lac&s.endsWith("\n")) {
+            if (!lac&s.endsWith("\n")) {
                 # if not a line split, is a new|gone|diff split
                 #n.t == la.t and debugger
                 # carry indent forwards if ==   thing\t++3 "blah"
@@ -4182,7 +4190,15 @@ me.Differingness = &acgt{ return [
                 lev && ns&level == lev and debugger
                 ns&level = lev
             }
+            elsif (nc&s.endsWith("\n")) {
+                # (...\n|^)(...\n):n
+                ns&whole = 1
+            }
             la = n
+        }
+        each in N {
+            !ns&whole and ns&party ||= 1
+            delete ns&whole
         }
         
       // open out
@@ -4202,7 +4218,7 @@ me.Differingness = &acgt{ return [
                     g && 0 == --g and return
                 }
                 # climbing to whole-line levels
-                ns&level < l && nc&s.endsWith("\n") and l = ns&level
+                ns&level < l && !ns&party and l = ns&level
             }
         }
         each in N {

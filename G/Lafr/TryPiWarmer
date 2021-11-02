@@ -398,7 +398,7 @@ S 3 Pictures hashy misc
    
 S 4 @Gnome
     $h = A.h.o('Something')
-    
+  // reself resync
     $This = me&Names_get,R,'This'
     $Fine = me&Names_get,R,'Fine'
     # uses the REy&main, aka sy&$pi:
@@ -435,6 +435,29 @@ S 4 @Gnome
     
     h.Bow('reself resync',{Nine},{nl:300})
     
+  // diff stack finding
+    $a = <<''
+        1
+         14
+          a
+         2
+          3
+          3b
+          3c
     
-
+    $b = <<''
+        1
+         14
+          a
+         2
+          3
+          3bc
+          3c
+    
+    $Pis = Cye(['i',1,{},{string:a}])
+    $las = Cye(['l',1,{},{string:b}])
+    # may put on modulat $se
+    $di = me&diffany,R,Pis,las
+    h.Bow("diff stack finding",dis&Comp)
+    
     
