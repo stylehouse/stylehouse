@@ -635,23 +635,23 @@ me.Sch_Travel = &acgt{ return [
         ec&looki ++
         ~>5 Intro........:
         $what = me&rollbs,R,'tdige',{}
-        #me&nu,"e-thing",e
         each iQ ec&Qz {
-            me&nu,"Q-thing",Q
+            me&boxcap,'Q:'+Q.t,1 (&ml{
+            me&walls,m,'b:2.2h5'
             $P = Qs&P
-            $se = 
-            n t 76  %dib
-            n of 1 $s:Qc&of %c:G
-            me&walls,se,'b:2.2h5';
-            me&tc,se,Q.t,'b'
-            me&tc,se,Ps&dige,'6y'
-            Qs&dige && Qs&dige != Ps&dige and me&tc,se,",Q#"+Qs&dige,'6y'
+            me&tt,'o' () and me&nu,'nu'+m.t,Q
+                
+            me&tt,'<>' () and me&diffPs,R,Q,P,s,m
+            
+            me&boxcap,'of','G' (&{ me&ts,'of',Qc&of })
+            me&tc,Ps&dige,'6y'
+            Qs&dige && Qs&dige != Ps&dige and me&tc,",Q#"+Qs&dige,'6y'
             
             # < if Cat, check into @Aearch for its version?!!
             what[Q.t] == Ps&dige and return ~>3 goated: Q.t
             ec&goated and return ~>3 goated: Q.t
             
-            $avoid = &t{ me&tc,se,t,'y' .sc.ma=0.5 }
+            $avoid = &t{ me&tsc,cint('avoid',t),t,'6b' .sc.ma=0.5 }
             
             # $r = who re-requests &t pre-waking!!
             $r = Qy&R
@@ -673,10 +673,10 @@ me.Sch_Travel = &acgt{ return [
             }
             elsif (r.t == "Pearch" || rs&Peace == 9) {
                 # the weld keeps warm!
-                !Qc&of.startsWith('w') and avoid("of?"); continue
+                !Qc&of.startsWith('w') and avoid("of?"); return
                 $z = me&jaa,R,{Introtiv:1,t:Q.t}
                     .map(n => ns&efrom)
-                !hak(z) and avoid("!sub"); continue
+                !hak(z) and avoid("!sub"); return
             }
             else {
                 r.t == 'Wayout' and return ~>5 skipWayout: Q.t
@@ -698,7 +698,7 @@ me.Sch_Travel = &acgt{ return [
             
             # we can send it here!!!!!!!!!!!!!
             $tp = me&tpath,z
-            me&tc,se,"->"+tp
+            me&tc,"->"+tp
             $sendit = &{
                 ~>4 Qwake: tp
                 what[Q.t] = Ps&dige
@@ -714,7 +714,7 @@ me.Sch_Travel = &acgt{ return [
                 else sendit()
             }
             
-            0 and me&diffPs,R,Q,P,s,se
+            })
         }
         #4s&lastnoQup and me&nu,'4s&lastnoQup',4s&lastnoQup
         #4s&lastnoelQups and me&nu,'4s&lastnoelQups',4s&lastnoelQups
@@ -796,7 +796,7 @@ me.Sch_Travel = &acgt{ return [
         }
         return str
     }
-    # < GOING
+    # < GOING?
     me.reducefromtheedges = &acgtc{
         $a = c.a.split("\n")
         $b = c.b.split("\n")
