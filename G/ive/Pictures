@@ -59,6 +59,7 @@
         # new since
         return Rs&M.slice(since)
     }
+   
    // misc make modulat
     # s='['
     # < %bracket?
@@ -131,13 +132,15 @@
         }
         # climb a path from modulat rowcap|bowcap**
         #  very temporary
-        me.ttpath = &acgt{
+        # < could assume s is in T.ab, since no sy&up
+        #    most modulat doesnt sy&up, except &boxcap/&boxcap**
+        me.ttpath = &acgts{
             $g = {slope:[]}
-            me.cbu(T.ab,&m{
+            me.cbu(s,&n{
                 # < a.table etc could contain above slope...
-                ms&dis and ahk(g,'bydis',ms&dis,m)
+                ns&dis and ahk(g,'bydis',ns&dis,n)
                 # path
-                g.slope.unshift(m)
+                g.slope.unshift(n)
             })
             return g
         }
@@ -151,7 +154,8 @@
             # storage on y&tt
             $tt = me&yio,s,'tt'
             # locates all ^^^&boxcap
-            $path = slaint(me&ttpath .slope)
+            !T.ab and throw "tt!Tab"
+            $path = slaint(me&ttpath,T.ab .slope)
 
             return &y,async{
                 
