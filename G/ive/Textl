@@ -1,5 +1,8 @@
 # lines of characters, etc
  
+ // Diff
+   # < copy from Soogle
+ 
  // Ply = Ness + Comp <
     =pod
       < into X
@@ -1262,10 +1265,10 @@
     # Lines C may have indented bits after
     # < at one space, inconfusible with C/C indent
     me.LinesBQ_indent = '  '
-    # &ind uses '  ', BQ-ish things use:
+    # &ind (around &enL) uses '  ', BQ-ish things use:
     self.indents = &l,v,notailn{
-        num(l) and l = new Array(1+l*1).join('  ')
-        !isst(l) and throw "indent '  '"
+        num(l) and l = new Array(1+l*1).join(' ')
+        !isst(l) and throw "indent ' '?"
         $vs = [];
         # "the","lines" <- "the\n","lines\n"
         v = Lin_Lines(v)
@@ -1285,8 +1288,6 @@
     # we take the indent off to make it Cy&deLines!
     self.unindents = &d,v,notailn{
         !num(d) and throw "indent d"
-        # &ind uses '  '
-        d *= 2
         $vs = [];
         v = Lin_Lines(v)
         each is v {
@@ -1638,7 +1639,7 @@
       
       // attach
         # the chunk of string goes with it
-        Cy&deLines = unindents(d,Line,1)
+        Cy&deLines = unindents(d*2,Line,1)
         d.toFixed() != d and ~fractionalind: d, C, T.readinglv
         d = 1 * d.toFixed();
         if (d > 0) {
