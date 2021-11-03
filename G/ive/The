@@ -6478,34 +6478,26 @@ me.Sch_The = &acgt{ return [
         ['String',0.263,&acgtRs{
             $D = Rs&D
             $E = Rs&E
-            # < says n*ll...
-            $di = dis(s)
             
-            # data was number
-            isnu(s) and me&typeup,R,'Number'
-            else
-            # number-looking and number-acting
-            num(s) and me&typeup,R,'Num'
+            # basically:
+            $clue = me&Stringclue,s,{R}
+            # become -Null|Num|etc
+            clue.pi and me&typeup,R,clue.pi
+            
+            $n =
+            n string 13
+            ns&fs = 8
+            ns&hs = clue.hs
+            
+            if (clue.odd) {
+                # add marks
+                me&Stringchew,n,clue
+            }
             else {
-                # < large, Lines, binary, base64 etc
+                nc&s = clue.say
             }
-            
-            # rudimentary large safety
-            if (di.length > 50) {
-                $geo = {}
-                $size = me&textsize,di,geo
-                if (geo.lines > 12 || geo.length > 200) {
-                    me&ha,R,'limit:Longstring',{},{size}
-                    di = cint(size,dig(s))
-                    # becomes Dc&s
-                    Rs&Longstring = di
-                }
-            }
-            
-            s == 33 and me&fu,"Fec",{flabm:E}
-            di = di.replace(/\n/g,'␤')
-            n string 13 $s:di %fs:8,hs:584
         },'ift,D'],
+        
    
    //      etc
         &{

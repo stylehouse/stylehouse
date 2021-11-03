@@ -1,7 +1,105 @@
 # lines of characters, etc
  
+ // -String etc
+     // &Stringclue|chew
+        # < involve &drawtextliner?
+        # string-ish type checker
+        me.Stringclue = &acgtsc{
+            isob(s) and debugger
+            c ||= {}
+            c.say = ''+s+''
+            
+            # undef|null
+            s == null and c.pi = 'Null'; c.hs = 559
+            else
+            # true|false
+            isbo(s) and c.pi = 'Bool'; c.hs = 559
+            else
+            # data was number
+            isnu(s) and c.pi = 'Number'
+            else
+            # number-looking and number-acting
+            num(s) and c.pi = 'Num'
+            
+            else {
+                !isst(s) and debugger
+                c.hs = 584
+                # < large, Lines, binary, base64 etc
+                # rudimentary large safety
+                if (c.say.length > 50 || c.geo) {
+                    $geo = c.geo ||= {}
+                    $size = me&textsize,c.say,geo
+                    if (geo.lines > 12 || geo.length > 200) {
+                        # on screen
+                        c.say = cint(size,dig(s))
+                        c.crush = 1
+                        $R = c.R
+                        if (R) {
+                            # note a crush
+                            me&ha,R,'limit:Longstring',{},{size}
+                            # becomes Dc&s, as opposed to Ec&s == s
+                            Rs&Longstring = c.say
+                        }
+                    }
+                }
+                if (c.crush || c.say.match(/\W/)) {
+                    c.odd = 1
+                }
+            }
+            
+            # colour
+            c.pi == 'Null' || c.pi == 'Bool' and c.hs = 559
+            c.pi && c.pi.startsWith('Num') and c.hs = 583
+            
+            return c
+        }
+        # modulate n/** with coloured bits of string!!
+        me.Stringchew = &acgtnc{
+            $M = ns&z ||= []
+            if (c.crush) {
+                m crushed-string  s:~ %fs:20,lh:0.7
+                m it  $s:c.say
+                return
+            }
+            # < &tt could say bring it all
+            #  < into a codemirror
+            # annotating space-types is all we want?
+            $L = c.say.split(/(?<=\S)(?=\s+\S)/)
+            $la = 0
+            $p = me&parserify,'ya'
+            each il L {
+                # gets nibbled down eg (\n)(    )(stuff)
+                p.s = l
+                while (p.s.length) {
+                    if (p.p(/^ +/)) {
+                        m space  $s:p.it
+                        $len = p.it.length
+                        len > 1 &&
+                            m spaces  $s:len %mark,little
+                    }
+                    if (p.p(/^\t/)) {
+                        m tab  s:⇥ %mark,wide
+                    }
+                    if (p.p(/^\n/)) {
+                        m nl  s:␤ %mark
+                    }
+                    if (p.p(/^\S+/)) {
+                        m it  $s:p.it
+                    }
+                }
+            }
+            
+            each in M {
+                ns&mark and ex(n.sc,peel('mr:0.1,lh:0.7,hue:100'))
+                # < scale-x?
+                ns&wide and ns&lh = 0.5; ns&fs = 16
+                ns&little and ns&fs = 7
+            }
+        }
+ 
  // Diff
    # < copy from Soogle
+ 
  
  // Ply = Ness + Comp <
     =pod
