@@ -1178,15 +1178,12 @@ me.Sch_The = &acgt{ return [
             
             # various, clobberatively, to progress
             $N = h.saa('RunStep')
-            if (!hak(N)) {
-                if (c.starting) {
-                    # auto keep going
-                    N = [ me&sustain,{},{RunStep:time1,through:1},{} .n ]
-                }
+            if (!hak(N) && c.starting) {
+                # auto begin
+                N = [ me&sustain,{},{RunStep:time1,through:1},{} .n ]
             }
             
            // RunStep/$S+ todolist + attention
-            # < next to each other
             # < which expe()-ish makes 'th' -> {k:th}?
             $th = me&rowcap,[1],{},{k:'th'}
             # N[n-row] will Na[a] mixed with the n%sustain=a
