@@ -95,6 +95,17 @@
                 ns&wide and ns&lh = 0.5; ns&fs = 16
                 ns&little and ns&fs = 7
             }
+            
+            # < c.subsel a bunch of ｢40｣ to sprinkle through
+            #    or anything, with &textsprinkle
+            #    a &textarrow could be put somewhere in a -String
+            #   if not whole, c.quote=1
+            
+            # quote whole
+            $marks = !c.subsel ? ['｢','｣'] : ['«','»']
+            m brack-start  $s:marks[0] %mark,start
+            m brack-end  $s:marks[1] %mark
+            grepout(M,n => ns&start).map(n => M.unshift(n))
         }
  
  // Diff
