@@ -1061,19 +1061,18 @@ me.Sch_The = &acgt{ return [
             $Run = ar.Run
             !Inc and return ha('pur:!Inc')
             $F = ar.F
-          // %%active are, This -> Fine
+          // %%active are, This -> Fine, nine
             # stuff @Gnome notices about who is active
             # < look like %TX? stream -> {pi:nine,el<3} -> @Fine++ plan
+            # < sort these into cv 2-6, voice by %Names
+            # < lv play: el:5 - any time, el:6 - when it happens?
             # o %active/:z//C:s
             $vat = {should:1}
             # @Fine = active -nine
-            # < sort these into cv 2-6 being their %Names
-            ahk(vat,'pi_any','nine',
-                &sz{ me&Superarg,{Fine:s} })
-            # +@Lab...quiet wakes @Fine
-            # new @Lab go quiet, then @Fine wants to OK their init
-            ahk(vat,'pi_new','Lab',
-                &sz{ me&SG_quiet_visitable,R,'+@Lab','Fine',{cos:z} })
+            vat.pi_any = {nine: &sz{ me&Superarg,{Fine:s} } }
+            # +@Lab then quiet -> wake @Fine
+            #  @Fine wants to OK their init
+            vat.pi_new = {Lab: &sz{ me&SG_quiet_visitable,R,'+@Lab','Fine',{cos:z} } }
             $N = me&Supervator,vat
             me&SG_do_quiet_visitables,R
             
@@ -1093,23 +1092,23 @@ me.Sch_The = &acgt{ return [
             me&Names_set,R,'Fine',Fine
             me&Names_set,R,'nine',nine
             
-            
-            
+          // stat
+            # here at random moments, arrive plot
             $okc = me&SG_tally_oks,nine
             me&SG_draw_oks,okc
-            
             # < including Run things of late
-            # < comes before draw_oks for some reason?
             me&SG_draw_comrades,[This,Run,Fine]
             
-          // Run?
-            
-            # here at random moments, arrive plot
-            
-            # usu motion of This>Nine
+            # usu the motion of This>Nine, we wait for
             $unsure = me&Superready
             # usu first time here
             $starting = !okc.done
+            
+            # < proto for async state through to a @Story here
+            #   see Doming & Beeping will separate
+            $c = {unsure,starting}
+            ex(c,{Fine,nine,This})
+            
             
             
             # i RunStep o ~P > @Cat
@@ -1119,12 +1118,8 @@ me.Sch_The = &acgt{ return [
             #me&nodei,R,xs&Introtivity,{Introtiv:1,t:'Travel'}
             # < ask|do per &t|Q coming for @Run**
             
-            # < proto for async state through to a @Story here
-            #   see Doming & Beeping will separate
-            $c = {unsure,starting}
-            ex(c,{Fine,nine,This})
-            
             me&SG_RunStep,c
+            
             # <<<
             # Thy holds what you type|open, cursors for what you're up to
             #  6s of:mem commit (auto-save)
@@ -1143,6 +1138,20 @@ me.Sch_The = &acgt{ return [
             x.ro('end') and return
             return ha('pur:.....')
         }})&&
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         su('Done',{until:&zaa,jaa,ha,ar{
             # n|u all done
             me&tc,"all-done"
@@ -1393,6 +1402,8 @@ me.Sch_The = &acgt{ return [
             h.ha(c)
         }
         # progress the above state
+        # < provided by &supetime?
+        # < see < there is a way to want a node to wake
         me.SG_do_quiet_visitables = &acgtR{
             $h = T.sute
             !Rs&is_quiet and return
@@ -6491,6 +6502,7 @@ me.Sch_The = &acgt{ return [
                 }
             }
             
+            s == 33 and me&fu,"Fec",{flabm:E}
             di = di.replace(/\n/g,'␤')
             n string 13 $s:di %fs:8,hs:584
         },'ift,D'],
