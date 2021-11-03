@@ -4168,8 +4168,13 @@ me.Differingness = &acgt{ return [
             }
             
             # may copy previous while blank?
-            if (ns&level < las&level) {
-                !nc&s.match(/\S/) and ns&level = las&level
+            if (ns&level < las&level && !nc&s.match(/\S/)) {
+                ns&level = las&level
+                # we may be here as (==  such)(++ness):la(==\n):n
+                # < that's a lie. see Try@4: diff stack finding
+                las&whole and ns&whole = 1
+                la = n
+                continue
             }
             
             # may sum with previous n on same line

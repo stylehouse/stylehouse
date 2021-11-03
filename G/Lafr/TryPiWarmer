@@ -454,11 +454,14 @@ S 4 @Gnome
           3bc
           3c
     
-    $Pis = Cye(['i',1,{},{string:a}])
-    $las = Cye(['l',1,{},{string:b}])
-    # may put on modulat $se
-    $se = Cye(['invis',1])
-    $di = me&diffany,R,Pis,las,{se}
+    $Pis = Cye(['i',1,{},{string:b}])
+    $las = Cye(['l',1,{},{string:a}])
+    $diffc = {}
+    # may put on modulat $se, to made invisible
+    #diffc.se = Cye(['invis',1])
+    # no caching
+    diffc.el = 2
+    $di = me&diffany,R,Pis,las,diffc
     $compComp = &Nt{
         # compress that
         # < Cye() can not drop %z if it was specified in an array:
@@ -473,8 +476,6 @@ S 4 @Gnome
     }
     # < &enL implanting C|N Lines via BQ (for eg %moren, if not deleted)
     h.Womb("diff stack finding",compComp(dis&Comp))
-    
-    h.hat("Extra",{btw:2})
     
     
     
