@@ -751,7 +751,7 @@
                 || p.p(/  +/," ")
                 || p.p(/^\s+|\s+$/)) {}
             $plumb = p.p(/^(.+) (?=[io] )/) && p.1
-            p.p(/^(i|o) /) and c.gee = p.1
+            c.gee = p.p(/^(i|o) /) ? p.1 : 'o'
             c.expr = p.s
             c.N ||= []
             c.sargk = k
@@ -2704,17 +2704,23 @@
                 c.N = isar(s) ? s.slice() : [s]
             })
             # go somewhere
-            a(/^\/\/(\w+)/, &{
-                c.N = c.N.map(&s{
-                    # < s//E may be s//R//E, yet s//C not s//R//C
-                    $r = sy&R
-                    !r and return me&Sargfail,c,{t:'!%R',s}
-                    $ark = p.m[0]
-                    ark == 'R' and return r
-                    $E = r.sc[ark]
-                    !E and return me&Sargfail,c,{t:'!%'+ark,s:r}
-                    return E
-                }) .filter(s=>s)
+            a(/^\/(\/)((-|%)?\w+)/, &magic,word,type{
+                c.N = flatten(c.N.map(&s{
+                    if (magic) {
+                        type and throw "//-type -> //E//-type"
+                        word == 'C' and return fatal.sof(s)
+                        # go for //R//%$word
+                        $r = sy&R
+                        !r and return me&Sargfail,c,{t:'!%R',s}
+                        word == 'R' and return r
+                        # usu s//E - to the RE
+                        $E = r.sc[word]
+                        !E and return me&Sargfail,c,{t:'!%'+ark,s:r}
+                        return E
+                    }
+                    # word=t|-such|%such
+                    return me&iot,s,word
+                })) .filter(s=>s)
             })
             
             a(/^\/\*/, &{
