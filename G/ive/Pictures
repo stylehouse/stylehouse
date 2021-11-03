@@ -532,10 +532,14 @@
         # Such c is forming
         g ||= {}
         c.startsWith('%') and s = sy&R; c = c.substr(1)
+        else
         c.startsWith('-') and g.suchpi = c.substr(1); c = ''
+        else {
+            $t = c; c = ''
+        }
         # g$N - g buys N
 
-        $N = me&ioty,s,c
+        $N = me&ioty,s,c,t
         # < gs.* can identify, clue how it should be elsewhere
         g.suchpi and grepout(N,n => nc&pi != g.suchpi)
         $fromr = isR(s)
@@ -606,6 +610,7 @@
         else
         # item: usu C to look for in /$n
         isit(c) and $z = c; c = {y:v => v == z}
+        isfu(s) and throw "iterating? it's grep(y,N)"
         
         $array = isar(s)
         $o = array ? [] : {}

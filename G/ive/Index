@@ -2704,22 +2704,26 @@
                 c.N = isar(s) ? s.slice() : [s]
             })
             # go somewhere
-            a(/^\/(\/)((-|%)?\w+)/, &magic,word,type{
+            #  // is like ... for /, near-self dimension hop
+            #  ie s//E the s** to the E** sphere
+            #   note: '3-spheres' to mean three correlating any-spheres nowdays
+            #    something about accepting the hard corners of the screen
+            a(/^\/(\/)?((-|%)?\w+)/, &magic,sound,type{
                 c.N = flatten(c.N.map(&s{
                     if (magic) {
                         type and throw "//-type -> //E//-type"
-                        word == 'C' and return fatal.sof(s)
-                        # go for //R//%$word
+                        sound == 'C' and return fatal.sof(s)
+                        # go for //R//%$sound
                         $r = sy&R
-                        !r and return me&Sargfail,c,{t:'!%R',s}
-                        word == 'R' and return r
+                        !r and return me&Sargfail,c,{t:'!//R',s}
+                        sound == 'R' and return r
                         # usu s//E - to the RE
-                        $E = r.sc[word]
-                        !E and return me&Sargfail,c,{t:'!%'+ark,s:r}
+                        $E = r.sc[sound]
+                        !E and return me&Sargfail,c,{t:'!%'+sound,s:r}
                         return E
                     }
-                    # word=t|-such|%such
-                    return me&iot,s,word
+                    # sound=t|-such|%such
+                    return me&iot,s,sound
                 })) .filter(s=>s)
             })
             
@@ -2732,6 +2736,23 @@
                     more.push(E, ... me&ioty,E )
                 })
                 c.N = more
+            })
+            # a leglet of WHERE, in (...) before the next /
+            #  ... can start with word and mean sound,
+            #   meaning word has to be /word
+            # < as a &Sarg leg, grep by having any rows left
+            a(/^\((\w+)?(%)(\w+)\)/, &sound,type,ark{
+                c.N = grep(&s{
+                    if (sound) {
+                        sound != 'R' and return me&Sargfail,c,{t:'?',sound}
+                        $r = sy&R
+                        !r and return me&Sargfail,c,{t:'!//R',s}
+                        s = r
+                    }
+                    if (type == '%') {
+                        s.sc [ark] and return 1
+                    }
+                },c.N)
             })
             a(/^&(\w+)(?: (.+))?$/, &{
                 # space func
