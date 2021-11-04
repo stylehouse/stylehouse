@@ -1519,16 +1519,16 @@ me.Sch_The = &acgt{ return [
             $k = haks(c)[0]
             $v = c[k]
            // $remember idc
+            # all s.* and most c.* except c.$k
+            #  what to group by, become a.*
             $idc = {}
             if (haks(s)) {
                 # inherit identity eg another &sustain
                 #  eg another &sustain or &diffPs
                 ex(idc,nex({},tex({},s),'el'))
             }
-            # all c.* and most s.* except c.$k
-            #  what to group by, become a.*
             idc = nex(idc,c,[k])
-            #!
+            
             $rec = k
             # < rec by k + dis(idc)? has dome_traction
             # < supposing v not always given... trying to select these somethings?
@@ -1641,6 +1641,69 @@ me.Sch_The = &acgt{ return [
             
             return a
         }
+        # twostep &sustain
+        self.fuN = &s{
+            isfu(s) and s = s (...[...arguments].slice(1))
+            !s and s = []
+            !isar(s) and s = [s]
+            return s
+        }
+        # < which came from where, timing for everything
+        #    splosive X timescape
+        # < policies... on 
+        me.sustrain = &acgt{
+            $h = me&hajasute
+            
+            return &y{
+                $tos = haks(y)
+                tos.shift() != 'i' and throw "give input i=N|&{N}"
+                
+                # ta/$t/i/$a=&sustain
+                $ta = {}
+                # origin
+                fuN(y.i).map(&s{
+                    # per to-sustain (usu one)
+                    each it tos {
+                        $a = ish(s) && s
+                        ahk(ta,[t],'i',
+                            # if not from another &sustain, keep it here
+                            #  faster grasp (presum) as no rec+=id
+                            a || me&sustain,{},hashkv(t+'_i',s)
+                        )
+                    }
+                })
+        // *
+                # ta/$t/o/$a=&sustain
+                each it tos {
+                    $input = ahsk(ta,t,'i')
+                    # stops coming in
+                    input ||= me&sustaining,t+'_i'
+                    input.map(&a{
+                        $v = a.v
+                        # no sure what this interface should be
+                        #  it has already defined $t, the key to put $v at
+                        # &sustain args with c.$t=$v and c separated
+                        $i = &svcq{
+                            # s:idc, can be $gs, becomes v if alone
+                            hak(arguments) == 1 and v = s
+                            # %%sustain:a + non-idc
+                            c = ex(hashkv(t,v),c||{})
+                            ahk(ta,[t],'o',
+                                me&sustain,s,c,q
+                            )
+                        }
+                        # they i(gs)
+                        y [t] (i,v||a,a)
+                    })
+                }
+            }
+        }
+        # o %%sustain,$t ?
+        me.sustaining = &acgtc{
+            $h = me&hajasute
+            c = ex({sustain:1},peel(c))
+            return h.saa(c) .map(n => ns&sustain)
+        }
       
       // elIntro <- @Intro
         =pod
@@ -1654,17 +1717,16 @@ me.Sch_The = &acgt{ return [
                 me&walls,m,'bd:3.3'
 
                 # @Gnome receives notifies for @Inc
-                $gs = me&SG_ei_elIntro
-                !gs and return
-                
+                me&SG_ei_elIntro
                 # @Inc must happen while gs is stable
-                me&SG_sustain_elIntro,gs
+                me&SG_sustain_elIntro
             })
             
         }
+        # takes %%elIntro when diff comes up
         # produce %%RunStep when @Inc ready, per $gs
         me.SG_sustain_elIntro = &acgt,gs{
-            $h = T.sute
+            $h = me&hajasute
             $R = me&R
             # keep these per t?
             $orig = gs
@@ -1698,6 +1760,8 @@ me.Sch_The = &acgt{ return [
             # managed to @Inc,quiet without ~gs
             # < double check from a be{el2} stashed Incy&R
             
+            # < not necessary to draw steps only now
+            
             # < any steps disturbed should sustain more
             af.el == 2 and ~>2 elIntro->Run: joint(gs.steps,', ')
             gs.steps.map(&i{
@@ -1707,31 +1771,25 @@ me.Sch_The = &acgt{ return [
                     me&walls,m,'b:2.2h5'
                     ns&ov >= 0.8 and me&tc,"done"
                     else me&tc,".."
-                    me&tt,"drop" (&e{
-                        gs.done()
-                    })
+                    me&tt,"drop" (gs.done)
                     me&tc,dis(nex({},n.sc,'dome,supe,sute,rec,sustain')),'6G'
                 })
             })
             
         }
-        # switch on, insync!
+        # hold latest Q per Q.t, finding what steps it changes
         # get $gs, diff from ec&e=Q
         me.SG_ei_elIntro = &acgt{
             $R = me&R
             $h = T.sute
-            # keep latest e:elvoids
-            $e = me&eis,'elvoids'
-            $en = me&sustain,{},{elvoids:e}
-            e = en.v
-            !e and return
-            # e**:locating/e:meaning
-            # < arrive e** it goes, have multiple ebits for us
-            #    @Pro strategy about which ebits to do now etc
-            e = me&through_packs,e
-            e.t != 'elIntro' and return
+            # each sustain is a grouping and keeping in time!
             
-            $gs
+            # starting with change events to start unpacking
+            # < better elvis routing: e**:locating/e:meaning
+            me&sustrain ({
+                i: me&eis,'elIntro' ,
+                elIntro: &yea{
+            
             # < have certain P%dige changes for steps
             #   is where we want to have a /$node, inc @Fe that come up
             me&boxQ,ec&e (&QPm{
@@ -1741,15 +1799,18 @@ me.Sch_The = &acgt{ return [
                 #  starts diffing Q-P, then laP-P
                 #  Q is so permanent that its %dige never changes
                 $memory = Q
-                # async once, with visit!!!
-                me&tt,"drop" (en.done)
-                en.wasdrop and me&tc,"wasdrop",'6y'
+                # async once, with visit
+                me&tt,"drop" (a.done)
                 # creates a diffs, and resets Qy&diffPs.doing = {}
+                # < diy&o('doing')
                 $di = me&diffPs,R,Q,P,memory
                 !di and return h.ha('pur:!diffP?')
                 $Comp = dis&Comp
 
-                gs = me&yio,Q,'diffPs' .o('doing')
+                # gs.of|t|etc = &Qidc
+                $gs = me&yio,Q,'diffPs' .o('doing')
+                !gs and me&fu,{nogs:Q}; return me&tc,"Nogs",'B'
+                # random subjob: determine step
                 if (!gs.steps) {
                     gs.Q = Q
                     gs.steps = []
@@ -1762,11 +1823,13 @@ me.Sch_The = &acgt{ return [
                         gs.steps.push(m[1])
                     }
                 }
+                
+                y (gs)
                 me&tt,"Compgs" () and me&zu,{di,e,Comp,gs}
             })
-            fatal.ish(gs)
-            gs = ex(en,gs)
-            return gs
+            
+                },
+            })
         }
         
         

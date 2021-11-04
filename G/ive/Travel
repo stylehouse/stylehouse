@@ -520,9 +520,12 @@ me.Sch_Travel = &acgt{ return [
         c.R ||= me&R
         c.D ||= Cye(["Dtunneling",1])
         $e = me&Dtunneling,c.R,c.D
-        !e and return
-        c.t && c.t != e.t and return
-        return e
+        !e and return []
+        # < an ifc, tube standard
+        e.t == c.t and return [e]
+        # maybe within
+        $N = me&through_packs,e
+        return N.filter(e => e.t == c.t)
     }
     # < merge in &Yingwhen, early sense e, how to %onlyish
     #  < how to gradually work when fed A leashes
@@ -691,6 +694,14 @@ me.Sch_Travel = &acgt{ return [
         })
         }
     }
+    # a random c, that contains id, of this Q
+    # < the expanded &oft Qc&* spec
+    me.Qidc = &acgtQc{
+        c ||= {}
+        $P = Qs&P || Q
+        c = {t:P.t,dige:Ps&dige}
+        return sex(c,P.c,'of,species,el')
+    }
     me.Intro_for = &acgtRQP{
         $Z
         me&boxcap,'for' (&m{
@@ -810,11 +821,8 @@ me.Sch_Travel = &acgt{ return [
                 # now -> was
                 mem.i('wass',nows)
             }
-            # random c that will change + have different values
-            $gs = {t:P.t,dige:Ps&dige}
-            # < the expanded &oft Qc&* spec
-            sex(gs,P.c,'of,species,el')
-            mem.i('doing',gs)
+            # a random c that will change + have different values
+            mem.i('doing', me&Qidc,Q )
         }
         else {
             # idle
