@@ -1629,6 +1629,8 @@ me.Sch_The = &acgt{ return [
             # on failure|enduring to complete it
             #  < pur after $k+$index? see &hajasute
             #    the pur changing lets loopier
+            # < modulate marker of where this emerged
+            #   to boxlink to the pur diag
             a.pur = say => h.ha(dex({pur:'sustain:'+rec},{say}))
             # revoke
             a.done = &{
@@ -1687,7 +1689,7 @@ me.Sch_The = &acgt{ return [
                             # s:idc, can be $gs, becomes v if alone
                             hak(arguments) == 1 and v = s
                             # %%sustain:a + non-idc
-                            c = ex(hashkv(t,v),c||{})
+                            c = ex(hashkv(t,v), c||{})
                             ahk(ta,[t],'o',
                                 me&sustain,s,c,q
                             )
@@ -1709,17 +1711,26 @@ me.Sch_The = &acgt{ return [
         =pod
           < have a tiny pile of what might effect what
              might know which time was edited easy
+          < finish stylehouse: style -> X -> A
+            style, the folk name for sc
         =cut
         me.SG_elIntro = &acgt{
-            $h = T.sute
+            $h = me&hajasute
             # auto!
+            # < sprout another Fine to mock elIntro here and oft supply at @Inc
             me&boxcap,'elIntro','1s' (&m{
                 me&walls,m,'bd:3.3'
 
                 # @Gnome receives notifies for @Inc
                 me&SG_ei_elIntro
                 # @Inc must happen while gs is stable
-                me&SG_sustain_elIntro
+                # < join the subjobbies into &sustrain
+                #   eg IncBefore i(gs,0) when it sees it is el==2
+                #    < which should be a want for an after-initial Inc
+                #      and periodic ambition to go get it
+                me&sustaining,'elIntro' .map(
+                    gs => me&SG_sustain_elIntro,gs
+                )
             })
             
         }
@@ -1728,16 +1739,15 @@ me.Sch_The = &acgt{ return [
         me.SG_sustain_elIntro = &acgt,gs{
             $h = me&hajasute
             $R = me&R
-            # keep these per t?
-            $orig = gs
-            gs = me&sustain,gs,{elIntro:gs}
+            
+            # dropped from origin?
             gs.el > 8 and debugger; return
             !gs.Q and debugger
             
             # &sustain {} {elIntro:gs} # to sample $gs
-            # &sustain gs {untility:maybe} # to inherit gs id
-            #  and then $a=maybe if housey, avoids 
-            #   also el=2 if maybe changes amongst true
+            # &sustain gs {untility:v} # to inherit gs id
+            #  and then $a=v if ish()
+            #  el=2 if v changes (amongst something true)
 
             # < there is a way to want a node to wake
             #    see &wokesince
@@ -1801,21 +1811,18 @@ me.Sch_The = &acgt{ return [
                 $memory = Q
                 # async once, with visit
                 me&tt,"drop" (a.done)
-                # creates a diffs, and resets Qy&diffPs.doing = {}
-                # < diy&o('doing')
-                $di = me&diffPs,R,Q,P,memory
+                # creates a diff, and resets Qy&diffPs.doing = {}
+                $di = me&diffPs,R,Q,P,Q
                 !di and return h.ha('pur:!diffP?')
-                $Comp = dis&Comp
-
                 # gs.of|t|etc = &Qidc
-                $gs = me&yio,Q,'diffPs' .o('doing')
+                $gs = di.gs
                 !gs and me&fu,{nogs:Q}; return me&tc,"Nogs",'B'
                 # random subjob: determine step
                 if (!gs.steps) {
                     gs.Q = Q
                     gs.steps = []
                     # determine step
-                    each il Comp {
+                    each il di.Comp {
                         ls&level > 0 and continue
                         !ls&chain and continue
                         $m = lc&s.match(/^(?:} )?while \(G.h\([\w,]+,"S",([\d\.]+),/)
@@ -1825,7 +1832,7 @@ me.Sch_The = &acgt{ return [
                 }
                 
                 y (gs)
-                me&tt,"Compgs" () and me&zu,{di,e,Comp,gs}
+                me&tt,"Compgs" () and me&zu,{di,e,gs}
             })
             
                 },

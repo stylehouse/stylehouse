@@ -670,38 +670,6 @@ me.Sch_Travel = &acgt{ return [
         #4s&lastnoQup and me&nu,'4s&lastnoQup',4s&lastnoQup
         #4s&lastnoelQups and me&nu,'4s&lastnoelQups',4s&lastnoelQups
     }
-    # draw box with the of+t of a Q
-    # < optional lifecodes
-    # < remembering many Q, having their modulat etc on hand
-    me.boxQ = &acgtQ{
-        return &y{
-        me&boxcap,'Q:'+Q.t,1 (&ml{
-            me&walls,m,'b:2.2h5'
-            lc&s = Q.t
-            $P = Qs&P
-            
-            me&tt,'o' () and me&fu,'nu'+m.t,{Q,P}
-            Qc&el and me&tsc,'Qel',Qc&el,'G'
-            
-            Qc&of != 'wjs' and me&boxcap,'of','G' (&{ me&ts,'of',Qc&of })
-            if (P) {
-                me&tc,Ps&dige,'6y'
-                Pc&el and me&tsc,'Pel',Pc&el,'G'
-                # Q%dige seems to stay the same
-                #Qs&dige && Qs&dige != Ps&dige and me&tc,",Q#"+Qs&dige,'6y'
-            }
-            y (Q,P,m,l)
-        })
-        }
-    }
-    # a random c, that contains id, of this Q
-    # < the expanded &oft Qc&* spec
-    me.Qidc = &acgtQc{
-        c ||= {}
-        $P = Qs&P || Q
-        c = {t:P.t,dige:Ps&dige}
-        return sex(c,P.c,'of,species,el')
-    }
     me.Intro_for = &acgtRQP{
         $Z
         me&boxcap,'for' (&m{
@@ -778,7 +746,6 @@ me.Sch_Travel = &acgt{ return [
             
         })
     }
-    
     me.Outoftime_t = &acgtRreQ,sendit{
         ac(e,'wantup',n)
         !es&gotup && es&gotup.includes(Q) and return
@@ -801,20 +768,28 @@ me.Sch_Travel = &acgt{ return [
         delete T.asyncQs
         ac(e,'gotup',Q)
     }
-    # diff code changes as they come in!!!!
-    me.diffPs = &acgtRQPs,se{
-        # < string not extractable from <script src...> ?
-        # from the first of the 2 requests to /wjs/
+  // &diffPs fix linearity of Q-P
+    # diff code changes as they come in
+    # $mem - gives &yio for persisting
+    #  < the r%Zif .t = 'diffPs'+P.t is another storage
+    #     shouldnt only maybe have caching come apart if dups per R/*
+    # < Q seems to never update to the used version see 'el2'
+    me.diffPs = &acgtRQP,mem,se{
+        # see 'el2'
+        mem ||= Q
+        #  but just incase, index Q.t
+        mem = me&yio,mem,'diffPs',Q.t
+        
+        # < is this a &sustain? wants two+ latests to work with
+        #   the el2 of which can be made up
         $str = me&stringofP,P
         str == null and return me&waits,"P!Live"
-        
-        $mem = me&yio,s,'diffPs'
         $nows = mem.o('nows')
         if (!nows || nows != str) {
             if (!nows) {
-                # the very first time the already is the Q
-                #  which seems to never update to latest used version,
-                #  so we use it as per-thing persistence
+                # el2 - Q was untracked, has the %string to use
+                #  the other times we compare P%string with its old self
+                #  Q-P first, P-oP thence
                 mem.i('wass',me&stringofP,Q )
             }
             else {
@@ -829,25 +804,40 @@ me.Sch_Travel = &acgt{ return [
         }
         mem.i('nows',str)
         $las = mem.o('wass')
-        !las and return me&tc,"first!"
+        !las and me&tc,"first!"; return
         
-        if (Pc&of == 'wjs') {
-            # ignores function declaration, has a dige in it
-            $notfirstline = s => s.replace(/^.+?\n/,'')
-            str = notfirstline(str)
-            las = notfirstline(las)
-        }
-        $Pis = Cye(['i',1,{},{string:str}])
-        $las = Cye(['l',1,{},{string:las}])
-        # may put on modulat $se
-        $di = me&diffany,R,Pis,las,{se}
+        $N = me&twoCstrings,'diffPs:'+Q.t,str,las
+        # munge function def, has a dige in it
+        Pc&of == 'wjs' and N.map(n => ns&string = ns&string.replace(/^.+?\n/,''))
+        # may put modulat $se/$patch
+        $r = me&diffany,R,...N,{se}
+        ex(rs&patch,{ml:0,bgh:'000'})
         
-        $pa = dis&patch
-        delete pas&ml
-        pas&bgh = '000'
-        
+        # make things accessible (random c)
+        $di = sex({r},r.sc,'Comp,patch')
+        # esp this idc: is yours to write on, will renew
+        di.gs = mem.o('doing')
         return di
     }
+  // Q|P f
+    # a random c, that contains id, of this Q
+    # < the expanded &oft Qc&* spec
+    me.Qidc = &acgtQc{
+        c ||= {}
+        $P = Qs&P || Q
+        c = {t:P.t,dige:Ps&dige}
+        return sex(c,P.c,'of,species,el')
+    }
+    # throwing together
+    me.twoCstrings = &acgttsS{
+        $Pis = Cye([t,1,{},{string:s}])
+        # %Zif R.t = Pwas.t
+        $Pwas = Cye([t+'^1',1,{},{string:S}])
+        return [Pis,Pwas]
+    }
+    # get string of P with of:wjs trick
+    # < string not extractable from <script src...> ?
+    # from the first of the 2 requests to /wjs/
     me.stringofP = &acgtP{
         $str = Ps&string
         if (Pc&of == 'wjs') {
@@ -860,32 +850,29 @@ me.Sch_Travel = &acgt{ return [
         }
         return str
     }
-    # < GOING?
-    me.reducefromtheedges = &acgtc{
-        $a = c.a.split("\n")
-        $b = c.b.split("\n")
-        c.nofirstline and a.shift(); b.shift()
-        if (1) {
-            # 
-            $trimsame = &ab{
-                while (a[0] == b[0]) {
-                    a.shift(); b.shift()
-                    # keep some context leading up to it
-                    #  supposedly the first line of each indent going out
-                    #  not very chunks
-                    a.length < 100 and return
-                }
+    # draw box with the of+t of a Q
+    # < optional lifecodes
+    # < remembering many Q, having their modulat etc on hand
+    me.boxQ = &acgtQ{
+        return &y{
+        me&boxcap,'Q:'+Q.t,1 (&ml{
+            me&walls,m,'b:2.2h5'
+            lc&s = Q.t
+            $P = Qs&P
+            
+            me&tt,'o' () and me&fu,'nu'+m.t,{Q,P}
+            Qc&el and me&tsc,'Qel',Qc&el,'G'
+            
+            Qc&of != 'wjs' and me&boxcap,'of','G' (&{ me&ts,'of',Qc&of })
+            if (P) {
+                me&tc,Ps&dige,'6y'
+                Pc&el and me&tsc,'Pel',Pc&el,'G'
+                # Q%dige seems to stay the same
+                #Qs&dige && Qs&dige != Ps&dige and me&tc,",Q#"+Qs&dige,'6y'
             }
-            # reverse first, so we have context leading up to it
-            a.reverse()
-            b.reverse()
-            trimsame(a,b)
-            a.reverse()
-            b.reverse()
-            trimsame(a,b)
+            y (Q,P,m,l)
+        })
         }
-        c.a = a.join("\n")+"\n"
-        c.b = b.join("\n")+"\n"
     }
     },
     
