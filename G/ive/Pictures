@@ -152,9 +152,12 @@
             $R = me&R
             $s = Rc&s
             # storage on y&tt
-            $tt = me&yio,s,'tt'
+            # < transact via E
+            $mem = me&yio,s,'tt'
             # locates all ^^^&boxcap
             !T.ab and throw "tt!Tab"
+            # < it may want a group by instead of some slope
+            #   eg cycling style of all nodes
             $path = slaint(me&ttpath,T.ab .slope)
 
             return &y,async{
@@ -172,7 +175,7 @@
                 isfu(y) and y = {once:y}; y [async ? 'async' : 'other'] = 1
                 
                 # check state, hang on all ^^^&boxcap
-                $qua = tt('o',path,t) || {}
+                $qua = mem.o(path,t) || {}
                 # < why not C?
                 #   what shape are %TX**?
                 fatal.ish(qua)
@@ -211,7 +214,7 @@
                 $l = me&ty,t,c (&zTe{
                     z != l and debugger
                     # invoked asap when toggled
-                    qua = tt('i',path,t,qua)
+                    qua = mem.i(path,t,qua)
                     qua.on = !qua.on ? 1 : 0
                     if (y.other || y.async) {
                         # < know we are to Effect somewhere, and
@@ -552,10 +555,11 @@
         }
         return N
     }
+    # h, h.i|o(k+,v?)
     me.yio = &acgtst{
-        return &i{
-            $y = i == 'i' ? ahk : ahsk
-            return y (s,'y',t, ...[...arguments].slice(1))
+        return {
+            i: &{ return ahk(s,'y',t,...arguments) },
+            o: &{ return ahsk(s,'y',t,...arguments) },
         }
     }
         

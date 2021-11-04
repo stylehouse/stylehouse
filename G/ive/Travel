@@ -649,7 +649,7 @@ me.Sch_Travel = &acgt{ return [
         ~>5 Intro........:
         $what = me&rollbs,R,'tdige',{}
         each iQ ec&Qz {
-            me&boxQ,Q (&QP{
+            me&boxQ,Q (&QPm{
                 # < if Cat, check into @Aearch for its version?!!
                 what[Q.t] == Ps&dige and return ~>3 goated: Q.t
                 ec&goated and return ~>3 goated: Q.t
@@ -660,7 +660,8 @@ me.Sch_Travel = &acgt{ return [
                 z and me&Intro_forth,R,Q,P,z,what,e
 
                 # open diff
-                me&tt,'<>' () and me&diffPs,R,Q,P,s,m
+                # < &opecap for &tt->&boxcap of the same?
+                me&tt,'<>' () and me&boxcap,'diff' (m => me&diffPs,R,Q,P,s,m )
             })
         }
         #4s&lastnoQup and me&nu,'4s&lastnoQup',4s&lastnoQup
@@ -674,13 +675,15 @@ me.Sch_Travel = &acgt{ return [
         me&boxcap,'Q:'+Q.t,1 (&ml{
             me&walls,m,'b:2.2h5'
             lc&s = Q.t
+            $P = Qs&P
             
-            me&tt,'o' () and me&nu,'nu'+m.t,Q
+            me&tt,'o' () and me&fu,'nu'+m.t,{Q,P}
+            Qc&el and me&tsc,'Qel',Qc&el,'G'
             
             Qc&of != 'wjs' and me&boxcap,'of','G' (&{ me&ts,'of',Qc&of })
-            $P = Qs&P
             if (P) {
                 me&tc,Ps&dige,'6y'
+                Pc&el and me&tsc,'Pel',Pc&el,'G'
                 # Q%dige seems to stay the same
                 #Qs&dige && Qs&dige != Ps&dige and me&tc,",Q#"+Qs&dige,'6y'
             }
@@ -787,38 +790,37 @@ me.Sch_Travel = &acgt{ return [
         delete T.asyncQs
         ac(e,'gotup',Q)
     }
-    # diff code changes as they come in!
+    # diff code changes as they come in!!!!
     me.diffPs = &acgtRQPs,se{
-        $io = me&yio,s,'diffPs'
         # < string not extractable from <script src...> ?
         # from the first of the 2 requests to /wjs/
         $str = me&stringofP,P
         str == null and return me&waits,"P!Live"
-        $reduce = {a:str}
         
-        $now = io('o','nows')
-        if (!now || now != str) {
-            if (!now) {
+        $mem = me&yio,s,'diffPs'
+        $nows = mem.o('nows')
+        if (!nows || nows != str) {
+            if (!nows) {
                 # the very first time the already is the Q
                 #  which seems to never update to latest used version,
                 #  so we use it as per-thing persistence
-                io('i','wass',me&stringofP,Q )
+                mem.i('wass',me&stringofP,Q )
             }
             else {
                 # now -> was
-                io('i','wass',io('o','nows'))
+                mem.i('wass',nows)
             }
             # random c that will change + have different values
             $gs = {t:P.t,dige:Ps&dige}
             # < the expanded &oft Qc&* spec
             sex(gs,P.c,'of,species,el')
-            io('i','doing',gs)
+            mem.i('doing',gs)
         }
         else {
             # idle
         }
-        io('i','nows',str)
-        $las = io('o','wass')
+        mem.i('nows',str)
+        $las = mem.o('wass')
         !las and return me&tc,"first!"
         
         if (Pc&of == 'wjs') {
@@ -831,9 +833,11 @@ me.Sch_Travel = &acgt{ return [
         $las = Cye(['l',1,{},{string:las}])
         # may put on modulat $se
         $di = me&diffany,R,Pis,las,{se}
+        
         $pa = dis&patch
         delete pas&ml
         pas&bgh = '000'
+        
         return di
     }
     me.stringofP = &acgtP{
