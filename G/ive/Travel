@@ -625,7 +625,6 @@ me.Sch_Travel = &acgt{ return [
         me&reaw,R,'Introtivity'
         $x = me&Jx,R
         s&bg = 312
-        # < wants to accept anything from anywhere
         #4s&Athing and me&nu,'A',4s&Athing
         #4s&Bthing and me&nu,'B',4s&Bthing
         #Rs&wakeful = 1
@@ -650,31 +649,44 @@ me.Sch_Travel = &acgt{ return [
         ~>5 Intro........:
         $what = me&rollbs,R,'tdige',{}
         each iQ ec&Qz {
-        me&boxcap,'Q:'+Q.t,1 (&ml{
-            me&walls,m,'b:2.2h5'
-            
-            $P = Qs&P
-            me&tt,'o' () and me&nu,'nu'+m.t,Q
-            
-            me&boxcap,'of','G' (&{ me&ts,'of',Qc&of })
-            me&tc,Ps&dige,'6y'
-            Qs&dige && Qs&dige != Ps&dige and me&tc,",Q#"+Qs&dige,'6y'
-            
-            # < if Cat, check into @Aearch for its version?!!
-            what[Q.t] == Ps&dige and return ~>3 goated: Q.t
-            ec&goated and return ~>3 goated: Q.t
-            
-            # warns or returns places to go, may be subscribed to
-            $z = me&Intro_for,R,Q,P
-            # sends &elvis there
-            z and me&Intro_forth,R,Q,P,z,what,e
-            
-            # open diff
-            me&tt,'<>' () and me&diffPs,R,Q,P,s,m
-        })
+            me&boxQ,Q (&QP{
+                # < if Cat, check into @Aearch for its version?!!
+                what[Q.t] == Ps&dige and return ~>3 goated: Q.t
+                ec&goated and return ~>3 goated: Q.t
+
+                # warns or returns places to go, may be subscribed to
+                $z = me&Intro_for,R,Q,P
+                # sends &elvis there
+                z and me&Intro_forth,R,Q,P,z,what,e
+
+                # open diff
+                me&tt,'<>' () and me&diffPs,R,Q,P,s,m
+            })
         }
         #4s&lastnoQup and me&nu,'4s&lastnoQup',4s&lastnoQup
         #4s&lastnoelQups and me&nu,'4s&lastnoelQups',4s&lastnoelQups
+    }
+    # draw box with the of+t of a Q
+    # < optional lifecodes
+    # < remembering many Q, having their modulat etc on hand
+    me.boxQ = &acgtQ{
+        return &y{
+        me&boxcap,'Q:'+Q.t,1 (&ml{
+            me&walls,m,'b:2.2h5'
+            lc&s = Q.t
+            
+            me&tt,'o' () and me&nu,'nu'+m.t,Q
+            
+            Qc&of != 'wjs' and me&boxcap,'of','G' (&{ me&ts,'of',Qc&of })
+            $P = Qs&P
+            if (P) {
+                me&tc,Ps&dige,'6y'
+                # Q%dige seems to stay the same
+                #Qs&dige && Qs&dige != Ps&dige and me&tc,",Q#"+Qs&dige,'6y'
+            }
+            y (Q,P,m,l)
+        })
+        }
     }
     me.Intro_for = &acgtRQP{
         $Z
