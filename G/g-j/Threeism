@@ -48,9 +48,15 @@ window.BamonG = &{
 };
 window.onerror = &msg,url,lineNo,colNo,error{
     $A = BamonG();
+    try {
     $ur = new URL(url);
-    $path = ur.pathname;
-    if (path != '/' && ur.host == location.host) {
+    }
+    catch(er){
+        ~>1 er!url: ''+url
+    }
+    ~>1 error: msg, ''+error
+    $path = ur && ur.pathname;
+    if (ur && path != '/' && ur.host == location.host) {
         # .js compile errors come through here
         $have = $('body script[src="'+path+'"]')[0];
         if (have) {

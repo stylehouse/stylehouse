@@ -2694,10 +2694,20 @@
         me.Sharg = &acgtscq{
             return me&Sarg,'Sharg',s,c,q
         }
+        me.whilechanging = &{
+            $was = ''
+            return &s{
+                $ok = s != was
+                was = s
+                return ok
+            }
+        }
         # only used once so far:
         # o &wants //R** if %strange o $s//E/*
         me.Sarg_Sharg = &acgtpscq{
             $a = me&paullistify,p,s,c,q
+            $whi = me&whilechanging
+            while (whi(p.s)) {
             # begin with somethings
             a(/^\$s/, &{
                 $s = c.arg.shift()
@@ -2792,6 +2802,7 @@
                 $gk = p.m[0]
                 c.N = c.N.filter(s => s.sc[gk])
             })
+            }
         }
       // &wants etc
         me.Sargfunc_wants = &acgtc{
