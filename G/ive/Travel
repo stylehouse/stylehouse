@@ -629,21 +629,29 @@ me.Sch_Travel = &acgt{ return [
         me&reaw,R,'Introtivity'
         $x = me&Jx,R
         s&bg = 312
-        #4s&Athing and me&nu,'A',4s&Athing
-        #4s&Bthing and me&nu,'B',4s&Bthing
-        #Rs&wakeful = 1
         
-        # subscribe:
+        # subscribes to R%Pearch, the proto oft-serve
         4s&Travels = s
-            # & enable:
-            $Cating = me&ja,R,'Intro,Cat'
-            Cating ||= xs&Ying.t == 'Thy'
-            Cating ||= x.ro("Intro?",{})
-            !Cating and delete 4s&lastnoelQups; return
+        
+        # enables
+        # < get hired, direct @Run** updates via @Gnome
+        #    multiple same stuff may have conflict of interest
+        #     or implied course of action, ie such first|instead
+        if (!(me&ja,R,'Intro,Cat'
+            || me&ja,R,'Introtiv'
+        # < would be in|near W state stash, Thy camp
+            || xs&Ying.t == 'Thy'
+            || x.ro("Intro?",{}))) {
+            delete 4s&lastnoelQups
+            return
+        }
         # for changes in:
         $e = 4s&lastnoelQups
         !e and return
+        
+        # 
         me&IntroelQups,R,s,e
+        
     },'ift,D'],
     &{
     # very alike G
@@ -654,14 +662,15 @@ me.Sch_Travel = &acgt{ return [
         $what = me&rollbs,R,'tdige',{}
         each iQ ec&Qz {
             me&boxQ,Q (&QPm{
-                # < if Cat, check into @Aearch for its version?!!
-                what[Q.t] == Ps&dige and return ~>3 goated: Q.t
-                ec&goated and return ~>3 goated: Q.t
 
                 # warns or returns places to go, may be subscribed to
                 $z = me&Intro_for,R,Q,P
+                
+                
+                $got = what[Q.t] == Ps&dige || ec&goated
+                
                 # sends &elvis there
-                z and me&Intro_forth,R,Q,P,z,what,e
+                !got && hak(z) and me&Intro_forth,R,Q,P,z,what,e
 
                 # open diff
                 # < &opecap for &tt->&boxcap of the same?
@@ -673,14 +682,72 @@ me.Sch_Travel = &acgt{ return [
     }
     # get target based on Qy&R^^^
     me.Intro_for = &acgtRQP{
-        $Z
+        # who be determined
+        $M = []
         me&boxcap,'for' (&m{
             
             me&walls,m,'b:2.2h5'
-            $avoid = &t{ me&tsc,cint('avoid',t),t,'6b' .sc.ma=0.5 }
+            $avoid = &t{ M = []; me&tsc,'avoid'+t,t,'6b' .sc.ma=0.5 }
+            # our subscribers
+            #  c.node - any &t within there
+            #  c.vague|misc - other &t out|inside R%Ying
+            #  c.t - a particular &t $t
+            # < check lifo per row, not per sender, re &nodei storage
+            $otiv = c => me&jaa,R,ex({Introtiv:1},peel(c)) .reverse()
+            $itiv = N => N.map(n => M.push(ns&efrom))
 
-            # $r = who re-requests &t pre-waking!!
+            # $r = who re-requests &t
             $r = Qy&R
+            if (!me.cbu(r,r => rs&Ying)) {
+                # **/A.4 usu wjs preloaded by w:Peace, or older
+                $vague = 1
+            }
+            elsif (rs&Ying) {
+                debugger
+            }
+            else {
+                !isnode(rc&s) and debugger
+                $path = me.cby(r,r => rs&Ying) .map(sof)
+                # wants eg @Run**
+                # < grep that branches into maps to then conclude...
+                itiv(otiv('node').filter(n => path.includes(ns&node)))
+                # wants .t
+                itiv(otiv({t:Q.t}))
+                
+            }
+            # !!
+            !hak(M) and vague = 1
+            if (rs&Pave) {
+                hak(M) and debugger; me&tc,"Pave+Introtiv",'B'
+                # Know...K/R%Pave, wake the K
+                M.push(ry&up)
+            }
+            if (vague) {
+                # it's just news
+                # see **A.4
+                itiv(otiv('vague'))
+                # A.4**
+                path and itiv(otiv('misc'))
+            }
+            
+            path and me&tsc,"r-nodepath",slant(path),'6q'
+            else me&tsc,"rt.Peace",r.t+"."+rs&Peace,'6q'
+            me&tsc,'forth',':'
+            
+            M = M.map(r => me&yfuture,r )
+            # &drawnode
+            M.map(r => me&tc,"@"+r.t )
+            
+            # Ying** must subscribe
+            !hak(M) and avoid("!sub"); return
+            
+            # the weld keeps warm!
+            !Qc&of.startsWith('w') and avoid("of?"); return
+            
+            
+            return
+           // GOING?
+
             r.t == 'Pearch' and avoid("@Pearch")
             # $z = who to wake
             if (rs&Pave) {
@@ -699,9 +766,9 @@ me.Sch_Travel = &acgt{ return [
             }
             elsif (r.t == "Pearch" || rs&Peace == 9) {
                 # the weld keeps warm!
-                # < Introtiv should get top priority
+                # < %%Introtiv should get top priority
                 !Qc&of.startsWith('w') and avoid("of?"); return
-                $z = me&jaa,R,{Introtiv:1,t:Q.t}
+                to = me&jaa,R,{Introtiv:1,t:Q.t}
                     .map(n => ns&efrom)
                 !hak(z) and avoid("!sub"); return
             }
@@ -712,9 +779,8 @@ me.Sch_Travel = &acgt{ return [
                 debugger
                 return
             }
-            Z = z
         })
-        return Z
+        return M
     }
     me.Intro_forth = &acgtRQPz,what,e{
         me&boxcap,'th' (&m{
@@ -770,6 +836,7 @@ me.Sch_Travel = &acgt{ return [
         delete T.asyncQs
         ac(e,'gotup',Q)
     }
+  
   // &diffPs fix linearity of Q-P
     # diff code changes as they come in
     # $mem - gives &yio for persisting
@@ -835,6 +902,7 @@ me.Sch_Travel = &acgt{ return [
         # eg [1,3]
         return M
     }
+  
   // Q|P f
     # a random c, that contains id, of this Q
     # < the expanded &oft Qc&* spec
