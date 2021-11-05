@@ -680,6 +680,29 @@ me.Sch_Travel = &acgt{ return [
         #4s&lastnoQup and me&nu,'4s&lastnoQup',4s&lastnoQup
         #4s&lastnoelQups and me&nu,'4s&lastnoelQups',4s&lastnoelQups
     }
+    # we keep holding onto the first Q ever, beyond A.4 resets
+    #  we should be able to find &Xt** of it if we look far enough R^^
+    #  may not have yfuture unless replaced instantly (nothing via %%Go)
+    # and it only points to its first user
+    #  which is fine for w:Try, or anything original
+    me.node_wildpath = &acgtnN{
+        # [Ying,Travel,Try,v1]
+        #  fatal if r!%ball
+        N = N.map(r => sof(r))
+        $Ying = Aof(N.shift())
+        !Yings&Ying and debugger
+        # [Travel,Try,v1]
+        $wants = slant(ny&path)
+        $where = slant(N)
+        if (where.startsWith(wants)) {
+            $extra = where.substr(wants.length)
+            me&tc,"/",'y'
+            me&tc,wants,'6y'
+            me&tc,extra,'6G'
+            T.saidpath = 1
+            return 1
+        }
+    }
     # get target based on Qy&R^^^
     me.Intro_for = &acgtRQP{
         # who be determined
@@ -694,7 +717,7 @@ me.Sch_Travel = &acgt{ return [
             #  c.t - a particular &t $t
             # < check lifo per row, not per sender, re &nodei storage
             $otiv = c => me&jaa,R,ex({Introtiv:1},peel(c)) .reverse()
-            $itiv = N => N.map(n => M.push(ns&efrom))
+            $itiv = N => flatten([N]).map(n => M.push(ns&efrom))
 
             # $r = who re-requests &t
             $r = Qy&R
@@ -710,9 +733,11 @@ me.Sch_Travel = &acgt{ return [
                 $path = me.cby(r,r => rs&Ying) .map(sof)
                 # wants eg @Run**
                 # < grep that branches into maps to then conclude...
-                itiv(otiv('node').filter(n => path.includes(ns&node)))
+                otiv('node')
+                    .filter(n => me&node_wildpath,ns&node,path )
+                    .map(n => itiv(n) )
                 # wants .t
-                itiv(otiv({t:Q.t}))
+                itiv( otiv({t:Q.t}) )
                 
             }
             # !!
@@ -730,6 +755,8 @@ me.Sch_Travel = &acgt{ return [
                 path and itiv(otiv('misc'))
             }
             
+            T.saidpath and delete T.saidpath
+            else
             path and me&tsc,"r-nodepath",slant(path),'6q'
             else me&tsc,"rt.Peace",r.t+"."+rs&Peace,'6q'
             me&tsc,'forth',':'
