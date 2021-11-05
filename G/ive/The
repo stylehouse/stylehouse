@@ -1803,7 +1803,8 @@ me.Sch_The = &acgt{ return [
             # < have certain P%dige changes for steps
             #   is where we want to have a /$node, inc @Fe that come up
             me&boxQ,ec&e (&QPm{
-                #me&walls,m,'bd:3.3'
+                me&walls,m,'bd:3.3'
+                ms&ope and me&fu,'diffPs',{di,e,gs}
                 Qc&of != 'wjs' and me&tc,"non-of:wjs",'B'; return
                 # Q + y&diffP perm, esp .doing
                 #  starts diffing Q-P, then laP-P
@@ -1817,22 +1818,10 @@ me.Sch_The = &acgt{ return [
                 # gs.of|t|etc = &Qidc
                 $gs = di.gs
                 !gs and me&fu,{nogs:Q}; return me&tc,"Nogs",'B'
-                # random subjob: determine step
-                if (!gs.steps) {
-                    gs.Q = Q
-                    gs.steps = []
-                    # determine step
-                    each il di.Comp {
-                        ls&level > 0 and continue
-                        !ls&chain and continue
-                        $m = lc&s.match(/^(?:} )?while \(G.h\([\w,]+,"S",([\d\.]+),/)
-                        !m and continue
-                        gs.steps.push(m[1])
-                    }
-                }
-                
+                gs.steps ||= me&diffPs_knowsteps,di
+                gs.Q = Q
+                # make this %sustain,elIntro
                 y (gs)
-                me&tt,"Compgs" () and me&zu,{di,e,gs}
             })
             
                 },

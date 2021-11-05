@@ -624,6 +624,7 @@ me.Sch_Travel = &acgt{ return [
    # is a &Supe accumulatable spot
    # each &supetime is a Dome, have X!
    # ja %%climb may say things
+  // @Intro
     ['Introtivity',0.39,&acgtRs{
         me&reaw,R,'Introtivity'
         $x = me&Jx,R
@@ -670,6 +671,7 @@ me.Sch_Travel = &acgt{ return [
         #4s&lastnoQup and me&nu,'4s&lastnoQup',4s&lastnoQup
         #4s&lastnoelQups and me&nu,'4s&lastnoelQups',4s&lastnoelQups
     }
+    # get target based on Qy&R^^^
     me.Intro_for = &acgtRQP{
         $Z
         me&boxcap,'for' (&m{
@@ -819,6 +821,20 @@ me.Sch_Travel = &acgt{ return [
         di.gs = mem.o('doing')
         return di
     }
+    # determine steps - find 'S ...' headings of changes!
+    me.diffPs_knowsteps = &acgt,di{
+        !di.Comp and throw "di!&diffPs"
+        $M = []
+        each il di.Comp {
+            ls&level > 0 and continue
+            !ls&chain and continue
+            $m = lc&s.match(/^(?:} )?while \(G.h\([\w,]+,"S",([\d\.]+),/)
+            !m and continue
+            M.push(m[1])
+        }
+        # eg [1,3]
+        return M
+    }
   // Q|P f
     # a random c, that contains id, of this Q
     # < the expanded &oft Qc&* spec
@@ -860,7 +876,7 @@ me.Sch_Travel = &acgt{ return [
             lc&s = Q.t
             $P = Qs&P
             
-            me&tt,'o' () and me&fu,'nu'+m.t,{Q,P}
+            me&tt,'o' () and ms&ope = 1; me&fu,'nu'+m.t,{Q,P}
             Qc&el and me&tsc,'Qel',Qc&el,'G'
             
             Qc&of != 'wjs' and me&boxcap,'of','G' (&{ me&ts,'of',Qc&of })
