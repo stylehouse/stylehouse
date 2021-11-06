@@ -563,9 +563,17 @@
     # h, h.i|o(k+,v?)
     me.yio = &acgtst{
         $lovely = [...arguments].slice(6)
+        $auf = &{
+            $expr = [...arguments]
+            # transpose instruction to accum|count
+            isar(expr[0]) and $y = ['y']; expr[0] = expr[0][0]
+            # just h.i('such') -> such:1
+            hak(expr) == 1 and expr.push(1)
+            return [s,y||'y',t,...lovely,...expr]
+        }
         return {
-            i: &{ return ahk(s,'y',t,...lovely,...arguments) },
-            o: &{ return ahsk(s,'y',t,...lovely,...arguments) },
+            i: &{ return ahk(...auf(...arguments)) },
+            o: &{ return ahsk(...auf(...arguments)) },
         }
     }
         
