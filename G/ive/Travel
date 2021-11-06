@@ -905,12 +905,17 @@ me.Sch_Travel = &acgt{ return [
         $N = me&twoCstrings,'diffPs:'+Q.t,str,las
         # munge function def, has a dige in it
         Pc&of == 'wjs' and N.map(n => ns&string = ns&string.replace(/^.+?\n/,''))
-        # may put modulat $se/$patch
+        # may put modulat $se/patch
         $r = me&diffany,R,...N,{se}
-        ex(rs&patch,{ml:0,bgh:'000'})
-        
         # make things accessible (random c)
-        $di = sex({r},r.sc,'Comp,patch')
+        $di = {r}
+        if (rs&Comp) {
+            ex(rs&patch,{ml:0,bgh:'000'})
+            sex(di,r.sc,'Comp,patch')
+        }
+        else {
+            # < error retry?
+        }
         # esp this idc: is yours to write on, will renew
         di.gs = mem.o('doing')
         return di
