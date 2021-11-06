@@ -662,10 +662,10 @@ me.Sch_Travel = &acgt{ return [
         $what = me&rollbs,R,'tdige',{}
         each iQ ec&Qz {
             me&boxQ,Q (&QPm{
-
+                !Qs&ready and ~>4 IntoQ!ready: Q.t
+                !Qs&ready and return me&tc,"!ready"
                 # warns or returns places to go, may be subscribed to
                 $z = me&Intro_for,R,Q,P
-                
                 
                 $got = what[Q.t] == Ps&dige || ec&goated
                 
@@ -713,8 +713,10 @@ me.Sch_Travel = &acgt{ return [
             $avoid = &t{ M = []; me&tsc,'avoid'+t,t,'6b' .sc.ma=0.5 }
             # our subscribers
             #  c.node - any &t within there
-            #  c.vague|misc - other &t out|inside R%Ying
             #  c.t - a particular &t $t
+            #  if neither of them match:
+            #  c.vague|misc - other &t out|inside R%Ying
+            #   would be w:Peace's includes|%Paving
             # < check lifo per row, not per sender, re &nodei storage
             $otiv = c => me&jaa,R,ex({Introtiv:1},peel(c)) .reverse()
             $itiv = N => flatten([N]).map(n => M.push(ns&efrom))
