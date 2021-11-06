@@ -541,7 +541,7 @@ me.Sch_The = &acgt{ return [
         me.Sup_Eokay = &acgts{
             # &Sharg&wants may ha %%pur, direct wake
             $g = me&Sharg,<<'',[s]
-                o &wants //R** if %strange o $s//E/*
+                o &wants //R** if %strange o $s//E/?*
 
             # ends up with none that are strange
             hak(g.N) and me&tc,"%strange",'B'
@@ -1251,7 +1251,7 @@ me.Sch_The = &acgt{ return [
                 else me&tc,"calm"
             })
             
-            # RunStep => RunningStep
+           // => RunningStep
             # < decide to advance, then see that we do...
             #   is ++time ... time++, becauses, political
             #  < time wanders along the sync: Run ... Fe%%ok
@@ -1295,28 +1295,7 @@ me.Sch_The = &acgt{ return [
                         # < &tt per row
                         $will = me&tt,"will",'y' (1)
                         if (will || (ns&ov||0) < 0.6) {
-                            me&tc,"Run++"
-                            h.ha('pur:Run++')
-                            # < many steps
-                            # < -Effect it there
-                            # Run increments itself
-                            Runs&time = ns&RunStep - 1
-
-                            # if ro Run oncer on
-                            $r = Runy&R
-                            rs&Run = 1
-                            # go there
-                            me&wants,R,'Run++',Run
-
-                            # we are now:
-                            !quiettime and debugger
-                            ns&ov = 0.6
-                            $RingS = {
-                                RunningStep: ns&RunStep,
-                                quiettime_now: quiettime,
-                            }
-                            $gs = me&sustain,{},RingS
-                            any.push(gs.n)
+                            me&dotheRunStep,R,h,n,Run,any,quiettime,c,a
                         }
                     }
                     
@@ -1377,6 +1356,41 @@ me.Sch_The = &acgt{ return [
                 $odd = grep(nex({},c,'Fine,nine,This'))
                 me&tc,dis(odd),'6G'
             })
+        }
+        me.dotheRunStep = &acgtRhn,Run,any,quiettime,c,a{
+            me&tc,"Run++"
+            h.ha('pur:Run++')
+            # < many steps
+            # < -Effect it there
+            # Run increments itself
+            Runs&time = ns&RunStep - 1
+            
+            # reorder hack, see resolve $n
+            $empties = s => me&ioty,s .map(z => me&fiu,s,z,9 )
+            me&Sharg,'$s/This/*/*',[Run] .N
+                .map(&s{
+                    sc&pi != 'seven' and debugger
+                    s.t != ns&RunStep and return
+                    empties(s)
+                    $r = sy&R
+                    $E = rs&E
+                    empties(E)
+                })
+
+            # if ro Run oncer on
+            $r = Runy&R
+            rs&Run = 1
+            # go there
+            me&wants,R,'Run++',Run
+
+            # we are now:
+            ns&ov = 0.6
+            $RingS = {
+                RunningStep: ns&RunStep,
+                quiettime_now: quiettime,
+            }
+            $gs = me&sustain,{},RingS
+            any.push(gs.n)
         }
       
       // misc %%quiet_visitable
@@ -1826,7 +1840,6 @@ me.Sch_The = &acgt{ return [
                 # Q stays the first version, see 'Q seems to never update'
                 # < might just be for the warmup &t from Pro
                 $di = me&diffPs,R,Q,P,Q
-                !di and debugger
                 !di and return h.ha('pur:!diffP?')
                 # gs.of|t|etc = &Qidc
                 $gs = di.gs

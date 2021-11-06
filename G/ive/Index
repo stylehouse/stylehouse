@@ -2737,13 +2737,15 @@
                 })) .filter(s=>s)
             })
             
-            a(/^\/\*/, &{
+            a(/^\/(\?)?\*/, &flattenin,{
                 # < this is /?* rather than /*
                 #   it adds r + r/*
                 $more = []
                 c.N.map(&E{
-                    # E/* add (no sense of columns)
-                    more.push(E, ... me&ioty,E )
+                    # E/?* add: N=[(E,e+)+]
+                    flattenin and more.push(E)
+                    # no columns (less you climb them back in)
+                    more.push( ... me&ioty,E )
                 })
                 c.N = more
             })
