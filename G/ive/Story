@@ -1427,13 +1427,14 @@ me.Sch_Story = &acgt{ return [
             $Eig = me&fiu,z,n.t
             $el = 8
             Eigs&tige != ns&tige and el = 3
-            Eigy&C != n and el = 2
-            !Eigy&C and el = 1
+            Eigy&C != n and el = 1
+            !Eigy&C and el = 2
             Eigy&C = n
             c and sex(Eig.sc,n.sc,c)
             Eigc&el = el
             return Eig
         }
+        
         
         # This
         # you or your yC having dige
@@ -1454,7 +1455,8 @@ me.Sch_Story = &acgt{ return [
                 $nt = me&digeward,n,'easy'
                 !nt and me&tc,"no-digeward:"+s.t+"/"+n.t,'b'; return
                 Eigs&dige != nts&dige and el = 3
-                Eigy&C != n and el = 2
+                Eigy&C != n and el = 1
+                !Eigy&C and el = 2
                 Eigy&C = n
                 Eigs&dige = nts&dige
                 Eigc&el = el
@@ -1597,7 +1599,12 @@ me.Sch_Story = &acgt{ return [
                         # the current -Ness=Ec&Into
                         # selected and may fill up per -seven
                         # < they could go any -Ness, grudgingly
-                        $Ness = Ec&Into
+                        ec&el != 8 and ~>2 inNess: g.t, e.t, ec&el
+                        $mergeover = Ec&ReStep
+                            && ec&el != 2 && ec&el != 8
+                            && es&inNess
+                        mergeover and ~>2 merge vvv:
+                        $Ness = mergeover || Ec&Into
                         # if it looks established, dont give any new -Eights
                         # < adjusting how it piles in later would be nice
                         #    and to merge|split -Ness, as the tv toplevel celluloid
