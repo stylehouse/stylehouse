@@ -1757,7 +1757,7 @@ me.Sch_The = &acgt{ return [
                 !to and debugger
                 me&wants,R,'elIntro->Inc',to
                 # < pur({wants})
-                be.pur()
+                be.pur("->Inc")
                 return
             }
             
@@ -1772,6 +1772,7 @@ me.Sch_The = &acgt{ return [
             
             # < any steps disturbed should sustain more
             af.el == 2 and ~>2 elIntro->Run: joint(gs.steps,', ')
+            !gs.steps and return me&tc,'!steps','B'
             gs.steps.map(&i{
                 $ro = me&sustain,gs,{RunStep:i},{}
                 $n = ro.n
@@ -1801,22 +1802,30 @@ me.Sch_The = &acgt{ return [
             # < have certain P%dige changes for steps
             #   is where we want to have a /$node, inc @Fe that come up
             me&boxQ,ec&e (&QPm{
+                
                 me&walls,m,'bd:3.3'
                 ms&ope and me&fu,'diffPs',{di,e,gs}
-                Qc&of != 'wjs' and me&tc,"non-of:wjs",'B'; return
-                # Q + y&diffP perm, esp .doing
-                #  starts diffing Q-P, then laP-P
-                #  Q is so permanent that its %dige never changes
-                $memory = Q
+                Qc&of != 'wjs' and me&tc,"!wjs",'B'; return
                 # async once, with visit
                 me&tt,"drop" (a.done)
-                # creates a diff, and resets Qy&diffPs.doing = {}
+                
+                # does two things:
+                #  sequentials Q|P strings
+                #   and resets Qy&diffPs.doing = {}
+                #  creates a diff 
+                #   by way of the above, starts diffing Q-P, then laP-P
+                # Q stays the first version, see 'Q seems to never update'
+                # < might just be for the warmup &t from Pro
                 $di = me&diffPs,R,Q,P,Q
+                !di and debugger
                 !di and return h.ha('pur:!diffP?')
                 # gs.of|t|etc = &Qidc
                 $gs = di.gs
                 !gs and me&fu,{nogs:Q}; return me&tc,"Nogs",'B'
-                gs.steps ||= me&diffPs_knowsteps,di
+                if (di.Comp) {
+                    # might be an el:2
+                    gs.steps ||= me&diffPs_knowsteps,di
+                }
                 gs.Q = Q
                 # make this %sustain,elIntro
                 y (gs)
