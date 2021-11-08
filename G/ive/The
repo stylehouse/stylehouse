@@ -1187,7 +1187,7 @@ me.Sch_The = &acgt{ return [
             # < &rowcap de-group-by
             
             # user
-            me&tt,'again' (1) and me&sustain,{},{RunStep:time},{}
+            me&tt,'again' (1) and me&sustain,{},{RunStep:time},'k'
             # having its own row?
             # < ha RunStep:$time1,rec:whim
             me&tt,'Leap' (1) and h.ha('RunStep:'+time1+',rec:whimsies')
@@ -1196,7 +1196,7 @@ me.Sch_The = &acgt{ return [
             $N = h.zaaj('RunStep')
             if (!hak(N) && c.starting) {
                 # auto begin
-                N = [ me&sustain,{},{RunStep:time1,through:1},{} .n ]
+                N = [ me&sustain,{},{RunStep:time1,through:1},'k' .n ]
             }
             
            // RunStep/$S+ todolist + attention
@@ -1321,7 +1321,7 @@ me.Sch_The = &acgt{ return [
                                     S1 != time1 and debugger
                                     ns&ov = 0.9
                                     $through = ns&through + 1
-                                    me&sustain,{},{RunStep:S1,through},{}
+                                    me&sustain,{},{RunStep:S1,through},'k'
                                     # < having that row ^ join this iteration
                                     #    is the dome stream
                                     # these are enduring this event
@@ -1538,6 +1538,7 @@ me.Sch_The = &acgt{ return [
             c = peel(c)
             $k = haks(c)[0]
             $v = c[k]
+            q = peel(q)
            // $remember idc
             # all s.* and most c.* except c.$k
             #  what to group by, become a.*
@@ -1549,11 +1550,13 @@ me.Sch_The = &acgt{ return [
             }
             idc = nex(idc,c,[k])
             
+            # primary key, the first c.*, or &sustrain .$t
             $rec = k
             # < rec by k + dis(idc)? has dome_traction
             # < supposing v not always given... trying to select these somethings?
-            # maybe we are many keyword:$id
-            q and rec += ':'+v
+            # < can expand along c.*
+            q.k && v == null and throw "null pk"
+            q.k and rec = cint(rec,v)
             
             $tiel = {sustain:1}
             T.sute and tiel.rec = rec
@@ -1574,7 +1577,9 @@ me.Sch_The = &acgt{ return [
                 # from v = &sustain
                 $via = isfu(v.done)
                 via && !ish(wasa.a) and throw "wasa.a!ish"
-                $was = via ? wasa.a : wasv
+                $was = !via ? wasv
+                    : hak(wasa,'v') ? wasa.v
+                    : wasa.a
                 if (v != was) {
                     $el = 2
                 }
@@ -1600,9 +1605,12 @@ me.Sch_The = &acgt{ return [
                 if (ish(v)) {
                     # may follow v = &sustain
                     #  or just {...} from some id scraper
+                    # < which may follow from q.origin = some &sustrain a,
+                    #    the v.* being just the stuff the innard passed out
                     # < iteresting
                     $a = ex({},v)
-                    a.a = v
+                    a.a = q.origin || v
+                    q.origin and a.v = v
                 }
                 else {
                     $a = {}
@@ -1704,6 +1712,10 @@ me.Sch_The = &acgt{ return [
                             hak(arguments) == 1 and v = s
                             # %%sustain:a + non-idc
                             c = ex(hashkv(t,v), c||{})
+                            
+                            q ||= {}
+                            q.origin = a
+                            
                             ahk(ta,[t],'o',
                                 me&sustain,s,c,q
                             )
@@ -1714,6 +1726,7 @@ me.Sch_The = &acgt{ return [
                 }
             }
         }
+       // f
         # o %%sustain,$t ?
         me.sustaining = &acgtc{
             $h = me&hajasute
@@ -1797,7 +1810,19 @@ me.Sch_The = &acgt{ return [
             
             # < any steps disturbed should sustain more
             af.el == 2 and ~>2 elIntro->Run: joint(gs.steps,', ')
-            !gs.steps and return me&tc,'!steps','B'
+            gs.el == 2 and me&tc,"elIntro!"
+            if (!gs.steps) {
+                $Q = gs.Q
+                $P = Qs&P
+                # < gs.done('loaded','^')
+                #   drops the &sustain leading to this as well
+                # < a.done(s,T,e | t,expr), depending on async|not
+                me&tt,'aband' (&{ gs.done(); gs.a.done() })
+                return me&tc,'!steps','B'
+            }
+            
+            me&tt,"drops" (gs.done)
+            me&tt,"DROPs" (gs.a.done)
             gs.steps.map(&i{
                 $ro = me&sustain,gs,{RunStep:i},{}
                 $n = ro.n
