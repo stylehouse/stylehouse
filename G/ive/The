@@ -4536,10 +4536,14 @@ me.Sch_The = &acgt{ return [
     #  &PiRet, wraps this with lowlevels
     me.Pieringi = &acgtRrc{
         $E = c.E
+        $s = isba(R) && Rc&s
+        $peelmix = &sck{
+            c[k] and ex(s,peel(c[k]))
+        }
         if (E) {
             # see also E&rc_mix below
             tax(r.sc,E.c,'dupl,noref,inline')
-            Ec&rsc_mix and ex(r.sc,peel(Ec&rsc_mix))
+            peelmix(r.sc,E.c,'rsc_mix')
         }
         # may already E
         me&CED,r
@@ -4561,7 +4565,7 @@ me.Sch_The = &acgt{ return [
         if (E) {
             # see also sc&* -> &Piing c.*
             tax(r.c,E.c,'nl,dl')
-            Ec&rc_mix and ex(r.c,Ec&rc_mix)
+            peelmix(r.c,E.c,'rc_mix')
         }
     }
     
@@ -6403,6 +6407,8 @@ me.Sch_The = &acgt{ return [
     # the unity of %wou or [brack+]
     ['brackio',0.21,&acgtRs{
         $D = Rs&D
+        $rt = me.cbu(R,'Top')
+        rts&first_truest = 1
         $N = s
         if (isC(s)) {
             D.t = s.t
@@ -6762,10 +6768,10 @@ me.Sch_The = &acgt{ return [
                 # this part of the climbing encode is isolatable
                 #~>5 Eything: d.d, t.t, ty&cv
                 me&Fame_Ething_add,Etop,E
-                if (ts&string) {
+                if (ts&first_string || ts&string) {
                     # stops, %string trusted
                     d.nofurther = 1
-                    return me&unfixstring,ts&string
+                    return me&unfixstring,ts&first_string||ts&string
                 }
             }
                 # everyone sets a thing at the top
@@ -6886,10 +6892,33 @@ me.Sch_The = &acgt{ return [
         } }
         d.Etop = E
         me&Linets,t,E,d
+        # < versioning
+        if (Rs&first_truest) {
+            $six = me&uptonode,E
+            $ft = me&yio,six,'first_truest'
+            $first = ft.o('first')
+            if (first) {
+                ts&first_string = first
+                if (first != ts&string) {
+                    sixs&now_string = ts&string
+                    ac(sixy&R,'M',me&tc,"%string-wobs",'B' )
+                }
+            }
+            else first = ts&string
+            ft.i('first',first)
+        }
         me&Fame_Ething,E
         d.not and me&strange,"&Linets:not"
 
         #me&hu,'encod',"Stevewas"
+    },'ift,D'],
+    ['funktime',0.44,&acgtRs{
+        $h = 40
+        $i = 5
+        while (i--) {
+            me&tc,"Funk",'B' .sc.hue = h
+            h += 30
+        }
     },'ift,D'],
     ['This',0.44,&acgtRs{
         $E = Rs&E
