@@ -1193,7 +1193,7 @@ me.Sch_The = &acgt{ return [
             me&tt,'Leap' (1) and h.ha('RunStep:'+time1+',rec:whimsies')
             
             # various, clobberatively, to progress
-            $N = h.saa('RunStep')
+            $N = h.zaaj('RunStep')
             if (!hak(N) && c.starting) {
                 # auto begin
                 N = [ me&sustain,{},{RunStep:time1,through:1},{} .n ]
@@ -1664,12 +1664,6 @@ me.Sch_The = &acgt{ return [
             return a
         }
         # twostep &sustain
-        self.fuN = &s{
-            isfu(s) and s = s (...[...arguments].slice(1))
-            !s and s = []
-            !isar(s) and s = [s]
-            return s
-        }
         # < which came from where, timing for everything
         #    splosive X timescape
         # < policies... on 
@@ -1724,7 +1718,15 @@ me.Sch_The = &acgt{ return [
         me.sustaining = &acgtc{
             $h = me&hajasute
             c = ex({sustain:1},peel(c))
-            return h.saa(c) .map(n => ns&sustain)
+            return h.zaaj(c) .map(n => ns&sustain)
+        }
+        # from-iterable: [s] = y.i=s|[s]|&{}|[]
+        self.fuN = &s{
+            # < args?
+            isfu(s) and s = s (...[...arguments].slice(1))
+            !s and s = []
+            !isar(s) and s = [s]
+            return s
         }
       
       // elIntro <- @Intro
