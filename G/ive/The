@@ -2929,7 +2929,7 @@ me.Sch_The = &acgt{ return [
                 # hat data, unsprawly
                 # Fez sprawly until C (eg X**)
                 # Bow sprawly while C (eg s**)
-                haks(peel('hat,Fez,Bow,Womb')).map(&pi,{
+                haks(peel('hat,Fez,Bow,Womb,brackio')).map(&pi,{
                     # < mep h { (t,s,c) => h.tys(t,$k,s,c) } 'hat,Fez,Bow'
                     #    coalesce via peel(). or perl's qw{}
                     h[pi] = (t,s,c) => h.tys(t,pi,s,c)
@@ -6399,7 +6399,36 @@ me.Sch_The = &acgt{ return [
         #me&Ei,{t:'aq',pi:'hat',s:aq,dl:2}
     },'ift,D'],
    
-   // -Fez > -hat
+   // -brack*, -Womb > -hat
+    # the unity of %wou or [brack+]
+    ['brackio',0.21,&acgtRs{
+        $D = Rs&D
+        $N = s
+        if (isC(s)) {
+            D.t = s.t
+            $r = sy&R
+            r && ry&cv and Ds&yr = r.t+'@'+cvs(ry&cv)
+            # < protocol for the brackio
+            hak(s.c) and me&Ei,{t:'c',s:s.c,pi:'Hash'}
+            $N = ss&z
+        }
+        each iz N {
+            me&Ei,{t:i,s:z,pi:'brack'}
+        }
+    },'ift,D'],
+    # each %wou/brack+
+    ['brack',0.21,&acgtRs{
+        $D = Rs&D
+        !isC(s) and return me&strange,"!C"
+        each kv s.c {
+            isha(v) && !hak(v) and continue
+            D.sc[k] = v
+        }
+        each kv s.sc {
+            me&Ei,{t:k,s:v,pi:'hat'}
+        }
+    },'ift,D'],
+    
     # copy modulat straight to D**
     ['Womb',0.21,&acgtRs{
         !isC(s) and return me&strange,"!C"
@@ -6419,6 +6448,7 @@ me.Sch_The = &acgt{ return [
         Rs&nofurtherDisplay = 1
     },'ift,D'],
     
+   // -Fez -Bow > -hat
     # fairly sprawly, for X**
     ['Fez',0.21,&acgtRs{
         # < no restating refs per ^^-seven
