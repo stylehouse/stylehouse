@@ -129,8 +129,8 @@
             rs&wou_accepted = rs&wou
         }
         
-       // &hajasute, proto &zaaj, &jaaz
-        # return h={ha,jaa,etc}, possing through T.sute &Supe*
+       // &hajadome/&hajasute make/access a cooptable T.sute
+        # h={ha,jaa...} interfaces, may be for T.sute &Supe*
         # < similar to an Xio front end
         #    the flavour of the interation, besides expr through it
         me.hajasute = &acgt{
@@ -148,29 +148,92 @@
                 # has:
             }
             else {
+                # the same-ish interfaces, without doming etc
                 h = {}
                 h.ha = (c,s) => me&ha,j,c,{},s
                 h.jaa = (c) => me&jaa,j,c
                 h.zaa = (c) => me&zaa,j,c
             }
-            # %%rec-tractioned zaa+jaa
-            #  used when jaa(c,1) gives dupes from neu+old %%rec
-            # < as long as some new gets selected
-            #  < X easy to detect recent additions to %%dome etc
-            h.zaaj = &c{
-                $neu = h.jaa(c)
-                # < use a grouper instead of...
-                $recn = {}
-                each in neu {
-                    ns&rec and recn[ns&rec] = 1
-                }
-                return [...h.zaa(c)
-                    .filter(n => !ns&rec || !recn[ns&rec]),
-                    ...neu]
-            }
+            h.zaaj = (c) => me&zaaj,h,c
+            
+            return h
+        }
+        # h={ha,zaa,jaa} for doming for such idc
+        #  will then be used by &hajasute if put on T.sute
+        me.hajadome = &acgtR,idc{
+            $dome = idc.dome || daint(havs(idc))
+            $h = {idc,dome}
+            
+            # input|see eg %%sute=$t...
+            $inc = c => ex(ex({},idc),peel(c))
+            
+            h.ha = (c,s) => me&ha,R,ex({dome},inc(c)),{},s
+            # zaa,jaa meaning recycled or not
+            #  both &jaa underneath, %%dome reentered every time
+            #  jaa(c,i=1) selects either
+            #   weird - usu one column mode (see &bracko)
+            h.zaa = c => me&jaa,R,inc(c) .filter(n => nc&recycled)
+            h.jaa = (c,i) => me&jaa,R,inc(c) .filter(n => !nc&recycled || i)
+            # zaaj(c) via jaa(c,i=1) - selects either     ^
+            #  see also &hajasute for maybe-sute bracking
+            
+            # and then we believe in %%rec as sub-doming this dome
+            h.traction = () => me&rec_traction,h
+            
             return h
         }
        
+       // %%rec, &zaaj
+        # %%rec... copy to %%wou after
+        me.rec_traction = &acgth{
+            #  as opposed to before, like %%dome in &dome_o3
+            #  dome-within-dome, since we %%dome=supe+sute
+            #  an extra persistence.
+            #  more permanent than %%dome, remain while going faulty.
+            #   ie the step becomes unreachable
+            #    are more plot points, goals than state
+            #    eg check w:Try via elIntro etc
+            # < use &hajasute .saa()
+            h.zaa('rec')
+                .filter(&n{
+                    # the all%rec == n%rec
+                    $hasnew = hak(h.jaa({rec:ns&rec})
+                        .filter(n => !nc&recycled)
+                    )
+                    nc&drop and debugger
+                    return !hasnew
+                })
+                .map(&n{
+                    # move zaa->jaa
+                    $z = h.ha(n.sc)
+                    # < after handlers eg %%sustain.done() set up
+                    #    to drop the row that was (from &zaa via &saa)
+                    #   before it gets copied into this %wou
+                    #   iterating it with something that does this 
+                    zs&sustain and zs&sustain.n = z
+                    ny&future = z
+                    zy&prerec = n
+                })
+        }
+        # %%rec-tractioned zaa+jaa
+        #  used when jaa(c,1) gives dupes from neu+old %%rec
+        # < as long as some new gets selected
+        #    ie you may see the old row if your query doesnt also get the new one
+        #     this would make it bad for seeing %%Such,ness,(--faulty)
+        #  < X easy to detect recent additions to %%dome etc
+        me.zaaj = &acgthc{
+            $neu = h.jaa(c)
+            # < use a grouper instead of...
+            $recn = {}
+            each in neu {
+                ns&rec and recn[ns&rec] = 1
+            }
+            return [...h.zaa(c)
+                .filter(n => !ns&rec || !recn[ns&rec]),
+                ...neu]
+        }
+       
+       // other access: &jaaz
         # &zaa it when it might not be entered yet
         #  or when j%sleeping
         #  used only by &Effect_o
