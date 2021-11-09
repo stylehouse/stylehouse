@@ -105,17 +105,40 @@ me.Sch_Travel = &acgt{ return [
             ~>7 sunk: ki(D,2)
             delete Rs&seekto;
         });
+        dish('o','any_point',&fTD{
+            ~>3 Modulating: D.t
+            $ba = f.whereart(D)
+            !ba and ~>6 !Dispon ball: n.t
+            4s&sheys_goopla = ba
+        });
     },'ift,D'],
    
    // sheys
     &{
     # dispatch key
+    # A.4 elvis handler, can proceed to ec&wake
     me.sheysdo = &acgte{
         e.t == 'V' and ec&wake = 4s&sheys_lastclick
+        else
+        e.t == 'G' and $seek = 4s&sheys_gotoplace
+        else
+        e.t == 'F' and $seek = 4s&sheys_furtherplace
         else {
             ~>5 DUNNO!?: e.t
         }
+        if (seek) {
+            # t o
+            me&hatch ('any_point',seek)
+        }
+        isfu(ec&wake) and ec&wake = ec&wake()
         ec&wake and ec&wake = me&yfuture,ec&wake
+    }
+    # get to a terminal
+    me.hatch = &acgt{
+        $n = 4s&mainthing
+        $f = ns&Abodo
+        !f and throw "!Abodo"
+        return f.hatch
     }
     },
    
