@@ -2322,9 +2322,10 @@ me.Sch_The = &acgt{ return [
     }
     # which set of This** should we look at on e:f
     me.seeknewIs = &acgtREs,Thy{
+        !Es&Is and return
         $la = Es&Is .slice(-1)[0]
         $sevens = la && me&ioty,la,['','']
-        $as = sevens .slice(-1)[0]
+        $as = sevens && sevens .slice(-1)[0]
         as and as = Cof(as).y.ers
         as and 4s&sheys_furtherplace = as
     }
@@ -3680,6 +3681,8 @@ me.Sch_The = &acgt{ return [
             # new J, normal mind
             rs&task ||= 'Pi_The'
         }
+        # < help node modulat break
+        me&ts,"lines-breaker","\u0020"
         me&boxcap,'E:'+r.t (&ml{
             lc&s = r.t
             me&walls,m,'b:1.2h6'
@@ -6429,6 +6432,28 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
    
    // -brack*, -Womb > -hat
+    # {"titley hash":s-brackio}
+    ['brackios',0.21,&acgtRs{
+         if (isC(s) || isar(s)) {
+             if (isC(s) && sy&R && !sy&brack) {
+                 # C is R%C
+                 $r = sy&R
+                 rs&C != s and debugger
+                 $wou = rs&wou
+                 !wou and debugger
+                 # note the C//R%wou move
+                 me&Ei,{t:s.t+'%wou',s:wou,pi:'brackio'}
+                 return
+             }
+             s&ma = 0.3
+             me&typeup,R,'brackio'
+         }
+         else {
+            each kv s {
+                me&Ei,{t:k,s:v}
+            }
+         }
+    },'ift,D'],
     # the unity of %wou or [brack+]
     ['brackio',0.21,&acgtRs{
         $D = Rs&D
@@ -6448,17 +6473,29 @@ me.Sch_The = &acgt{ return [
         }
     },'ift,D'],
     # each %wou/brack+
-    ['brack',0.21,&acgtRs{
+    ['brack',0.267,&acgtRs{
         $D = Rs&D
         !isC(s) and return me&strange,"!C"
+        $remark = {}
         each kv s.c {
             isha(v) && !hak(v) and continue
-            D.sc[k] = v
+            remark[k] = v
         }
-        each kv s.sc {
-            me&Ei,{t:k,s:v,pi:'hat'}
-        }
+        ex(D.sc,remark)
+        me&blabdepeel,'.c',remark
+        
+        me&Ei,{t:'%%',s:s.sc,pi:'hat'}
     },'ift,D'],
+    &{
+    # diag a little hash!
+    me.blabdepeel = &acgtts{
+        !hak(s) and return
+        # use -hat if not peelable
+        hak(grep(s => !iske(s), havs(s))) and return me&Ei,{t,s,pi:'hat'}
+        $str = G&depeel,s
+        me&tsc,t,str,'6g'
+    }
+    },
     
     # copy modulat straight to D**
     ['Womb',0.21,&acgtRs{
