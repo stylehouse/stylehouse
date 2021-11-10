@@ -6519,9 +6519,28 @@ me.Sch_The = &acgt{ return [
         })
     },'ift,D'],
     # styling
+    &{
+    me.injnl = &acgtm,start{
+        $n = Cye(["endsaline",1,{s:"\n"},"ws"])
+        isR(m) and $into = ms&M ||= []
+        else {
+            $into = ms&z ||= []
+        }
+        start and into.unshift(n)
+        else into.push(n)
+    }
+    },
     ['brack',0.78,&acgtRs{
         $E = Rs&E
-        hak( me&modselect,R,{t:'limit-cap'} ) and $firstdis1 = 1
+        $lim = me&modselect,R,{t:'limit-cap'}
+        # < measure modulat, sometimes they sym only
+        hak(lim) and $deeplim = lim
+        lim.map(&m{
+            # we could put $m\n
+            me&injnl,m
+        })
+        #     or $m,(\n...) ?
+        #hak(lim) and $firstdis1 = 0
         me&pity,E,'-hat' .map(&e{
             $er = ey&R
             !er and return
@@ -6534,8 +6553,12 @@ me.Sch_The = &acgt{ return [
             eCs&dis = 2
             # sc following ref, make on its own
             # < isnt this css clear:left or something?
-            firstdis1 and eCs&dis = 1; firstdis1 = 0
-            
+            # doesn't work:
+            #firstdis1 and me&injnl,er,1; firstdis1 = 0
+            #me&tc,eC,"Extrazity!"
+            # of course the sc is the same
+            # < the sc.* refs changing is interesting
+            deeplim and me&modselect,er,{el:9,t:'limit-cap'}
         })
         me&modulatM,R
     },'ift,D'],
