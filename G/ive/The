@@ -5659,6 +5659,7 @@ me.Sch_The = &acgt{ return [
             $lim = {limit:'ref',Erefc:c}
             # linkably close self, no more E/e
             c.near and lim.toomuch = 1
+            c.redraw and delete lim.toomuch
             me&Ri,lim
         }
         
@@ -5720,6 +5721,8 @@ me.Sch_The = &acgt{ return [
                 #c.redraw = 1
             }
         }
+        # < getting here early via %TX
+        ispi(E,'brack') || ispi(Ey&up,'brack') and c.redraw = 1
         c.any = c.self || c.other
     }
     me.ifsuchsame = &acgtkNM{
@@ -6516,8 +6519,9 @@ me.Sch_The = &acgt{ return [
         })
     },'ift,D'],
     # styling
-    ['brack',0.88,&acgtRs{
+    ['brack',0.78,&acgtRs{
         $E = Rs&E
+        hak( me&modselect,R,{t:'limit-cap'} ) and $firstdis1 = 1
         me&pity,E,'-hat' .map(&e{
             $er = ey&R
             !er and return
@@ -6528,14 +6532,11 @@ me.Sch_The = &acgt{ return [
             # or At:sc
             e.t == 'sc' and me&modselect,er,{el:9,n:eCy&label}
             eCs&dis = 2
-            E.t.includes('new') && e.t == '1' and me&fu,er
+            # sc following ref, make on its own
+            # < isnt this css clear:left or something?
+            firstdis1 and eCs&dis = 1; firstdis1 = 0
             
         })
-        me&modselect,R,{t:'limit-cap'}
-                .map(&m{
-                    my&dis = 3
-                    #my&cv = 0.88
-                })
         me&modulatM,R
     },'ift,D'],
     // # mad plot to have -row open into two rows for sc,c
