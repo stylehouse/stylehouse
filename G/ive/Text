@@ -259,6 +259,12 @@
         #     for D->modulat totality,
         #      so we can then Diff the modulats, and make good visual
         $Ply = me&boxcap,'Ply','1' (&Ply,l{
+        # clue any change inside, become Plyy&offendEd[] later
+        $radiate = &vd{
+            ds&changey ||= 0
+            ds&changey += v
+            d.up && radiate(v*0.3,d.up)
+        }
         # l = Comp[upto]
         $upto = 0
         # [d+]
@@ -487,7 +493,7 @@
                         good_luck = aLine.includes(string)
                         #me&drawtextliner,d,"l::",ls&string
                         #me&drawtextliner,d,"a::",aLine+"\n"
-                        !good_luck and debugger
+                        #!good_luck and debugger
                     }
                     # first bit should look good
                     if (good_luck || ls&string == aLine+"\n") {
@@ -707,24 +713,28 @@
                         }
                     }
                     !nl and return
-                    $wasupto = upto
-                    upto = Comp.indexOf(nl)
-                    
                     })
                     !nl and return me&tc,"unrecoverable","B"
+                    $wasupto = upto
+                    upto = Comp.indexOf(nl)
                     
                     # find corresponding d to skip iteration until
                     while (max-->0) {
                         dup.sc.recoveredup = 1
                         dup = dup.up
                         !dup and break
+                        if (dups&pi == 'six') {
+                            # hang %changey
+                            
+                            radiate(upto-wasupto,dup)
+                        }
                         if (hak(dup.slope)*2 < nls&level) {
                             dup.sc.recovering_since = d
                             break
                         }
                     }
-                    ahk(Om,'y','lingering-confu',1)
-                        || me&fu,"@"+n.t,{d,l,nl,n,upto,total:Comp.length,dup}
+                    #ahk(Om,'y','lingering-confu',1)
+                    #    || me&fu,"@"+n.t,{d,l,nl,n,upto,total:Comp.length,dup}
                 }
                 else me&tc,"unrecoverable","B"
             }
@@ -735,11 +745,6 @@
       // aft: radiate changey %ope -> E !
         anywhere(Ness)
         # get -seven/-six with change inside
-        $radiate = &vd{
-            ds&changey ||= 0
-            ds&changey += v
-            d.up && radiate(v*0.3,d.up)
-        }
         reverse(all).map(&d{
             $cha = hak(ds&chaComp)
             cha and radiate(cha,d)
