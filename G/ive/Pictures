@@ -145,6 +145,27 @@
             })
             return g
         }
+        me.state_upons = &acgtqm{
+            $R = me&R
+            $s = Rc&s
+            
+            $k = mc&state_upon
+            !k and return
+            
+            if (k[0] == '@') {
+                $z = me&Names_get,R,k.slice(1)
+                !z and throw "upon!",k,m
+                # put s** namespace we climbed
+                $N = me.cby(R,r => rc&s && rc&s == z) .slice(1)
+                !hak(N) and throw "none between",k,m
+                q.index = slant(...N,q.index)
+            }
+            else {
+                throw "upon?",k,m
+            }
+            
+            q.state_upon = z
+        }
         # &tt ({onto|once}) toggling, oncing.
         #  self: &tt,t () and 'while on'
         #  self: &tt,t (&{}) a
@@ -152,14 +173,20 @@
         me.tt = &acgttc{
             $R = me&R
             $s = Rc&s
-            # storage on y&tt
-            # < transact via E
-            $mem = me&yio,s,'tt'
+            $q = {}
+            
             # locates all ^^^&boxcap
-            !T.ab and throw "tt!Tab"
+            $m = T.ab
+            !m and throw "tt!Tab"
             # < it may want a group by instead of some slope
             #   eg cycling style of all nodes
-            $path = slant(me&ttpath,T.ab .slope)
+            q.index = slant(me&ttpath,m .slope)
+            
+            # storage on y&tt
+            # < transact via E
+            me&state_upons,q,m
+            q.state_upon ||= s
+            $mem = me&yio,q.state_upon,'tt'
 
             return &y,async{
                 
@@ -176,7 +203,7 @@
                 isfu(y) and y = {once:y}; y [async ? 'async' : 'other'] = 1
                 
                 # check state, hang on all ^^^&boxcap
-                $qua = mem.o(path,t) || {}
+                $qua = mem.o(q.index,t) || {}
                 # < why not C?
                 #   what shape are %TX**?
                 fatal.ish(qua)
@@ -215,7 +242,7 @@
                 $l = me&ty,t,c (&zTe{
                     z != l and debugger
                     # invoked asap when toggled
-                    qua = mem.i(path,t,qua)
+                    qua = mem.i(q.index,t,qua)
                     qua.on = !qua.on ? 1 : 0
                     if (y.other || y.async) {
                         # < know we are to Effect somewhere, and
