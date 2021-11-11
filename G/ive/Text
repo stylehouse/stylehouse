@@ -7,7 +7,7 @@
             !isob(c) and c = {tsc:c}
             $clue = me&Stringclue,s,{}
             
-            $n = me&ts,s,c.tsc
+            $n = me&ts,'string','',c.tsc
             ns&fs = 8
             ns&hs = clue.hs
             
@@ -146,7 +146,7 @@
             !isst(t) and throw "drawtextliner!title"
             !isst(s) and throw "drawtextliner!text"
             $Om = T.ab
-            me&boxcap,t,'5' (&ml{
+            $m = me&boxcap,t,'5' (&ml{
                 me&walls,m,'bd:1.1'
                 Om.y [t] = m
                 
@@ -155,6 +155,7 @@
                 me&walls,to,'bd:2.2,bg:000'
                 Om.y [t+'s'] = to
             })
+            return m
         }
         # < to having diff chunks floating around!
         me.textarrow = &acgtO{
@@ -257,7 +258,7 @@
         #    $exp** to resurrect relics from,
         #     for D->modulat totality,
         #      so we can then Diff the modulats, and make good visual
-        return me&boxcap,'Ply','1' (&Ply,l{
+        $Ply = me&boxcap,'Ply','1' (&Ply,l{
         # l = Comp[upto]
         $upto = 0
         # [d+]
@@ -477,8 +478,19 @@
                     
                     ul && ul != l && ls&moren and me&tc,"(moremore)",'6y'
                     
+                    $good_luck = 0
+                    if (d.up && d.up.sc.recoveredup) {
+                        debugger
+                    }
+                    if (d.up && d.up.sc.recovering_since) {
+                        $string = ls&string.replace(/\n$/,'')
+                        good_luck = aLine.includes(string)
+                        #me&drawtextliner,d,"l::",ls&string
+                        #me&drawtextliner,d,"a::",aLine+"\n"
+                        !good_luck and debugger
+                    }
                     # first bit should look good
-                    if (ls&string == aLine+"\n") {
+                    if (good_luck || ls&string == aLine+"\n") {
                         Li++
                         ac(d,'subComp',l)
                         if (nd) {
@@ -627,7 +639,10 @@
             
             each iz next {
                 !ds&good and cant("!good"); break
+                
                 anywhere(z,ex(ex({},d),{up:d}))
+                
+                d.sc.recoveredup and me&tc,"/Recoveredup",'g'; break
             }
             
       // recovery?
@@ -639,21 +654,77 @@
                     $goodlevel = dup.l.sc.level
                     $indup = upto
                     $max = 1000
+                    $la2
+                    $la
+                    $nl
+                    me&boxcap,"Recovering",1 (&ml{
+                    ms&ml = 1
+                    ls&ml = -1
+                    me&tc,"good<="+goodlevel,'6'
+                    $lastline
+                    $opecovered = me&tt,"covered" ()
                     while (max-->0) {
+                        la2 = la
+                        la = nl
                         indup++
-                        $nl = Comp[indup]
+                        nl = Comp[indup]
+                        !nl && !ahsk(Om,'y','lingering-confu') and me&tc,'Once','G'
                         !nl and break
-                        nls&level <= goodlevel and break
+                        $heady = la && las&string.endsWith("  ")
+                            || nls&string.startsWith("  ")
+                        !heady and continue
+                        
+                        
+                        $cover = me&boxcap,"Coveredup",1,2 (&ml{
+                            me&walls,m,'b:2.2'
+                            
+                            $t = '+'+(indup-upto)
+                            lastline = me&drawtextliner,d,t,nls&string
+                            if (nls&level > goodlevel && la2) {
+                                # perhaps it is wrong!
+                                # < not carrying %level over empties:
+                                #    (==      \n)(==    )(++somewhat  \n)
+                                $may = la2s&string.endsWith("\n")
+                                    && las&string.match(/^ +$/)
+                                $relevel = may && me&getindent,las&string+nls&string
+                                if (may && relevel != nls&level) {
+                                    me&tc,"lies!lev:"+relevel
+                                    nls&level = relevel
+                                    # this was carried
+                                    las&level = me&getindent,las&string
+                                    # carry on from there
+                                }
+                            }
+                        })
+                        
+                        if (nls&level <= goodlevel) {
+                            # < move last line up to box:Recovering
+                            lastlinec&not = 1
+                            me&drawtextliner,d,lastline.t,nls&string
+                            # close draw of covered lines
+                            !opecovered and coverc&not = 1
+                            break
+                        }
                     }
+                    !nl and return
+                    $wasupto = upto
+                    upto = Comp.indexOf(nl)
+                    
+                    })
                     !nl and return me&tc,"unrecoverable","B"
-                    me&tc,"Recovering"
-                    upto = indup
+                    
                     # find corresponding d to skip iteration until
                     while (max-->0) {
-                        break
+                        dup.sc.recoveredup = 1
+                        dup = dup.up
+                        !dup and break
+                        if (hak(dup.slope)*2 < nls&level) {
+                            dup.sc.recovering_since = d
+                            break
+                        }
                     }
                     ahk(Om,'y','lingering-confu',1)
-                        || me&fu,"@"+n.t,{d,l,n,upto,total:Comp.length,dup}
+                        || me&fu,"@"+n.t,{d,l,nl,n,upto,total:Comp.length,dup}
                 }
                 else me&tc,"unrecoverable","B"
             }
@@ -696,6 +767,9 @@
         
         # /box:Ply
         })
+        # < move outside
+        Plys&ml = -6
+        return Ply
         if (0 && 'look-around-lines') {
             $mai = Comp.findIndex(l => ls&string.includes("maaaagic"))
             
