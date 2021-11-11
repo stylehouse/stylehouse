@@ -1,8 +1,21 @@
-# lines of characters, etc
+# lines of characters, etc!
  
  // -String etc
      // &Stringclue|chew
-        # < involve &drawtextliner?
+        # used in &drawtextliner
+        me.drawString = &acgtsc{
+            !isob(c) and c = {tsc:c}
+            $clue = me&Stringclue,s,{}
+            
+            $n = me&ts,s,c.tsc
+            ns&fs = 8
+            ns&hs = clue.hs
+            
+            # always add marks
+            me&Stringchew,n,clue
+            
+            return n
+        }
         # string-ish type checker
         me.Stringclue = &acgtsc{
             isob(s) and debugger
@@ -127,7 +140,7 @@
             syms&fs = 20
             return sym
         }
-        # any string
+        # a named string bubble, clue odd chars
         # < know where in l|E...
         me.drawtextliner = &acgtdts{
             !isst(t) and throw "drawtextliner!title"
@@ -136,7 +149,8 @@
             me&boxcap,t,'5' (&ml{
                 me&walls,m,'bd:1.1'
                 Om.y [t] = m
-                $to = me&tc,s,'y'
+                
+                $to = me&drawString,s,'y'
                 tos&ws = 1
                 me&walls,to,'bd:2.2,bg:000'
                 Om.y [t+'s'] = to
