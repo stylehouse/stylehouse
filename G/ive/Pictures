@@ -131,41 +131,6 @@
                 return n
             }
         }
-        # climb a path from modulat rowcap|bowcap**
-        #  very temporary
-        # < could assume s is in T.ab, since no sy&up
-        #    most modulat doesnt sy&up, except &boxcap/&boxcap**
-        me.ttpath = &acgts{
-            $g = {slope:[]}
-            me.cbu(s,&n{
-                # < a.table etc could contain above slope...
-                ns&dis and ahk(g,'bydis',ns&dis,n)
-                # path
-                g.slope.unshift(n)
-            })
-            return g
-        }
-        me.state_upons = &acgtqm{
-            $R = me&R
-            $s = Rc&s
-            
-            $k = mc&state_upon
-            !k and return
-            
-            if (k[0] == '@') {
-                $z = me&Names_get,R,k.slice(1)
-                !z and throw "upon!",k,m
-                # put s** namespace we climbed
-                $N = me.cby(R,r => rc&s && rc&s == z) .slice(1)
-                !hak(N) and throw "none between",k,m
-                q.index = slant(...N,q.index)
-            }
-            else {
-                throw "upon?",k,m
-            }
-            
-            q.state_upon = z
-        }
         # &tt ({onto|once}) toggling, oncing.
         #  self: &tt,t () and 'while on'
         #  self: &tt,t (&{}) a
@@ -174,20 +139,16 @@
             $R = me&R
             $s = Rc&s
             $q = {}
+            # < $q = {$t}, which put into &Xio might ...
+            #   for &yio+ahk() however, mem.i(qua) doesnt work
+            #    relies on having some key entered
+            #     seems like arguments has to be plural
             
-            # locates all ^^^&boxcap
-            $m = T.ab
-            !m and throw "tt!Tab"
-            # < it may want a group by instead of some slope
-            #   eg cycling style of all nodes
-            q.index = slant(me&ttpath,m .slope)
+            # from node (or named above) y&tt...
+            #  through the ^^boxcaps
+            $mem = me&Tabstate,'tt'
+            # then mem.i(t+,v)
             
-            # storage on y&tt
-            # < transact via E
-            me&state_upons,q,m
-            q.state_upon ||= s
-            $mem = me&yio,q.state_upon,'tt'
-
             return &y,async{
                 
                 # may visit to handle events there
@@ -203,7 +164,7 @@
                 isfu(y) and y = {once:y}; y [async ? 'async' : 'other'] = 1
                 
                 # check state, hang on all ^^^&boxcap
-                $qua = mem.o(q.index,t) || {}
+                $qua = mem.o(t) || {}
                 # < why not C?
                 #   what shape are %TX**?
                 fatal.ish(qua)
@@ -242,7 +203,7 @@
                 $l = me&ty,t,c (&zTe{
                     z != l and debugger
                     # invoked asap when toggled
-                    qua = mem.i(q.index,t,qua)
+                    qua = mem.i(t,qua)
                     qua.on = !qua.on ? 1 : 0
                     if (y.other || y.async) {
                         # < know we are to Effect somewhere, and
@@ -305,6 +266,77 @@
             tax(n.sc,l.sc,'dis')
             ls&pa = 0.2
             return n
+        }
+   // &ttpath, &Tabstate
+        # climb a path from modulat rowcap|bowcap**
+        #  very temporary
+        # < could assume s is in T.ab, since no sy&up
+        #    most modulat doesnt sy&up, except &boxcap/&boxcap**
+        me.ttpath = &acgts{
+            $g = {slope:[]}
+            me.cbu(s,&n{
+                # < a.table etc could contain above slope...
+                ns&dis and ahk(g,'bydis',ns&dis,n)
+                # path
+                g.slope.unshift(n)
+            })
+            return g
+        }
+        # memory controller
+        # < X|io interesting
+        me.Tabstate = &acgttq{
+            $R = me&R
+            $s = Rc&s
+            # is indexed by all ^^^&boxcap
+            $m = T.ab
+            !m and throw "tt!Tab"
+            q ||= {}
+            hak(q,'t') and q.path = [q.t]
+            # we may leave it up to 
+            q.path ||= []
+            
+            # storage tricks eg mc&state_upon=@seven
+            me&state_upons,q,m
+            
+            # < it may want a group by instead of some slope
+            #   eg cycling style of all nodes
+            ahk(q,['index'], slant(me&ttpath,m .slope))
+            
+            # each string keying where mem ios
+            $lovely = [...q.index,...q.path]
+            
+            
+            q.state_upon ||= s
+            $mem = me&yio,q.state_upon,'tt',...lovely
+            # < io upony&/$tt{$upon***/T.ab}
+            #   io returns an io@1 ready to simply .i|o(...)
+            return mem
+        }
+        # $m=T.ab has hosting contract with eg @seven
+        me.state_upons = &acgtqm{
+            $R = me&R
+            $s = Rc&s
+            
+            $k = mc&state_upon
+            !k and return
+            
+            if (k[0] == '@') {
+                $z = me&Names_get,R,k.slice(1)
+                !z and throw "upon!",k,m
+                # put s** namespace we climbed
+                $N = me.cby(R,r => rc&s && rc&s == z) .slice(1)
+                !hak(N) and throw "none between",k,m
+                # nodal index lumps /start/like/this,
+                #  to never conflict with q.index[1] (in this case)
+                #   being defined somewhere else.
+                #   we are in y&tt 
+                ahk(q,['index'], '/'+slant(...N))
+            }
+            else {
+                throw "upon?",k,m
+            }
+            
+            q.state_upon = z
         }
    
    // &rowcap, &boxcap modulat zones
@@ -591,6 +623,7 @@
     }
     # h, h.i|o(k+,v?)
     me.yio = &acgtst{
+        # y&tt/...:lovely/...:expr
         $lovely = [...arguments].slice(6)
         $auf = &{
             $expr = [...arguments]
