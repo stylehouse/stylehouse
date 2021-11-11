@@ -465,40 +465,58 @@ S 3 Pictures hashy misc
 
    // js trivia
     # javascript weirdnesses!
+    // types
+        
+        $l = ['1', '2', '3']
+        hat('indexOf string!=num',{l,li: l.indexOf(2) ,number_btw:9})
+
+        # use before buy!
+        l.map(&n{
+            use = 3
+            $use = n
+        })
+        # < Plying test output to here,
+        #   generating blog with <code>1+1 # 2</code>
+        hat('null <>-ier than undefined',{
+            null_lt_6: null < 6,
+            null_gt_6: null > 6,
+            null_gt_neg6: null > -6,
+            undef_lt_6: undefined < 6,
+            undef_gt_6: undefined > 6,
+            undef_gt_neg6: undefined > -6,
+        })
+        hat('more types',{
+            'zero': [
+                '' == 0,
+                '0' == 0,
+                '' == '0',
+            ],
+            'undef': [
+                false == undefined,
+                false == null,
+                null == undefined,
+            ]
+        })
     
-    $l = ['1', '2', '3']
-    hat('indexOf string!=num',{l,li: l.indexOf(2) ,number_btw:9})
-    
-    # use before buy!
-    l.map(&n{
-        use = 3
-        $use = n
-    })
-    # < Plying test output to here,
-    #   generating blog with <code>1+1 # 2</code>
-    hat('null <>-ier than undefined',{
-        null_lt_6: null < 6,
-        null_gt_6: null > 6,
-        null_gt_neg6: null > -6,
-        undef_lt_6: undefined < 6,
-        undef_gt_6: undefined > 6,
-        undef_gt_neg6: undefined > -6,
-    })
-    hat('more types',{
-        'zero': [
-            '' == 0,
-            '0' == 0,
-            '' == '0',
-        ],
-        'undef': [
-            false == undefined,
-            false == null,
-            null == undefined,
-        ]
-    })
-    
-    # has to be &{} to get arguments
-    $lostcint = (s) => aroint([...arguments],':')
+    // sub
+        # has to be &{} to get arguments
+        $disnobrack
+        $set = &{
+            disnobrack = (s) => dis([...arguments])
+        }
+        set("the args","to the sub defining the sub")
+        $disbrack = &{ return dis([...arguments]) }
+        hat('to get arguments',{
+            "dont (...)=>{...}":
+                disnobrack('yab','yob','yup'),
+            "do &...{...}":
+                disbrack('yab','yob','yup'),
+            " one arg":
+                disbrack('yab'),
+            " no args":
+                disbrack(),
+        })
+        
     
    // &indo etc
     # < see that M == &indo... &e{ return e } works like 3d grep
