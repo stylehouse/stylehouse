@@ -2403,7 +2403,7 @@ me.Sch_The = &acgt{ return [
             Rs&DiffDigs != Diffs&Digs and delete Rs&Ply
             Rs&DiffDigs = Diffs&Digs
         }
-        
+    // &Plymergent
         # a big async, caching thing
         # < interaction is low. what does The++ need computing etc.
         $Ply = Rs&Ply ||= me&Plymergent,R,E,s,Ness,Comp
@@ -2412,18 +2412,38 @@ me.Sch_The = &acgt{ return [
         # if not &boxcap this time, put in R%M
         Plyy&origin ||= R
         Plyy&origin != R and ac(R,'M',Ply)
-        
+    // Plyy&offendEd
         # sustain its Effect - pointing to p
         $N = ahsk(Ply,'y','offendEd') || []
         !hak(N) and me&tc,"no-offends!?",'B'
+        $firstsix = 1
         each ic N {
-            $tpa = slant(me&ttpath,c.E .slope)
-            me&tc,"@@"+tpa,'16y'
-            if (i == 0) {
-                $see = me&uptonode,E
-                me&tc,"ton"+dis(see)
-                # 4s&sheys_furtherplace
-            }
+            me&boxcap,"off"+i,1 (&m{
+                $E = c.E
+                $d = c.d
+                
+                $tpa = slant(me&ttpath,E .slope)
+                #me&tc,tpa,'6y'
+                
+                # < slope vis
+                $see = {}
+                me&uptonode,E,see
+                me&tc,slant(see.path),'6y'
+                hak(see.beyond)
+                    && me&tc,'/','G'
+                    && me&tc,slant(see.beyond),'6y'
+                if (ds&pi == 'six') {
+                    me&tc,'-six','G'
+                    if (firstsix) {
+                        firstsix = 0
+                        # e:f takes you there
+                        #  instead of just latestNess/*/*-seven [0]
+                        # < shaping everything so you see This...E
+                        4s&sheys_furtherplace = me&uptonode,E
+                        ms&bgh = 873
+                    }
+                }
+            })
         }
         
         # < sprays offence everywhere sometime
@@ -2435,7 +2455,7 @@ me.Sch_The = &acgt{ return [
                 # sending to $node:-six/E-Fez
                 # < any This** that changes when we do this is sus
                 $tpa = slant(me&ttpath,E .slope)
-                me&tc,"@@"+tpa,'16y'
+                #me&fu,"mania@"+tpa,{E,d}
                 me&Effect,s,E,'showy-'+ds&pi,{show:1,ope:1,arrowy:1}
             }
         }
