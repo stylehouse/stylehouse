@@ -2415,12 +2415,15 @@ me.Sch_The = &acgt{ return [
         # sustain its Effect - pointing to p
         $N = ahsk(Ply,'y','offendEd') || []
         # < sprays offence everywhere sometimes
-        if (hak(N) < 6 || x.ro('offendmany')) {
+        $mania = hak(N) > 4 && "~x"+hak(N)
+        if (!mania || me&tt,'Effect:mergey'+mania ()) {
             each ic N {
                 $E = c.E
                 $d = c.d
                 # sending to $node:-six/E-Fez
                 # < any This** that changes when we do this is sus
+                $tpa = slant(me&ttpath,E .slope)
+                me&tc,"@@"+tpa,'16y'
                 me&Effect,s,E,'showy-'+ds&pi,{show:1,ope:1,arrowy:1}
             }
         }

@@ -155,15 +155,10 @@
             $R = me&R
             $s = Rc&s
             $q = {}
-            # < $q = {$t}, which put into &Xio might ...
-            #   for &yio+ahk() however, mem.i(qua) doesnt work
-            #    relies on having some key entered
-            #     seems like arguments has to be plural
-            
             # from node (or named above) y&tt...
             #  through the ^^boxcaps
-            $mem = me&Tabstate,'tt'
-            # then mem.i(t+,v)
+            $mem = me&Tabstate,'tt',q
+            # then mem.i|o(t+,v?)
             
             return &y,async{
                 
@@ -289,26 +284,38 @@
         me.Tabstate = &acgttq{
             $R = me&R
             $s = Rc&s
-            # is indexed by all ^^^&boxcap
-            $m = T.ab
-            !m and throw "tt!Tab"
             q ||= {}
+            # < $q = {$t}, which put into &Xio might ...
+            #   for &yio's ahk() however, mem.i(qua) doesnt work
+            #    relies on having at least one key (to listend)
             hak(q,'t') and q.path = [q.t]
-            # we may leave it up to 
+            
+            
+            # any T.ab^^^ (environmental)
+            q.index ||= []
+            # what may be supplied
+            #  or leave it up to the mem.i('lastkey','such')
             q.path ||= []
             
-            # storage tricks eg mc&state_upon=@seven
-            me&state_upons,q,m
+            # may index by all ^^^&boxcap
+            $m = T.ab
+            if (m) {
+                !m and throw "tt!Tab"
+
+                # storage tricks eg mc&state_upon=@seven
+                me&state_upons,q,m
+
+                # < it may want a group by instead of some slope
+                #   eg cycling style of all nodes
+                ahk(q,['index'], slant(me&ttpath,m .slope))
+            }
             
-            # < it may want a group by instead of some slope
-            #   eg cycling style of all nodes
-            ahk(q,['index'], slant(me&ttpath,m .slope))
-            
-            # each string keying where mem ios
+            # each string keying where mem ios onto the end of
             $lovely = [...q.index,...q.path]
             
             
             q.state_upon ||= s
+            
             $mem = me&yio,q.state_upon,'tt',...lovely
             # < io upony&/$tt{$upon***/T.ab}
             #   io returns an io@1 ready to simply .i|o(...)
