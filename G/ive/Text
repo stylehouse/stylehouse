@@ -449,7 +449,7 @@
                 if (!d.morend && l.t == 'same'
                     # it should look like the rest of l
                     && ls&string == indLines) {
-                    ds&good = me&tc,"2"
+                    ds&good = me&ts,"match-quality-good","2"
                     # and we associate d (for E**) with it
                     ac(d,'subComp',l)
                     upto++
@@ -540,7 +540,7 @@
               // non-easy OK
                 Li and me&tc,"("+Li+")",'6y'
                 if (!l) {
-                    ds&good = me&tc,"7"
+                    ds&good = me&ts,"match-quality-okay","7"
                     # already counted upto++ going into ul%moren (either of two ways)
                     return
                 }
@@ -568,6 +568,8 @@
                 
                 # maybe just the start of it
                 if (Lines) {
+                    me&ts,"lingering-confusedly",'??'
+                    
                     if (ls&string.includes(Lines)) {
                         me&tc,"oooook@"+upto
                         return
@@ -598,30 +600,62 @@
             }
             
       // recursion?
-            if (hak(next)) {
+            $cant = t => me&thingosym,'⦄'+t .sc.fs = 15
+            if (hak(next) && ds&good) {
                 $not = 0
                 # don't recurse unless Comp says
+                #Comp[upto] != l and debugger
                 $ln = Comp[upto]
-                if (!d.morend && ln && l && lns&level <= ls&level) {
+                if (!d.morend && ln && l && l != ln && lns&level <= ls&level) {
+                    me&fu,"Leaving:"+slant(d.slope),{d,ln,l}
                     # may end on a single line E, so no l%moren
                     #  eg X.A is a one-liner, yet we can see n/* t,y,c,sc
-                    return me&thingosym,'⦄E...' .sc.fs = 15
+                    return cant('E...')
                 }
                 # < should only l%moren instead of !l%ope
-                !(l && ls&ope) and return me&thingosym,'⦄l' .sc.fs = 15
+                !(l && ls&ope) and return cant('l')
                 else
                 # see ds&morenth for -six whole y&thing check
                 #  doesn't involve E**, what we avoid here:
                 # since E** feeds Lines one-C at a time, avoid the folds.
                 #  essentially ignoring a bunch of stuff already marked as boring.
                 #  they must be opened back in Diff.
-                ls&moren and return me&thingosym,'⦄m' .sc.fs = 15
+                ls&moren and return cant('m')
                 # and not far
                 #hak(d.slope) > 5 and return me&thingosym,'⦄>'
             }
             
             each iz next {
+                !ds&good and cant("!good"); break
                 anywhere(z,ex(ex({},d),{up:d}))
+            }
+            
+      // recovery?
+            # and here, at every crux to a later depth first
+            if (!ds&good) {
+                $dup = d.up
+                if (dups&good) {
+                    # attempt recovery at first Comp%level <= that
+                    $goodlevel = dup.l.sc.level
+                    $indup = upto
+                    $max = 1000
+                    while (max-->0) {
+                        indup++
+                        $nl = Comp[indup]
+                        !nl and break
+                        nls&level <= goodlevel and break
+                    }
+                    !nl and return me&tc,"unrecoverable","B"
+                    me&tc,"Recovering"
+                    upto = indup
+                    # find corresponding d to skip iteration until
+                    while (max-->0) {
+                        break
+                    }
+                    ahk(Om,'y','lingering-confu',1)
+                        || me&fu,"@"+n.t,{d,l,n,upto,total:Comp.length,dup}
+                }
+                else me&tc,"unrecoverable","B"
             }
             
             })
