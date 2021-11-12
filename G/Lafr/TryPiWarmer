@@ -645,13 +645,12 @@ S 4 @Gnome
  // majorly
   // dome brack f
     me.mockR = &acgtt{
-        $ver = 1
         $maker = &b{
             $r = Cye([t,333])
             ry&R = r
             # have the previous r
             b and rc&b = b
-            rs&ver = ver++
+            rs&ver = b && bs&ver+1 || 1
             # have %C that leads back to r
             $C = rs&C = Cye([t,1])
             Cy&R = r
@@ -685,7 +684,7 @@ S 4 @Gnome
         h.brackio(t,wou)
     }
     $ios = &tsc{
-        h.tys(t,'brackios',s,c)
+        return h.tys(t,'brackios',s,c)
     }
     
   // %%dome
@@ -759,20 +758,29 @@ S 4 @Gnome
   // %%rec & &hajadome
     $unit = 1
     $no_hajasute = 1
+    $title = ''
     $brainfront = &y{
         return &Cr{
-            # 
-            $h = me&hajadome,r,{dome:'bf'}
-            # and with %%rec knowing jaa
-            !no_hajasute and $h = me&hajasute
+            # mix %%dome=bf into every sute.ha(...)
+            $sute = me&hajadome,r,{dome:'bf'}
+            # and with %%rec &zaaj knowing
+            $h = no_hajasute ? sute : me&hajasute
             
             $i = {}
             y (C,h,r,i)
             
-            h.traction()
+            # %%rec computing
+            sute.traction()
+            
+            $say = "unit "+(title||unit)
+            rs&ver != unit and say += '   r.'+rs&ver
+            # < reverse expe(): it shrinks to whole if others. collapsy.
             $see = hak(i) ? ex(i,{whole:C}) : C
-            ios("unit "+unit,see)
-            unit += 1
+            $c = {}
+            
+            $six = ios(say,see,c)
+            !title and unit += 1
+            title = ''
         }
     }
     $neuro = &h{
@@ -785,8 +793,10 @@ S 4 @Gnome
             $more = v > 6 ? ',recind' : ''
             h.ha("rec:do,oughtta:finds:"+v+more)
         })
+        $c = "rec:do"
         # oughtta(finds) -> stepula
-        h.jaa("rec:do",1) .map(&n{
+        $N = h.zaaj ? h.zaaj(c) : h.jaa(c,1)
+        N.map(&n{
             if (ns&oughtta) {
                 $finds = h.jaa(ns&oughtta)
                 ns&once && hak(finds) and nc&drop = 1
@@ -808,6 +818,7 @@ S 4 @Gnome
             }
         })
     }
+    $moreR =
     me&mockR,'unit' (brainfront(&Chr{
         h.ha("observe:casual,things:about")
         h.ha("Artful:ness,dome:ze")
@@ -850,12 +861,38 @@ S 4 @Gnome
         neuro(h)
     }))
     # 6
-    (brainfront(&Chr{
+    $thesix = &Chr{
         h.ha("observe:casual,sitars")
+        # make %%oughtta:10|10|8
         h.ha("observe:lat,jazz,band,finds:8")
         h.ha("observe:long,operate,band,finds:8")
-        h.ha("observe:moreothat,yap,finds:6")
+        #  latest %%rec:complete being:
+        h.ha("observe:moreothat,moreothat,finds:6")
+        # there are two &jaa %%oughtta:8
+        #  if &zaaj, would be one
+        # they share the hall of fame, on id-groupy %%rec
         neuro(h)
-    }))
+        h.ha("finality")
+    }
+    #no_hajasute = 0
+    moreR (brainfront(thesix))
+    return
+    $these = {}
+    $la = k => ahk(these,k,t.lasix)
+    la(6)
+    
+    title = '6 1 fork same'
+    moreR (brainfront(thesix))
+    la(61)
+    
+    title = '6 2 one zaaj oughtta'
+    $nextR =
+    moreR (brainfront(thesix))
+    la(62)
+    # < to select recent six by numbers in title?
+    
+    # < diff them
+    t.tys("heres looking",'hat',these,{dl:2})
+    
     
     
