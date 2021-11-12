@@ -2404,61 +2404,87 @@ me.Sch_The = &acgt{ return [
             Rs&DiffDigs = Diffs&Digs
         }
     // &Plymergent
-        # a big async, caching thing
-        # < interaction is low. what does The++ need computing etc.
-        $Ply = Rs&Ply ||= me&Plymergent,R,E,s,Ness,Comp
         # to show or no
-        Plyc&not = !x.ro('Plys',{})
-        # if not &boxcap this time, put in R%M
-        Plyy&origin ||= R
-        Plyy&origin != R and ac(R,'M',Ply)
-    // Plyy&offendEd
-        # sustain its Effect - pointing to p
-        $N = ahsk(Ply,'y','offendEd') || []
-        !hak(N) and me&tc,"no-offends!?",'B'
-        $firstsix = 1
-        each ic N {
-            me&boxcap,"off"+i,1 (&m{
-                $E = c.E
-                $d = c.d
-                
-                $tpa = slant(me&ttpath,E .slope)
-                #me&tc,tpa,'6y'
-                
-                # < slope vis
-                $see = {}
-                me&uptonode,E,see
-                me&tc,slant(see.path),'6y'
-                hak(see.beyond)
-                    && me&tc,'/','G'
-                    && me&tc,slant(see.beyond),'6y'
-                if (ds&pi == 'six') {
-                    me&tc,'-six','G'
-                    if (firstsix) {
-                        firstsix = 0
-                        # e:f takes you there
-                        #  instead of just latestNess/*/*-seven [0]
-                        # < shaping everything so you see This...E
-                        4s&sheys_furtherplace = me&uptonode,E
-                        ms&bgh = 873
-                    }
+        me&boxcap,'Ply-mergent' (&ml{
+            me&walls,m,'b:3.4'
+            lc&s = 'Ply'
+            $hideguts = !me&tt,'guts' ()
+            # a big async, caching thing
+            # < interaction is low. what does The++ need computing etc.
+            $Ply = Rs&Ply ||= me&Plymergent,R,E,s,Ness,Comp
+            
+            hideguts and Plyc&not = 1
+            # if not &boxcap this time, put in R%M
+            Plyy&origin ||= R
+            Plyy&origin != R and ac(R,'M',Ply)
+            
+            $Th = Cof( Cof( me&fiu,E,'This' ))
+            me&fu,"Thee",Th
+            
+    //     Plyy&offendEd
+            # sustain its Effect - pointing to p!
+            me&boxcap,'offend' (&m{
+            me&walls,m,'b:3.4'
+            $N = ahsk(Ply,'y','offendEd') || []
+            !hak(N) and me&tc,"none!?",'B'
+            me&tc,"~x"+hak(N)
+            # < should be an iterator, seeking @Ply/offend <-> This**
+            $maxsend = 5
+            if (hak(N) > maxsend) {
+                if (me&tt,'sendall?' ()) {
+                    maxsend = 100
                 }
-            })
-        }
-        
-        # < sprays offence everywhere sometime
-        $mania = hak(N) > 4 && "~x"+hak(N)
-        if (!mania || me&tt,'Effect:mergey'+mania ()) {
-            each ic N {
-                $E = c.E
-                $d = c.d
-                # sending to $node:-six/E-Fez
-                # < any This** that changes when we do this is sus
-                $tpa = slant(me&ttpath,E .slope)
-                #me&fu,"mania@"+tpa,{E,d}
-                me&Effect,s,E,'showy-'+ds&pi,{show:1,ope:1,arrowy:1}
             }
-        }
+            
+            $firstsix = 1
+            each ic N {
+                me&boxcap,"off"+i,1 (&m{
+                    $E = c.E
+                    $d = c.d
+
+                    $tpa = slant(me&ttpath,E .slope)
+                    #me&tc,tpa+"\n",'6y'
+
+                    # < slope vis
+                    $see = {}
+                    me&uptonode,E,see
+                    # < chop at @This easier
+                    $path = see.path
+                    path.includes(Th) and path = ksaf(path,{aft:Th,inc:1})
+                    #me&fu,"Thi"+i,{ye,path,Th}
+                    
+                    me&tc,slant(path),'6y'
+                    if (hak(see.beyond)) {
+                        me&tc,'/','G'
+                        me&tc,slant(see.beyond),'6y'
+                    }
+                    if (ds&pi == 'six') {
+                        me&tc,'-six','G'
+                        if (firstsix) {
+                            firstsix = 0
+                            # e:f takes you there
+                            #  instead of just latestNess/*/*-seven [0]
+                            # < shaping everything so you see This...E
+                            4s&sheys_furtherplace = me&uptonode,E
+                            ms&bgh = 873
+                        }
+                    }
+                    
+                    # < link this to the &tt,'sendall?'
+                    maxsend-2 == i and me&tc,"<offend-send-cursor>",'16G'
+                    if (i >= maxsend-1) {
+                        ms&opa = 0.7
+                    }
+                    else {
+                        # sending to $node:-six/E-Fez
+                        # < any This** that changes when we do this is sus
+                        me&Effect,s,E,'showy-'+ds&pi,{show:1,ope:1,arrowy:1}
+                    }
+                })
+            }
+            })
+        
+        })
         # < is parsing the diff (from and) into two trees,
         #     to $z|$exp
         #      < &deL giving y&toLines
