@@ -684,8 +684,8 @@ S 4 @Gnome
         $wou = rs&wou
         h.brackio(t,wou)
     }
-    $ios = &ts{
-        h.tys(t,'brackios',s)
+    $ios = &tsc{
+        h.tys(t,'brackios',s,c)
     }
     
   // %%dome
@@ -756,6 +756,99 @@ S 4 @Gnome
             "whole": C,
         })
     })
-  // %%rec
+  // %%rec & &hajadome
+    $unit = 1
+    $no_hajasute = 1
+    $brainfront = &y{
+        return &Cr{
+            # 
+            $h = me&hajadome,r,{dome:'bf'}
+            # and with %%rec knowing jaa
+            !no_hajasute and $h = me&hajasute
+            
+            $i = {}
+            y (C,h,r,i)
+            
+            h.traction()
+            $see = hak(i) ? ex(i,{whole:C}) : C
+            ios("unit "+unit,see)
+            unit += 1
+        }
+    }
+    $neuro = &h{
+        # every time
+        # finds -> oughtta
+        h.jaa('observe,finds') .map(&n{
+            $v = ns&finds*1 + 2
+            $more = v > 6 ? ',recind' : ''
+            h.ha("rec:do,oughtta:finds:"+v+more)
+        })
+        # oughtta(finds) -> stepula
+        h.jaa("rec:do") .map(&n{
+            if (ns&oughtta) {
+                $finds = h.jaa(ns&oughtta)
+                !ns&once && hak(finds) and nc&drop = 1
+                finds.map(&f{
+                    $rec = "complete"
+                    # < grep({bow:&vki{}},f.sc) or grep({bowi:1},f.sc)
+                    #   grep bowk=$such $f
+                    #    such that grep cannot be used for C.*
+                    #  < Babz floaty params for any known function like that
+                    $firk = haks(f.sc)[0]
+                    ns&recind and rec = daint(rec,cint(firk,f.sc[firk]))
+                    # < sub() for &ha doing clone-from via q.base=$n
+                    $c = ex({stepula:ns&oughtta},f.sc)
+                    h.ha({rec},c)
+                })
+            }
+        })
+    }
+    me&mockR,'unit' (brainfront(&Chr{
+        h.ha("observe:casual,things:about")
+        h.ha("Artful:ness,dome:ze")
+        h.ha("Artful:ness,dome:al")
+        neuro(h)
+    }))
+    (brainfront(&Chr{
+        h.ha("observe:casual,things:about")
+        # -> oughtta
+        h.ha("observe:3,finds:4")
+        # not finding:
+        h.ha("unobserved:3,finds:4")
+        # redome ze
+        h.ha("Frypan,lapan,dome:ze")
+        neuro(h)
+    }))
+    # 3
+    (brainfront(&Chri{
+        # we still %%oughtta, would even from %%dome, now
+        i["not &jaa finds"] = h.jaa('finds:4')
+        i["are &zaa finds"] = h.zaa('finds:4')
+        h.ha("observe:casual,things:around")
+        neuro(h)
+        h.ha('finally')
+        # a new %%rec,oughtta made from traction, not neuro
+    }))
+    
+    
+    
+    0 &&
+    (brainfront(&Chr{
+        h.ha("observe:casual,things:about")
+        h.ha("observe:hedge,hedge,finds:6")
+        neuro(h)
+    }))
+    (brainfront(&Chr{
+        h.ha("observe:casual,sitars")
+        h.ha("observe:jazz,jazz,band,finds:4")
+        h.ha("observe:fafe,faff:3,band,finds:6")
+        neuro(h)
+    }))
+    # 6
+    (brainfront(&Chr{
+        h.ha("observe:casual,sitars")
+        h.ha("observe:casual,jazz,band")
+        neuro(h)
+    }))
     
     
