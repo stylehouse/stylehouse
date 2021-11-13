@@ -2714,6 +2714,10 @@
                 $s = c.arg.shift()
                 c.N = isar(s) ? s.slice() : [s]
             })
+            a(/^\/((?:\.\w+)+)/, &path,{
+                path = path.split('.').slice(1)
+                c.N = c.N.map(v => ahsk(v,...path))
+            })
             # go somewhere
             #  // is like ... for /, near-self dimension hop
             #  ie s//E the s** to the E** sphere
