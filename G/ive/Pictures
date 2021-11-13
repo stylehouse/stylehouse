@@ -729,12 +729,6 @@
         }
         return out.map(i => N.splice(i,1)[0]).reverse()
     }
-    # perl split()
-    self.split = &s,by,times{
-        $N = s.split(by)
-        times && hak(N) > times and N = [N[0],N.slice(1).join(by)]
-        return N
-    }
     # [1,1,2] = flatten([1,[1,2]])
     window.flatten = &M{
         !isar(M) and throw "flatten!ar"
@@ -746,6 +740,45 @@
         }
         return N
     }
+    
+    # revisit &fabioty
+
+    # replacing map, [] or {}, waves of y(v,k)
+    self.rap = &N{
+        $ys = [...arguments].slice(1)
+        $array = isar(N)
+        each iy ys {
+            $M = []
+            each in N {
+                array and i *= 1
+                M.push(y (n,i))
+            }
+            each in N {
+                N[i] = M.shift()
+            }
+        }
+        return N
+    }
+    # randomize array
+    # < pick many, randomly
+    self.shuffle = &a{
+        var j, x, i;
+        for (i = a.length - 1; i > 0; i--) {
+            j = Math.floor(Math.random() * (i + 1));
+            x = a[i];
+            a[i] = a[j];
+            a[j] = x;
+        }
+        return a;
+    }
+  // misc() array string
+    # perl split()
+    self.split = &s,by,times{
+        $N = s.split(by)
+        times && hak(N) > times and N = [N[0],N.slice(1).join(by)]
+        return N
+    }
+    
     # < types for weird sorts of compression!!
     #   for eg W.t storable (filename sanity)
     self.cint = &{ return aroint([...arguments],':') }
@@ -771,18 +804,6 @@
             else { s += join+n }
         }
         return s
-    }
-    # randomize array
-    # < pick many, randomly
-    self.shuffle = &a{
-        var j, x, i;
-        for (i = a.length - 1; i > 0; i--) {
-            j = Math.floor(Math.random() * (i + 1));
-            x = a[i];
-            a[i] = a[j];
-            a[j] = x;
-        }
-        return a;
     }
   // misc() access
     # defor... inverted

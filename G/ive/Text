@@ -259,6 +259,7 @@
         #     for D->modulat totality,
         #      so we can then Diff the modulats, and make good visual
         $Ply = me&boxcap,'Ply','1' (&Ply,l{
+        lc&not = 1
         # clue any change inside, become Plyy&offendEd[] later
         $radiate = &vd{
             ds&changey ||= 0
@@ -658,6 +659,21 @@
                 if (dups&good) {
                     # attempt recovery at first Comp%level <= that
                     $goodlevel = dup.l.sc.level
+                    # in a (==1-six\n)(~~2-six\n)(==3-six\n)
+                    #  recover to the next six
+                    $prevd = ksaf(dups&z,{bow:d}) [0]
+                    $maybelevel = prevd && prevd.l.sc.level
+                    if (maybelevel) {
+                        if (maybelevel && maybelevel == goodlevel + 2) {
+                            goodlevel = maybelevel
+                        }
+                        else {
+                            me&tc,"unsure"+dis({maybelevel,"^/<":prevd.l.sc.string})
+                            maybelevel = 0
+                        }
+                    }
+                    
+                    # aim this, notting d recursion up to it!
                     $indup = upto
                     $max = 1000
                     $la2
@@ -667,6 +683,7 @@
                     ms&ml = 1
                     ls&ml = -1
                     me&tc,"good<="+goodlevel,'6'
+                    maybelevel and me&ts,'maybelevel-got-from-^/<','(same-indent)','6y'
                     $lastline
                     $opecovered = me&tt,"covered" ()
                     while (max-->0) {
@@ -702,16 +719,17 @@
                                 }
                             }
                         })
+                        # close draw of covered lines
+                        !opecovered and cover.c.not = 1
                         
                         if (nls&level <= goodlevel) {
                             # < move last line up to box:Recovering
                             lastlinec&not = 1
                             me&drawtextliner,d,lastline.t,nls&string
-                            # close draw of covered lines
-                            !opecovered and coverc&not = 1
                             break
                         }
                     }
+                    max < 5 and debugger
                     !nl and return
                     })
                     !nl and return me&strange,"unrecoverable"
@@ -720,12 +738,12 @@
                     
                     # find corresponding d to skip iteration until
                     while (max-->0) {
+                        dup.l && dup.l.sc.level < goodlevel and break
                         dup.sc.recoveredup = 1
                         dup = dup.up
                         !dup and break
                         if (dups&pi == 'six') {
                             # hang %changey
-                            
                             radiate(upto-wasupto,dup)
                         }
                         if (hak(dup.slope)*2 < nls&level) {
