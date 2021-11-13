@@ -740,23 +740,31 @@
                     max < 5 and debugger
                     !nl and return
                     })
-                    !nl and return me&strange,"unrecoverable"
+                    !nl and return me&strange,"unrecoverable!nl"
                     $wasupto = upto
                     upto = Comp.indexOf(nl)
                     
                     # find corresponding d to skip iteration until
+                    $done = 0
                     while (max-->0) {
-                        dup.l && dup.l.sc.level < goodlevel and break
-                        dup.sc.recoveredup = 1
+                        if (!done) {
+                            if (dup.l && dup.l.sc.level < goodlevel) {
+                                done = 1
+                            }
+                            else dups&recoveredup = 1
+                        }
                         dup = dup.up
                         !dup and break
+                        
+                        # < radiate to last dups&good and break
                         if (dups&pi == 'six') {
                             # hang %changey
                             radiate(upto-wasupto,dup)
                         }
-                        if (hak(dup.slope)*2 < nls&level) {
-                            dup.sc.recovering_since = d
-                            break
+                        if (!done) {
+                            if (hak(dup.slope)*2 < nls&level) {
+                                dups&recovering_since = d
+                            }
                         }
                     }
                     #ahk(Om,'y','lingering-confu',1)

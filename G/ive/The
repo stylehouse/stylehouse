@@ -2424,17 +2424,14 @@ me.Sch_The = &acgt{ return [
             me&walls,m,'b:3.4'
             lc&s = 'Ply'
             $hideguts = !me&tt,'guts' ()
-            # a big async, caching thing
             # < interaction is low. what does The++ need computing etc.
-            $Ply = Rs&Ply
-            Ply && Plyc&not && !hideguts and delete Rs&Ply
+            !hideguts and delete Rs&Ply
             $Ply = Rs&Ply ||= me&Plymergent,R,E,s,Ness,Comp
-            # < awkward
             hideguts and Plyc&not = 1
-            
-            # if not &boxcap this time, put in R%M
+            # if not &boxcap this time, put in m
+            # < &cloneinto usu does this, seems to just work though?
             Plyy&origin ||= R
-            Plyy&origin != R and ac(R,'M',Ply)
+            Plyy&origin != R and ac(m,'z',Ply)
             
             $Th = Cof( Cof( me&fiu,E,'This' ))
             
