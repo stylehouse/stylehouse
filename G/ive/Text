@@ -374,7 +374,7 @@
                     l = uls&moren [nd.moreni]
                     me&tsc,'morening',"^"
                 }
-                !l and return me&tc,"off","b"
+                !l and d.offtape = 1; return me&tc,"off","b"
                 d.l = l
                 
                 # last l%ope, l/* (indentitively) is folded into l%moren
@@ -446,6 +446,7 @@
                 }
                 
                 !Lines && me&mergent_avoids_unLinesed,d,n and return
+                # < test all of these recover
                 !Lines and return me&tc,"lost-string",'b'
                 !hak(ns&z) and me&tc,'/$','g'
                 
@@ -653,10 +654,13 @@
             
             each iz next {
                 !ds&good and cant("!good"); break
+                $dd = ex(ex({},d),{up:d})
+                anywhere(z,dd)
+                # happens when E** shows un-Ret potential
+                #  little to no flood control
+                dd.offtape and me&tc,'off-tape'; break
                 
-                anywhere(z,ex(ex({},d),{up:d}))
-                
-                d.sc.recoveredup and me&tc,"/Recoveredup",'g'; break
+                ds&recoveredup and me&tc,"/Recoveredup",'g'; break
             }
             
       // recovery?

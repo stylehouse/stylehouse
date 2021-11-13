@@ -754,7 +754,8 @@ S 4 @Gnome
         return &Cr{
             # mix %%dome=bf into every sute.ha(...)
             $sute = me&hajadome,r,{dome:'bf'}
-            # and with %%rec &zaaj knowing
+            # and with %%rec &zaaj knowing, T.sute
+            $Tap = me&Tap,{sute}
             $h = no_hajasute ? sute : me&hajasute
             
             $i = {}
@@ -762,6 +763,9 @@ S 4 @Gnome
             
             # %%rec computing
             sute.traction()
+            delete T.hajasute
+            # < move ^ to v via sute.packdown[]()?
+            Tap()
             
             $say = "unit "+(title||unit)
             rs&ver != unit and say += '   r.'+rs&ver
@@ -895,16 +899,18 @@ S 4 @Gnome
     },{dl:3,first_truest:1})
     t.diff('6 1 is the same',x[6],x[61],'see')
     
-    return
-    
+    no_hajasute = 0
     title = '6 2 one zaaj oughtta'
     $nextR =
     moreR (brainfront(thesix))
     la(62)
+    grep(six => me&finishPiing,six ,x)
+    t.diff('6 2 different',x[6],x[62],'see')
+    
+    return
+    
     # < to select recent six by numbers in title?
     
-    # < diff them
-    t.tys("heres looking",'hat',these,{dl:2})
     
     
     
