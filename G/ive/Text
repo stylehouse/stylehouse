@@ -608,13 +608,19 @@
             }
             
             if (ds&chaComp) {
-                me&boxcap,"~",'1g' (&m{
+                me&boxcap,"~",'g' (&m{
+                    me&tt,'d' () and me&tc,"dsc"+dis(d.sc),'1G'
                     each il ds&subComp {
-                        me&drawtextliner,d,l.t+":"+i,ls&string
+                        me&drawtextliner,d,l.t,ls&string
                     }
-                    # and the non-same ones
-                    #  may inc the non-match after, not in %subComp
-                    me&tc,"["+joint(ds&chaComp)+"]"
+                    me&boxcap,"ExtraAfter?",1 (&{
+                        # and the non-same ones
+                        #  may inc the non-match after, not in %subComp
+                        each il ds&chaComp {
+                            ds&subComp.includes(l) and continue
+                            me&drawtextliner,d,l.t,ls&string
+                        }
+                    })
                 })
             }
             
@@ -682,6 +688,8 @@
                     me&boxcap,"Recovering",1 (&ml{
                     ms&ml = 1
                     ls&ml = -1
+                    
+                    me&tt,'d' () and me&tc,"dsc"+dis(d.sc),'1G'
                     me&tc,"good<="+goodlevel,'6'
                     maybelevel and me&ts,'maybelevel-got-from-^/<','(same-indent)','6y'
                     $lastline
