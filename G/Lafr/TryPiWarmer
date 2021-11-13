@@ -527,6 +527,12 @@ S 3 Pictures hashy misc
                 disbrack(),
         })
         
+        // hash key order
+        #  because of how javascript (v8) stores properties & elements
+        #  keys that look like array indices (dec(s,0) == s) will come first
+        #   eg assigning -2,-1,0 iterates 0,-2,-1
+        #  ! anywhere we rely on hash key order might be affected
+        
     
    // &indo etc
     # < see that M == &indo... &e{ return e } works like 3d grep
@@ -879,10 +885,11 @@ S 4 @Gnome
         #  if &zaaj, would be one
         # they share the hall of fame, on id-groupy %%rec
         neuro(h)
-        h.ha("finalities")
+        h.ha("finality")
     }
     # < get &hajasute to see T.sute = &hajadome
     #no_hajasute = 1
+    # < more r%many_thresh
     moreR (brainfront(thesix))
     return
     $these = {}

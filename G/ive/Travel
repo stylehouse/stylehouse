@@ -109,8 +109,13 @@ me.Sch_Travel = &acgt{ return [
             $g = f.whereart(D)
             !g and return ~>6 !Dispon any_point: n.t
             $on = f.on;
-            $prelude = gs&height > 600 ? -300 : 0
-            on.scrollTop += dec(gs&top) + prelude
+            # leave 200px prelude above small items
+            $prelude = gs&height < 600 ? -200 : 0
+            # g%top is measured from top of view into f.on:Ying
+            #  the height of which is %gapy
+            $vector = dec(gs&top,0) + prelude
+            on.scrollTop += vector
+            #~>2 any_point: on.scrollTop, "+"+vector
         });
     },'ift,D'],
    
@@ -123,6 +128,8 @@ me.Sch_Travel = &acgt{ return [
         else
         e.t == 'G' and $seek = 4s&sheys_gotoplace
         else
+        e.t == 'S' and $seek = 4s&sheys_selfplace
+        else
         e.t == 'F' and $seek = 4s&sheys_furtherplace
         else
         e.t == 'R' and ec&wake = 4s&sheys_runtime
@@ -130,7 +137,12 @@ me.Sch_Travel = &acgt{ return [
             ~>5 DUNNO!?: e.t
         }
         if (seek) {
+            $path = me&ttpath,seek .slope .slice(-3)
+            ~>5 sheysdo: e.t, slant(path)
             me&hatch ('any_point',seek)
+        }
+        else {
+            ~>3 sheysdo?: e.t
         }
         isfu(ec&wake) and ec&wake = ec&wake()
         T.wake and ec&wake = delete T.wake
