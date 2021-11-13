@@ -2456,13 +2456,15 @@ me.Sch_The = &acgt{ return [
             
     //     Plyy&offendEd
             # sustain its Effect - pointing to p!
-            me&boxcap,'offend' (&m{
-            me&walls,m,'b:3.4'
+            me&boxcap,'offend',1 (&ml{
+            me&walls,m,'b:3.3'
+            ls&ml = 2
+            me&scroll,m
             $N = ahsk(Ply,'y','offendEd') || []
             !hak(N) and me&tc,"none!?",'B'
             me&tc,"~x"+hak(N)
             # < should be an iterator, seeking @Ply/offend <-> This**
-            $maxsend = 5
+            $maxsend = 11
             if (hak(N) > maxsend) {
                 if (me&tt,'sendall?' ()) {
                     maxsend = 100
@@ -2471,6 +2473,8 @@ me.Sch_The = &acgt{ return [
             
             $firstsix = 1
             each ic N {
+                # < link this to the &tt,'sendall?'
+                maxsend == i and me&tc,"<offend-send-cursor>",'16G'
                 me&boxcap,"off"+i,1 (&m{
                     $E = c.E
                     $d = c.d
@@ -2478,7 +2482,8 @@ me.Sch_The = &acgt{ return [
                     $tpa = slant(me&ttpath,E .slope)
                     #me&tc,tpa+"\n",'6y'
 
-                    # < slope vis
+                    # < slope vis, brackstract pile
+                    #  < point to gupile, glowing bits
                     $see = {}
                     me&uptonode,E,see
                     # < chop at @This easier
@@ -2503,9 +2508,7 @@ me.Sch_The = &acgt{ return [
                         }
                     }
                     
-                    # < link this to the &tt,'sendall?'
-                    maxsend-2 == i and me&tc,"<offend-send-cursor>",'16G'
-                    if (i >= maxsend-1) {
+                    if (i >= maxsend) {
                         ms&opa = 0.7
                     }
                     else {
@@ -3161,7 +3164,7 @@ me.Sch_The = &acgt{ return [
             }
             $commit = &r{
                 # these args weird. Domes_7 passes R,p,r,s to all its "plugins".
-                me&dome_7,r,r,r,s;
+                me&dome_7,r,r,r;
                 me&node_accept,r,r
             }
             $spawner = &b{
@@ -6612,7 +6615,11 @@ me.Sch_The = &acgt{ return [
         if (isC(s)) {
             D.t = s.t
             $r = sy&R
-            r && ry&cv and Ds&yr = r.t+'@'+cvs(ry&cv)
+            if (r) {
+                Ds&yr = r.t
+                ry&cv and Ds&yr += '@'+cvs(ry&cv)
+                rs&ver and Ds&yr += '.'+rs&ver
+            }
             # < protocol for the brackio
             hak(s.c) and me&Ei,{t:'c',s:s.c,pi:'Hash'}
             $N = ss&z
