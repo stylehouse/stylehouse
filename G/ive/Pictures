@@ -704,7 +704,8 @@
         isfu(c) and c = {y:c}
         else
         # item: usu C to look for in /$n
-        isit(c) and $z = c; c = {y:v => v == z}
+        isit(c) and c = {is:c}
+        hak(c,'is') and c.y = v => v == c.is
         isfu(s) and throw "iterating? it's grep(y,N)"
         
         $array = isar(s)
@@ -716,6 +717,12 @@
         }
         return o
     }
+    # false if empty, like &za
+    self.grap = &cs{
+        $N = grep(c,s)
+        return hak(N) && N
+    }
+    self.grop = (c,s) => grepout(s,c)
     # removing .filter, y=[n+]|&n{1}|$n
     window.grepout = &Ny{
         $out = []
