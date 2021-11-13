@@ -4184,11 +4184,12 @@ me.Differingness = &acgt{ return [
                 # carry indent forwards if ==   thing\t++3 "blah"
                 #  and if ==\n    ++T--t==hing\t
                 $lev = las&level
-                ns&wasle = ns&level
-                if (ns&level > 0) {
+                ns&waslev = ns&level
+                if (ns&level > 0 && !hak(lac&s.split('').filter(v => v!=' '))) {
                     # eg (==10                    )(++1  maaaagic -String "1")
                     #  shall be (==10...)(++11...)
-                    ns&waslev = ns&level
+                    # but not (==2  thing)(++1 v2)
+                    
                     lev += ns&level
                 }
                 # may stay 0
