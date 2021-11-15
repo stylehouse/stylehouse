@@ -788,6 +788,7 @@ S 4 @Gnome
             
             $v = ns&finds*1 + 2
             $more = v > 6 ? ',recind' : ''
+            ns&once and more += ',once'
             h.ha("rec:do,oughtta:finds:"+v+more)
         })
         $c = "rec:do"
@@ -909,11 +910,58 @@ S 4 @Gnome
     grep(six => me&finishPiing,six ,x)
     t.diff('6 2 different',x[6],x[62],'see')
     
+   // 7
+    # 7
     nextR(brainfront(&Chr{
         h.ha("lalala")
+        # this will be ignored by the &zaaj next time
+        h.ha("observe:laser,shop,finds:4")
         neuro(h)
         h.ha("fin")
     }))
+    (brainfront(&Chr{
+        h.ha("observe:least,find")
+        #  because these generate new %%rec:do (being redone|redomed)
+        # < variation: on the above selectivity
+        #   maybe this and last round, or everything since a certain wave
+        # there are twice as many %%oughtta for 8 than for 6
+        h.ha("observe:long,pirate,session,finds:8")
+        h.ha("dealwitty,observe:this,itis,finds:6")
+        h.ha("dealwata,observe:ata,ata,finds:6")
+        # find != finds
+        h.ha("observe:laser,shop,find:4")
+        neuro(h)
+        h.ha("fin")
+    }))
+    la(8)
+    
+    title = '7 1 prepare to finds:6 next time'
+    nextR = nextR(brainfront(&Chr{
+        h.ha("lalala")
+        # this will be ignored by the &zaaj next time
+        h.ha("observe:laser,shop,finds:4")
+        neuro(h)
+        h.ha("fin")
+    }))
+    title = '8 1 finds:6 if we finds:4 this time'
+    nextR(brainfront(&Chr{
+        h.ha("observe:least,find")
+        # this will be in neuro()/&zaaj
+        h.ha("observe:frivo,late,finds:4")
+        h.ha("observe:long,pirate,session,finds:8")
+        h.ha("dealwitty,observe:this,itis,finds:6")
+        h.ha("dealwata,observe:ata,ata,finds:6")
+        neuro(h)
+        h.ha("fin")
+    }))
+    la(81)
+    grep(six => me&finishPiing,six ,x)
+    # < diff|Ply may concentrate on parts
+    #    Ply usu has a diff, but could E**-select from a y&thing
+    #     to then feed to a diff (and maybe further itself)
+    t.diff('only 8 1 finds:6',x[8],x[81],'see')
+    
+    
     
     return
     
