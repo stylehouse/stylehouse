@@ -650,6 +650,24 @@
                 ls&moren and return cant('m')
                 # and not far
                 #hak(d.slope) > 5 and return me&thingosym,'⦄>'
+                # el2 -six can skip unpacking all the newness
+                elsif (ds&pi == 'six' && 'new' == joint(ds&subComp)) {
+                    me&tc,"Looks-new"
+                    # requires the rest of -six** Comp to be new
+                    $rest = Comp.slice(upto)
+                    $restofsix = ksaf(rest,{bow:ul => uls&level <= ls&level,may:1})
+                    
+                    $frontier = !grap(ul => ul.t != 'new', restofsix)
+                    if (frontier) {
+                        ds&want_recovery = 1
+                        ds&el2six = 1
+                        next = []
+                        cant('el2-six**')
+                    }
+                    else {
+                        me&tc,"el2-six**,not-all-new",'6'
+                    }
+                }
             }
             
             each iz next {
@@ -665,22 +683,29 @@
             
       // recovery?
             # and here, at every crux to a later depth first
-            if (!ds&good) {
+            if (!ds&good || ds&want_recovery) {
                 $dup = d.up
                 if (dups&good) {
+                    # < voice the four options for choosing a goodlevel
                    // attempt recovery at first Comp%level <= that
                     $goodlevel = dup.l.sc.level
-                    
-                    # in a (==1-six\n)(~~2-six\n)(==3-six\n)
-                    #  recover to the next six
-                    $prevd = ksaf(dups&z,{bow:d}) [0]
-                    $maybelevel = prevd && prevd.l.sc.level
+                    if (ds&good) {
+                        # we may be skipping an el -six OK
+                        goodlevel = d.l.sc.level
+                    }
+                    else {
+                        # in a (==1-six\n)(~~2-six\n)(==3-six\n)
+                        #  recover to the next six
+                        $prevd = ksaf(dups&z,{bow:d}) [0]
+                        $maybelevel = prevd && prevd.l.sc.level
+                    }
                     if (maybelevel) {
                         if (maybelevel && maybelevel == goodlevel + 2) {
                             goodlevel = maybelevel
                         }
                         else {
                             maybelevel = 0
+                            # < shouldn't really depend on a maybelevel
                             if (hak(ds&subComp)) {
                                 # this might be a (==      )(--other)
                                 # < handle everything better
@@ -763,7 +788,10 @@
                     max < 5 and debugger
                     !nl and return
                     })
-                    !nl and return me&strange,"unrecoverable!nl"
+                    if (!nl) {
+                        ds&el2six and return me&tc,"new-tail"
+                        return me&strange,"unrecoverable!nl"
+                    }
                     $wasupto = upto
                     upto = Comp.indexOf(nl)
                     
