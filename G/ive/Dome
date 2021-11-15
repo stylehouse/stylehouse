@@ -209,7 +209,20 @@
                         ) ? 1 : 0
                     }
                     # < is this just for showing in tests -brackio?
-                    hasnew[ns&rec] and 'left there'
+                    if (hasnew[ns&rec]) {
+                        if (nc&recycled) {
+                            # is our copy, %%dome brought it into now
+                            # < only most probably:
+                            # the h.zaa() from &hajadome
+                            #   which may be inherited to h.zaa() from &hajasute
+                            #  is showing us n in now that %%dome from before
+                            #  so we can write on our copy of it!
+                            # < h.traction() won't sane more than once
+                            #   will however fix '< as long as some new gets selected'
+                            #    for the rest of the day
+                            nc&drop = 'rec'
+                        }
+                    }
                     else return 'to be reinput here'
                 })
                 .map(&n{
