@@ -209,18 +209,30 @@
                         ) ? 1 : 0
                     }
                     # < is this just for showing in tests -brackio?
-                    hasnew[ns&rec] and nc&drop = 'rerec'
-                    else
-                    return 'to be reinput'
+                    hasnew[ns&rec] and 'left there'
+                    else return 'to be reinput here'
                 })
                 .map(&n{
                     # move zaa->jaa, very late in the day
                     $z = h.ha(n.sc)
+                    # < vague tangle:
                     # < after handlers eg %%sustain.done() set up
                     #    to drop the row that was (from &zaa via &saa)
                     #   before it gets copied into this %wou
                     #   iterating it with something that does this 
+                    # this is bit out-of-bounds wrt time
+                    #  some older grasp of %%sustain:a could still be true
+                    #  ie another fork would see the other fork's a.n
+                    #   until it &sustain or does this
+                    # < the n <-> a correlation should be more illusory, via X
                     zs&sustain and zs&sustain.n = z
+                    # future in particular shouldn't exist (is from &rec_traction)
+                    #  because the future comes from the future
+                    #   and is only superimposed on the past, which keeps museum.
+                    #    giving R y&future before commit is a source of tunnel breakage
+                    #     when aborting what stays the future
+                    #     then something expects y&future to lead to a better self to use
+                    #      unless (rarely) using nowerR = &yfuture R c.merged=1
                     ny&future = z
                     zy&prerec = n
                 })
