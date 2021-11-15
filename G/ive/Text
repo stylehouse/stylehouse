@@ -668,8 +668,9 @@
             if (!ds&good) {
                 $dup = d.up
                 if (dups&good) {
-                    # attempt recovery at first Comp%level <= that
+                   // attempt recovery at first Comp%level <= that
                     $goodlevel = dup.l.sc.level
+                    
                     # in a (==1-six\n)(~~2-six\n)(==3-six\n)
                     #  recover to the next six
                     $prevd = ksaf(dups&z,{bow:d}) [0]
@@ -679,12 +680,28 @@
                             goodlevel = maybelevel
                         }
                         else {
-                            me&tc,"unsure"+dis({maybelevel,"^/<":prevd.l.sc.string})
                             maybelevel = 0
+                            if (hak(ds&subComp)) {
+                                # this might be a (==      )(--other)
+                                # < handle everything better
+                                $few = ds&subComp.slice(0,3).map(l => ls&string).join('')
+                                $sublevel = me&getindent,few
+                                # < not strange but just odd
+                                if (sublevel > goodlevel) {
+                                    goodlevel = sublevel
+                                }
+                                else {
+                                    sublevel == goodlevel and me&tc,"subComp==goodlevel"
+                                    sublevel = 0
+                                }
+                            }
+                            else {
+                                me&tc,"unsure"+dis({maybelevel,"^/<":prevd.l.sc.string})
+                            }
                         }
                     }
                     
-                    # aim this, notting d recursion up to it!
+                   // aim Comp[upto], notting d recursion up to it!
                     $indup = upto
                     $max = 1000
                     $la2
@@ -697,6 +714,7 @@
                     me&tt,'d' () and me&tc,"dsc"+dis(d.sc),'1G'
                     me&tc,"good<="+goodlevel,'6'
                     maybelevel and me&ts,'maybelevel-got-from-^/<','(same-indent)','6y'
+                    sublevel and me&ts,'sublevel-got-from-%subComp-parts','(part-indent)','6y'
                     $lastline
                     $opecovered = me&tt,"covered" ()
                     while (max-->0) {
