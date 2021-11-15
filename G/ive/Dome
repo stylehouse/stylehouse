@@ -195,17 +195,26 @@
             #    are more plot points, goals than state
             #    eg check w:Try via elIntro etc
             # < use &hajasute .saa()
+            # /$rec = 0|1
+            $hasnew = {}
             h.zaa('rec')
                 .filter(&n{
-                    # the all%rec == n%rec
-                    $hasnew = hak(h.jaa({rec:ns&rec})
-                        .filter(n => !nc&recycled)
-                    )
+                    # any &*a grop these
                     nc&drop and debugger
-                    return !hasnew
+                    if (!hak(hasnew,ns&rec)) {
+                        # o *%rec == n%rec
+                        hasnew[ns&rec] = hak(
+                            h.jaa({rec:ns&rec})
+                                .filter(n => !nc&recycled)
+                        ) ? 1 : 0
+                    }
+                    # < is this just for showing in tests -brackio?
+                    hasnew[ns&rec] and nc&drop = 'rerec'
+                    else
+                    return 'to be reinput'
                 })
                 .map(&n{
-                    # move zaa->jaa
+                    # move zaa->jaa, very late in the day
                     $z = h.ha(n.sc)
                     # < after handlers eg %%sustain.done() set up
                     #    to drop the row that was (from &zaa via &saa)
