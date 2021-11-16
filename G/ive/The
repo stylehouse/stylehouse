@@ -3139,26 +3139,13 @@ me.Sch_The = &acgt{ return [
             #  V.h starts an opener, then cursor and opener
             V.h = {o}
         }
+        
         # minimal R b%C,wou Doming
         me.mockR = &acgtt{
-            $maker = &b{
-                $r = Cye([t,333])
-                ry&R = r
-                # have the previous r
-                b and rc&b = b
-                rs&ver = b && bs&ver+1 || 1
-                # have %C that leads back to r
-                $C = rs&C = Cye([t,1])
-                Cy&R = r
-                # have %wou (see &Domes_o3)
-                me&sahazaja,r
-                me&dome_o3,r
-
-                return r
-            }
             $spawner = &b{
                 return &y{
-                    $r = maker(b)
+                    $r = me&mockR_make,t,b
+                    me&mockR_begin,r
                     y (rs&C,r)
                     me&mockR_commit,r
                     return spawner(r)
@@ -3167,13 +3154,47 @@ me.Sch_The = &acgt{ return [
             }
             return spawner()
         }
+        me.mockR_make = &acgttb{
+            $r = Cye([t,333])
+            ry&R = r
+            # have the previous r
+            b and rc&b = b
+            rs&ver = b && bs&ver+1 || 1
+            # have %C that leads back to r
+            $C = rs&C = Cye([t,1])
+            Cy&R = r
+
+            return r
+        }
+        me.mockR_begin = &acgtr{
+            $C = rs&C
+            # have %wou (see &Domes_o3)
+            me&sahazaja,r
+            me&dome_o3,r
+        }
         me.mockR_commit = &acgtr{
+            # may be done early
             !lt(ry&cv,9) and return
             # these args weird
             #  &Domes_7 passes R,p,r,s to all its "plugins"
             me&dome_7,r,r,r;
             me&node_accept,r,r
         }
+        # &mockbrackR,'unit',{no_hajasute:1}
+        #  .Again('title'?,&Chri{ ... })
+        me.mockbrackR = &acgttc{
+            c = peel(c)
+            c.t = t
+            $fa = c.Afame ||= {}
+            c.hamix ||= c.dome ? {dome:c.dome} : {}
+            
+            c.Again = &gy{
+                isfu(g) and y = g; g = {}
+                isst(g) and g = {t:g}
+                
+            }
+        }
+        
         # real diff, mock receiver!
         # < &enL implanting C|N Lines via BQ (for eg %moren, if not deleted)
         me.mockdiffWomb = &acgttcsz{

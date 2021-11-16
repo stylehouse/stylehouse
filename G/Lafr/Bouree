@@ -668,6 +668,7 @@
         ns&fs = v*3;
         ns&hue = v*40*ie
     }
+
 =linux
  new installs:
   sudo apt install
@@ -675,6 +676,13 @@
    firmware-iwlwifi # most Intel wireless?
    firmware-misc-nonfree # ralink etc
    fuse-zip perl-doc perl6 unifont
+  
+ wireless
+  woe
+   I have neu vague data on this... is anyone else on linux|mac seeing 'wlan0: CTRL-EVENT-BEACON-LOSS' in syslog? suchly, wireless reconnects at least every 12hr20mins up to every 10 seconds in fugues lasting about 20mins, and are fatal to all TCP connections.
+   testing with ping avoids that so seems more reliable as most of its packets can wait while the wireless is almost ready again. ping says 0.2-0.6% loss, RealFeel 4% loss due to the micro-outage being TCP-fatal.
+   better than 7% and not being able to connect at all plenty much! the lesson there was give APs separate channels (or auto), or transmission errors will happen, particularly where the clients branch off spatially and can't hear each other to avoid collision in the AP's airspace.
+   some new gear and|or a proper configuring from the provider is likely the way to go.
 
 =ca network
     # webchat in iframes!?!
