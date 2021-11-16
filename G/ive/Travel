@@ -3572,8 +3572,9 @@ me.Sch_Travel = &acgt{ return [
             c.wake.map(&z{
                 # wake Fc&InFine=%TheFine, or sometimes This...
                 $name = "~This->"+z.t
+                !isnode(z) and me&strange,"nonnode_sync"
+                !isnode(z) and z = me&uptonode,z
                 !isnode(z) and debugger
-                !isnode(z) and return me&nu,"nonnodetractor",{c,z}
                 me&wants,R,name,z
                 ha({pur:name})
             })

@@ -161,20 +161,23 @@
         }
         # h={ha,zaa,jaa} for doming for such idc
         #  will then be used by &hajasute if put on T.sute
+        # < s/idc/cid/
         me.hajadome = &acgtR,idc{
             $dome = idc.dome || daint(havs(idc))
+            dome == null and throw "haja!dome"
+            # make sure dome etc is first
+            idc = ex({dome},idc)
             $h = {idc,dome}
+            # &ha|jaa|etc are based on idc
+            $local = c => ex(ex({},idc),peel(c))
             
-            # input|see eg %%sute=$t...
-            $inc = c => ex(ex({},idc),peel(c))
-            
-            h.ha = (c,s) => me&ha,R,ex({dome},inc(c)),{},s
+            h.ha = (c,s) => me&ha,R,local(c),{},s
             # zaa,jaa meaning recycled or not
             #  both &jaa underneath, %%dome reentered every time
             #  jaa(c,i=1) selects either
             #   weird - usu one column mode (see &bracko)
-            h.zaa = c => me&jaa,R,inc(c) .filter(n => nc&recycled)
-            h.jaa = (c,i) => me&jaa,R,inc(c) .filter(n => !nc&recycled || i)
+            h.zaa =     c => grep(n => nc&recycled,       me&jaa,R,local(c) )
+            h.jaa = (c,i) => grep(n => !nc&recycled || i, me&jaa,R,local(c) )
             # zaaj(c) via jaa(c,i=1) - selects either     ^
             #  see also &hajasute for maybe-sute bracking
             

@@ -800,6 +800,7 @@
     #    or value types could be separators, as in R%Cit
     self.coint = &{ return aroint([...arguments],',') }
     self.slant = &{ return aroint([...arguments],'/') }
+    self.spant = &{ return aroint([...arguments],' ') }
     # allows the above to be eg cint(i,t) or cint([i,t])
     self.aroint = (N,k) => joint((hak(N) == 1 && isar(N[0]) ? N[0] : N),k)
     # "$t1-$t2" for [C,C,C{.t==not}]
@@ -807,7 +808,7 @@
     #   path making (from climbing) shall where itself by now
     window.joint = &N,join,not{
         # ioty may N=C/*
-        $M = me&ioty,N .map(n => isC(n) ? n.t : n)
+        $M = (isC(N) ? me&ioty,N : N||[]) .map(n => isC(n) ? n.t : n)
             .filter(t => t != null && (not == null || t != not))
         $s = M.shift()
         join ||= '-'
