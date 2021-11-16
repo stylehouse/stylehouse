@@ -3188,15 +3188,23 @@ me.Sch_The = &acgt{ return [
             # fork counter, r and its This...-brack by Aip
             ex(c,{times:{},c:{},sc:{}})
             # overalls for this r.t
-            c.hamix ||= c.dome ? {dome:c.dome} : {}
+            c.idc ||= {dome:defor(c.dome,'it')}
             # for the test A.h
             c.A = A
             
-            # given y=&Chir{ ... }
-            c.Again = &gyb{
-                isfu(g) and y = g; g = {}
-                isst(g) and g = {t:g}
+            # requires y=&Chir{ ... }
+            # and perhaps b and or g||'title'
+            # args in b,g,y order
+            c.Again = &{
+                each iv arguments {
+                    isR(v) and $b = v
+                    isfu(v) and $y = v
+                    isst(v) and $g = {t:v}
+                    ish(v) and $g = v
+                }
+                g ||= {}
                 b and g.b = b
+                !y and throw "huh"
                 $r = g.r = me&mockR_make,c.t,g.b
                 $C = rs&C
                 fatal.isR(r)
@@ -3205,10 +3213,10 @@ me.Sch_The = &acgt{ return [
                 
                 fatal.isnum(rs&ver)
                 # starts returning null, then 1 forked
-                $subver = ahk(c,['times'],rs&ver,1)
+                $subver = ahk(c,['times'],rs&ver,1)-1 || null
                 # so $r = cc&_1, then cc&_1_1 forked
                 # < Babz cc&1.1
-                $Aip = spant(rs&ver,subver-1||null)
+                $Aip = spant(rs&ver,subver)
                 $_Aip = joint(['',rs&ver,subver],'_')
                 c.c[_Aip] = r
                 
@@ -3230,7 +3238,7 @@ me.Sch_The = &acgt{ return [
                 c.sc[_Aip] = six
                 
                 return &gy{
-                    return c.Again(g,y,r)
+                    return c.Again(r,g,y)
                 }
             }
             return c
