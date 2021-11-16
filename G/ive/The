@@ -4542,10 +4542,19 @@ me.Sch_The = &acgt{ return [
             return allok
         }
     }
+    # ask R, or the //E^^^c&uber
+    me.Rscuber = &acgtRk{
+        hak(R.sc,k) and return R.sc[k]
+        $r = Rc&top
+        !r and throw "!top"
+        return r.sc[k]
+    }
     # all E/* &Pieri once, if would &PiRet
     me.Eing_some = &acgtRE{
       // 1 c.would, &Pieri -> (un)?keen 
-        $many = hak(Es&z) > 30 ? 20 : 0
+        $many = me&Rscuber,R,'many_thresh' || 20
+        $tolerance = 10
+        many = hak(Es&z) > many+tolerance ? many : 0
         # arriving e a bit may pos|neg it
         # < once space limit is found,
         #   sub negated for posited
@@ -4725,6 +4734,9 @@ me.Sch_The = &acgt{ return [
     #  &Piing on R%Piing
     #  &Eing on R%Pier via &Eing_some c.would
     # < also nab brack as it goes (into &rowcap for it etc)
+    # < exude io to the moment called from
+    #   instead of just returning M of qua
+    #    for everyone to unpack for their context
     me.Pieri = &acgtEe{
         # < many
         # bunches of
