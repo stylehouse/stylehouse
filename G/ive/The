@@ -1383,15 +1383,22 @@ me.Sch_The = &acgt{ return [
             
             # reorder hack, see resolve $n
             $empties = s => me&ioty,s .map(z => me&fiu,s,z,9 )
+            # < drop Erefs
+            $derefs = s => s
+            # < drop also Effects, &nodei to it, &nodeo from it?
+            #   or do they sometimes fall back into place?
+            $other = s => s
             me&Sharg,'$s/This/*/*',[Run] .N
                 .map(&s{
                     sc&pi != 'seven' and debugger
                     s.t != ns&RunStep and return
                     empties(s)
+                    derefs(s)
                     $r = sy&R
                     $E = rs&E
                     empties(E)
                 })
+            # 
 
             # if ro Run oncer on
             $r = Runy&R
