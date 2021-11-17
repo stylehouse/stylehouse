@@ -1548,6 +1548,7 @@ me.Sch_The = &acgt{ return [
         #   remembers the latest a.v=e that was true, or est this one
         #  you may nc&drop them via a.done(), q includes $v in %%rec (dome)
         me.sustain = &acgtscq{
+            s = peel(s)
             !ish(s) || !ish(c) and throw "s,c"
             $h = me&hajasute
             # keyword first
@@ -1784,7 +1785,6 @@ me.Sch_The = &acgt{ return [
                     gs => me&SG_sustain_elIntro,gs
                 )
             })
-            
         }
         # takes %%elIntro when diff comes up
         # produce %%RunStep when @Inc ready, per $gs
@@ -3228,8 +3228,15 @@ me.Sch_The = &acgt{ return [
                 
                 # extra data to see goes here
                 $i = g.i
-                # < reverse expe(): it shrinks to whole if others. collapsy.
-                $see = hak(i) ? ex(i,{whole:C}) : C
+                # might not take the whole picture
+                i.whole == 0 and $see = i; delete i.whole
+                else
+                # you may set i.whole=1 to position it before more i.*
+                hak(i) and $see = ex(i,{whole:C})
+                else {
+                    # < reverse expe(): zooms into whole if no others.
+                    $see = C
+                }
                 # extends to sixc&* and then sixy&main//R%*
                 $sixc = g.c || {}
                 $say = spant(c.t,Aip,g.t)
