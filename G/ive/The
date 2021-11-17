@@ -6732,7 +6732,7 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
    
   // -brackios? > -hat
-    # {"titley hash":s-brackio}
+    # test dump bunch {"titley hash":s-brackio}
     ['brackios',0.21,&acgtRs{
          if (isC(s) || isar(s)) {
              if (isC(s) && sy&R && !sy&brack) {
@@ -6749,9 +6749,20 @@ me.Sch_The = &acgt{ return [
              me&typeup,R,'brackio'
          }
          else {
-            each kv s {
-                me&Ei,{t:k,s:v}
-            }
+             # < list of dumpy Pi. they are i (-Bat|The) or o (-hat)
+             # allows jumping to -Bow before being a -brackio
+             $becomes = peel('Bow')
+             each ts Rc&s {
+                 if (becomes[t]) {
+                     # :suchpi/:title/:something
+                     $pi = t
+                     $h = s
+                     each ts h {
+                         me&Ei,{t,s,pi}
+                     }
+                 }
+                 else me&Ei,{t,s}
+             }
          }
     },'ift,D'],
     # the unity of %wou or [brack+]
