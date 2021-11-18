@@ -1421,31 +1421,10 @@ me.Sch_The = &acgt{ return [
                 empties(s)
                 $E = me&REof,s
                 empties(E)
+                
+                # drop Erefs
+                me&Ereftakedown,E
             })
-            
-            # < drop Erefs
-            goners.map(&s{
-                # scan for this on deeper nodes
-                s != sy&path[6] and debugger
-            })
-            # amongst RE:This /$ref
-            $ThisRE = me&REof,This
-            Eref = ThisREc&X.ref
-            # first time, or no refs?
-            !Eref and return
-            
-            $refs = Eref.slice(50,60)
-            $onNames = []
-            each i,refx refs {
-                $dropz = []
-                grop(&r{
-                    !rs&Pier and debugger
-                    $e = rs&E
-                    $z = me&uptonode,e
-                    !isnode(z) and debugger
-                    grap(zy&path[6],goners) and return 1
-                },refx.z)
-            }
             
             # < drop also Effects, &nodei to it, &nodeo from it?
             #   or do they sometimes fall back into place?
@@ -4500,6 +4479,9 @@ me.Sch_The = &acgt{ return [
             !p || ps&Gens || ns&eph and return
             if (ps&ball && !ns&Pier && !me&fiu,pc&s,n.t,8 ) {
                 ~>3 forgotsphere: p.t, n.t
+                # %eph allowed? go further.
+                # < also how undeleted Eref spring up later?
+                debugger
                 return
             }
             N.unshift(p)
@@ -4618,7 +4600,7 @@ me.Sch_The = &acgt{ return [
             es&glop and me&nu,"Glop",es&glop
         })
     }
-    # commit Ec&top (top of &Piering) to E^^
+    # commit Ec&top (top of &Piering) to RE^^^ (all along)
     me.Erefputup = &acgtc{
         $E = c.E
         $X = Ec&X || fi&EXsim,E,{}
@@ -4656,9 +4638,43 @@ me.Sch_The = &acgt{ return [
                 X.ref.splice(i,1)
             })
         }
+        # all along, ie {Run>This>Something}//ref
         Ey&up and me&Erefputup,ex(c,{E:Ey&up})
     }
-  
+    # drop Erefs for RE to RE^^^ (all along)
+    # ie nuke a whole subnet of sip
+    me.Ereftakedown = &acgtEc{
+        # we leave the E /$ref inside, start at RE
+        me&REof,E != E and throw "E!RE"
+        fatal.isba(Ey&R)
+        $s = Ey&R.c.s
+        c ||= {}
+        # will scan for this on deeper nodes
+        $first = !c.wherefor
+        c.wherefor ||= (s => sy&path[6])
+        c.whatfor = c.wherefor(s)
+        first and s != c.whatfor and debugger
+        
+        
+        Eref = Ec&X.ref
+        !Eref and return
+        each i,ref Eref {
+            grop(&r{
+                !rs&Pier and debugger
+                $e = rs&E
+                $z = me&uptonode,e
+                !isnode(z) and debugger
+                # o @goners/**$z
+                # < compiling that to use y&path
+                c.wherefor(z) == c.whatfor and return 1
+                # < for many?
+                # grap(c.wherefor(z),goners) and return 1
+            },ref.z)
+        }
+        # all along, ie {Run>This>Something}//ref
+        Ey&up and me&Ereftakedown,Ey&up,c
+    }
+            
   
   
   // &Eing E/* into life
