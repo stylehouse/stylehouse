@@ -556,6 +556,14 @@
     # string
     self.iskeyish =
     self.iske = k => typeof k == 'string' || typeof k == 'number'
+    
+    # can see '  ' as lengthy and == what it casts to
+    $spacechars = hashkv(" \n\t".split(''))
+    self.isspace = s => hak(s) && !havs(s).some(s => !spacechars[s])
+    self.isnum =
+    self.num = s => (isnu(s) || s && s.length && !isspace(s)) && s*1 == s
+    
+    
     # housey, indexey {}|[], eg a random c (see %%sustain)
     self.ish =
     self.isho = v => isha(v) && !isC(v)
@@ -946,16 +954,11 @@
     }
   
   // more type
-    # can see '  ' as lengthy and == what it casts to
-    $spacechars = hashkv(" \n\t".split(''))
-    self.isspace = s => hak(s) && !havs(s).some(s => !spacechars[s])
-    self.num = s => (isnu(s) || s && s.length && !isspace(s)) && s*1 == s
-    
+    # see also dec()
     # print 0.123 as 123, !cv-fatal
     #  see unfatal: cvf(), opposite: scv() (or sca()==scaf())
-    # < rename cvs() (convention of translating, from cv to s)
-    #    and opposite of scv(), where an s-ended (&deL origin)
-    #     cv expr becomes decimal
+    # convention of translating, from cv to s
+    #  eg cv|s format is 0.1|1, as $C|Lines would say
     self.numf =
     self.cvs = &s{
         !(s >= 0 && s <= 1) and throw "numf!cv"

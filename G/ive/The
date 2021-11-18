@@ -1041,7 +1041,6 @@ me.Sch_The = &acgt{ return [
             !Inc and return ha('pur:!Inc')
             # e:G seeks here
             4s&sheys_gotoplace = T.ab.y.up
-            
             $F = ar.F
           // %%active are, This -> Fine, nine
             # stuff @Gnome notices about who is active
@@ -1381,24 +1380,8 @@ me.Sch_The = &acgt{ return [
             # Run increments itself
             Runs&time = ns&RunStep - 1
             
-            # reorder hack, see resolve $n
-            $empties = s => me&ioty,s .map(z => me&fiu,s,z,9 )
-            # < drop Erefs
-            $derefs = s => s
-            # < drop also Effects, &nodei to it, &nodeo from it?
-            #   or do they sometimes fall back into place?
-            $other = s => s
-            me&Sharg,'$s/This/*/*',[Run] .N
-                .map(&s{
-                    sc&pi != 'seven' and debugger
-                    s.t != ns&RunStep and return
-                    empties(s)
-                    derefs(s)
-                    $r = sy&R
-                    $E = rs&E
-                    empties(E)
-                })
-            # 
+            # drop -Eight/$S-seven
+            me&forgetRunStep,Run,ns&RunStep
 
             # if ro Run oncer on
             $r = Runy&R
@@ -1414,6 +1397,58 @@ me.Sch_The = &acgt{ return [
             }
             $gs = me&sustain,{},RingS
             any.push(gs.n)
+        }
+        # < move near &node_downwards
+        me.REof = &acgts{
+            $r = me&yfuture,s
+            $e = rs&E
+            !e and throw "!RE",s
+            return e
+        }
+        # drop -Eight/$S-seven
+        me.forgetRunStep = &acgt,Run,S{
+            fatal.isnum(S)
+            $This = me&fiu,Run,'This',7
+            $goners = me&Sharg,'$s/*/*',[This] .N
+                .filter(&s{
+                    sc&pi != 'seven' and debugger
+                    return s.t == S
+                })
+            
+            # reorder hack, else bottom-posting, see resolve $n
+            $empties = s => me&ioty,s .map(z => me&fiu,s,z,9 )
+            goners.map(&s{
+                empties(s)
+                $E = me&REof,s
+                empties(E)
+            })
+            
+            # < drop Erefs
+            goners.map(&s{
+                # scan for this on deeper nodes
+                s != sy&path[6] and debugger
+            })
+            # amongst RE:This /$ref
+            $ThisRE = me&REof,This
+            Eref = ThisREc&X.ref
+            # first time, or no refs?
+            !Eref and return
+            
+            $refs = Eref.slice(50,60)
+            $onNames = []
+            each i,refx refs {
+                $dropz = []
+                grop(&r{
+                    !rs&Pier and debugger
+                    $e = rs&E
+                    $z = me&uptonode,e
+                    !isnode(z) and debugger
+                    grap(zy&path[6],goners) and return 1
+                },refx.z)
+            }
+            
+            # < drop also Effects, &nodei to it, &nodeo from it?
+            #   or do they sometimes fall back into place?
         }
       
       // misc %%quiet_visitable
