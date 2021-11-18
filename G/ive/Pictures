@@ -556,13 +556,12 @@
     # string
     self.iskeyish =
     self.iske = k => typeof k == 'string' || typeof k == 'number'
-    
-    # can see '  ' as lengthy and == what it casts to
-    $spacechars = hashkv(" \n\t".split(''))
+    # stringy nothing
+    $spacechars = {" ":1,"\n":1,"\t":1}
     self.isspace = s => hak(s) && !havs(s).some(s => !spacechars[s])
+    # numbery, mostly as s*1 == s (not ' '*1 == ' ')
     self.isnum =
     self.num = s => (isnu(s) || s && s.length && !isspace(s)) && s*1 == s
-    
     
     # housey, indexey {}|[], eg a random c (see %%sustain)
     self.ish =
