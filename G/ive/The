@@ -4399,14 +4399,15 @@ me.Sch_The = &acgt{ return [
                 # and anything awake that might be going to commit up there
                 $Pr = me.cbu(R,'^^^Piing')
                 each in Prs&Epending {
-                    me&Ereflookup,ex(c,{E:n,nowander:1})
+                    me&Ereflookup,ex(c,{E:n,nowander:1,is_pending:1})
                 }
             }
         }
         E != e and return
         
         # sort by R tree
-        c.got.map(g => ex(g, me&Rcrux,R,g.n ))
+        c.got.map(g => ex(g, me&Rcrux,R,g.n,c ))
+        grop(g => g.not, c.got)
         # < -seven having a time sense greater than -eight
         #   -seven on a different -Nine are too far
         #   see otherable &EsyncThis as -log
@@ -4460,7 +4461,7 @@ me.Sch_The = &acgt{ return [
     #    finding islands
     #   would be able to sort the whole thing as a tree
     #    currently different joins may compare c.seek
-    me.Rcrux = &acgtRr{
+    me.Rcrux = &acgtRr,lookupc{
         $c = {ups:[R],downs:[r]}
         $loca = &nN{
             $ni = N.indexOf(n)
@@ -4478,11 +4479,25 @@ me.Sch_The = &acgt{ return [
             $p = ny&up
             !p || ps&Gens || ns&eph and return
             if (ps&ball && !ns&Pier && !me&fiu,pc&s,n.t,8 ) {
-                ~>3 forgotsphere: p.t, n.t
-                # %eph allowed? go further.
-                # < also how undeleted Eref spring up later?
-                debugger
-                return
+                $Rin = ps&z.includes(n)
+                $RNsame = pc&N == nc&N
+                $inprog = ny&cv <= 0.9 && ny&cv
+                $pending = lookupc.is_pending
+                if (Rin && RNsame) {
+                    # must just not be in yet?
+                    # < figure it out. Try@5 JugRice 2 showing up to 1
+                    !pending and debugger
+                    ~>3 sameosphere: p.t, n.t
+                    # for c.got/$g
+                    c.not = 1
+                }
+                else {
+                    ~>3 forgotsphere: p.t, n.t
+                    # %eph allowed? go further.
+                    # < also how undeleted Eref spring up later?
+                    !pending and debugger
+                    debugger
+                }
             }
             N.unshift(p)
             return 1
@@ -4505,6 +4520,7 @@ me.Sch_The = &acgt{ return [
             c.ups.shift()
             c.downs.shift()
         }
+        c.not and return c
         # on the join, is r before R (c.seek<0) or not (>0)
         c.seek = me&Rcrux_seek,0,c.ups,c.downs
         return c
