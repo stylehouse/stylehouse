@@ -367,11 +367,67 @@ S 3 Pictures hashy misc
     abunch = {}
     
    // ex()
-    $ro = {ela:'borate',ti:3}
-    # rata!!!!!!ff!!!!!e!!ssve!!!!!!3!!!!!!!!!
-    $la = {fly:1,ti:4,la:4}
-    $nd = ex(ro,la)
-    hat('ex simple',{ro,la,nd})
+    # in ascending depth of s(.*)+
+    # < or is that descending depth? slope
+    hat('ex()',{
+        "simple": ex(ex({},
+            {ela:'borate',ti:3,glab:1}),
+            {fly:1,ti:4,la:4,loose:{}}),
+        "array !merge":
+            ex({sh:['And','all']},
+               {sh:['will','dwell']}),
+        "s.*.* !merge":
+            ex({and:{all:'will'},be:3},
+           {s:3,and:{will:'dwell'},be:4}),
+    })
+    hat('mex()',{
+        "simple same": mex(mex({},
+            {ela:'borate',ti:3,glab:1}),
+            {fly:1,ti:4,la:4,loose:{}}),
+        "array merge":
+            mex({sh:['And','all']},
+               {sh:['will','dwell']}),
+        "s.*.* !merge":
+            mex({and:{all:'will'},be:3},
+           {s:3,and:{will:'dwell'},be:4}),
+    })
+    hat('ex2()',{
+        "simple same": ex2(ex2({},
+            {ela:'borate',ti:3,glab:1}),
+            {fly:1,ti:4,la:4,loose:{}}),
+        "array merge":
+            ex2({sh:['And','all']},
+               {sh:['will','dwell']}),
+        "s.*.* merge":
+            ex2({and:{all:'will'},be:3},
+           {s:3,and:{will:'dwell'},be:4}),
+        "s.* peel":
+            ex2({and:'all:will',be:1},
+           {s:3,and:{will:'dwell'},be:{there:'specifically'}}),
+    })
+    # and other
+    $la = {will:'dwell',and:'all',vague:null}
+    hat('*ex*()',{
+        # only and
+        'sex()': sex({},{will:'dwell',and:'all',vague:null},'and'),
+        # all but will
+        'nex()': nex({},{will:'dwell',and:'all',vague:null},'will'),
+        # fit to print
+        'tex()': tex({},{will:'dwell',and:'all',vague:null}),
+        'tex() hashy': tex({},{will:'dwell',and:{let:3},vague:null},'and'),
+        # definite
+        'dex()': dex({},{will:'dwell',and:'all',vague:null,hash:{e:{s:{}}}}),
+        # takes and out
+        'tax()': {
+            revenue: tax({},la,'and'),
+            leaving: la,
+        },
+        # may peel
+        'pex()': pex('and:all','will:brie'),
+        # < get this all coded as individuated catchables
+        #' unlike ex()': ex('and:all','will:brie'),
+        
+    })
     
     
    // # misc() array
