@@ -4488,15 +4488,18 @@ me.Sch_The = &acgt{ return [
                     # < figure it out. Try@5 JugRice 2 showing up to 1
                     !pending and debugger
                     ~>3 sameosphere: p.t, n.t
+                    c.sameosphere = 1
                     # for c.got/$g
                     c.not = 1
                 }
                 else {
                     ~>3 forgotsphere: p.t, n.t
+                    c.forgotsphere = 1
                     # %eph allowed? go further.
                     # < also how undeleted Eref spring up later?
                     !pending and debugger
-                    debugger
+                    # catch usual in &Rcrux_seek
+                    pc&s.c.pi != 'seven' and debugger
                 }
             }
             N.unshift(p)
@@ -4522,11 +4525,11 @@ me.Sch_The = &acgt{ return [
         }
         c.not and return c
         # on the join, is r before R (c.seek<0) or not (>0)
-        c.seek = me&Rcrux_seek,0,c.ups,c.downs
+        c.seek = me&Rcrux_seek,0,c.ups,c.downs,c
         return c
     }
     # get order of two [R**] that already join at $offset
-    me.Rcrux_seek = &acgt,offset,left,right{
+    me.Rcrux_seek = &acgt,offset,left,right,Rcruxc{
         left == right and return 0
         offset *= 1
         $L = left[offset]
@@ -4557,6 +4560,21 @@ me.Sch_The = &acgt{ return [
                 # could be found in the E sphere (L%E/rl%E)
                 #  they are likely -all -pis, have no order
                 rls&Pier && rrs&Pier and return 0
+                if (sc&pi == 'seven') {
+                    # happens after this other warning
+                    $knew = Rcruxc.sameosphere
+                        || Rcruxc.forgotsphere
+                    !knew and debugger
+                    # see zygomorph &Ereftakedown
+                    # < supposed to be deleted or not yet s**?
+                    #  < investigate with Aip, funtime
+                    # < the last s remembering what ** are el:9
+                    #    probably via sip
+                    # throw out the match for now:
+                    ~>3 notonsphere: s.t, rlc&s.t
+                    Rcruxc.not = 1
+                    return 0
+                }
                 debugger
             }
             return li - Li
