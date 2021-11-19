@@ -7100,6 +7100,7 @@ me.Sch_The = &acgt{ return [
             Rs&sym = sym
             n sym 11 $s:sym fs:13,lh:0.8,hs:757
         }
+        # < needs to go on another layer with all the layout stuff
         if (Rs&tiny) {
             # minimal typing up for labels
             #  in diagrams (-Bat) rather than datadumps (-hat)
@@ -7117,6 +7118,7 @@ me.Sch_The = &acgt{ return [
         }
         Cish and me&typeup,R,'Cish'
         else
+        # includes -Array, since typeof [] == 'object', ie /$k/$v
         isob(s) and me&typeup,R,'Hash'
         else
         isfu(s) and me&typeup,R,'Fun'
@@ -7173,14 +7175,22 @@ me.Sch_The = &acgt{ return [
             
             # its brackets, 23-77
             # %shym = a %sym that can be mirrored
-            Rs&shym ||= isar(s) ? '[' : '{'
+            isar(s) and Rs&shym = '['; me&typeup,R,'Array'
+            else Rs&shym = '{'
+            
             # < G&n should Mw by T.Mw||T.act.t
             #   as &tsc does
             T.Mw = 'shym'
             $bracket = me&modbracket,Rs&shym
             # its many
+            #  is fairly safe to spew out lots of E/*
+            #   that should inform limits of &Eing_some
+            #   < should be able to communicate pagination
+            #   100 * usual %many_thresh shall %strange (flow-stopper)
+            $hard_many = 2000
             each kv s {
                 me&Ei,{t:k,s:v}
+                hard_many-- < 1 and me&strange,"MANY:E/*"; break
             }
             bracket()
         },'ift,D'],
