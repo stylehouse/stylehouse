@@ -3238,9 +3238,9 @@ me.Sch_The = &acgt{ return [
                 $subver = ahk(c,['times'],rs&ver,1)-1 || null
                 # so $r = cc&_1, then cc&_1_1 forked
                 # < Babz cc&1.1
-                $Aip = g.Aip = spant(rs&ver,subver)
-                $_Aip = joint(['',rs&ver,subver],'_')
-                c.c[_Aip] = r
+                g.Aip = spant(rs&ver,subver)
+                g._Aip = joint(['',rs&ver,subver],'_')
+                c.c[g._Aip] = r
                 
                 # hope for
                 me&mockbrackR_middle,c,g,y
@@ -3249,7 +3249,7 @@ me.Sch_The = &acgt{ return [
                 me&mockR_commit,r
                 
                 # extra data to see goes here
-                me&mockbrackR_middle,c,g,y
+                me&mockbrackR_osc,c,g
                 
                 return &gy{
                     return c.Again(r,g,y)
@@ -3298,10 +3298,35 @@ me.Sch_The = &acgt{ return [
             $sixc = g.c || {}
             pex(sixc,A.h.sixc)
             
-            $say = spant(c.t,Aip,g.t)
+            if (see == i) {
+                # other keys are there
+                if (c.i_pi) {
+                    ~>5 haveanipi: dis(c.i_pi)
+                    # < might be a grep c interfacable like this
+                    #   and where to put the derivative
+                    #    eg %TX anything to six/*//r%*
+                    $pis = peel(c.i_pi)
+                    $pifor = {}
+                    each kv pis {
+                        if (v == 1) {
+                            # everything
+                            ex(pifor,map(v => k,
+                                nex({},i,'whole')
+                            ))
+                        }
+                        else {
+                            # < specifics
+                            v.split('-').map(K => pifor[K] = k)
+                        }
+                    }
+                    hak(pifor) and ex(sixc,{pifor})
+                }
+            }
+            
+            $say = spant(c.t,g.Aip,g.t)
             $six = c.A.h.brack(say,see,sixc)
             # This...-brack 
-            c.sc[_Aip] = six
+            c.sc[g._Aip] = six
         }
        
        // assertions 
@@ -4573,7 +4598,7 @@ me.Sch_The = &acgt{ return [
                     # happens after this other warning
                     $knew = Rcruxc.sameosphere
                         || Rcruxc.forgotsphere
-                    !knew and debugger
+                    !knew and 'not always...'
                     # see zygomorph &Ereftakedown
                     # < supposed to be deleted or not yet s**?
                     #  < investigate with Aip, funtime
@@ -6847,8 +6872,11 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
    
   // -brackios? > -hat
-    # test dump bunch {"titley hash":s-brackio}
+    # test dump bunch
+    #  {"title":s-brackio}
     ['brackios',0.21,&acgtRs{
+        # < indent here
+        isfu(s) and return
          if (isC(s) || isar(s)) {
              if (isC(s) && sy&R && !sy&brack) {
                  # C is R%C
@@ -6865,10 +6893,13 @@ me.Sch_The = &acgt{ return [
          }
          else {
              # < list of dumpy Pi. they are i (-Bat|The) or o (-hat)
-             # allows jumping to -Bow before being a -brackio
-             $becomes = peel('Bow')
+             # famous pi can eg i.Bow = {"more titles":s +}
+             $becomes = map((v,k) => k, peel('Bow'))
+             # i.such can become any pi
+             $pifor = Rs&pifor || {}
              each ts Rc&s {
                  if (becomes[t]) {
+                     # unpack eg i.Bow.* to i.*
                      # :suchpi/:title/:something
                      $pi = t
                      $h = s
@@ -6876,6 +6907,8 @@ me.Sch_The = &acgt{ return [
                          me&Ei,{t,s,pi}
                      }
                  }
+                 else
+                 pifor[t] and me&Ei,{t,s,pi:pifor[t]}
                  else me&Ei,{t,s}
              }
          }
