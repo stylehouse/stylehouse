@@ -3218,6 +3218,7 @@ me.Sch_The = &acgt{ return [
             # and perhaps b and or g||'title'
             # args in b,g,y order
             c.Again = &{
+                # < safe to iterate?
                 each iv arguments {
                     isR(v) and $b = v
                     isfu(v) and $y = v
@@ -3251,7 +3252,7 @@ me.Sch_The = &acgt{ return [
                 # extra data to see goes here
                 me&mockbrackR_osc,c,g
                 
-                return &gy{
+                return c.Further = &gy{
                     return c.Again(r,g,y)
                 }
             }
@@ -7156,6 +7157,7 @@ me.Sch_The = &acgt{ return [
                 sym = asym || sym
             }
         }
+        elsif (isfu(s)) { sym = "λ" }
         if (sym) {
             Rs&sym = sym
             n sym 11 $s:sym fs:13,lh:0.8,hs:757
@@ -7254,11 +7256,9 @@ me.Sch_The = &acgt{ return [
             }
             bracket()
         },'ift,D'],
+        # < G&arfgunc
         ['Fun',0.263,&acgtRs{
-            $fun = "λ" || "&"+"{}"
-            me&tc,fun,'B'
             !me&Rortopsc,R,'expectλ' and me&strange,"looking-at-functions"
-            Rs&Longstring = fun
         },'ift,D'],
         ['String',0.263,&acgtRs{
             $D = Rs&D
