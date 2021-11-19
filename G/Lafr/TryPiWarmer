@@ -614,6 +614,31 @@ S 3 Pictures hashy misc
                 null == undefined,
             ]
         })
+    // hash key order
+        #  because of how javascript (v8) stores properties & elements
+        #  keys that look like array indices (dec(s,0) == s) will come first
+        #   eg assigning -2,-1,0 iterates 0,-2,-1
+        #  ! anywhere we rely on hash key order might be affected
+        $hash = peel("and:all,will:be,we:ll")
+            # ~$v keeps order of $k
+            hash.and = '...all!'
+            # numbers go first, in numeric order
+            hash.3 = 'dun'
+            #  only if they look like array indices
+            hash[3.14159] = 'dun'
+            # type coercy, unlike Array.indexOf()
+            hash['1'] = 'dunn'
+            # on the end
+            hash.flower = '?'
+            # gone + come again resets order of $k
+            delete hash.will
+            hash.will = 'vee'  
+            hash.vil = 'la'  
+        hat('key order',hash)
+        
+        # and more of a stylehouse quirk,
+        #  
+        hat('isha([])',isha([]))
     
     // sub
         # has to be &{} to get arguments
@@ -651,11 +676,6 @@ S 3 Pictures hashy misc
             })
         }
         
-        // hash key order
-        #  because of how javascript (v8) stores properties & elements
-        #  keys that look like array indices (dec(s,0) == s) will come first
-        #   eg assigning -2,-1,0 iterates 0,-2,-1
-        #  ! anywhere we rely on hash key order might be affected
         
     
    // &indo etc
