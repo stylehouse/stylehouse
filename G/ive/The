@@ -1196,22 +1196,7 @@ me.Sch_The = &acgt{ return [
             $row = me&rowcap,N,'RunStep',{k:'S',agk:'sustain'}
             
             # < &rowcap could make dupfiu rows per k
-            $SK = vpartN(N,n => ns&RunStep)
-            each ik SK.ks {
-                $N = SK.vs[i]
-                # %%further adopted by more recent
-                # < io expr for:
-                $going = grepout(N,n=>ns&through)
-                if (hak(going) == 1 && hak(N) == 1) {
-                    going = going[0]
-                    $quest = N[0]
-                    # quest comes in with specifics in mind
-                    goings&looks < quests&looks and debugger
-                    goingc&drop = 'out-quested'
-                    # < does it last?
-                    quests&through = 1
-                }
-            }
+            me&RunStep_dedup,N
             
             
             # Steps are known
@@ -1371,6 +1356,25 @@ me.Sch_The = &acgt{ return [
                 $odd = grep(nex({},c,'Fine,nine,This'))
                 me&tc,dis(odd),'6G'
             })
+        }
+        # prefer more recent
+        me.RunStep_dedup = &acgtN{
+            $SK = vpartN(N,n => ns&RunStep)
+            each ik SK.ks {
+                $N = SK.vs[i]
+                # %%further adopted by more recent
+                # < io expr for:
+                $going = grepout(N,n=>ns&through)
+                if (hak(going) == 1 && hak(N) == 1) {
+                    going = going[0]
+                    $quest = N[0]
+                    # quest comes in with specifics in mind
+                    goings&looks < quests&looks and debugger
+                    goingc&drop = 'out-quested'
+                    # < does it last?
+                    quests&through = 1
+                }
+            }
         }
         me.dotheRunStep = &acgtRhn,Run,any,quiettime,c,a{
             me&tc,"Run++"
@@ -1595,7 +1599,8 @@ me.Sch_The = &acgt{ return [
             $h = me&hajasute
             $R = me&R
             
-            # dropped from origin?
+            # dropped from origin? since nc&drop, none &sustaining
+            # < poison mode, waits for clients to pack up
             gs.el > 8 and debugger; return
             !gs.Q and debugger
             
@@ -1629,7 +1634,12 @@ me.Sch_The = &acgt{ return [
             
             # < any steps disturbed should sustain more
             af.el == 2 and ~>2 elIntro->Run: joint(gs.steps,', ')
-            gs.el == 2 and me&tc,"elIntro!"
+            # < never happens?
+            #   the above takes time since gs would el:2
+            #   supposing the original $gs stays the same,
+            #    or changes completely in a way we select for
+            #     see &sustain / if hak(s) / tex()
+            gs.el == 2 and me&tc,"elIntro!"; debugger
             if (!gs.steps) {
                 $Q = gs.Q
                 $P = Qs&P
@@ -1688,6 +1698,10 @@ me.Sch_The = &acgt{ return [
                 $di = me&diffPs,R,Q,P,Q
                 !di and return h.ha('pur:!diffP?')
                 # gs.of|t|etc = &Qidc
+                # < Babz $gs = di.gs or return { &fu,nogs:Q\n &tc,"Nogs",'B' }
+                #    rows of lines of code diverges in the return BLOCK
+                #     and etc ways to scrunch stuff together
+                #   would unpack to the:
                 $gs = di.gs
                 !gs and me&fu,{nogs:Q}; return me&tc,"Nogs",'B'
                 if (di.Comp) {
