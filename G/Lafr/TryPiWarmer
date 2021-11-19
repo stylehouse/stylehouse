@@ -579,9 +579,13 @@ S 3 Pictures hashy misc
    // js trivia
     # javascript weirdnesses!
     // types
-        
-        $l = ['1', '2', '3']
-        hat('indexOf string!=num',{l,li: l.indexOf(2) ,number_btw:9})
+        $l = ['1', '2', '3',1]
+        hat('indexOf string!=num',{l,
+            for_num_1: l.indexOf(1),
+            for_string_1: l.indexOf('1'),
+            for_num_2: l.indexOf(2),
+            for_string_2: l.indexOf('2'),
+        })
 
         # use before buy!
         l.map(&n{
@@ -629,6 +633,23 @@ S 3 Pictures hashy misc
             " no args":
                 disbrack(),
         })
+        
+        if (0) {
+            # < catch error
+            # ran into this while debugging 'zygomorph &Ereftakedown'
+            #  see 'doesnt fully solve the &Rcrux panic after &forgetRunStep'
+            # it seems javascript was optimising away lexicals no longer referred to
+            #  so good: accessing C.*.* should be fatal if !isC(C)
+            $ina = &rl,rr{
+                if (rl.sc.Pier && rr.sc.Pier) {
+                    return 0
+                }
+                return 1
+            }
+            hat('if (properties of undefs)',{
+                "are fatal": ina(),
+            })
+        }
         
         // hash key order
         #  because of how javascript (v8) stores properties & elements
@@ -1091,13 +1112,6 @@ S 5 &sustain
         }
     })
   // random
-    $ina = &rl,rr{
-    
-          if (rl.sc.Pier && rr.sc.Pier) {
-                    return 0
-                }
-                return 1
-    }
     # < the idea of not deleting things
     #    they just have a final scene together, then are gone
     # < to select recent six by numbers in title?
