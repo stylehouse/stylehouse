@@ -1367,7 +1367,225 @@ me.settleblab = 1
     }
    
 // 6 < frontends
-  
+
+  // &sustain
+    # < use dome="rec:$rec" if !T.sute
+    # watch the thing, $v, until true|changey
+    #  eg a = &sustain {} {latest_elQuip:e}
+    #   remembers the latest a.v=e that was true, or est this one
+    #  you may nc&drop them via a.done(), q includes $v in %%rec (dome)
+    me.sustain = &acgtscq{
+        s = peel(s)
+        !ish(s) || !ish(c) and throw "s,c"
+        $h = me&hajasute
+        # keyword first
+        c = peel(c)
+        $k = haks(c)[0]
+        $v = c[k]
+        q = peel(q)
+       // $remember idc
+        # all s.* and most c.* except c.$k
+        #  what to group by, become a.*
+        $idc = {}
+        if (haks(s)) {
+            # inherit identity eg another &sustain
+            #  eg another &sustain or &diffPs
+            ex(idc,nex({},tex({},s),'el'))
+        }
+        idc = nex(idc,c,[k])
+
+        # primary key, the first c.*, or &sustrain .$t
+        $rec = k
+        # < rec by k + dis(idc)? has dome_traction
+        # < supposing v not always given... trying to select these somethings?
+        # < can expand along c.*
+        q.k && v == null and throw "null pk"
+        q.k and rec = cint(rec,v)
+
+        $tiel = {sustain:1}
+        T.sute and tiel.rec = rec
+        else tiel.dome = "rec:"+rec
+        $grouping = ex(tiel,idc)
+
+        $remember = h.zaa(grouping)
+
+       // $el
+        $el = 1
+        # housey things become latest
+        if (v && hak(remember) && ish(v)) {
+            $wasn = remember .slice(-1)[0]
+            $wasv = wasn.sc [k]
+            $wasa = wasns&sustain
+            # wasv follows v type
+            !ish(wasv) and throw "wasv!ish"
+            # from v = &sustain
+            $via = isfu(v.done)
+            via && !ish(wasa.a) and throw "wasa.a!ish"
+            $was = !via ? wasv
+                : hak(wasa,'v') ? wasa.v
+                : wasa.a
+            if (v != was) {
+                $el = 2
+            }
+        }
+        if (!v) {
+            if (hak(remember)) {
+                # remembers
+            }
+            else {
+                # not yet
+                $el = 10
+                $a = {}
+            }
+        }
+        elsif (!hak(remember)) {
+            # v true for the first time
+            $el = 2
+        }
+        else {
+            # v true again
+        }
+        if (el == 2) {
+            if (ish(v)) {
+                # may follow v = &sustain
+                #  or just {...} from some id scraper
+                # < which may follow from q.origin = some &sustrain a,
+                #    the v.* being just the stuff the innard passed out
+                # < iteresting
+                $a = ex({},v)
+                a.a = q.origin || v
+                q.origin and a.v = v
+            }
+            else {
+                $a = {}
+            }
+            grouping.sustain = a
+            # a += c.*!$k > s.*
+            # < how much of c.* to take... til q?
+            ex(a,idc)
+
+            # keep permit until done
+            remember = [h.ha(grouping,c)]
+        }
+
+       // $n
+        # < eventually, its effect is noted on it over time
+        #   by others (in sute) doing re-rec on ov++
+        # < q might resolve $n c+s over idc
+
+        $n = remember .slice(-1)[0]
+
+        a ||= ns&sustain
+        !a and throw "!a"
+
+        # know first time etc
+        a.el = el
+        (n) and a.n = n
+        if (a.el <3) {
+            # latest true value
+            $v = n.sc[k]
+            # if it wasn't something becoming a
+            !ish(v) and a.v = v
+        }
+
+        # we don't always &sustain what is sustained
+        #  ie %%rec lets it glide along
+        #   eg the %%RunStep are started only once by &sustain
+        #    the free-er will event, doesn't keep occurring
+        #    then is fairly &sustain-indifferent
+        #  so:
+        # a.pur() is now-only, while you &sustain your something
+        #  after a while it points to old R etc
+        # a.done() avoids that problem by updating a.n
+
+        # on failure|enduring to complete it
+        #  < pur after $k+$index? see &hajasute
+        #    the pur changing lets loopier
+        # < modulate marker of where this emerged
+        #   to boxlink to the pur diag
+        a.pur = say => h.ha(dex({pur:'sustain:'+rec},{say}))
+        # revoke
+        a.done = &{
+            # a.n updates, see %%rec... copy to %%wou after
+            $n = a.n
+            nc&drop = 1
+            # unless of course it's being sustained by another sustain
+            # as in elIntro...RunStep
+        }
+
+        return a
+    }
+    # twostep &sustain
+    # < which came from where, timing for everything
+    #    splosive X timescape
+    # < policies... on 
+    me.sustrain = &acgt{
+        $h = me&hajasute
+
+        return &y{
+            $tos = haks(y)
+            tos.shift() != 'i' and throw "give input i=N|&{N}"
+
+            # ta/$t/i/$a=&sustain
+            $ta = {}
+            # origin
+            fuN(y.i).map(&s{
+                # per to-sustain (usu one)
+                each it tos {
+                    $a = ish(s) && s
+                    ahk(ta,[t],'i',
+                        # if not from another &sustain, keep it here
+                        #  faster grasp (presum) as no rec+=id
+                        a || me&sustain,{},hashkv(t+'_i',s)
+                    )
+                }
+            })
+    // *
+            # ta/$t/o/$a=&sustain
+            each it tos {
+                $input = ahsk(ta,t,'i')
+                # stops coming in
+                input ||= me&sustaining,t+'_i'
+                input.map(&a{
+                    $v = a.v
+                    # no sure what this interface should be
+                    #  it has already defined $t, the key to put $v at
+                    # &sustain args with c.$t=$v and c separated
+                    $i = &svcq{
+                        # s:idc, can be $gs, becomes v if alone
+                        hak(arguments) == 1 and v = s
+                        # %%sustain:a + non-idc
+                        c = ex(hashkv(t,v), c||{})
+
+                        q ||= {}
+                        q.origin = a
+
+                        ahk(ta,[t],'o',
+                            me&sustain,s,c,q
+                        )
+                    }
+                    # they i(gs)
+                    y [t] (i,v||a,a)
+                })
+            }
+        }
+    }
+   // f
+    # o %%sustain,$t ?
+    me.sustaining = &acgtc{
+        $h = me&hajasute
+        c = ex({sustain:1},peel(c))
+        return h.zaaj(c) .map(n => ns&sustain)
+    }
+    # from-iterable: [s] = y.i=s|[s]|&{}|[]
+    self.fuN = &s{
+        # < args?
+        isfu(s) and s = s (...[...arguments].slice(1))
+        !s and s = []
+        !isar(s) and s = [s]
+        return s
+    }
+
   // &Effect, their -Effect receives faster than %%eto
    // < doc
     # < tidy, test...
