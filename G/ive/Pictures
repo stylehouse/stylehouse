@@ -1404,7 +1404,7 @@
         Ey&up ||= s
         # see fi&piinto, perhaps same pi wants to replace?
         $p = sy&up
-        #!(p && py&ers) && Ey&up != s && Ey&up.c.pi == sc&pi and debugger
+        !(p && py&ers) && Ey&up != s && Ey&up.c.pi == sc&pi and debugger
         return E
     }
     # s%node remembers ...z b by &pipath
@@ -1479,14 +1479,23 @@
         c ||= {}
         !c.beyond and me&uptonode,s,c
         $s = c.path.slice(-1)[0]
-        return c.beyond.map(z => me&pitorpi,s,z ).join('/')
+        $eg = c.beyond.map(z => me&pitorpi,s,z ).join('/')
+        #~>8 apipath: eg
+        return eg
     }
     # says t+pi compressily
     #  pi sometimes have another t, usu same as last node
     me.pitorpi = &acgtsz{
-        !sc&pi and debugger
-        return (z.t != s.t ? z.t : "")
-            + "-"+sc&pi
+        # < use hakd() to make {t?,pi?}
+        $t = z.t
+        $pi = zc&pi && zc&pi != sc&pi
+        zc&pi && '-'+zc&pi == z.t and pi = zc&pi; t = ''
+        else {
+            pi && z.t == s.t
+        }
+        pi and pi = '-'+pi
+        else pi = ''
+        return t + pi
     }
    
  // process pi
