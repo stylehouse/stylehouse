@@ -5481,6 +5481,28 @@ me.Sch_The = &acgt{ return [
   
   
  // thingo limitoids
+  // &Rlimiti - ref+dl+nl policy
+    # @12
+    me.Rlimiti = &acgtR{
+        $C = Rs&C
+        $s = Rc&s
+        
+        if (s && typeof s == 'object' && !Rs&noref) {
+            # soft dup limit, sets Rc&nofurther=1
+            me&Rlimiti_ref,R,s
+        }
+        # sprawl limits
+        # < find bunch of these at a thing, to %TX anti-dl
+        if (Rc&dl && Rc&dl < Rc&d) {
+            me&Ri,{limit:'dl',toomuch:1}
+            #return
+        }
+        if (Rc&nl && Rc&N && Rc&nl < Rc&N.length) {
+            me&Ri,{limit:'nl',toomuch:1}
+        }
+        
+        return 1
+    }
   # magic words in brack engage, like Ring
   # globalised pseudo-Ringing parts of Ringing
   # affects of consciousness showing up somewhere
@@ -5869,26 +5891,6 @@ me.Sch_The = &acgt{ return [
     #  adding %toomuch stops E**
     #   an acute case of dimming light, ending thing
    // incur
-    # @12
-    me.Rlimiti = &acgtR{
-        $C = Rs&C
-
-        $s = Rc&s
-        if (s && typeof s == 'object' && !Rs&noref) {
-            # soft dup limit, sets Rc&nofurther=1
-            me&Rlimiti_ref,R,s
-        }
-        # sprawl limits
-        # < find bunch of these at a thing, to %TX anti-dl
-        if (Rc&dl && Rc&dl < Rc&d) {
-            me&Ri,{limit:'dl',toomuch:1}
-            #return
-        }
-        if (Rc&nl && Rc&N && Rc&nl < Rc&N.length) {
-            me&Ri,{limit:'nl',toomuch:1}
-        }
-        return 1
-    }
     # realises where $s was before
     me.Rlimiti_ref = &acgtRs{
         # on Ec&top %X
