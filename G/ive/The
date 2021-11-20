@@ -3911,7 +3911,6 @@ me.Sch_The = &acgt{ return [
         # < GOING these would be only c.E.c.*?
         $soft = delete c.soft_rcbits
         $rcbits = tax({},c,'nl,dl')
-        #hak(rcbits) and debugger
         
         # R'Peace'-like Ringing
         # < Voicing
@@ -3930,7 +3929,20 @@ me.Sch_The = &acgt{ return [
         me&Pieringi,R,r,c
         
         ex(r.c,rcbits,r.c)
-        #c.Top and me&tc,dis(tex({},r.c)),'6y'
+        if (!c.Top) {
+            # some r.c.* settings need more to work elsewhere
+            # < all the stuff heading for r.c mapped out
+            $alter = grep((v,k) => R.c[k] != r.c[k], peel('nl,dl'))
+            if (hak(alter)) {
+                # < these create %adepth to operate over
+                #   still contribute to the above nl etc
+                # < seems like time would do this
+                alter.nl and throw "< altering nl"
+                if (alter.dl) {
+                    rc&dlbias = Rc&d
+                }
+            }
+        }
         
         # to &Eing
         return r
@@ -5493,7 +5505,7 @@ me.Sch_The = &acgt{ return [
         }
         # sprawl limits
         # < find bunch of these at a thing, to %TX anti-dl
-        if (Rc&dl && Rc&dl < Rc&d) {
+        if (Rc&dl && Rc&dl < (Rc&d-Rc&dlbias)) {
             me&Ri,{limit:'dl',toomuch:1}
             #return
         }
