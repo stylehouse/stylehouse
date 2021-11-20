@@ -5505,7 +5505,7 @@ me.Sch_The = &acgt{ return [
         }
         # sprawl limits
         # < find bunch of these at a thing, to %TX anti-dl
-        if (Rc&dl && Rc&dl < (Rc&d-Rc&dlbias)) {
+        if (Rc&dl && Rc&dl < Rc&d-Rc&dlbias) {
             me&Ri,{limit:'dl',toomuch:1}
             #return
         }
@@ -6417,6 +6417,7 @@ me.Sch_The = &acgt{ return [
         #   R/E/X then are arks, wideness
         #    at one point along the -Belt
         $e = me&Ei,{t:'s',pi:'isC',s:s}
+        # < whats this up to
         !me&Eing,4 and return
         if (isR(s)) {
             Rs&isR = 1
@@ -6437,7 +6438,7 @@ me.Sch_The = &acgt{ return [
             $nec = rs&nec
             !nec and me&strange,"!nec"
             if (rs&nec_simple) {
-                me&tc,"t-will-do",'t','8y'
+                me&tc,"t-will-do",'t','6y'
                 rs&noDisplay = 1
                 Rs&inline = 1
                 Rs&tiny = 1
@@ -6447,6 +6448,7 @@ me.Sch_The = &acgt{ return [
             each ic nec {
                 Xc[c.k] = c.v
             }
+            me&tt,'◇' () and me&fu,"Bit"+R.t,s
             if (!rs&nec_simple) {
                 me&tc,"gotta:"+dis(Xc),'1q'
             }
