@@ -1140,12 +1140,11 @@ S 5 &sustain
     #be.i_pi = 'hat'
     $day = 1
     $luck = 1
-    $have
     be.main = &Chir{
         # o having rice, may remember per day
         $magic = luck && h.zaa('situation:no rice')
             .length ? 66 : 0
-        have = me&sustain,{day},{RiceDay:magic}
+        $have = be.have = me&sustain,{day},{RiceDay:magic}
         
         h.ha("Things,do:i")
         
@@ -1165,25 +1164,32 @@ S 5 &sustain
     be.do()
     # something made rice!
     be.do()
+    # 3
     # still have rice, found keying by $day+'RiceDay'
     # < some record or deal about $v going el:9
     luck = 0
     be.do()
     # something happens to the rice!
     # < what from whom?
-    #have.done()
+    be.have.done()
     be.do()
     be.do()
     # luck returns, have rice again
-    # 6
     luck = 1
     be.do()
+    # 6
+    
+    
+    
     # < a.n could point to the last true one?
     #   ny&future always the latest, so .done() knows
     # < no need for &rec_traction to reiterate
     #    as long as h.zaa is the &supedome one
     #     ie $n produced there are in %wou (&dome_o3)
     # < fatal.isfu() etc returning the thing
+    # < &Api complains when opening -Bat
+    # < for climbing up and around
+    #    finding s as a limit:ref amongst s^^
   // Waters
     # < turn off the water when the filter isn't running
   // CodeUp
