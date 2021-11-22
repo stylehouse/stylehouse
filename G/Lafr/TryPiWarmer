@@ -1143,24 +1143,56 @@ S 5 &sustain
     })
   
   // RiceDay
+   // unit
     $be = me&mockbrackR,'RiceDay'
     # < i.* all lexicals as:
     #be.i_pi = 'hat'
     $day = 1
     $luck = 1
+    $equipment = 0
     be.main = &Chir{
         # o having rice, may remember per day
         $magic = luck && h.zaa('situation:no rice')
             .length ? 66 : 0
         $have = be.have = me&sustain,{day},{RiceDay:magic}
+        i.Bow = {have}
         
         h.ha("Things,do:i")
+        if (have.el >8) {
+            if (equipment) {
+                $Jugging = me&sustain,{},{Jugging:1}
+                Jugging.temp ||= 16
+            }
+            
+        }
+        else {
+        }
+        # < wind up Juggings
+        if (Jugging && Jugging.temp >= 100) {
+            $Pot = me&sustain,{},{Jugging:1}
+            # the food has careful labels
+            Pot.began ||= {day,ver:rs&ver}
+        }
+        me&sustaining,'Pot' .map(&Pot,{
+            # pot takes one r to cook
+            if (Pot.began.ver < rs&ver) {
+                # cant take days to cook
+                $s = {day:Pot.began.day}
+                $c = {RiceDay:1}
+                have = me&sustain,s,c
+                
+                h.ha("cooking:done")
+            }
+            else {
+                h.ha("cooking:now")
+            }
+        })
+        # < gc Juggings that no longer &sustain
         
-        $situation = (have.el<9?"":"no ")+"rice"
-        h.ha({situation})
-        i.Bow = {have}
+        
+        h.ha({situation: have.el < 9 ? "rice" : "no rice" })
     }
-    
+   // # 1
     # < the -Bow a.sustain could do with rearranging lines
     #   about having one odd type|geo-magnitude
     #   the small things first
@@ -1186,15 +1218,22 @@ S 5 &sustain
     # luck returns, have rice again
     luck = 1
     be.do()
-    # 6
+   // # 6
+    # the rules of the universe change,
+    #  now!
+    luck = 0
+    equipment = 1
+    be.have.done()
+    # start Jugging
+    be.do()
     
-    
-    
-    # < a.n could point to the last true one?
-    #   ny&future always the latest, so .done() knows
+    # < want %eph HEAD..HEAD^1 diff ongoingly (Yinguto?)
     # < no need for &rec_traction to reiterate
     #    as long as h.zaa is the &supedome one
     #     ie $n produced there are in %wou (&dome_o3)
+    
+    # < a.n could point to the last true one?
+    #   ny&future always the latest, so .done() knows
     
     # < ex(s,c+)
     # < fatal.isfu() etc returning the thing
@@ -1204,6 +1243,7 @@ S 5 &sustain
   // Waters
     # < turn off the water when the filter isn't running
   // CodeUp
+    # the projection of change into ...
     =use of &sustain so far
      < and where it could be used
      
@@ -1222,6 +1262,7 @@ S 5 &sustain
         RunStep s=$gs,v=$S
          
     =RunStep was
+      having:
         RunStep s=$gs,v=$S
          as above
         RunStep v=time
