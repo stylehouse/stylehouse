@@ -1161,6 +1161,7 @@ S 5 &sustain
         if (have.el >8) {
             # no rice
             if (equipment) {
+                #&& !hak( me&sustaining,'Jugging' )) {
                 Jugging = me&sustain,{},{Jugging:1}
                 Jugging.temp ||= 16
             }
@@ -1173,7 +1174,7 @@ S 5 &sustain
         })
         if (Jugging && Jugging.temp >= 100) {
             $Pot = me&sustain,{},{Pot:1}
-            Jugging.done({became:Pot})
+            Jugging.done({n:Pot})
             # the food has careful labels
             Pot.began ||= {day,ver:rs&ver}
         }
@@ -1184,11 +1185,16 @@ S 5 &sustain
                 $s = {day:Pot.began.day}
                 $c = {RiceDay:1}
                 have = me&sustain,s,c
+                # we have posited such the $day, so...
+                Pot.done({u:have})
+                Pot.shouldbegone = 1
                 
-                h.ha("cooking:done")
+                h.ha("cooking:done",
+                    {began:Pot.began.ver,now:rs&ver})
             }
             else {
-                h.ha("cooking:now",{began:Pot.began.ver,now:rs&ver})
+                h.ha("cooking:now",
+                    {began:Pot.began.ver,now:rs&ver})
             }
         })
         

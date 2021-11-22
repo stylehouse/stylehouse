@@ -3020,7 +3020,7 @@ me.Sch_The = &acgt{ return [
                     isst(v) and $g = {t:v}
                     ish(v) and $g = v
                 }
-                g ||= {}
+                c.g = g ||= {}
                 b and g.b = b
                 !y and throw "huh"
                 $r = g.r = me&mockR_make,c.t,g.b
@@ -3028,6 +3028,7 @@ me.Sch_The = &acgt{ return [
                 fatal.isR(r)
                 fatal.isC(C)
                 me&mockR_begin,r
+                me&mockAipR_begin,c,g
                 
                 fatal.isnum(rs&ver)
                 # starts returning null, then 1 forked
@@ -3062,6 +3063,10 @@ me.Sch_The = &acgt{ return [
             return c
         }
         me.mockAipR_begin = &acgtcg{
+            $r = g.r
+            # < commit this, but have it available already
+            $b = rc&b
+            b and by&future = r
             # < make Aips
         }
         me.mockbrackR_middle = &acgtcgy{
