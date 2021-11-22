@@ -1155,13 +1155,13 @@ S 5 &sustain
         $magic = luck && h.zaa('situation:no rice')
             .length ? 66 : 0
         $have = be.have = me&sustain,{day},{RiceDay:magic}
-        i.Bow = {have}
         
         h.ha("Things,do:i")
+        $Jugging
         if (have.el >8) {
             # no rice
             if (equipment) {
-                $Jugging = me&sustain,{},{Jugging:1}
+                Jugging = me&sustain,{},{Jugging:1}
                 Jugging.temp ||= 16
             }
         }
@@ -1172,7 +1172,7 @@ S 5 &sustain
             a.temp += 30
         })
         if (Jugging && Jugging.temp >= 100) {
-            $Pot = me&sustain,{},{Jugging:1}
+            $Pot = me&sustain,{},{Pot:1}
             # the food has careful labels
             Pot.began ||= {day,ver:rs&ver}
         }
@@ -1193,6 +1193,7 @@ S 5 &sustain
         # < gc Juggings that no longer &sustain
         
         
+        i.Bow = {have}
         h.ha({day,situation: have.el < 9 ? "rice" : "no rice" })
     }
    // # 1
@@ -1221,7 +1222,7 @@ S 5 &sustain
     # luck returns, have rice again
     luck = 1
     be.do()
-   // # 6
+   // # 7
     # the rules of the universe change,
     #  now!
     luck = 0
@@ -1230,11 +1231,14 @@ S 5 &sustain
     # start Jugging
     be.do()
     be.do()
-    be.do()
-    
+    # takes all day to boil Jug
     day = 2
+    # < titles?
     be.do()
     
+    be.do()
+    
+    # community: remark (i $s/**-rem) highly removable thing that you i to the code
     # < give Ying some more speed
     # < Accept yay chunks for now
     #    helps make commits more coherent,
