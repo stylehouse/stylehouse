@@ -1159,15 +1159,18 @@ S 5 &sustain
         
         h.ha("Things,do:i")
         if (have.el >8) {
+            # no rice
             if (equipment) {
                 $Jugging = me&sustain,{},{Jugging:1}
                 Jugging.temp ||= 16
             }
-            
-        }
-        else {
         }
         # < wind up Juggings
+        me&sustaining,'Jugging' .map(&a,{
+            Jugging ||= a
+            Jugging != a and throw "Jugs?"
+            a.temp += 30
+        })
         if (Jugging && Jugging.temp >= 100) {
             $Pot = me&sustain,{},{Jugging:1}
             # the food has careful labels
@@ -1226,7 +1229,15 @@ S 5 &sustain
     be.have.done()
     # start Jugging
     be.do()
+    be.do()
+    be.do()
     
+    day = 2
+    be.do()
+    
+    # < Accept yay chunks for now
+    #    helps make commits more coherent,
+    #    accumulate aggreeable parts of -six** til all good
     # < want %eph HEAD..HEAD^1 diff ongoingly (Yinguto?)
     # < no need for &rec_traction to reiterate
     #    as long as h.zaa is the &supedome one
