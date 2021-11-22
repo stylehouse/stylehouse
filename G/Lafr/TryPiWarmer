@@ -592,6 +592,7 @@ S 3 Pictures hashy misc
             use = 3
             $use = n
         })
+        
         # < Plying test output to here,
         #   generating blog with <code>1+1 # 2</code>
         hat('null <>-ier than undefined',{
@@ -602,6 +603,13 @@ S 3 Pictures hashy misc
             undef_gt_6: undefined > 6,
             undef_gt_neg6: undefined > -6,
         })
+        hat('null mathsier than undefined',{
+            "5+null": 5+null,
+            "5+undefined": 5+undefined,
+            # right way:
+            "5+(undefined||0)": 5+(undefined||0),
+        })
+        
         hat('more types',{
             'zero': [
                 '' == 0,
