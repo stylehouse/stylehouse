@@ -4599,6 +4599,8 @@ me.Sch_The = &acgt{ return [
         $many = me&Rortopsc,R,'many_thresh' || 20
         $tolerance = 10
         many = hak(Es&z) > many+tolerance ? many : 0
+        # wants to show yay many yonder of the snip
+        $many_tail = me&Rortopsc,R,'many_tail' || 0
         # arriving e a bit may pos|neg it
         # < once space limit is found,
         #   sub negated for posited
@@ -4652,11 +4654,11 @@ me.Sch_The = &acgt{ return [
         $stop = me&Ro,{limit:1,toomuch:1}
         # %limit:ref may stop woulding, probably unlimited keen e
         if (stop) {
+            # empty would into toomuch
             c.toomuch.push( ... c.would.splice(0) )
             if (c.keen) {
                 # just the keen
-                # < unless a stopper is much over a hard limit, eg nl
-                # grepout comp array of objects
+                # < unless a stopper is a hard limit, eg nl?
                 c.would = grepout(c.toomuch,c.keen)
             }
         }
@@ -4676,22 +4678,31 @@ me.Sch_The = &acgt{ return [
             if (more > 0) {
                 # c.would until the limit
                 c.toomany = c.would.splice(more)
+                if (many_tail) {
+                    # wants to show yay many yonder of the snip
+                    $yonder = c.toomany.slice(-many_tail)
+                    yonder.map(e => ahk(c,['keen'],e))
+                    Rs&say_toomany_before = yonder[0]
+                    
+                }
                 if (c.keen && hak(c.toomany)) {
                     # prioritise space
                     $i = hak(c.would)-1
                     each ii,e c.keen {
                         c.would.includes(e) and continue
+                        !c.toomany.includes(e) and debugger
                         while (1) {
                             $oe = c.would[i]
-                            # demote a !keen
+                            !oe and debugger
+                            # demote a !keen would
                             # < next least keen
                             c.keen.includes(oe) and i--; continue
-                            c.toomany.push(
-                                ... c.would.splice(i,i+1))
-                            # promote the keen from toomany
+                            c.toomany.unshift(
+                                ... c.would.splice(i,1))
+                            # promote keen e from toomany
                             c.would.push(
                                 # grepout comp object
-                                ... grepout(c.toomany,oe))
+                                ... grepout(c.toomany,e))
                             # < fatal grepout
                             i--
                             break
@@ -6390,10 +6401,12 @@ me.Sch_The = &acgt{ return [
         me&Ei,{t:'sel',pi:'Spheres',s:E}
         me&Eing,6
     },'ift,D'],
-    # a slope: $n/$n/$n...
+    # a slope: $n/$n/$n... (15)
     ['Belt',0.21,&acgtRs{
         $N = s
         !isar(N) and return me&strange,"!array"
+        # limit:many shall $n/$n/$n...$n/$n
+        Rs&many_tail = 2
         each in N {
             $e = me&Ei,{t:i,pi:'Bit',s:n,noref:1}
             if (ns&miragia) {
