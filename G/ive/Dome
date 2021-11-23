@@ -188,10 +188,10 @@
         }
        
        // %%rec, &zaaj
-        # %%rec... copy to %%wou after
+        # %%rec... copy to %wou after
+        #  unless %%dome, already there since &dome_o3
+        #   for which the %%rec are dome-within-dome
         me.rec_traction = &acgth{
-            #  as opposed to before, like %%dome in &dome_o3
-            #  dome-within-dome, since we %%dome=supe+sute
             #  an extra persistence.
             #  more permanent than %%dome, remain while going faulty.
             #   ie the step becomes unreachable
@@ -200,37 +200,38 @@
             # < use &hajasute .saa()
             # /$rec = 0|1
             $hasnew = {}
-            h.zaa('rec')
-                .filter(&n{
-                    # any &*a grop these
-                    nc&drop and debugger
-                    if (!hak(hasnew,ns&rec)) {
-                        # o *%rec == n%rec
-                        hasnew[ns&rec] = hak(
-                            h.jaa({rec:ns&rec})
-                                .filter(n => !nc&recycled)
-                        ) ? 1 : 0
-                    }
-                    # < is this just for showing in tests -brackio?
-                    if (hasnew[ns&rec]) {
-                        if (nc&recycled) {
-                            # is our copy, %%dome brought it into now
-                            # < only most probably:
-                            # the h.zaa() from &hajadome
-                            #   which may be inherited to h.zaa() from &hajasute
-                            #  is showing us n in now that %%dome from before
-                            #  so we can write on our copy of it!
-                            # < h.traction() won't sane more than once
-                            #   will however fix '< as long as some new gets selected'
-                            #    for the rest of the day
-                            nc&drop = 'rec'
-                        }
-                    }
-                    else return 'to be reinput here'
-                })
-                .map(&n{
+            # this could be looking at:
+            #  h=&hajadome: the last copy of 
+            h.zaa('rec') .map(&n{
+                # any &*a grop these
+                nc&drop and debugger
+                if (!hak(hasnew,ns&rec)) {
+                    # o *%rec == n%rec
+                    hasnew[ns&rec] = hak(
+                        h.jaa({rec:ns&rec})
+                            .filter(n => !nc&recycled)
+                    ) ? 1 : 0
+                }
+                # < is this just for showing in tests -brackio?
+                if (hasnew[ns&rec]) {
                     if (nc&recycled) {
-                        # it must be doming as well
+                        # is our copy, %%dome brought it into now
+                        # < only most probably:
+                        # the h.zaa() from &hajadome
+                        #   which may be inherited to h.zaa() from &hajasute
+                        #  is showing us n in now that %%dome from before
+                        #  so we can write on our copy of it!
+                        # < h.traction() won't sane more than once
+                        #   will however fix '< as long as some new gets selected'
+                        #    for the rest of the day
+                        nc&drop = 'rec'
+                    }
+                }
+                else {
+                    # reinput here...
+                
+                    if (nc&recycled) {
+                        # it is doming as well
                         #  this $n does belong to 
                         #  if it is going to survive &dome_traction
                         #    (no other $n in %%dome)
@@ -254,7 +255,7 @@
                     #   until it &sustain or does this
                     # < the n <-> a correlation should be Xillusion
                     me&rec_betractioned,n,z,'rec7'
-                })
+                }
         }
         # ny&future -> z
         me.rec_betractioned = &acgtnzk{
