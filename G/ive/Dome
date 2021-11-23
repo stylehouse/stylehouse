@@ -230,7 +230,14 @@
                 })
                 .map(&n{
                     if (nc&recycled) {
+                        # it must be doming as well
+                        #  this $n does belong to 
+                        #  if it is going to survive &dome_traction
+                        #    (no other $n in %%dome)
+                        #   we might as well
                         # < it's already here, why re-rec?
+                        # < delete nc&recycled, so we get through &dome_traction
+                        # < note that we didn't get &sustain'd this time
                         #nc&alrecdy = 1
                         #return
                     }
@@ -245,18 +252,26 @@
                     #  some older grasp of %%sustain:a could still be true
                     #  ie another fork would see the other fork's a.n
                     #   until it &sustain or does this
-                    # < the n <-> a correlation should be more illusory, via X
-                    zs&sustain and zs&sustain.n = z
-                    # future in particular shouldn't exist (is from &rec_traction)
-                    #  because the future comes from the future
-                    #   and is only superimposed on the past, which keeps museum.
-                    #    giving R y&future before commit is a source of tunnel breakage
-                    #     when aborting what stays the future
-                    #     then something expects y&future to lead to a better self to use
-                    #      unless (rarely) using nowerR = &yfuture R c.merged=1
-                    ny&future = z
-                    zy&prerec = n
+                    # < the n <-> a correlation should be Xillusion
+                    me&rec_betractioned,n,z,'rec7'
                 })
+        }
+        # ny&future -> z
+        me.rec_betractioned = &acgtnzk{
+            !k and throw "moveth!whence"
+            if (zs&sustain) {
+                zs&sustain != ns&sustain and debugger
+                zs&sustain.n = z
+            }
+            # future in particular shouldn't exist (is from &rec_traction)
+            #  because the future comes from the future
+            #   and is only superimposed on the past, which keeps museum.
+            #    giving R y&future before commit is a source of tunnel breakage
+            #     when aborting what stays the future
+            #     then something expects y&future to lead to a better self to use
+            #      unless (rarely) using nowerR = &yfuture R c.merged=1
+            ny&future = z
+            z.y [k] = n
         }
         # %%rec-tractioned zaa+jaa
         #  used when jaa(c,1) gives dupes from neu+old %%rec
@@ -947,20 +962,21 @@ me.settleblab = 1
         me.dome_o3 = &acgtrs{
             me&zaa,r,'dome' .map(&n{
                 nc&drop and throw "dropsnot"
-                $w = n;
+                $w = n
                 nc&recycled and n = ny&up
                 # shaded n.sc stay when dome recycling
-                #  usu any other recycling (&ha,$n) vanishes them
+                #  usu any other recycling vanishes them
+                #   eg &ha,$n, &nodei to $to
                 $shade = {}
                 nc&shade && haks(nc&shade)
                     .map(k => shade[k] = n.sc[k])
                 
-                $O = me&ha,r,n,shade;
+                $z = me&ha,r,n,shade
                 
                 # stretch, through/from the same S
-                Oc&recycled = 1 + (wc&recycled||0)
-                wc&S and Oc&S = wc&S
-                
+                zc&recycled = 1 + (wc&recycled||0)
+                nc&S and zc&S = nc&S
+                ns&rec and me&rec_betractioned,n,z,'reco3'
             })
         }
         # remove old one if obvious!
@@ -1034,7 +1050,9 @@ me.settleblab = 1
                 delete ns&el2
             })
             says_drop ||= some_new.length && "neu"
-            says_drop and old.map(n => nc&drop = says_drop)
+            says_drop && old.map(&n{
+                nc&drop ||= says_drop
+            })
             
             #$hmm = says_drop && old.filter(
             #    n => ns&eto && ns&dome == 'v1').length
@@ -1508,7 +1526,7 @@ me.settleblab = 1
         a.done = &{
             # a.n updates, see %%rec... copy to %%wou after
             $n = a.n
-            nc&drop = 1
+            nc&drop = 'done'
             # unless of course it's being sustained by another sustain
             # as in elIntro...RunStep
         }

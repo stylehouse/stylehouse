@@ -1176,10 +1176,14 @@ S 5 &sustain
             a.temp += 30
         })
         if (Jugging && Jugging.temp >= 100) {
+            # Jug -> Pot
             $Pot = me&sustain,{},{Pot:1}
             Jugging.done({n:Pot})
+            Jugging.shouldbegone = "Jug"
             # the food has careful labels
             Pot.began ||= {day,ver:rs&ver}
+            # < ideally this would show Jug done?
+            i.zaarec = [...h.zaa('rec')]
         }
         me&sustaining,'Pot' .map(&Pot,{
             # pot takes one r to cook
@@ -1242,9 +1246,16 @@ S 5 &sustain
     # takes all day to boil Jug
     day = 2
     be.do("into the Pot")
+    # 10
+    # < Jugging not restarting while Pot is cooking
+    #    from seeing historical a.sublated?
+    #    a vote for &sustains somewhat remaining...
+    #   or is this when you would use &sustrain?
     be.do("Pot is ready")
     be.do("still have rice")
     
+    # < done(a.sublated={u:Upward_Process}), a.el=11?
+    #    see the notions of u|n amongst Gump/*
     # < the re-Jugging... refactor &rec_traction
     # < no need for &rec_traction to reiterate
     #    as long as h.zaa is the &supedome one

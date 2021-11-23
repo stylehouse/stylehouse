@@ -6806,7 +6806,8 @@ me.Sch_The = &acgt{ return [
         # < leading elsewhere... there are more of these, esp y&up
         # see &rec_traction / future in particular shouldn't exist
         sy&future and remark.yfuture = 1
-        sy&prerec and remark.prerec = 1
+        grep(k => k.startsWith('rec'), haks(s.y))
+            .map(k => remark[k] = 1)
         ex(D.sc,remark)
         
         me&Ei,{t:'sc',s:s.sc,pi:'Bow'}
