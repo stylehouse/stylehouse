@@ -1151,6 +1151,7 @@ S 5 &sustain
     $luck = 1
     $equipment = 0
     be.main = &Chir{
+        
         # o having rice, may remember per day
         $magic = luck && h.zaa('situation:no rice')
             .length ? 66 : 0
@@ -1162,7 +1163,8 @@ S 5 &sustain
             # no rice
             # < supermind would wait for ** before re-Jugging
             if (equipment
-                && !hak( me&sustaining,'Jugging' )) {
+                && !hak( me&sustaining,'Jugging' )
+                && !hak( me&sustaining,'Pot' )) {
                 Jugging = me&sustain,{},{Jugging:1}
                 Jugging.temp ||= 16
             }
