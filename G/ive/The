@@ -6789,7 +6789,6 @@ me.Sch_The = &acgt{ return [
             me&Ei,{t:i,s:z,pi:'brack'}
         }
     },'ift,D'],
-   // -brack row
     # each %wou/brack+ row
     ['brack',0.267,&acgtRs{
         $D = Rs&D
@@ -6832,7 +6831,7 @@ me.Sch_The = &acgt{ return [
         $Ep = Ey&up
         $usuup = Epc&pi == 'brackio' || Epc&pi == 'brackios'
         usuup and me&modselect,R,{el:9,n:Cy&transpi}
-        me&pity,E,'-hat' .map(&e{
+        me&pity,E,'-Bow' .map(&e{
             $er = ey&R
             !er and return
             ers&nobrackets = 1
@@ -6862,17 +6861,22 @@ me.Sch_The = &acgt{ return [
         })
         #     or $m,(\n...) ?
         #hak(lim) and $firstdis1 = 0
-        me&pity,E,'-hat' .map(&e{
-            $er = ey&R
-            !er and return
-            $eC = ers&C
+        me&pity,E,'-Bow' .map(&e{
+            # < $eC = o e//R/%C or return
+            # < or:   o e)%C # implies s**->R** change
+            $eC = Aof(e,'C')
             !eC and return
             # dont say -brack
-            me&modselect,er,{el:9,n:eCy&transpi}
+            me&modselect,e,{el:9,n:eCy&transpi}
             # or At:sc
             if (e.t == 'sc') {
                 sc&drop and eCs&opa = 0.6
-                me&modselect,er,{el:9,n:eCy&label}
+                me&modselect,e,{el:9,n:eCy&label}
+                me&pity,e,'-Bow' .map(&e{
+                    $eeC = Aof(e,'C')
+                    $la = eeCy&label
+                    las&fs = 12
+                })
             }
             eCs&dis = 2
             # sc following ref, make on its own
@@ -6882,7 +6886,7 @@ me.Sch_The = &acgt{ return [
             #me&tc,eC,"Extrazity!"
             # of course the sc is the same
             # < the sc.* refs changing is interesting
-            deeplim and me&modselect,er,{el:9,t:'limit-cap'}
+            deeplim and me&modselect,e,{el:9,t:'limit-cap'}
         })
         me&modulatM,R
     },'ift,D'],

@@ -3,6 +3,7 @@
    // your modulat
     # select ground 102-14 for name (6), 11 for sym (1)
     me.modselect = &acgtRc{
+        R = Aof(R)
         c ||= {}
         # < mix down modulat into Rs&M anytime?
         me&modulatM,R
@@ -608,9 +609,13 @@
         s == j and throw "j==sof(j)",j
         return s
     }
-    # < y&up and...?
-    self.Aof = &s{
-        return isR(s) ? s : sy&R
+    # < slope y&up and...?
+    self.Aof = &sk{
+        $r = sy&R
+        fatal.isR(r)
+        # for s//R//$k=C
+        k and return r.sc[k]
+        return r
     }
     # climb over a usu separation (&clonover, &copi, etc)
     #  where multiple C over dimensions, most grabable.
