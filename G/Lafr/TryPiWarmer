@@ -1158,7 +1158,7 @@ S 5 &sustain
         
         h.ha("Things,do:i")
         $Jugging
-        if (have.el >8) {
+        if (have.el > 8) {
             # no rice
             # < supermind would wait for ** before re-Jugging
             if (equipment
@@ -1174,6 +1174,7 @@ S 5 &sustain
         me&sustaining,'Jugging' .map(&a,{
             Jugging ||= a
             Jugging != a and throw "Jugs?"
+            have.el < 9 and return a.done({u:have})
             a.temp += 30
         })
         if (Jugging && Jugging.temp >= 100) {
@@ -1261,6 +1262,8 @@ S 5 &sustain
     #   or is this when you would use &sustrain?
     # < done(a.sublated={u:Upward_Process}), a.el=11?
     #    see the notions of u|n amongst Gump/*
+    #  < args like that of &strange|&wants|&waits
+    #    they could be string message and|or hash of relations
     # < the re-Jugging... refactor &rec_traction
     # < no need for &rec_traction to reiterate
     #    as long as h.zaa is the &supedome one

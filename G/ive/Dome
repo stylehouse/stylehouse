@@ -131,6 +131,12 @@
         }
         
        // &hajadome/&hajasute make/access a cooptable T.sute
+        # misleading names:
+        #  &hajadome is how &supetime begins each sute
+        #  &hajasute finds that via T.sute
+        #   or improvises a similar interface
+        # so they are provision, get_provision
+        
         # take up h={ha,jaa...} interfaces anywhere (in the node)
         # < similar to an Xio front end
         #    the flavour of the interation, besides expr through it
@@ -151,7 +157,7 @@
             }
             else {
                 # without being for a h = &hajadome
-                h = {}
+                h = {R:j}
                 h.ha = (c,s) => me&ha,j,c,{},s
                 h.jaa = (c) => me&jaa,j,c
                 h.zaa = (c) => me&zaa,j,c
@@ -168,7 +174,7 @@
             dome == null and throw "haja!dome"
             # make sure dome etc is first
             idc = ex({dome},idc)
-            $h = {idc,dome}
+            $h = {R,idc,dome}
             # &ha|jaa|etc are based on idc
             $local = c => ex(ex({},idc),peel(c))
             
@@ -190,17 +196,15 @@
        
        // %%rec, &zaaj
         # %%rec... copy to %wou after
-        #  unless %%dome, already there since &dome_o3
+        #  unless %%dome brought it into now since &dome_o3
         #   for which the %%rec are dome-within-dome
         me.rec_traction = &acgth{
             #  an extra persistence.
             #  more permanent than %%dome, remain while going faulty.
             #   ie the step becomes unreachable
-            #    are more plot points, goals than state
+            #    are more plot points, goals, irregularly stated state
             #    eg check w:Try via elIntro etc
             $hasnew = {}
-            # this could be looking at:
-            #  h=&hajadome: 
             h.zaa('rec') .map(&n{
                 # any &*a should grop these
                 nc&drop and debugger
@@ -216,6 +220,7 @@
                 if (hasnew[ns&rec]) {
                     if (nc&recycled) {
                         # is our copy, %%dome brought it into now
+                        ny&R != h.R and debugger
                         # < only most probably:
                         # the h.zaa() from &hajadome
                         #   which may be inherited to h.zaa() from &hajasute
@@ -226,35 +231,29 @@
                         #    for the rest of the day
                         nc&drop = 'rec'
                     }
+                    else {
+                        # neu or not
+                    }
                 }
                 else {
-                    # reinput here...
-                
+                    # remain
                     if (nc&recycled) {
-                        # it is doming as well
-                        #  this $n does belong to 
-                        #  if it is going to survive &dome_traction
-                        #    (no other $n in %%dome)
-                        #   we might as well
-                        # < it's already here, why re-rec?
-                        # < delete nc&recycled, so we get through &dome_traction
+                        # is our copy, %%dome brought it into now
+                        #  then &dome_o3 has already put $n here
+                        #   and &rec_betractioned for n%%sustain.n == n etc
+                        ny&R != h.R and debugger
+                        # since already surviving %%rec,
+                        #  it will also survive &dome_traction
+                        #   as if no neu $n in %%dome
+                        nc&rec_cyc = delete nc&recycled
                         # < note that we didn't get &sustain'd this time
-                        #nc&alrecdy = 1
-                        #return
+                        return
                     }
-                    # move zaa->jaa, very late in the day
-                    $z = h.ha(n.sc)
-                    # < vague tangle:
-                    # < after handlers eg %%sustain.done() set up
-                    #    to drop the row that was (from &zaa via &saa)
-                    #   before it gets copied into this %wou
-                    #   iterating it with something that does this 
-                    # this is bit out-of-bounds wrt time
-                    #  some older grasp of %%sustain:a could still be true
-                    #  ie another fork would see the other fork's a.n
-                    #   until it &sustain or does this
-                    # < the n <-> a correlation should be Xillusion
-                    me&rec_betractioned,n,z,'rec7'
+                    else {
+                        # move zaa->jaa, very late in the day
+                        $z = h.ha(n.sc)
+                        me&rec_betractioned,n,z,'rec7'
+                    }
                 }
             })
         }
