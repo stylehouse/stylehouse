@@ -1191,9 +1191,10 @@ S 5 &sustain
             # pot takes one r to cook
             if (Pot.began.ver < rs&ver) {
                 # cant take days to cook
+                #  may or not update the $have we already got on this day
                 $s = {day:Pot.began.day}
                 $c = {RiceDay:1}
-                have = me&sustain,s,c
+                me&sustain,s,c
                 # we have posited such the $day, so...
                 Pot.done({u:have})
                 Pot.shouldbegone = 1
@@ -1207,8 +1208,20 @@ S 5 &sustain
             }
         })
         
+        # Pot done -> RiceDay misses the idc.day logic
+        #  unless we pseudo-&sustain again now
+        # < update the $have we already got
+        #   which is sometimes el:10, so unrememberable...
+        #    perhaps magic hanging on T.sute?
+        # < theone() wrapper should be sub variation: &sustaining1
+        #    and a non-fatal many use &sustaining0
+        # < Babz have =|| ... # if ... true, overwrite have
+        such = theone( me&sustaining,'RiceDay',{day} )
+        # < A.h.o for &c:
+        such && such.el != have.el and ~>2 have found:
+        !such && have.el < 9 and debugger
+        such and have = such
         
-        #i.Bow = {have}
         h.ha({day,situation: have.el < 9 ? "rice" : "no rice" })
     }
    // # 1
@@ -1267,8 +1280,17 @@ S 5 &sustain
     # 16
     be.do("mockbrackR Further from that fork")
     # 16_1
+    # we dont track the mass of rice itself,
+    #  only a cooked Pot+day(began) satis the RiceDay+day
+    #  also see # Pot done -> RiceDay misses the idc.day logic
+    # so it is suddenly no good. Russian ending.
     day = 4
     be.do(bec&_15_1,"Pot the next day")
+    
+S 6 &sustrain
+  // < RiceTrain
+    # RiceDay with better limbing
+    #  allow using day-1 rice in crackers, cook hard
     
     
     #  < from seeing historical a.sublated?
@@ -1284,6 +1306,7 @@ S 5 &sustain
     # < drop the %dodge on init
     
     # < DeckChair puts Gnome to work
+    #    see Doming & Beeping will separate
     #   would interpret activity, actuate:
     # < make RunStep%dodge redo first next time
     #    by 4s&whereGnome[$t][$S]
