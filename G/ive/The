@@ -1152,6 +1152,19 @@ me.Sch_The = &acgt{ return [
         # < @Ta for hs&Ta rowing ark, h.ar the @Gnome Names
         # %%RunStep flock
         #  heading, @Run-ing as Nine-that-could-be[Run%step]
+        
+        # rowing adaptor
+        me.sustronomy = &acgtsc{
+            $h = me&hajasute
+            s = peel(s)
+            c = peel(c)
+            # from %%sustain,yadda
+            $iN = h.zaaj(pex('sustain',s))
+            # sort by RunStep
+            $sortby = c.sortby || haks(s)[0]
+            $N = me&sortial,iN,sortby,'sort,flat'
+            return N
+        }
         me.SG_RunStep = &acgtc{
            // time is
             $R = me&R
@@ -1181,7 +1194,9 @@ me.Sch_The = &acgt{ return [
             me&tt,'Leap' (1) and h.ha('RunStep:'+time1+',rec:whimsies')
             
             # various, clobberatively, to progress
-            $N = h.zaaj('RunStep')
+            $susc = {}
+            $N = me&sustronomy,'RunStep',susc
+            
             if (!hak(N) && c.starting) {
                 # auto begin
                 N = [ me&sustain,{},{RunStep:time1,through:1},'k' .n ]
@@ -1259,13 +1274,16 @@ me.Sch_The = &acgt{ return [
             $any = h.zaa('RunningStep')
             # press r to Run++
             4s&sheys_runtime = R
-            # < seem to top post due to &rec_traction
-            #    copy news in again after? sets order?
-            $first = 1
+                # < export this closer to @Gnome itself,
+                #    above this $sute which isnt always happening
+                #     see wrinkle, @Gnome 8 other time
+                #   getting e:r to @Gnome itself is reliable?
+                $pressing_r = me&eisa,'R'
+                $last_n = N.slice(-1)[0]
+            
             row('c',&Smal{
                 $n = a.n
-                first && me&eisa,'R' and ns&ov = 0.5
-                first = 0
+                last_n == n && pressing_r and ns&ov = 0.5
                 
                 if (!c.unsure && ns&ov >= 0.5) {
                     # not while This>Fine
