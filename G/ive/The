@@ -4659,7 +4659,7 @@ me.Sch_The = &acgt{ return [
             each i,aq M {
                 $qua = aqs&qua
                 !qua and continue
-                qua.ope and keen += qua.ope
+                qua.ope and fatal.isnum(qua.ope); keen += (1*qua.ope)
                 qua.impl and keen -= 2
             }
             # < more and less keen
@@ -5018,6 +5018,8 @@ me.Sch_The = &acgt{ return [
                 $mix = qua.Rsc_mix
                 mix and pex(R.sc,mix)
                 if (qua.ope) {
+                    fatal.isnum(qua.ope)
+                    qua.ope *= 1
                     Rc&dl += qua.ope
                     Rs&ope ||= 0
                     Rs&ope += qua.ope
@@ -6856,13 +6858,12 @@ me.Sch_The = &acgt{ return [
             .map(k => remark[k] = 1)
         ex(D.sc,remark)
         
-        #me&Rortopsc,R,'noscn' and me&TXin
-        # < why does this long &TXin not work
-        # < io
-        #$alter = {}
-        #ahk(alter,...'sc z sustain z n ope -1'.split(' '))
-        me&TXin,'noscn',{layout:'noscn'} ({sc:{Rsc_mix:'bracksc'}})
-
+        if (me&Rortopsc,R,'noscn' ) {
+            # < io
+            $alter = {}
+            ahk(alter,...'sc z sustain z n dim 1'.split(' '))
+            me&TXin,'noscn',{layout:'noscn'} (alter)
+        }
         
         me&Ei,{t:'sc',s:s.sc,pi:'Bow'}
         me&boxcap,"c","2" (&ml{
@@ -6872,19 +6873,6 @@ me.Sch_The = &acgt{ return [
             # c placed after sc for aesthetics
             me&blabdepeel,'c',remark
         })
-    },'ift,D'],
-    ['bracksc',0.267,&acgtRs{
-        me&TXin,'sustain',{layout:'sustain'} ({sustain:{Rsc_mix:'bracksustain'}})
-        me&bin,'brack_sustain'
-    },'ift,D'],
-    ['bracksustain',0.267,&acgtRs{
-        $E = Rs&E
-        me&tc,"Isit:"+Ec&pi
-        me&TXin,'sustainn',{layout:'sustainn'} ({n:{qua:-1}})
-    },'ift,D'],
-    ['brack_sustain',0.267,&acgtRs{
-        R.t == 'sustain' &&
-            me&tc,"SCccc","G"
     },'ift,D'],
    // -brack etc
     # styling: when to not mod -brack, brackets
