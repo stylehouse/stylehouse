@@ -1154,7 +1154,7 @@ S 5 &sustain
         # o having rice, may remember per day
         $magic = luck && h.zaa('situation:no rice')
             .length ? 66 : 0
-        $have = be.have = me&sustain,{day},{RiceDay:magic}
+        $have = me&sustain,{day},{RiceDay:magic}
         
         h.ha("Things,do:i")
         $Jugging
@@ -1221,7 +1221,7 @@ S 5 &sustain
         such && such.el != have.el and ~>2 have found:
         !such && have.el < 9 and debugger
         such and have = such
-        
+        be.have = have
         h.ha({day,situation: have.el < 9 ? "rice" : "no rice" })
     }
    // # 1
@@ -1309,21 +1309,28 @@ S 6 &sustrain
     }
     be.do("empty")
     N[0] = Cye(["lat",2])
-    # < did %%Glance_i ex() its a.v?
-    #    no, okay... okay, it's timing of &Ring, width-firstiness
+    
+    # < 0/sc/sustain/v not Display'ing...
+    #   shows up in E** via -Bat
+    #   avoidable?
+    #   redo Display soon
+    # on timing of &Ring, width-firstiness
     #   Eref for sc/Glance_i
     #    doesnt know that sc/sustain/v is it
+    #     bc sustain <@36 to ** (yet to go deep)
     #    yet sc/Glance_i/* know sc/sustain/v/*
     #   Eref for sc/sustain/n
-    #    doesnt know that sc is it
-    #     harder to explain...
+    #    knows that sc is it
+    # < point to these things ^
+    #    ghost-embed points or make exprism
+    #     exprism: the sc of the expr grammar
     be.do("something", be.main, &Chir{
         $Gli = theone( me&sustaining,'Glance_i' )
         $n = Gli.n
         ns&Glance_i != N[0] and ahk(i,'difGlance_i',1)
         Gli.v != N[0] and ahk(i,'difGlance_i.v',1)
-        1 and ahk(i,'difGlance_ifa.v',1)
     })
+    
     # 3
     # < sus:Glance is el:2, know gs hash eq?
     be.do("still something")

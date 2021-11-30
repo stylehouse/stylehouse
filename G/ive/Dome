@@ -1578,6 +1578,7 @@ me.settleblab = 1
             !ish(v) and a.v = v
         }
 
+       // done()
         # we don't always &sustain what is sustained
         #  ie %%rec lets it glide along
         #   eg the %%RunStep are started only once by &sustain
@@ -1587,7 +1588,7 @@ me.settleblab = 1
         # a.pur() is now-only, while you &sustain your something
         #  after a while it points to old R etc
         # a.done() avoids that problem by updating a.n
-
+        
         # on failure|enduring to complete it
         #  < pur after $k+$index? see &hajasute
         #    the pur changing lets loopier
@@ -1598,6 +1599,7 @@ me.settleblab = 1
         a.done = &{
             # a.n updates, see %%rec... copy to %%wou after
             $n = a.n
+            !n and return
             nc&drop = 'done'
             # unless of course it's being sustained by another sustain
             # as in elIntro...RunStep
