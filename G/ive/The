@@ -3032,15 +3032,15 @@ me.Sch_The = &acgt{ return [
             # args in b,g,y order
             c.Again = &{
                 # < safe to iterate?
+                $g = {}
                 each iv arguments {
-                    isR(v) and $b = v
-                    isfu(v) and $y = v
-                    isst(v) and $g = {t:v}
-                    ish(v) and $g = v
+                    ish(v) and g = v
+                    isR(v) and g.b = v
+                    isfu(v) and ahk(g,['y'],v)
+                    isst(v) and g.t = v
                 }
-                c.g = g ||= {}
-                b and g.b = b
-                !y and throw "huh"
+                c.g = g
+                !g.y and throw "huh"
                 $r = g.r = me&mockR_make,c.t,g.b
                 $C = rs&C
                 fatal.isR(r)
@@ -3058,7 +3058,7 @@ me.Sch_The = &acgt{ return [
                 c.c[g._Aip] = r
                 
                 # hope for
-                me&mockbrackR_middle,c,g,y
+                me&mockbrackR_middle,c,g
                 
                 # and finish, as Ying would sort out all the pieces of the sun
                 me&mockR_commit,r
@@ -3087,7 +3087,7 @@ me.Sch_The = &acgt{ return [
             b and by&future = r
             # < make Aips
         }
-        me.mockbrackR_middle = &acgtcgy{
+        me.mockbrackR_middle = &acgtcg{
             $r = g.r
             fatal.isR(r)
             # mix eg %%dome=bf into every sute.ha(...)
@@ -3099,8 +3099,8 @@ me.Sch_The = &acgt{ return [
             
             # extra data to see goes here
             $i = g.i ||= {}
-            # the way
-            y (C,h,i,r)
+            # the ways
+            map(y => y (C,h,i,r), g.y)
 
             # %%rec computing
             sute.traction()
@@ -4439,6 +4439,10 @@ me.Sch_The = &acgt{ return [
                 #  they are likely -all -pis, have no order
                 rls&Pier && rrs&Pier and return 0
                 if (sc&pi == 'seven') {
+                    if (!Rcruxc) {
+                        # -Bat seems to get here, from &Eref(lookup/climb)
+                        return null
+                    }
                     # happens after this other warning
                     $knew = Rcruxc.sameosphere
                         || Rcruxc.forgotsphere

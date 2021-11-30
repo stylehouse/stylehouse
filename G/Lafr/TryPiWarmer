@@ -1310,7 +1310,20 @@ S 6 &sustrain
     be.do("empty")
     N[0] = Cye(["lat",2])
     # < did %%Glance_i ex() its a.v?
-    be.do("something")
+    #    no, okay... okay, it's timing of &Ring, width-firstiness
+    #   Eref for sc/Glance_i
+    #    doesnt know that sc/sustain/v is it
+    #    yet sc/Glance_i/* know sc/sustain/v/*
+    #   Eref for sc/sustain/n
+    #    doesnt know that sc is it
+    #     harder to explain...
+    be.do("something", be.main, &Chir{
+        $Gli = theone( me&sustaining,'Glance_i' )
+        $n = Gli.n
+        ns&Glance_i != N[0] and ahk(i,'difGlance_i',1)
+        Gli.v != N[0] and ahk(i,'difGlance_i.v',1)
+        1 and ahk(i,'difGlance_ifa.v',1)
+    })
     # 3
     # < sus:Glance is el:2, know gs hash eq?
     be.do("still something")
