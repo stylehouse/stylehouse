@@ -1660,9 +1660,6 @@ me.Sch_The = &acgt{ return [
             if (!gs.steps) {
                 $Q = gs.Q
                 $P = Qs&P
-                # < gs.done('loaded','^')
-                #   drops the &sustain leading to this as well
-                # < a.done(s,T,e | t,expr), depending on async|not
                 me&tt,'aband' (&{ gs.done(); gs.a.done() })
                 return me&tc,'!steps','B'
             }
@@ -1724,6 +1721,10 @@ me.Sch_The = &acgt{ return [
                 if (di.Comp) {
                     # might be an el:2
                     gs.steps ||= me&diffPs_knowsteps,di
+                }
+                else {
+                    a.done('==')
+                    return me&tc,'=='
                 }
                 gs.Q = Q
                 # make this %sustain,elIntro
@@ -2709,7 +2710,7 @@ me.Sch_The = &acgt{ return [
         # < what does &Gome_This do
     },'ift,D'],
    
-   // @Run <-> @This**
+   // @Run <-> @This** test harness
     &{
      // &inramp etc for Run** inflation
         # builds a @Run/**r
