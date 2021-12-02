@@ -2945,10 +2945,10 @@ me.Sch_The = &acgt{ return [
             return 1;
         };
      // way to
-        # runtime A has an Eight** opener|cursor
+        # @Run suits up A:Run (V), has an Eight** opener|cursor
         me.RunA_testenv = &acgtV{
             # -Eight++
-            # get A.time+id handle, for i-ing thence
+            # get $id-Eight/$time-seven handle, for i-ing thence
             $o = &t{
                 $h = V.h = {o}
                 # -seven/-six++
@@ -3029,8 +3029,9 @@ me.Sch_The = &acgt{ return [
             me&node_accept,r,r
         }
        // &mockbrackR
-        # &mockbrackR,'unit',{no_hajasute:1}
-        #  .Again('title'?,&Chri{ ... })
+        # $be = &mockbrackR,'unit',{no_hajasute:1}
+        # be.Again('title'?,&Chir{ ... })
+        # or be.main = &Chir{ ... }; be.do('title'?)+
         me.mockbrackR = &acgttc{
             c = peel(c)
             c.t = t
@@ -3050,40 +3051,18 @@ me.Sch_The = &acgt{ return [
                 $g = {}
                 each iv arguments {
                     ish(v) and g = v
+                    # b is the previous r
                     isR(v) and g.b = v
                     isfu(v) and ahk(g,['y'],v)
                     isst(v) and g.t = v
                 }
                 c.g = g
                 !g.y and throw "huh"
-                $r = g.r = me&mockR_make,c.t,g.b
-                $C = rs&C
-                fatal.isR(r)
-                fatal.isC(C)
-                me&mockR_begin,r
-                me&mockAipR_begin,c,g
                 
-                fatal.isnum(rs&ver)
-                # starts returning null, then 1 forked
-                $subver = ahk(c,['times'],rs&ver,1)-1 || null
-                # so $r = cc&_1, then cc&_1_1 forked
-                # < Babz cc&1.1
-                g.Aip = spant(rs&ver,subver)
-                g._Aip = joint(['',rs&ver,subver],'_')
-                c.c[g._Aip] = r
-                
-                # hope for
-                me&mockbrackR_middle,c,g
-                
-                # and finish, as Ying would sort out all the pieces of the sun
-                me&mockR_commit,r
-                
-                # extra data to see goes here
-                me&mockbrackR_osc,c,g
-                
+                me&mockbrackR_An,c,g
                 
                 return c.Further = &{
-                    return c.Again(r,...arguments)
+                    return c.Again(g.r,...arguments)
                 }
             }
             # less chainy, eg just be.do(title?,b?,y?)
@@ -3120,6 +3099,33 @@ me.Sch_The = &acgt{ return [
                 me&mockdiffWomb,g.t,g.option,...g.what
             }
             return c
+        }
+        # looks like A:n
+        me.mockbrackR_An = &acgtcg{
+            $r = g.r = me&mockR_make,c.t,g.b
+            $C = rs&C
+            fatal.isR(r)
+            fatal.isC(C)
+            me&mockR_begin,r
+            me&mockAipR_begin,c,g
+
+            fatal.isnum(rs&ver)
+            # starts returning null, then 1 forked
+            $subver = ahk(c,['times'],rs&ver,1)-1 || null
+            # so $r = cc&_1, then cc&_1_1 forked
+            # < Babz cc&1.1
+            g.Aip = spant(rs&ver,subver)
+            g._Aip = joint(['',rs&ver,subver],'_')
+            c.c[g._Aip] = r
+
+            # hope for
+            me&mockbrackR_middle,c,g
+
+            # and finish, as Ying would sort out all the pieces of the sun
+            me&mockR_commit,r
+
+            # extra data to see goes here
+            me&mockbrackR_osc,c,g
         }
         me.mockAipR_begin = &acgtcg{
             $r = g.r
