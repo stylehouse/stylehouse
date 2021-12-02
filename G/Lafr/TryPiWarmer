@@ -1107,7 +1107,7 @@ S 5 &sustain
   // JugRice
     # sustain Jug|Pot:$v over time...
     $be = me&mockbrackR,'JugRice'
-    be.Again(&Chir{
+    be.Again("Jug Full",&Chir{
         h.ha('sing,song')
         h.ha('sing,notes')
         #n Jug -Bow &sustain,'Jug',{Full:1}
@@ -1115,14 +1115,14 @@ S 5 &sustain
             Jug: me&sustain,'Jug',{Full:1} ,
             Pot: me&sustain,'Pot',{Full:0} ,
         }
-    })(&Chir{
+    })("both Full",&Chir{
         h.zaa('sing') .map(n => h.ha("loudly",n.sc))
         i.Bow = {
             Jug: me&sustain,'Jug',{Full:1} ,
             # a.el=1 as v becomes|remains true
             Pot: me&sustain,'Pot',{Full:1} ,
         }
-    })(&Chir{
+    })("Pot becomes Full=4",&Chir{
         # &jaa,c,1 for either now or now-1
         i.all_notes = h.jaa('notes',1)
         i.Bow = {
@@ -1132,7 +1132,7 @@ S 5 &sustain
         }
         h.zaa('notes') .map(n => h.ha("loudly",n.sc))
     })
-    be.Again("differently",bec&_2,&Chir{
+    be.Again("Jug loses Full",bec&_2,&Chir{
         h.zaa('notes') .map(n => h.ha("madly",n.sc))
         i.Bow = {
             # a.el=10 as v becomes|remains false
