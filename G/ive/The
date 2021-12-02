@@ -3034,7 +3034,8 @@ me.Sch_The = &acgt{ return [
         me.mockbrackR = &acgttc{
             c = peel(c)
             c.t = t
-            # fork counter, r and its This...-brack by Aip
+            # times: fork counter, by r%ver
+            # c and sc: r and its This...-brack, by Aip
             ex(c,{times:{},c:{},sc:{}})
             # overalls for this r.t
             c.idc ||= {dome:defor(c.dome,'it')}
@@ -3085,13 +3086,38 @@ me.Sch_The = &acgt{ return [
                     return c.Again(r,...arguments)
                 }
             }
-            # less chainy, eg just be.do(y?)
+            # less chainy, eg just be.do(title?,b?,y?)
             c.do = &{
                 $args = [...arguments]
                 !grap(isfu,args) and fatal.isfu(c.main); args.push(c.main)
                 return !c.Further || grap(isR,args)
                     ? c.Again(...args)
                     : c.Further(...args)
+            }
+            # be.diff("them",bes&_thisthing)
+            c.diff = &{
+                $g = {what:[]}
+                each iv arguments {
+                    if (isst(v)) {
+                        g.t and g.option = v
+                        else {
+                            g.t = v
+                        }
+                    }
+                    isC(v) and g.what.push(v)
+                }
+                # title for the diff-Womb, %Diff gets named after $exp
+                !g.t and throw "title the diff"
+                # default latest whats
+                !hak(g.what) and g.what = havs(c.sc).slice(-2)
+                # < being visible in @Run as modulat is weird
+                #   do a proper A:Run
+                g.option ||= 'see'
+                # < not just sixes?
+                grep(six => me&finishPiing,six ,g.what)
+                hak(g.what) != 2 and debugger
+                
+                me&mockdiffWomb,g.t,g.option,...g.what
             }
             return c
         }
