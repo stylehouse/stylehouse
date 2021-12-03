@@ -1539,12 +1539,12 @@ me.settleblab = 1
         $h = me&hajasute
         s = peel(s)
         c = peel(c)
+        q = peel(q)
         !ish(s) || !ish(c) and throw "s,c"
         # keyword first
         $k = haks(c)[0]
         $v = c[k]
         # schemes given
-        q = peel(q)
         # this call
         $g = {s,c,q,k,v}
         
@@ -1558,6 +1558,20 @@ me.settleblab = 1
         $el = 1
         # of $v
         $was = g.remember && me&sustain_remember_was,g
+        # what sustaining %%sustain:a is all about
+        $originate = &{
+            $a = {}
+            # < el4 feels ~origin?
+            q.origin && g.wasa && q.origin != g.wasa.a and debugger
+            return a
+        }
+        $sustaining = &{
+            $a = g.wasa
+            # < el4 feels ~origin?
+            q.origin && q.origin != a.a and debugger
+            fatal.ish(a)
+            return a
+        }
         if (v) {
             # true
             if (ish(v)) {
@@ -1572,31 +1586,57 @@ me.settleblab = 1
                 #   retracting what we mixed before if it leaves,
                 #    but not if it changed since we put it...
                 #   how you want $a to roll...
-                $a = ex({},v)
-                a.a = q.origin || v
-                q.origin and a.v = v
+                
+                # redefines originate to a.a=v
+                $originate = &{
+                    $a = ex({},v)
+                    a.a = q.origin || v
+                    q.origin and a.v = v
+                    return a
+                }
                 
                 # and how was it anyway
                 if (g.remember) {
+                    # < hash eq, mem was/* not in was incase v=was mutating
                     $was = me&sustain_housey_was,g
                     if (v != was) {
                         # < el3? then el2 can "really mean it"
                         #  < periodic extra hard shunts, randomly via Aip
                         #    cover everything every minute
                         $el = 2
+                        # new a. old one is via a.b (or g.wasa in here)
+                        # < drop completely? or have an el9?
+                        $a = originate()
+                        ~>7 originate: dis(g.idc)
+                    }
+                    else {
+                        # perhaps changey inside
+                        # < revoke etc see hash eq, mem
+                        $a = sustaining()
+                        # spool the hash
+                        # < how much of it?
+                        #    not its idc? got by n%* in a.*
+                        ex(a,v)
+                        ~>7 steady: dis(g.idc)
                     }
                 }
                 else {
                     # is new!
                     $el = 2
+                    $a = originate()
                 }
             }
             else {
                 # a value!
                 if (v != was) {
                     $el = 2
+                    $a = originate()
+                }
+                else {
+                    $a = sustaining()
                 }
                 # < ~ indifferent suchness, ac&voff
+                # we will put a.v if !housey later
             }
         }
         else {
@@ -1606,6 +1646,7 @@ me.settleblab = 1
                 $el = 9
                 # &sustain the el:9 once?
                 $entery = g.wasa.el != 9
+                $a = originate()
             }
             
             
@@ -1616,7 +1657,7 @@ me.settleblab = 1
             else {
                 # not yet, pseudo a, no n
                 $el = 10
-                $a = {}
+                $a = originate()
             }
         }
         
@@ -1624,15 +1665,16 @@ me.settleblab = 1
        // $n
         if (el < 9 || entery) {
             # enter %sustain... 
-            g.a = a ||= {}
+            a ||= {}
             # < Ay a
             #wasa and a.b = wasa
             g.grouping.sustain = a
             # a += c.*!$k > s.*
             # < how much of c.* to take... til q?
-            ex(a,g.idc)
+            g.a = ex(a,g.idc)
 
             # keep permit until done
+            ~>7 entery: dis(c)
             g.remember = [h.ha(g.grouping,c)]
         }
         # < eventually, its effect is noted on it over time
@@ -1640,6 +1682,8 @@ me.settleblab = 1
         # < q might resolve $n c+s over idc
         $n = (g.remember||[]) .slice(-1)[0]
 
+        # < GONER, a is by now?
+        !a and debugger
         a ||= ns&sustain
         !a and throw "!a"
 

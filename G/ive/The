@@ -1272,6 +1272,7 @@ me.Sch_The = &acgt{ return [
             
             row('c',&Smal{
                 $n = a.n
+                last_n == n && pressing_r and ~>6 pressing_r S: S
                 last_n == n && pressing_r and ns&ov = 0.5
                 
                 if (!c.unsure && ns&ov >= 0.5) {
@@ -1661,14 +1662,20 @@ me.Sch_The = &acgt{ return [
             if (!gs.steps) {
                 $Q = gs.Q
                 $P = Qs&P
-                me&tt,'aband' (&{ gs.done(); gs.a.done() })
                 return me&tc,'!steps','B'
             }
-            
+            # < flavours of done().. and their ui
+            #    how far up the stem you drag it
+            #    something about the angle it snaps off
+            #    adding a comment to each one
+            #     scaling up comspheres from there til sustain:tagasastes
+            # < perhaps this needs a gardening Story
             me&tt,"drops" (gs.done)
             me&tt,"DROPs" (gs.a.done)
+            me&tt,'aband' (&{ gs.done(); gs.a.done() })
             gs.steps.map(&i{
-                $ro = me&sustain,gs,{RunStep:i},{}
+                debugger
+                $ro = me&sustain,gs,{RunStep:i},'k'
                 $n = ro.n
                 me&boxcap,"step:"+i (&m{
                     me&walls,m,'b:2.2h5'
@@ -1678,6 +1685,7 @@ me.Sch_The = &acgt{ return [
                     me&tt,'o' () and me&tc,dis(nex({},n.sc,'dome,supe,sute,rec,sustain')),'6G'
                 })
             })
+            ~>6 elIntro: dis(tex({},gs))
             
         }
         # hold latest Q per Q.t, finding what steps it changes
@@ -1730,6 +1738,7 @@ me.Sch_The = &acgt{ return [
                 gs.Q = Q
                 # make this %sustain,elIntro
                 y (gs)
+                ~>6 ei_elIntro: dis(tex({},gs))
             })
             
                 },
