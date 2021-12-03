@@ -1398,13 +1398,9 @@ me.settleblab = 1
        fun
         &sustain
          i them
-         uses %%rec=keyword(+v)? # string concat +
-        sus:KeyWord
-         in expr:Cid
-          eg sus:RiceDay
-          eg sus:RiceDay:3
-           3 is not $v but $day, part of &sustain s: the grouper
-            https://youtu.be/6QImCMjW-PM
+         uses %%rec=keyword or keyword:$v (etc)
+          causes this row to vanish if %%rec is reinput
+           without also reinputting this via &sustain
           
          args
           s=idc
@@ -1412,19 +1408,35 @@ me.settleblab = 1
           c={Keyword:$v}
            the more stable identity
           q
+           see q
          
-         remember by %%sustain,...s,...c # lies
+         remember by %%sustain,...s,...c # lies:
            but not quite: not $v itself, subject to ~
             ie like looking at everything in the hash**,
              but not the hash objects themselves
-           and keyword as %%rec=keyword
+           and keyword as %%rec=keyword 
+            maybe more, eg %%rec=keyword:pk:suchlike:etc
+             this is not expr:Cid
            < Aline: the theory of selecting in|out from a set
               essentially drawing another s|c split
                after the one into less|more stable
                into an idc-ish $grouping (&bracko expr) to want to resume
+                this could be per %%sute, %%supe, %%dome, %%sustain...
+                they could all present shortcuts to the wanting visitor
           
           see &rec_traction
           # < note that we didn't get &sustain'd this time
+          
+         say sus:KeyWord, in expr:Cid
+          eg sus:RiceDay
+          eg sus:RiceDay:3
+           3 is not $v but $day, part of &sustain s: the grouper
+            https://youtu.be/6QImCMjW-PM
+           assumes the grouper scheme is for all sus:RiceDay*
+            same as eg %%rec=keyword:pk:suchlike:etc
+            Xq may require k:v, in:
+             < semipeel: using ; to join, instead of ,
+               to embed peelable hashes into peelable Lines gv
          
          $v is monitored for change
           could have a format for doing so
@@ -1454,6 +1466,9 @@ me.settleblab = 1
               and the state-deciders (dige,ver) to $v
             3: may other()
              to do eg grep & brackstill, compute geometry, etc
+             eg %Diff%Comp (==[)(++0 newfirst)(?+:1)(== wasfirst)
+              the ++ being in an array ->
+               all the i++ being tracked by low-im
            q
             may a.Xq... about $v, etc
              on any of its invocations of &sustain
@@ -1466,23 +1481,24 @@ me.settleblab = 1
         
         
        o them
-        < perhaps rename these two &osus and &suso
+         &osus and &suso
           as in read sus, or sus read
-           the latter sounds like it does more logic,
+           the latter sounds like it does more logic
             but not as much logic|authority as a proper &sustain
-          then we have three levels of self, other, alien
+          we have three levels of self, other (&suso), alien (&osus)
+           # tangent
            what if the universe was intelligent and we could teach it tricks?
             growing dimensions on the facts of life
-        &sustaining
-         o them
-         no logic, just &jaa returning the a like &sustain does
+        &osus
+         o them, no logic
+          basically &jaa returning (many?) a like &sustain does
+         aka &sustaining
          < could probably be:
         <<<
-        &sustaon
-         o them
+        &suso
+         o them, some logic
          < canonical otheration|observation of a, without giving $v
             perhaps for some perspective
-           with the logic... sub $grouping
         &suss
          o them all!
          < draw them, may be in a sute
@@ -1515,11 +1531,10 @@ me.settleblab = 1
         
          
     =cut
-    # < use dome="rec:$rec" if !T.sute
     # watch the thing, $v, until true|changey
     #  eg a = &sustain {} {latest_elQuip:e}
     #   remembers the latest a.v=e that was true, or est this one
-    #  you may nc&drop them via a.done(), q includes $v in %%rec (dome)
+    #  you may nc&drop them via a.done() or doming
     me.sustain = &acgtscq{
         s = peel(s)
         !ish(s) || !ish(c) and throw "s,c"
@@ -1528,38 +1543,22 @@ me.settleblab = 1
         c = peel(c)
         $k = haks(c)[0]
         $v = c[k]
+        # schemes given
         q = peel(q)
-       // $remember idc
-        # all s.* and most c.* except c.$k
-        #  what to group by, become a.*
-        $idc = {}
-        if (haks(s)) {
-            # inherit identity eg another &sustain
-            #  eg another &sustain or &diffPs
-            ex(idc,nex({},tex({},s),'el'))
-        }
-        idc = nex(idc,c,[k])
-
-        # primary key, the first c.*, or &sustrain .$t
-        $rec = k
-        # < rec by k + dis(idc)? has dome_traction
-        # < supposing v not always given... trying to select these somethings?
-        # < can expand along c.*
-        q.k && v == null and throw "null pk"
-        q.k and rec = cint(rec,v)
-
-        $tiel = {sustain:1}
-        T.sute and tiel.rec = rec
-        else tiel.dome = "rec:"+rec
-        $grouping = ex(tiel,idc)
-
-        $remember = h.zaa(grouping)
+        # this call
+        $g = {s,c,q,k,v}
+        # may a.a = v
+        v && ish(v) and g.housey = 1
+        
+        me&sustain_grouping,g
+        g.remember = h.zaa(g.grouping)
+        !hak(g.remember) and delete g.remember
 
        // $el
         $el = 1
         # housey things become latest
-        if (v && hak(remember) && ish(v)) {
-            $wasn = remember .slice(-1)[0]
+        if (v && g.remember && ish(v)) {
+            $wasn = g.remember .slice(-1)[0]
             $wasv = wasn.sc [k]
             $wasa = wasns&sustain
             # wasv follows v type
@@ -1575,7 +1574,7 @@ me.settleblab = 1
             }
         }
         if (!v) {
-            if (hak(remember)) {
+            if (g.remember) {
                 # remembers
             }
             else {
@@ -1584,7 +1583,7 @@ me.settleblab = 1
                 $a = {}
             }
         }
-        elsif (!hak(remember)) {
+        elsif (!g.remember) {
             # v true for the first time
             $el = 2
         }
@@ -1592,7 +1591,7 @@ me.settleblab = 1
             # v true again
         }
         if (el == 2) {
-            if (ish(v)) {
+            if (g.housey) {
                 # may follow v = &sustain
                 #  or just {...} from some id scraper
                 # < which may follow from q.origin = some &sustrain a,
@@ -1605,13 +1604,13 @@ me.settleblab = 1
             else {
                 $a = {}
             }
-            grouping.sustain = a
+            g.grouping.sustain = a
             # a += c.*!$k > s.*
             # < how much of c.* to take... til q?
-            ex(a,idc)
+            ex(a,g.idc)
 
             # keep permit until done
-            remember = [h.ha(grouping,c)]
+            g.remember = [h.ha(g.grouping,c)]
         }
 
        // $n
@@ -1619,7 +1618,7 @@ me.settleblab = 1
         #   by others (in sute) doing re-rec on ov++
         # < q might resolve $n c+s over idc
 
-        $n = remember .slice(-1)[0]
+        $n = (g.remember||[]) .slice(-1)[0]
 
         a ||= ns&sustain
         !a and throw "!a"
@@ -1631,7 +1630,7 @@ me.settleblab = 1
             # latest true value
             $v = n.sc[k]
             # if it wasn't something becoming a
-            !ish(v) and a.v = v
+            !g.housey and a.v = v
         }
 
        // < done()
@@ -1654,7 +1653,7 @@ me.settleblab = 1
         #    the pur changing lets loopier
         # < modulate marker of where this emerged
         #   to boxlink to the pur diag
-        a.pur = say => h.ha(dex({pur:'sustain:'+rec},{say}))
+        a.pur = say => h.ha(dex({pur:'sustain:'+g.rec},{say}))
         # revoke
         a.done = &{
             
@@ -1668,6 +1667,38 @@ me.settleblab = 1
 
         return a
     }
+    
+    me.sustain_grouping = &acgtg{
+        # how to dome it
+        #  usu the first c.$k
+        # see uses %%rec=keyword or keyword:$v
+        $rec = g.k
+        if (g.q.k) {
+            # < name this param better
+            g.v == null and throw "null pk"
+            rec = cint(rec,g.v)
+        }
+        
+        # how to identify it
+        # all s.* and most c.* except c.$k
+        #  what to group by, become a.*
+        $idc = {}
+        if (haks(g.s)) {
+            # inherit identity eg another &sustain
+            #  eg another &sustain or &diffPs
+            ex(idc,nex({},tex({},g.s),'el'))
+        }
+        idc = nex(idc,g.c,[g.k])
+        
+        $tiel = {sustain:1}
+        T.sute and tiel.rec = rec
+        # use dome="rec:$rec" if !T.sute
+        else tiel.dome = "rec:"+rec
+        $grouping = ex(tiel,idc)
+        
+        ex(g,{grouping,tiel,idc,rec})
+    }
+   // < susosus
     # < rowing adaptor
     me.suss = &acgtsc{
         $h = me&hajasute
