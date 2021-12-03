@@ -1180,6 +1180,7 @@ me.Sch_The = &acgt{ return [
             me&tt,'again' (1) and me&sustain,{},{RunStep:time},'k'
             # having its own row?
             # < ha RunStep:$time1,rec:whim
+            # < GONER broke since &osus?
             me&tt,'Leap' (1) and h.ha('RunStep:'+time1+',rec:whimsies')
             
             # various, clobberatively, to progress
@@ -1203,7 +1204,7 @@ me.Sch_The = &acgt{ return [
             me&RunStep_dedup,N
             
             # Steps are known
-            row('Fe',&Smal{
+            row('Fe',&Smola{
                 # < a.table etc could contain above slope...
                 me&walls,my&up.y.up,'bd:2.4,hu:8'
                 $n = a.n
@@ -1214,7 +1215,7 @@ me.Sch_The = &acgt{ return [
                 # dome this sc...
                 # < replace %rec later. happens naturally?
                 a.sc1 = ex({},n.sc)
-                ns&ov ||= 0.5
+                a.ov ||= 0.5
             })
             
            // peripherals
@@ -1270,13 +1271,13 @@ me.Sch_The = &acgt{ return [
                 $pressing_r = me&eisa,'R'
                 $last_n = N.slice(-1)[0]
             
-            row('c',&Smal{
+            # &rowcap has its own basic a-per-row, this $o
+            #  they kind join on &sustain a, this $a
+            row('c',&Smola{
                 $n = a.n
-                ns&ov = a.ov
-                last_n == n && pressing_r and ~>6 pressing_r S: S
-                last_n == n && pressing_r and ns&ov = 0.5
+                last_n == n && pressing_r and a.ov = 0.5
                 
-                if (!c.unsure && ns&ov >= 0.5) {
+                if (!c.unsure && a.ov >= 0.5) {
                     # not while This>Fine
                     
                     # notice completing this step
@@ -1292,7 +1293,7 @@ me.Sch_The = &acgt{ return [
                         if (zs&quiettime_now < quiettime) {
                             me&tc,"..7",'6G'
                             zc&drop = 1
-                            ns&ov = 0.7
+                            a.ov = 0.7
                         }
                         
                     }
@@ -1302,18 +1303,18 @@ me.Sch_The = &acgt{ return [
                         me&tsc,"could-Run-this","?",'y'
                         # < &tt per row
                         $will = me&tt,"will",'y' (1)
-                        if (will || (ns&ov||0) < 0.6) {
+                        if (will || (a.ov||0) < 0.6) {
                             me&dotheRunStep,R,h,n,Run,any,quiettime,c,a
                         }
                     }
                     
                     # checkable .> ok
-                    if (ns&ov >= 0.7) {
+                    if (a.ov >= 0.7) {
                         # time to look for an OK
                         # see &SG_tally_oks
                         if (a.Fe && me&isFe_ok,a.Fe ) {
                             me&tc,"OK"
-                            ns&ov == 0.7 and ns&ov = 0.8
+                            a.ov == 0.7 and a.ov = 0.8
                         }
                         else {
                             # Fine will have your attention
@@ -1325,21 +1326,21 @@ me.Sch_The = &acgt{ return [
                                 #   that complete and return to us when done
                                 #    but not before the activity ->@Fine
                                 #     perhaps knowing to sort wants by hire like Aip?
-                                ns&ov = 0.5
+                                a.ov = 0.5
                                 a.pur("early...")
                             }
                             else {
                                 ns&dodge = 1
                             }
                         }
-                        if (ns&ov == 0.8) {
+                        if (a.ov == 0.8) {
                             if (ns&through) {
                                 c.tude = 'through'
                                 $next = me&SG_throughNess,Fine,a.Fe
                                 if (next) {
                                     $S1 = me&SG_NesstoStep,Fine,next
                                     S1 != time1 and debugger
-                                    ns&ov = 0.9
+                                    a.ov = 0.9
                                     $through = ns&through + 1
                                     me&sustain,{},{RunStep:S1,through},'k'
                                     # < having that row ^ join this iteration
@@ -1358,12 +1359,11 @@ me.Sch_The = &acgt{ return [
                 $looks = ns&looks || 0
                 ns&looks = looks + 1
                 me&tc,'@','6y'
-                me&tc,cvf(ns&ov),'6y'
+                me&tc,cvf(a.ov),'6y'
                 
                 $late = ksaf(n.sc,{aft:'rec',inc:0})
-                $odd = nex({},sex({},n.sc,late),'RunStep,ov')
+                $odd = nex({},sex({},n.sc,late),'RunStep')
                 me&tc,dis(odd),'6G'
-                a.ov = ns&ov
             })
             
             row('keep',&Sma{
@@ -1397,6 +1397,7 @@ me.Sch_The = &acgt{ return [
                 }
             }
         }
+        # < simply wanting a RunningStep from a RunStep
         me.dotheRunStep = &acgtRhn,Run,any,quiettime,c,a{
             me&tc,"Run++"
             h.ha('pur:Run++')
@@ -1415,7 +1416,7 @@ me.Sch_The = &acgt{ return [
             me&wants,R,'Run++',Run
 
             # we are now:
-            ns&ov = 0.6
+            a.ov = 0.6
             $RingS = {
                 RunningStep: ns&RunStep,
                 quiettime_now: quiettime,
@@ -1676,11 +1677,11 @@ me.Sch_The = &acgt{ return [
             me&tt,"DROPs" (gs.a.done)
             me&tt,'aband' (&{ gs.done(); gs.a.done() })
             gs.steps.map(&i{
-                $ro = me&sustain,gs,{RunStep:i},'k'
-                $n = ro.n
+                $S = me&sustain,gs,{RunStep:i},'k'
+                $n = S.n
                 me&boxcap,"step:"+i (&m{
                     me&walls,m,'b:2.2h5'
-                    ns&ov >= 0.8 and me&tc,"done"
+                    S.ov >= 0.8 and me&tc,"done"
                     else me&tc,".."
                     me&tt,"drop" (gs.done)
                     me&tt,'o' () and me&tc,dis(nex({},n.sc,'dome,supe,sute,rec,sustain')),'6G'
