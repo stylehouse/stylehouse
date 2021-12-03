@@ -1410,8 +1410,8 @@ me.settleblab = 1
           q
            contains protocol specs
            q=2 for resurrecting latest true $v
-           < q=3 for hakd(v,memv)
-           see q
+           < q=3 for hakd(v,memv) deciding el2 (new $a)
+           see < a.el=2 if
          
          remember by %%sustain,...s,...c # lies:
            but not quite: not $v itself, subject to ~
@@ -1445,10 +1445,13 @@ me.settleblab = 1
           could have a format for doing so
           usually true, if false:
            initially: a.el=10
-            (no remember s+c)
+            (no $n|remember)
            after true: a.el=9
-            < LIES, sort out truth
-         basically
+            < once? drop $n after that?
+           after true if q=2: a.el=1
+            lets $v stop coming in
+          also changes:
+         a.el basically
           return a={idc,n,el:1|2|9|10}
            < el3 for ~ within some limit|diff|geo|Aline
           a.el<=8 is success
@@ -1458,16 +1461,23 @@ me.settleblab = 1
         $a = %%sustain
          < a.done(...)
          
-         a.el=2 if given v != a.v
+         < # < note that we didn't get &sustain'd this time
+         
+         < a.el=2 if given v != a.v
            how to ask for meanings of el:1,2,3,4...
            $v policy
-            1: usu $v = a caching result
+            # numbers adjusted to coincide with q=2
+            1: usu $v = already caching result
+             so we may just wake up a process when el:2 or so
              eg %Diff%Comp or elIntro .gs
-             eg such a C
-            2: may heq(), even subtly
+             eg such a C, will separate if osc decides it ~
+            2: caching last true $v forever?
+            3: may heq(), even subtly
              eg giving the grouper (t,of,species) to &sustain s
               and the state-deciders (dige,ver) to $v
-            3: may other()
+             we hakd(), if important ~ ? el2 : el3
+              
+            4: may other()
              to do eg grep & brackstill, compute geometry, etc
              eg %Diff%Comp (==[)(++0 newfirst)(?+:1)(== wasfirst)
               the ++ being in an array ->
@@ -1539,12 +1549,19 @@ me.settleblab = 1
     #   remembers the latest a.v=e that was true, or est this one
     #  you may nc&drop them via a.done() or doming
     me.sustain = &acgtscq{
+       // remembering
         $h = me&hajasute
         s = peel(s)
         c = peel(c)
-        if (num(q)) {
+        num(q) and q = {num:q}
+        if (q && q.num) {
             # the overall &sustain protocol! 1 is implied.
-            q == 2 and $resurrecty = 1
+            q.num == 2 and $resurrecty = 1
+            else
+            q.num == 3 and $hakdy = 1
+            else {
+                throw "q.num?",q
+            }
         }
         else q = peel(q)
         !ish(s) || !ish(c) and throw "s,c"
@@ -1561,7 +1578,7 @@ me.settleblab = 1
         g.remember = h.zaa(g.grouping)
         !hak(g.remember) and delete g.remember
         
-        # interpretation
+       // interpretation
         $el = 1
         # of $v
         $was = g.remember && me&sustain_remember_was,g
@@ -1604,15 +1621,25 @@ me.settleblab = 1
                 
                 # and how was it anyway
                 if (g.remember) {
-                    # < hash eq, mem was/* not in was incase v=was mutating
                     $was = me&sustain_housey_was,g
-                    if (v != was) {
-                        # < el3? then el2 can "really mean it"
-                        #  < periodic extra hard shunts, randomly via Aip
-                        #    cover everything every minute
+                    $same = v == was
+                    # sameness via hakd() if q=3 (hakdy)
+                    #   hash eq, mem was/* not in was incase v=was mutating
+                    # < el3? then el2 can "really mean it"
+                    #  < periodic extra hard shunts, randomly via Aip
+                    #    cover everything every minute
+                    if (!same && hakdy) {
+                        $koff = hakd(v,was)
+                        !hak(koff) and same = 1
+                        else {
+                            # < if they aren't el2-serious
+                            !same
+                        }
+                    }
+                    if (!same) {
                         $el = 2
                         # new a. old one is via a.b (or g.wasa in here)
-                        # < drop completely? or have an el9?
+                        # < .drop() it now? may hook cleanup etc, as might ...
                         $a = originate()
                         ~>7 originate: dis(g.idc)
                     }
@@ -1677,7 +1704,6 @@ me.settleblab = 1
             }
         }
         
-
        // $n
         if (el < 9 || entery) {
             # enter %sustain... 
