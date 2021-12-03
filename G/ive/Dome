@@ -1536,74 +1536,99 @@ me.settleblab = 1
     #   remembers the latest a.v=e that was true, or est this one
     #  you may nc&drop them via a.done() or doming
     me.sustain = &acgtscq{
-        s = peel(s)
-        !ish(s) || !ish(c) and throw "s,c"
         $h = me&hajasute
-        # keyword first
+        s = peel(s)
         c = peel(c)
+        !ish(s) || !ish(c) and throw "s,c"
+        # keyword first
         $k = haks(c)[0]
         $v = c[k]
         # schemes given
         q = peel(q)
         # this call
         $g = {s,c,q,k,v}
-        # may a.a = v
-        v && ish(v) and g.housey = 1
         
+        # how to remember it
         me&sustain_grouping,g
+        # remembering it
         g.remember = h.zaa(g.grouping)
         !hak(g.remember) and delete g.remember
-
-       // $el
+        
+        # interpretation
         $el = 1
-        # housey things become latest
-        if (v && g.remember && ish(v)) {
-            $wasn = g.remember .slice(-1)[0]
-            $wasv = wasn.sc [k]
-            $wasa = wasns&sustain
-            # wasv follows v type
-            !ish(wasv) and throw "wasv!ish"
-            # from v = &sustain
-            $via = isfu(v.done)
-            via && !ish(wasa.a) and throw "wasa.a!ish"
-            $was = !via ? wasv
-                : hak(wasa,'v') ? wasa.v
-                : wasa.a
-            if (v != was) {
-                $el = 2
-            }
-        }
-        if (!v) {
-            if (g.remember) {
-                # remembers
-            }
-            else {
-                # not yet
-                $el = 10
-                $a = {}
-            }
-        }
-        elsif (!g.remember) {
-            # v true for the first time
-            $el = 2
-        }
-        else {
-            # v true again
-        }
-        if (el == 2) {
-            if (g.housey) {
+        # of $v
+        $was = g.remember && me&sustain_remember_was,g
+        if (v) {
+            # true
+            if (ish(v)) {
+                $housey = 1
+                # housey v become latest a all the time
                 # may follow v = &sustain
                 #  or just {...} from some id scraper
                 # < which may follow from q.origin = some &sustrain a,
                 #    the v.* being just the stuff the innard passed out
                 # < iteresting
+                # < mixing in ongoingly?
+                #   retracting what we mixed before if it leaves,
+                #    but not if it changed since we put it...
+                #   how you want $a to roll...
                 $a = ex({},v)
                 a.a = q.origin || v
                 q.origin and a.v = v
+                
+                # and how was it anyway
+                if (g.remember) {
+                    $was = me&sustain_housey_was,g
+                    if (v != was) {
+                        # < el3? then el2 can "really mean it"
+                        #  < periodic extra hard shunts, randomly via Aip
+                        #    cover everything every minute
+                        $el = 2
+                    }
+                }
+                else {
+                    # is new!
+                    $el = 2
+                }
             }
             else {
+                # a value!
+                if (v != was) {
+                    $el = 2
+                }
+                # < ~ indifferent suchness, ac&voff
+            }
+        }
+        else {
+            # false
+            if (g.remember) {
+                # going false
+                # < breaks Try@5 JugRice
+                $el = 9
+                # &sustain the el:9 once?
+                $entery = g.wasa.el != 9
+            }
+            
+            
+            
+            
+            
+            
+            else {
+                # not yet, pseudo a, no entry
+                $el = 10
                 $a = {}
             }
+        }
+        
+
+       // $n
+        # < breaks Try@5 JugRice to enter el:1
+        if (el < 9 || entery) {
+            # enter %sustain... 
+            g.a = a ||= {}
+            # < Ay a
+            #wasa and a.b = wasa
             g.grouping.sustain = a
             # a += c.*!$k > s.*
             # < how much of c.* to take... til q?
@@ -1612,8 +1637,6 @@ me.settleblab = 1
             # keep permit until done
             g.remember = [h.ha(g.grouping,c)]
         }
-
-       // $n
         # < eventually, its effect is noted on it over time
         #   by others (in sute) doing re-rec on ov++
         # < q might resolve $n c+s over idc
@@ -1630,7 +1653,7 @@ me.settleblab = 1
             # latest true value
             $v = n.sc[k]
             # if it wasn't something becoming a
-            !g.housey and a.v = v
+            !housey and a.v = v
         }
 
        // < done()
@@ -1668,6 +1691,7 @@ me.settleblab = 1
         return a
     }
     
+    # how to remember it
     me.sustain_grouping = &acgtg{
         # how to dome it
         #  usu the first c.$k
@@ -1698,6 +1722,33 @@ me.settleblab = 1
         
         ex(g,{grouping,tiel,idc,rec})
     }
+    # how to remember previous v
+    me.sustain_remember_was = &acgtg{
+       $wasn = g.wasn = g.remember .slice(-1)[0]
+        g.wasv = wasn.sc [g.k]
+        g.wasa = wasns&sustain
+        return g.wasv
+    }
+    # how to remember previous ish(v)
+    me.sustain_housey_was = &acgtg{
+        $v = g.v
+        $wasv = g.wasv
+        $wasa = g.wasa
+        # wasv must also be housey
+        !ish(wasv) and throw "wasv!ish"
+        # from v = &sustain
+        $via = isfu(v.done)
+        via && !ish(wasa.a) and throw "wasa.a!ish"
+        # from random c
+        $was = !via ? wasv
+            # prefer a.v
+            #  used when a.a = q.origin
+            : hak(wasa,'v') ? wasa.v
+            # or a.a = v
+            : wasa.a
+        return was
+    }
+    # how to interpret $v=ish(a)
    // < susosus
     # < rowing adaptor
     me.suss = &acgtsc{
