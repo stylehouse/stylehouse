@@ -1408,6 +1408,9 @@ me.settleblab = 1
           c={Keyword:$v}
            the more stable identity
           q
+           contains protocol specs
+           q=2 for resurrecting latest true $v
+           < q=3 for hakd(v,memv)
            see q
          
          remember by %%sustain,...s,...c # lies:
@@ -1539,7 +1542,11 @@ me.settleblab = 1
         $h = me&hajasute
         s = peel(s)
         c = peel(c)
-        q = peel(q)
+        if (num(q)) {
+            # the overall &sustain protocol! 1 is implied.
+            q == 2 and $resurrecty = 1
+        }
+        else q = peel(q)
         !ish(s) || !ish(c) and throw "s,c"
         # keyword first
         $k = haks(c)[0]
@@ -1633,6 +1640,7 @@ me.settleblab = 1
                     $a = originate()
                 }
                 else {
+                    # el1
                     $a = sustaining()
                 }
                 # < ~ indifferent suchness, ac&voff
@@ -1643,10 +1651,18 @@ me.settleblab = 1
             # false
             if (g.remember) {
                 # going false
-                $el = 9
-                # &sustain the el:9 once?
-                $entery = g.wasa.el != 9
-                $a = originate()
+                if (resurrecty) {
+                    # el1
+                    $a = sustaining()
+                    g.resurrected = 1
+                    # see # latest true value
+                }
+                else {
+                    $el = 9
+                    # &sustain the el:9 once?
+                    $entery = g.wasa.el != 9
+                    $a = originate()
+                }
             }
             
             
