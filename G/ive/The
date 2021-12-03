@@ -1272,6 +1272,7 @@ me.Sch_The = &acgt{ return [
             
             row('c',&Smal{
                 $n = a.n
+                ns&ov = a.ov
                 last_n == n && pressing_r and ~>6 pressing_r S: S
                 last_n == n && pressing_r and ns&ov = 0.5
                 
@@ -1362,6 +1363,7 @@ me.Sch_The = &acgt{ return [
                 $late = ksaf(n.sc,{aft:'rec',inc:0})
                 $odd = nex({},sex({},n.sc,late),'RunStep,ov')
                 me&tc,dis(odd),'6G'
+                a.ov = ns&ov
             })
             
             row('keep',&Sma{
@@ -1674,7 +1676,6 @@ me.Sch_The = &acgt{ return [
             me&tt,"DROPs" (gs.a.done)
             me&tt,'aband' (&{ gs.done(); gs.a.done() })
             gs.steps.map(&i{
-                debugger
                 $ro = me&sustain,gs,{RunStep:i},'k'
                 $n = ro.n
                 me&boxcap,"step:"+i (&m{
