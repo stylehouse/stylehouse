@@ -1586,13 +1586,13 @@ me.settleblab = 1
         $originate = &{
             $a = {}
             # < el4 feels ~origin?
-            q.origin && g.wasa && q.origin != g.wasa.a and debugger
+            q.origin && g.wasa && q.origin != g.wasa.a and 'replant'
             return a
         }
         $sustaining = &{
             $a = g.wasa
             # < el4 feels ~origin?
-            q.origin && q.origin != a.a and debugger
+            q.origin && q.origin != a.a and 'replant'
             fatal.ish(a)
             return a
         }
@@ -1685,9 +1685,10 @@ me.settleblab = 1
                     # see # latest true value
                 }
                 else {
-                    $el = 9
-                    # &sustain the el:9 once?
-                    $entery = g.wasa.el != 9
+                    $wastrue = g.wasa.el != 9
+                    $el = wastrue ? 9 : 10
+                    # bracki the el:9 once?
+                    $entery = wastrue
                     $a = originate()
                 }
             }
