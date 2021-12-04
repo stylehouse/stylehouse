@@ -1264,14 +1264,20 @@ me.Sch_The = &acgt{ return [
                 #    above this $sute which isnt always happening
                 #     see wrinkle, @Gnome 8 other time
                 #   getting e:r to @Gnome itself is reliable?
-                $pressing_r = me&eisa,'R'
+                $eisa_R = me&eisa,'R'
                 $last_n = N.slice(-1)[0]
             
             # &rowcap has its own basic a-per-row, this $o
             #  they kind join on &sustain a, this $a
             row('c',&Smola{
                 $n = a.n
-                last_n == n && pressing_r and a.ov = 0.5
+                if (eisa_R) {
+                    # R runs latest, usu... next|last when OK|ov=8
+                    # < is this one
+                    last_n == n and a.ov = 0.5
+                    else
+                    a.ov < 0.8 and a.ov = 0.5; eisa_R = 0
+                }
                 
                 if (!c.unsure && a.ov >= 0.5) {
                     # not while This>Fine
