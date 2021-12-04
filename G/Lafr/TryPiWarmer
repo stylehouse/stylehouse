@@ -365,7 +365,12 @@ S 3 Pictures hashy misc
     $peeled = peel(fugo)
     peeled.log = 'standing'
     em("clones hash",{fugo,peeled})
-   
+    # pex() avoids cloning hash s, may peel it
+    $fugo = pex('log:ratio','deal')
+    $peeled = pex(fugo,'licio')
+    peeled.log = 'standing'
+    em("< pex() avoids cloning hash s",{fugo,peeled})
+    
     hat('peel()', abunch)
     abunch = {}
     
