@@ -1156,16 +1156,19 @@ S 5 &sustain
         }
     })
   
-  // < PermaRice q=2
+  // PermaRice q=2
     $be = me&mockbrackR,'PermaRice'
-    # RiceDay with better limbing
-    #  allow using day-1 rice in crackers, cook hard
-   // basica
+    # q=2 always el1 once established
+    # eg this part of elIntro
+    #   $IncAfter = rand ? 1 : 0
+    #   $af = me&sustain,gs,{IncAfter},2
+    
     $luck = 0
     $gs = {Facing:'East'}
     be.main = &Chir{
         me&sustain,gs,{luck},2
     }
+    
     # not
     be.do("not yet")
     luck = 1
@@ -1174,16 +1177,13 @@ S 5 &sustain
     # el1...
     be.do("still lucky")
     luck = 0
-    # < the n%luck and a.v should be resurrected
+    # the n%luck and a.v are resurrected
     be.do("still was lucky")
     be.do("still was lucky")
     luck = 1
-    # el2
-    # < should be el1
+    # el1
+    # luck returns, is remembered the same
     be.do("double lucky")
-    # < this part of elIntro should always el1
-    #   $IncAfter = rand ? 1 : 0
-    #   $af = me&sustain,gs,{IncAfter},2
   
   // RiceDay
    // unit
