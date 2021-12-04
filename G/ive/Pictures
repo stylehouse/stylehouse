@@ -1034,9 +1034,16 @@
 
   // peel(), arq()
     # hash from 'k:v' or , v=1 if not given
-    # < nestings of the : and , separators
+    #  < nestings of the : and , separators
     window.peel = &s,sep,kep{
         s == null || s == '' and return {}
+        # < peel token might include [keys], maybe json
+        isar(s) and return hashkv(s.map(k => [k,1]))
+        # clones supplied hash
+        #  this is not for eg &uptonode c arg
+        #   allows giving a c to read details from after
+        isha(s) and return ex({},s)
+        
         if (isst(s)) {
             # shortcut?
             sep ||= ','
@@ -1051,10 +1058,6 @@
             #    < rebuild a subset of yaml mostly,
             return G&peel,s
         }
-        # < peel token might include [keys], maybe json
-        isar(s) and return hashkv(s.map(k => [k,1]))
-        isar(s) and debugger
-        isha(s) and return s
         throw "not peely", s
     }
     # null-fatal peel
