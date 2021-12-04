@@ -351,10 +351,17 @@ S 3 Pictures hashy misc
    // < # more type
     
    // # peel(), arq()
+    em("nothing",peel())
+    em("null",peel(null))
+    em("empty string",peel(''))
     em("one",peel("can"))
     em("two",peel("can,you"))
     em("two.5",peel("can,you:feel"))
     em("three, first : only",peel("the:lunch:tonight,that,was::fiver"))
+    $fugo = {log:'ratio'}
+    $peeled = peel(fugo)
+    peeled.log = 'standing'
+    em("clones hash",{fugo,peeled})
    
     hat('peel()', abunch)
     abunch = {}
