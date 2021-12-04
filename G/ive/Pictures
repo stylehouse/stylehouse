@@ -738,7 +738,10 @@
         else
         # item: usu C to look for in /$n
         isit(c) and c = {is:c}
+        else
+        isar(c) and c = {in:c}
         hak(c,'is') and c.y = v => v == c.is
+        hak(c,'in') and c.y = v => c.in.includes(v)
         isfu(s) and throw "iterating? it's grep(y,N)"
         
         $array = isar(s)
