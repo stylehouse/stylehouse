@@ -2398,8 +2398,8 @@ me.Sch_The = &acgt{ return [
         #    I forget which is exp|got, or if they are actually Ins|Outs
         $have = me&jaa,R,'Accepting,s,t',1
         have = theone(have)
-        $pushing = have && me&ja,R,{Accepting:have,go:1}
-        return pushing
+        $pushing = have && me&ja,R,{Accepting:have,go:1},1
+        return theone(pushing)
     }
     # watching from @Gnome
     me.SuperGnome_iSeeFe = &acgtRszc{
@@ -2414,7 +2414,8 @@ me.Sch_The = &acgt{ return [
         now != z and return me&fu,"ZombieEffect",{now,z}
         # they should be Accepting what they already were
         #  ~Fe invalidates the Accepting we granted
-        !me&Fe_isAccepting,Fe and return me&fu,"ZombieAccept",z
+        $dige = me&Fe_isAccepting,Fe
+        !dige and return me&fu,"ZombieAccept",z
         
         
         # now, get pipe leading to Fories**
@@ -2466,7 +2467,20 @@ me.Sch_The = &acgt{ return [
         })
         !allok and return
         
-        me&fu,"iSeeFe:",{Fe,pipen,selfer,Fest,Re,N}
+        $res = me&sustain,{dige:dige},{ReSelf:1}
+        if (res.el == 2) {
+            # fire once and hope
+            $Fest = me&yfuture,selfer
+            Fests&Leave = 1
+            h.ha({pur:"reself",pre:selfer})
+            return
+        }
+        elsif (!res.conclusion) {
+            res.conclusion = 1
+            me&tc,"we-are-done"
+        }
+        
+        #me&fu,"iSeeFe:",{Fe,pipen,selfer,Fest,Re,N}
     }
     },
   
