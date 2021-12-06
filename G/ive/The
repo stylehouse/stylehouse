@@ -2437,11 +2437,34 @@ me.Sch_The = &acgt{ return [
         N = [Re,...N].map(r => sof(r))
         $depthy = s => s != N[0]
         
+        # < &sustrain in a sub-&supetime?
+        $reset = me&tt,"reset" (1)
         $rows = me&rowcap,N,"Fe-Accepting",'O'
+        $ready = 1
         rows ('ready',&nmal{
-            
-            me&tc,"jaa"
+            a.r = Aof(n)
+            $ja = a.ja = s => me&ja,a.r,s
+            !ja('ready') and ready = 0; me&tc,"!ready...";
         })
+        !ready and h.ha('pur:toPave!ready')
+        # < h.za (or just sute/&sustrain-ings)
+        $pushing = theone( h.zaa("AllPushy,rec:toPave") )
+        reset and pushing = 0
+        !pushing and h.ha("AllPushy,rec:toPave")
+        $allok = 1
+        !pushing and me&elvis,R,'Push',{wake:Re}
+        
+        rows ('push',&nmal{
+            if (!pushing) {
+                me&tc,"push!"
+                h.ha("pur:push!")
+                return allok = 0
+            }
+            a.ja('ok') and return me&tc,'ok'
+            allok and h.ha({pur:"pushed",pre:n})
+            allok = 0
+        })
+        !allok and return
         
         me&fu,"iSeeFe:",{Fe,pipen,selfer,Fest,Re,N}
     }
