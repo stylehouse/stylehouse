@@ -414,7 +414,7 @@
             $name = q.k || joint(haks(c),',') || ''
             $table
             $head
-            me&boxcap,"rowcap:"+name,'5' (&ml{
+            me&boxcap,"rowcap:"+name,(c.tsc||'5') (&ml{
                 table = m
                 lc&not = 1
                 head = me&tc,'rowcap-tablehead','3y'
@@ -424,6 +424,8 @@
                 # the first column's title
                 # < from args for first callback?
                 hak(name) and spacec&s = name
+                
+                q.O and me&walls,table,'bd:2.4'
                 # closes until putting a column:
             })
             $Na = []
@@ -447,7 +449,7 @@
                         }
                         ex(a,{n})
                         if (!a.done) {
-                            # must have: sense of how to be done() with it
+                            # < must have: sense of how to be done() with it
                             #  removes N/$n
                             !isC(n) and a.done = grepout(N,{is:n})
                             else
@@ -463,12 +465,12 @@
                             #  these may have got it by being %%rec-copied to a future
                             # < other wires. this is a short wire, anyway.!
                             ny&brack and a.done = () => ahk(me&yfuture,n ,'c','drop',1)
-                            else throw "how to el9",n,c,q
+                            #else throw "how to el9",n,c,q
                         }
                         Na[i] = a
                     }
                     # a.* = n%* in &rowcap c.*
-                    $args = haks(c).map(k => a[k] = n.sc[k])
+                    $args = grep(map(k => a[k] = n.sc[k], haks(c)))
                     !hak(args) and args = [n]
                     $s = args[0]
                     !s and throw "row!such", c, n

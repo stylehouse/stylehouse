@@ -1103,8 +1103,14 @@ me.Sch_The = &acgt{ return [
             
             # we automate Accepting:
             # < the above @Intro sense might help tick:
+            try {
             $N = me&Effected,s,{iSeeFe:1,mode:'uniq'}
             N && N.map(Fe => me&SuperGnome_iSeeFe,R,s,Fe,c)
+            }
+            catch(er) {
+                # < errors in there are window-fatal to Superquiets?
+                ha({pur:'error',er})
+            }
             
             # mode!
             Finec&w and me&SG_RunStep,c
@@ -2397,6 +2403,7 @@ me.Sch_The = &acgt{ return [
     }
     # watching from @Gnome
     me.SuperGnome_iSeeFe = &acgtRszc{
+        $h = me&hajasute
         $Fe = zy&R
         # sanity checks
         !Fes&TheFe and debugger
@@ -2412,16 +2419,31 @@ me.Sch_The = &acgt{ return [
         
         # now, get pipe leading to Fories**
         $pipen = theone(me&jaa,Fe,'eto,pipe' )
-        # pipen%eto = Fories/...
-        # pipen%pipe = TheF/@Fest/Re:$t...
-        $pipe = pipens&pipe
-        $Re = Aof(pipe)
-        !Res&ReNine and debugger
-        $TheF = pipey&up
+        # pipen%eto = Fories/...  # where it comes from
+        # pipen%pipe = TheF/@Fest # selfer of it
+        #     /$t)%TheFine        # self
+        #     /Re:$t)%ReNine...   # staged
+        $selfer = pipens&pipe
+        $TheF = selfery&up
         !TheF.t == 'TheF' and debugger
+        $Fest = Aof(selfer)
+        !Fests&TheFest and return me&fu,"selfer^!Fest",{selfer,Fest,Re} 
+        $Re = theone(me&ioty,Fest,'ReNine','Re:'+selfer.t )
+        # < Babz "~ selfer,Fest,'/',Re": sense into msgs for sute
+        !Res&ReNine and return me&fu,"pipeis",{selfer,Fest,Re}
+        # in Ins:
+        $N = me&ioty,Re,'ball'
+        N.some(r => !rs&ReNine) and return me&fu,"!ReNine**",{Re,N}
+        N = [Re,...N].map(r => sof(r))
+        $depthy = s => s != N[0]
         
+        $rows = me&rowcap,N,"Fe-Accepting",'O'
+        rows ('ready',&nmal{
+            
+            me&tc,"jaa"
+        })
         
-        me&fu,"iSeeFe:",{Fe,pipen,pipe}
+        me&fu,"iSeeFe:",{Fe,pipen,selfer,Fest,Re,N}
     }
     },
   
