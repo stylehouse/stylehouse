@@ -1101,6 +1101,11 @@ me.Sch_The = &acgt{ return [
             me&nodei,R,xs&Intro,{Introtiv:1,node:Cat}
             me&SG_elIntro
             
+            # we automate Accepting:
+            # < the above @Intro sense might help tick:
+            $N = me&Effected,s,{iSeeFe:1,mode:'uniq'}
+            N && N.map(Fe => me&SuperGnome_iSeeFe,R,s,Fe,c)
+            
             # mode!
             Finec&w and me&SG_RunStep,c
             else {
@@ -2222,8 +2227,23 @@ me.Sch_The = &acgt{ return [
             })
         }
     }
-  // @Nine <-> @Ply
-    # Accepting ~ Nine/Fe, forward cha
+  // @Nine <-> @Fe < -Ply
+    # Nine/Fe Accepting ~
+    #  handles here (as well as by w:Paving...)
+    me.Fe_Accepting = &acgtREstz{
+        # < or Name:Do
+        $Gnome = sof(me.cbu(R,'client'))
+        
+        # map the diff into got**
+        me&Fe_mergent,R,E,s,t,z
+        
+        # once it is Accepting=$dige,s,t
+        !me&Fe_isAccepting,R and return
+        
+        # tell @Gnome:See to automate this push
+        me&Effect,s,Gnome,'Fe-Accepting',{iSeeFe:s}
+        # leads back to &SuperGnome_iSeeFe
+    }
     # < real as the E|exp**:n walk
     me.Fe_mergent = &acgtREstz{
         $x = me&Jx
@@ -2284,7 +2304,7 @@ me.Sch_The = &acgt{ return [
             
             $Th = Cof( Cof( me&fiu,E,'This' ))
             
-    //     Plyy&offendEd
+     //     Plyy&offendEd
             # sustain its Effect - pointing to p!
             me&boxcap,'offend',1 (&ml{
             me&walls,m,'b:3.3'
@@ -2363,6 +2383,45 @@ me.Sch_The = &acgt{ return [
         Comp = Comp.slice(out,out+8)
         #me&bal,'mergent',{eph:1,Zuist:{Ness,Comp}}
         #{Ness,t,z,exp,Diff,This}
+        3
+    }
+    # returns [$n+] or null, permiting 'Accepting'
+    # < move to w:Pavings
+    me.Fe_isAccepting = &acgtR{
+        # < we dont know both s+t when the Fe el2
+        #    I forget which is exp|got, or if they are actually Ins|Outs
+        $have = me&jaa,R,'Accepting,s,t',1
+        have = theone(have)
+        $pushing = have && me&ja,R,{Accepting:have,go:1}
+        return pushing
+    }
+    # watching from @Gnome
+    me.SuperGnome_iSeeFe = &acgtRszc{
+        $Fe = zy&R
+        # sanity checks
+        !Fes&TheFe and debugger
+        # is it still the one...
+        # < cull zombie -Effects
+        $Fine = c.Fine
+        $now = theone( me&ioty,Fine,'',z.t )
+        now != z and return me&fu,"ZombieEffect",{now,z}
+        # they should be Accepting what they already were
+        #  ~Fe invalidates the Accepting we granted
+        !me&Fe_isAccepting,Fe and return me&fu,"ZombieAccept",z
+        
+        
+        # now, get pipe leading to Fories**
+        $pipen = theone(me&jaa,Fe,'eto,pipe' )
+        # pipen%eto = Fories/...
+        # pipen%pipe = TheF/@Fest/Re:$t...
+        $pipe = pipens&pipe
+        $Re = Aof(pipe)
+        !Res&ReNine and debugger
+        $TheF = pipey&up
+        !TheF.t == 'TheF' and debugger
+        
+        
+        me&fu,"iSeeFe:",{Fe,pipen,pipe}
     }
     },
   

@@ -2382,6 +2382,20 @@ me.settleblab = 1
    
    // &Effectsum reckon 
     me.Effectsum ||= {}
+    # < .uniqe also, returns like a leaderboard. ie .num returning many
+    # return all qua given
+    me.Effectsum.uniq = &acgtcM{
+        $k = c.gk
+        !k and throw "!gk"
+        $N = []
+        each in M {
+            # v is the posited qua for lav
+            $v = n.sc[k]
+            v == null and continue
+            N.push(v)
+        }
+        return uniq(N)
+    }
     me.Effectsum.num = &acgtcM{
         $qua = c.gk
         !qua and throw "Effectsum.num: !c.gk"
@@ -2394,6 +2408,7 @@ me.settleblab = 1
             !num(v) and throw "Effectsum!num"
             $N = votes[v] ||= []
             N.push(n)
+            
             ns&dom and lav = v
         }
         if (lav == null) {
