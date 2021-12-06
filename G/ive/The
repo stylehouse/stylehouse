@@ -2411,7 +2411,9 @@ me.Sch_The = &acgt{ return [
         # < cull zombie -Effects
         $Fine = c.Fine
         $now = theone( me&ioty,Fine,'',z.t )
+        hak(h.jaa({autopushed:z})) and return
         now != z and return me&fu,"ZombieEffect",{now,z}
+        
         # they should be Accepting what they already were
         #  ~Fe invalidates the Accepting we granted
         $dige = me&Fe_isAccepting,Fe
@@ -2453,7 +2455,9 @@ me.Sch_The = &acgt{ return [
         reset and pushing = 0
         !pushing and h.ha("AllPushy,rec:toPave")
         $allok = 1
+        # < neverfails?
         !pushing and me&elvis,R,'Push',{wake:Re}
+        #; G&yl:300,&{ me&elvis,R,'Push',{wake:Re} }
         
         rows ('push',&nmal{
             if (!pushing) {
@@ -2478,8 +2482,11 @@ me.Sch_The = &acgt{ return [
         elsif (!res.conclusion) {
             res.conclusion = 1
             me&tc,"we-are-done"
+            # block iSeeFe until next -Effect
+            h.ha({autopushed:z,dige})
+            h.jaa('rec:toPave') .map(n => nc&drop = 'are-done')
+            h.jaa('rec:ReSelf') .map(n => nc&drop = 'are-done')
         }
-        
         #me&fu,"iSeeFe:",{Fe,pipen,selfer,Fest,Re,N}
     }
     },
