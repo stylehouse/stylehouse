@@ -1101,17 +1101,6 @@ me.Sch_The = &acgt{ return [
             me&nodei,R,xs&Intro,{Introtiv:1,node:Cat}
             me&SG_elIntro
             
-            # we automate Accepting:
-            # < the above @Intro sense might help tick:
-            try {
-            $N = me&Effected,s,{iSeeFe:1,mode:'uniq'}
-            N && N.map(Fe => me&SuperGnome_iSeeFe,R,s,Fe,c)
-            }
-            catch(er) {
-                # < errors in there are window-fatal to Superquiets?
-                ha({pur:'error',er})
-            }
-            
             # mode!
             Finec&w and me&SG_RunStep,c
             else {
@@ -2245,10 +2234,7 @@ me.Sch_The = &acgt{ return [
         
         # once it is Accepting=$dige,s,t
         !me&Fe_isAccepting,R and return
-        
-        # tell @Gnome:See to automate this push
-        me&Effect,s,Gnome,'Fe-Accepting',{iSeeFe:s}
-        # leads back to &SuperGnome_iSeeFe
+        # ... see ABORTED push automation
     }
     # < real as the E|exp**:n walk
     me.Fe_mergent = &acgtREstz{
@@ -2402,7 +2388,26 @@ me.Sch_The = &acgt{ return [
         return theone(pushing)
     }
     # watching from @Gnome
-    me.SuperGnome_iSeeFe = &acgtRszc{
+    # < try again later, this is a wreck in the current environ
+    =pod ABORTED push automation
+        in @Gnome:See:
+            # we automate Accepting:
+            # < the above @Intro sense might help tick:
+            try {
+            $N = me&Effected,s,{iSeeFe:1,mode:'uniq'}
+            N && N.map(Fe => me&SuperGnome_iSeeFe,R,s,Fe,c)
+            }
+            catch(er) {
+                # < errors in there are window-fatal to Superquiets?
+                ha({pur:'error',er})
+            }
+        in &Fe_Accepting
+        
+            # tell @Gnome:See to automate this push
+            #me&Effect,s,Gnome,'Fe-Accepting',{iSeeFe:s}
+            # leads back to &SuperGnome_iSeeFe
+         
+     me.SuperGnome_iSeeFe = &acgtRszc{
         $h = me&hajasute
         $Fe = zy&R
         # sanity checks
@@ -2412,7 +2417,8 @@ me.Sch_The = &acgt{ return [
         $Fine = c.Fine
         $now = theone( me&ioty,Fine,'',z.t )
         hak(h.jaa({autopushed:z})) and return
-        now != z and return me&fu,"ZombieEffect",{now,z}
+        now != z and return
+            #me&fu,"ZombieEffect",{now,z}
         
         # they should be Accepting what they already were
         #  ~Fe invalidates the Accepting we granted
@@ -2457,7 +2463,6 @@ me.Sch_The = &acgt{ return [
         $allok = 1
         # < neverfails?
         !pushing and me&elvis,R,'Push',{wake:Re}
-        #; G&yl:300,&{ me&elvis,R,'Push',{wake:Re} }
         
         rows ('push',&nmal{
             if (!pushing) {
@@ -2469,7 +2474,7 @@ me.Sch_The = &acgt{ return [
             allok and h.ha({pur:"pushed",pre:n})
             allok = 0
         })
-        !allok and return
+        !allok and return me&tc,"okwait..."
         
         $res = me&sustain,{dige:dige},{ReSelf:1}
         if (res.el == 2) {
@@ -2483,12 +2488,14 @@ me.Sch_The = &acgt{ return [
             res.conclusion = 1
             me&tc,"we-are-done"
             # block iSeeFe until next -Effect
-            h.ha({autopushed:z,dige})
+            h.ha({autopushed:z,dige,rec:'autopushed'})
+            # < it just comes back via %%dome?
             h.jaa('rec:toPave') .map(n => nc&drop = 'are-done')
             h.jaa('rec:ReSelf') .map(n => nc&drop = 'are-done')
         }
         #me&fu,"iSeeFe:",{Fe,pipen,selfer,Fest,Re,N}
-    }
+     }
+    =cut
     },
   
   # see w:Story for %TheFine
