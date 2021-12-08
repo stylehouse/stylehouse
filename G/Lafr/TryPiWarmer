@@ -1494,13 +1494,25 @@ S 5 &sustain
     # how to run people at a pot of rice
     $be = me&mockbrackR,'RiceRun'
     $eat = 0.07
+    $feedrate = 3
     be.main = &Chir{
         # operating on $a, until &suso can show our brushstrokes
         
         # sum Reserved as an amount to eat
         $leave = sum(a => a.v, me&osus,'Reserve' ) * eat
         
-        me&osus,'hunger' .slice(0,4)
+        # < Babz: &sus Pot # or &pur, return
+        $Pot = theone( me&osus,'','Pot' )
+        Pot.et ||= 0
+        
+        map(&ai{
+            # feedrate at a time
+            feedrate-1 < i and return a.queued = i
+            # imagine giving away that rice
+            Pot.et + eat + leave > 0.9 and return a.missed = i
+            Pot.et += eat
+            a.done('et')
+        }, me&osus,'hunger' .slice(0,feedrate+1) )
         
         i.hat = {leave}
     }
