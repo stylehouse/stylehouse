@@ -1166,7 +1166,8 @@ me.Sch_Story = &acgt{ return [
         # < a buttoner|Effector that can glow 'Leave' because c.pull
         # then harness %Live into TheNine
         # < harness self (TheNine<->...) <-> other (Paving)
-        x.ro('Leave') and c.pull = 1
+        me&eisa,'Leave' || x.ro('Leave') and c.pull = 1
+        c.pull and me&elvis,R,'reself',{wake:me.cbu(R,'client')}
         #cursed && c.pull != 1 and debugger
         $self = me&selfThat,R,that,c
         
@@ -1175,8 +1176,6 @@ me.Sch_Story = &acgt{ return [
         #   without losing all the L-mapping etc: lv in?
         c.pull and Rs&shelf = self
         !Rs&shelf and Rs&shelf = self
-        else
-        # < make warning?
         self != Rs&shelf and me&tsc,'re-self',0,'g'
         self = Rs&shelf
         
@@ -1227,6 +1226,18 @@ me.Sch_Story = &acgt{ return [
             G&yl:600,&{ me&elvis,R,'de-tailspin' }
         }
         
+        $them = me&ioty,R,'ReNine'
+        $lot = [R,...them]
+        # when we all look ready
+        $ready = hak(lot) == hak(grep(r => me&ja,r,'ready' ,lot))
+        if (ready) {
+            # rhythmically Push!
+            $was = theone( me&zaa,R,'allready',1 ) || 0
+            was == 3 and was = 0
+            !was and me&elvis,R,'Push'; me&tc,'e:Push!'
+            was += 1
+            me&ha,R,{allready:was}
+        }
         
         # engages
         # < subscribe to Q-1 for this
@@ -1234,12 +1245,17 @@ me.Sch_Story = &acgt{ return [
             && me&log,R,'Pushabilityofthethingthatisnow'
         
         # completes: L%resumed for any fixed up
-        me&da,R,'allok:Push'
-            && uniq(me&ioty,R,'ReNine' .map(&r{
+        if (me&da,R,'allok:Push' ) {
+            $Points = them .map(&r{
                     $z = rc&s
                     $ze = zy&origin
-                    return zey&Point
-            })).map(L => L && me&ReNine_pushed_Point,R,L )
+                    return ze && zey&Point
+            })
+            uniq(Points).map(L => L && me&ReNine_pushed_Point,R,L )
+            # reself %TheFest, which will then wake @Gnome
+            debugger
+            me&elvis,R,'Leave',{wake:Ry&up}
+        }
     },'ift,D'],
     # ReNine** difference and flock apply again
     ['ReNine',0.33,&acgtRs{
