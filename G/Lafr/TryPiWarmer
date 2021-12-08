@@ -297,7 +297,7 @@ S 3 Pictures hashy misc
     
    
   # misc() access
-  # misc() hash
+  // # misc() hash
    // ahk()
     # &yio covers what it returns each time (was value)
     $aC = Cye(['bling',3])
@@ -505,7 +505,8 @@ S 3 Pictures hashy misc
         
     })
    
-   // # misc() array
+  // # misc() array
+   // ksaf()
     // data
         $Tom = <<''
             Long way going to
@@ -573,8 +574,7 @@ S 3 Pictures hashy misc
         },
     })
     
-    
-    
+   // grep()
     # < the above as range args to grep:
     #    $N = grep /yesterday/../^L/ 
     #    $N = grep ..(/^indo/) # range makes () less-selecting. usu more? <art.
@@ -609,11 +609,6 @@ S 3 Pictures hashy misc
         "short|early keys": grepout(aa,(v,i) => hak(v)==1 || i < 3),
         "leaving only": aa
     })
-    hat('split()',{
-       'no limit': split("3,3,3,3,3,3",','),
-       'limit=2': split("3,3,3,3,3,3",',',2),
-       'regex': split("3,3,,,,3,,,3,,3,3",/,+/,3),
-    })
     hat('flatten()',{
         "doc": flatten([1,[1,2]]),
         "N = z|N": flatten([[1]]),
@@ -628,7 +623,22 @@ S 3 Pictures hashy misc
         ),
     })
     
-    # // misc() array string
+  // # misc() array string
+    # < text-array transforms?
+    
+    hat('sum()',{
+       '15': sum([1,2,3,null,4,5]),
+       'partsof': sum(a => a.v,
+           [{},{},{v:0.9},{v:{hut:1}},{v:0.3}]
+       ),
+    })
+    
+    hat('split()',{
+       'no limit': split("3,3,3,3,3,3",','),
+       'limit=2': split("3,3,3,3,3,3",',',2),
+       'regex': split("3,3,,,,3,,,3,,3,3",/,+/,3),
+    })
+    
     $D = Cye(['thing',3])
     hat('joint() derived',{
         "nulls vanish": [
@@ -640,7 +650,7 @@ S 3 Pictures hashy misc
         "it works": cint(['Mix',D,'Sturct']),
     })
 
-   // js trivia
+  // js trivia
     # javascript weirdnesses!
     // misc
         hat('perl [" "x3]',
@@ -814,7 +824,7 @@ S 3 Pictures hashy misc
         
         
     
-   // &indo etc
+  // &indo etc
     # < see that M == &indo... &e{ return e } works like 3d grep
     # < &deL for tabless lines from the editor
     #    checks they are peely-types
@@ -1487,10 +1497,8 @@ S 5 &sustain
     be.main = &Chir{
         # operating on $a, until &suso can show our brushstrokes
         
-        # sum Reserved
-        $leave = 0
-        map(a => leave += a.v, me&osus,'Reserve' )
-        leave *= eat
+        # sum Reserved as an amount to eat
+        $leave = sum(a => a.v, me&osus,'Reserve' ) * eat
         
         me&osus,'hunger' .slice(0,4)
         

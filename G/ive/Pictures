@@ -834,6 +834,32 @@
         return a;
     }
   // misc() array string
+    # figures if N = N or N[0] is the intended array to use
+    #  for eg N=[...arguments] for aroint()
+    # < there are a bunch of arguments parsing things
+    #   eg C|A:n, C t can be given C,
+    #    which is should clone if no further args
+    #    other args become t?,y,c,sc of an elvis upon given C
+    # < can '() => ...' functions access the callers arguments?
+    #   for aroint() to take less code
+    #  < multiplex a bunch to parse things out. eg sum(y?,N|...N)
+    #   < arguments are silly though, modern life is params
+    self.flatorray = &N{
+        return hak(N) == 1 && isar(N[0]) ? N[0] : N
+    }
+    # add numbers
+    self.sum = &{
+        $args = [...arguments]
+        $whatfor = isfu(args[0]) && args.shift()
+        # sum(a,b,c...) or sum([a,b,c])
+        $N = flatorray(args)
+        $total = 0
+        each in N {
+            whatfor and n = whatfor(n)
+            num(n) and total += n*1
+        }
+        return total
+    }
     # perl split()
     self.split = &s,by,times{
         $N = s.split(by)
@@ -851,7 +877,7 @@
     self.slant = &{ return aroint([...arguments],'/') }
     self.spant = &{ return aroint([...arguments],' ') }
     # allows the above to be eg cint(i,t) or cint([i,t])
-    self.aroint = (N,k) => joint((hak(N) == 1 && isar(N[0]) ? N[0] : N),k)
+    self.aroint  = (N,k) => joint((hak(N) == 1 && isar(N[0]) ? N[0] : N),k)
     # "$t1-$t2" for [C,C,C{.t==not}]
     # < not used once in a year in weird times (&pilegs)
     #   path making (from climbing) shall where itself by now
