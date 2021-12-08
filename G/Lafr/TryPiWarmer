@@ -1233,53 +1233,63 @@ S 5 &sustain
   // JugRice
     # sustain Jug|Pot:$v over time...
     $be = me&mockbrackR,'JugRice'
+    # < -Lab for expressing when a is|not as it was more clearly
+    #   has tiny little Eref to notice
+    $occasion = 1
+    $bel = &is{
+        i.Bow = s
+        each ia s {
+            a['occie'+occasion] = 'Steve'
+        }
+        occasion++
+    }
     be.Again("Jug Full",&Chir{
         h.ha('sing,song')
         h.ha('sing,notes')
         #n Jug -Bow &sustain,'Jug',{Full:1}
-        i.Bow = {
+        bel(i,{
             Jug: me&sustain,'Jug',{Full:1} ,
             Pot: me&sustain,'Pot',{Full:0} ,
-        }
+        })
     })("both Full",&Chir{
         h.zaa('sing') .map(n => h.ha("loudly",n.sc))
-        i.Bow = {
+        bel(i,{
             Jug: me&sustain,'Jug',{Full:1} ,
             # a.el=1 as v becomes|remains true
             Pot: me&sustain,'Pot',{Full:1} ,
-        }
+        })
     })("Pot becomes Full=4",&Chir{
         # &jaa,c,1 for either now or now-1
         i.all_notes = h.jaa('notes',1)
-        i.Bow = {
+        bel(i,{
             Jug: me&sustain,'Jug',{Full:1} ,
             # a.el=2 since v changes amongst true
             Pot: me&sustain,'Pot',{Full:4} ,
-        }
+        })
         h.zaa('notes') .map(n => h.ha(n.sc,"loudly:4"))
     })
     # going false
     be.Again("Jug loses Full: el9, still brack",bec&_2,&Chir{
         h.zaa('notes') .map(n => h.ha("madly",n.sc))
-        i.Bow = {
+        bel(i,{
             # a.el=9 as v becomes false
             Jug: me&sustain,'Jug',{Full:0} ,
             Pot: me&sustain,'Pot',{Full:1} ,
-        }
+        })
     })("Jug gone: el10, not brack",&Chir{
         h.zaa('notes') .map(n => h.ha("zoomish",n.sc))
-        i.Bow = {
+        bel(i,{
             # a.el=10 as v remains false
             Jug: me&sustain,'Jug',{Full:0} ,
             Pot: me&sustain,'Pot',{Full:1} ,
-        }
+        })
     }) ("Jug el10",&Chir{
         h.zaa('notes') .map(n => h.ha("fading",n.sc))
-        i.Bow = {
+        bel(i,{
             # a.el=10 as v becomes|remains false
             Jug: me&sustain,'Jug',{Full:0} ,
             Pot: me&sustain,'Pot',{Full:1} ,
-        }
+        })
     })
   
   // PermaRice q=2
