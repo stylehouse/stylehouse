@@ -1507,16 +1507,20 @@ S 5 &sustain
         $Pot = theone( me&osus,'','Pot' )
         Pot.et ||= 0
         
+        $fed = 0
         map(&ai{
             # feedrate at a time
-            feedrate-1 < i and return a.queued = i
+            feedrate-1 < i and return a.queued = rs&ver
             # imagine giving away that rice
-            Pot.et + eat + leave > 0.9 and return a.missed = i
+            Pot.et + eat + leave > 0.9 and return a.missed = rs&ver
             Pot.et += eat
+            # < these all together:
+            a.satisfaction = rs&ver
             a.done('et')
+            fed++
         }, me&osus,'hunger' .slice(0,feedrate+1) )
         
-        i.hat = {leave}
+        i.hat = {leave,fed}
     }
     
     be.do("the setup", &Chir{
