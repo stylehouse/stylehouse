@@ -1495,6 +1495,8 @@ S 5 &sustain
     $be = me&mockbrackR,'RiceRun'
     $eat = 0.07
     $feedrate = 3
+    $hungeri = 1
+    $ihunger = s => me&sustain,s,{hunger:hungeri++},'k'
     be.main = &Chir{
         # operating on $a, until &suso can show our brushstrokes
         
@@ -1524,10 +1526,45 @@ S 5 &sustain
         me&sustain,'for:doers',{Reserve:3}
         me&sustain,'for:gate',{Reserve:5}
         # eaters
-        map((v,i) => me&sustain,'',{hunger:i} ,
-            [...new Array(8)])
+        map(v => ihunger('early'), [...new Array(8)])
     },be.main)
     be.do('reserves some rice')
+    be.do("gate plucked", &Chir{
+        $Res = theone( me&osus,'for:gate','Reserve' )
+        Res.done()
+        # < perhaps the Reserve -> many hungers
+        #   they would have to %%rec separately
+        #    as we assume later &sustain $k defs replace all previous
+        #     this could change:
+        #      &rec_traction could group by &sustain s.* + c.$k
+        #       but not the other c.*?
+        #       looking at n = %%sustain,(...s),rec,(...c) ?
+        #        ie s + c[0]
+        #       but it breaks the underlying intelligibility of %%rec
+        #        and would complicate &jaaz beyond safety
+        #   which all implies...
+        #    sus:hunger are serial-numbering, each %%rec=hunger:$i
+        #     &sustain adapts vector (hunger++) to what is
+        #      < or it is one big hunger, with a quantity
+        #        then we also have sus:missed, etc
+        #        perhaps sus:hunger a.z=[sus:person+] might help:
+        #      < trying not to let any one person down too much
+        #    or:
+        # we should reacknowledge the entire set
+        # < leads to more robust software?
+        # < or tell &sustain to do %%rec-conserving add
+        #    aka having modes approaching|for 'resolve $n'
+        #   eg q.el=1 (not q.num, sets protocol) (not a.el, is result)
+        #    should enter the other %%rec (default q.el=2: let go)
+        #    yet allow later &sustain q.el=1 them too
+        #     drop other y&future they remember?
+        # < h.ha cant $s=$n because of mixage
+        #   its concerns should be mixed into &ha q.* under it
+        #    use of params for this
+        me&osus,'hunger' .map(a => h.ha(a.n.sc) )
+        map(() => ihunger('gator'), [...new Array(Res.v)])
+    });
+    be.do('serves that rice')
     
 S 6 &sustrain
     $h = A.h.o('sustrain')
