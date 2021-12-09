@@ -1539,8 +1539,7 @@ S 5 &sustain
     $pluck = &h,k,of{
         $Res = theone( me&osus,{of},'Reserve' )
         Res.done()
-        # < perhaps the Reserve -> many hungers
-        #   they would have to %%rec separately
+        # < they would have to %%rec separately
         #    as we assume later &sustain $k defs replace all previous
         #     this could change:
         #      &rec_traction could group by &sustain s.* + c.$k
@@ -1586,6 +1585,40 @@ S 5 &sustain
     be.do('serves more rice')
     # so 
     be.do('the last of them, still got 11.1**% of a Pot')
+  
+  // RiceDrop
+    # ensure we can done|drop all the way to nothing
+    #  thought I saw %%dome bringing things back, but no
+    # see also PermaRice / !done on refork^1
+    #  because it is about the $n
+    $be = me&mockbrackR,'RiceDrop'
+    
+    
+    
+    
+    
+    
+    
+    
+    $any
+    be.do("the setup", &Chir{
+        any = me&sustain,'','Anything'
+    })
+    be.do("the vanishing", &Chir{
+        any.done('lepro')
+    })
+    be.do("vanished", &Chir{
+    })
+    
+    # &sustain spec bits
+    $be = me&mockbrackR,'RiceArrive'
+    # < multitudes should simply arrive (1:1 past:future)
+    be.do("many of them", &Chir{
+        me&sustain,'','Rice' .day = 1
+        me&sustain,'','Rice' .day = 3
+        me&sustain,'','Rice' .day = 5
+    })
+    # < non-text s.* is ignored, not in n%*
     
 
 S 6 &sustrain
