@@ -1490,6 +1490,7 @@ S 5 &sustain
     be.do(bec&_15_1,"Pot the next day")
     
   // RiceRun
+   // u
     A.h.sixc = 'expectλ,noscn'
     # how to run people at a pot of rice
     $be = me&mockbrackR,'RiceRun'
@@ -1522,20 +1523,21 @@ S 5 &sustain
         
         i.hat = {leave,fed}
     }
-    
+   // n
     be.do("the setup", &Chir{
         # the resource
         me&sustain,'',{Pot:1}
         # reservations
-        me&sustain,'for:doers',{Reserve:3}
-        me&sustain,'for:gate',{Reserve:5}
+        me&sustain,'of:doers',{Reserve:3}
+        me&sustain,'of:gate',{Reserve:5}
         # eaters
         map(v => ihunger('early'), [...new Array(8)])
     },be.main)
     be.do('reserves some rice')
     # 3
-    be.do("gate plucked", &Chir{
-        $Res = theone( me&osus,'for:gate','Reserve' )
+    # a Reserve -> many hungers
+    $pluck = &h,k,of{
+        $Res = theone( me&osus,{of},'Reserve' )
         Res.done()
         # < perhaps the Reserve -> many hungers
         #   they would have to %%rec separately
@@ -1565,13 +1567,25 @@ S 5 &sustain
         #     drop other y&future they remember?
         # < h.ha cant $s=$n because of mixage
         #   its concerns should be mixed into &ha q.* under it
-        #    use of params for this
+        #    use params for this
         $hungers = me&osus,'hunger'
-        # prioritise gators
-        map(() => ihunger('gator'), [...new Array(Res.v)])
+        # prioritise Reserved hunger
+        map(() => ihunger(k), [...new Array(Res.v)])
         map(a => h.ha(a.n.sc), hungers)
-    });
+    }
+    be.do("gate plucked", &Chir{
+        pluck(h,'gator','gate')
+    })
     be.do('serves that rice')
+    # fed gators, still 4 hungry
+    be.do('serves some rice')
+    # 6
+    be.do("doers plucked", &Chir{
+        pluck(h,'doonya','doers')
+    })
+    be.do('serves more rice')
+    
+    
     
 S 6 &sustrain
     $h = A.h.o('sustrain')
