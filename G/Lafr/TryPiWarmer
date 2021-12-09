@@ -1533,6 +1533,7 @@ S 5 &sustain
         map(v => ihunger('early'), [...new Array(8)])
     },be.main)
     be.do('reserves some rice')
+    # 3
     be.do("gate plucked", &Chir{
         $Res = theone( me&osus,'for:gate','Reserve' )
         Res.done()
@@ -1565,8 +1566,10 @@ S 5 &sustain
         # < h.ha cant $s=$n because of mixage
         #   its concerns should be mixed into &ha q.* under it
         #    use of params for this
-        me&osus,'hunger' .map(a => h.ha(a.n.sc) )
+        $hungers = me&osus,'hunger'
+        # prioritise gators
         map(() => ihunger('gator'), [...new Array(Res.v)])
+        map(a => h.ha(a.n.sc), hungers)
     });
     be.do('serves that rice')
     
