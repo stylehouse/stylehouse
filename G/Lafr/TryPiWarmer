@@ -850,10 +850,14 @@ S 3 Pictures hashy misc
     
     A.h.Bow('&indo',{
         'indenting strings': me&indo,z (&sd{
+            # < not returning anything if no children do
             !sc&s and return cvs(sy&cv)
             s.t == 'Atoms' and return d.not = 1
             return slant(cvs(sy&cv),' ',s.t)
-        })
+        }),
+        'flat map': me&indo,z (
+            s => s.t.includes('tz') && Cye(['w:'+s.t,1,ex({},s.c)])
+        ),
     })
     # < see that M == &indo... &e{ return e } works like 3d grep
     
