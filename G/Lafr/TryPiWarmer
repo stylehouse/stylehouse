@@ -1586,20 +1586,13 @@ S 5 &sustain
     # so 
     be.do('the last of them, still got 11.1**% of a Pot')
   
-  // RiceDrop
+  // RiceDrop|Arrive|NonText
     # ensure we can done|drop all the way to nothing
     #  thought I saw %%dome bringing things back, but no
     # see also PermaRice / !done on refork^1
-    #  because it is about the $n
+    #  because .done() only affects the $n
+    #   < unless format wants otherwise
     $be = me&mockbrackR,'RiceDrop'
-    
-    
-    
-    
-    
-    
-    
-    
     $any
     be.do("the setup", &Chir{
         any = me&sustain,'','Anything'
@@ -1610,15 +1603,15 @@ S 5 &sustain
     be.do("vanished", &Chir{
     })
     
+    
     # &sustain spec bits
     $be = me&mockbrackR,'RiceArrive'
-    # < multitudes should simply arrive (1:1 past:future)
+    # multitudes should simply arrive
     be.do("many of them", &Chir{
         me&sustain,'','Rice' .day = 1
         me&sustain,'','Rice' .day = 3
         me&sustain,'','Rice' .day = 5
     })
-    
     be.do("simply arrive", &Chir{
         $one = me&sustain,'','Rice'
         $three = me&sustain,'','Rice'
@@ -1628,7 +1621,15 @@ S 5 &sustain
             arrived: map(a => a.day, {one,three,five,nada}),
         }
     })
-    # < non-text s.* is ignored, not in n%*
+    
+    
+    $be = me&mockbrackR,'RiceNonText'
+    # non-text s.* is ignored, not in n%*
+    $chang = {le:'d'}
+    $woplatio = {fold:1}
+    be.do("one of them", &Chir{
+        me&sustain,{seeing:'sight',chang},{Rice:2,zomb:'ie',woplatio}
+    })
     
 
 S 6 &sustrain
