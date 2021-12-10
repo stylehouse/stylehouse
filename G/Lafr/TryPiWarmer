@@ -1604,7 +1604,6 @@ S 5 &sustain
     })
     
     
-    # &sustain spec bits
     $be = me&mockbrackR,'RiceArrive'
     # multitudes should simply arrive
     be.do("many of them", &Chir{
@@ -1624,28 +1623,34 @@ S 5 &sustain
     
     
     $be = me&mockbrackR,'RiceNonText'
+    
     # non-text s.* is ignored, not in n%*
     $chang = {le:'d'}
     $woplatio = {fold:1}
     $Then = be.do("one of them", &Chir{
         me&sustain,{seeing:'sight',chang},{Rice:2,zomb:'ie',woplatio}
     })
+    
+    # j
     # < these all basically point to the two %%sustain being Eref or not
-    # you may find lesser  s|c
     Then("has s.* ref change", &Chir{
         # s.* not in n%* dont matter
         chang = {le:'d'}
         # < do something meaningful about no more n%seeing
-        me&sustain,{chang},{Rice:2,zomb:'ie'}
+        me&sustain,{chang,lep:[1,2]},{Rice:2,zomb:'ie'}
     })
     Then("not s.* text change", &Chir{
         me&sustain,{seeing:'looking'},{Rice:2,zomb:'ie'}
+        me&sustain,{lapis:'wave'},{Rice:2,zomb:'ie'}
     })
     Then("not c.* ref change", &Chir{
         me&sustain,{chang},{Rice:2,woplatio:{leaves:5}}
     })
     Then("not c.* text change", &Chir{
         me&sustain,{chang},{Rice:2,zomb:'ies'}
+        me&sustain,{},{Rice:2,lapismo:{}}
+        # however, we can:
+        me&sustain,{},{Rice:2}
     })
     
 
