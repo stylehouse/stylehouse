@@ -635,8 +635,15 @@ S 3 Pictures hashy misc
     
     hat('split()',{
        'no limit': split("3,3,3,3,3,3",','),
+       'by ||= space': split("3  3 3 3"),
+       'by anywhere': split("3  3 3 3",''),
        'limit=2': split("3,3,3,3,3,3",',',2),
-       'regex': split("3,3,,,,3,,,3,,3,3",/,+/,3),
+       'limit=4': split("3,3,3,3,3,3",',',4),
+       'regex': split("3,3,,,,3,,,3,,3by6,3",
+           /[g-z]|,+/),
+       # < use &parserify ?
+       'regex+limit bad': split("3,3,,,,3,,,3,,3by6,3",
+           /[g-z]|,+/,3),
     })
     
     $D = Cye(['thing',3])
