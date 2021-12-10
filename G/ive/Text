@@ -39,7 +39,9 @@
                 c.hs = 584
                 # < large, Lines, binary, base64 etc
                 # rudimentary large safety
-                if (c.say.length > 50 || c.geo) {
+                $r = c.R
+                $large = r && rc&d < 2 ? 150 : 50
+                if (c.say.length > large || c.geo) {
                     $geo = c.geo ||= {}
                     $size = me&textsize,c.say,geo
                     if (geo.lines > 12 || geo.length > 200) {
