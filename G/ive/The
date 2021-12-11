@@ -3205,25 +3205,31 @@ me.Sch_The = &acgt{ return [
                     ? c.Again(...args)
                     : c.Further(...args)
             }
-            # be.diff("them",bes&_thisthing)
+            # be.diff("them",bes&_21*,'see'?)
             c.diff = &{
                 $g = {what:[]}
                 each iv arguments {
                     if (isst(v)) {
-                        g.t and g.option = v
-                        else {
-                            g.t = v
-                        }
+                        !hak(g,'t') and g.t = v
+                        # second 'string' -> &diffany c
+                        else  g.option = v
                     }
                     isC(v) and g.what.push(v)
                 }
+                
                 # title for the diff-Womb, %Diff gets named after $exp
                 !g.t and throw "title the diff"
+                
                 # default latest whats
                 !hak(g.what) and g.what = havs(c.sc).slice(-2)
+                else
+                # or one given to latest what
+                hak(g.what) < 2 and g.what = havs(c.sc).slice(-1)
+                
                 # < being visible in @Run as modulat is weird
-                #   do a proper A:Run
-                g.option ||= 'see'
+                #   do a proper A:Run** situation? some -Eight take Run%M?
+                g.option ||= ''
+                
                 # < not just sixes?
                 grep(six => me&finishPiing,six ,g.what)
                 hak(g.what) != 2 and debugger
