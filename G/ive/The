@@ -1152,7 +1152,6 @@ me.Sch_The = &acgt{ return [
         # < @Ta for hs&Ta rowing ark, h.ar the @Gnome Names
         # %%RunStep flock
         #  heading, @Run-ing as Nine-that-could-be[Run%step]
-        
         me.SG_RunStep = &acgtc{
            // time is
             $R = me&R
@@ -1182,10 +1181,15 @@ me.Sch_The = &acgt{ return [
             # various, clobberatively, to progress
             $susc = {}
             $N = me&suss,'RunStep',susc
+            # we R%Loc=C:R.t %RunStep=$mem = C**
+            $mem = me&Locio,'RunStep'
             
             if (!hak(N) && c.starting) {
                 # auto begin
-                N = [ me&sustain,{},{RunStep:time1,through:1},'k' .n ]
+                # < map(_.sc,mem) # in both directions?
+                $suN = memy&oN() || {RunStep:time1,through:1}
+                # < aror
+                N = suN.map(c => me&sustain,{},c,'k' .n)
             }
             
            // RunStep/$S+ todolist + attention
@@ -1379,6 +1383,58 @@ me.Sch_The = &acgt{ return [
                 $odd = grep(nex({},c,'Fine,nine,This'))
                 me&tc,dis(odd),'6G'
             })
+           
+           // => state
+            if (last_n) {
+                $n = last_n
+                $a = ns&sustain
+                $dodge = a.ov >= 0.7 && a.ov <= 0.8
+                $sc = sex({},n.sc,'RunStep')
+                # we make one sustain:
+                dodge and sc.wasdodge = 1
+                else sc = 0
+                memy&iN([sc])
+            }
+        }
+        # proto mem:, json (t,y,sc)** <-> brack-ish N[sc+]
+        me.Locio = &acgtt{
+            $E = me&R
+            # to sample attention from
+            $Loc = me&rollbsc,R,'Loc'
+            # this is a global address, in remember/$W/$t
+            Locc&W = R.t
+            $D = Loc.sc[t]
+            D ||= me&remember,Loc,t
+            # when we should save
+            #  eg Plot ticks
+            Dy&save ||= &{ me&remember,Loc,t }
+            # brack-ish N[sc+]
+            Dy&iN ||= &N{
+                # drain mem/*
+                $were = (Ds&z||[]) .map(n => n.sc)
+                #me&ioty,D .map(n => me&fiu,D,n,9 )
+                if (N[0] == 0 && !hak(N)) {
+                    # add nothing
+                    !hak(were) and return
+                    Ds&z = []
+                    Dy&save()
+                }
+                else {
+                    $eq = hak(were) == hak(N)
+                    each ic N {
+                        !eq and break
+                        !heq(c,were[i]) and eq = 0
+                    }
+                    eq and return
+                    Ds&z = N.map(c => Cye(['stuss',1,{},c]))
+                    Dy&save()
+                }
+            }
+            Dy&oN = &{
+                $N = me&ioty,D .map(n => n.sc)
+                return hak(N) && N
+            }
+            return D
         }
         # prefer more recent
         me.RunStep_dedup = &acgtN{

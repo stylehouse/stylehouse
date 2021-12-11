@@ -1501,10 +1501,11 @@ me.Fourismness = &acgt{ return [
         !Lc&W and throw "!cW"
         $store = 'remember/'+Lc&W+'/'+k;
         if (d) {
+            # thaw the first time, prefab if invented (spacer C) (even if saved)
             delete dc&thaw;
             delete dc&prefab;
             $more = &d{
-                $l = [d.t,d.y.cv];
+                $l = [d.t,d.y.cv,d.sc];
                 each in ds&z {
                     l.push(more(n))
                 }
@@ -1516,7 +1517,7 @@ me.Fourismness = &acgt{ return [
             $s = localStorage[store];
             !s and return L.sc[k] = Cye([k,1,{prefab:1}])
             $more = &l{
-                $d = Cye([l.shift(),l.shift()]);
+                $d = Cye([l.shift(),l.shift(),{},l.shift()]);
                 each in l {
                     fio(d,more(n))
                 }
