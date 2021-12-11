@@ -5293,6 +5293,7 @@ me.Sch_The = &acgt{ return [
         each ir Rc&N {
             me&modulatM,r,1
         }
+        
         reverse(Rc&N).map(r => me&specialfx1,r)
         #Rc&N.map(r => me&specialfx2,r)
         
@@ -5334,6 +5335,8 @@ me.Sch_The = &acgt{ return [
         Rs&geolen = me&measure_modulat,Rs&M
         # modulat trim
         me&Topping_41,R,N
+        
+        Rs&nomirage and return
         
         # tally upwards
         $geo = Rs&geo = {}
@@ -5657,7 +5660,7 @@ me.Sch_The = &acgt{ return [
         me&indo,mir (&sd{
             if (d.d == 2) {
                 if (sy&cv == 0.1) {
-                    sy&cv = dec(0.59+(eei++*0.0001))
+                    sy&cv = dec(0.59+(eei++*0.000001))
                 }
                 ac(R,'M',s)
             }
@@ -7166,21 +7169,43 @@ me.Sch_The = &acgt{ return [
   // -Womb -Fez -Bow > -hat
     # copy modulat straight to D**
     ['Womb',0.21,&acgtRs{
-        !isC(s) and return me&strange,"!C"
         $E = Rs&E
         $D = Rs&D
+        
+        !isC(s) and return me&strange,"!C"
+        # which takes a lot of nodes:
+        Rc&nl = 1500
+        # which may occur in one big /*, esp if %Diff%Comp
+        Rs&many_thresh = 1000
+        # no specialfx layout E/*
+        Rs&nomirage = 1
+        # < does this work:
+        Rs&nofurtherDisplay = 1
+        # show it all, on top
+        #  same way &supetime does c.permasay
+        # < if we are the highest -Womb:
+        0 && Rs&Top && me&boxcap,'modulat','1' (&m{
+            ms&fs = 6
+            ms&ws = 1
+            # < this seems to unsort the s**, is all iooia
+            me&cloneinto,m,s
+        })
+        # < measure modulat? chunks? showable?
+        
+        # the D** picture
         D.t = s.t
         Dy&cv = sy&cv
         ex(D.c,s.c)
         !Rs&top and ah(E,'D_hides','c','pi')
         ex(D.sc,s.sc)
-        # its many
+        
+        
+        # s**
+        # < format for this
         each iz ss&z {
             zc&not and continue
             me&Ei,{t:i,s:z}
         }
-        # < measure modulat? chunks? showable?
-        Rs&nofurtherDisplay = 1
     },'ift,D'],
     
     # fairly sprawly, for X**
