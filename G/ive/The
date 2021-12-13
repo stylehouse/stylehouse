@@ -1183,13 +1183,15 @@ me.Sch_The = &acgt{ return [
             $N = me&suss,'RunStep',susc
             # we R%Loc=C:R.t %RunStep=$mem = C**
             $mem = me&Locio,'RunStep'
-            
             if (!hak(N) && c.starting) {
                 # auto begin
                 # < map(_.sc,mem) # in both directions?
-                $suN = memy&oN() || {RunStep:time1,through:1}
-                # < aror
-                N = suN.map(c => me&sustain,{},c,'k' .n)
+                # < Fine must be able to jump Ness to Run%Step
+                #N = memy&oN()
+                #N and map(n => ns&remembered = 1)
+                N = [{RunStep:time1,through:1}]
+                N = N.map(c => me&sustain,{},c,'k' .n)
+                
             }
             
            // RunStep/$S+ todolist + attention
@@ -1270,17 +1272,22 @@ me.Sch_The = &acgt{ return [
                 #   getting e:r to @Gnome itself is reliable?
                 $eisa_R = me&eisa,'R'
                 $last_n = N.slice(-1)[0]
+                # what are we working on
+                # < &activate as an asky remote &sustain?
+                $active_n
             
             # &rowcap has its own basic a-per-row, this $o
             #  they kind join on &sustain a, this $a
             row('c',&Smola{
                 $n = a.n
+                
+                a.ov < 0.8 and active_n ||= n
                 if (eisa_R) {
                     # R runs latest, usu... next|last when OK|ov=8
                     # < is this one
                     last_n == n and a.ov = 0.5
                     else
-                    a.ov < 0.8 and a.ov = 0.5; eisa_R = 0
+                    active_n == n and a.ov = 0.5; eisa_R = 0
                 }
                 
                 if (!c.unsure && a.ov >= 0.5) {
@@ -1385,20 +1392,21 @@ me.Sch_The = &acgt{ return [
             })
            
            // => state
-            if (last_n) {
-                $n = last_n
+            # no step in an interesting state
+            !active_n and memy&iN([])
+            else {
+                $n = active_n
                 $a = ns&sustain
-                $dodge = a.ov >= 0.7 && a.ov <= 0.8
+                # < slicing c.* out of a %%sustain
                 $sc = sex({},n.sc,'RunStep')
-                # we make one sustain:
-                dodge and sc.wasdodge = 1
-                else sc = 0
+                me&fu,"glab",{a,sc,mem,C}
                 memy&iN([sc])
             }
         }
         # proto mem:, json (t,y,sc)** <-> brack-ish N[sc+]
+        # avoids work, you should checkout = Dy&oN()
         me.Locio = &acgtt{
-            $E = me&R
+            $R = me&R
             # to sample attention from
             $Loc = me&rollbsc,R,'Loc'
             # this is a global address, in remember/$W/$t
@@ -1412,8 +1420,9 @@ me.Sch_The = &acgt{ return [
             Dy&iN ||= &N{
                 # drain mem/*
                 $were = (Ds&z||[]) .map(n => n.sc)
-                #me&ioty,D .map(n => me&fiu,D,n,9 )
-                if (N[0] == 0 && !hak(N)) {
+                # N = [0] means []
+                N = grep(N)
+                if (!hak(N)) {
                     # add nothing
                     !hak(were) and return
                     Ds&z = []
