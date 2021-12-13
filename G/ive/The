@@ -1187,11 +1187,10 @@ me.Sch_The = &acgt{ return [
                 # auto begin
                 # < map(_.sc,mem) # in both directions?
                 # < Fine must be able to jump Ness to Run%Step
-                #N = memy&oN()
-                #N and map(n => ns&remembered = 1)
-                N = [{RunStep:time1,through:1}]
+                N = memy&oN()
+                N and map(n => ns&remembered = 1)
+                N ||= [{RunStep:time1,through:1}]
                 N = N.map(c => me&sustain,{},c,'k' .n)
-                
             }
             
            // RunStep/$S+ todolist + attention
@@ -1278,9 +1277,11 @@ me.Sch_The = &acgt{ return [
             
             # &rowcap has its own basic a-per-row, this $o
             #  they kind join on &sustain a, this $a
+            $tw = {}
             row('c',&Smola{
                 $n = a.n
                 
+                tw[S] = n
                 a.ov < 0.8 and active_n ||= n
                 if (eisa_R) {
                     # R runs latest, usu... next|last when OK|ov=8
@@ -1379,6 +1380,7 @@ me.Sch_The = &acgt{ return [
                 me&tc,dis(odd),'6G'
             })
             
+            
             row('keep',&Sma{
                 $n = a.n
                 # async once with visit
@@ -1392,6 +1394,9 @@ me.Sch_The = &acgt{ return [
             })
            
            // => state
+            # export Do clues to Fine
+            me&RunStep_tw_nine_igStep,tw,nine
+            # remember what we were doing
             # no step in an interesting state
             !active_n and memy&iN([])
             else {
@@ -1402,6 +1407,22 @@ me.Sch_The = &acgt{ return [
                 me&fu,"glab",{a,sc,mem,C}
                 memy&iN([sc])
             }
+        }
+        # < need a sequence generator, number ranges in [...new Array(i)]
+        me.RunStep_tw_nine_igStep = &acgt,tw,nine{
+            $i = 1
+            $ig = {}
+            haks(tw).sort().map(&ii,{
+                ii == i and i++
+                else {
+                    while (i < ii) {
+                        ig[i] = 1
+                        i++
+                    }
+                }
+            })
+            !hak(ig) and delete nines&igStep
+            else nines&igStep = ig
         }
         # proto mem:, json (t,y,sc)** <-> brack-ish N[sc+]
         # avoids work, you should checkout = Dy&oN()
