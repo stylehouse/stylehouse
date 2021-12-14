@@ -1400,7 +1400,7 @@ me.Sch_The = &acgt{ return [
                 $n = active_n
                 $a = ns&sustain
                 # < slicing freezable c.* out of a %%sustain
-                $sc = sex({},n.sc,'RunStep')
+                $sc = sex({},n.sc,'RunStep,thru')
                 #me&fu,"glab",{a,sc,mem,C}
                 memy&iN([sc])
             }
@@ -1420,66 +1420,6 @@ me.Sch_The = &acgt{ return [
             })
             !hak(ig) and delete nines&igStep
             else nines&igStep = ig
-        }
-        # proto mem:, json (t,y,sc)** <-> brack-ish N[sc+]
-        # avoids work, you should checkout = Dy&oN|init() perhaps once,
-        #  then iN() to 7 every time
-        me.Locio = &acgtt{
-            $R = me&R
-            # to sample attention from
-            $Loc = me&rollbsc,R,'Loc'
-            # this is a global address, in remember/$W/$t
-            Locc&W = R.t
-            $D = Loc.sc[t]
-            D ||= me&remember,Loc,t
-            # when we should save
-            #  eg Plot ticks
-            Dy&save ||= &{ me&remember,Loc,t }
-            # brack-ish N[sc+]
-            Dy&iN ||= &N{
-                # drain mem/*
-                $were = (Ds&z||[]) .map(n => n.sc)
-                # N = [0] means []
-                N = grep(N)
-                if (!hak(N)) {
-                    # add nothing
-                    !hak(were) and return
-                    Ds&z = []
-                    Dy&save()
-                }
-                else {
-                    $eq = hak(were) == hak(N)
-                    each ic N {
-                        !eq and break
-                        !heq(c,were[i]) and eq = 0
-                    }
-                    eq and return
-                    Ds&z = N.map(c => Cye(['stuss',1,{},c]))
-                    Ds&z.map(n => !hak(ns&z) && delete ns&z );
-                    Dy&save()
-                }
-            }
-            Dy&oN = &{
-                $N = me&ioty,D .map(n => n.sc)
-                # < wherefrom is this? Cye()?
-                N.map(c => c.z && delete c.z)
-                return N
-            }
-            
-            # auto begin from memory, or your cdefault
-            Dy&init = &cdefault,{
-                $N = Dy&oN()
-                if (hak(N)) {
-                    N.map(c => c.remembered = 1)
-                    return N
-                }
-                
-                $N = fuN(cdefault) .map(c => pex(c))
-                # may be [] if !cdefault
-                return N
-            }
-            
-            return D
         }
         # prefer more recent
         me.RunStep_dedup = &acgtN{
@@ -1557,6 +1497,68 @@ me.Sch_The = &acgt{ return [
             
             # < drop also Effects, &nodei to it, &nodeo from it?
             #   or do they sometimes fall back into place?
+        }
+      
+      // &Locio proto mem:
+        # proto mem:, json (t,y,sc)** <-> brack-ish N[sc+]
+        # avoids work, you should checkout = Dy&oN|init() perhaps once,
+        #  then iN() to 7 every time
+        me.Locio = &acgtt{
+            $R = me&R
+            # to sample attention from
+            $Loc = me&rollbsc,R,'Loc'
+            # this is a global address, in remember/$W/$t
+            Locc&W = R.t
+            $D = Loc.sc[t]
+            D ||= me&remember,Loc,t
+            # when we should save
+            #  eg Plot ticks
+            Dy&save ||= &{ me&remember,Loc,t }
+            # brack-ish N[sc+]
+            Dy&iN ||= &N{
+                # drain mem/*
+                $were = (Ds&z||[]) .map(n => n.sc)
+                # N = [0] means []
+                N = grep(N)
+                if (!hak(N)) {
+                    # add nothing
+                    !hak(were) and return
+                    Ds&z = []
+                    Dy&save()
+                }
+                else {
+                    $eq = hak(were) == hak(N)
+                    each ic N {
+                        !eq and break
+                        !heq(c,were[i]) and eq = 0
+                    }
+                    eq and return
+                    Ds&z = N.map(c => Cye(['stuss',1,{},c]))
+                    Ds&z.map(n => !hak(ns&z) && delete ns&z );
+                    Dy&save()
+                }
+            }
+            Dy&oN = &{
+                $N = me&ioty,D .map(n => n.sc)
+                # < wherefrom is this? Cye()?
+                N.map(c => c.z && delete c.z)
+                return N
+            }
+            
+            # auto begin from memory, or your cdefault
+            Dy&init = &cdefault,{
+                $N = Dy&oN()
+                if (hak(N)) {
+                    N.map(c => c.remembered = 1)
+                    return N
+                }
+                
+                $N = fuN(cdefault) .map(c => pex(c))
+                # may be [] if !cdefault
+                return N
+            }
+            
+            return D
         }
       
       // misc %%quiet_visitable
