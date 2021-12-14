@@ -1471,6 +1471,13 @@ me.settleblab = 1
             would be illegal to alter n%* without reindex
           supposing they could init with eg no Glance_i,
            but still function as the Glance they remember
+          < digital readout of all %%sustains over time
+            lots of coming|going findable from a.c|sc <-> s|c
+            # more+more further
+            < try top make the first ER.sc the Ec&pi it starts from
+              (there is also Dc&pi it finishes with)
+            < -Effect could &yio resurrect to new nodes
+               each format would have c.* pick for whence
      
          # exploration
          < params could imply the format and more:
@@ -2065,6 +2072,12 @@ me.settleblab = 1
       watch things go
        < capture the many to|froms per row
        < know when to stop along tos[]
+      
+      &sustrain ($train={ (i:N,)? ($t:$recv)+ })
+       recv identifies a $car
+        with hash about format etc
+        and|or a callback that will send() us self for $t
+      
       eg see elIntro
         &sustrain ({
             i: me&eis,'elIntro' ,
@@ -2083,16 +2096,46 @@ me.settleblab = 1
             .elIntro finishes by defining itself, but could go on...
         then later, more
       lots
-      of undecideds
+      of undecideds|refactoring
         the many
+         A train
+          ie many
+         /car
+          ie act|limb|time
+         individually reachable
+        
+        the send() interface, $car/[io]
+         send (gs) complete that self
+          -> Thisact
+         then just before feeding it to the Nextact:
+          -> Nextact_i
+         <<<
+         each $car could sus itself and more
+          all sorts of computer time could be divided from about here
+           eg stitching up the rowing to group common sproutlings
+           having output channels that know where theyre going
+         so we have:
+          ~:ii: two times of input
+          ~:io: flow through the car
+          ~:oi: flow between the many
+            while they are paused or so
+          ~:oo: flow from car-car
+            in osc lang, between C** inside different J
+             not the D|K** representations leaving it
+             see each $car could sus itself and more 
+        
+        so we get 
+         
+        the many c&el
          el9|10 when done|off
           homology between: done is the end, off is the start
          el1|2 when on|changey
           el2 should push downstream
+         <<<
          el3 when really changey
           should def push downstream
-         el4 while waiting on sub-process (not the many)
-         el5 while pushing to others
+         el4 while waiting on sub-process (not this train)
+         el5 while pushing to others (this train)
           they (others):
            receive susmail about el5 to them
            can tell el5 on anything they might 
@@ -2101,8 +2144,7 @@ me.settleblab = 1
          el7 when we are done getting answers
           scrolling the results should push el6 at the others,
            which means get more answers
-         
-          
+        
          
          
         < model the whole elIntro process as one &sustrain
@@ -2125,43 +2167,79 @@ me.settleblab = 1
                may have more versions of r (if sleeping)
                may have more versions of wou (if othering)
     =cut
-    # twostep &sustain
+    # twostep &sustain!
     # < which came from where, timing for everything
     #    splosive X timescape
     me.sustrain = &acgt{
-       // i origin
+       // ta/$car/[io]/$a
         $h = me&hajasute
+        $intime = 1
 
-        return &y{
-            $tos = haks(y)
+        return &train,{
+            # many cars + an i
+            $tos = haks(train)
+            # < no i, substract first $car from other 
             tos.shift() != 'i' and throw "give input i=N|&{N}"
-
-            # ta/$t/i/$a=&sustain
-            $ta = {}
-            # origin
-            fuN(y.i).map(&s{
-                # per to-sustain (usu one)
-                each it tos {
-                    $a = ish(s) && s
-                    ahk(ta,[t],'i',
-                        # if not from another &sustain, keep it here
-                        #  faster grasp (presum) as no rec+=id
-                        a || me&sustain,{},hashkv(t+'_i',s)
-                    )
+            # < cm hilight bug: {tr...} not green
+            $ta = {train}
+            each it tos {
+                $car = ta[t] ||= {t}
+                $recv = train[t]
+                isfu(recv) and car.middle = recv
+                else {
+                    debugger
+                    car.recv = recv
                 }
-            })
+            }
+            # ta/$t/i/$a=&sustain Glace_i
+            # ie $car <- $s car:$ear?
+            # < per to-sustain (usu one), depending on indent of $train?
+            $tai = &car,s,ear{
+                # < should we re-&sustain $a from another &sustain?
+                #   we want another $a to spread the change
+                $a = 0 && ish(s) && s
+                # < might want more idc
+                #   eg paginating through the act, or permasay
+                a = a || me&sustain,{},hashkv(car.t+'_i',s)
+                # dupey accumulator
+                me&X_z,car,'i',a
+            }
+            # ta/$t/o/$a=&sustain Glace
+            $tao = &car,a{
+                me&X_z,car,'o',a
+                return a
+            }
+            
+            
        // i *
             # ta/$t/o/$a=&sustain
+            $la
+            #ta.Glance and debugger
             each it tos {
-                $input = ahsk(ta,t,'i')
-                # stops coming in
-                input ||= me&sustaining,t+'_i'
-                input.map(&a{
+                $car = ta[t]
+                # < many time++ around? recv.i?
+                car.i and debugger
+                if (0 == i) {
+                    # i origin, may be empty
+                    fuN(train.i).map(s => tai(car,s))
+                }
+                elsif (la) {
+                    # ~:oi: clones sus:Laststep -> sus:Nextstep_i
+                    $osus = me&osus,la.t
+                    osus.map(a => tai(car,a,la))
+                    # < osus <=> la.o might be empty, wind down from?
+                }
+                # can happen if train.i = []
+                car.i ||= []
+                # and when done drains the pipes
+                !hak(car.i) and 'reap?'
+                car.i.map(&a{
                     $v = a.v
-                    # no sure what this interface should be
-                    #  it has already defined $t, the key to put $v at
+                    # < what this interface should be
+                    #   it has already defined $t, the key to put $v at
                     # &sustain args with c.$t=$v and c separated
-                    $i = &svcq{
+                    $send = &svcq{
+                        !intime and throw "oot"
                         # s:idc, can be $gs, becomes v if alone
                         hak(arguments) == 1 and v = s
                         # %%sustain:a + non-idc
@@ -2170,17 +2248,21 @@ me.settleblab = 1
                         q ||= {}
                         q.origin = a
                         q.num ||= 3
-
-                        ahk(ta,[t],'o',
-                            me&sustain,s,c,q
-                        )
+                        
+                        $a = me&sustain,s,c,q
+                        tao(car,a)
                     }
-                    !v and debugger
+                    #!v and debugger
                     v ||= a
-                    # they i(gs)
-                    y [t] (i,v,a)
+                    # they send(gs)
+                    car.middle (send,v,a)
                 })
+                # car.o traction? may be empty
+                car.o ||= []
+                la = car
             }
+            # dome over - no async &sustain
+            intime = 0
         }
     }
 
