@@ -1185,7 +1185,6 @@ me.Sch_The = &acgt{ return [
             $mem = me&Locio,'RunStep'
             # auto resume or start over
             if (!hak(N) && c.starting) {
-                
                 N = memy&init('RunStep:1,thru')
                     .map(c => me&sustain,{},c,'k' .n)
             }
@@ -1395,7 +1394,7 @@ me.Sch_The = &acgt{ return [
             me&RunStep_tw_nine_igStep,tw,nine
             # remember what we were doing
             # no step in an interesting state
-            !active_n and memy&iN([])
+            !active_n || me&tt,'--mem' () and memy&iN([])
             else {
                 $n = active_n
                 $a = ns&sustain
