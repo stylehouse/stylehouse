@@ -1183,14 +1183,11 @@ me.Sch_The = &acgt{ return [
             $N = me&suss,'RunStep',susc
             # we R%Loc=C:R.t %RunStep=$mem = C**
             $mem = me&Locio,'RunStep'
+            # auto resume or start over
             if (!hak(N) && c.starting) {
-                # auto begin
-                # < map(_.sc,mem) # in both directions?
-                # < Fine must be able to jump Ness to Run%Step
-                N = memy&oN()
-                N and map(n => ns&remembered = 1)
-                N ||= [{RunStep:time1,through:1}]
-                N = N.map(c => me&sustain,{},c,'k' .n)
+                
+                N = memy&init('RunStep:1,thru')
+                    .map(c => me&sustain,{},c,'k' .n)
             }
             
            // RunStep/$S+ todolist + attention
@@ -1348,15 +1345,15 @@ me.Sch_The = &acgt{ return [
                             }
                         }
                         if (a.ov == 0.8) {
-                            if (ns&through) {
+                            if (ns&thru) {
                                 c.tude = 'through'
                                 $next = me&SG_throughNess,Fine,a.Fe
                                 if (next) {
                                     $S1 = me&SG_NesstoStep,Fine,next
                                     S1 != time1 and debugger
                                     a.ov = 0.9
-                                    $through = ns&through + 1
-                                    me&sustain,{},{RunStep:S1,through},'k'
+                                    $thru = ns&thru + 1
+                                    me&sustain,{},{RunStep:S1,thru},'k'
                                     # < having that row ^ join this iteration
                                     #    is the dome stream
                                     # these are enduring this event
@@ -1402,9 +1399,9 @@ me.Sch_The = &acgt{ return [
             else {
                 $n = active_n
                 $a = ns&sustain
-                # < slicing c.* out of a %%sustain
+                # < slicing freezable c.* out of a %%sustain
                 $sc = sex({},n.sc,'RunStep')
-                me&fu,"glab",{a,sc,mem,C}
+                #me&fu,"glab",{a,sc,mem,C}
                 memy&iN([sc])
             }
         }
@@ -1425,7 +1422,8 @@ me.Sch_The = &acgt{ return [
             else nines&igStep = ig
         }
         # proto mem:, json (t,y,sc)** <-> brack-ish N[sc+]
-        # avoids work, you should checkout = Dy&oN()
+        # avoids work, you should checkout = Dy&oN|init() perhaps once,
+        #  then iN() to 7 every time
         me.Locio = &acgtt{
             $R = me&R
             # to sample attention from
@@ -1457,13 +1455,30 @@ me.Sch_The = &acgt{ return [
                     }
                     eq and return
                     Ds&z = N.map(c => Cye(['stuss',1,{},c]))
+                    Ds&z.map(n => !hak(ns&z) && delete ns&z );
                     Dy&save()
                 }
             }
             Dy&oN = &{
                 $N = me&ioty,D .map(n => n.sc)
-                return hak(N) && N
+                # < wherefrom is this? Cye()?
+                N.map(c => c.z && delete c.z)
+                return N
             }
+            
+            # auto begin from memory, or your cdefault
+            Dy&init = &cdefault,{
+                $N = Dy&oN()
+                if (hak(N)) {
+                    N.map(c => c.remembered = 1)
+                    return N
+                }
+                
+                $N = fuN(cdefault) .map(c => pex(c))
+                # may be [] if !cdefault
+                return N
+            }
+            
             return D
         }
         # prefer more recent
@@ -1473,7 +1488,7 @@ me.Sch_The = &acgt{ return [
                 $N = SK.vs[i]
                 # %%further adopted by more recent
                 # < io expr for:
-                $going = grepout(N,n=>ns&through)
+                $going = grepout(N,n=>ns&thru)
                 if (hak(going) == 1 && hak(N) == 1) {
                     going = going[0]
                     $quest = N[0]
@@ -1481,7 +1496,7 @@ me.Sch_The = &acgt{ return [
                     goings&looks < quests&looks and debugger
                     goingc&drop = 'out-quested'
                     # < does it last?
-                    quests&through = 1
+                    quests&thru = 1
                 }
             }
         }
