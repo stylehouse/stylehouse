@@ -4960,7 +4960,9 @@ me.Sch_The = &acgt{ return [
         #    when the .t is affected for layout...
         
         $c = {}
-        Es&z.map(e => ac(c,(ey&R == null ? 'would' : 'have'),e))
+        each ie Es&z {
+            ac(c,(ey&R == null ? 'would' : 'have'),e)
+        }
         # < sync to a E&X.Eing sub-brack?
         #   so we can share %limit:dim to e&X.Eing
         #   and make all this &sortial for keenness
@@ -6769,18 +6771,15 @@ me.Sch_The = &acgt{ return [
             #i == 0 and eBs&ope = 2
         }
         me&Eing,6
-        # < select one as above.
-        if (0 && top2) {
-            me&Ei,{t:'sel',pi:'Spheres',s:latest}
-            me&Eing,6
-        }
 
         $N = me&ioR,'Bet'
         $n = me&Ei,{t:'Eel',pi:'Eel',s:N,dl:19}
         me&Eing,6
+        
         # emits what-for
         !ns&aq and me&strange,"E!%aq"
         Vy&TXing = ns&aq
+        
         # what now
         if (Rs&letswake) {
             # < -Ness defference
@@ -6991,13 +6990,19 @@ me.Sch_The = &acgt{ return [
         !isR(r) || !rs&Bet and debugger
         s != rs&E and debugger
 
-        # look at the e
+        # look at tow-Belt for .../$r/...$n
+        $Belt = me&ioty,r,'Belt','tow' [0]
+        $Bits = me&ioty,Belt,'Bit'
+        
+        # < grouping these first 3 things
+        #    E:R spilling its relations
+        
+        # the e itself
         if (isC(sc&s)) {
             me&Ei,{t:'e',pi:'hat',s:sc&s,dl:1,rsc_mix:'maybrack'}
         }
-        # look at tow-Belt
-        $Belt = me&ioty,r,'Belt','tow' [0]
-        $Bits = me&ioty,Belt,'Bit'
+        
+        # its last R
         $Bit = Bits.filter(r => rs&isR).slice(-1)[0]
         $r = Bitc&s
         $fut = me&yfuture,r
@@ -7005,17 +7010,46 @@ me.Sch_The = &acgt{ return [
         # < need more than yfuture to resolve new -seven
         #    see &forgetRunStep
         fut != r and me&protott,'future' and r = fut
+        me&Ei,{t:'R',pi:'Bow',s:r,dl:1}
         
-        $n = me&Ei,{t:'R',pi:'Bow',s:r,dl:1}
+        # its last anything pointed - modulat clickable
+        $Any = Bits.slice(-1)[0]
+        if (Any != Bit) {
+            $n = Anyc&s
+            me&Ei,{t:'last-Bit',pi:'Bow',s:n,dl:1}
+            if (n.t == 'ref-sym') {
+                # expect interest in that
+                me&protott,"other-Spheres?" and 'go on to do them'
+                else {
+                    # < brackology we can click in here
+                    # < any n^^%thingo should finds its rows
+                    # < &TXin (from here) to open %%Erefc
+                    me&jaa,r,'limit:ref' .map(&ni{
+                        me&Ei,{t:'limit:ref:'+i,pi:'brack',s:n,dl:2}
+                    })
+                    return
+                }
+            }
+        }
+        
         each kv r.sc {
             !isC(v) and continue
-            $n = me&Ei,{t:k,pi:'Bow',s:v,dl:1,rsc_mix:'maybrack'}
+            me&Ei,{t:k,pi:'Bow',s:v,dl:1,rsc_mix:'maybrack'}
         }
         
         # default D open!
         fi&TXi,E,"Dope",{t:'D'},1
     },'ift,D'],
-   // prototype -Bat &tt
+    ['Spheres',0.72,&acgtRs{
+        $E = Rs&E
+        me&pity,E .map(&e{
+            $eC = ey&R && Aof(e,'C')
+            !eC and return
+            $la = eCy&label
+            las&fs = 15
+        })
+    },'ift,D'],
+   // &protott prototype -Bat &tt
     &{
         # i E/e @4
         me.Eiing = &acgtcv{
@@ -7037,9 +7071,13 @@ me.Sch_The = &acgt{ return [
     },
     ['protott',0.27,&acgtRs{
         $E = Rs&E
-        s&hs = '341'
+        s&hs = '344'
         s&fs = 14
+        me&walls,C,'b:2.2h866'
+        s&bgh = '831'
+        # the value
         tax(E.sc,R.sc,'ope')
+        me&modselect,E,{el:9,n:Cy&transpi}
     },'ift,D'],
 
   //   -Eel
@@ -7311,7 +7349,9 @@ me.Sch_The = &acgt{ return [
             if (e.t == 'sc') {
                 sc&drop and eCs&opa = 0.6
                 me&modselect,e,{el:9,n:eCy&label}
+                # < &Eiot - selecting awake E**
                 me&pity,e,'-Bow' .map(&e{
+                    ey&R == 0 and return
                     $eeC = Aof(e,'C')
                     $la = eeCy&label
                     las&fs = 12
