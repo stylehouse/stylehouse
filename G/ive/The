@@ -4563,6 +4563,8 @@ me.Sch_The = &acgt{ return [
     # search for other R with ref, E^^
     #  X.ref only exist on the Ec&top %X
     me.Ereflookup = &acgtc{
+        # E are here^^^, e is here-only
+        #  NOT the finder|found, see Efound
         $E = c.E
         $e = c.e ||= E
         $s = c.s
@@ -4579,7 +4581,13 @@ me.Sch_The = &acgt{ return [
             # skip same node copied upwards
             c.got.some(g => g.n == n) and continue
             $tp = me&Rnodepath,n
-            c.got.push({E,n,tp})
+            # you are Efinder sharing a ref with Efound
+            #  (via g|c.E, where /$ref was found (via c.e)?)
+            $Efinder = F
+            $Efound = ns&E
+            !Efound and debugger
+            $g = {E,n,tp,Efinder,Efound}
+            c.got.push(g)
         }
         if (!c.nowander) {
             # further up
@@ -6311,17 +6319,16 @@ me.Sch_The = &acgt{ return [
         $x = fi&EXsim,tE,{ref:s},{n:R}
     }
     # given two E, decide if same|compat c&pi
-    me.Eref_samepishow = &acgtEe{
+    # < complicated expr: brack/**Bow
+    me.Eref_samepishow = &acgtEeg{
         ec&pi == Ec&pi and return 1
         $mutual = &s{
             $s = split(s)
-            joint([Ec&pi,ec&pi]) == 'brackios-brack' and ~>3 hi: joint([Ec&pi,ec&pi])
-            joint([ec&pi,Ec&pi]) == 'brackios-brack' and ~>3 ih: joint([Ec&pi,ec&pi])
             # absorb
             return uniq([Ec&pi,ec&pi,...s])
                 .length == s.length
         }
-        return mutual('brackios brackio brack')
+        return mutual('brackios brackio brack Bow')
     }
     me.Rlimiti_ref_lookfor = &acgtRc{
         # find:
@@ -6344,8 +6351,7 @@ me.Sch_The = &acgt{ return [
         $E = Rs&E
         each ig c.got {
             $r = g.n
-            $e = g.e = rs&E
-            if ( !me&Eref_samepishow,E,e ) {
+            if ( !me&Eref_samepishow,g.Efinder,g.Efound,g ) {
                 c.other ||= g
             }
             # note we only r%$magicword the first
