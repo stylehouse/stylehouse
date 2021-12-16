@@ -4183,7 +4183,12 @@ me.Sch_The = &acgt{ return [
                 me&Effect,s,E,'RX-ope',{RXope:1,ope:1,dom:1}
             }
             
-            
+            if (Ec&pi == 'Bat') {
+                # always open
+                me&Effect,s,E,'Batope',{ope:1}
+                !V and debugger
+                me&tt,'--mem' (1) and Vy&Todo = []
+            }
             
             # the buttons (this &tt) override the jets (other Effect:ope)
             # < first async Effect (if possible - wasnt always hidden)
@@ -6756,20 +6761,9 @@ me.Sch_The = &acgt{ return [
         s&ml = -5
         s&bgh = '010'
         me&Battarget,R
-        # < always open
-        #me&Effect,E,Ey&up,'Bat',{ope:1,dom:1}
 
-        # enables popping events in, waking R%TheTt
+        # A:ev in:
         $N = Vy&Todo ||= []
-        
-        # < -Bat &tt. it must set up a oncer or so
-        #    C%tt=1 or so tells -Bat** to qua a oncer etc
-        #    < this must be received by an Aip you believe in
-        #       to happen once
-        #      which is how they usu would expect to work
-        0 && me&boxcap,'je' (&m{
-            me&tt,'--mem' (1) and N.splice(0,N.length)
-        })
         
         # < hold any with Ting
         $c = me&Nserial,N,{gk:'Bati',ll:25}
@@ -7062,6 +7056,11 @@ me.Sch_The = &acgt{ return [
         })
     },'ift,D'],
    // &protott prototype -Bat &tt
+    # < -Bat &tt. it must set up a oncer or so
+    #    C%tt=1 or so tells -Bat** to qua a oncer etc
+    #    < this must be received by an Aip you believe in
+    #       to happen once
+    #      which is how they usu would expect to work
     &{
         # i E/e @4
         me.Eiing = &acgtcv{
