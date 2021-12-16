@@ -1697,13 +1697,6 @@ S 6 &sustrain
     $be = me&mockbrackR,'RiceJigger'
     # RiceDay with better limbing
     #  allow using day-1 rice in crackers, cook hard
-    # contains sidetracks about Eref visibility
-        #  also seen in RiceArrive 2:
-        #   where 0 rec-> 3
-        #    0/sc/n doesnt know 3
-        #     because of seek>0?
-        #     < except where within E)%Top, to less depth
-        #    and 3 doesnt know 0/sc/n either...
    // basica
     $day = 1
     $N = []
@@ -1728,23 +1721,20 @@ S 6 &sustrain
     # now N
     N[0] = Cye(["lat",2])
     # dodgy sidetrack:
-        # < 0/sc/sustain/v not Display'ing the first time...
+        # < GONE - since fixing Eref ea629d21ba3755c0c9af7f
+        #    Display must have bugs but they're quite rare...
+        #   0/sc/sustain/v not Display'ing the first time...
         #   shows up in E** via -Bat / -Spheres
         #    < further in there by yfuture of %target=R
         #   avoidable? pretty major.
         #    easier -Spheres** diving needed to investigate?
         #     or how do we add a mindthing via %TX?
         #   redo Display soon
-        # on timing of &Ring, width-firstiness
-        # < Eref for sc/Glance_i
-        #    doesnt know that sc/sustain/v is it
-        #     bc sustain <@36 to ** (yet to go deep)
-        #    yet sc/Glance_i/* know sc/sustain/v/*
-        #   Eref for sc/sustain/n
-        #    knows that sc is the show
-        # < point to these things ^
-        #   ghost-embed points to give to -Eight
-        #    mergible to|from -The
+    # note that 1/%sustain/a == 1/%Glance
+    #  that is a.a=ish(v), which is like A.up
+    # < point to these things ^
+    #   ghost-embed points to give to -Eight
+    #    mergible to|from -The
     be.do("something", be.main, &Chir{
         $Gli = theone( me&osus,'Glance_i' )
         $n = Gli.n
@@ -1780,14 +1770,12 @@ S 6 &sustrain
         # < this patch ^ is annoying:
         #   the 5\t-brack is spread too thinly over a bunch of --
         #   same problem as 'resolve $n'
+        # < the 0%sustain.v space might be used for historic comparison
+        #    though it would be something else in %sustain.c... that wases
+        # < Eref 0/%sustain say '@six<<1'
+        #    implying the rest of the path is the same (ups ~~ downs)
     
-        # < Eref ideally would say better:
-        #  < sc/sustain: @six<<1
-        #  < sc/sustain/v: could continue onward from there
-        #     but instead is for ...sc/Glance_i
-        #      is this the correct ref to pick?
-        #  < sc/Glance_i: is the canonical one (less depth)
-        #    yet the a.v space might have sustained knowledge
+    # 0/%Glance_i: is the canonical one (less depth)
     be.do("still sustained something")
     be.diff('   diff: Glance_i still zombie')
     
