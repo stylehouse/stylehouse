@@ -4187,6 +4187,7 @@ me.Sch_The = &acgt{ return [
             
             # the buttons (this &tt) override the jets (other Effect:ope)
             # < first async Effect (if possible - wasnt always hidden)
+            # < also, could become -Bat tt, so it also ope=-1 etc
             me&tt,'D' () and me&Effect,s,E,'togope',{togope:1,ope:1,dom:1}
             
             # no -Effect layer
@@ -6309,21 +6310,42 @@ me.Sch_The = &acgt{ return [
         #  effectively a &pio to many places
         $x = fi&EXsim,tE,{ref:s},{n:R}
     }
+    # given two E, decide if same|compat c&pi
+    me.Eref_samepishow = &acgtEe{
+        ec&pi == Ec&pi and return 1
+        $mutual = &s{
+            $s = split(s)
+            joint([Ec&pi,ec&pi]) == 'brackios-brack' and ~>3 hi: joint([Ec&pi,ec&pi])
+            joint([ec&pi,Ec&pi]) == 'brackios-brack' and ~>3 ih: joint([Ec&pi,ec&pi])
+            # absorb
+            return uniq([Ec&pi,ec&pi,...s])
+                .length == s.length
+        }
+        return mutual('brackios brackio brack')
+    }
     me.Rlimiti_ref_lookfor = &acgtRc{
         # find:
         #  other with any expression, even tiny|limited|other-$pi
         #  self with full writeup, same $pi
-        #   which we can use to diff against
+        # < which we can use to diff against, slep D** @4
         #    using leftover slepparatus from its typing up
-        #   or %limit.same as it
+        
+        # find the show equivalent!
+        #  ie same|compat c&pi + same c&s
+        #   usu compress at such realities
+        #   < the best suited to show it
+        #     miragey strategies
+        #      once gone deep but still early (@37?)
+        #      for continuous constellation of things over there
+        #     eg see # < Eref for sc/Glance_i
+        # < many %%limit,Erefg,qua until satisfied
+        #   iterating Ereflookup
+        
         $E = Rs&E
         each ig c.got {
             $r = g.n
-            $e = rs&E
-            # find the last
-            # < many %%limit,Erefg,qua until satisfied
-            #   iterating Ereflookup
-            if (ec&pi != Ec&pi) {
+            $e = g.e = rs&E
+            if ( !me&Eref_samepishow,E,e ) {
                 c.other ||= g
             }
             # note we only r%$magicword the first
@@ -6364,6 +6386,7 @@ me.Sch_The = &acgt{ return [
             }
         }
         # < getting here early via %TX
+        # < GONER?
         ispi(E,'brack') || ispi(Ey&up,'brack') and c.redraw = 1
         c.any = c.self || c.other
     }
@@ -6709,12 +6732,17 @@ me.Sch_The = &acgt{ return [
         $pathwithstep = me&climbaboveTheing,R
         $There = pathwithstep[1]
         $top2 = There.t.match(/^The( 2)?$/)
-        !top2 and Rc&nl = 3000
+        top2 and Rc&nl = 3000
+        s&ml = -5
+        s&bgh = '010'
         me&Battarget,R
+        # < always open
+        #me&Effect,E,Ey&up,'Bat',{ope:1,dom:1}
 
         # enables popping events in, waking R%TheTt
         $N = Vy&Todo ||= []
-        # < &tt in here. it must set up a oncer or so
+        
+        # < -Bat &tt. it must set up a oncer or so
         #    C%tt=1 or so tells -Bat** to qua a oncer etc
         #    < this must be received by an Aip you believe in
         #       to happen once
@@ -6965,22 +6993,47 @@ me.Sch_The = &acgt{ return [
         $Belt = me&ioty,r,'Belt','tow' [0]
         $Bits = me&ioty,Belt,'Bit'
         $Bit = Bits.filter(r => rs&isR).slice(-1)[0]
-        $Y = Bitc&s
-        $n = me&Ei,{t:'R',pi:'Bow',s:Y,dl:1}
-        each kv Y.sc {
+        $r = Bitc&s
+        $fut = me&yfuture,r
+        # < see -Bat &tt
+        # < need more than yfuture to resolve new -seven
+        #    see &forgetRunStep
+        fut != r and me&protott,'future' and r = fut
+        
+        $n = me&Ei,{t:'R',pi:'Bow',s:r,dl:1}
+        each kv r.sc {
             !isC(v) and continue
             $n = me&Ei,{t:k,pi:'Bow',s:v,dl:1,rsc_mix:'maybrack'}
         }
-
-
-
-
-
-
-
-
-        # default D open
+        
+        # default D open!
         fi&TXi,E,"Dope",{t:'D'},1
+    },'ift,D'],
+   // prototype -Bat &tt
+    &{
+        # i E/e @4
+        me.Eiing = &acgtcv{
+            $n = me&Ei,c
+            v ||= 4
+            me&Eing,v
+            return n
+        }
+        # a dial
+        me.protott = &acgtcv{
+            v ||= 2
+            v != 2 and debugger
+            # < argulate c $t-otherpi%etc (usu c=$t)
+            #   bringing other meanings to it too
+            #    to preserve v=$num expr for longer (til v={...})
+            $e = me&Eiing,{t:c,pi:'protott'}
+            return defor(es&ope,0)
+        }
+    },
+    ['protott',0.27,&acgtRs{
+        $E = Rs&E
+        s&hs = '341'
+        s&fs = 14
+        tax(E.sc,R.sc,'ope')
     },'ift,D'],
 
   //   -Eel
