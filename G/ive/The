@@ -4605,16 +4605,24 @@ me.Sch_The = &acgt{ return [
         # sort by R tree
         c.got.map(g => ex(g, me&Rcrux,R,g.n,c ))
         grop(g => g.not, c.got)
+        $got = c.got.slice()
+        
         # < -seven having a time sense greater than -eight
         #   -seven on a different -Nine are too far
         #   see otherable &EsyncThis as -log
-        # ignore those after this R^^^
-        $poss = c.got.filter(g => g.seek < 0)
+        # ignore (grep out) those after this R^^^
+        $poss = grop(g => g.seek <= 0,got)
+        
+        # the near later siblings of ancestors being linkable
+        c.got_latersnear = grep(g => g.near && hak(g.downs) <= 2,got)
+        hak(c.got_latersnear) and poss.push(...c.got_latersnear)
+        
+        
         # group by distance up from here
         #  then start climbing down again, sorting...
         $neu = []
-        $h = vpartN(poss,g => g.ups.length)
-        each iN h.vs {
+        $NN = vpartN(poss,g => g.ups.length).vs
+        each iN NN {
             neu.unshift( ... me&Erefclimb,N )
         }
         c.got = reverse(neu)
@@ -4727,7 +4735,7 @@ me.Sch_The = &acgt{ return [
         # c.near - linking within E%Top
         #  leads to %%limit:ref,,,toomuch?, see &Rlimiti_ref
         $Topof = N => grep(r => rs&Top, N)[0]
-        $sameTop = uniq(map(Topof,[c.ups,c.downs])).length == 1
+        $sameTop = uniq(map(Topof,[c.ups,c.downs])).length <= 1
         sameTop and c.near = 1
         
         return c
