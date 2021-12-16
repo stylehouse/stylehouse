@@ -4723,6 +4723,13 @@ me.Sch_The = &acgt{ return [
         c.not and return c
         # on the join, is r before R (c.seek<0) or not (>0)
         c.seek = me&Rcrux_seek,0,c.ups,c.downs,c
+        
+        # c.near - linking within E%Top
+        #  leads to %%limit:ref,,,toomuch?, see &Rlimiti_ref
+        $Topof = N => grep(r => rs&Top, N)[0]
+        $sameTop = uniq(map(Topof,[c.ups,c.downs])).length == 1
+        sameTop and c.near = 1
+        
         return c
     }
     # get order of two [R**] that already join at $offset
@@ -6322,6 +6329,9 @@ me.Sch_The = &acgt{ return [
     }
     # given two E, decide if same|compat c&pi
     # < complicated expr: brack/**Bow
+    #    these could be low-import %TX
+    #    imparting eg qua%Bowinbrack or so, that we now look for
+    #    this is one of the distant optimisables ACGT is going for
     me.Eref_samepishow = &acgtEeg{
         ec&pi == Ec&pi and return 1
         $mutual = &s{
@@ -6332,6 +6342,7 @@ me.Sch_The = &acgt{ return [
         }
         return mutual('brackios brackio brack Bow')
     }
+    # which Eref is best, classified to a suitability
     me.Rlimiti_ref_lookfor = &acgtRc{
         # find:
         #  other with any expression, even tiny|limited|other-$pi
@@ -6381,11 +6392,8 @@ me.Sch_The = &acgt{ return [
         # care
         if (c.self) {
             $g = c.self
-            # can only gain c.near
-            # assume $s** still per eg -log, %Top
-            $sameTop = me&ifsuchsame,'Top',g.ups,g.downs
-            sameTop and c.near = 1
-            else {
+            tax(c,g,'near')
+            if (!c.near) {
                 # out of time from here, climb data again
                 # < know light cones provided by &Rsci
                 # < slep or c.redraw
@@ -6397,10 +6405,6 @@ me.Sch_The = &acgt{ return [
         # < GONER?
         ispi(E,'brack') || ispi(Ey&up,'brack') and c.redraw = 1
         c.any = c.self || c.other
-    }
-    me.ifsuchsame = &acgtkNM{
-        $first = N.filter(r => r.sc[k])[0]
-        return !first || M.includes(first)
     }
     
    // outsummation
