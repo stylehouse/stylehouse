@@ -1782,15 +1782,18 @@ S 6 &sustrain
     $be = me&mockbrackR,'RiceTrain'
     # RiceDay with better limbing
     #  allow using day-1 rice in crackers, cook hard
+    # < sync more E/e** after an inital -six
+    #    so they can show a part progressing over time
+    #    they should have more -seven in them about time?
     $day = 1
     
     $supply = ['ri']
     be.main = &Chir{
         me&sustrain ({
             i: supply,
+            # make pots of each
+            # < accumulate in a Pot
             Pot: &yea{
-                # makes pots of anything
-                ahk(a,['ebtw'],e)
                 y ({of:e})
             },
             Cooked: &yea{
@@ -1812,9 +1815,12 @@ S 6 &sustrain
    // 6
     be.do("start cooking ri")
     be.do("keep cooking ri")
-    supply = ['ce']
+    supply.push('ce')
+    # < Cooked_i:of:ri should el1
+    # < this:
+    T.sustabug = 'Cooked'
     be.do("start cooking ce too")
-    
+    delete T.sustabug
     
     
   // generals
