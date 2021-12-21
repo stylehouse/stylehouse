@@ -1719,6 +1719,7 @@ me.settleblab = 1
     #  eg a = &sustain {} {latest_elQuip:e}
     #   remembers the latest a.v=e that was true, or est this one
     #  you may nc&drop them via a.done() or doming
+    self.issus = a => ish(a) && a.done && a.pur
     me.sustain = &acgtscq{
        // remembering
         $h = me&hajasute
@@ -1749,6 +1750,8 @@ me.settleblab = 1
         me&sustain_remember,g,h
         
        // interpretation
+        # overall state of a
+        #  becomes el2 (if still el1) if a!=wasa
         $el = 1
         # what sustaining %%sustain:a is all about
         $originate = &{
@@ -1767,18 +1770,30 @@ me.settleblab = 1
         if (v) {
             # true
             if (ish(v)) {
+                # may receive: v=gs={...} from some id scraper
+                #  simple hash diff with wasv, may remake a in v's image
+                #   < see mem
                 $housey = 1
-                # housey v become latest a all the time
-                #  < sync idc section
-                # may follow v = &sustain
-                #  or just {...} from some id scraper
-                # < which may follow from q.origin = some &sustrain a,
-                #    the v.* being just the stuff the innard passed out
-                # < iteresting
+                # may follow: v=a=&sustain
+                #  < sync idc section to a.*
+                #    or all textual v.*
+                #     or to s.*? (before remember)
+                #     ~~ &sustain,sus:Before,{After:1}, ie s=a
+                $vsus = issus(v)
+                # may be from q.origin instead of a|gs
+                #  eg car send(gs) would v=gs and origin=sus:$car_i
+                #   the v.* being just the stuff the innard passed out
+                #  eg car send(sus:Dep) and origin=sus:Deps_i
+                #   ie each Deps_i row may posit sus:Dep, to wait|act for a Dep
+                #    and something above waits for all of sus:Deps to complete
+                $fromsus = q.origin || vsus && v
+                
+               //whatifs
                 # < mixing in ongoingly?
                 #   retracting what we mixed before if it leaves,
                 #    but not if it changed since we put it...
                 #   how you want $a to roll...
+                
                 
                 # redefines originate to a.a=v
                 $originate = &{
@@ -1790,7 +1805,25 @@ me.settleblab = 1
                 
                 # and how was it anyway
                 if (g.remember) {
-                    $was = me&sustain_housey_was,g
+                    $wasa = g.wasa
+                    # wasa.n.sc.$k=v
+                    $wasv = g.wasv
+                    
+                    # sanity in consistent type type feed
+                    !ish(wasv) and throw "wasv!ish"
+                    vsus && !issus(wasv) and throw "wasv!sus"
+                    # < sharing a between multiple cars?
+                    # < needs to take a.b=wasa into account (on el2)
+                    #q.origin && q.origin != wasa.a and ~>3 replant sus: k
+                    
+                    # compare v with:
+                    # gs (random c)
+                    $was = !vsus ? wasv
+                        # prefer a.v (when a.a=q.origin)
+                        : hak(wasa,'v') ? wasa.v
+                        # or a.a = v
+                        : wasa.a
+                    
                     $same = v == was
                     # sameness via hakd() if q=3 (hakdy)
                     #   hash eq, mem was/* not in was incase v=was mutating
@@ -1823,10 +1856,22 @@ me.settleblab = 1
                         #~>7 steady: el, g.rec, dis(g.idc)
                     }
                 }
+               // new
                 else {
                     # is new!
                     $el = 2
                     $a = originate()
+                }
+                
+                if (a != g.wasa) {
+                    # originating, for housey v
+                    # < see sync idc
+                    ex(a,v)
+                    # < similar is g.idc (textual s)
+                    #    should come before a.a|v
+                    a.a = q.origin || v
+                    # the !housey a.v=v later, via n%$k
+                    q.origin and a.v = v
                 }
             }
             else {
@@ -1840,7 +1885,7 @@ me.settleblab = 1
                     $a = sustaining()
                 }
                 # < ~ indifferent suchness, ac&voff
-                # we will put a.v if !housey later
+                # the !housey a.v=v later, via n%$k
             }
         }
         else {
@@ -1869,15 +1914,23 @@ me.settleblab = 1
                 $a = originate()
             }
         }
+        if (a != g.wasa) {
+            # originating
+            el == 1 and el = 2
+        }
+        else {
+            # sustaining
+            fatal.ish(a)
+        }
         
        // $n
         if (el < 9 || entery) {
             # enter %sustain... 
-            a ||= {}
+            g.a = a ||= {}
             g.grouping.sustain = a
             # a += c.*!$k > s.*
             # < how much of c.* to take... til q?
-            g.a = ex(a,g.idc)
+            ex(a,g.idc)
             
             # < Ay a
             #wasa and a.b = wasa
@@ -1976,9 +2029,10 @@ me.settleblab = 1
         
         ex(g,{grouping,tiel,idc,rec})
     }
-    # arrive one of many
+    # arrive one of &zaa g.grouping
     me.sustain_remember = &acgtgh{
         # many at grouping
+        # < call this a cohort? what about the subcohorts?
         $N = h.zaa(g.grouping)
         # ny&future is used in &rec_betractioned
         #  note h.zaa isn't &zaaj,
@@ -2002,25 +2056,6 @@ me.settleblab = 1
         $wasn = g.wasn = g.remember
         g.wasv = wasn.sc [g.k]
         g.wasa = wasns&sustain
-    }
-    # how to interpret $v=ish(a)
-    me.sustain_housey_was = &acgtg{
-        $v = g.v
-        $wasv = g.wasv
-        $wasa = g.wasa
-        # wasv must also be housey
-        !ish(wasv) and throw "wasv!ish"
-        # from v = &sustain
-        $via = isfu(v.done)
-        via && !ish(wasa.a) and throw "wasa.a!ish"
-        # from random c
-        $was = !via ? wasv
-            # prefer a.v
-            #  used when a.a = q.origin
-            : hak(wasa,'v') ? wasa.v
-            # or a.a = v
-            : wasa.a
-        return was
     }
    
    // &suss, &suso, $osus
@@ -2192,6 +2227,7 @@ me.settleblab = 1
                     car.recv = recv
                 }
             }
+            # < these two are not that similar
             # ta/$t/i/$a=&sustain Glace_i
             # ie $car <- $s car:$ear?
             # < per to-sustain (usu one), depending on indent of $train?
