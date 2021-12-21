@@ -1754,19 +1754,6 @@ me.settleblab = 1
         #  becomes el2 (if still el1) if a!=wasa
         $el = 1
         # what sustaining %%sustain:a is all about
-        $originate = &{
-            $a = {}
-            # < el4 feels ~origin?
-            q.origin && g.wasa && q.origin != g.wasa.a and 'replant'
-            return a
-        }
-        $sustaining = &{
-            $a = g.wasa
-            # < el4 feels ~origin?
-            q.origin && q.origin != a.a and 'replant'
-            fatal.ish(a)
-            return a
-        }
         if (v) {
             # true
             if (ish(v)) {
@@ -1788,22 +1775,8 @@ me.settleblab = 1
                 #    and something above waits for all of sus:Deps to complete
                 $fromsus = q.origin || vsus && v
                 
-               //whatifs
-                # < mixing in ongoingly?
-                #   retracting what we mixed before if it leaves,
-                #    but not if it changed since we put it...
-                #   how you want $a to roll...
                 
-                
-                # redefines originate to a.a=v
-                $originate = &{
-                    $a = ex({},v)
-                    a.a = q.origin || v
-                    q.origin and a.v = v
-                    return a
-                }
-                
-                # and how was it anyway
+                # how was it
                 if (g.remember) {
                     $wasa = g.wasa
                     # wasa.n.sc.$k=v
@@ -1812,7 +1785,7 @@ me.settleblab = 1
                     # sanity in consistent type type feed
                     !ish(wasv) and throw "wasv!ish"
                     vsus && !issus(wasv) and throw "wasv!sus"
-                    # < sharing a between multiple cars?
+                    # < sharing $a between multiple cars?
                     # < needs to take a.b=wasa into account (on el2)
                     #q.origin && q.origin != wasa.a and ~>3 replant sus: k
                     
@@ -1839,28 +1812,28 @@ me.settleblab = 1
                         }
                     }
                     if (!same) {
-                        $el = 2
                         # new a. old one is via a.b (or g.wasa in here)
                         # < .drop() it now? may hook cleanup etc, as might ...
-                        $a = originate()
+                        $a = {}
                         #~>7 originate: el, g.rec, dis(g.idc)
                     }
                     else {
                         # perhaps changey inside
-                        # < revoke etc see hash eq, mem
-                        $a = sustaining()
+                        $a = g.wasa
                         # spool the hash
+                        # < mixing in ongoingly?
+                        #   retracting what we mixed before if it leaves,
+                        #    but not if it changed since we put it...
+                        #   how you want $a to roll...
+                        # < revoke etc see hash eq, mem
                         # < how much of it?
                         #    not its idc? got by n%* in a.*
                         ex(a,v)
-                        #~>7 steady: el, g.rec, dis(g.idc)
                     }
                 }
-               // new
                 else {
                     # is new!
-                    $el = 2
-                    $a = originate()
+                    $a = {}
                 }
                 
                 if (a != g.wasa) {
@@ -1877,12 +1850,11 @@ me.settleblab = 1
             else {
                 # a value!
                 if (v != g.wasv) {
-                    $el = 2
-                    $a = originate()
+                    $a = {}
                 }
                 else {
                     # el1
-                    $a = sustaining()
+                    $a = g.wasa
                 }
                 # < ~ indifferent suchness, ac&voff
                 # the !housey a.v=v later, via n%$k
@@ -1894,7 +1866,7 @@ me.settleblab = 1
                 # going false
                 if (q.resurrecty) {
                     # el1
-                    $a = sustaining()
+                    $a = g.wasa
                     g.resurrected = 1
                     # see # latest true value
                     # < is c ours? and s... peel() should always clone hash
@@ -1905,13 +1877,13 @@ me.settleblab = 1
                     $el = wastrue ? 9 : 10
                     # bracki the el:9 once?
                     $entery = wastrue
-                    $a = originate()
+                    $a = {}
                 }
             }
             else {
                 # not yet, pseudo a, no n
                 $el = 10
-                $a = originate()
+                $a = {}
             }
         }
         if (a != g.wasa) {
@@ -1925,9 +1897,8 @@ me.settleblab = 1
         
        // $n
         if (el < 9 || entery) {
-            # enter %sustain... 
-            g.a = a ||= {}
-            g.grouping.sustain = a
+            # enter %sustain=a,...
+            g.grouping.sustain = g.a = a ||= {}
             # a += c.*!$k > s.*
             # < how much of c.* to take... til q?
             ex(a,g.idc)
