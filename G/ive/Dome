@@ -1719,7 +1719,7 @@ me.settleblab = 1
     #  eg a = &sustain {} {latest_elQuip:e}
     #   remembers the latest a.v=e that was true, or est this one
     #  you may nc&drop them via a.done() or doming
-    self.issus = a => ish(a) && a.done && a.pur
+    self.issus = a => ish(a) && a.done && a.pur && a
     me.sustain = &acgtscq{
        // remembering
         $h = me&hajasute
@@ -1826,6 +1826,13 @@ me.settleblab = 1
         return a
     }
    // &sustain f
+    # inherit identity from a|c
+    #  eg another &sustain or &diffPs
+    # < ongoing design. if a, we might have a.idc or so...
+    #   wants non-text too? might have an A-ish inherit-if
+    me.sustain_get_idcish = &acgta{
+        return nex({},tex({},a),'el')
+    }
     # how to remember it
     me.sustain_grouping = &acgtg{
         # how to dome it
@@ -1843,9 +1850,7 @@ me.settleblab = 1
         #  what to group by, become a.*
         $idc = {}
         if (hak(g.s)) {
-            # inherit identity eg another &sustain
-            #  eg another &sustain or &diffPs
-            ex(idc,nex({},tex({},g.s),'el'))
+            ex(idc, me&sustain_get_idcish,g.s )
         }
         idc = nex(idc,g.c,[g.k])
         
@@ -1946,8 +1951,10 @@ me.settleblab = 1
                         $koff = hakd(v,was)
                         !hak(koff) and same = 1
                         else {
-                            # < if they aren't el2-serious
-                            !same
+                            # perhaps it aint el2-serious
+                            $idcish = !issus(was) ? was
+                                : me&sustain_get_idcish,was
+                            same = !grap(k => hak(was,k),koff)
                         }
                     }
                     if (!same) {
@@ -2216,11 +2223,12 @@ me.settleblab = 1
                 $a = ish(s) && s
                 # < might want more idc
                 #   eg paginating through the act, or permasay
-                T.sustabug == t and debugger
+                $c = hashkv(car.t+'_i',s)
                 # < are q.origin=a and v=a the same?
                 $q = {num:3}
                 a and q.origin = a
-                a = me&sustain,{},hashkv(car.t+'_i',s),q
+                T.sustabug == t and debugger
+                a = me&sustain,{},c,q
                 # dupey accumulator
                 me&X_z,car,'i',a
             }
