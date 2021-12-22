@@ -1736,6 +1736,7 @@ me.settleblab = 1
             }
         }
         else q = peel(q)
+        hak(q,'origin') && !issus(q.origin) and throw "q.origin!sus"
         !ish(s) || !ish(c) and throw "s,c"
         # keyword first
         $k = haks(c)[0]
@@ -1953,7 +1954,7 @@ me.settleblab = 1
                         # new a. old one is via a.b (or g.wasa in here)
                         # < .drop() it now? may hook cleanup etc, as might ...
                         $a = {}
-                        A.h and ~>7 originate: el, g.rec, dis(g.idc)
+                        A.h and ~>7 originate: el, g.rec, dis(g.idc), dis(koff)
                     }
                     else {
                         # perhaps changey inside
@@ -2216,6 +2217,8 @@ me.settleblab = 1
                 # < might want more idc
                 #   eg paginating through the act, or permasay
                 T.sustabug == t and debugger
+                #$q = {num:3}
+                #q.origin = a
                 a = a || me&sustain,{},hashkv(car.t+'_i',s),3
                 # dupey accumulator
                 me&X_z,car,'i',a
@@ -2250,6 +2253,7 @@ me.settleblab = 1
                 # and when done drains the pipes
                 !hak(car.i) and 'reap?'
                 car.i.map(&a{
+                    # < not always a.v, will always a.n.sc.$k
                     $v = a.v
                     # < what this interface should be
                     #   it has already defined $t, the key to put $v at
@@ -2266,7 +2270,8 @@ me.settleblab = 1
                         q.origin = a
                         q.num ||= 3
                         
-                        $a = me&sustain,s,c,q
+                        # note: '$a =' here causes q.origin = undef above
+                        a = me&sustain,s,c,q
                         M.push(a)
                         tao(car,a)
                         return a
