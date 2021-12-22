@@ -1792,6 +1792,7 @@ S 6 &sustrain
     #    so they can show a part progressing over time
     #    they should have more -seven in them about time?
     $day = 1
+    $serving = 0
     
     $supply = ['ri']
     be.main = &Chir{
@@ -1820,14 +1821,20 @@ S 6 &sustrain
                 a.ov > 0.6 and y ({day},"Look",{food:a.cooked})
             },
         })
+        serving && me&sustrain ({
+            i: me&osus,'Cooked' ,
+            Dishing: {hord:&yea{
+                # s={day,food}
+                $u = y (a)
+                a.a.done({u})
+            }},
+        })
     }
     
    // 6
     be.do("start cooking ri")
     be.do("keep cooking ri")
     supply.push('ce')
-    # < Cooked_i:of:ri should el1
-    # < this:
     #T.sustabug = 'Cooked'
     be.do("start cooking ce too")
     delete T.sustabug
@@ -1836,8 +1843,17 @@ S 6 &sustrain
     be.do("stay done")
     supply = ['yag']
     be.do("yag takes over the kitchen")
+    # Cooked->Dishing
+    serving = 1
+    # Dishing starts using recv.hord
+    #    to accumulate all sus:Cooked ever
+    be.do("yag continues, others served")
+    be.do("yagilisc")
     
-    
+    # < recv.init|slep|whatever might also be el:
+    #  < recv.el=1 default, 2 accum, 3 slep-middle
+    # < recv.ovs{ ov: middle-if-ov }'
+    #    auto set to next ov defined (anywhere) if tao
   // generals
     3
     #  < from seeing historical a.sublated?

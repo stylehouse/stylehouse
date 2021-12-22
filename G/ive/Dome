@@ -2050,10 +2050,15 @@ me.settleblab = 1
     # o %%sustain,$t
     # indifferently observe, returning $a+
     me.osus =
-    me.sustaining = &acgtcs{
+    me.sustaining = &acgtcsq{
+        $tosus = N => N.map(n => ns&sustain)
         $h = me&hajasute
         c = ex({sustain:1},pex(c,s))
-        return h.zaaj(c) .map(n => ns&sustain)
+        # usu, just any new or all old
+        $N = tosus( h.zaaj(c) )
+        # or the non-new ones
+        q == 7 and N = grep(a => !N.includes(a), tosus( h.zaa(c) ))
+        return N
     }
     
     # grasp, show in a table
@@ -2194,8 +2199,11 @@ me.settleblab = 1
     #    splosive X timescape
     me.sustrain = &acgt{
        // ta/$car/[io]/$a
+        # < io ta/$car/[io]/$a
+        #    setting this up for later i o/$a per o $car
         $h = me&hajasute
         $intime = 1
+        
 
         return &train,{
             # many cars + an i
@@ -2207,11 +2215,18 @@ me.settleblab = 1
             each it tos {
                 $car = ta[t] ||= {t}
                 $recv = train[t]
-                isfu(recv) and car.middle = recv
-                else {
-                    debugger
-                    car.recv = recv
-                }
+                # recv is expr disguised as fuc (functioney c)
+                #  describes behaviour
+                # singularly: recv=&{ ... }
+                isfu(recv) and recv = {middle:recv}
+                car.recv = recv
+                # modes: recv={suchly:&{ ... }}
+                # < multiple middles etc, wanting compiling to I.**
+                recv.middle ||= recv.hord || recv.init || recv.ever
+                # hord: experience each thing once, keep forever
+                recv.hord and recv.init = recv.ever = 1
+                # init: call middle only when el2
+                # ever: keep forever
             }
             # < these two are not that similar
             # ta/$t/i/$a=&sustain Glace_i
@@ -2245,6 +2260,7 @@ me.settleblab = 1
             #ta.Glance and debugger
             each it tos {
                 $car = ta[t]
+                $recv = car.recv
                 # < many time++ around? recv.i?
                 car.i and debugger
                 if (0 == i) {
@@ -2261,13 +2277,29 @@ me.settleblab = 1
                 car.i ||= []
                 # and when done drains the pipes
                 !hak(car.i) and 'reap?'
-                car.i.map(&a{
+                
+                
+                # init: call middle only when el2
+                $sleeping = []
+                # ever: keep forever
+                if (recv.init || recv.ever) {
+                    # get what was
+                    #  which is obscured while|after redoming them
+                    # < want the opposite of h.zaaj(), for what is left out
+                    $wasN = me&osus,car.t
+                }
+                
+                each ia car.i {
                     # < not always a.v, will always a.n.sc.$k
-                    $v = a.v
+                    $v = a.v || a
+                    
+                    if (recv.init && a.el == 1) {
+                        sleeping.push(a); continue
+                    }
+                    
                     # < what this interface should be
                     #   it has already defined $t, the key to put $v at
                     # &sustain args with c.$t=$v and c separated
-                    $M = []
                     $send = &svcq{
                         !intime and throw "oot"
                         # s:idc, can be $gs, becomes v if alone
@@ -2281,16 +2313,38 @@ me.settleblab = 1
                         
                         # note: '$a =' here causes q.origin = undef above
                         a = me&sustain,s,c,q
-                        M.push(a)
                         tao(car,a)
                         return a
                     }
+                    # recv.init = recv.ever
                     send.ta = ta
-                    #!v and debugger
-                    v ||= a
+                    
                     # they send(gs)
-                    car.middle (send,v,a)
-                })
+                    recv.middle (send,v,a)
+                }
+                
+                if (hak(sleeping) || recv.ever) {
+                    # any new += was
+                    # < a.b=a separated by re-originating
+                    #   unless ny&future is claimed by new
+                    $osus = me&osus,car.t,'',7
+                    if (!recv.ever) {
+                        # only those that follow current a.a=$t_i
+                        # < fork RiceTrain, implant a copy of Cooked from before
+                        #    which shouldnt increase the Dishing
+                        osus = grep(a => sleeping.includes(a.a), osus)
+                    }
+                    each ia osus {
+                        $n = a.n
+                        h.ha({could:car.t+'i',well:a.food})
+                    }
+                    each ia wasN {
+                        $n = a.n
+                        h.ha({was:car.t+'i',see:a.food})
+                    }
+                }
+                
+                
                 # car.o traction? may be empty
                 car.o ||= []
                 la = car
