@@ -2213,13 +2213,14 @@ me.settleblab = 1
             $tai = &car,s,ear{
                 # < should we re-&sustain $a from another &sustain?
                 #   we want another $a to spread the change
-                $a = 0 && ish(s) && s
+                $a = ish(s) && s
                 # < might want more idc
                 #   eg paginating through the act, or permasay
                 T.sustabug == t and debugger
-                #$q = {num:3}
-                #q.origin = a
-                a = a || me&sustain,{},hashkv(car.t+'_i',s),3
+                # < are q.origin=a and v=a the same?
+                $q = {num:3}
+                a and q.origin = a
+                a = me&sustain,{},hashkv(car.t+'_i',s),q
                 # dupey accumulator
                 me&X_z,car,'i',a
             }
