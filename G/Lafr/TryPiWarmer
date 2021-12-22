@@ -1804,17 +1804,20 @@ S 6 &sustrain
                 y (gs)
             },
             Cooked: &yea{
-                # sus:Cooked_i
-                # mutate .cooked
-                $s = a.cooked || ''
-                # adds new ingredient
-                a.el > 1 and s += a.of
-                ahk(a,['ebtw'],e)
-                s = split(s,'').join(' ')
-                a.cooked = s
-                
-                # call that cooked
-                s.match(/ {4}/) and y ({day},"Look",{})
+                # sus:Cooked_i leads to Cooked
+                a.ov ||= 0.1
+                if (a.ov < 0.6) {
+                    # mutate .cooked
+                    $s = a.cooked || ''
+                    # adds new ingredient
+                    a.el > 1 and s += a.of
+                    ahk(a,['ebtw'],e)
+                    s = split(s,'').join(' ')
+                    a.cooked = s
+                    # call that Cooked
+                    a.cooked.match(/ {4}/) and a.ov = 0.8
+                }
+                a.ov > 0.6 and y ({day},"Look",{food:a.cooked})
             },
         })
     }
@@ -1828,6 +1831,11 @@ S 6 &sustrain
     #T.sustabug = 'Cooked'
     be.do("start cooking ce too")
     delete T.sustabug
+    be.do("they keep going")
+    be.do("and are done")
+    be.do("stay done")
+    supply = ['yag']
+    be.do("yag takes over the kitchen")
     
     
   // generals
