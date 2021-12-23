@@ -2202,9 +2202,7 @@ me.settleblab = 1
     # < which came from where, timing for everything
     #    splosive X timescape
     me.sustrain = &acgt{
-       // ta/$car/[io]/$a
-        # < io ta/$car/[io]/$a
-        #    setting this up for later i o/$a per o $car
+       // recv
         $h = me&hajasute
         $intime = 1
         
@@ -2232,6 +2230,9 @@ me.settleblab = 1
                 # init: call middle only when el2
                 # ever: keep forever
             }
+       // ta/$car/[io]/$a
+        # < io ta/$car/[io]/$a
+        #    setting this up for later i o/$a per o $car
             # < tai|tao  are not that similar
             # ta/$t/i/$a=&sustain Glance_i
             # ie $car <- $s car:$ear?
@@ -2293,10 +2294,12 @@ me.settleblab = 1
                     # get what was
                     #  which is obscured while|after redoming them
                     # < want the opposite of h.zaaj(), for what is left out
-                    $wasN = me&osus,car.t
+                    # we must hold the n, know redone if n != n%sustain.n
+                    $wasN = me&osus,car.t .map(a => a.n)
                 }
                 T.sustabug == t and debugger
                 
+       // o *
                 each ia car.i {
                     # < not always a.v, will always a.n.sc.$k
                     $v = a.v || a
@@ -2331,6 +2334,7 @@ me.settleblab = 1
                     recv.middle (send,v,a)
                 }
                 
+       // 7
                 if (hak(sleeping) || recv.ever) {
                     # any new += was
                     # < a.b=a separated by re-originating
@@ -2342,13 +2346,27 @@ me.settleblab = 1
                         #    which shouldnt increase the Dishing
                         osus = grep(a => sleeping.includes(a.a), osus)
                     }
+                    # < have to watch whence this 
                     each ia osus {
                         $n = a.n
-                        h.ha({could:car.t+'i',well:a.food})
+                        $see = {was:car.t+'i',well:a.food}
+                        n != a.n and see.gyp = 1
+                        ny&future and see.futu = 1
+                        h.ha(see)
                     }
-                    each ia wasN {
-                        $n = a.n
-                        h.ha({was:car.t+'i',see:a.food})
+                    each in wasN {
+                        $a = ns&sustain
+                        !a.a and debugger
+                        # < how awake to be?
+                        # a = me&sustain,s,c,{origin:a.a,num:3}
+                        $see = {was:car.t+'i',see:a.food}
+                        n != a.n and see.gyp = 1
+                        ny&future and see.futu = 1
+                        h.ha(see)
+                        
+                        ny&future and continue
+                        a.n = h.ha(n.sc,'oh')
+                        tao(car,a)
                     }
                 }
                 
