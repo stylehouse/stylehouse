@@ -1792,11 +1792,13 @@ S 6 &sustrain
     #    so they can show a part progressing over time
     #    they should have more -seven in them about time?
     $day = 1
+    $poweroutage = 0
     $serving = 0
-    
     $supply = ['ri']
     be.main = &Chir{
-        me&sustrain ({
+        $outage = poweroutage
+        poweroutage = 0
+        outage || me&sustrain ({
             i: supply,
             # make pots of each
             # < accumulate in a Pot
@@ -1821,11 +1823,13 @@ S 6 &sustrain
                 a.ov > 0.6 and y ({day},"Look",{food:a.cooked})
             },
         })
+        $onlydoneone = 0
         serving && me&sustrain ({
             i: me&osus,'Cooked' ,
             Dishing: {hord:&yea{
                 # s={day,food}
                 $u = y (a)
+                onlydoneone++ and return
                 a.a.done({u})
             }},
         })
@@ -1835,9 +1839,7 @@ S 6 &sustrain
     be.do("start cooking ri")
     be.do("keep cooking ri")
     supply.push('ce')
-    #T.sustabug = 'Cooked'
     be.do("start cooking ce too")
-    delete T.sustabug
     be.do("they keep going")
     be.do("and are done")
     be.do("stay done")
@@ -1848,7 +1850,11 @@ S 6 &sustrain
     # Dishing starts using recv.hord
     #    to accumulate all sus:Cooked ever
     be.do("yag continues, others served")
-    be.do("yagilisc")
+    # dont Cooked:yag
+    poweroutage = 1
+    T.sustabug = 'Dishing'
+    be.do("yagless")
+    delete T.sustabug
     
     # < recv.init|slep|whatever might also be el:
     #  < recv.el=1 default, 2 accum, 3 slep-middle
