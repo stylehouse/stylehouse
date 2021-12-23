@@ -1830,8 +1830,12 @@ me.settleblab = 1
     #  eg another &sustain or &diffPs
     # < ongoing design. if a, we might have a.idc or so...
     #   wants non-text too? might have an A-ish inherit-if
+    # el is the local realisement, not id
+    # v prevents any s=a leaking a.v->s.v->idc.v->latera.v
+    #  eg sus:Cooked send({day},"Look",...) sustraining to sus:Dishing_i.v
+    #   it would get there via Dishing_i s|idc<-Cooked, then entering idc->Dishing_i
     me.sustain_get_idcish = &acgta{
-        return nex({},tex({},a),'el')
+        return nex({},tex({},a),'el,v')
     }
     # how to remember it
     me.sustain_grouping = &acgtg{
@@ -2228,26 +2232,29 @@ me.settleblab = 1
                 # init: call middle only when el2
                 # ever: keep forever
             }
-            # < these two are not that similar
-            # ta/$t/i/$a=&sustain Glace_i
+            # < tai|tao  are not that similar
+            # ta/$t/i/$a=&sustain Glance_i
             # ie $car <- $s car:$ear?
             # < per to-sustain (usu one), depending on indent of $train?
-            $tai = &car,s,ear{
+            # < all these spaces reachable
+            #   by edit|compile param complex
+            # < might want more idc
+            #   eg paginating through the act, or permasay
+            $tai = &car,v,ear{
                 # < should we re-&sustain $a from another &sustain?
                 #   we want another $a to spread the change
-                $a = ish(s) && s
-                # < might want more idc
-                #   eg paginating through the act, or permasay
-                $c = hashkv(car.t+'_i',s)
+                $a = ish(v) && v
+                # similar to send(a), &sustain texty s->idc
+                $s = a || {}
+                $c = hashkv(car.t+'_i',v)
                 # < are q.origin=a and v=a the same?
                 $q = {num:3}
                 a and q.origin = a
-                T.sustabug == t and debugger
-                a = me&sustain,{},c,q
+                a = me&sustain,s,c,q
                 # dupey accumulator
                 me&X_z,car,'i',a
             }
-            # ta/$t/o/$a=&sustain Glace
+            # ta/$t/o/$a=&sustain Glance
             $tao = &car,a{
                 me&X_z,car,'o',a
                 return a
@@ -2265,7 +2272,7 @@ me.settleblab = 1
                 car.i and debugger
                 if (0 == i) {
                     # i origin, may be empty
-                    fuN(train.i).map(s => tai(car,s))
+                    fuN(train.i).map(v => tai(car,v))
                 }
                 elsif (la) {
                     # ~:oi: clones sus:Laststep -> sus:Nextstep_i
@@ -2288,6 +2295,7 @@ me.settleblab = 1
                     # < want the opposite of h.zaaj(), for what is left out
                     $wasN = me&osus,car.t
                 }
+                T.sustabug == t and debugger
                 
                 each ia car.i {
                     # < not always a.v, will always a.n.sc.$k
@@ -2302,7 +2310,7 @@ me.settleblab = 1
                     # &sustain args with c.$t=$v and c separated
                     $send = &svcq{
                         !intime and throw "oot"
-                        # s:idc, can be $gs, becomes v if alone
+                        # s:idc = $gs becomes v if alone
                         hak(arguments) == 1 and v = s
                         # %%sustain:a + non-idc
                         c = ex(hashkv(t,v), c||{})
@@ -2319,7 +2327,7 @@ me.settleblab = 1
                     # recv.init = recv.ever
                     send.ta = ta
                     
-                    # they send(gs)
+                    # they send(gs,...)
                     recv.middle (send,v,a)
                 }
                 
