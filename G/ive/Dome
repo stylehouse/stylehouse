@@ -196,8 +196,8 @@
        
        // %%rec, &zaaj
         # %%rec... copy to %wou after
-        #  unless %%dome brought it into now since &dome_o3
-        #   for which the %%rec are dome-within-dome
+        #  if not recycled into &jaa already by %%dome
+        #   for which the %%rec are dome-within-dome,
         me.rec_traction = &acgth{
             #  an extra persistence.
             #  more permanent than %%dome, remain while going faulty.
@@ -1771,15 +1771,11 @@ me.settleblab = 1
             $wasn = g.wasn
             wasn and wasny&future = g.n
         }
+        
         # < eventually, its effect is noted on it over time
         #   by others (in sute) doing re-rec on ov++
         # < q might resolve $n c+s over idc
         $n = g.n || g.remember
-
-        # < GONER, a is by now?
-        !a and debugger
-        a ||= ns&sustain
-        !a and throw "!a"
 
         # know first time etc
         a.el = g.el
@@ -1819,8 +1815,8 @@ me.settleblab = 1
             $n = a.n
             !n and return
             nc&drop = 'done'
-            # unless of course it's being sustained by another sustain
-            # as in elIntro...RunStep
+            # < be ideal if it's being sustained by another sustain
+            #  eg elIntro...RunStep, Cooked->Dishing_i->Dishing (calls a.a.done())
         }
 
         return a
@@ -2048,20 +2044,30 @@ me.settleblab = 1
         g.a = a
         return a
     }
+   
    // &suss, &suso, $osus
     # less to more selfy
     
     # o %%sustain,$t
     # indifferently observe, returning $a+
-    me.osus =
-    me.sustaining = &acgtcsq{
+    me.sustaining =
+    me.osus = &acgtcsq{
         $tosus = N => N.map(n => ns&sustain)
         $h = me&hajasute
         c = ex({sustain:1},pex(c,s))
         # usu, just any new or all old
         $N = tosus( h.zaaj(c) )
-        # or the non-new ones
-        q == 7 and N = grep(a => !N.includes(a), tosus( h.zaa(c) ))
+        # < or the non-new ones. meaning of "old ones" splits:
+        #    those futured (remembered by a &sustain)
+        #    or not
+        #    or separated: remembered but el2|re-originated
+        #   can only be done before|after all redo
+        #    no cursoring through them, see resolve $n
+        #   and we are stuck doing one redo per Doming
+        #    due to &zaa|&jaa being past|present
+        #     they could have X swapped into them as we decided where time is
+        #    eg one call to the &sustrain per wake R
+        #q == 7 and N = grep(a => !N.includes(a), tosus( h.zaa(c) ))
         return N
     }
     
@@ -2230,9 +2236,10 @@ me.settleblab = 1
                 # init: call middle only when el2
                 # ever: keep forever
             }
-       // ta/$car/[io]/$a
-        # < io ta/$car/[io]/$a
-        #    setting this up for later i o/$a per o $car
+       
+       // tai|tao ta/$car/[io]/$a
+        # < Babz: io ta/$car/[io]/$a # instead of &Sarn?
+        #    defines schema for later i o/$a per o $car
             # < tai|tao  are not that similar
             # ta/$t/i/$a=&sustain Glance_i
             # ie $car <- $s car:$ear?
@@ -2260,7 +2267,6 @@ me.settleblab = 1
                 me&X_z,car,'o',a
                 return a
             }
-            
             
        // i *
             # ta/$t/o/$a=&sustain
@@ -2291,10 +2297,8 @@ me.settleblab = 1
                 $sleeping = []
                 # ever: keep forever
                 if (recv.init || recv.ever) {
-                    # get what was
-                    #  which is obscured while|after redoming them
-                    # < want the opposite of h.zaaj(), for what is left out
-                    # we must hold the n, know redone if n != n%sustain.n
+                    # get what was, by $n, which if &sustained gains y&future
+                    #  which is obscured while|after redoming them, see &osus
                     $wasN = me&osus,car.t .map(a => a.n)
                 }
                 T.sustabug == t and debugger
@@ -2305,6 +2309,7 @@ me.settleblab = 1
                     $v = a.v || a
                     
                     if (recv.init && a.el == 1) {
+                        # < exclusively sleeping some, others dropping
                         sleeping.push(a); continue
                     }
                     
@@ -2339,33 +2344,36 @@ me.settleblab = 1
                     # any new += was
                     # < a.b=a separated by re-originating
                     #   unless ny&future is claimed by new
-                    $osus = me&osus,car.t,'',7
-                    if (!recv.ever) {
-                        # only those that follow current a.a=$t_i
-                        # < fork RiceTrain, implant a copy of Cooked from before
-                        #    which shouldnt increase the Dishing
-                        osus = grep(a => sleeping.includes(a.a), osus)
-                    }
-                    # < have to watch whence this 
-                    each ia osus {
-                        $n = a.n
-                        $see = {was:car.t+'i',well:a.food}
-                        n != a.n and see.gyp = 1
-                        ny&future and see.futu = 1
-                        h.ha(see)
+                    if (0) {
+                        $osus = me&osus,car.t,'',7
+                        if (!recv.ever) {
+                            # only those that follow current a.a=$t_i
+                            # < fork RiceTrain, implant a copy of Cooked from before
+                            #    which shouldnt increase the Dishing
+                            osus = grep(a => sleeping.includes(a.a), osus)
+                        }
+                        # < have to watch whence this 
+                        each ia osus {
+                            $n = a.n
+                            $see = {was:car.t+'i',well:a.food}
+                            n != a.n and see.gyp = 1
+                            ny&future and see.futu = 1
+                        }
                     }
                     each in wasN {
                         $a = ns&sustain
                         !a.a and debugger
-                        # < how awake to be?
-                        # a = me&sustain,s,c,{origin:a.a,num:3}
-                        $see = {was:car.t+'i',see:a.food}
-                        n != a.n and see.gyp = 1
-                        ny&future and see.futu = 1
-                        h.ha(see)
+                        # < where you want -Bow-diver to find relation
+                        #    sleeping/a <-> wasN/n//a
+                        #sleeping.includes(a.a) and h.ha({was:car.t+'i',follow:a.food})
                         
                         ny&future and continue
-                        a.n = h.ha(n.sc,'oh')
+                        # < how awake to be?
+                        # < can we set nc&tractioned to survive &rec_traction later?
+                        #   it would bias the lack of "resolve $n" for end posting at least
+                        #    likely to be endured for a while
+                        n = a.n = h.ha(n.sc)
+                        nc&sussleeping = 1
                         tao(car,a)
                     }
                 }
