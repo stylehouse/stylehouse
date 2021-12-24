@@ -1828,9 +1828,13 @@ S 6 &sustrain
             i: me&osus,'Cooked' ,
             Dishing: {hord:&yea{
                 # s={day,food}
-                $u = y (a)
                 onlydoneone++ and return
+                ~>4 DOMID: a.food
+                $u = y (a)
                 a.a.done({u})
+            },sleeping:&yea{
+                ~>4 dontmid: a.food
+                
             }},
         })
     }
@@ -1854,6 +1858,8 @@ S 6 &sustrain
     poweroutage = 1
     #T.sustabug = 'Dishing'
     be.do("yagless")
+    # Dishing_i:ce sleeping too soon since el1
+    # < return 0 from middle to mark i|o (before|aft y()) as uninit
     delete T.sustabug
     
     # < recv.init|slep|whatever might also be el:

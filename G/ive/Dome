@@ -2123,7 +2123,23 @@ me.settleblab = 1
     # twostep &sustain!
     # < which came from where, timing for everything
     #    splosive X timescape
+    
+    # data type|match dispatch table
+    self.means = &sc{
+        # multiple ands -> nested if / if
+        $y = isnu(s) || isst(s) ? c[s]
+            : isar(s) ? c['[]']
+            : isha(s) ? c['{}']
+            : 0
+        y and y (s)
+    }
+    # might dispatch
+    self.fudo = &y{
+        !y || !isfu(y) and return
+        return y (...[...arguments].slice(1))
+    }
     me.sustrain = &acgt{
+       
        // recv
         $h = me&hajasute
         $intime = 1
@@ -2154,8 +2170,8 @@ me.settleblab = 1
             }
        
        // tai|tao ta/$car/[io]/$a
-        # < Babz: io ta/$car/[io]/$a # instead of &Sarn?
-        #    defines schema for later i o/$a per o $car
+            # < Babz: io ta/$car/[io]/$a # instead of &Sarn?
+            #    defines schema for later i o/$a per o $car
             # < tai|tao  are not that similar
             # ta/$t/i/$a=&sustain Glance_i
             # ie $car <- $s car:$ear?
@@ -2224,17 +2240,22 @@ me.settleblab = 1
                     # < not always a.v, will always a.n.sc.$k
                     $v = a.v || a
                     
-                    if (recv.init && a.el == 1) {
-                        # < exclusively sleeping some, others dropping
-                        sleeping.push(a); continue
-                    }
+                    # may sleep el1
+                    $sleepa = recv.init && a.el == 1
+                    # may cancel sleep
+                    sleepa && means(
+                        fudo(recv.sleeping,0,v,a),
+                        {0:&{ sleepa = 0 }}
+                    )
+                    # < exclusively sleeping some, others dropping
+                    sleepa and sleeping.push(a); continue
                     
                     # < what this interface should be
                     #   it has already defined $t, the key to put $v at
                     # &sustain args with c.$t=$v and c separated
                     $send = &svcq{
                         !intime and throw "oot"
-                        # s:idc = $gs becomes v if alone
+                        # s -> s,v
                         hak(arguments) == 1 and v = s
                         # %%sustain:a + non-idc
                         c = ex(hashkv(t,v), c||{})
