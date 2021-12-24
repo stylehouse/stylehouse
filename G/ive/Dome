@@ -2241,14 +2241,15 @@ me.settleblab = 1
                     $v = a.v || a
                     
                     # may sleep el1
-                    $sleepa = recv.init && a.el == 1
+                    $sleepa = recv.init && a.el == 1 && !a.uninit
                     # may cancel sleep
                     sleepa && means(
-                        fudo(recv.sleeping,0,v,a),
+                        fudo(recv.sleeping, 0,v,a),
                         {0:&{ sleepa = 0 }}
                     )
                     # < exclusively sleeping some, others dropping
                     sleepa and sleeping.push(a); continue
+                    delete a.uninit
                     
                     # < what this interface should be
                     #   it has already defined $t, the key to put $v at
@@ -2273,7 +2274,10 @@ me.settleblab = 1
                     send.ta = ta
                     
                     # they send(gs,...)
-                    recv.middle (send,v,a)
+                    means(
+                        fudo(recv.middle, send,v,a),
+                        {0:&{ a.uninit = {} }}
+                    )
                 }
                 
        // 7
@@ -2306,7 +2310,11 @@ me.settleblab = 1
                         
                         ny&future and continue
                         # < how awake to be?
-                        # < can we set nc&tractioned to survive &rec_traction later?
+                        # < set nc&tractable to survive &rec_traction later
+                        #    instead of this strange re-entry
+                        #   then it becomes nc&tractioned as usual
+                        #    which should allow multiple &rec_traction ?
+                        #     or would that need h.jaa to see recyc+tractioned?
                         #   it would bias the lack of "resolve $n" for end posting at least
                         #    likely to be endured for a while
                         n = a.n = h.ha(n.sc)

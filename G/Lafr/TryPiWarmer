@@ -1828,12 +1828,12 @@ S 6 &sustrain
             i: me&osus,'Cooked' ,
             Dishing: {hord:&yea{
                 # s={day,food}
-                onlydoneone++ and return
-                ~>4 DOMID: a.food
+                onlydoneone++ and return 0
+                #~>4 DOMID: a.food
                 $u = y (a)
                 a.a.done({u})
             },sleeping:&yea{
-                ~>4 dontmid: a.food
+                #~>4 dontmid: a.food
                 
             }},
         })
@@ -1852,18 +1852,18 @@ S 6 &sustrain
     # Cooked->Dishing
     serving = 1
     # Dishing starts using recv.hord
-    #    to accumulate all sus:Cooked ever
+    #  to accumulate all sus:Dishing ever
+    # but can only move one of them at a time
+    #  Dishing_i:ce remains
     be.do("yag continues, others served")
     # dont Cooked:yag
     poweroutage = 1
-    #T.sustabug = 'Dishing'
+    # Dishing:ce made
     be.do("yagless")
-    # Dishing_i:ce sleeping too soon since el1
-    # < return 0 from middle to mark i|o (before|aft y()) as uninit
+    
+    #T.sustabug = 'Dishing'
     delete T.sustabug
     
-    # < recv.init|slep|whatever might also be el:
-    #  < recv.el=1 default, 2 accum, 3 slep-middle
     # < recv.ovs{ ov: middle-if-ov }'
     #    auto set to next ov defined (anywhere) if tao
   // generals
