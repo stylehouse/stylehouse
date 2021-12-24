@@ -41,17 +41,47 @@
 // 1 - physics
    # we build on Brackio
    # mostly defining node, to host the brack wou
-   // sahazaja io
+   // contextualising %%dome, %%rec
        // &hajadome/&hajasute make/access a cooptable T.sute
+        # create h={ha,jaa...} interface contexted to %%dome etc
+        #  ie mix in idc to every i|o
+        #  will then be used by &hajasute if put on T.sute
+        #   < that needs a &Tap, should avail here
+        me.hajadome = &acgtR,idc{
+            # conjoins v:v:v from idc.*=v
+            $dome = idc.dome || daint(havs(idc))
+            dome == null and throw "haja!dome"
+            # make sure dome etc is first
+            idc = ex({dome},idc)
+            $h = {R,idc,dome}
+            # &ha|jaa|etc are based on idc
+            $local = c => ex(ex({},idc),peel(c))
+            
+            h.ha = (c,s) => me&ha,R,local(c),{},s
+            # zaa,jaa meaning recycled or not
+            #  both &jaa underneath, %%dome reentered every time
+            #  jaa(c,i=1) selects either
+            #   weird - usu one column mode (see &bracko)
+            h.zaa =     c => grep(n => nc&recycled,       me&jaa,R,local(c) )
+            h.jaa = (c,i) => grep(n => !nc&recycled || i, me&jaa,R,local(c) )
+            # zaaj(c) via jaa(c,i=1) - selects either     ^
+            #  see also &hajasute for maybe-sute bracking
+            
+            # and then we believe in %%rec as sub-doming this dome
+            h.traction = () => me&rec_traction,h
+            
+            return h
+        }
+        
         # misleading names:
         #  &hajadome is how &supetime begins each sute
         #  &hajasute finds that via T.sute
         #   or improvises a similar interface
         # so they are provision, get_provision
         
-        # take up h={ha,jaa...} interfaces anywhere (in the node)
+        # take up h={ha,jaa...} interface anywhere (in the node)
         # < similar to an Xio front end
-        #    the flavour of the interation, besides expr through it
+        #    the flavour (time) of the interation, besides expr (place) through it
         me.hajasute = &acgt{
             # may be for T.sute, ie &SuperGnome
             $h = T.sute
@@ -78,33 +108,6 @@
             
             return h
         }
-        # h={ha,zaa,jaa} for doming for such idc
-        #  will then be used by &hajasute if put on T.sute
-        # < s/idc/cid/
-        me.hajadome = &acgtR,idc{
-            $dome = idc.dome || daint(havs(idc))
-            dome == null and throw "haja!dome"
-            # make sure dome etc is first
-            idc = ex({dome},idc)
-            $h = {R,idc,dome}
-            # &ha|jaa|etc are based on idc
-            $local = c => ex(ex({},idc),peel(c))
-            
-            h.ha = (c,s) => me&ha,R,local(c),{},s
-            # zaa,jaa meaning recycled or not
-            #  both &jaa underneath, %%dome reentered every time
-            #  jaa(c,i=1) selects either
-            #   weird - usu one column mode (see &bracko)
-            h.zaa =     c => grep(n => nc&recycled,       me&jaa,R,local(c) )
-            h.jaa = (c,i) => grep(n => !nc&recycled || i, me&jaa,R,local(c) )
-            # zaaj(c) via jaa(c,i=1) - selects either     ^
-            #  see also &hajasute for maybe-sute bracking
-            
-            # and then we believe in %%rec as sub-doming this dome
-            h.traction = () => me&rec_traction,h
-            
-            return h
-        }
        
        // %%rec, &zaaj
         # %%rec... copy to %wou after
@@ -122,7 +125,7 @@
                 nc&drop and debugger
                 
                 if (hasnew[ns&rec] == null) {
-                    # o *%rec == n%rec
+                    # o now:*%rec == n%rec
                     hasnew[ns&rec] = hak(
                         h.jaa({rec:ns&rec})
                             .filter(n => !nc&recycled)
@@ -144,7 +147,8 @@
                         nc&drop = 'rec'
                     }
                     else {
-                        # neu or not
+                        # never happens since &hajadome &zaa is for nc&recycled
+                        debugger
                     }
                 }
                 else {
@@ -1301,7 +1305,8 @@ me.settleblab = 1
     }
    
 // 6 < frontends
-
+  // dome..h context
+   
   // &sustain causal effigy
     =sustain
        watch thing go true|changey
