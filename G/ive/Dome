@@ -39,97 +39,9 @@
 
 
 // 1 - physics
+   # we build on Brackio
+   # mostly defining node, to host the brack wou
    // sahazaja io
-       // &sahajaza usu
-        # i - enterer
-        # < to react in a Ring,r hang way,
-        #   returning/jumping somewhere to think/reapproach
-        me.ha = &acgtj{
-            return me&bracki,j,js&wou,...[...arguments].slice(5)
-        }
-        # o - reading,
-        # from what is beginning,
-        #  what was mid-way,
-        #  what got to the end
-        #   < without &bready? or just !sleep?
-        # ja always now
-        me.ja = &acgtj{
-            return me&bracko,j,js&wou,...[...arguments].slice(5)
-        }
-        # sa last time
-        me.sa = &acgtj{
-            $z = js&wou;
-            return me&bracko,j,zy&get_saz(j),...[...arguments].slice(5)
-        }
-        # za always >7
-        #  so can take j=s, using sy&R to find last good R
-        me.za = &acgtj{
-            $r = jy&R
-            $s = rc&s
-            s && sy&R and j = sy&R
-            $z = js&wou;
-            return me&bracko,j,zy&get_zaz(j),...[...arguments].slice(5)
-        }
-        # differential
-        me.da = &acgtjqc{
-            c ||= {}
-            isnu(c) and c = {el:c}
-            c.el ||= 1
-            $is = me&jaa,j,q
-            $was = me&zaa,j,q
-            # some rows, were none
-            c.el == 1 and hak(is) && !hak(was) and return is
-            else {
-                # < changed number of
-                # < hakd(), out of order
-                # < returning new|gone|diff
-            }
-        }
-        # and always array
-        me.saa = &{ return me.sa(...arguments) || [] }
-        me.zaa = &{ return me.za(...arguments) || [] }
-        me.jaa = &{ return me.ja(...arguments) || [] }
-        me.daa = &{ return me.da(...arguments) || [] }
-
-        # io %wou, a feedback loop
-        #   experience -> notion, notion -> etc
-        me.sahazaja = &acgtj{
-            jy&R and j = jy&R
-            # < de-hard-code $k
-            $k = 'wou';
-            
-            # %wou = $z/$row+, via me&ha,j,data etc
-            $z = j.sc[k] ||= Cye([k,1,{}]);
-            zy&R ||= j;
-            zy&brack = z
-            
-            # sa last time
-            $saz = me&ollbs,j,k
-            zy&get_saz = &j{ return saz };
-            
-            # za always >7
-            $zak = k+'_accepted';
-            me&rollbs,j,zak;
-            me&reaw,j,zak;
-            zy&get_zaz = &j{ return j.sc[zak] };
-        }
-        # simpler
-        me.haja = &acgtR{
-            $j = R || me&R
-            # < de-hard-code $k
-            $k = 'wou';
-            
-            # %wou = $z/$row+, via me&ha,j,data etc
-            $z = j.sc[k] ||= Cye([k,1,{}]);
-            zy&R ||= j;
-        }
-        
-        # commit %wou to be za next time
-        # usu via Domes_7
-        me.node_accept = &acgtRrs{
-            rs&wou_accepted = rs&wou
-        }
-        
        // &hajadome/&hajasute make/access a cooptable T.sute
         # misleading names:
         #  &hajadome is how &supetime begins each sute
@@ -448,6 +360,7 @@
             zy&R = j;
             
             # pseudo Nodes init o3
+            # see &node_accept for j%wou->%wou_accepted
             !js&wou and me&Nodes_o3,j
             
             # Step's R that last o3'd, not sleeping
@@ -455,7 +368,7 @@
             !Sy&R and throw "Step !y&R"
             #T.act and me&ha,j,{noded:T.act}
             return Sy&R
-        };
+        }
         
         # see &Yingwhen for misc sleep functions
         # see Pictures climbing
@@ -863,11 +776,9 @@
         me&Yingate_2,R
         me&Domes_o3,R
     }
-    me.Steps_o3 =
-    me.Nodes_o3 = &acgtRs{
-        me&Domes_o3,R
-    }
     # domes, transbrack init
+    me.Steps_o3 =
+    me.Nodes_o3 =
     me.Domes_o3 = &acgtr{
         $s = rc&s;
         me&sahazaja,r;
@@ -980,7 +891,7 @@ me.settleblab = 1
                 ns&rec and me&rec_betractioned,n,z,'reco3'
             })
         }
-        # remove old one if obvious!
+        # remove old one if new is inherited from it (&ha s=$n)
         me.dome_bracki = &acgtrn{
             $p = ny&up;
             p && ny&brack == py&brack && pc&recycled and pc&drop = 'i-rec'
