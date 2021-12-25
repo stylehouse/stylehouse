@@ -2246,7 +2246,14 @@ me.settleblab = 1
                 each ia car.i {
                     # < not always a.v, will always a.n.sc.$k
                     $v = a.v || a
-                    
+                    if (la) {
+                        # non-first may receive previous car's send(C)
+                        # < should work as simple y(C) too
+                        #    from which some s|idc might be extracted... #format
+                        # eg sus:graspQ y($Q), then sus:elIntro wants v=Q
+                        #  otherwise it submerges its scuttle amongst a.*
+                        isC(a.a.v) and v = a.a.v
+                    }
                     # may sleep el1
                     $sleepa = recv.init && a.el == 1 && !a.uninit
                     # may cancel sleep
