@@ -1787,7 +1787,6 @@ S 6 &sustrain
   // < RiceTrain
     $be = me&mockbrackR,'RiceTrain'
     # RiceDay with better limbing
-    #  allow using day-1 rice in crackers, cook hard
     # < sync more E/e** after an inital -six
     #    so they can show a part progressing over time
     #    they should have more -seven in them about time?
@@ -1795,6 +1794,7 @@ S 6 &sustrain
     $poweroutage = 0
     $serving = 0
     $supply = ['ri']
+    $incon = 0
     be.main = &Chir{
         $outage = poweroutage
         poweroutage = 0
@@ -1824,7 +1824,7 @@ S 6 &sustrain
                 ~>4 Cooked: rs&ver, e.of
                 a.ov > 0.6 and y ({day},"Look",{food:a.cooked})
             },
-        })
+        }, {incon})
         $onlydoneone = 0
         serving && me&sustrain ({
             i: me&osus,'Cooked' ,
@@ -1870,20 +1870,30 @@ S 6 &sustrain
     be.do("yag dished")
     # Dishing:yag sleeping now
     #  pressure still on Pot...Cooked...Dishing_i:yag
+    #T.sustabug = 'Cooked'
     be.do("yag pipeline idle")
+    delete T.sustabug
     supply = []
-    # < emptying mode. without:
-    #    Pot stops happening, the rest pick up from the domed Pot
+    # emptying mode
+    #  else Pot stops happening, the rest pick up from the domed Pot
+    incon = 1
     # all of it!!!!!!!
+    T.sustablag = 'PotCooked'
     be.do("yag pipeline vanished")
     be.do("finality")
+    delete T.sustablag
+    
+    # < allow using day-1 rice in crackers, cook hard
+    
+    # see loco.incon
+    # < also if we have car.i yet no car.o emerge (after having some)
+    
+    # < this bunch of #msgs in RiceTrain should be an Eight
     
     # < try getting sleepings to &sustain anyway...
     #   mostly so they go el1 over time?
     #    do %%rec redomings want to experience them all?
     
-    #T.sustabug = 'Dishing'
-    delete T.sustabug
     
     # < recv.ovs{ ov: middle-if-ov }'
     #    auto set to next ov defined (anywhere) if tao

@@ -1305,8 +1305,7 @@ me.settleblab = 1
     }
    
 // 6 < frontends
-  // dome..h context
-   
+
   // &sustain causal effigy
     =sustain
        watch thing go true|changey
@@ -1902,9 +1901,12 @@ me.settleblab = 1
                     # originating, for housey v
                     # < see sync idc
                     1 || !vsus and ex(a,v)
-                    # < similar is g.idc (textual s)
-                    #    should come before a.a|v
-                    a.a = q.origin || v
+                    # put potentially just a $gs in a.a (dont a.a.done())
+                    a.a = v
+                    # until q.origin may take up a.a
+                    #  you bind $v = a.v || a.a
+                    #   or &sustrain may $v = isC(a.a.v)
+                    #  setting a.a = origin || ish(v)
                     # the !housey a.v=v later, via n%$k
                     q.origin and a.v = v
                 }
@@ -1956,6 +1958,7 @@ me.settleblab = 1
             # sustaining
             fatal.ish(a)
         }
+        q.origin and a.a = q.origin
         g.el = el
         g.a = a
         return a
@@ -2152,11 +2155,13 @@ me.settleblab = 1
         $intime = 1
         
 
-        return &train,{
+        return &train,loco{
             # many cars + an i
             $tos = haks(train)
             # < no i, substract first $car from other 
             tos.shift() != 'i' and throw "give input i=N|&{N}"
+            # c the engine around them all
+            loco ||= {}
             # < cm hilight bug: {tr...} not green
             $ta = {train}
             each it tos {
@@ -2200,6 +2205,7 @@ me.settleblab = 1
                 a = me&sustain,s,c,q
                 # dupey accumulator
                 me&X_z,car,'i',a
+                return a
             }
             # ta/$t/o/$a=&sustain Glance
             $tao = &car,a{
@@ -2216,7 +2222,6 @@ me.settleblab = 1
                 $recv = car.recv
                 # < many time++ around? recv.i?
                 car.i and debugger
-                T.sustabug == t and debugger
                 if (0 == i) {
                     # i origin, may be empty
                     fuN(train.i).map(v => tai(car,v))
@@ -2236,7 +2241,7 @@ me.settleblab = 1
                 # init: call middle only when el2
                 $sleeping = []
                 # ever: keep forever
-                if (recv.init || recv.ever) {
+                if (recv.init || recv.ever || loco.incon) {
                     # get what was, by $n, which if &sustained gains y&future
                     #  which is obscured while|after redoming them, see &osus
                     $wasN = me&osus,car.t .map(a => a.n)
@@ -2278,6 +2283,7 @@ me.settleblab = 1
                         q ||= {}
                         q.origin = a
                         q.num ||= 3
+                        T.sustabug == t and debugger
                         
                         # note: '$a =' here causes q.origin = undef above
                         a = me&sustain,s,c,q
@@ -2295,7 +2301,22 @@ me.settleblab = 1
                 }
                 
        // 7
-                if (hak(sleeping) || recv.ever) {
+                # incon: empty pipeline when it stops coming in|out
+                # overcomes recv.ever
+                if (loco.incon && !hak(car.o) && !hak(sleeping)) {
+                T.sustablag && T.sustablag.includes(t) and ~>4 jave: hak(car.i), car.t, hak(wasN), hak(car.o)
+                    each in wasN {
+                        # if we do nothing, laters still &osus it
+                        $a = ns&sustain
+                        ~>4 incon: car.t, ns&rec
+                        a.done('incon')
+                        !a.a and debugger
+                        else fudo(a.a.done, 'incon')
+                    }
+                }
+                # sleeping/a ad-hoc subscription to:
+                # ever: keep forever
+                elsif (hak(sleeping) || recv.ever) {
                     # any new += was
                     # < a.b=a separated by re-originating
                     #   unless ny&future is claimed by new
