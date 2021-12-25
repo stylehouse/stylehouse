@@ -1804,6 +1804,7 @@ S 6 &sustrain
             # < accumulate in a Pot
             Pot: &yea{
                 $gs = {of:e}
+                ~>4 Pot: rs&ver, e
                 y (gs)
             },
             Cooked: &yea{
@@ -1820,6 +1821,7 @@ S 6 &sustrain
                     # call that Cooked
                     a.cooked.match(/ {4}/) and a.ov = 0.8
                 }
+                ~>4 Cooked: rs&ver, e.of
                 a.ov > 0.6 and y ({day},"Look",{food:a.cooked})
             },
         })
@@ -1845,10 +1847,12 @@ S 6 &sustrain
     supply.push('ce')
     be.do("start cooking ce too")
     be.do("they keep going")
+    supply = []
     be.do("and are done")
     be.do("stay done")
     supply = ['yag']
     be.do("yag takes over the kitchen")
+    
     # Cooked->Dishing
     serving = 1
     # Dishing starts using recv.hord
@@ -1856,14 +1860,22 @@ S 6 &sustrain
     # but can only move one of them at a time
     #  Dishing_i:ce remains
     be.do("yag continues, others served")
+    
     # dont Cooked:yag
     poweroutage = 1
     # Dishing:ce made
     be.do("yagless")
+    
+   // 10
     be.do("yag dished")
     # Dishing:yag sleeping now
     #  pressure still on Pot...Cooked...Dishing_i:yag
     be.do("yag pipeline idle")
+    supply = []
+    # < emptying mode. without:
+    #    Pot stops happening, the rest pick up from the domed Pot
+    be.do("yag pipeline vanished")
+    be.do("finality")
     
     # < try getting sleepings to &sustain anyway...
     #   mostly so they go el1 over time?
