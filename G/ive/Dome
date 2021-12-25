@@ -1715,6 +1715,7 @@ me.settleblab = 1
         
         # < gs.done('loaded','^')
         #   drops the &sustain leading to this as well
+        #    climbing gs(.a)+, see &sustrain / a.done('incon')
         # < a.done(s,T,e | t,expr), depending on async|not
         
         # on failure|enduring to complete it
@@ -2267,6 +2268,7 @@ me.settleblab = 1
                         {0:&{ sleepa = 0 }}
                     )
                     # < exclusively sleeping some, others dropping
+                    # < T.sleep in middle should also
                     sleepa and sleeping.push(a); continue
                     delete a.uninit
                     
@@ -2302,13 +2304,13 @@ me.settleblab = 1
                 
        // 7
                 # incon: empty pipeline when it stops coming in|out
-                # overcomes recv.ever
+                # loco.incon && !o > recv.ever
                 if (loco.incon && !hak(car.o) && !hak(sleeping)) {
-                T.sustablag && T.sustablag.includes(t) and ~>4 jave: hak(car.i), car.t, hak(wasN), hak(car.o)
+                    #T.sustablag && T.sustablag.includes(t) and ~>4 jave: hak(car.i), car.t, hak(wasN), hak(car.o)
                     each in wasN {
-                        # if we do nothing, laters still &osus it
+                        # if we do nothing, laters still &osus recycleds
                         $a = ns&sustain
-                        ~>4 incon: car.t, ns&rec
+                        #~>4 incon: car.t, ns&rec
                         a.done('incon')
                         !a.a and debugger
                         else fudo(a.a.done, 'incon')
@@ -2320,29 +2322,16 @@ me.settleblab = 1
                     # any new += was
                     # < a.b=a separated by re-originating
                     #   unless ny&future is claimed by new
-                    if (0) {
-                        $osus = me&osus,car.t,'',7
-                        if (!recv.ever) {
-                            # only those that follow current a.a=$t_i
-                            # < fork RiceTrain, implant a copy of Cooked from before
-                            #    which shouldnt increase the Dishing
-                            osus = grep(a => sleeping.includes(a.a), osus)
-                        }
-                        # < have to watch whence this 
-                        each ia osus {
-                            $n = a.n
-                            $see = {was:car.t+'i',well:a.food}
-                            n != a.n and see.gyp = 1
-                            ny&future and see.futu = 1
-                        }
-                    }
                     each in wasN {
                         $a = ns&sustain
                         !a.a and debugger
-                        # < where you want -Bow-diver to find relation
-                        #    sleeping/a <-> wasN/n//a
-                        #sleeping.includes(a.a) and h.ha({was:car.t+'i',follow:a.food})
-                        
+                        if (!recv.ever) {
+                            # only o row that follow a sleeping i row
+                            # < test as a non-waking traction
+                            $slepto = sleeping.includes(a.a)
+                        }
+                        # this must have been remembered
+                        # < Xorder: put new one here, see resolved $n
                         ny&future and continue
                         # < how awake to be?
                         # < set nc&tractable to survive &rec_traction later
@@ -2352,6 +2341,9 @@ me.settleblab = 1
                         #     or would that need h.jaa to see recyc+tractioned?
                         #   it would bias the lack of "resolve $n" for end posting at least
                         #    likely to be endured for a while
+                        #   yet &suss seems like it may always sort everything
+                        #    needing to recurse for any /**/$n>1
+                        #     for the next bit of text difference they have
                         n = a.n = h.ha(n.sc)
                         nc&sussleeping = 1
                         tao(car,a)

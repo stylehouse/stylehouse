@@ -1788,8 +1788,9 @@ S 6 &sustrain
     $be = me&mockbrackR,'RiceTrain'
     # RiceDay with better limbing
     # < sync more E/e** after an inital -six
+    #    they could have more -seven in them about time?
     #    so they can show a part progressing over time
-    #    they should have more -seven in them about time?
+   // u
     $day = 1
     $poweroutage = 0
     $serving = 0
@@ -1804,7 +1805,7 @@ S 6 &sustrain
             # < accumulate in a Pot
             Pot: &yea{
                 $gs = {of:e}
-                ~>4 Pot: rs&ver, e
+                #~>4 Pot: rs&ver, e
                 y (gs)
             },
             Cooked: &yea{
@@ -1821,7 +1822,7 @@ S 6 &sustrain
                     # call that Cooked
                     a.cooked.match(/ {4}/) and a.ov = 0.8
                 }
-                ~>4 Cooked: rs&ver, e.of
+                #~>4 Cooked: rs&ver, e.of
                 a.ov > 0.6 and y ({day},"Look",{food:a.cooked})
             },
         }, {incon})
@@ -1870,16 +1871,13 @@ S 6 &sustrain
     be.do("yag dished")
     # Dishing:yag sleeping now
     #  pressure still on Pot...Cooked...Dishing_i:yag
-    #T.sustabug = 'Cooked'
     be.do("yag pipeline idle")
-    delete T.sustabug
     supply = []
     # 12
     # emptying mode
     #  else Pot stops happening, the rest pick up from the domed Pot
     incon = 1
-    # all of it!!!!!!!
-    T.sustablag = 'PotCooked'
+    # all of it!!!!!!!!
     # they look like they would go away
     be.do("yag pipeline vanished")
     # then we have Dishing_i:yag, Dishing sleeping
@@ -1887,6 +1885,11 @@ S 6 &sustrain
     #   all for things unheard of this time
     #    < wants lv
     be.do("finality")
+    
+    
+    #T.sustabug = 'Cooked'
+    delete T.sustabug
+    T.sustablag = 'PotCooked'
     delete T.sustablag
     
     # < allow using day-1 rice in crackers, cook hard
