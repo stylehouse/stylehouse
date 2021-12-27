@@ -1897,18 +1897,21 @@ S 6 &sustrain
 S 7 @elIntro
     $h = A.h.o('elIntro')
     $be = me&mockbrackR,'IntroBits'
-    $supply = []
+    # the process of Q++ -> a system
+    #  to clean up @Gnome / &SG_elIntro
+    #   which only uses one &sustrain, then a few &sustain
+    be.supply = []
     $sup = &tsc{
         $Q = Cye([t,1,pex('of:wjs',c)])
         Qs&string = s
         Qs&dige = dig(Qs&string)
         # a strange event from @Aearch
         $e = Cye(['elIntro',1,{e:Q}])
-        supply.push(e)
+        be.supply.push(e)
     }
     be.main = &Chir{
         me&sustrain ({
-            i: supply,
+            i: be.supply,
             # extra step, ^ persists
             #  usu ignore the first one if i empty, laters still &osus it
             graspQ: &yea{
@@ -1917,24 +1920,29 @@ S 7 @elIntro
                 y ({Qt:Q.t},Q)
             },
             elIntro: &yQa{
+                # usu &diffPs returns di.gs|Comp etc
                 $gs = me&Qidc,Q
-                ~>5 ElIntro: Q.t
-                y(gs,Q)
+                $ofc = nex({},gs,'dige')
+                # ofc thing, gs version
+                # < group by all of c
+                y (gs,Q,ofc)
             }
         })
         # e once
-        supply = []
+        be.supply = []
     }
+    
     sup('Bliss',<<'')
         S Uverallic
             33 3
     
     be.do("fling change")
+    
+    
     sup('Bliss',<<'')
         S Uverallic
             35 3
     
-    0&&
     be.do("fling more")
     
     # see loco.incon
