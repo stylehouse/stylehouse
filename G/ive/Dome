@@ -2171,6 +2171,7 @@ me.settleblab = 1
         }
     }
     me._sustrain = &acgtg{
+        g.intime = 1
         # < Babz: io ta/$car/[io]/$a # instead of &Sarn?
         #    defines schema for later i o/$a per o $car
         # < tai|tao  are not that similar
@@ -2186,7 +2187,12 @@ me.settleblab = 1
         each t,mo g.tmo {
             $car = g.tcar[t]
             me&_sustrain_2,g,car,mo
+            each ia car.i {
+                me&_sustrain_3,g,car,mo,a
+            }
+            me&_sustrain_7,g,car,mo,a
         }
+        g.intime = 0
     }
     # parse g/train/car=recv -> g.t(car|mo).$t = car|mo
     me._sustrain_1 = &acgtg{
@@ -2249,7 +2255,7 @@ me.settleblab = 1
         return a
     }
     # car output - is mostly in send()
-    me._sustrain_car_o = &acgtg{
+    me._sustrain_car_o = &acgtg,car,a{
         # ta/$t/o/$a=&sustain Glance
         me&X_z,car,'o',a
         return a
@@ -2258,19 +2264,14 @@ me.settleblab = 1
         $recv = car.recv
         # < many time++ around? recv.i?
         car.i and debugger
+        
+        T.sustabug == car.t and debugger
         # i origin, may be empty
         $input = recv.first ? fuN(g.train.i)
-            : g.la
-        # <<<<
-        if (0 == i) {
-            fuN(train.i).map(v => me&_sustrain_car_i,g,car,v )
-        }
-        elsif (g.la) {
-            # ~:oi: clones sus:Laststep -> sus:Nextstep_i
-            $osus = me&osus,g.la.t
-            osus.map(a => me&_sustrain_car_i,g,car,v )
-            # < osus <=> la.o might be empty, wind down from?
-        }
+        # ~:oi: clones sus:Laststep -> sus:Nextstep_i
+            : g.la ? me&osus,g.la.t
+            : []
+        input.map(v => me&_sustrain_car_i,g,car,v )
         
         # can happen if train.i = []
         car.i ||= []
@@ -2288,118 +2289,108 @@ me.settleblab = 1
         
         # < figuring mo: how to wake|row, whittling car.i just to them?
     }
+    # i -> a -> o
     me._sustrain_3 = &acgtg,car,mo,a{
-                
-       // o *
-                each ia car.i {
-                    # < not always a.v, will always a.n.sc.$k
-                    $v = a.v || a
-                    if (la) {
-                        # non-first may receive previous car's send(C)
-                        # < should work as simple y(C) too
-                        #    from which some s|idc might be extracted... #format
-                        # eg sus:graspQ y($Q), then sus:elIntro wants v=Q
-                        #  otherwise it submerges its scuttle amongst a.*
-                        isC(a.a.v) and v = a.a.v
-                    }
-                    # may sleep el1
-                    $sleepa = recv.init && a.el == 1 && !a.uninit
-                    # may cancel sleep
-                    sleepa && means(
-                        fudo(recv.sleeping, 0,v,a),
-                        {0:&{ sleepa = 0 }}
-                    )
-                    # < exclusively sleeping some, others dropping
-                    # < T.sleep in middle should also
-                    sleepa and sleeping.push(a); continue
-                    delete a.uninit
-                    
-                    # < what this interface should be
-                    #   it has already defined $t, the key to put $v at
-                    # &sustain args with c.$t=$v and c separated
-                    $send = &svcq{
-                        !intime and throw "oot"
-                        # s -> s,v
-                        hak(arguments) == 1 and v = s
-                        # %%sustain:a + non-idc
-                        c = ex(hashkv(t,v), c||{})
-
-                        q ||= {}
-                        q.origin = a
-                        q.num ||= 3
-                        T.sustabug == t and debugger
-                        
-                        # note: '$a =' here causes q.origin = undef above
-                        a = me&sustain,s,c,q
-                        tao(car,a)
-                        return a
-                    }
-                    # recv.init = recv.ever
-                    send.ta = ta
-                    
-                    # they send(gs,...)
-                    means(
-                        fudo(recv.middle, send,v,a),
-                        {0:&{ a.uninit = {} }}
-                    )
-                }
-                
-       // 7
-                # incon: empty pipeline when it stops coming in|out
-                # loco.incon && !o > recv.ever
-                if (loco.incon && !hak(car.o) && !hak(sleeping)) {
-                    #T.sustablag && T.sustablag.includes(t) and ~>4 jave: hak(car.i), car.t, hak(wasN), hak(car.o)
-                    each in wasN {
-                        # if we do nothing, laters still &osus recycleds
-                        $a = ns&sustain
-                        #~>4 incon: car.t, ns&rec
-                        a.done('incon')
-                        !a.a and debugger
-                        else fudo(a.a.done, 'incon')
-                    }
-                }
-                # sleeping/a ad-hoc subscription to:
-                # ever: keep forever
-                elsif (hak(sleeping) || recv.ever) {
-                    # any new += was
-                    # < a.b=a separated by re-originating
-                    #   unless ny&future is claimed by new
-                    each in wasN {
-                        $a = ns&sustain
-                        !a.a and debugger
-                        if (!recv.ever) {
-                            # only o row that follow a sleeping i row
-                            # < test as a non-waking traction
-                            $slepto = sleeping.includes(a.a)
-                        }
-                        # this must have been remembered
-                        # < Xorder: put new one here, see resolved $n
-                        ny&future and continue
-                        # < how awake to be?
-                        # < set nc&tractable to survive &rec_traction later
-                        #    instead of this strange re-entry
-                        #   then it becomes nc&tractioned as usual
-                        #    which should allow multiple &rec_traction ?
-                        #     or would that need h.jaa to see recyc+tractioned?
-                        #   it would bias the lack of "resolve $n" for end posting at least
-                        #    likely to be endured for a while
-                        #   yet &suss seems like it may always sort everything
-                        #    needing to recurse for any /**/$n>1
-                        #     for the next bit of text difference they have
-                        n = a.n = h.ha(n.sc)
-                        nc&sussleeping = 1
-                        tao(car,a)
-                    }
-                }
-                
-                
-                # car.o traction? may be empty
-                car.o ||= []
-                la = car
-            }
-            # dome over - no async &sustain
-            intime = 0
+        $recv = car.recv
+        # < not always a.v, will always a.n.sc.$k
+        $v = a.v || a
+        if (g.la) {
+            # non-first may receive previous car's send(C)
+            # < should work as simple y(C) too
+            #    from which some s|idc might be extracted... #format
+            # eg sus:graspQ y($Q), then sus:elIntro wants v=Q
+            #  otherwise it submerges its scuttle amongst a.*
+            isC(a.a.v) and v = a.a.v
         }
+        # may sleep el1
+        $sleepa = recv.init && a.el == 1 && !a.uninit
+        # may cancel sleep
+        sleepa && means(
+            fudo(recv.sleeping, 0,v,a),
+            {0:&{ sleepa = 0 }}
+        )
+        # < exclusively sleeping some, others dropping
+        # < T.sleep in middle should also
+        sleepa and car.sleeping.push(a); return
+        delete a.uninit
+
+        # < what this interface should be
+        #   it has already defined $t, the key to put $v at
+        # &sustain args with c.$t=$v and c separated
+        $send = &svcq{
+            !g.intime and throw "oot"
+            # s -> s,v
+            hak(arguments) == 1 and v = s
+            # %%sustain:a + non-idc
+            c = ex(hashkv(car.t,v), c||{})
+
+            q ||= {}
+            q.origin = a
+            q.num ||= 3
+
+            a = me&sustain,s,c,q
+            me&_sustrain_car_o,g,car,a
+            return a
+        }
+
+        # they send(gs,...)
+        means(
+            fudo(recv.middle, send,v,a),
+            {0:&{ a.uninit = {} }}
+        )
+    }
+    me._sustrain_7 = &acgtg,car,mo,a{
+        $recv = car.recv
+        # incon: empty pipeline when it stops coming in|out
+        # loco.incon && !o > recv.ever
+        if (g.loco.incon && !hak(car.o) && !hak(car.sleeping)) {
+            #T.sustablag && T.sustablag.includes(t) and ~>4 jave: hak(car.i), car.t, hak(wasN), hak(car.o)
+            each in car.wasN {
+                # if we do nothing, laters still &osus recycleds
+                $a = ns&sustain
+                #~>4 incon: car.t, ns&rec
+                a.done('incon')
+                !a.a and debugger
+                else fudo(a.a.done, 'incon')
+            }
+        }
+        # sleeping/a ad-hoc subscription to:
+        # ever: keep forever!
+        elsif (hak(car.sleeping) || recv.ever) {
+            # any new += was
+            # < a.b=a separated by re-originating
+            #   unless ny&future is claimed by new
+            each in car.wasN {
+                $a = ns&sustain
+                !a.a and debugger
+                if (!recv.ever) {
+                    # only o row that follow a sleeping i row
+                    # < test as a non-waking traction
+                    $slepto = car.sleeping.includes(a.a)
+                }
+                # this must have been remembered
+                # < Xorder: put new one here, see resolved $n
+                ny&future and continue
+                # < how awake to be?
+                # < set nc&tractable to survive &rec_traction later
+                #    instead of this strange re-entry
+                #   then it becomes nc&tractioned as usual
+                #    which should allow multiple &rec_traction ?
+                #     or would that need h.jaa to see recyc+tractioned?
+                #   it would bias the lack of "resolve $n" for end posting at least
+                #    likely to be endured for a while
+                #   yet &suss seems like it may always sort everything
+                #    needing to recurse for any /**/$n>1
+                #     for the next bit of text difference they have
+                n = a.n = g.h.ha(n.sc)
+                nc&sussleeping = 1
+                me&_sustrain_car_o,g,car,a
+            }
+        }
+
+        # < car.o traction? may not empty
+        car.o ||= []
+        g.la = car
     }
 
   // &Effect, their -Effect receives faster than %%eto
