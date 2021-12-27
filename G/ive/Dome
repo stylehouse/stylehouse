@@ -2150,103 +2150,145 @@ me.settleblab = 1
         return y (...[...arguments].slice(1))
     }
     me.sustrain = &acgt{
-       
-       // recv
-        $h = me&hajasute
+        # < all callbacks in here should be other-time sensitive
         $intime = 1
-        
-
         return &train,loco{
-            # many cars + an i
-            $tos = haks(train)
-            # < no i, substract first $car from other 
-            tos.shift() != 'i' and throw "give input i=N|&{N}"
-            # c the engine around them all
-            loco ||= {}
-            # < cm hilight bug: {tr...} not green
-            $ta = {train}
-            each it tos {
-                $car = ta[t] ||= {t}
-                $recv = train[t]
-                # recv is expr disguised as fuc (functioney c)
-                #  describes behaviour
-                # singularly: recv=&{ ... }
-                isfu(recv) and recv = {middle:recv}
-                car.recv = recv
-                # modes: recv={suchly:&{ ... }}
-                # < multiple middles etc, wanting compiling to I.**
-                recv.middle ||= recv.hord || recv.init || recv.ever
-                # hord: experience each thing once, keep forever
-                recv.hord and recv.init = recv.ever = 1
-                # init: call middle only when el2
-                # ever: keep forever
-            }
-       
-       // tai|tao ta/$car/[io]/$a
-            # < Babz: io ta/$car/[io]/$a # instead of &Sarn?
-            #    defines schema for later i o/$a per o $car
-            # < tai|tao  are not that similar
-            # ta/$t/i/$a=&sustain Glance_i
-            # ie $car <- $s car:$ear?
-            # < per to-sustain (usu one), depending on indent of $train?
-            # < all these spaces reachable
-            #   by edit|compile param complex
-            # < might want more idc
-            #   eg paginating through the act, or permasay
-            $tai = &car,v,ear{
-                # < should we re-&sustain $a from another &sustain?
-                #   we want another $a to spread the change
-                $a = ish(v) && v
-                # similar to send(a), &sustain texty s->idc
-                $s = a || {}
-                $c = hashkv(car.t+'_i',v)
-                # < are q.origin=a and v=a the same?
-                $q = {num:3}
-                a and q.origin = a
-                a = me&sustain,s,c,q
-                # dupey accumulator
-                me&X_z,car,'i',a
-                return a
-            }
-            # ta/$t/o/$a=&sustain Glance
-            $tao = &car,a{
-                me&X_z,car,'o',a
-                return a
-            }
+            # once only
+            !intime and throw "after"
+            intime = 0
             
-       // i *
-            # ta/$t/o/$a=&sustain
-            $la
-            #ta.Glance and debugger
-            each it tos {
-                $car = ta[t]
-                $recv = car.recv
-                # < many time++ around? recv.i?
-                car.i and debugger
-                if (0 == i) {
-                    # i origin, may be empty
-                    fuN(train.i).map(v => tai(car,v))
-                }
-                elsif (la) {
-                    # ~:oi: clones sus:Laststep -> sus:Nextstep_i
-                    $osus = me&osus,la.t
-                    osus.map(a => tai(car,a,la))
-                    # < osus <=> la.o might be empty, wind down from?
-                }
-                # can happen if train.i = []
-                car.i ||= []
-                # and when done drains the pipes
-                !hak(car.i) and 'reap?'
-                
-                
-                # init: call middle only when el2
-                $sleeping = []
-                # ever: keep forever
-                if (recv.init || recv.ever || loco.incon) {
-                    # get what was, by $n, which if &sustained gains y&future
-                    #  which is obscured while|after redoming them, see &osus
-                    $wasN = me&osus,car.t .map(a => a.n)
-                }
+            # env
+            $h = me&hajasute
+            # ~~ &sustrain s c
+            # s spec the many cars
+            #  each receives and generates rows
+            !train and throw '!cars'
+            # c spec for all
+            #  eg loco.incon: emptying mode
+            # < eg send() options for some index maker for %%rec
+            loco ||= {}
+            return me&_sustrain,{h,loco,train}
+        }
+    }
+    me._sustrain = &acgtg{
+        # < Babz: io ta/$car/[io]/$a # instead of &Sarn?
+        #    defines schema for later i o/$a per o $car
+        # < tai|tao  are not that similar
+        # ta/$t/i/$a=&sustain Glance_i
+        # ie $car <- $s car:$ear?
+        # < per to-sustain (usu one), depending on indent of $train?
+        # < all these spaces reachable
+        #   by edit|compile param complex
+        # < might want more idc
+        #   eg paginating through the act, or permasay
+        me&_sustrain_1,g
+        # g.t(car|mo).$t = car|mo
+        each t,mo g.tmo {
+            $car = g.tcar[t]
+            me&_sustrain_2,g,car,mo
+        }
+    }
+    # parse g/train/car=recv -> g.t(car|mo).$t = car|mo
+    me._sustrain_1 = &acgtg{
+        # many cars + an i
+        $tos = haks(g.train)
+        tos[0] != 'i' and g.noi = 1
+        else tos.shift()
+        
+        if (g.noi) {
+            # first $car from itself
+            # < for sus:RunStep 
+            #  < during suss:RunStep (via env, recv.ov sort voices)
+            g.train.i = me&osus,tos[0]
+        }
+        
+        g.tcar = {}
+        each it tos {
+            $car = g.tcar[t] ||= {t}
+            $recv = g.train[t]
+            # recv is expr disguised as fuc (functioney c)
+            #  describes behaviour
+            # singularly: recv=&{ ... }
+            isfu(recv) and recv = {middle:recv}
+            # input from train.i
+            0 == i and recv.first = 1
+            car.recv = recv
+            # modes: recv={suchly:&{ ... }}
+            # < multiple middles etc, wanting compiling to I.**
+            recv.middle ||= recv.hord || recv.init || recv.ever
+            # hord: experience each thing once, keep forever
+            recv.hord and recv.init = recv.ever = 1
+            # init: call middle only when el2
+            # ever: keep forever
+        }
+        
+        # car Go, which cars to wake (usu all)
+        # < sleep later car around corresponding earlier slep
+        #   and etc, could be how to %RX here, give temp recv.ever
+        g.tmo = {}
+        each it tos {
+            g.tmo[t] ||= {t}
+        }
+        
+    }
+    # car input - versions on the way in
+    #  on the odd occasion (train.i) v=string|undef|C|array|etc
+    me._sustrain_car_i = &acgtg,car,v{
+        # < should we re-&sustain $a from another &sustain?
+        #   we want another $a to spread the change
+        $a = ish(v) && v
+        # similar to send(a), &sustain texty s->idc
+        $s = a || {}
+        $c = hashkv(car.t+'_i',v)
+        # < are q.origin=a and v=a the same?
+        $q = {num:3}
+        a and q.origin = a
+        a = me&sustain,s,c,q
+        # dupey accumulator
+        me&X_z,car,'i',a
+        return a
+    }
+    # car output - is mostly in send()
+    me._sustrain_car_o = &acgtg{
+        # ta/$t/o/$a=&sustain Glance
+        me&X_z,car,'o',a
+        return a
+    }
+    me._sustrain_2 = &acgtg,car,mo{
+        $recv = car.recv
+        # < many time++ around? recv.i?
+        car.i and debugger
+        # i origin, may be empty
+        $input = recv.first ? fuN(g.train.i)
+            : g.la
+        # <<<<
+        if (0 == i) {
+            fuN(train.i).map(v => me&_sustrain_car_i,g,car,v )
+        }
+        elsif (g.la) {
+            # ~:oi: clones sus:Laststep -> sus:Nextstep_i
+            $osus = me&osus,g.la.t
+            osus.map(a => me&_sustrain_car_i,g,car,v )
+            # < osus <=> la.o might be empty, wind down from?
+        }
+        
+        # can happen if train.i = []
+        car.i ||= []
+        # and when done drains the pipes
+        !hak(car.i) and 'reap?'
+
+        # init: call middle only when el2
+        car.sleeping = []
+        # ever: keep forever
+        if (recv.init || recv.ever || g.loco.incon) {
+            # get what was, by $n, which if &sustained gains y&future
+            #  which is obscured while|after redoming them, see &osus
+            car.wasN = me&osus,car.t .map(a => a.n)
+        }
+        
+        # < figuring mo: how to wake|row, whittling car.i just to them?
+    }
+    me._sustrain_3 = &acgtg,car,mo,a{
                 
        // o *
                 each ia car.i {
