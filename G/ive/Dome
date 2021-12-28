@@ -2135,20 +2135,6 @@ me.settleblab = 1
     # < which came from where, timing for everything
     #    splosive X timescape
     
-    # data type|match dispatch table
-    self.means = &sc{
-        # multiple ands -> nested if / if
-        $y = isnu(s) || isst(s) ? c[s]
-            : isar(s) ? c['[]']
-            : isha(s) ? c['{}']
-            : 0
-        y and y (s)
-    }
-    # might dispatch
-    self.fudo = &y{
-        !y || !isfu(y) and return
-        return y (...[...arguments].slice(1))
-    }
     me.sustrain = &acgt{
         # < all callbacks in here should be other-time sensitive
         $intime = 1
@@ -2231,34 +2217,11 @@ me.settleblab = 1
         # car Go, which cars to wake (usu all)
         # < sleep later car around corresponding earlier slep
         #   and etc, could be how to %RX here, give temp recv.ever
+        # < figuring mo: how to wake|row, whittling car.i just to them?
         g.tmo = {}
         each it tos {
             g.tmo[t] ||= {t}
         }
-        
-    }
-    # car input - versions on the way in
-    #  on the odd occasion (train.i) v=string|undef|C|array|etc
-    me._sustrain_car_i = &acgtg,car,v{
-        # < should we re-&sustain $a from another &sustain?
-        #   we want another $a to spread the change
-        $a = ish(v) && v
-        # similar to send(a), &sustain texty s->idc
-        $s = a || {}
-        $c = hashkv(car.t+'_i',v)
-        # < are q.origin=a and v=a the same?
-        $q = {num:3}
-        a and q.origin = a
-        a = me&sustain,s,c,q
-        # dupey accumulator
-        me&X_z,car,'i',a
-        return a
-    }
-    # car output - is mostly in send()
-    me._sustrain_car_o = &acgtg,car,a{
-        # ta/$t/o/$a=&sustain Glance
-        me&X_z,car,'o',a
-        return a
     }
     me._sustrain_2 = &acgtg,car,mo{
         $recv = car.recv
@@ -2286,10 +2249,25 @@ me.settleblab = 1
             #  which is obscured while|after redoming them, see &osus
             car.wasN = me&osus,car.t .map(a => a.n)
         }
-        
-        # < figuring mo: how to wake|row, whittling car.i just to them?
     }
-    # i -> a -> o
+    # a -> car
+    #  on the odd occasion (train.i) v=string|undef|C|array|etc
+    me._sustrain_car_i = &acgtg,car,v{
+        # < should we re-&sustain $a from another &sustain?
+        #   we want another $a to spread the change
+        $a = ish(v) && v
+        # similar to send(a), &sustain texty s->idc
+        $s = a || {}
+        $c = hashkv(car.t+'_i',v)
+        # < are q.origin=a and v=a the same?
+        $q = {num:3}
+        a and q.origin = a
+        a = me&sustain,s,c,q
+        # dupey accumulator
+        me&X_z,car,'i',a
+        return a
+    }
+    # car i -> middle -> o
     me._sustrain_3 = &acgtg,car,mo,a{
         $recv = car.recv
         # < not always a.v, will always a.n.sc.$k
@@ -2339,6 +2317,14 @@ me.settleblab = 1
             {0:&{ a.uninit = {} }}
         )
     }
+    # car -> a
+    #  is mostly in send()
+    me._sustrain_car_o = &acgtg,car,a{
+        # ta/$t/o/$a=&sustain Glance
+        me&X_z,car,'o',a
+        return a
+    }
+    
     me._sustrain_7 = &acgtg,car,mo,a{
         $recv = car.recv
         # incon: empty pipeline when it stops coming in|out
