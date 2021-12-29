@@ -1755,10 +1755,11 @@ me.settleblab = 1
         #  usu the first c.$k
         # see uses %%rec=keyword or keyword:$v
         $rec = g.k
-        if (g.q.k) {
-            # < name this param better
-            g.v == null and throw "null pk"
-            rec = cint(rec,g.v)
+        $pk = g.q.k ? g.v : g.q.pk
+        if (pk) {
+            pk == null and throw "null pk"
+            !iske(pk) and throw "!text pk"
+            rec = cint(rec,pk)
         }
         
         # how to identify it
@@ -2152,7 +2153,7 @@ me.settleblab = 1
             # c spec for all
             #  eg loco.incon: emptying mode
             # < eg send() options for some index maker for %%rec
-            loco ||= {}
+            loco = peel(loco)
             return me&_sustrain,{h,loco,train}
         }
     }
@@ -2182,17 +2183,18 @@ me.settleblab = 1
     }
     # parse g/train/car=recv -> g.t(car|mo).$t = car|mo
     me._sustrain_1 = &acgtg{
-        # many cars + an i
+        # handle train.i (doesnt become $car)
         $tos = haks(g.train)
         tos[0] != 'i' and g.noi = 1
         else tos.shift()
-        
         if (g.noi) {
             # first $car from itself
-            # < for sus:RunStep 
+            # < for sus:RunStep ?
             #  < during suss:RunStep (via env, recv.ov sort voices)
             g.train.i = me&osus,tos[0]
         }
+        
+        g.loco.pk
         
         g.tcar = {}
         each it tos {
@@ -2262,7 +2264,9 @@ me.settleblab = 1
         # < are q.origin=a and v=a the same?
         $q = {num:3}
         a and q.origin = a
+        
         a = me&sustain,s,c,q
+        
         # dupey accumulator
         me&X_z,car,'i',a
         return a
@@ -2297,15 +2301,19 @@ me.settleblab = 1
         # &sustain args with c.$t=$v and c separated
         $send = &svcq{
             !g.intime and throw "oot"
+            q = pex({origin:a,num:3},q)
+            if (g.loco.pk == 'cors') {
+                # extend %%rec=car.t ...id-ish
+                $keying = c || s
+                keying = me&sustain_get_idcish,keying
+                q.pk = cint(havs(map((v,k) => cint(k,v),keying)))
+            }
+            
             # s -> s,v
             hak(arguments) == 1 and v = s
             # %%sustain:a + non-idc
             c = ex(hashkv(car.t,v), c||{})
-
-            q ||= {}
-            q.origin = a
-            q.num ||= 3
-
+            
             a = me&sustain,s,c,q
             me&_sustrain_car_o,g,car,a
             return a
@@ -2320,7 +2328,7 @@ me.settleblab = 1
     # car -> a
     #  is mostly in send()
     me._sustrain_car_o = &acgtg,car,a{
-        # ta/$t/o/$a=&sustain Glance
+        # car/o/$a=&sustain Glance
         me&X_z,car,'o',a
         return a
     }
