@@ -1817,6 +1817,7 @@ me.settleblab = 1
         # what sustaining %%sustain:a is all about
         if (v) {
             # true
+            # < could be [a+], hakd would make sense of it
             if (ish(v) && !isar(v)) {
                 # may receive: v=gs={...} from some id scraper
                 #  simple hash diff with wasv, may remake a in v's image
@@ -1858,6 +1859,26 @@ me.settleblab = 1
                         # or a.a = v
                         : wasa.a
                     
+                    if (was == wasa.v && ish(v) && !ish(was)) {
+                        # our last $v was not C
+                        # eg when c={Inc_i:$v=a:elIntro}
+                        #  wasa=a:Inc_i
+                        #   < supposedly got there via later:
+                        #      a != g.wasa / ex(a,v) # imparting a.v from v.v
+                        #      which we usu overwrite: q.origin and a.v = v
+                        #     try to exclude it?
+                        #      &sustrain middle receives v=a.a.v if it isC()
+                        #      and Inc_i.* ~~ elIntro.* is what is intended
+                        #      so we dont need to know Inc_i.v=C
+                        #       ie we track elIntro.* strings
+                        #        which should entropy when we should el2, etc
+                        #     meant to make a.* wander to later cars
+                        #      and then much later cars have huge sensitivity
+                        #      < some day to mean a.c.* wanders (unless otherwise)
+                        #         and a.sc.* doesnt (unless otherwise)
+                        #  wasv=a:elIntro (.v=was too)
+                        #  was = wasa.v
+                    }
                     $same = v == was
                     # sameness via hakd() if q=3 (hakdy)
                     #   hash eq, mem was/* not in was incase v=was mutating
@@ -2232,12 +2253,12 @@ me.settleblab = 1
        // car.i = all input
         # < many time++ around? recv.i?
         car.i and debugger
-        T.sustabug == car.t and debugger
         # i origin, may be empty
         $input = recv.first ? fuN(g.train.i)
         # ~:oi: clones sus:Laststep -> sus:Nextstep_i
             : g.la ? me&osus,g.la.t
             : []
+        T.sustabug == car.t and debugger
         input.map(v => me&_sustrain_car_i,g,car,v )
         # can happen if train.i = []
         car.i ||= []
