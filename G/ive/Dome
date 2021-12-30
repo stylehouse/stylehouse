@@ -1737,7 +1737,7 @@ me.settleblab = 1
 
         return a
     }
-   // &sustain f
+   // &sustain f!
     # inherit identity from a|c
     #  eg another &sustain or &diffPs
     # < ongoing design. if a, we might have a.idc or so...
@@ -1859,26 +1859,6 @@ me.settleblab = 1
                         # or a.a = v
                         : wasa.a
                     
-                    if (was == wasa.v && ish(v) && !ish(was)) {
-                        # our last $v was not C
-                        # eg when c={Inc_i:$v=a:elIntro}
-                        #  wasa=a:Inc_i
-                        #   < supposedly got there via later:
-                        #      a != g.wasa / ex(a,v) # imparting a.v from v.v
-                        #      which we usu overwrite: q.origin and a.v = v
-                        #     try to exclude it?
-                        #      &sustrain middle receives v=a.a.v if it isC()
-                        #      and Inc_i.* ~~ elIntro.* is what is intended
-                        #      so we dont need to know Inc_i.v=C
-                        #       ie we track elIntro.* strings
-                        #        which should entropy when we should el2, etc
-                        #     meant to make a.* wander to later cars
-                        #      and then much later cars have huge sensitivity
-                        #      < some day to mean a.c.* wanders (unless otherwise)
-                        #         and a.sc.* doesnt (unless otherwise)
-                        #  wasv=a:elIntro (.v=was too)
-                        #  was = wasa.v
-                    }
                     $same = v == was
                     # sameness via hakd() if q=3 (hakdy)
                     #   hash eq, mem was/* not in was incase v=was mutating
@@ -1912,7 +1892,20 @@ me.settleblab = 1
                         # < revoke etc see hash eq, mem
                         # < how much of it?
                         #    not its idc? got by n%* in a.*
-                        ex(a,v)
+                        # not a.v = v.v
+                        #  eg Try@7 3 Inc_i:
+                        #      &sustrain middle receives v=a.a.v if it isC()
+                        #      and Inc_i.* ~~ elIntro.* is what is intended
+                        #      so we dont need to know Inc_i.v=C
+                        #       ie we track elIntro.* strings
+                        #        which should entropy when we should el2, etc
+                        #     meant to make a.* wander to later cars
+                        #      and then much later cars have huge sensitivity
+                        #      < some day to mean a.c.* wanders (unless otherwise)
+                        #         and a.sc.* doesnt (unless otherwise)
+                        #$awas = a.a
+                        nex(a,v,'v')
+                        #a.a != awas and ~>6 NOT aa aft ex: g.k, dis(g.idc)
                     }
                 }
                 else {
@@ -1923,7 +1916,8 @@ me.settleblab = 1
                 if (a != g.wasa) {
                     # originating, for housey v
                     # < see sync idc
-                    1 || !vsus and ex(a,v)
+                    # not v.v: eg Try@7: wasa=a:Inc_i must have to v to was=v:elIntro
+                    1 || !vsus and nex(a,v,'v')
                     # put potentially just a $gs in a.a (dont a.a.done())
                     a.a = v
                     # until q.origin may take up a.a
