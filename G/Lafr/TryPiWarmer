@@ -1896,6 +1896,7 @@ S 6 &sustrain
     
 S 7 @elIntro
     $h = A.h.o('elIntro')
+    A.h.sixc = 'nl:500'
     $be = me&mockbrackR,'IntroBits'
     $bi = me&mockbrackR,'IncBits'
     # the process of Q++ -> a system
@@ -1931,7 +1932,10 @@ S 7 @elIntro
             # recv.any|all may regroup rows
             # < this will have no Inc_i.v, see: q.origin and a.v = v
             Inc: {init:1,all:&yN{
-                
+                h.ha({Incsum:hak(N)})
+                each iQ N {
+                    h.ha({Inclood:Q.t}, me&Qidc,Q )
+                }
             }},
             
         # loco.pk=cors: use send()'s c (ofc ^) or s (t:Q.t ^^)
@@ -1962,10 +1966,10 @@ S 7 @elIntro
     
     #T.sustabug = 'Inc'
     be.do("quick revision")
+    delete T.sustabug
     # < 14 sus:Inc_i:Ulvs is el2!
     #   see # our last $v was not C
     be.do("Inc still")
-    delete T.sustabug
     
     
     

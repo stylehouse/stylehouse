@@ -1905,7 +1905,6 @@ me.settleblab = 1
                         #         and a.sc.* doesnt (unless otherwise)
                         $awas = a.a
                         nex(a,v,'v,a')
-                        a.a != awas and ~>6 NOT aa aft ex: g.k, dis(g.idc)
                     }
                 }
                 else {
@@ -2223,9 +2222,10 @@ me.settleblab = 1
             car.recv = recv
             # modes: recv={suchly:&{ ... }}
             # < multiple middles etc, wanting compiling to I.**
-            recv.middle ||= recv.hord || recv.init || recv.ever
+            recv.middle ||= grep(isfu,[recv.hord, recv.init, recv.ever,
             # aggregates:
-                || recv.any || recv.all
+                recv.any, recv.all
+            ])[0]
             # hord: experience each thing once, keep forever
             recv.hord and recv.init = recv.ever = 1
             # init: call middle only when el2
@@ -2252,7 +2252,6 @@ me.settleblab = 1
         # ~:oi: clones sus:Laststep -> sus:Nextstep_i
             : g.la ? me&osus,g.la.t
             : []
-        T.sustabug == car.t and debugger
         input.map(v => me&_sustrain_car_i,g,car,v )
         # can happen if train.i = []
         car.i ||= []
@@ -2335,6 +2334,7 @@ me.settleblab = 1
             #     relating the many Inc_i via a.N
             #    so recv.any() can a.pur('waiting on...')
             $c = hashkv(car.t+'_io',vs)
+        T.sustabug == car.t and debugger
             a = me&sustain,{group:1},c
             a.N = as
             a.v != vs and debugger
