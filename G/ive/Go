@@ -1165,9 +1165,12 @@ me.Sch_Go = &acgt{ return [
             # say our ability to attend time
             th('atti',&vma{
                 me&walls,my&up.y.up,'bd:2.4,hu:8'
+                # avoids 0.5+
+                me&tt,'pause' () and c.pause = 'paused'
+                
                 !quiettime and c.unsure = 'neverquiet'
                 # < &tkc: for a k if in c, v may be :something
-                c.unsure and me&tc,"unsure"
+                c.unsure and me&tc,"unsure"; me&tc,c.unsure,'6'
                 else me&tc,"calm"
             })
             
@@ -1214,6 +1217,10 @@ me.Sch_Go = &acgt{ return [
                     active_n == n and a.ov = 0.5; eisa_R = 0
                 }
                 
+                if (!c.unsure && a.ov < 0.5) {
+                    $will = me&tt,"will",'y' (1)
+                    will and a.ov = 0.5
+                }
                 if (!c.unsure && a.ov >= 0.5) {
                     # not while This>Fine
                     
@@ -1240,7 +1247,7 @@ me.Sch_Go = &acgt{ return [
                         me&tsc,"could-Run-this","?",'y'
                         # < &tt per row
                         $will = me&tt,"will",'y' (1)
-                        if (will || (a.ov||0) < 0.6) {
+                        if (will || (a.ov||0) < 0.6 && !c.pause) {
                             me&dotheRunStep,R,h,n,Run,any,quiettime,c,a
                         }
                     }
@@ -1275,14 +1282,16 @@ me.Sch_Go = &acgt{ return [
                                 c.tude = 'through'
                                 $next = me&SG_throughNess,Fine,a.Fe
                                 if (next) {
+                                    # move on from this step
+                                    a.ov = 0.9
+                                    # to here
                                     $S1 = me&SG_NesstoStep,Fine,next
                                     S1 != time1 and debugger
-                                    a.ov = 0.9
                                     $thru = ns&thru + 1
                                     me&sustain,{},{RunStep:S1,thru},'k'
                                     # < having that row ^ join this iteration
                                     #    is the dome stream
-                                    # these are enduring this event
+                                    # come around to will it into &dotheRunStep
                                     h.ha('pur:RunnableStep:'+S1)
                                 }
                                 else {
@@ -1303,9 +1312,10 @@ me.Sch_Go = &acgt{ return [
                 me&tc,dis(odd),'6G'
             })
             
-            
+            $seeseq = me&GapFinder
             row('keep',&Sma{
                 $n = a.n
+                seeseq.have(S)
                 # async once with visit
                 me&tt,"drop" (a.done)
             })
@@ -1313,7 +1323,12 @@ me.Sch_Go = &acgt{ return [
             th('tude',&vma{
                 # < c.* should be brack, for an in-sute per row?
                 $odd = grep(nex({},c,'Fine,nine,This'))
-                me&tc,dis(odd),'6G'
+                hak(odd) and me&tc,dis(odd),'6G'
+                if (hak(seeseq.gaps)) {
+                    me&tt,"+gap" (1) && seeseq.gaps.map(&S{
+                        me&sustain,{},{RunStep:S},'k' .ov = 0.4
+                    })
+                }
             })
            
            // => state
@@ -1329,6 +1344,23 @@ me.Sch_Go = &acgt{ return [
                 $sc = sex({},n.sc,'RunStep,thru')
                 #me&fu,"glab",{a,sc,mem,C}
                 memy&iN([sc])
+            }
+        }
+        # given have(6), gaps=[1-5]
+        me.GapFinder = &acgt{
+            $i = 1
+            $gaps = []
+            return {
+                gaps,
+                have: &S{
+                    !num(S) and throw "!num", S
+                    while (i != S) {
+                        gaps.push(i)
+                        i++ > 64 and throw "manysteps"
+                    }
+                    # the S+1
+                    i++
+                },
             }
         }
         # < need a sequence generator, number ranges in [...new Array(i)]
