@@ -32,7 +32,8 @@ me.Sch_Go = &acgt{ return [
     ['Gnomp',0.296,&acgtRs{
         me&acting,R,'Gnomp'
         Rs&wakeperc = 1
-        me&baleg,'TryPiWarmer','Gnome'
+        $t = me&tt,'Try' () ? 'TryPiWarmer' : 'Fus'
+        me&baleg,t,'Gnome'
         # %%active:Gnome here
         # < parallel tests? shouldn't interfere? (unpredictably)
         $c = {quietready:1}
@@ -1346,6 +1347,7 @@ me.Sch_Go = &acgt{ return [
                 memy&iN([sc])
             }
         }
+      // RunStep f
         # given have(6), gaps=[1-5]
         me.GapFinder = &acgt{
             $i = 1
