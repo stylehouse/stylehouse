@@ -4265,7 +4265,18 @@ me.Sch_The = &acgt{ return [
                 elsif (s.up) {
                     # X...x.up=X
                     $ux = me&hat_x_upwards,R
-                    ux == s.up and sym = 'x'
+                    # < use Xip
+                    # mostly:
+                    $uptoX = ux == s.up
+                        # when X...x has been copied to X...other=x
+                        #  crux at the X (having .A)
+                        # < further than X|A
+                        # < strongly suppose this is an x anyway
+                        || grap(
+                            me.cby(s.up,s => s.A),
+                            me.cby(ux,s => s.A),
+                        )
+                    uptoX and sym = 'x'
                 }
                 return sym
             }
@@ -4286,9 +4297,19 @@ me.Sch_The = &acgt{ return [
             # < X|x if present
             #R.t == 'awoke' and debugger
             $ux =  me&hat_x_upwards,R
-            s.up != me&hat_x_upwards,R and return me&tc,"noxup",'y'
+            $wander = ux != s.up
+            $p = Ry&up
+            if (wander) {
+                Rs&noxup = 1
+                $no = me&tc,"noxup",'y'
+                if (R.t == 'up' && ps&noxup) {
+                    # reveals where it thinks it is
+                    # kind of terminating the noxup-ness
+                    nos&fs = 6
+                }
+            }
             $style = {}
-            style.up = {impl:1}
+            !wander and style.up = {impl:1}
             !hak(s.z) and style.z = {impl:1}
             me&TXin,'anx',{layout:'anx'} (style)
         },'ift,D'],

@@ -122,9 +122,9 @@ S 1 Xsim
     #  more spacious space, returning $x not $n+ rows
     $A = nonA()
     $X = {A}
-    $Xsim = &scx{
+    $Xsim = &sc{
         # $x = &Xsim
-        return fi&Xsim,x||X,0,0,s,pex(c,'long')
+        return fi&Xsim,X,0,0,s,pex(c,'long')
     }
     
     $n = Cye(['Unfuse',1])
@@ -149,10 +149,19 @@ S 1 Xsim
     #  ie it starts when there is no x.further:
     Xsim(peel('all,the,further:6,over,such'),'el:8')
     
-    # c.array=1 allows indexing objects (~~ &X_s)
+    h.hat('c.long',X)
+   
+   // c.array=1
+    # allows indexing objects (~~ &X_s)
     # < benchmark this vs using Cy&uid where possible...?
     #   it greps for them underneath?
     #    is where perl's scalar($obj) == unique address is nice
+    $A = nonA()
+    $X = {A}
+    $Xsim = &scx{
+        return fi&Xsim,x||X,0,0,s,pex(c,'long')
+    }
+    
     $anob = {}
     Xsim({thisward:anob},'array') .once = 1
     # what's inside doesn't matter:
@@ -168,7 +177,50 @@ S 1 Xsim
         Xsim({now:'stringy'},'',x)
         Xsim({now:'etc'},'',x) .finally = 1
     
+    h.hat('c.array',X)
     
-    h.hat('c.long',X)
+   // c.wild|simvx and -anx "noxup"
+    # c.wild(card) returns vx for X.such.*=x+ (to &Xsomp)
+    #  $vx is $hs (indexy hash (or array)) where .$t=$x
+    #   or if it was c.array, .$i=$x
+    #    unless you were looking at the refs, which is .$i=$s
+    #  only for one &Xsim s.*
+    #   though non-wild can occur first (X/$thus)
+    # c.simvx returns inflated vx, with only the selected keys in it
+    #  usu just one key
+    #   < unless WHERE loose, ranges
+    #   so &Xsomp can always get a $vx whether c.wild or not
+    #  only one &Xsim s.*
+    #   ie you row across high frequency &Xsim
+    $A = nonA()
+    $X = {A}
+    $Xsim = &scx{
+        return fi&Xsim,x||X,0,0,s,pex(c,'long')
+    }
+    Xsim({thus:1,all:'variously'}) .incar = 2
+    Xsim({thus:1,all:'muchly'}) .incar = 3
+    Xsim({thus:4,all:'suchly'}) .incar = 4
+    Xsim({thus:5,all:'suchly'}) .incar = 5
+    $vx = Xsim({thus:1,all:1},'wild:all')
+    
+    # by the way, -anx says noxup when X...x is unnatural:
+        # when we get to -anx, at vx.$k=x
+        X.thusallwild = vx
+        # the .vividity is noxup
+        #  .up also, reveals where it thinks it is
+        #   terminating the noxup-ness
+        #  .etc.3 is not, since it presents as inside the nearest ^^x|X
+        Xsim({thus:5,all:'suchly',etc:3}) .inert = 1
+        $x = Xsim({thus:5,all:'suchly'})
+        X.vividity = x
+        # just this far in, it shares .up=X
+        $x = Xsim({thus:4})
+        X.obscurity = x
+        # this far out, it doesnt
+        Xsim({shape:4,tango:3}) .inobscurity = x
+    
+    
+    h.hat('c.wild|simvx',X)
+    
     })()
     
