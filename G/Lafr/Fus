@@ -3,14 +3,19 @@ $R = A.Run
 $h = A.h
 S 1 Xsim
     # This/-Eight pictures data
-    $h = A.h.o('Something');
+    $h = A.h.o('Something')
+    $nonA = &t{
+        # A container
+        #   A lesser than even &Atopleast
+        #    we can avoid G&calls (which are A.1^^ searches)
+        #     except for the S, so scope $A to a non-sub
+        $A = Cye([t||'Fusing',1])
+        A.y = A
+        return A
+    }
+    1 and 0
     (&{
-    # A container
-    #   A lesser than even &Atopleast
-    #    we can avoid G&calls (which are A.1^^ searches)
-    #     except for the S, so scope $A to a non-sub
-    $A = Cye(['Fusing',1])
-    A.y = A
+    $A = nonA()
     # data container
     #  as opposed to A.c|sc.** directly
     $X = {A}
@@ -23,29 +28,71 @@ S 1 Xsim
     #  $s keys to the index
     #   needs at least one
     #  $c what|how to put there
+    #  $q unused
     
     #  $k may Ac&$k += X, only if given $X=A
-    $x = fi&Xsim,X,'ifnotX',[],{ifnot:3}
+    fi&Xsim,X,'ifnotX',[],{ifnot:3}
     # this one is hosted on Ac&ifnotX
-    $x = fi&Xsim,A,'ifnotX',[],{ifnot:4}
+    fi&Xsim,A,'ifnotX',[],{ifnot:4}
     
     #  $t=['abit'] preceeds every s.* with .abit
     # X.extrabit.fun.3=x
-    $x = fi&Xsim,X,'X',['extrabit'],{fun:3}
+    fi&Xsim,X,'X',['extrabit'],{fun:3}
     # this reoccurs at every s.*
-    $x = fi&Xsim,X,'X',['extrabit'],{fun:3,joy:3}
+    fi&Xsim,X,'X',['extrabit'],{fun:3,joy:3}
     # X.extrabit=x reused as an index hash (hs)
     #  in &Shx we do /word/ -> X.word.1 = x
-    $x = fi&Xsim,X,'X',['extrabit',1],{fun:4}
+    fi&Xsim,X,'X',['extrabit',1],{fun:4}
     #  is climbed past (as $hs), no usu x typing (x.up etc)
-    $x = fi&Xsim,X,'X',['otherbit',1],{fun:4}
+    fi&Xsim,X,'X',['otherbit',1],{fun:4}
     # ! no s.*, no wrapping
-    $x = fi&Xsim,X,'X',['nonbit']
+    fi&Xsim,X,'X',['nonbit']
     
-    $n = Cye(['Fusilli',1])
+    h.hat('funny interface',X)
     
-    h.hat('nothing',X)
-   // # &Xsim s,c
-    $Xsim = &sc{ return fi&Xsim,X,0,0,s,c }
+   // c.n
+    $A = nonA()
+    $X = {A}
+    $Xsim = &sc{
+        $N = fi&Xsim,X,0,0,s,c
+        isar(N) && !hak(N) and return N
+        ac(A,'ret',N)
+        return N
+    }
+    
+    # X.figarto.1=x empty
+    Xsim({figarto:1})
+        # X.figarto.3=x has a row! x.z -> A%ret.0
+        $n = Cye(['Fusilli',1])
+        Xsim({figarto:2},{n})
+    
+        # rows join indexes
+        Xsim({flim:2,flam:2},{n})
+        $n = Cye(['Fuzylajj',1])
+        Xsim({flim:2,flam:2},{n})
+
+        # A%ret.3: we find all 3 in X/$flim=2
+        #  ie s.* neednt have all
+        $n = Cye(['Unfuse',1])
+        Xsim({flim:2,figarto:2},{n})
+    
+    # we find the union
+    Xsim({flim:2,flam:2})
+    
+    # s.* neednt have all
+    #  ~~ &bracko, inherited to &sustain
+    Xsim({flam:2})
+    # A%ret.6: s.* order doesnt matter
+    Xsim({figarto:2})
+    
+    # dup $n is stored, deduped on the way out
+    #  see &xzand / !M.includes(n)
+    Xsim({figarto:2},{n})
+    # it is an object compare, so two C:Unfuse now come out
+    $n = Cye(['Unfuse',1])
+    Xsim({figarto:2},{n})
+    
+    h.hat('c.n',X)
+    
     })()
     
