@@ -25,7 +25,7 @@ me.Sch_Go = &acgt{ return [
      < The..#$D
        your clicks being configured
        selected one shows CED columns over slope rows
-     
+     < %%next_Ness_title_clue for S=1
      see 'switched off Fe->Lab'
     =cut
   // @Gnomp/@Gnome # < separate from w:Travel
@@ -2874,8 +2874,12 @@ me.Sch_Go = &acgt{ return [
     # have steps, todos
     #  e heading for A:n rather than Run/The...
     ['PiiPro',0.2901,&acgtRs{
+        # < Go comes with specific mechanism for running the tests
+        #    usu w:$t (as Travelable|Gnome is named)
+        #  < might also be W:$t, containing a Gnomp-like efforter
         $Cat = me.cbu(R,'client')
         $t = Caty&up.t
+        me&ha,R,{clientWay:t}
         T.asyncQs = []
         me&way,R,t,{},'noop'
         $was = delete T.asyncQs
@@ -2899,14 +2903,17 @@ me.Sch_Go = &acgt{ return [
         #   it wants to read %%hire
     },'ift,D'],
     ['PiiRun',0.299,&acgtRs{
+        $x = me&Jx,R
         me&bin,'PiiRunThis'
+        $t = me&jaa,xc&Pro,'clientWay',1 [0]
+        !t.match(/\w+/) and return me&tc,"!way",'g'
         $x = me&Jx,R
         if (x.ro("Run") || 0 && !Rc&b) {
             # synth a thing
             ss&time ||= 0
             $time = (ss&time*1) + 1
             !time and debugger
-            me&Runpin,"TryPiWarmer",time
+            me&Runpin,t,time
             # may not make it back
             ss&time = time
         }
