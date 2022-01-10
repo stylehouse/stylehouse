@@ -190,6 +190,7 @@ S 1 Xsim
     #  usu just one key
     #   < unless WHERE loose, ranges
     #   so &Xsomp can always get a $vx whether c.wild or not
+    #    useful for finding the $i for c.array
     #  only one &Xsim s.*
     #   ie you row across high frequency &Xsim
     $A = nonA()
@@ -219,6 +220,16 @@ S 1 Xsim
         # this far out, it doesnt
         Xsim({shape:4,tango:3}) .inobscurity = x
     
+    # c.simvx
+    $asim = s => Xsim(s,'array')
+    asim({lets:{}})
+    asim({lets:{}}) .two = 2
+    $lets = {cre:8}
+    asim({lets})    .three = 3
+    asim({lets:{}}) .four = 4
+    # to know the X.lets(s)?.$i
+    $vx = Xsim({lets},'array,simvx')
+    X.simvx = vx
     
     h.hat('c.wild|simvx',X)
     
