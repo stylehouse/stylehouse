@@ -14,9 +14,38 @@ S 1 Xsim
     # data container
     #  as opposed to A.c|sc.** directly
     $X = {A}
-    # &Xsim has a funny interface:
-    $x = fi&Xsim,X,'ifnotX',['extrabit'],{fun:3}
+   // # &Xsim has a funny interface:
+    # args:
+    #  $X where to put stuff, may be A:
+    #  $k may Ac&$k += X, only if given $X=A
+    #  $t=['abit'] wraps every s.* with .abit
+    #   a bunch of departmenting to jump into at each X|x|office
+    #  $s keys to the index
+    #   needs at least one
+    #  $c what|how to put there
+    
+    #  $k may Ac&$k += X, only if given $X=A
+    $x = fi&Xsim,X,'ifnotX',[],{ifnot:3}
+    # this one is hosted on Ac&ifnotX
+    $x = fi&Xsim,A,'ifnotX',[],{ifnot:4}
+    
+    #  $t=['abit'] preceeds every s.* with .abit
+    # X.extrabit.fun.3=x
+    $x = fi&Xsim,X,'X',['extrabit'],{fun:3}
+    # this reoccurs at every s.*
+    $x = fi&Xsim,X,'X',['extrabit'],{fun:3,joy:3}
+    # X.extrabit=x reused as an index hash (hs)
+    #  in &Shx we do /word/ -> X.word.1 = x
+    $x = fi&Xsim,X,'X',['extrabit',1],{fun:4}
+    #  is climbed past (as $hs), no usu x typing (x.up etc)
+    $x = fi&Xsim,X,'X',['otherbit',1],{fun:4}
+    # ! no s.*, no wrapping
+    $x = fi&Xsim,X,'X',['nonbit']
+    
+    $n = Cye(['Fusilli',1])
     
     h.hat('nothing',X)
+   // # &Xsim s,c
+    $Xsim = &sc{ return fi&Xsim,X,0,0,s,c }
     })()
     
