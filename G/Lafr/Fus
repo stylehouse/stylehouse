@@ -96,16 +96,18 @@ S 1 Xsim
     Xsim({figarto:2},{n})
     
     # queries (or at least !c.n) autovivfy empties
+    #  none: yet $fogma=2 = x (/!$n)
     Xsim({fogma:2})
     #  none: $fogma/!$n xzand $figarto/$n
     Xsim({fogma:2,figarto:2})
     # A%ret.12
     Xsim({fogma:2,groova:'to'})
     
-    # el:8 doesnt autovivify empties
+    # c.el:8 doesnt autovivify empties
     #  returns null, ~~ &ja
+    #   since $grover doesnt exist
     Xsim({fogma:2,grover:'to'},{el:8})
-    #  returns [], since $fogma=2 is merely empty
+    #  none: since $fogma=2 is merely empty
     Xsim({fogma:2,figarto:2},{el:8})
     # A%ret.15
     #  as above, s.* order doesnt matter
@@ -120,9 +122,9 @@ S 1 Xsim
     #  more spacious space, returning $x not $n+ rows
     $A = nonA()
     $X = {A}
-    $Xsim = &sc{
+    $Xsim = &scx{
         # $x = &Xsim
-        return fi&Xsim,X,0,0,s,pex(c,'long')
+        return fi&Xsim,x||X,0,0,s,pex(c,'long')
     }
     
     $n = Cye(['Unfuse',1])
@@ -139,13 +141,32 @@ S 1 Xsim
     
     # empty, yet indexed
     Xsim(peel('all,the,spaces:3,in,here'))
-    # el:8 doesnt autovivify empties
+    
+    # c.el:8 doesnt autovivify empties
     #  it will however create an empty spaces:4|5:
     Xsim(peel('all,the,spaces:4,over,there'),'el:8')
     Xsim(peel('all,the,spaces:5,for,layout'),'el:8')
     #  ie it starts when there is no x.further:
     Xsim(peel('all,the,further:6,over,such'),'el:8')
     
+    # c.array=1 allows indexing objects (~~ &X_s)
+    # < benchmark this vs using Cy&uid where possible...?
+    #   it greps for them underneath?
+    #    is where perl's scalar($obj) == unique address is nice
+    $anob = {}
+    Xsim({thisward:anob},'array') .once = 1
+    # what's inside doesn't matter:
+    anob.five = 5
+    Xsim({thisward:anob},'array') .twice = 1
+    # is different:
+    Xsim({thisward:{other:3}},'array') .thrice = 1
+    # whole leg is array-stored
+    Xsim({elsewhere:anob,for:'it'},'array') .quice = 1
+    #  you (eg &Xsomp) may break it down:
+    $x = Xsim({elsewhere:anob},'array')
+    x.five = 1
+        Xsim({now:'stringy'},'',x)
+        Xsim({now:'etc'},'',x) .finally = 1
     
     
     h.hat('c.long',X)
