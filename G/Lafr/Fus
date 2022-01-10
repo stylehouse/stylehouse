@@ -52,11 +52,12 @@ S 1 Xsim
     
    // c.n
     $A = nonA()
+    a&ret = []
     $X = {A}
     $Xsim = &sc{
         # $N = &Xsim
         $N = fi&Xsim,X,0,0,s,c
-        ac(A,'ret',N)
+        a&ret.push(N)
         return N
     }
     
@@ -88,9 +89,29 @@ S 1 Xsim
     # dup $n is stored, deduped on the way out
     #  see &xzand / !M.includes(n)
     Xsim({figarto:2},{n})
-    # it is an object compare, so two C:Unfuse now come out
+    # A%ret.9: it is an object compare
+    #  see &xzand / ox.z.includes(n)
+    #  so two C:Unfuse now come out
     $n = Cye(['Unfuse',1])
     Xsim({figarto:2},{n})
+    
+    # queries (or at least !c.n) autovivfy empties
+    Xsim({fogma:2})
+    #  none: $fogma/!$n xzand $figarto/$n
+    Xsim({fogma:2,figarto:2})
+    # A%ret.12
+    Xsim({fogma:2,groova:'to'})
+    
+    # el:8 doesnt autovivify empties
+    #  returns null, ~~ &ja
+    Xsim({fogma:2,grover:'to'},{el:8})
+    #  returns [], since $fogma=2 is merely empty
+    Xsim({fogma:2,figarto:2},{el:8})
+    # A%ret.15
+    #  as above, s.* order doesnt matter
+    Xsim({figarto:2,fogma:2},{el:8})
+    #  returns null, since $grover doesnt exist
+    Xsim({figarto:2,grover:2},{el:8})
     
     h.hat('c.n',X)
     
@@ -116,7 +137,16 @@ S 1 Xsim
     $x = Xsim({flam:2})
     x.norows = 1
     
-    Xsim(peel('all,the,spaces,in,here'))
+    # empty, yet indexed
+    Xsim(peel('all,the,spaces:3,in,here'))
+    # el:8 doesnt autovivify empties
+    #  it will however create an empty spaces:4|5:
+    Xsim(peel('all,the,spaces:4,over,there'),'el:8')
+    Xsim(peel('all,the,spaces:5,for,layout'),'el:8')
+    #  ie it starts when there is no x.further:
+    Xsim(peel('all,the,further:6,over,such'),'el:8')
+    
+    
     
     h.hat('c.long',X)
     })()
