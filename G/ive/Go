@@ -1356,6 +1356,9 @@ me.Sch_Go = &acgt{ return [
                 gaps,
                 have: &S{
                     !num(S) and throw "!num", S
+                    # dup?
+                    S == i-1 and return
+                    S < i and debugger
                     while (i != S) {
                         gaps.push(i)
                         i++ > 64 and throw "manysteps"
