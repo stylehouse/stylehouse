@@ -79,34 +79,104 @@ Xsomp-2	-Ness		tige:689a3edcf37a
           Basicanot	-Array	
           allnot	-Array	
       per $n	-Fez	
-        -Fez	-anX	
+        -Fez	-anX		⥙
           A	-Cish	"A /$n"	⛔:Fez
           every	-Hash	
             thing	-anx		~
               z	-Array	
                 0	-Cish	"Dongit"	⛔:Fez
+              else	-Hash	
+                ward	-anx		~
+                  z	-Array	
+                    0	-Cish	"Dongit"	♲:! ^4:thing/z/0,⛔:Fez
+                fliv	-anx		~
+                  z	-Array	
+                    0	-Cish	"Riding"	⛔:Fez
             time	-anx		~
               z	-Array	
-                0	-Cish	"Riding"	⛔:Fez
+                0	-Cish	"Riding"	♲:! ^3:every/thing/else/fliv/z/0,⛔:Fez
+              else	-Hash	
             where	-anx		~
               z	-Array		⛔:Fez *
                 0	-Cish	"Riding"	♲:! ^3:every/time/z/0
-                1	-Cish	"Dongit"	♲:! ^3:every/thing/z/0
+                1	-Cish	"Dongit"	♲:! ^3:every/thing/else/ward/z/0
+              else	-Hash	
+                fliv	-anx		~
+                  z	-Array	
+                    0	-Cish	"Riding"	♲:! ^4:where/z/0,⛔:Fez
           every where	-Array	
             0	-Hash	
               every	-String	"where"
-              n	-Cish	"Riding"	♲:! ^3:-Fez/every/where/z/0,⛔:Fez
-              x	-anx		♲:^3:-Fez/every/where,⦄:2
+              n	-Cish	"Riding"	♲:! ^3:-Fez/every/where/else/fliv/z/0,⛔:Fez
+              x	-anx		♲:^3:-Fez/every/where,⦄:3
             1	-Hash	
               every	-String	"where"
               n	-Cish	"Dongit"	♲:! ^3:-Fez/every/where/z/1,⛔:Fez
-              x	-anx		♲:^3:-Fez/every/where,⦄:2
+              x	-anx		♲:^3:-Fez/every/where,⦄:3
           "every n:Riding"	-Array	
             0	-Hash	
               every	-String	"time"
               n	-Cish	"Riding"	♲:! ^3:-Fez/every where/0/n,⛔:Fez
-              x	-anx		♲:^3:-Fez/every/time,⦄:2
+              x	-anx		♲:^3:-Fez/every/time,⦄:3
             1	-Hash	
               every	-String	"where"
               n	-Cish	"Riding"	♲:! ^2:every n:Riding/0/n,⛔:Fez
-              x	-anx		♲:^3:-Fez/every/where,⦄:2
+              x	-anx		♲:^3:-Fez/every/where,⦄:3
+          elses	-Array	
+            0	-Hash	
+              every	-String	"thing"
+              else	-String	"ward"
+              n	-Cish	"Dongit"	♲:! ^3:-Fez/every where/1/n,⛔:Fez
+              x	-anx		♲:^3:-Fez/every/thing/else/ward,⦄:2
+            1	-Hash	
+              every	-String	"thing"
+              else	-String	"fliv"
+              n	-Cish	"Riding"	♲:! ^3:-Fez/every n:Riding/1/n,⛔:Fez
+              x	-anx		♲:^3:-Fez/every/thing/else/fliv,⦄:2
+            2	-Hash	
+              every	-String	"where"
+              else	-String	"fliv"
+              n	-Cish	"Riding"	♲:! ^2:elses/1/n,⛔:Fez
+              x	-anx		♲:^3:-Fez/every/where/else/fliv,⦄:2
+          whereelses	-Array	
+            0	-Hash	
+              every	-String	"where"
+              else	-String	"fliv"
+              n	-Cish	"Riding"	♲:! ^3:-Fez/elses/2/n,⛔:Fez
+              x	-anx		♲:^3:-Fez/every/where/else/fliv,⦄:2
+          want	-Array	
+            0	-anx		~
+              z	-Array	
+                0	-Cish	"Riding"	♲:! ^4:-Fez/whereelses/0/n,⛔:Fez
+            1	-anx		~
+              z	-Array	
+                0	-Cish	"Fuzylajj"	⛔:Fez
+            2	-anx		~
+          wants	-Array		⛔:Fez *
+            0	-Cish	"Dongit"	♲:! ^2:-Fez/elses/0/n
+            1	-Cish	"Riding"	♲:! ^2:-Fez/want/0/z/0
+            2	-Cish	"Fuzylajj"	♲:! ^2:-Fez/want/1/z/0
+          all wants	-Array	
+            0	-Hash		⛔:Fez *
+              want_i	-Num	"0"
+              want	-Cish	"Dongit"	♲:! ^3:-Fez/wants/0
+              n	-Cish	"Riding"	♲:! ^3:-Fez/wants/1
+              x	-anx		♲:^3:-Fez/want/0,⦄:2
+            1	-Hash		⛔:Fez *
+              want_i	-Num	"1"
+              want	-Cish	"Riding"	♲:! ^2:all wants/0/n
+              n	-Cish	"Fuzylajj"	♲:! ^3:-Fez/wants/2
+              x	-anx		♲:^3:-Fez/want/1,⦄:2
+          want of Dongit	-Array	
+            0	-Hash		⛔:Fez *
+              want_i	-Num	"0"
+              want	-Cish	"Dongit"	♲:! ^3:-Fez/all wants/0/want
+              n	-Cish	"Riding"	♲:! ^3:-Fez/all wants/1/want
+              x	-anx		♲:^3:-Fez/want/0,⦄:2
+          want of Fuzylajj	-Array	
+          wants of Fuzylajj	-Array	
+            0	-Hash		⛔:Fez *
+              want_i	-Num	"1"
+              want	-Cish	"Riding"	♲:! ^3:-Fez/want of Dongit/0/n
+              n	-Cish	"Fuzylajj"	♲:! ^3:-Fez/all wants/1/n
+              x	-anx		♲:^3:-Fez/want/1,⦄:2

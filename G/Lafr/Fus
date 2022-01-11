@@ -311,6 +311,22 @@ S 2 Xsomp
     # < c.n could be used since &Xsomp cant input c.n
     res('every n:Riding',Xsomp("every:1",{},{n:a&Riding}))
     
+    Xsimp("every:thing,else:ward",{n:a&Dongit})
+    Xsimp("every:thing,else:fliv",{n:a&Riding})
+    Xsimp("every:where,else:fliv",{n:a&Riding})
+    res('elses',     Xsomp("every:1,else:1"))
+    res('whereelses',Xsomp("every:where,else:1"))
+    
+    # c.array for objects
+    Xsimp({want:a&Dongit},{n:a&Riding,array:1})
+    Xsimp({want:a&Riding},{n:a&Fuzylajj,array:1})
+    # &Xsomp doesnt need to know c.array
+    res('all wants', Xsomp("want"))
+    #  unless it is looking for something...
+    res('want of Dongit', Xsomp({want:a&Dongit},'array'))
+    res('want of Fuzylajj', Xsomp({want:a&Fuzylajj},'array'))
+    res('wants of Fuzylajj', Xsomp("want",'array',{n:a&Fuzylajj}))
+    
     # ! this $t fed to &Pii, sensitive to /|%|-pi
     h.Fez('per $n',X)
     
