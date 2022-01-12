@@ -334,9 +334,12 @@ S 2 Xsomp
    
 S 3 Shx
     # io expr, layer above &Xsimp|&Xsomp
-    #  it expects /$n everywhere 
-    #   ie &Xsimp clutchy/every:thing/$n will not then o clutchy/every
+    #  it requires|does /$n all the way down:
+    #   ie &Xsimp clutchy,every:thing $n
+    #    none: &Shx o clutchy/every
     $h = A.h.o('Shx')
+    # interface to allow spaced out calls (wrap me&calls)
+    $S = me&Simqis_Shx
     1 and 0
     (&{
    // &Shx
@@ -344,27 +347,31 @@ S 3 Shx
     haks(peel("Fuzylajj,Dongit,Riding,Wings"))
         .map(t => A.sc[t] = Cye([t,1]))
     $X = {A}
+    # results:
+    $O = {}
     # setup stuff to read
     $Xsimp = (s,c) => fi&Xsimp,X,peel(s),peel(c)
     Xsimp("every:thing",{n:a&Dongit})
     Xsimp("every:time",{n:a&Riding})
     Xsimp("every:where",{n:a&Riding})
-    Xsimp("every:where",{n:a&Dongit})
-    Xsimp("clutchy,every:thing",{n:a&Dongit})
-    Xsimp("clutchy,every:lunk",{n:a&Fuzylajj})
+    #Xsimp("every:where",{n:a&Dongit})
+    # o ... { # returns iterator
+    #  even for tiny bits like binding $X
+    S("o $X {",X) (&{
+        S("i /$every $n",'where',a&Dongit)
+    })
+    $clutchy = [[X,'thing',a&Dongit],[X,'lunk',a&Fuzylajj]]
+    clutchy.map(nt => S("i $X/clutchy/$every $n",...nt))
+    #Xsimp("clutchy,every:thing",{n:a&Dongit})
+    #Xsimp("clutchy,every:lunk",{n:a&Fuzylajj})
     Xsimp("others,with:lunk",{n:a&Fuzylajj})
     Xsimp("others,with:lunk",{n:a&Riding})
     
-    # interface to allow spaced out calls (wrap me&calls)
-    $S = me&Simqis_Shx
-    # results:
-    $O = {}
     $res = &ta{
         $N = O[t] ||= []
         N.push(a.every+'/'+a.n.t)
     }
     
-    # o ... { # returns iterator
     # any every
     S("o $X/every {",X)          (a => res('every',a))
     # such every
