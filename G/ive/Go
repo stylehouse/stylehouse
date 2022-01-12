@@ -32,7 +32,9 @@ me.Sch_Go = &acgt{ return [
     ['Gnomp',0.296,&acgtRs{
         me&acting,R,'Gnomp'
         Rs&wakeperc = 1
-        $t = me&tt,'Try' () ? 'TryPiWarmer' : 'Fus'
+        # < hang state in %Te, to survive reset
+        $beTry = 0 ? me&tt,'Try' () : 1
+        $t = beTry ? 'TryPiWarmer' : 'Fus'
         me&baleg,t,'Gnome'
         # %%active:Gnome here
         # < parallel tests? shouldn't interfere? (unpredictably)
@@ -3176,7 +3178,8 @@ me.Sch_Go = &acgt{ return [
                 # like n $t -pi $s=suchacall()
                 h.tys = &tysc{
                     # < c -> Ec?
-                    $six = h.sixer([t,pex({pi:y,s},c||{})])
+                    c = pex({pi:y,s}, pex(h.sixc,c) )
+                    $six = h.sixer([t,c])
                     Vs&six.push(six)
                     h.lasix = six
                     return six
@@ -3360,8 +3363,8 @@ me.Sch_Go = &acgt{ return [
             }
             
             # extends to sixc&* and then sixy&main//R%*
-            $sixc = g.c || {}
-            pex(sixc,A.h.sixc)
+            #  over any h.sixc later, see &RunA_testenv / h.tys()
+            $sixc = peel(g.c)
             
             if (see == i) {
                 # other keys are there
