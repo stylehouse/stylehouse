@@ -514,8 +514,11 @@ fi.Xios ||= {}
         Qy&A = A
         return Q
     }
-    # format query for the /believe/... index, wildcard or from Q
+    # format query for the /believe/... index
+    #  wildcard or from Q
     # believe may be another word, eg /asked/...$P
+    # see also &Qidc, which extracts $oft+dige
+    #  here we disregart oft-ish, fold version = Q%vers|%dige
     fi.Qbel = &acgtQq{
         q ||= {}
         $bel = {}
@@ -987,7 +990,9 @@ fi.Xios ||= {}
                 # c.* divides &Athinger batches, might .el
                 Ac = ex({},c)
                 # c.* might also be believables, eg spec $version
-                tax(Qs,Ac,fi&Qbel,0,q)
+                #  ie reduce its dual meanings
+                # < bad design? should any Qish s,c,q arg let c.* into Q%*?
+                tax(Qs,Ac, fi&Qbel,0,q )
             }
             # Q to find P(roof), then be $Q
             $Q = fi&aQ,s,Qs
