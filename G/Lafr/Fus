@@ -334,6 +334,8 @@ S 2 Xsomp
    
 S 3 Shx
     # io expr, layer above &Xsimp|&Xsomp
+    #  it expects /$n everywhere 
+    #   ie &Xsimp clutchy/every:thing/$n will not then o clutchy/every
     $h = A.h.o('Shx')
     1 and 0
     (&{
@@ -361,10 +363,28 @@ S 3 Shx
         $N = O[t] ||= []
         N.push(a.every+'/'+a.n.t)
     }
+    
     # o ... { # returns iterator
-    S("o $X/every {",X) (&an{
-        res('every',a)
+    # any every
+    S("o $X/every {",X)          (a => res('every',a))
+    # such every
+    S("o $X/$every {",X,'where') (a => res('every=where',a))
+    
+    # joins o ... o ...
+    #  /clutchy/every/$n that are also /every/$n
+    #  big nostalgia vibe off this...
+    #   was a mysterious glimmer in a osc somewhere
+    #    pin: the thing you get at the end of a long journey
+    #     that can hold fabric together, as complexity is made
+    # < c.Nshould be able to
+    #S("o $X/clutchy/every o $X/every {",X,X) (a => res('$n join',a))
+    # < there are no /clutchy/$n, so no rows
+    O.clutchyless = S("o $X/clutchy",X) .N
+    0 && 
+    S("o $X/clutchy/every {",X) (&an{
+        #S("o /every $n {",n) (a => res('$n join',a))
     })
+    
     
     #S()
     
