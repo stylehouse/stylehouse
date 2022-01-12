@@ -401,9 +401,20 @@ S 3 Shx
         #  also not every:lunk Riding
         S("o $X/every {",X) (a => res('join every,n',a))
         
-        # to join on $every, not $n: drop ark ax.n
+        # to join on $every, not $n:
+        #  drop ark ax.n
         S("o $X/@!$n/every {",X) (a => res('join every',a))
         
+        # to join on $n, not $every:
+        #  < drop ark ax.every
+        #    binds it again from T.ax. warns of vague &axcompatible
+        #S("o $X/@!$every/every {",X) (a => res('join n also',a))
+        #  set $every=1, to glob it, /$n follow
+        S("o $X/$every {",X,1) (a => res('join n',a))
+        
+        # to join $n, other arks not common
+        #  row has every:lunk and with:lunk
+        S("o $X/others/with {",X) (a => res('join n to other columns',a))
         
         #T.Shxbug = 1
         #S("o $X/every {",X,a.every) (a => res('$every join',a))
