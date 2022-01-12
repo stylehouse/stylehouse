@@ -400,8 +400,11 @@ S 3 Shx
         # not every:where Dongit, since every=thing|lunk
         #  also not every:lunk Riding
         S("o $X/every {",X) (a => res('join every,n',a))
-        # < to join on $every, not $n?
-        #S("o $X/every {",X) (a => res('join every',a))
+        
+        # to join on $every, not $n: drop ark ax.n
+        S("o $X/@!$n/every {",X) (a => res('join every',a))
+        
+        
         #T.Shxbug = 1
         #S("o $X/every {",X,a.every) (a => res('$every join',a))
     })
