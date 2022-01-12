@@ -361,6 +361,7 @@ S 3 Shx
         S("i $X/$every $n",X,'time',a&Riding)
         S("i $X/$every $n",X,'where',a&Riding)
         S("i $X/$every $n",X,'where',a&Dongit)
+        S("i $X/$every $n",X,'lunk',a&Riding)
         
         S("i $X/clutchy/$every $n",X,'thing',a&Dongit)
         # < even for binding /$n
@@ -395,6 +396,16 @@ S 3 Shx
     #    pin: the thing you get at the end of a long void you can bring back
     #     that can hold fabric together, as complexity is made
     #S("o $X/clutchy/every o $X/every {",X,X) (a => res('$n join',a))
+    S("o $X/clutchy/every {",X) (&a{
+        # not every:where Dongit, since every=thing|lunk
+        #  also not every:lunk Riding
+        S("o $X/every {",X) (a => res('join every,n',a))
+        # < to join on $every, not $n?
+        #S("o $X/every {",X) (a => res('join every',a))
+        #T.Shxbug = 1
+        #S("o $X/every {",X,a.every) (a => res('$every join',a))
+    })
+    
     
     
     #S()
