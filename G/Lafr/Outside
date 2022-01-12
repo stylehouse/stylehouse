@@ -1331,7 +1331,9 @@
       find ori/ -size +1M -exec ffmpeg -i {} -b:a 130k gen/{}.opus \;
        # -size avoids albumart and etc
        # default -b:a is 90k for opus
-      mv 
+      mv gen/ori/* gen; rm gen/ori; cd gen
+       # io limbs merging
+      rename 's/\.\w{3,4}\.opus/.opus/' * */* */*/*
      < for source bitrates > 180k
     
     decode errors
