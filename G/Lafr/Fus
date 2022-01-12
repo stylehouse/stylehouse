@@ -388,7 +388,8 @@ S 3 Shx
     S("o $X/clutchy {",X)       (a => res('clutchy',a))
     S("o $X/clutchy/every {",X) (a => res('clutchy every',a))
     
-    # < joins o ... o ...
+    # joins o ... o ...
+    #  are only via iteration, not plumbing:
     # < should be able to plumb c.N = c.c.N
     #  /clutchy/every/$n that are also /every/$n
     #  big nostalgia vibe ...
@@ -404,6 +405,7 @@ S 3 Shx
         # to join on $every, not $n:
         #  drop ark ax.n
         S("o $X/@!$n/every {",X) (a => res('join every',a))
+        # < easier chopping up rowing, eg collect (T.ax|a).every here
         
         # to join on $n, not $every:
         #  < drop ark ax.every
@@ -415,16 +417,25 @@ S 3 Shx
         # to join $n, other arks not common
         #  row has every:lunk and with:lunk
         S("o $X/others/with {",X) (a => res('join n to other columns',a))
-        
-        #T.Shxbug = 1
-        #S("o $X/every {",X,a.every) (a => res('$every join',a))
+    })
+    
+    # between X
+    $V = {A}
+    S("o $X/others/with {",X) (&{
+        S("o $X/$every {",X,1) (&{
+            S("i $V/fing/with/what/every {",V) (a => res('i joined n:Riding',a))
+        })
+        # < n:Fuzylajj (first row) doesnt have any ^,
+        #    which is why these two O.* results appear in reverse
+        #   so here it defaults to 1... should knock out the row..?
+        S("i $V/every/whatsit {",V) (a => res('i joined from sibling rowing',a))
     })
     
     
     
     #S()
-    
-    h.Fez('Shx',{X,O})
+    # < when Yinging, X,O,V are each an -Eight
+    h.Fez('Shx',{X,O,V})
     
    // &Sarn
    
