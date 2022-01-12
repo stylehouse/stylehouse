@@ -333,7 +333,9 @@ S 2 Xsomp
     })()
    
 S 3 Shx
-    # io expr, layer above &Xsimp|&Xsomp
+    # proto io expr for X, layer above &Xsimp|&Xsomp
+    #  not used by &bract_kref, due to slowness
+    #   < compile expr to voice
     #  it requires|does /$n all the way down:
     #   ie &Xsimp clutchy,every:thing $n
     #    none: &Shx o clutchy/every
@@ -350,22 +352,27 @@ S 3 Shx
     # results:
     $O = {}
     # setup stuff to read
-    $Xsimp = (s,c) => fi&Xsimp,X,peel(s),peel(c)
-    Xsimp("every:thing",{n:a&Dongit})
-    Xsimp("every:time",{n:a&Riding})
-    Xsimp("every:where",{n:a&Riding})
-    #Xsimp("every:where",{n:a&Dongit})
     # o ... { # returns iterator
-    #  even for tiny bits like binding $X
-    S("o $X {",X) (&{
-        S("i /$every $n",'where',a&Dongit)
-    })
-    $clutchy = [[X,'thing',a&Dongit],[X,'lunk',a&Fuzylajj]]
-    clutchy.map(nt => S("i $X/clutchy/$every $n",...nt))
-    #Xsimp("clutchy,every:thing",{n:a&Dongit})
-    #Xsimp("clutchy,every:lunk",{n:a&Fuzylajj})
-    Xsimp("others,with:lunk",{n:a&Fuzylajj})
-    Xsimp("others,with:lunk",{n:a&Riding})
+    # < even for tiny bits like binding $X
+    # < without the decoy $n to make inners' &Shx_isax work
+    #   which will dis-join the inner $n? hmm
+    #S("o $X $n {",X,a&Dongit) (&{
+        S("i $X/$every $n",X,'thing',a&Dongit)
+        S("i $X/$every $n",X,'time',a&Riding)
+        S("i $X/$every $n",X,'where',a&Riding)
+        S("i $X/$every $n",X,'where',a&Dongit)
+        
+        S("i $X/clutchy/$every $n",X,'thing',a&Dongit)
+        # < even for binding /$n
+        0 && S("i $canbenamedanything {",a&Fuzylajj) (&{
+            S("i /clutchy/$every",'lunk')
+            S("i /others/$with",'lunk')        
+        })
+        S("i $X/clutchy/$every $n",X,'lunk',a&Fuzylajj)
+        
+        S("i $X/others/$with $n",X,'lunk',a&Fuzylajj)
+        S("i $X/others/$with $n",X,'lunk',a&Riding)
+    #})
     
     $res = &ta{
         $N = O[t] ||= []
