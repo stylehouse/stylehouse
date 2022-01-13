@@ -493,20 +493,28 @@ S 4 Q
     $A = nonA('believeQ')
     $X = {A}
     $O = {}
-    
-    # &aQ is only used by A&oftserve() to s,c -> Q
-    #  see &wantbelieve below, which simply &Xsimp s
-    #   ! so you must always spec oft in the right order, etc
-    # Fish Q seem to have Q.t == Q.c.t
-    O.aQs = [
-        fi&aQ,{of:'n',t:'J'} ,
-        fi&aQ,{t:'J'},{vers:'3.3'} ,
-        fi&aQ,{of:'W',t:'Radio',species:5,any:'thing'} ,
-    ]
+   // believei|oQ
+    # &aQ and &Qbel dont do much
+    O.formats = {}
+        # &aQ is only used by A&oftserve() to s|c -> Q.c|sc
+        #  see &wantbelieve below, which simply &Xsimp s
+        # Fish Q seem to have Q.t == Q.c.t
+        O.formats.aQ = [
+            fi&aQ,{of:'n',t:'J'} ,
+            fi&aQ,{of:'w',t:'J'},{src:'localhost:1812',vers:'3.3'} ,
+            fi&aQ,{of:'W',t:'Radio',species:5,any:'thing'},{} ,
+        ]
+        # &Qbel forms /believe/... stuff
+        O.formats.Qbel = [
+            fi&Qbel,0,{} ,
+            # only Q with src+version can /believe/
+            fi&Qbel,O.formats.aQ[1] ,
+        ]
     
     # &Ath,A:client,s:$oft,c?,q? is a proto &t
     #  / &wantbelieve climbs, each:
     #     $Qx = i A&X/...$s
+    #      ! so you must always spec $s={of,t} in the right order, etc
     #    until:
     #    &believeoQ,Qx returns $a
     # returns a.n=$Q if ready
@@ -514,6 +522,6 @@ S 4 Q
     
     # < using &believeoQ
     
-    h.hat('some Q',{O})
+    h.hat('some Q',{A,O})
     })()
     

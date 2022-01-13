@@ -515,7 +515,7 @@ fi.Xios ||= {}
         return Q
     }
     # format query for the /believe/... index
-    #  wildcard or from Q
+    #  wildcard or from Q (which requires Q%src)
     # believe may be another word, eg /asked/...$P
     # see also &Qidc, which extracts $oft+dige
     #  here we disregart oft-ish, fold version = Q%vers|%dige
@@ -528,7 +528,7 @@ fi.Xios ||= {}
         bel.src = Q ? Qs&src : 1
         !bel.src and throw "Q!%src"
         if (!q.novers) {
-            # /$version/
+            # /$version/ can be Q%vers|dige
             bel.version = Q ? fi&Qversion,Q : 1
             !bel.version and throw "Q!version"
         }
