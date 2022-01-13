@@ -273,18 +273,25 @@ S 2 Xsomp
         #  ie it stops when there is no x.further:
         Xsimp('all,the,further:6,over,such','el:8')
     
-    X.everyevery = fi&Xsomp,X,{Basica:1,every:1}
     
-    X.everyevery = fi&Xsomp,X,{Basica:1,every:1}
-    X.lyevery = fi&Xsomp,X,{Basica:'ly',every:1}
+    # ax contain .arkx
+    X.everyevery_full = fi&Xsomp,X,{Basica:1,every:1}
+    $res = &tsc{
+        X[t] = fi&Xsomp,X,s,c
+            .map(a => depeel(tex({},a))+' n:'+(a.n?a.n.t:"???"))
+    }
+    res('everyevery',{Basica:1,every:1})
+    
+    res('lyevery',{Basica:'ly',every:1})
+    
     # none
     #  creates /$every=way
-    X.everynot = fi&Xsomp,X,{Basica:1,every:'way'}
+    res('everynot',{Basica:1,every:'way'})
     # needs rows to be there (/$n)
     #  using &Xsimp|&Xsim they are only at the end
     #   we land on x+, which have x/$n+
-    X.Basicanot = fi&Xsomp,X,{Basica:5}
-    X.allnot = fi&Xsomp,X,peel('all,the,spaces:3,in,here')
+    res('Basicanot',{Basica:5})
+    res('allnot',peel('all,the,spaces:3,in,here'))
     
     h.Fez('&Xsimp -> &Xsomp',X)
    
