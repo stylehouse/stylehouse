@@ -491,25 +491,39 @@ S 4 Q
     1 and 0
     (&{
     $A = nonA('believeQ')
-    $X = {A}
-    $O = {}
-   // believei|oQ
+   // some Q
+    $Q_J = fi&aQ,{of:'w',t:'J'},{src:'localhost:1812',vers:'3.3'}
+    $Q_fr = fi&aQ,{of:'w',t:'fr'},{src:'localhost:1812',vers:'3.1'}
+    $Q_unbelievable = fi&aQ,{of:'n',t:'J'}
+    
+    # A&X/...$oft is created by &*oQ
+    a&AoQing = {
+        J: fi&AoQ,A,Q_J ,
+        fr: fi&AoQ,A,Q_fr ,
+        # the /...$believe step would be fatal, but is empty
+        unbelievable: fi&AoQ,A,Q_unbelievable ,
+    }
+    
     # &aQ and &Qbel dont do much
-    O.formats = {}
+    a&formats = {
         # &aQ is only used by A&oftserve() to s|c -> Q.c|sc
         #  see &wantbelieve below, which simply &Xsimp s
         # Fish Q seem to have Q.t == Q.c.t
-        O.formats.aQ = [
-            fi&aQ,{of:'n',t:'J'} ,
-            fi&aQ,{of:'w',t:'J'},{src:'localhost:1812',vers:'3.3'} ,
+        aQ: [
+            Q_J ,
+            Q_fr ,
+            Q_unbelievable ,
             fi&aQ,{of:'W',t:'Radio',species:5,any:'thing'},{} ,
-        ]
+        ],
         # &Qbel forms /believe/... stuff
-        O.formats.Qbel = [
-            fi&Qbel,0,{} ,
+        Qbel: {
+            glob: fi&Qbel,0,{} ,
             # only Q with src+version can /believe/
-            fi&Qbel,O.formats.aQ[1] ,
-        ]
+            fr: fi&Qbel,Q_fr ,
+        },
+    }
+        
+    h.hat('some Q',A)
     
     # &Ath,A:client,s:$oft,c?,q? is a proto &t
     #  / &wantbelieve climbs, each:
