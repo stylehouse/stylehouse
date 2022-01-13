@@ -277,8 +277,10 @@ S 2 Xsomp
     # ax contain .arkx
     X.everyevery_full = fi&Xsomp,X,{Basica:1,every:1}
     $res = &tsc{
-        X[t] = fi&Xsomp,X,s,c
-            .map(a => depeel(tex({},a))+' n:'+(a.n?a.n.t:"???"))
+        X[t] = fi&Xsomp,X,s,c .map(&a{
+            return depeel(tex({},a))
+                +' n:'+(a.n?a.n.t:"???")
+        })
     }
     res('everyevery',{Basica:1,every:1})
     
@@ -287,17 +289,29 @@ S 2 Xsomp
     # none
     #  creates /$every=way
     res('everynot',{Basica:1,every:'way'})
-    #  same with c.non
-    res('everynot_non',{Basica:1,every:'ways'},{non:1})
     #  c.el=8 doesnt create /$woop
     res('woopnot',{Basica:1,woop:'woop'},{el:8})
-    res('woopcreates',{Basica:1,wool:'wool'},{non:1})
     # needs rows to be there (/$n)
     #  using &Xsimp|&Xsim they are only at the end
     #   we land on x+, which have x/$n+
     res('Basicanot',{Basica:5})
     res('allnot',peel('all,the,spaces:3,in,here'))
-    res('allnot',peel('all,the,spaces:3,in,here'),{non:1})
+    if (0) {
+    # c.non - no /$n multiplicity, wanting x
+    #  so now this returns the empty x got to
+    res('everynot_non',{Basica:1,every:'ways'},{non:1})
+    #   $every=waysia is created since /$every already exists
+    #  < c.el=8 should avoid it
+    res('everyempty_non_el8',{Basica:1,every:'waysia'},{non:1,el:8})
+    #  c.el=8 doesnt create /$veb
+    res('vebnot_non_el8',{Basica:1,veb:'waysia'},{non:1,el:8})
+    }
+    #  $every=ways already exists 
+    res('everyempty_non_el8',{Basica:1,every:'ways'},{non:1,el:8})
+    #  creates $Basica=5/$wool (unless c.el=8)
+    #  c.non determines only whether they return here:
+    res('woolcreates_non',{Basica:1,wool:'wool'},{non:1})
+    res('allis_non',peel('all,the,spaces:3,in,here'),{non:1})
     
     h.Fez('&Xsimp -> &Xsomp',X)
    
