@@ -554,24 +554,44 @@ S 4 Q
     $V = A&Client = fi&A
     V.t = 'Client'
     # &aQ sets Qy&A, so lets rebuild
-    a&Q_J = fi&aQ,{of:'w',t:'J'},{src:'localhost:1812',vers:'3.3'}
-    a&Q_Jask = fi&aQ,{of:'w',t:'J'}
+    A&Q_J = fi&aQ,{of:'w',t:'J'},{src:'localhost:1812',vers:'3.3'}
+    A&Q_Jask = fi&aQ,{of:'w',t:'J'}
     
-    a&AoQ_empty = fi&AoQ,A,a&Q_Jask
-    a&AiQ_it = fi&AiQ,A,a&Q_J
+    a&AoQ_empty = fi&AoQ,A,A&Q_Jask
+    a&AiQ_it = fi&AiQ,A,A&Q_J
     # /...$oft has /$n=A:client from &wantbelieve
     #  ! mistakenly thought it should have &Xsomp c.non=1
     #     and that &Xsomp needing /$n was introduced for &Shx 8297cb0ff89610091
     #      which was done after Stories/Fish stopped working
     #       it might still work... was motivated to Travel (and Story) by Gump
     # nothing yet, due to the above
-    a&AoQ_still_empty = fi&AoQ,A,a&Q_Jask
+    a&AoQ_still_empty = fi&AoQ,A,A&Q_Jask
     # a client (asking for ...$oft/)
     # < pile up better
-    fi&Xsimp,A,a&Q_Jask.c,{n:V}
-    a&AoQ_it = fi&AoQ,A,a&Q_Jask
+    fi&Xsimp,A,A&Q_Jask.c,{n:V}
+    a&AoQ_it = fi&AoQ,A,A&Q_Jask
     
     h.hat('having Q',{A})
+    
+    if (0) {
+        $s = {of:'w',t:'leaks'}
+        $x = fi&Xsimp,A,s
+        $enQ = &s{
+            $Q = Cye([s.src+' v'+s.version,1])
+            fi&believeiQ,x,s,Q
+            return Q
+        }
+        $got = a&got = {}
+        $see = &t{
+            got[t] = fi&believeoQ,x
+        }
+        enQ({believe:1,src:'1812',version:1})
+        see('first')
+        enQ({believe:1,src:'1812',version:2})
+        see('2nd')
+        enQ({believe:1,src:'1812',version:1})
+        see('first again')
+    }
     
     h.hat('having Q',{A})
     
