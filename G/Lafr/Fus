@@ -573,27 +573,40 @@ S 4 Q
     
     h.hat('having Q',{A})
     
-    if (0) {
-        $s = {of:'w',t:'leaks'}
-        $x = fi&Xsimp,A,s
-        $enQ = &s{
-            $Q = Cye([s.src+' v'+s.version,1])
-            fi&believeiQ,x,s,Q
-            return Q
-        }
-        $got = a&got = {}
-        $see = &t{
-            got[t] = fi&believeoQ,x
-        }
-        enQ({believe:1,src:'1812',version:1})
-        see('first')
-        enQ({believe:1,src:'1812',version:2})
-        see('2nd')
-        enQ({believe:1,src:'1812',version:1})
-        see('first again')
-    }
+   // ordering /believe...
+    # &Xsomp $n...$n ordering
+    #  sort by /believe/$n, where /believe/$suchly/$n
+    #   so we can revert to a previous version
+    #  for &believeoQ / &Xsomp c.norder / &Naxnorder
+    #  lifted from &test_Nxcnorder
+    # just x = &Xsimp and &believei|oQ,x
+    #  so the lack of /$n=A:client doesnt matter
+    $A = nonA('ordering believe...')
     
-    h.hat('having Q',{A})
+    $s = {of:'w',t:'leaks'}
+    $x = fi&Xsimp,A,s
+    $enQ = &s{
+        $Q = Cye([s.src+' v'+s.version,1])
+        fi&believeiQ,x,s,Q
+        return Q
+    }
+    $got = a&got = {}
+    $see = &t{
+        got[t] = fi&believeoQ,x
+    }
+    $Q = enQ({believe:1,src:'1812',version:1})
+    see('first')
+    enQ({believe:1,src:'1812',version:2})
+    see('2nd')
+    # variation: must be a new $Q
+    0 ? fi&believeiQ,x,Q.c,Q
+      : enQ({believe:1,src:'1812',version:1})
+    see('first again')
+    # fail mode:
+    $s = fi&Qbel,0,q
+    got.without_norder = fi&Xsomp,x,s .map(ax => ax.n) .pop()
+    
+    h.hat('ordering believe...',{A})
     
     # &Ath,A:client,s:$oft,c?,q? is a proto &t
     #  / &wantbelieve climbs, each:
