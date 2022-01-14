@@ -613,16 +613,23 @@ S 4 Q
     # A** serving /believe/
     $A = nonA('wantbelieve')
     A&oftserve = &scqd{
-        (A&oftquest||=[]).push({s,c,q,d})
+        (a&oftquest||=[]).push({s,c,q,d})
     }
     $V = A&Middle = fi&A
     V.t = 'Middle'
     $Y = A&Client = fi&A,V
     Y.t = 'Client'
     
+    # A:Middle|Client refer to A:Client as the asker
+    a&notyet = fi&wantbelieve,Y,{of:'w',t:'J'}
     
-    a&notyet = fi&wantbelieve,A,{of:'w',t:'J'}
-    
+    # asyncily, it is loaded by A:thinger and etc
+    #  A:thinger uses ...$oft/asked/.../$P instead of /believe/
+    #    by setting q.believe=asked, &believe*Q etc work with that
+    #   which is starting to get into messaging
+    #    ie asked == asked remote about it
+    # the whole ...$oft:oftx/$n=A:client thing seems a bit loose
+    #  perhaps oftx/pull/$n=A:client and oftx/push/$n=A:receiver
     
     h.hat('wantbelieve',{A})
     # &Ath,A:client,s:$oft,c?,q? is a proto &t
