@@ -693,12 +693,8 @@ S 5 Log
     $h = A.h.o('Log')
     h.sixc = 'expectλ'
     # and an -Eight maker for &complace to use within
-    $Eighti = &c{
-        # was &complaceCt
-        $t = spant(armap((v,k) => cint(k,v),c))
-        return t
-        A.h.o(t)
-    }
+    $complaceCt = c => spant( armap((v,k) => cint(k,v),c) )
+    $Eighti = c => A.h.o( complaceCt(c) )
     1 and 0
     (&{
     $A = nonA('Log')
@@ -711,9 +707,9 @@ S 5 Log
     Y.t = 'Client'
     
    // redo &com
-    h.hat("Eighti",
-        map(Eighti, [{V},{A},{A,with:'some more'}])
-    )
+    h.hat("Eighti",map(complaceCt, [{V},{A},{A,with:'some more'}]))
+    # < @Run try+catch to reset Gc&stac
+    Gc&stac = []
     fi.complace = &acgtsc{
         # $Ct-eight, $i++-seven
         $into = Eighti(c)
@@ -725,8 +721,8 @@ S 5 Log
         $D = fi&com,s,c
         #me&nu,"complace",{C,This,eight,seven,D}
         return &{
-            done_comless()
-            #done_Gstac()
+            #done_comless()
+            done_Gstac()
         }
     }
     fi.com = &acgttsc{
@@ -749,11 +745,19 @@ S 5 Log
         Dy&log and throw "hadlog"
         
         !hak(into) and throw "nologinto"
-        
+        each ih into {
+            h.seqi ||= 0
+            h.seqi++
+            # our A no further
+            h.Fez(h.seqi,D)
+        }
     }
     
+    $done = fi&complace,'yarr',{V}
     
+    done()
     
+    delete a&log
     h.hat('Log',{A})
     })()
     
