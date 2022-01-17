@@ -1637,17 +1637,36 @@ me.Sch_Story = &acgt{ return [
                         # the current -Ness=Ec&Into
                         # selected and may fill up per -seven
                         # < they could go any -Ness, grudgingly
-                        ec&el != 8 and ~>2 inNess: g.t, e.t, ec&el
+                        $sayel = ec&el != 2 ? 'el'+ec&el : ''
+                        ec&el != 8 and $clog = ~>2 inNess: '>6:Ness', sayel, g.t+'/'+e.t, '>6:say'
+                        # redoing %%RunningStep can adjust nine's input
                         $mergeover = Ec&ReStep
-                            && ec&el != 2 && ec&el != 8
+                            && (ec&el != 2 && ec&el != 8)
                             && es&inNess
-                        mergeover and ~>2 merge vvv:
+                        # < might this sometimes avoid gobble?
+                        mergeover and clog && clog.set('say','merge')
+                        elsif (Ec&ReNessy) {
+                            c.gobble = 1
+                        }
+                        
                         $Ness = mergeover || Ec&Into
                         # if it looks established, dont give any new -Eights
+                        #  unless we are ninec&ReNessy
+                        #  < test exactly what ReNessy|gobble do
                         # < adjusting how it piles in later would be nice
                         #    and to merge|split -Ness, as the tv toplevel celluloid
                         # < this is really about a slice of time
-                        Nessy&Outs && !me&fiu,Ness,g.t,8 and break
+                        if (Nessy&Outs && !me&fiu,Ness,g.t,8) {
+                            # not in -Eight/*, which is known
+                            if (!c.gobble) {
+                                clog && clog.set('Ness','--')
+                                # go around. the &clinto to it becomes el8 later.
+                                break
+                            }
+                            clog && clog.set('say','gobble')
+                        }
+                        clog && clog.set('Ness',Ness.t)
+                        
                         sevens.includes(e) and continue
                         sevens.push(e)
 
@@ -2001,7 +2020,8 @@ me.Sch_Story = &acgt{ return [
         
         # redo every -Ness
         x.ro('DIY') and Ninec.DIY = 1
-        x.ro('gobble',{}) and Ninec.gobble = 1
+        # < usu switched on by ninec&ReNessy
+        #x.ro('gobble',{}) and Ninec.gobble = 1
         $E = me&pinine,s,Ninec,-2
         # < tow inside ^, use for interactivity...
         me&bal,"-nine",E,'eph,EFine'
