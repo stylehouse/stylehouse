@@ -2926,10 +2926,11 @@ me.Sch_Go = &acgt{ return [
             ss&time ||= 0
             $time = (ss&time*1) + 1
             !time and debugger
-            me&Runpin,t,time
+            me&Runpin,R,t,time
             # may not make it back
             ss&time = time
         }
+        me&Runpin_amb,R,t
     },'ift,D'],
     ['PiiRun+Piing',0.293,&acgtRs{
         Rs&Sarndat = me&Sarn,<<'',[R]
@@ -3114,9 +3115,9 @@ me.Sch_Go = &acgt{ return [
             
             return V
         }
-        me.Runpin = &acgttv{
-            $R = me&R
+        me.Runpin = &acgtRtv{
             $time = v
+            $conc = {time,dome:"ranRun"}
             
             $A = me&RunA,{time}
             A.Run = R
@@ -3125,10 +3126,20 @@ me.Sch_Go = &acgt{ return [
             # only do S 1 if time
             # ! dont use R%Ace because of missing 4c&Srupto
             #   strange fact of R-life, so far very little A
-            ~>7 Atry: time
-            me&way,R,t
+            $plan = "Run "+t+"@"+time
+            $clog = ~>7 Atry: plan, '>6:fail'
+            me&Bangrasp,plan (&{
+                me&way,R,t
+            },&er,c{
+                clog && clog.set('fail','FAIL:'+er)
+                # keep the latest %%Bang,er... per &Runpin
+                c.dome = 'ranRun'
+                me&ha,R,c
+                conc.er = er
+            })
             
             $now = A&doords[time]
+            conc.title = now.t
             $nums = haks(A&doords)
             $ti = nums.indexOf(time+'')
             # < &strange?
@@ -3137,7 +3148,17 @@ me.Sch_Go = &acgt{ return [
             $next = A&doords[ni]
             next and me&ha,R,{next_Ness_title_clue:next.t,dome:"ranRun"}
             
-            me&ha,R,{time:time,title:now.t,dome:"ranRun"}
+            # < notice %%er up there
+            me&ha,R,conc
+        }
+        me.Runpin_amb = &acgtRt{
+            $em = me&jaa,R,'er,Bang',1
+            !hak(em) and me&tc,"no-errors"; return
+            em.map(&er,{
+                # < also up in Gnome:See, even Yingu/*
+                #   all the %%Go wired things rattle?
+                n error  $s:er,R %Error
+            })
         }
         # S for an osc pin, bump through segments of the work
         me.Sunpit = &acgtit,talk,params{
@@ -3162,10 +3183,51 @@ me.Sch_Go = &acgt{ return [
             # or until done
             l.done and return
             
-            l.done = 1;
+            l.done = 1
             #~sttalk: ki([s,t,talk,params]);
-            return 1;
-        };
+            return 1
+        }
+        # @Run's try...catch
+        #  lifted from %Jproto
+        #   you can date this code by its use of ;
+        # < generalise, with &Supe, %%Go recoils in shock (unless ...)
+        me.Bangrasp = &acgtt{
+            return &yf{
+                
+                $er = null;
+                # < generalise, with &Supe
+                $destac = me&Gstac_reset
+                try {
+                    y()
+                }
+                catch (e) {
+                    destac()
+                    # < something about ignoring all of its This** 
+                    er = me&Yingerr,R,e,t;
+                    
+                    # write that down
+                    $msg = erc&s;
+                    $conc = {Bang:t,er,msg}
+                    # < keep trying-er? @Pro would know
+                    ers&async and conc.async = 1
+                    
+                    # er handler, probably does the below
+                    f and f(er,conc)
+                    else {
+                        # this once
+                        debugger
+                        me&ha,R,conc
+                        # < also up in Gnome:See, even Yingu/*
+                        #   all the %%Go wired things rattle?
+                        n error  $s:er,R %Error
+                    }
+                }
+                destac()
+                
+                !er and return
+                
+            }
+        }
      
      // way to
         # A.h .o(Eight.t) replaces A.h
