@@ -3117,7 +3117,9 @@ me.Sch_Go = &acgt{ return [
         }
         me.Runpin = &acgtRtv{
             $time = v
-            $conc = {time,dome:"ranRun"}
+            # keep the latest facts, title clues, %%Bang,er... etc per &Runpin
+            $dome = 'ranRun'
+            $conc = {Runpin:1,time,dome}
             
             $A = me&RunA,{time}
             A.Run = R
@@ -3127,15 +3129,17 @@ me.Sch_Go = &acgt{ return [
             # ! dont use R%Ace because of missing 4c&Srupto
             #   strange fact of R-life, so far very little A
             $plan = "Run "+t+"@"+time
-            $clog = ~>7 Atry: plan, '>6:fail'
+            $clog = ~>7 Atry: plan, '>0:fail'
             me&Bangrasp,plan (&{
                 me&way,R,t
             },&er,c{
-                clog && clog.set('fail','FAIL:'+er)
-                # keep the latest %%Bang,er... per &Runpin
-                c.dome = 'ranRun'
-                me&ha,R,c
+                # er taints the %%Runpin,...
                 conc.er = er
+                #  and the #msgs logline
+                clog && clog.set('fail','ERR: '+erc&s)
+                # keep the latest %%Bang,er... per &Runpin
+                me&ha,R,c,{},{dome}
+                #  which we draw up in &Runpin_amb
             })
             
             $now = A&doords[time]
@@ -3146,17 +3150,14 @@ me.Sch_Go = &acgt{ return [
             ti < 0 and return me&tc,"no-time:"+time,'B'
             $ni = nums.slice(ti)[1]
             $next = A&doords[ni]
-            next and me&ha,R,{next_Ness_title_clue:next.t,dome:"ranRun"}
+            next and me&ha,R,{next_Ness_title_clue:next.t,dome}
             
             # < notice %%er up there
             me&ha,R,conc
+            me&dome_traction,R,dome
         }
         me.Runpin_amb = &acgtRt{
-            $em = me&jaa,R,'er,Bang',1
-            !hak(em) and me&tc,"no-errors"; return
-            em.map(&er,{
-                # < also up in Gnome:See, even Yingu/*
-                #   all the %%Go wired things rattle?
+            me&jaa,R,'er,Bang',1 .map(&er,{
                 n error  $s:er,R %Error
             })
         }
