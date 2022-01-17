@@ -1265,9 +1265,23 @@ me.Sch_Go = &acgt{ return [
                     
                     # checkable .> ok
                     if (a.ov >= 0.7) {
+                        # not-ok if errors
+                        $ok = 1
+                        if (a.ov < 0.8) {
+                            $ers = me&jaa,Runy&R,'er,Bang',1
+                            if (haks(ers)) {
+                                ok = 0
+                                me&boxcap,'Errors!' (&ml{
+                                    ers.map(&er,{
+                                        me&tc,'-'
+                                        n error  $s:er,R,Rzucto:m %Error
+                                    })
+                                })
+                            }
+                        }
                         # time to look for an OK
                         # see &SG_tally_oks
-                        if (a.Fe && me&isFe_ok,a.Fe ) {
+                        if (ok && a.Fe && me&isFe_ok,a.Fe ) {
                             me&tc,"OK"
                             a.ov == 0.7 and a.ov = 0.8
                         }
@@ -2930,7 +2944,6 @@ me.Sch_Go = &acgt{ return [
             # may not make it back
             ss&time = time
         }
-        me&fu,"Yap",{t}
         me&Runpin_amb,R,t
     },'ift,D'],
     ['PiiRun+Piing',0.293,&acgtRs{
