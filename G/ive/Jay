@@ -89,6 +89,7 @@ me.Yingmind ||= {};
  
  // object methods, calling me&*
     # may call me&${l.join} with ...args
+    # < merge with mearg, allow t=[bits+], join('_')
     me.mecy = &acgtl{
         $y = me[l.join('')]
         !y and return
@@ -96,9 +97,10 @@ me.Yingmind ||= {};
     }
     # must call me&$t with args=[...]
     me.mearg = &acgtt,args{
-        !me[t] and throw "!me."+t
+        $y = fi[t] || me[t]
+        !y and throw "!me."+t
         # + arguments for this call
-        return me[t] (A,C,G,T,...args)
+        return y (A,C,G,T,...args)
     }
     
     # might dispatch
@@ -116,6 +118,36 @@ me.Yingmind ||= {};
             : 0
         y and y (s)
     }
+    
+    # sub scoped R, eg &withR,R (&RC{ ... })
+    me.withR = &acgtR{
+        Ry&R and R = Ry&R
+        !isR(R) and throw "!R"
+        $C = Rs&C
+        !C and throw "R!C"
+        return y => y (R,C)
+    }
+    # to script for many A, &withA (A,&A{ ... })
+    me.withA = &acgtY{
+        Y ||= A
+        return &{
+            # start each call with the A from &withA
+            A = Y
+            each in arguments {
+                isA(n) and A = n
+                else
+                isar(n) and $a = me&mearg,...n
+                else
+                isfu(n) and $a = n(A)
+                else
+                debugger
+                # assumes any A returned from that
+                isA(a) and A = a; a = null
+            }
+            return A
+        }
+    }
+    
    // weirder
     # may call zy&$t, with ACGT
     me.yyt = &acgtzt{
