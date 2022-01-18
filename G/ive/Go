@@ -1277,23 +1277,16 @@ me.Sch_Go = &acgt{ return [
                         if (a.ov < 0.8) {
                             if (a.ov < 0.72) {
                                 # while @Run still has:
-                                $ers = me&jaa,Runy&R,'er,Bang',1
-                                # each step remembers its error!
-                                hak(ers) and a.ers = ers
+                                $ers = me&ja,Runy&R,'er,Bang',1
+                                # each step remembers errors
+                                ers and a.ers = ers
                                 a.ov = 0.72
                                 # < could we do this too early?
-                                #   it is a quiet_wake away per 
+                                #   it is a quiet_wake away
                             }
                             if (a.ers) {
                                 ok = 0
-                                me&boxcap,'Errors!' (&ml{
-                                    # prevents &boxcap from disappearing when empty
-                                    #  way before zuct will put stuff in it
-                                    me&tc,''
-                                    a.ers.map(&er,{
-                                        n error  $s:er,R,Rzucto:m %Error
-                                    })
-                                })
+                                me&erscap,a.ers
                             }
                         }
                         # time to look for an OK
@@ -3196,9 +3189,8 @@ me.Sch_Go = &acgt{ return [
             me&dome_traction,R,dome
         }
         me.Runpin_amb = &acgtRt{
-            me&jaa,R,'er,Bang',1 .map(&er,{
-                n error  $s:er,R %Error
-            })
+            $ers = me&ja,R,'er,Bang',1
+            ers and me&erscap,ers
         }
         # S for an osc pin, bump through segments of the work
         me.Sunpit = &acgtit,talk,params{
@@ -3265,6 +3257,17 @@ me.Sch_Go = &acgt{ return [
                 !er and return
                 
             }
+        }
+        me.erscap = &acgtN{
+            me&boxcap,'Errors!' (&m{
+                # prevents &boxcap from disappearing when empty
+                #  way before zuct will put stuff in it
+                me&tc,''
+                
+                N.map(&er,{
+                    n error  $s:er,R:1,Rzucto:m %Error
+                })
+            })
         }
      
      // way to
