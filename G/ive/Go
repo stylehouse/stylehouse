@@ -1265,6 +1265,7 @@ me.Sch_Go = &acgt{ return [
                         $ovkeen = a.ov < 0.6
                         if (a.will || ovkeen && !c.pause) {
                             delete a.will
+                            delete a.ers
                             me&dotheRunStep,R,h,n,Run,any,quiettime,c,a
                         }
                     }
@@ -1274,14 +1275,22 @@ me.Sch_Go = &acgt{ return [
                         # not-ok if errors
                         $ok = 1
                         if (a.ov < 0.8) {
-                            $ers = me&jaa,Runy&R,'er,Bang',1
-                            if (hak(ers)) {
+                            if (a.ov < 0.72) {
+                                # while @Run still has:
+                                $ers = me&jaa,Runy&R,'er,Bang',1
+                                # each step remembers its error!
+                                hak(ers) and a.ers = ers
+                                a.ov = 0.72
+                                # < could we do this too early?
+                                #   it is a quiet_wake away per 
+                            }
+                            if (a.ers) {
                                 ok = 0
                                 me&boxcap,'Errors!' (&ml{
                                     # prevents &boxcap from disappearing when empty
                                     #  way before zuct will put stuff in it
                                     me&tc,''
-                                    ers.map(&er,{
+                                    a.ers.map(&er,{
                                         n error  $s:er,R,Rzucto:m %Error
                                     })
                                 })
@@ -1291,7 +1300,7 @@ me.Sch_Go = &acgt{ return [
                         # see &SG_tally_oks
                         if (ok && a.Fe && me&isFe_ok,a.Fe ) {
                             me&tc,"OK"
-                            a.ov == 0.7 and a.ov = 0.8
+                            a.ov < 0.8 and a.ov = 0.8
                         }
                         else {
                             # Fine will have your attention
@@ -3248,8 +3257,6 @@ me.Sch_Go = &acgt{ return [
                         # this once
                         debugger
                         me&ha,R,conc
-                        # < also up in Gnome:See, even Yingu/*
-                        #   all the %%Go wired things rattle?
                         n error  $s:er,R %Error
                     }
                 }
