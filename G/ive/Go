@@ -2896,8 +2896,8 @@ me.Sch_Go = &acgt{ return [
         # Travel/$t/$s
         $t = trc&s
         t != sy&up and debugger
-        #me&Garn, < < '',[R]
-        #    i @Run/-This/-Eight/-seven/**%Ethinging
+        # < &Sarn here about our Go-eyness
+        #    /@Run has a &Sarn too
         me&haveGorowgetControl,R,s,t and return
         
         # rebuild %SummerCat?
@@ -2909,6 +2909,7 @@ me.Sch_Go = &acgt{ return [
         me&fiu,s,'Run'
     },'ift,D'],
     
+   // /@Inc|@Pro
     ['PiiOther',0.2901,&acgtRs{
         me&reaw,R,'PiiOther'
         me&acting,R
@@ -2941,7 +2942,7 @@ me.Sch_Go = &acgt{ return [
         me&ha,R,'loaded'
     },'ift,D'],
     
-   // @Run %Piing**
+   // /@Run %Piing**
     # @Run ~ %Jrunto
     #  exp by random clicks and %%initdata
     # see TheThy 2901
@@ -2982,10 +2983,151 @@ me.Sch_Go = &acgt{ return [
         me&tc,"Thising",'y'
         # < what does &Gome_This do
     },'ift,D'],
+  
+   &{
+   // @Run -> &Sunpit
+     // &Runpin
+        me.Runpin = &acgtRtv{
+            $time = v
+            # keep the latest facts, title clues, %%Bang,er... etc per &Runpin
+            $dome = 'ranRun'
+            $conc = {Runpin:1,time,dome}
+            
+            $A = me&RunA,{time}
+            A.Run = R
+            # < these go somewhere, copy %SummerCat some more
+            #   to allow -nine to glean a title @Run's latest bunch
+            # only do S 1 if time
+            # ! dont use R%Ace because of missing 4c&Srupto
+            #   strange fact of R-life, so far very little A
+            $plan = "Run "+t+"@"+time
+            $clog = ~>7 Atry: plan, '>0:fail'
+            me&Bangrasp,plan (&{
+                me&way,R,t
+            },&er,c{
+                # er taints the %%Runpin,...
+                conc.er = er
+                #  and the #msgs logline
+                clog && clog.set('fail','ERR: '+erc&s)
+                # keep the latest %%Bang,er... per &Runpin
+                me&ha,R,c,{},{dome}
+                #  which we draw up in &Runpin_amb
+            })
+            
+            $now = A&doords[time]
+            conc.title = now.t
+            $nums = haks(A&doords)
+            $ti = nums.indexOf(time+'')
+            # < &strange?
+            ti < 0 and return me&tc,"no-time:"+time,'B'
+            $ni = nums.slice(ti)[1]
+            $next = A&doords[ni]
+            next and me&ha,R,{next_Ness_title_clue:next.t,dome}
+            
+            # < notice %%er up there
+            me&ha,R,conc
+            me&dome_traction,R,dome
+        }
+        me.Runpin_amb = &acgtRt{
+            $ers = me&ja,R,'er,Bang',1
+            ers and me&erscap,ers
+        }
+        me.RunA = &acgtc{
+            $name = ''
+            c.time and name += '@'+c.time
+            $V = G&Aye,'Run'+name
+            c.time and V.time = V
+            ex(V.c,c)
+            Vc&Srupto = me.Sunpit
+            me&RunA_testenv,V
+            
+            return V
+        }
+     
+     // &Sunpit
+        # S for an osc pin, bump through segments of the work
+        me.Sunpit = &acgtit,talk,params{
+            !i && !t and throw "no io"
+            $m =
+            ~>3 Sunpit: dis(cint(i,t)), 'thought was'
+            !num(i) and debugger
+            
+            
+            A&doings ||= {};
+            A&doords ||= {};
+            $l = A&doings[t] ||= {}
+            $ld = A&doords[i] ||= l
+            ld != l and debugger
+            l.num = i
+            l.t = t
+
+            if (A&time && num(i)) {
+                A&time != i and return 0
+            }
+            
+            # or until done
+            l.done and return
+            
+            l.done = 1
+            #~sttalk: ki([s,t,talk,params]);
+            return 1
+        }
+     
+     // &Bangrasp
+        # @Run's try...catch
+        #  lifted from %Jproto
+        #   you can date this code by its use of ;
+        # < generalise, with &Supe, %%Go recoils in shock (unless ...)
+        me.Bangrasp = &acgtt{
+            return &yf{
+                
+                $er = null;
+                # < generalise, with &Supe
+                $destac = me&Gstac_reset
+                try {
+                    y()
+                }
+                catch (e) {
+                    destac()
+                    # < something about ignoring all of its This** 
+                    er = me&Yingerr,R,e,t;
+                    
+                    # write that down
+                    $msg = erc&s;
+                    $conc = {Bang:t,er,msg}
+                    # < keep trying-er? @Pro would know
+                    ers&async and conc.async = 1
+                    
+                    # er handler, probably does the below
+                    f and f(er,conc)
+                    else {
+                        # this once
+                        debugger
+                        me&ha,R,conc
+                        n error  $s:er,R %Error
+                    }
+                }
+                destac()
+                
+                !er and return
+                
+            }
+        }
+        me.erscap = &acgtN{
+            me&boxcap,'Errors!' (&m{
+                # prevents &boxcap from disappearing when empty
+                #  way before zuct will put stuff in it
+                me&tc,''
+                
+                N.map(&er,{
+                    n error  $s:er,R:1,Rzucto:m %Error
+                })
+            })
+        }
+     
    
    // @Run <-> @This** test harness
    
-    &{
      // &inramp etc for Run** inflation
         # builds a @Run/**r
         # < returning r** with E@36?
@@ -3141,141 +3283,6 @@ me.Sch_Go = &acgt{ return [
                     # on to &arriveRbitX, we become the only /$r there
                 }
             }
-        }
-     
-     // &Runpin -> &Sunpit
-        me.RunA = &acgtc{
-            $name = ''
-            c.time and name += '@'+c.time
-            $V = G&Aye,'Run'+name
-            c.time and V.time = V
-            ex(V.c,c)
-            Vc&Srupto = me.Sunpit
-            me&RunA_testenv,V
-            
-            return V
-        }
-        me.Runpin = &acgtRtv{
-            $time = v
-            # keep the latest facts, title clues, %%Bang,er... etc per &Runpin
-            $dome = 'ranRun'
-            $conc = {Runpin:1,time,dome}
-            
-            $A = me&RunA,{time}
-            A.Run = R
-            # < these go somewhere, copy %SummerCat some more
-            #   to allow -nine to glean a title @Run's latest bunch
-            # only do S 1 if time
-            # ! dont use R%Ace because of missing 4c&Srupto
-            #   strange fact of R-life, so far very little A
-            $plan = "Run "+t+"@"+time
-            $clog = ~>7 Atry: plan, '>0:fail'
-            me&Bangrasp,plan (&{
-                me&way,R,t
-            },&er,c{
-                # er taints the %%Runpin,...
-                conc.er = er
-                #  and the #msgs logline
-                clog && clog.set('fail','ERR: '+erc&s)
-                # keep the latest %%Bang,er... per &Runpin
-                me&ha,R,c,{},{dome}
-                #  which we draw up in &Runpin_amb
-            })
-            
-            $now = A&doords[time]
-            conc.title = now.t
-            $nums = haks(A&doords)
-            $ti = nums.indexOf(time+'')
-            # < &strange?
-            ti < 0 and return me&tc,"no-time:"+time,'B'
-            $ni = nums.slice(ti)[1]
-            $next = A&doords[ni]
-            next and me&ha,R,{next_Ness_title_clue:next.t,dome}
-            
-            # < notice %%er up there
-            me&ha,R,conc
-            me&dome_traction,R,dome
-        }
-        me.Runpin_amb = &acgtRt{
-            $ers = me&ja,R,'er,Bang',1
-            ers and me&erscap,ers
-        }
-        # S for an osc pin, bump through segments of the work
-        me.Sunpit = &acgtit,talk,params{
-            !i && !t and throw "no io"
-            $m =
-            ~>3 Sunpit: dis(cint(i,t)), 'thought was'
-            !num(i) and debugger
-            
-            
-            A&doings ||= {};
-            A&doords ||= {};
-            $l = A&doings[t] ||= {}
-            $ld = A&doords[i] ||= l
-            ld != l and debugger
-            l.num = i
-            l.t = t
-
-            if (A&time && num(i)) {
-                A&time != i and return 0
-            }
-            
-            # or until done
-            l.done and return
-            
-            l.done = 1
-            #~sttalk: ki([s,t,talk,params]);
-            return 1
-        }
-        # @Run's try...catch
-        #  lifted from %Jproto
-        #   you can date this code by its use of ;
-        # < generalise, with &Supe, %%Go recoils in shock (unless ...)
-        me.Bangrasp = &acgtt{
-            return &yf{
-                
-                $er = null;
-                # < generalise, with &Supe
-                $destac = me&Gstac_reset
-                try {
-                    y()
-                }
-                catch (e) {
-                    destac()
-                    # < something about ignoring all of its This** 
-                    er = me&Yingerr,R,e,t;
-                    
-                    # write that down
-                    $msg = erc&s;
-                    $conc = {Bang:t,er,msg}
-                    # < keep trying-er? @Pro would know
-                    ers&async and conc.async = 1
-                    
-                    # er handler, probably does the below
-                    f and f(er,conc)
-                    else {
-                        # this once
-                        debugger
-                        me&ha,R,conc
-                        n error  $s:er,R %Error
-                    }
-                }
-                destac()
-                
-                !er and return
-                
-            }
-        }
-        me.erscap = &acgtN{
-            me&boxcap,'Errors!' (&m{
-                # prevents &boxcap from disappearing when empty
-                #  way before zuct will put stuff in it
-                me&tc,''
-                
-                N.map(&er,{
-                    n error  $s:er,R:1,Rzucto:m %Error
-                })
-            })
         }
      
      // way to
