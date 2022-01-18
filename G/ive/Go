@@ -1088,7 +1088,7 @@ me.Sch_Go = &acgt{ return [
             $h = me&hajasute
             $Fine = c.Fine
             $nine = c.nine
-            $Run = h.ar.Run
+            $Run = c.Run = h.ar.Run
             
             me&tt,'spaz' () and me&wants,R,"FLopja",Rc&s
             # merges new -seven with its previum,
@@ -1105,10 +1105,10 @@ me.Sch_Go = &acgt{ return [
             ninec&ReNessy = 1
             
             # io Run%time
-            $time = Runs&time
+            $time = c.time = Runs&time || 0
             
             # < io @Fe+1|-1 $Fe1|_1? etc
-            $time1 = (time||0) + 1
+            $time1 = time + 1
             c.starting && time1 != 1 and me&tc,'undone!?','B'
             # < ha('rec,RunStep:1') -> %%rec:'RunStep:1',RunStep:1
             # < &rowcap de-group-by
@@ -1171,6 +1171,7 @@ me.Sch_Go = &acgt{ return [
             #   it's hard to tell when a particular Run has propagated to OK
             $quiettime = theone(h.zaa('quiettime').map(q => qs&quiettime)) || 0
             Rs&is_quiet and quiettime += 1
+            c.quiettime = quiettime
             h.ha({quiettime,rec:'quiettimeclock'})
             
             # say our ability to attend time
@@ -1179,7 +1180,7 @@ me.Sch_Go = &acgt{ return [
                 # avoids 0.5+
                 me&tt,'pause' () and c.pause = 'paused'
                 
-                !quiettime and c.unsure = 'neverquiet'
+                !c.quiettime and c.unsure = 'neverquiet'
                 # < &tkc: for a k if in c, v may be :something
                 c.unsure and me&tc,"unsure"; me&tc,c.unsure,'6'
                 else me&tc,"calm"
@@ -1199,7 +1200,7 @@ me.Sch_Go = &acgt{ return [
             # a bunch of RunningSteps
             # < -Effect that delivers once...
             #   such that we may keep sending last Go-er
-            $any = h.zaa('RunningStep')
+            c.any = h.zaa('RunningStep')
             # press r to Run++
             4s&sheys_runtime = R
                 # < export this closer to @Gnome itself,
@@ -1240,101 +1241,8 @@ me.Sch_Go = &acgt{ return [
                 # < keep display stable while !c.unsure (while This>Fine)
                 #  < style it stale if someone is watching
                 if (!c.unsure && a.ov >= 0.5) {
-                    # notice completing this step
-                    # < &iot1 any/%RunningStep==$n%RunStep
-                    #   or sep|def them with io, so n iterates with its z
-                    $ofS = any.filter(z => zs&RunningStep == ns&RunStep)
-                    $z = ofS.shift()
-                    ofS.map(n => nc&drop = 1)
-                    if (z) {
-                        # requests quietwake
-                        #  purloop per pur
-                        h.ha('pur:RunningStep:'+zs&RunningStep)
-                        if (zs&quiettime_now < quiettime) {
-                            me&tc,"..7",'6G'
-                            zc&drop = 1
-                            a.ov = 0.7
-                        }
-                    }
-                    
-                    # have a moment to run this step
-                    if (!hak(any)) {
-                        me&tsc,"could-Run-this","?",'y'
-                        !num(a.ov) and debugger
-                        # note that elIntro originates a:RunStep.*, resetting ov low
-                        $ovkeen = a.ov < 0.6
-                        if (a.will || ovkeen && !c.pause) {
-                            delete a.will
-                            delete a.ers
-                            me&dotheRunStep,R,h,n,Run,any,quiettime,c,a
-                        }
-                    }
-                    
-                    # checkable .> ok
-                    if (a.ov >= 0.7) {
-                        # not-ok if errors
-                        $ok = 1
-                        if (a.ov < 0.8) {
-                            if (a.ov < 0.72) {
-                                # while @Run still has:
-                                $ers = me&ja,Runy&R,'er,Bang',1
-                                # each step remembers errors
-                                ers and a.ers = ers
-                                a.ov = 0.72
-                                # < could we do this too early?
-                                #   it is a quiet_wake away
-                            }
-                            if (a.ers) {
-                                ok = 0
-                                me&erscap,a.ers
-                            }
-                        }
-                        # time to look for an OK
-                        # see &SG_tally_oks
-                        if (ok && a.Fe && me&isFe_ok,a.Fe ) {
-                            me&tc,"OK"
-                            a.ov < 0.8 and a.ov = 0.8
-                        }
-                        else {
-                            # Fine will have your attention
-                            # < keep going, with|after fugue
-                            if (time < 1) {
-                                # Run%time isnt yet anywhere
-                                # < sending a Go with particulars
-                                #    situation there must match description
-                                #   that complete and return to us when done
-                                #    but not before the activity ->@Fine
-                                #     perhaps knowing to sort wants by hire like Aip?
-                                a.ov = 0.5
-                                a.pur("early...")
-                            }
-                            else {
-                                ns&dodge = 1
-                            }
-                        }
-                        if (a.ov == 0.8) {
-                            if (ns&thru) {
-                                c.tude = 'through'
-                                $next = me&SG_throughNess,Fine,a.Fe
-                                if (next) {
-                                    # move on from this step
-                                    a.ov = 0.9
-                                    # to here
-                                    $S1 = me&SG_NesstoStep,Fine,next
-                                    S1 != time1 and debugger
-                                    $thru = ns&thru + 1
-                                    me&sustain,{},{RunStep:S1,thru},'k'
-                                    # < having that row ^ join this iteration
-                                    #    is the dome stream
-                                    # come around to will it into &dotheRunStep
-                                    h.ha('pur:RunnableStep:'+S1)
-                                }
-                                else {
-                                    c.allis = 'done'
-                                }
-                            }
-                        }
-                    }
+                    # getting 0.5->0.8, looking at Fe, etc
+                    me&RunStep_stabilised,R,c,h,a,n
                 }
                         
                 $looks = ns&looks || 0
@@ -1385,6 +1293,114 @@ me.Sch_Go = &acgt{ return [
                 $sc = sex({},n.sc,'RunStep,thru')
                 #me&fu,"glab",{a,sc,mem,C}
                 memy&iN([sc])
+            }
+        }
+        
+        me.RunStep_stabilised = &acgtRchan{
+            $Fine = c.Fine
+            $Run = c.Run
+            
+            # notice completing this step
+            # < &iot1 any/%RunningStep==$n%RunStep
+            #   or sep|def them with io, so n iterates with its z
+            $ofS = c.any.filter(z => zs&RunningStep == ns&RunStep)
+            $z = ofS.shift()
+            ofS.map(n => nc&drop = 1)
+            if (z) {
+                # requests quietwake
+                #  purloop per pur
+                h.ha('pur:RunningStep:'+zs&RunningStep)
+                if (zs&quiettime_now < c.quiettime) {
+                    me&tc,"..7",'6G'
+                    zc&drop = 1
+                    a.ov = 0.7
+                }
+            }
+
+            # have a moment to run this step
+            if (!hak(c.any)) {
+                me&tsc,"could-Run-this","?",'y'
+                !num(a.ov) and debugger
+                # note that elIntro originates a:RunStep.*, resetting ov low
+                $ovkeen = a.ov < 0.6
+                if (a.will || ovkeen && !c.pause) {
+                    delete a.will
+                    delete a.ers
+                    # < &rowcap might have an A to use with relevant these things:
+                    me&dotheRunStep,R,c,h,a,n
+                }
+            }
+
+            # checkable .> ok
+            if (a.ov >= 0.7) {
+                me&RunStep_checkup,R,c,h,a,n
+            }
+        }
+        
+        me.RunStep_checkup = &acgtRchan{
+            $Fine = c.Fine
+            $Run = c.Run
+            # not-ok if errors
+            $ok = 1
+            if (a.ov < 0.8) {
+                if (a.ov < 0.72) {
+                    # while @Run still has:
+                    $ers = me&ja,Runy&R,'er,Bang',1
+                    # each step remembers errors
+                    ers and a.ers = ers
+                    a.ov = 0.72
+                    # < could we do this too early?
+                    #   it is a quiet_wake away
+                }
+                if (a.ers) {
+                    ok = 0
+                    me&erscap,a.ers
+                }
+            }
+            # time to look for an OK
+            # see &SG_tally_oks
+            if (ok && a.Fe && me&isFe_ok,a.Fe ) {
+                me&tc,"OK"
+                a.ov < 0.8 and a.ov = 0.8
+            }
+            else {
+                # Fine will have your attention
+                # < keep going, with|after fugue
+                if (c.time < 1) {
+                    # Run%time isnt yet anywhere
+                    # < sending a Go with particulars
+                    #    situation there must match description
+                    #   that complete and return to us when done
+                    #    but not before the activity ->@Fine
+                    #     perhaps knowing to sort wants by hire like Aip?
+                    a.ov = 0.5
+                    a.pur("early...")
+                }
+                else {
+                    ns&dodge = 1
+                }
+            }
+            if (a.ov == 0.8) {
+                if (ns&thru) {
+                    c.tude = 'through'
+                    $next = me&SG_throughNess,Fine,a.Fe
+                    if (next) {
+                        # move on from this step
+                        a.ov = 0.9
+                        # to here
+                        $S1 = me&SG_NesstoStep,Fine,next
+                        S1 != c.time+1 and debugger
+                        $thru = ns&thru + 1
+                        me&sustain,{},{RunStep:S1,thru},'k'
+                        # < having that row ^ join this iteration
+                        #    is the dome stream
+                        # come around to will it into &dotheRunStep
+                        h.ha('pur:RunnableStep:'+S1)
+                    }
+                    else {
+                        c.allis = 'done'
+                    }
+                }
             }
         }
         
@@ -1454,7 +1470,8 @@ me.Sch_Go = &acgt{ return [
             }
         }
         # < simply wanting a RunningStep from a RunStep
-        me.dotheRunStep = &acgtRhn,Run,any,quiettime,c,a{
+        me.dotheRunStep = &acgtRchan{
+            $Run = c.Run
             me&tc,"Run++"
             h.ha('pur:Run++')
             # < many steps
@@ -1466,6 +1483,7 @@ me.Sch_Go = &acgt{ return [
             me&forgetRunStep,Run,ns&RunStep
 
             # if ro Run oncer on
+            # < pass singleton through %%Go
             $r = Runy&R
             rs&Run = 1
             # go there
@@ -1475,10 +1493,10 @@ me.Sch_Go = &acgt{ return [
             a.ov = 0.6
             $RingS = {
                 RunningStep: ns&RunStep,
-                quiettime_now: quiettime,
+                quiettime_now: c.quiettime,
             }
             $gs = me&sustain,{},RingS
-            any.push(gs.n)
+            c.any.push(gs.n)
         }
         # drop -Eight/$S-seven
         me.forgetRunStep = &acgt,Run,S{
