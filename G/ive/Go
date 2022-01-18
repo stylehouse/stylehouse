@@ -1228,13 +1228,18 @@ me.Sch_Go = &acgt{ return [
                     active_n == n and a.ov = 0.5; eisa_R = 0
                 }
                 
-                if (!c.unsure && a.ov < 0.5) {
-                    $will = me&tt,"will",'y' (1)
-                    will and a.ov = 0.5
+                # can always a.will for when !c.unsure
+                if (me&tt,"will",'y' (1)) {
+                    # eg added by tt:+gap start @4, make @5
+                    a.ov < 0.5 and a.ov = 0.5
+                    # negate the need to be at @5-6 to run
+                    # < bind the glow-style of tt:will to a.will
+                    #   may take a while, then leap off (like a shadow)
+                    else a.will = 1
                 }
+                # < keep display stable while !c.unsure (while This>Fine)
+                #  < style it stale if someone is watching
                 if (!c.unsure && a.ov >= 0.5) {
-                    # not while This>Fine
-                    
                     # notice completing this step
                     # < &iot1 any/%RunningStep==$n%RunStep
                     #   or sep|def them with io, so n iterates with its z
@@ -1250,18 +1255,16 @@ me.Sch_Go = &acgt{ return [
                             zc&drop = 1
                             a.ov = 0.7
                         }
-                        
                     }
                     
                     # have a moment to run this step
                     if (!hak(any)) {
                         me&tsc,"could-Run-this","?",'y'
-                        # < &tt per row
-                        $will = me&tt,"will",'y' (1)
                         !num(a.ov) and debugger
                         # note that elIntro originates a:RunStep.*, resetting ov low
                         $ovkeen = a.ov < 0.6
-                        if (will || ovkeen && !c.pause) {
+                        if (a.will || ovkeen && !c.pause) {
+                            delete a.will
                             me&dotheRunStep,R,h,n,Run,any,quiettime,c,a
                         }
                     }
@@ -1382,6 +1385,8 @@ me.Sch_Go = &acgt{ return [
                 memy&iN([sc])
             }
         }
+        
+        
       // RunStep f
         # given have(6), gaps=[1-5]
         me.GapFinder = &acgt{
