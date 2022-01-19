@@ -3016,7 +3016,16 @@ me.Sch_Go = &acgt{ return [
     },
     # quiet s** R modulat for /-Log
     ['Foldabline',0.99,&acgtRs{
-        !cvlt(Rs&boost,1) and return
+        # boost>=1 unfolds
+        $Fold = cvlt(Rs&boost,1)
+        $was = me&ollbs,R,'Foldablined'
+        # drops y&Display/** history, recreating dom inside here
+        # < Display bug in the element list rearranger
+        #    drip feeds them in at the start, 1 at a time
+        Fold != was and Rs&igVDisplayin = 1
+        !Fold and return
+        Rs&Foldablined = 1
+        
         $keeps = [
             ... me&modselect,R,{t:'t',cv:0.11} ,
         ]
