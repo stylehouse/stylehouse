@@ -3344,14 +3344,18 @@ me.Sch_Go = &acgt{ return [
             }
         }
      
-     // way to
+     // A.h mouthpiece!
         # A.h .o(Eight.t) replaces A.h
         # @Run suits up A:Run (V), has an Eight** opener|cursor
         me.RunA_testenv = &acgtV{
             # -Eight++
             # get $id-Eight/$time-seven handle, for i-ing thence
-            $o = &t{
-                $h = V.h = {o}
+            $Ah = V.h = {}
+            # taken over by latest opened V.h = {o,tys,...}
+            #  o always opens a new Eight
+            #  V.h starts an opener, then cursor and opener
+            V.h.o = &t{
+                $h = V.h = {o:V.h.o}
                 # -seven/-six++
                 # interfaces, not sharing A
                 h.sixer = me&openEight,t,V
@@ -3364,9 +3368,13 @@ me.Sch_Go = &acgt{ return [
                 # like n $t -pi $s=suchacall()
                 h.tys = &tysc{
                     # < c -> Ec?
-                    c = pex({pi:y,s}, pex(h.sixc,c) )
+                    $testway = pex(Ah.sixc,h.sixc)
+                    c = pex({pi:y,s}, pex(testway,c) )
                     !iske(t) || t == '' and throw "non t", t
                     $six = h.sixer([t+'',c])
+                    # supposedly this is still @Run...A
+                    #  as opposed to A...stuff-we-will-dump
+                    #   which has no links up
                     Vs&six.push(six)
                     h.lasix = six
                     return six
@@ -3386,11 +3394,9 @@ me.Sch_Go = &acgt{ return [
                 
                 return h
             }
-            # taken over by latest opened V.h = {o,tys,...}
-            #  o always opens a new Eight
-            #  V.h starts an opener, then cursor and opener
-            V.h = {o}
         }
+     
+     // mock objects
        // &mockR
         # minimal R b%C,wou Doming
         me.mockR = &acgtt{
