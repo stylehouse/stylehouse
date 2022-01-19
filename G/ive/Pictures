@@ -1060,7 +1060,7 @@
         return c || {}
     }
   
-  // more type
+  // more type, cv
     # see also dec()
     # print 0.123 as 123, !cv-fatal
     #  see unfatal: cvf(), opposite: scv() (or sca()==scaf())
@@ -1076,6 +1076,8 @@
     self.scv = &ov,{
         return dec(sca(ov),15)
     }
+    # various cv compares
+    #  c.* may contain more eg see &modselect
     self.gteqcv = &vc{
         v ||= 0
         return (c.gte == null || v >= scv(c.gte))
@@ -1084,6 +1086,8 @@
              && (c.lt == null || v < scv(c.lt))
              && (c.cv == null || v == scv(c.cv))
     }
+    # good for: cvlt(R%boost,3) and return
+    self.cvlt = (s,c) => gteqcv(s,{lt:c})
     
     # < vague. for sz(c.ov,2) and return
     #    turn into: sz(c,'ov') (2)+
