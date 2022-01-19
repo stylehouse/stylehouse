@@ -654,6 +654,7 @@
     
     # array from iterable: [s] = y.i=s|[s+]|&{}|[]
     #  for &sustrain y.i
+    #   where you want one-or-list, possibly from callback
     self.fuN = &s{
         # < args?
         isfu(s) and s = s (...[...arguments].slice(1))
@@ -935,11 +936,12 @@
         return s
     }
   // misc() access
-    # defor... inverted
-    self.oneor = &ckv{
-        $is = c [k]
-        is == null || !is || is == 1 and return v
-        return is
+    # defor wanting true, != 1
+    self.notoneor = &{
+        each is arguments {
+            !(s == null || !s || s == 1) and return s
+        }
+        throw "nothing not-1"
     }
     # defined-or: s //= 1, s=0 stays 0
     window.defor = &{
