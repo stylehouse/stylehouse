@@ -3099,6 +3099,7 @@ me.Sch_The = &acgt{ return [
   // misc f
    // &Rsci
     # c.t may say $t-$pi%qua
+    #  used by &Piing
     me.t_tpi = &acgtc{
         $tpi = c.t.match(/^(.*)-(\w+)((?:%\w.*)?)$/)
         if (tpi) {
@@ -3121,6 +3122,11 @@ me.Sch_The = &acgt{ return [
         
         return c
     }
+    # long/paths/-Log/etc
+    #  no multiplicity
+    #   ! -Log means C.t="-Log" if on RE, "Log" if not
+    #     eg at RE/-Log, or Run/This
+    #  used by &Pii
     me.Rsci = &acgtscq{
         c ||= {}
         $R = c.R || me&R
@@ -3139,7 +3145,8 @@ me.Sch_The = &acgt{ return [
             $pi = tc.pi
             
             $v
-            pi and t ||= pi
+            # see ! -Log means C.t="-Log"
+            pi and t ||= (zy&ers?'-':'')+pi
             gk and v = z.sc[gk]
             # < bal Rc&s/$v, for c.R%ball
             #   or schedule|other nearby y&R
@@ -4076,7 +4083,7 @@ me.Sch_The = &acgt{ return [
             $sLog = me.cbu(Ey&R,r => rs&Piing) .c.s
             $sev = sLogy&up
             $init = me&iot,sev,'-Log' [0]
-            init == sLog and return me&tc,"isfirst!"
+            init == sLog and return
             $log = initc&s
             logc&fe_time == 3
             
@@ -4728,7 +4735,7 @@ me.Sch_The = &acgt{ return [
                 # E**yD
                 $r = sy&R
                 # doesn't see other E//R%hoisten=2 (-Eight|-seven)
-                rs&hoisten == 2 and return
+                !r || rs&hoisten == 2 and return
                 $main = ahsk(d,'up','s','y','main')
                 #main && main != s and return
 
