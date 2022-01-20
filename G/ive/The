@@ -3361,7 +3361,7 @@ me.Sch_The = &acgt{ return [
         s&bgh = '831'
         # the value
         tax(E.sc,R.sc,'ope')
-        me&modselect,E,{el:9,n:Cy&transpi}
+        ah(R,'noCy','transpi',1)
     },'ift,D'],
 
    // -Bat
@@ -3915,7 +3915,7 @@ me.Sch_The = &acgt{ return [
         $Ep = Ey&up
         # < move in with &Eref_samepishow
         $usuup = Epc&pi == 'brackio' || Epc&pi == 'brackios'
-        usuup and me&modselect,R,{el:9,n:Cy&transpi}
+        usuup and ah(R,'noCy','transpi',1)
         me&pity,E,'-Bow' .map(&e{
             $er = ey&R
             !er and return
@@ -3950,14 +3950,15 @@ me.Sch_The = &acgt{ return [
         me&pity,E,'-Bow' .map(&e{
             # < $eC = o e//R/%C or return
             # < or:   o e)%C # implies s**->R** change
-            $eC = Aof(e,'C')
+            $r = Aof(e)
+            $eC = r && rs&C
             !eC and return
             # dont say -brack
-            me&modselect,e,{el:9,n:eCy&transpi}
+            ah(r,'noCy','transpi',1)
             # or At:sc
             if (e.t == 'sc') {
                 sc&drop and eCs&opa = 0.6
-                me&modselect,e,{el:9,n:eCy&label}
+                ah(r,'noCy','label',1)
                 # < &Eiot - selecting awake E**
                 me&pity,e,'-Bow' .map(&e{
                     ey&R == 0 and return
@@ -4033,9 +4034,8 @@ me.Sch_The = &acgt{ return [
         #     it is usually -String|Cish|Hash
         #      implied by the Dc&s="C Thing" or so
         me&Epigraph,'is,in:vat,Dpi'
-        me&modselect,R,{el:9,n:Cy&transpi}
     },'ift,D'],
-    ['row',0.2631,&acgtRs{
+    ['row',0.26301,&acgtRs{
         $D = Rs&D
         $E = Rs&E
         # right after -Hash spawns:
@@ -4053,7 +4053,6 @@ me.Sch_The = &acgt{ return [
         me&Epigraph,'is'
         
         
-        me&modselect,R,{el:9,n:Cy&transpi}
     },'ift,D'],
     
    // logc&muteslaters
@@ -4122,6 +4121,9 @@ me.Sch_The = &acgt{ return [
     me.Epigraph = &acgtc{
         $R = me&R
         $E = Rs&E
+        # suppose these are known Ec&pi
+        # < remark if not schematic
+        ah(R,'noCy','transpi',1)
         # < peel allowing ty+pes -> [ty,pes] ?
         #   then all these fuN(c.is).map(pi => ...)
         c = peel(c)
@@ -4136,7 +4138,16 @@ me.Sch_The = &acgt{ return [
         c.Dpi and Rs&Dpiverbose = notoneor(c.Dpi,T.act.t)
     }
     },
-    # after becoming -Hash, go back to being a -row
+    # not stating pi change
+    ['noCy',0.88,&acgtRs{
+        # a filtering map
+        # < i R%M/--$n o C.y.$k o R%noCy/$k
+        #     knowing %noCy has $k|$v? or %noCy.$k
+        #      or %noCy[:k] # more keys-explicit
+        haks(Rs&noCy) .map(k => C.y [k]) .filter(n=>n)
+            .map(n => me&modselect,R,{el:9,n})
+    },'ift,D'],
+    # after becoming -Hash, go back to being a -row on D
     ['Dpiverbose',0.263,&acgtRs{
         $D = Rs&D
         $E = Rs&E

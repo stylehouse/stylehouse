@@ -5,6 +5,10 @@
     me.modselect = &acgtRc{
         R = Aof(R)
         c ||= {}
+        # c.el=9,n=undef shall not delete everything (at the time)
+        grep(k => hak(c,k) && c[k] == null, ['t','y','n']) .map(&k{
+            throw "undef c."+k, c
+        })
         # < mix down modulat into Rs&M anytime?
         me&modulatM,R
         $N = Rs&M
@@ -20,6 +24,7 @@
                 N.push(n)
             }}
         }
+            
         # select what
         $M = N.filter(&n{
             return gteqcv(ny&cv,c)
