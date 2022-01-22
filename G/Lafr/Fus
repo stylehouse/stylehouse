@@ -812,14 +812,6 @@ S 5 Log
     #  < should be a variation on that time?
     
     fi&test_Attention,1
-    # < %%Erefc on the A:least/5/4/-Log/0/A/4
-    #   points deeper than it should
-    #   sort by a.tp.startsWith(b.tp)?
-    #   was also before:
-    #    when the &complace had A:Middle,
-    #     it was out-of-time able to see it at:
-    #      Log-Eight...A/c/Client/up
-    #       which is an odd choice, given ...A/c/Middle is there
     delete a&log
     A = hA
     
@@ -860,23 +852,44 @@ S 5 Log
         return v
     }
     
-    $Erefc2 = Rsci2(R,'This/A:least/5/4//-Log/0/A/4%%Erefc 11')
+    # This context (~~ &supedome) to R:Run
+    $oThis = s => Rsci2(R,'This/'+s)
+    # the one %%Erefc
+    $Erefc = s => oThis(s+'%%Erefc 11')
+    $gots = &Erefc,{
+        !Erefc and return "MISS"
+        $got = Erefc.got
+        $so = got.map(g => g.tp)
+        return so
+    }
     
-    $same = me&Rsci,'This/A:least/5/4',{el:8,v:Rc&s}
-    six != same and debugger
-    $RE = me&REof,same
-    $vat = me&Rsci,'-Log/0/A/4',{el:8,v:RE}
-    $r = vaty&R
-    $Erefc = theone( me&jaa,r,'Erefc',1 )
-    h.fu("La",{six,same,RE,vat,r,Erefc,Erefc2})
     
-    $got = Erefc.got
-    $so = got.map(g => g.tp)
-    h.hat("that last log:Ath-not's Erefc.got.*.tp'",so)
+    # < %%Erefc on the A:least/5/4/-Log/0/A/4
+    #   points deeper than it should
+    #   sort by a.tp.startsWith(b.tp)?
+    #   was also before:
+    #    when the &complace had A:Middle,
+    #     it was out-of-time able to see it at:
+    #      Log-Eight...A/c/Client/up
+    #       which is an odd choice, given ...A/c/Middle is there
+    $A4 = Erefc('A:least/5/4//-Log/0/A/4')
+    h.hat("that last log:Ath-not's Erefs to A:least'",gots(A4))
     
-    $got = Erefc2.got
-    $so = got.map(g => g.tp)
-    h.hat(" via Rsci2",so)
+    
+    # < also the first %%node says '^'
+    #  < sometimes. after throw?
+    $Run = Erefc('A:least/5/1//-Log/0/node')
+    $toRun = oThis('A:least/5/1//-Log/0/node')
+    #h.fu({Run,toRun})
+    h.hat("and the initial log:yarrr's Erefs to n:Run'",gots(Run))
+    $a = {}
+    a.aya = a
+    $b = {a,le:a}
+    h.hat("and this is this",b)
+    # 
+    h.hat(" with a later look at",{la:a,loose:a})
+    
+    
     
     # fi&test_Attention,2
     
