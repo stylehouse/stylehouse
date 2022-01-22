@@ -1569,6 +1569,8 @@ me.Sch_The = &acgt{ return [
             
             # 1
             ey&R = 0
+            # < tuck the rest of this block into &Pieri, setting wouldc.keen
+            #    and keep the aq it is for when we layout/unkeen
             # if any match (besides impl|ope<0),
             #  it promotes E to in, past any %limit
             $M = me&Pieri,E,e
@@ -1580,11 +1582,13 @@ me.Sch_The = &acgt{ return [
             #   or eg something compare in there
             $serious = M.filter(aq => !aqs&layout)
             $keen = hak(serious) ? 1 : 0
+            # aq%layout,impl may disaffect if:
+            $Rope = (Rs&ope||0) >= 1
             each i,aq M {
                 $qua = aqs&qua
                 !qua and continue
                 qua.ope and fatal.isnum(qua.ope); keen += (1*qua.ope)
-                qua.impl and keen -= 2
+                qua.impl && !(aqs&layout && Rope) and keen -= 2
             }
             # < more and less keen
             keen > 0 and ac(c,'keen',e)
