@@ -904,7 +904,9 @@ S 5 Log
     $ideally = &Erefc,{
         $got = Erefc.got.slice()
         #return map(v => Aof(v),{GOT:got[0].Efound, EXP:got[1].Efound})
-        # if .s == A:least == /4|y, move it up     # code io
+        # 
+        # eg $s=A:least == s.4|y, /$s/y sees /$s/4 closer than /$s
+        # < also for s == s.y.such|ism
         $sorted = got.sort(&ab{
             return b.n.y.up == a.n && -1
         })
@@ -913,8 +915,15 @@ S 5 Log
         return so
     }
     
-    # < %%Erefc on the A:least/5/4/-Log/0/A/4/y
-    #   points deeper than it should
+    # < %%Erefc on the A:least/5/4/-Log/0/A/4:
+    #    it points to 5/3/-Log/0/A/4 (ok)
+    #     the most recent sighting of A:least
+    #    /c|sc - point to 5/1/-Log/0/A/c (ok)
+    #     only time A:least is open
+    #    /4 - points back to '^' (ok)
+    #   that's all okay, but then:
+    #    /y - points deeper than it should
+    #     to the A/4/4, A/4 would do
     #   sort by a.tp.startsWith(b.tp)
     #    where got.$i.E the same
     #     esp when 1 up|down
