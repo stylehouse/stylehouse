@@ -956,36 +956,59 @@ me.Sch_The = &acgt{ return [
             
             
   # io locale
-  // &Rsci
-    # c.t may say $t-$pi%qua
-    #  used by &Piing
-    me.t_tpi = &acgtc{
-        $tpi = c.t.match(/^(.*)-(\w+)((?:%\w.*)?)$/)
-        if (tpi) {
-            c.t = tpi[1]+tpi[3]
-            c.pi = tpi[2]
-            if (c.t == '') {
-                # may s.y.$pi
-                # or $s/$pi
+  // &Risc
+    # < climbing funcs.
+    #    &Rsci does long paths
+    # < This** would have a @log column, where we can find %says=such
+    
+    
+    # &Risc,This,'long/paths//-Log/etc%%Erefc'
+    # < optional v, find R etc
+    #  < for &ha,s,shade,mix, unless sy&brack
+    # < a &Sarg io prototype. level up from &fiu
+    me.Risc = &acgtvscq{
+        # climbs s** if given R
+        v = sof(v)
+        
+        # < $jaa = s.splot('%%')
+        #    ie grep|grop
+        #    < mop() removes from source 
+        #   $user = ('@')splot.email
+        #    ops on the front of a thing
+        s = s.split('%%')
+        $jaa = s [1]
+        s = s [0]
+        
+        $to = me&Rsci,s,{el:8,v},q
+        !to and return
+        $v = to
+        
+        if (jaa) {
+            jaa = jaa.split(" ")
+            if (jaa[1]) {
+                # eg '%%such 1' to return first value of each
+                jaa[1][0] == '1' and $jaac = 1
+                # eg '%%such 11' first value on first row
+                jaa[1][1] == '1' and $dotheone = 1
             }
-        }
-        $tgk = c.t.match(/^(.*)%(\w+)(.*?)$/)
-        if (tgk) {
-            c.t = tgk[1]+tgk[3]
-            c.gk = tgk[2]
-            if (c.t == '') {
-                # may $s/*%qua
-                # or $s%qua=C:qua
-            }
+            jaa = jaa[0]
+            $r = vy&R
+            !r and return
+            $N = me&jaa,r,jaa,jaac
+            # fatal to many|N>1
+            dotheone and N = theone(N)
+            v = N
         }
         
-        return c
+        return v
     }
     # long/paths/-Log/etc
     #  no multiplicity
     #   ! -Log means C.t="-Log" if on RE, "Log" if not
     #     eg at RE/-Log, or Run/This
     #  used by &Pii sparely
+    #  may // to RE, y&Ry&E
+    #  may %%brack
     me.Rsci = &acgtscq{
         c ||= {}
         $R = c.R || me&R
@@ -998,8 +1021,9 @@ me.Sch_The = &acgt{ return [
         $last = hak(s.path)-1
         each it s.path {
             !isst(t) and debugger
+            
             if (!hak(t)) {
-                # //
+                # s**-Log//-Log goes into the main &Piing E
                 $RE = me&REof,z
                 !RE and throw "handle creating RE elsewhere?"
                 z = RE
@@ -1117,6 +1141,32 @@ me.Sch_The = &acgt{ return [
             return 1
         }
     }
+    # c.t may say $t-$pi%qua
+    #  used to grasp c.t|pi for &Piing
+    #  and &Pii to i .../Some-such (setting sc&pi)
+    me.t_tpi = &acgtc{
+        $tpi = c.t.match(/^(.*)-(\w+)((?:%\w.*)?)$/)
+        if (tpi) {
+            c.t = tpi[1]+tpi[3]
+            c.pi = tpi[2]
+            if (c.t == '') {
+                # may s.y.$pi
+                # or $s/$pi
+            }
+        }
+        $tgk = c.t.match(/^(.*)%(\w+)(.*?)$/)
+        if (tgk) {
+            c.t = tgk[1]+tgk[3]
+            c.gk = tgk[2]
+            if (c.t == '') {
+                # may $s/*%qua
+                # or $s%qua=C:qua
+            }
+        }
+        
+        return c
+    }
+    
   # elvising
   // &FishElvis + -Bat f
     me.FishElvis = &acgtRs{
