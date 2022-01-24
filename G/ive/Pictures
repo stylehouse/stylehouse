@@ -658,16 +658,6 @@
         return e
     }
     
-    # array from iterable: [s] = y.i=s|[s+]|&{}|[]
-    #  for &sustrain y.i
-    #   where you want one-or-list, possibly from callback
-    self.fuN = &s{
-        # < args?
-        isfu(s) and s = s (...[...arguments].slice(1))
-        !s and s = []
-        !isar(s) and s = [s]
-        return s
-    }
    // access many
     # &ioty with easier s//R for any %scgk, tends to R//s
     # < leg the s//R, see &Sharg sound.
@@ -874,7 +864,17 @@
         }
         return a;
     }
-  // misc() array string
+  // misc() array many
+    # array from iterable: [s] = y.i=s|[s+]|&{}|[]
+    #  for &sustrain y.i
+    #   where you want one-or-list, possibly from callback
+    self.fuN = &s{
+        # < args?
+        isfu(s) and s = s (...[...arguments].slice(1))
+        !s and s = []
+        !isar(s) and s = [s]
+        return s
+    }
     # figures if N = N or N[0] is the intended array to use
     #  for eg N=[...arguments] for aroint()
     # < there are a bunch of arguments parsing things
@@ -888,7 +888,8 @@
     self.flatorray = &N{
         return hak(N) == 1 && isar(N[0]) ? N[0] : N
     }
-    # add numbers
+    # add numbers sum(f?,N)
+    # < compile out the optional leading arg uglies
     self.sum = &{
         $args = [...arguments]
         $whatfor = isfu(args[0]) && args.shift()
@@ -913,9 +914,21 @@
         }
         return N
     }
-    
+  // misc() array string
+    # ghostily, the way to w:Text from w:Pictures
     # < types for weird sorts of compression!!
     #   for eg W.t storable (filename sanity)
+    
+    # "$k:v(.t)" separated by " ", only C|string from c, eg a
+    # < no numbers? not c.el? see &sustain etc
+    # used for Eight.t by &complace
+    self.idint = &c{
+        $idc = grep(v => isst(v) || isC(v), c)
+        !hak(idc) and throw "no idint"
+        return spant( armap((v,k) => cint([k,v]), idc) )
+    }
+    
+   # simply joining by something, possibly with C.t
     self.cint = &{ return aroint([...arguments],':') }
     self.daint = &{ return aroint([...arguments],'-') }
     # < dis() that goes peel:1 if big
