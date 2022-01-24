@@ -503,9 +503,10 @@ me.Sch_The = &acgt{ return [
   
 &{
  
- // resolve
- 
-  // Aip
+ // E life
+  
+  
+  // < Aip
       =Aip
        things add on, inside, etc
         must add to the end (eg [3]->[4], [2,1]->[2,2])
@@ -562,7 +563,7 @@ me.Sch_The = &acgt{ return [
       
       =cut
   
-  // time!
+  // < time
       =time
        are Aip intralaced
        eg
@@ -628,6 +629,7 @@ me.Sch_The = &acgt{ return [
       
       =cut
   
+  # front end
   // &Piing into $E** proper
     # R'Peace'|Outs|$s** spreads nodes that c&pi
     #  i $s/-somepi spreads nodes pi-ishly
@@ -888,8 +890,7 @@ me.Sch_The = &acgt{ return [
         Ey&D = D
     }
     
-  
- 
+  # schemes cling around the machinery
   // &Piing       <  doc points of %E** inspherings etc
      // outsphereings # besides those above
         # T from the outsphere
@@ -954,7 +955,162 @@ me.Sch_The = &acgt{ return [
         }
             
             
-   
+  # io locale
+  // &Rsci
+    # c.t may say $t-$pi%qua
+    #  used by &Piing
+    me.t_tpi = &acgtc{
+        $tpi = c.t.match(/^(.*)-(\w+)((?:%\w.*)?)$/)
+        if (tpi) {
+            c.t = tpi[1]+tpi[3]
+            c.pi = tpi[2]
+            if (c.t == '') {
+                # may s.y.$pi
+                # or $s/$pi
+            }
+        }
+        $tgk = c.t.match(/^(.*)%(\w+)(.*?)$/)
+        if (tgk) {
+            c.t = tgk[1]+tgk[3]
+            c.gk = tgk[2]
+            if (c.t == '') {
+                # may $s/*%qua
+                # or $s%qua=C:qua
+            }
+        }
+        
+        return c
+    }
+    # long/paths/-Log/etc
+    #  no multiplicity
+    #   ! -Log means C.t="-Log" if on RE, "Log" if not
+    #     eg at RE/-Log, or Run/This
+    #  used by &Pii sparely
+    me.Rsci = &acgtscq{
+        c ||= {}
+        $R = c.R || me&R
+        isst(s) and s = {path:s.split('/')}
+        !s and s = {path:[]}
+        c.gk and s.path.unshift('%'+c.gk)
+        $putsz = hak(c,'s') || hak(c,'n')
+        
+        $z = c.v || R
+        $last = hak(s.path)-1
+        each it s.path {
+            !isst(t) and debugger
+            $tc = me&t_tpi,{t}
+            t = tc.t
+            $gk = tc.gk
+            $pi = tc.pi
+            
+            $v
+            # see ! -Log means C.t="-Log"
+            pi and t ||= (zy&ers?'-':'')+pi
+            gk and v = z.sc[gk]
+            # < bal Rc&s/$v, for c.R%ball
+            #   or schedule|other nearby y&R
+            else v = me&fiu,z,t,c.el
+            
+            # i %limit/%toomuch=1 or &Rli,'toomuch',{s:1}
+            $puts = putsz && i == hak(s.path)-1 && hak(c,'s')
+            $putz = putsz && i == hak(s.path)-1 && hak(c,'n')
+            if (putz && v) {
+                if (gk) {
+                    !isar(v) and throw "putz!ar"
+                    if (c.el == 8) {
+                        # o $l%somegk/$n tests for $n in %somegk
+                        #  ie &Rti,'limit/%somegk',{n:e}
+                        # returns the /$n as array
+                        return me&Rscin,s,c,q,v && v
+                        # if !v it may also fail @el==8:
+                    }
+                }
+            }
+            if (!v || (puts || putz) && gk) {
+                c.el == 8 and return
+                !gk and throw "never happens: &fiu creates el<8"
+                
+                if (puts) {
+                    puts = 0
+                    v = c.s
+                }
+                elsif (putz) {
+                    v ||= []
+                }
+                else {
+                    v = Cye([gk,2])
+                }
+                z.sc[gk] = v
+            }
+            if (isC(v)) {
+                # care
+                if (R == z) {
+                    gk and vy&R = R
+                    else {
+                        # < bal Rc&s/$v
+                    }
+                }
+                if (pi) {
+                    !vc&pi and vc&pi = pi
+                    vc&pi != pi and return
+                }
+                if (puts) {
+                    puts = 0
+                    vc&s = c.s
+                }
+                elsif (putz) {
+                    putz = 0
+                    $vz = vs&z ||= []
+                    # returns the last C the /$n is in
+                    #   $z:thing/%bunch:v/$n=stuff
+                    return me&Rscin,s,c,q,vz && v
+                    # < conserve/score?
+                }
+            }
+            if (putz) {
+                !gk and throw "never happens: isC putz"
+                putz = 0
+                # returns the /$n as array
+                return me&Rscin,s,c,q,v && v
+            }
+            !v and return
+            z = v
+        }
+        return v
+    }
+    # v=[] for /$n-ism, adding|finding c.n
+    me.Rscin = &acgtscqv{
+        if (c.el == 8) {
+            if (isar(c.n)) {
+                # has a list
+                $all = 1
+                $any = 0
+                each in c.n {
+                    v.includes(n) and any = 1
+                    else all = 0
+                }
+                c.all && !all and return
+                !any and return
+                return 1
+            }
+            else {
+                v.includes(c.n) and return 1
+            }
+        }
+        else {
+            if (isar(c.n)) {
+                # < distribute in between includes
+                each in c.n {
+                    !v.includes(n) and v.push(n)
+                }
+            }
+            else {
+                !v.includes(c.n) and v.push(c.n)
+            }
+            return 1
+        }
+    }
+  # elvising
   // &FishElvis + -Bat f
     me.FishElvis = &acgtRs{
         ~FishElvis
@@ -1135,7 +1291,7 @@ me.Sch_The = &acgt{ return [
             }
         }
     }
-   
+  # see refs
   // &Eref*
    # see thingo / %%limit (ref)
    // lookup
@@ -1144,7 +1300,30 @@ me.Sch_The = &acgt{ return [
     
     # search for other R with ref, E^^
     #  X.ref only exist on the Ec&top %X
+    =Erefc
+      .got=[g+]
+       g.* E**, who we are at either end
+       
+        # got.Efinder: -six** we climbed from
+        #   where the ref is now
+        # Erefc.R is .Efinder//R
+        
+        # Erefc.E -six or ^^, grouping refs
+        #      .e is the first -six we climbed through
+        # < does .E always go to Ec&uber?
+        #   or is it just until we climb s** in lookup
+        
+        # Erefc.s = the object itself
+        
+        # got.Efound is the target E, at the end of got.tp
+        # got.n is .Efound//R
+        #  
+        # < got.E always == Erefc.E?
+      
+      yep
+    =cut
     me.Ereflookup = &acgtc{
+      // ambleup
         # E are here^^^, e is here-only
         #  NOT the finder|found, see Efound
         $E = c.E
@@ -1184,6 +1363,7 @@ me.Sch_The = &acgt{ return [
         }
         E != e and return
         
+      // angle
         # sort by R tree
         c.got.map(g => ex(g, me&Rcrux,R,g.n,c ))
         grop(g => g.not, c.got)
@@ -1514,7 +1694,7 @@ me.Sch_The = &acgt{ return [
         Ey&up and me&Ereftakedown,Ey&up,c
     }
   
-  
+  # life of E
   // &Eing E/* into life
     # 2 E/** sync, repeatedly
     # < in or out of time?
@@ -1694,54 +1874,10 @@ me.Sch_The = &acgt{ return [
             }
         }
     }
-   
-  // R'The' stylemotifs
-    # @21 spawn|mutate E**
-    # E remains given|base type
-    # D shifts into that mind with R%-pi
-    me.typeup = &acgtR,pi{
-        $D = Rs&D
-        $E = Rs&E
-        Dc&pi = pi
-        #  supposing from-here R-ing?
-        #  ie desc order of immediacy
-        # < mindwind or dome? fail over when X clash?
-        #   re-&pio if already
-        #   leaving evidence for next life to test
-        R.sc[pi] = 1
-    }
-    # @ 22 layouty TXi
-    me.TXin = &acgttg{
-        g = peel(g)
-        $R = me&R
-        $E = Rs&E
-        $sol = &he{
-            each kc h {
-                $name = joint([t,e&&e.t,k])
-                $z = delete c.z
-                $init = delete c.init
-                # c becomes aq%qua
-                $aq = fi&TXi,e||E,name,{t:k},c
-                
-                ex(aq.sc,g)
-        # < most matches want to apply only to E/*
-        #   applying further is wander, ie E/**
-        #   then there's one-per:
-        #    putting the RX.ignore on the matcher
-                ah(aq,'also','dl',1)
-                # < use
-                init and init(aq)
-                # then more inside
-                z and sol(z,aq)
-            }
-        }
-        return &h{ sol(h) }
-    }
-    
-  // R'The' stylemo
+  
+  // &Pieri @0 RX, construct
     # 3 realises R/r as E/e
-   // &Pieri, +r, &Pieringi
-   
+    
     # @02 early realise
     # called from:
     #  &Piing on R%Piing
@@ -1843,8 +1979,8 @@ me.Sch_The = &acgt{ return [
             b && bs&nextlifesc and ex(R.sc,bs&nextlifesc)
         }
     }
-    
-  // Top Pi%Pier, &Ring thence
+  
+  // R'The' %Top, %Pier
     me.Pi_Pier = &acgt{ return [
        // %Top|%Pier back
         ['Pier',0.2,&acgtRs{
@@ -1922,9 +2058,8 @@ me.Sch_The = &acgt{ return [
 
         R.sc[Rs&Pier] = 1
     }
-    
+  
   // &Piero @264 RX
-    # @264 realise minded id
     me.Piero = &acgt{
         
         $R = me&R
@@ -1997,7 +2132,52 @@ me.Sch_The = &acgt{ return [
     }
   
   
-  // R'The'   specialfx
+  # classifies
+  // E &typeup, &TXin
+    # @21 spawn|mutate E**
+    # E remains given|base type
+    # D shifts into that mind with R%-pi
+    me.typeup = &acgtR,pi{
+        $D = Rs&D
+        $E = Rs&E
+        Dc&pi = pi
+        #  supposing from-here R-ing?
+        #  ie desc order of immediacy
+        # < mindwind or dome? fail over when X clash?
+        #   re-&pio if already
+        #   leaving evidence for next life to test
+        R.sc[pi] = 1
+    }
+    # @ 22 layouty TXi
+    me.TXin = &acgttg{
+        g = peel(g)
+        $R = me&R
+        $E = Rs&E
+        $sol = &he{
+            each kc h {
+                $name = joint([t,e&&e.t,k])
+                $z = delete c.z
+                $init = delete c.init
+                # c becomes aq%qua
+                $aq = fi&TXi,e||E,name,{t:k},c
+                
+                ex(aq.sc,g)
+        # < most matches want to apply only to E/*
+        #   applying further is wander, ie E/**
+        #   then there's one-per:
+        #    putting the RX.ignore on the matcher
+                ah(aq,'also','dl',1)
+                # < use
+                init and init(aq)
+                # then more inside
+                z and sol(z,aq)
+            }
+        }
+        return &h{ sol(h) }
+    }
+  
+  
+  // R'The' &Topping, &specialfx
     # generate thingo and draw everything together
     # < composition, the painterly sense
   
@@ -3114,160 +3294,6 @@ me.Sch_The = &acgt{ return [
     }
   
   // misc f
-   // &Rsci
-    # c.t may say $t-$pi%qua
-    #  used by &Piing
-    me.t_tpi = &acgtc{
-        $tpi = c.t.match(/^(.*)-(\w+)((?:%\w.*)?)$/)
-        if (tpi) {
-            c.t = tpi[1]+tpi[3]
-            c.pi = tpi[2]
-            if (c.t == '') {
-                # may s.y.$pi
-                # or $s/$pi
-            }
-        }
-        $tgk = c.t.match(/^(.*)%(\w+)(.*?)$/)
-        if (tgk) {
-            c.t = tgk[1]+tgk[3]
-            c.gk = tgk[2]
-            if (c.t == '') {
-                # may $s/*%qua
-                # or $s%qua=C:qua
-            }
-        }
-        
-        return c
-    }
-    # long/paths/-Log/etc
-    #  no multiplicity
-    #   ! -Log means C.t="-Log" if on RE, "Log" if not
-    #     eg at RE/-Log, or Run/This
-    #  used by &Pii
-    me.Rsci = &acgtscq{
-        c ||= {}
-        $R = c.R || me&R
-        isst(s) and s = {path:s.split('/')}
-        !s and s = {path:[]}
-        c.gk and s.path.unshift('%'+c.gk)
-        $putsz = hak(c,'s') || hak(c,'n')
-        
-        $z = c.v || R
-        $last = hak(s.path)-1
-        each it s.path {
-            !isst(t) and debugger
-            $tc = me&t_tpi,{t}
-            t = tc.t
-            $gk = tc.gk
-            $pi = tc.pi
-            
-            $v
-            # see ! -Log means C.t="-Log"
-            pi and t ||= (zy&ers?'-':'')+pi
-            gk and v = z.sc[gk]
-            # < bal Rc&s/$v, for c.R%ball
-            #   or schedule|other nearby y&R
-            else v = me&fiu,z,t,c.el
-            
-            # i %limit/%toomuch=1 or &Rli,'toomuch',{s:1}
-            $puts = putsz && i == hak(s.path)-1 && hak(c,'s')
-            $putz = putsz && i == hak(s.path)-1 && hak(c,'n')
-            if (putz && v) {
-                if (gk) {
-                    !isar(v) and throw "putz!ar"
-                    if (c.el == 8) {
-                        # o $l%somegk/$n tests for $n in %somegk
-                        #  ie &Rti,'limit/%somegk',{n:e}
-                        # returns the /$n as array
-                        return me&Rscin,s,c,q,v && v
-                        # if !v it may also fail @el==8:
-                    }
-                }
-            }
-            if (!v || (puts || putz) && gk) {
-                c.el == 8 and return
-                !gk and throw "never happens: &fiu creates el<8"
-                
-                if (puts) {
-                    puts = 0
-                    v = c.s
-                }
-                elsif (putz) {
-                    v ||= []
-                }
-                else {
-                    v = Cye([gk,2])
-                }
-                z.sc[gk] = v
-            }
-            if (isC(v)) {
-                # care
-                if (R == z) {
-                    gk and vy&R = R
-                    else {
-                        # < bal Rc&s/$v
-                    }
-                }
-                if (pi) {
-                    !vc&pi and vc&pi = pi
-                    vc&pi != pi and return
-                }
-                if (puts) {
-                    puts = 0
-                    vc&s = c.s
-                }
-                elsif (putz) {
-                    putz = 0
-                    $vz = vs&z ||= []
-                    # returns the last C the /$n is in
-                    #   $z:thing/%bunch:v/$n=stuff
-                    return me&Rscin,s,c,q,vz && v
-                    # < conserve/score?
-                }
-            }
-            if (putz) {
-                !gk and throw "never happens: isC putz"
-                putz = 0
-                # returns the /$n as array
-                return me&Rscin,s,c,q,v && v
-            }
-            !v and return
-            z = v
-        }
-        return v
-    }
-    # v=[] for /$n-ism, adding|finding c.n
-    me.Rscin = &acgtscqv{
-        if (c.el == 8) {
-            if (isar(c.n)) {
-                # has a list
-                $all = 1
-                $any = 0
-                each in c.n {
-                    v.includes(n) and any = 1
-                    else all = 0
-                }
-                c.all && !all and return
-                !any and return
-                return 1
-            }
-            else {
-                v.includes(c.n) and return 1
-            }
-        }
-        else {
-            if (isar(c.n)) {
-                # < distribute in between includes
-                each in c.n {
-                    !v.includes(n) and v.push(n)
-                }
-            }
-            else {
-                !v.includes(c.n) and v.push(c.n)
-            }
-            return 1
-        }
-    }
    // data situations
     # match s=sc strictly against c={has:{limit:t},may:{toomuch:1}}
     me.honly = &acgtsc{
