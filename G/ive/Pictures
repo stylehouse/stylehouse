@@ -819,17 +819,17 @@
         $args = [...arguments]
         $N = args.pop()
         $array = isar(N)
-        $lief = [N]
+        $waves = [N]
         args.reverse().map(&y{
-            $N = lief.slice(-1)[0]
+            $N = waves.slice(-1)[0]
             $neu = array ? [] : {}
-            lief.push(neu)
+            waves.push(neu)
             each in N {
                 array and i *= 1
                 neu[i] = y (n,i)
             }
         })
-        return lief.slice(-1)[0]
+        return waves.slice(-1)[0]
     }
     # returning [v+]
     self.armap = &{
@@ -837,10 +837,13 @@
         return isar(s) ? s : havs(s)
     }
     # replacing map()
+    #  N changes in place (and returns)
+    # < undef == y() deletes it?
     self.rap = &N{
-        $ys = [...arguments].slice(1)
+        $args = [...arguments]
+        $N = args.pop()
         $array = isar(N)
-        each iy ys {
+        args.reverse().map(&y{
             $M = []
             each in N {
                 array and i *= 1
@@ -849,7 +852,7 @@
             each in N {
                 N[i] = M.shift()
             }
-        }
+        })
         return N
     }
     # randomize array

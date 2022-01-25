@@ -622,12 +622,22 @@ S 3 Pictures hashy misc
     })
     
     $ile = 0
+    $origin = {la:3,loose:6}
     hat('map() also',{
         "Piano": map(
             v => v+'an',
             (v,i) => i+v+(ile++),
             ['o','oo','ooo']
         ),
+        "map() not in-place": {
+            doing: map(v => v*2,origin),
+            origin: ex({},origin)
+        },
+        "rap() is in-place": {
+            doing: rap(v => v*2,origin),
+            origin
+        },
+        "armap() returns array": armap(v => v*2,{la:2,loose:4}),
     })
     
   // # misc() array string
@@ -654,6 +664,8 @@ S 3 Pictures hashy misc
     })
     
     $D = Cye(['thing',3])
+    $V = Cye(['Middle'])
+    $W = Cye(['Log',4])
     hat('joint() derived',{
         "nulls vanish": [
             cint(1,2,3,'',4),
@@ -662,6 +674,7 @@ S 3 Pictures hashy misc
         "it works": cint(a),
         "ignores later args if isar(arg[0])": cint(a,D),
         "it works": cint(['Mix',D,'Sturct']),
+        "idint()": armap(idint, [{V},{W},{W,with:'some more'}]),
     })
 
 
