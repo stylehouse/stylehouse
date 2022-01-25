@@ -846,31 +846,37 @@ S 5 Log
         
         $z = v
         while (1) {
-            fatal.isC(z)
             g.d++ > 10 and throw "oup"
-            if (g.party) {
-                # we are climbing particles
-                # < Cy&1-4?
-                # .2 to the .1 above our .1
-                z.2 == z and debugger
-                $up = z.2 || z.3 || z.4
-                # .3 to itself
-                up == z and up = z.4
-                # .4 to itself
-                up == z and up = 0; g.left4 = 1
-            }
-            else {
-                $up = zy&up
-                if (!up) {
-                    # < via y&R, etc
-                }
-            }
+            $skip = 0
+            fatal.isC(z)
+            $up = zy&up
+            # < extra ways up via y&R, etc
             !up and break
             up == z and g.loopy = 1; break
+            if (g.party) {
+                # after climbing A.up, visiting all until A==A.1
+                # skip til next A with .1=A
+                #  this is the A.1=A hack, see J
+                # < g.partat = 3, for A^^..3, then all 3s, 4
+                #    might need g.party=z...
+                # < same for Cy&1-4?
+                up.1 != up and skip = 1
+
+                # nothing here about .2, which has this same sense
+                # .2 to the .1 above our .1
+                # .3 to itself, less often than .1
+                # .4 to itself, avoid beyond
+                up.4 == up and g.not = '>4'
+            }
             
             g.la = z
             z = up
             ahk(g,['climb'],z)
+            # start climbing particles
+            g.partat && z[g.partat] == z and g.party = 1
+            # only climbing A to find more .1
+            #  ie you dont need to A.2
+            skip and continue
             
             c.c && !hak(z.c,c.c) and continue
             ahk(g,['visit'],up)
