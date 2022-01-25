@@ -948,16 +948,24 @@ S 5 Log
         satisfied and g.satisfied ||= "on "+A.t
     }
     # to &complace(D,g) <- &com
-    $D = Cye(["TheD",1])
-    $g = {}
-    $Ayg = me&Ay,A,'^^1?^^',{c:'complace,complanet'} (&sd{
-        ahk(g,['vented'],cint(s,sc&complace))
+    $i = 1
+    $comment = &t{
+        $D = Cye([t,1])
+        $g = {}
+        $Ayg = me&Ay,A,'^^1?^^',{c:'complace,complanet'} (&sd{
+            ahk(g,['vented'],cint(s,sc&complace))
+
+            complacement(s,d,D,g)
+
+            # when no more &complace is sought
+            g.grounded && g.satisfied and d.not = 'done'
+        })
         
-        complacement(s,d,D,g)
-        
-        # when no more &complace is sought
-        g.grounded && g.satisfied and d.not = 'done'
-    })
+        # < naming these the same should serialise: .t += i++
+        h.hat('Ay climber '+i++,{Ayg,g,This:4c&complanet},'dl:2')
+    }
+    comment("TheD")
+    comment("Another")
     
     # each &complace
     # < on init, found ^^c&complanet
@@ -968,9 +976,8 @@ S 5 Log
     #   opens an -Eight
     # < puts -Eight...$D
     
-    h.hat('Ay climber',{Ayg,g,This:4c&complanet},'dl:2')
     
-    
+    # < Push fails to reself|DIY?
     
     
     
