@@ -827,7 +827,7 @@ S 5 Log
     #  we pass the same A into these things each time
     #  < should be a variation on that time?
     
-   // < &Ay
+  // < &Ay
     # &complace -> &Thisplanet...
     # involves this climby visitor in &com:
     me.Ay = &acgtvsc{
@@ -835,6 +835,8 @@ S 5 Log
         # v = $A
         # s = ^^..1^^
         # c = matches, eg c&complace. no callback if not.
+        c = peel(c)
+        c.c and c.c = peel(c.c)
         
         # state
         $g = {d:0,visit:[],climb:[]}
@@ -874,11 +876,9 @@ S 5 Log
             ahk(g,['climb'],z)
             # start climbing particles
             g.partat && z[g.partat] == z and g.party = 1
-            # only climbing A to find more .1
-            #  ie you dont need to A.2
+            # matching any
+            c.c && !hak(sex({},z.c,c.c)) and skip = 1
             skip and continue
-            
-            c.c && !hak(z.c,c.c) and continue
             ahk(g,['visit'],up)
             # visit
             $ret = y (up,g)
@@ -890,6 +890,12 @@ S 5 Log
     
     $A = fi&Atopleast
     A.4 = A
+    A.1 = A
+    # imagine this is This**
+    #  which you i via Ac&complanet(),
+    #  via &complace() which deals -Eights
+    # < what happens to empty -Eights?
+    4c&complanet = {}
     
     A = fi&Atsomewhere,A,'Corn'
         A.3 = A.1 = A
@@ -910,21 +916,66 @@ S 5 Log
         A = fi&Atsomewhere,A,'da'
         Ac&complace = 'onda'
     
+    # imagine this is Ac&complace(),
+    #  it would know A itself, and not d
+    #  $g travelling many of these, per &com
+    $complacement = &AdDg{
+        # at a &complace, which is:
+        # grounded: syncs the message into This**
+        $grounded = Ac&complanet
+        # satisfied: this &complace is enough
+        #  no more A^^, unless not grounded yet
+        $satisfied = A.t.includes('orn')
+        
+        if (!g.satisfied) {
+            # means add the &com to this &complace
+            ahk(g,['placed'],A)
+            ahk(A,['c'],'complaced',D.t)
+        }
+        
+        if (grounded) {
+            if (g.grounded) {
+                # we already found a way to This** it
+                # < any outer &complace may have a portal
+                #    to other stretches of This** it lines up with
+            }
+            # i This**
+            ahk(A,'c','complanet','A:'+A.t,D.t,1)
+            ahk(g,['planeted'],A)
+        }
+        
+        grounded and g.grounded ||= "on "+A.t
+        satisfied and g.satisfied ||= "on "+A.t
+    }
     # to &complace(D,g) <- &com
     $D = Cye(["TheD",1])
     $g = {}
-    $Ayg = me&Ay,A,'^^1?^^',{c:'complace'} (&sd{
+    $Ayg = me&Ay,A,'^^1?^^',{c:'complace,complanet'} (&sd{
         ahk(g,['vented'],cint(s,sc&complace))
+        
+        complacement(s,d,D,g)
+        
+        # when no more &complace is sought
+        g.grounded && g.satisfied and d.not = 'done'
     })
     
-    h.hat('Ay climber',{Ayg,g},'dl:2')
+    # each &complace
+    # < on init, found ^^c&complanet
+    #    patches inner **/c&complaces through to it
+    #     so neednt always be via A^^
+    #     < check the way up from here and in to This** every time
+    #       or at least from Run inward, to reap logging zombies
+    #   opens an -Eight
+    # < puts -Eight...$D
+    
+    h.hat('Ay climber',{Ayg,g,This:4c&complanet},'dl:2')
     
     
     
     
     
     
-    
+    # phi = 1.618
     # anyway, the Story goes:
     A = Al
     fi&test_Attention,1
