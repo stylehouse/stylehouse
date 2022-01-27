@@ -1225,7 +1225,7 @@ me.Sch_Go = &acgt{ return [
                 $last_n = N.slice(-1)[0]
                 # what are we working on
                 # < &activate as an asky remote &sustain?
-                $active_n
+                $active_n = me&jaa,R,'RunStep,obsessed' [0]
             
             # &rowcap has its own basic a-per-row, this $o
             #  they kind join on &sustain a, this $a
@@ -1264,6 +1264,15 @@ me.Sch_Go = &acgt{ return [
                 me&tc,'@','6y'
                 me&tc,cvf(a.ov),'6y'
                 
+                # manually select a step for targeted ...
+                if (me&tt,'obs' (1)) {
+                    active_n and delete active_ns&obsessed
+                    active_n = n
+                    ns&obsessed = 1
+                }
+                
+                
+                
                 me&boxcap,'c|a',1 (&{
                     $late = ksaf(n.sc,{aft:'rec',inc:0})
                     $odd = nex({},sex({},n.sc,late),'RunStep')
@@ -1299,12 +1308,14 @@ me.Sch_Go = &acgt{ return [
             me&RunStep_tw_nine_igStep,tw,nine
             # remember what we were doing
             # no step in an interesting state
-            !active_n || me&tt,'--mem' () and memy&iN([])
+            $doings = active_n
+            $dont_remember = me&tt,'--mem' ()
+            !doings || dont_remember and memy&iN([])
             else {
                 $n = active_n
                 $a = ns&sustain
                 # < slicing freezable c.* out of a %%sustain
-                $sc = sex({},n.sc,'RunStep,thru')
+                $sc = sex({},n.sc,'RunStep,thru,obsessed')
                 #me&fu,"glab",{a,sc,mem,C}
                 memy&iN([sc])
             }
@@ -1395,6 +1406,8 @@ me.Sch_Go = &acgt{ return [
                 }
             }
             if (a.ov == 0.8) {
+                # shall we do the next one
+                ns&obsessed and delete ns&thru
                 # while we are the latest to Run
                 $title_clued = ns&RunStep == c.time
                 #  &Sunpit seeing another title leads on (if no next Fe)
