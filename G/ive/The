@@ -4158,6 +4158,12 @@ me.Sch_The = &acgt{ return [
         $D = Rs&D
         $E = Rs&E
         me&Epigraph,'is,ube'
+        if (!Ec&ubervat) {
+            if (E.t == '4') {
+                # < and if Eup isa A, etc
+                me&Ri,{limit:'A4',toomuch:1}
+            }
+        }
     },'ift,D'],
     # style
     ['vat',0.4,&acgtRs{
@@ -4175,9 +4181,6 @@ me.Sch_The = &acgt{ return [
             }
         }
         else {
-            if (E.t == '4') {
-                me&tc,"Shirk!",'G' .sc.fs = 30
-            }
             
         }
     },'ift,D'],
@@ -4265,13 +4268,13 @@ me.Sch_The = &acgt{ return [
         if (c.ube) {
             c.in = c.ube = notoneor(c.ube,pi)
             # top of E^^^-vat
-            Ey&up.c.pi != c.ube and E.c['uber'+c.ube] = 1
+            Ey&up.c.pi != c.ube and $wasube = E.c['uber'+c.ube] = 1
         }
         c.in and Rs&Ei_pi = c.in
         
         c.Dpi and Rs&Dpiverbose = notoneor(c.Dpi,pi)
         
-        Rs&nobrackets = 1
+        !(c.ube && wasube) and Rs&nobrackets = 1
         # shatters the cell, via &sfx_mirage
         #Rs&inline = 1
     }
