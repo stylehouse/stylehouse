@@ -1082,6 +1082,15 @@ me.Sch_Go = &acgt{ return [
         # < @Ta for hs&Ta rowing ark, h.ar the @Gnome Names
         # %%RunStep flock
         #  heading, @Run-ing as Nine-that-could-be[Run%step]
+        
+        # make sus:RunStep:$S
+        me.iRunStep = &acgtSc{
+            # the q.k means rec += ":$S"
+            c = pex({RunStep:S},c)
+            fatal.isnum(c.RunStep)
+            return me&sustain,{},c,'k'
+        }
+        # flock of sus:RunStep
         me.SG_RunStep = &acgtc{
            // time is
             $R = me&R
@@ -1105,7 +1114,7 @@ me.Sch_Go = &acgt{ return [
             ninec&ReNessy = 1
             
             # io Run%time
-            $time = c.time = Runs&time || 0
+            $time = c.time = (Runs&time || 0)*1
             
             # < io @Fe+1|-1 $Fe1|_1? etc
             $time1 = time + 1
@@ -1124,7 +1133,8 @@ me.Sch_Go = &acgt{ return [
             # auto resume or start over
             if (!hak(N) && c.starting) {
                 N = memy&init('RunStep:1,thru')
-                    .map(c => me&sustain,{},c,'k' .n)
+                    # decoy $S=0, they will c.RunStep
+                    .map(c => me&iRunStep,0,c .n)
             }
             
            // RunStep/$S+ todolist + attention
@@ -1137,8 +1147,12 @@ me.Sch_Go = &acgt{ return [
             
             # < &rowcap could make dupfiu rows per k
             me&RunStep_dedup,N
+            c.Sn = {}
+            each in N {
+                c.Sn[ns&RunStep] = n
+            }
             
-            # Steps are known
+            # Steps usu known
             row('Fe',&Smola{
                 # < a.table etc could contain above slope...
                 me&walls,my&up.y.up,'bd:2.4,hu:8'
@@ -1381,25 +1395,39 @@ me.Sch_Go = &acgt{ return [
                 }
             }
             if (a.ov == 0.8) {
+                # while we are the latest to Run
+                $title_clued = ns&RunStep == c.time
+                #  &Sunpit seeing another title leads on (if no next Fe)
+                    && me&ja,Runy&R,'next_Ness_title_clue',1
+                if (!ns&thru && title_clued) {
+                    # could become thru-ey (only latest to Run)
+                    me&tt,'thru?' (1) and ns&thru = 1
+                }
+                # usu, next is known
+                $Snext = c.time+1
+                $next_known = me&SG_SteptoNess,Fine,Snext
                 if (ns&thru) {
                     c.tude = 'through'
-                    $next = me&SG_throughNess,Fine,a.Fe
+                    $next = title_clued
+                    # we must wait for -Lab to OK through to it
+                    next_known and next = me&SG_throughNess,Fine,a.Fe
+                    
                     if (next) {
                         # move on from this step
                         a.ov = 0.9
                         # to here
-                        $S1 = me&SG_NesstoStep,Fine,next
-                        S1 != c.time+1 and debugger
                         $thru = ns&thru + 1
-                        me&sustain,{},{RunStep:S1,thru},'k'
+                        me&iRunStep,Snext,{thru}
                         # < having that row ^ join this iteration
                         #    is the dome stream
                         # come around to will it into &dotheRunStep
-                        h.ha('pur:RunnableStep:'+S1)
+                        h.ha('pur:next:'+Snext)
                     }
                     else {
                         c.allis = 'done'
                     }
+                }
+                else {
                 }
             }
         }
