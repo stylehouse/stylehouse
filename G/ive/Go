@@ -2337,6 +2337,17 @@ me.Sch_Go = &acgt{ return [
             sy&ThyF = ThyF
         }
         me&Names_set,R,'Fine',s
+        
+        # ++Fine drops the -nine after %Fest is Pushed!
+        # < -pipe should tell us when to pull?
+        # track the decoded object
+        me&ha,R,{TheLive:sy&Live}
+        if (me&da,R,{TheLive:1}) {
+            delete sy&nine
+            me&ha,R,"nexttimeDIY"
+            me&wants,R,"PUSHpull",s
+        }
+        me&za,R,"nexttimeDIY" and me&tc,"pushPULL"; Ninec.DIY = 1
     }
     # Nine%TheFine has E-nine'd
     me.Fine_aft_nine = &acgtREsx{
