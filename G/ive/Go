@@ -3092,11 +3092,10 @@ me.Sch_Go = &acgt{ return [
         !Fold and return
         Rs&Foldablined = 1
         
-        $keeps = [
-            ... me&modselect,R,{t:'t',cv:0.11} ,
-        ]
         $N = me&modselect,R
-        grop(N,keeps)
+        # < keep warnings
+        $keeps = grep(n => ns&fs >= 12, N)
+        grop(keeps,N)
         N.map(n => nc&not = 1)
         me&ioty,R,'fix' .map(r => rs&noDisplay = 1)
         s&ml = -2
