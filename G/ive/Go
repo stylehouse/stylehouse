@@ -1338,7 +1338,15 @@ me.Sch_Go = &acgt{ return [
                 # requests quietwake
                 #  purloop per pur
                 h.ha('pur:RunningStep:'+zs&RunningStep)
-                if (zs&quiettime_now < c.quiettime) {
+                if (a.Runafter == Runy&R) {
+                    # remain wilful, initial &wants Run sporadically doesnt
+                    # < Go, time, etc
+                    debugger
+                    !c.starting and debugger
+                    a.ov != 0.6 and debugger
+                    a.ov = 0.5
+                }
+                elsif (zs&quiettime_now < c.quiettime) {
                     me&tc,"..7",'6G'
                     zc&drop = 1
                     a.ov = 0.7
@@ -1360,7 +1368,7 @@ me.Sch_Go = &acgt{ return [
             }
 
             # checkable .> ok
-            if (a.ov >= 0.7) {
+            if (a.ov >= 0.7 && !c.starting) {
                 me&RunStep_checkup,R,c,h,a,n
             }
         }
@@ -1529,6 +1537,7 @@ me.Sch_Go = &acgt{ return [
             # if ro Run oncer on
             # < pass singleton through %%Go
             $r = Runy&R
+            a.Runafter = r
             rs&Run = 1
             # go there
             me&wants,R,'Run++',Run
