@@ -32,10 +32,13 @@ me.Sch_Go = &acgt{ return [
     ['Gnomp',0.296,&acgtRs{
         me&acting,R,'Gnomp'
         Rs&wakeperc = 1
-        # < hang state in %Te, to survive reset
-        $beTry = 1 ? me&tt,'Try' () : 1
-        $t = beTry ? 'TryPiWarmer' : 'Fus'
+        
+        # < hang state in %Te, to survive reset?
+        # < have a list of recent Stories
+        # < generalise. check after e:focus
+        $t = location.hash.substr(1) || 'Fus'
         me&baleg,t,'Gnome'
+        
         # %%active:Gnome here
         # < parallel tests? shouldn't interfere? (unpredictably)
         $c = {quietready:1}
