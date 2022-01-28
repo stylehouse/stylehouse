@@ -3395,14 +3395,19 @@ me.Sch_Go = &acgt{ return [
             # taken over by latest opened V.h = {o,tys,...}
             #  o always opens a new Eight
             #  V.h starts an opener, then cursor and opener
-            V.h.o = &t{
-                $h = V.h = {o:V.h.o}
+            V.h.o = &tc{
+                c ||= {}
+                $h = {o:V.h.o}
+                # onto A:Runtime.h
+                #  for access by assertions eg &AhWombmod
+                !c.local and V.h = h
                 # -seven/-six++
                 # interfaces, not sharing A
                 h.sixer = me&openEight,t,V
-                # now being a cursor
-                $A = V
+                # cursory list of all -six, any h
+                #  for access by assertions eg &AhWombmod
                 Vs&six ||= []
+                $A = V
                 # i Eight** handlers
                 
                 # most pi
