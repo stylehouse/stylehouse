@@ -29,14 +29,38 @@ me.Sch_Go = &acgt{ return [
          see 'switched off Fe->Lab'
     =cut
   // @Gnomp/@Gnome # < separate from w:Travel
+    &{
+        # Gnome:$t from url, $s:Gnomp
+        me.twas_location_hash = &acgtsN{
+            $them = haks(peel(N))
+            # from|to url
+            $t = location.hash.substr(1)
+            me&tt,"which" (1) and t = ksaf(them,{aft:t})[0]
+            t ||= them[0]
+            location.hash = '#'+t
+            
+            # must reset to change Gnome:$t
+            if (sy&twas && sy&twas != t) {
+                ~>5 resetYing::::: t
+                me&resetYing,sy&R
+            }
+            sy&twas = t
+            return t
+        }
+        me.resetYing = &acgts{
+            $JRom = me&yfuture,me.cbu(R,'JRom')
+            JRoms&reset = 1
+        }
+    },
     ['Gnomp',0.296,&acgtRs{
+        
         me&acting,R,'Gnomp'
         Rs&wakeperc = 1
         
         # < hang state in %Te, to survive reset?
         # < have a list of recent Stories
         # < generalise. check after e:focus
-        $t = location.hash.substr(1) || 'Fus'
+        $t = me&twas_location_hash,s,['Fus','TryPiWarmer']
         me&baleg,t,'Gnome'
         
         # %%active:Gnome here
@@ -1341,9 +1365,8 @@ me.Sch_Go = &acgt{ return [
                 if (a.Runafter == Runy&R) {
                     # remain wilful, initial &wants Run sporadically doesnt
                     # < Go, time, etc
-                    debugger
                     !c.starting and debugger
-                    a.ov != 0.6 and debugger
+                    a.ov != 0.6 and h.ha('pur:Runkick',{pre:Run})
                     a.ov = 0.5
                 }
                 elsif (zs&quiettime_now < c.quiettime) {
