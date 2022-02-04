@@ -394,6 +394,10 @@ S 3 Pictures hashy misc
     em("nothing",peel())
     em("null",peel(null))
     em("empty string",peel(''))
+    # {a:1} = peel(['a'])
+    # < elsewhere a list coerces to a c.tw/$t=1 or c.N[i]=$t
+    #    &twas_location_hash takes a list of $t as c/$t=1 <- peel 'Fus,Try'
+    em("array into hash",peel([3,'four']))
     em("one",peel("can"))
     em("two",peel("can,you"))
     em("two.5",peel("can,you:feel"))
@@ -409,7 +413,7 @@ S 3 Pictures hashy misc
     $fugo = pex('log:ratio','deal')
     $peeled = pex(fugo,'licio')
     peeled.log = 'standing'
-    em("< pex() avoids cloning hash s",{fugo,peeled})
+    em("pex() avoids cloning hash s",{fugo,peeled})
     
     hat('peel()', abunch)
     abunch = {}
