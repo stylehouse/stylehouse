@@ -1230,7 +1230,7 @@ me.Sch_Story = &acgt{ return [
         $lot = [R,...them]
         # when we all look ready
         $ready = hak(lot) == hak(grep(r => me&ja,r,'ready' ,lot))
-        if (0 && ready) {
+        if (ready) {
             # rhythmically Push!
             $was = theone( me&zaa,R,'allready',1 ) || 0
             was == 3 and was = 0
@@ -1871,6 +1871,16 @@ me.Sch_Story = &acgt{ return [
                     #   see 'outsphere for &accepting piggyback'
                     #   inc more special effects like %%inside
                     
+                    # require Eight|seven to be found in the This
+                    #  or Outs can cover for it being missing
+                    # < unless skipping the test
+                    $checkThissed = &tdC{
+                        if (d.d >= 2 && !Cy&C) {
+                            ~>6 Ness el9: t+'@'+d.d, c&pi+':'+C.t
+                            return d.not = 1
+                        }
+                    }
+                    
                     # Fine/Part%tige = outsphere
                     #  /Part-Ness/-Eight/-seven usually
                     #   for cluing distribution of This** -> -Ness**
@@ -1882,6 +1892,7 @@ me.Sch_Story = &acgt{ return [
                     # storable encoding, -Ness outphere
                     $t = me&reusable_thing,s
                     $d = {compLines: &DdC{
+                        checkThissed('Outs',d,C) and return
                         d.d == 2 and me&reusable_thing_string,d,C
                         me&usucompD,D
                     }}
@@ -1895,6 +1906,7 @@ me.Sch_Story = &acgt{ return [
                     $reuse = {tah:['yC','yC'],if_pi:'seven'}
                     c.lessyC and reuse.tah = ['yC']
                     $d = {compLines: &DdC{
+                        checkThissed('Ins',d,C) and return
                         if (me&reuse_string,d,C,reuse)
                             return d.reuse_string
                         me&usucompD,D
