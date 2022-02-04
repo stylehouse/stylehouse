@@ -806,7 +806,7 @@ me.Sch_The = &acgt{ return [
         $R = me&R
         !Rs&Pier and throw "use &Ei in R'The'"
         $E = Rs&E
-        !c.t and throw "!t"
+        !hak(c,'t') and throw "!t"
         c.t = ""+c.t
         $t = delete c.t
         $e = me&dupfiu,E,t
@@ -4326,21 +4326,52 @@ me.Sch_The = &acgt{ return [
         $D = Rs&D
         
         !isC(s) and return me&strange,"!C"
-        isR(s) and return me&Ri,'limit:R!,toomuch'
         # which takes a lot of nodes:
         Rc&nl = 1500
         # which may occur in one big /*, esp if %Diff%Comp
         Rs&many_thresh = 1000
         # no specialfx layout E/*
         Rs&nomirage = 1
-        # < does this work:
+        # R** is only a lake of serialnumbers to see
         Rs&nofurtherDisplay = 1
+        $p = Ry&up
+        if (isR(s) || ps&Wombzuct) {
+            # R embedded like so:
+            if (ps&Wombzuct) {
+                $r = sy&R
+                # feed in %zuct/RC/*
+                map(&st{ me&Ei,{t,s} }, flatten(rs&M))
+            }
+            else {
+                $r = s
+                Rs&Wombzuct = 1
+                # checks
+                $ups = pc&s
+                !upsc&zuct and debugger
+                !upss&miragia and debugger
+                # < what if ups&zuct but no /s?
+                
+                # make note of this outside of %zuct%miragia
+                Ds&R = s.t+' '+cvf(sy&cv)
+                
+                # then sleeve the R%C, like &modclone
+                !ss&C and debugger
+                me&Ei,{t:'RC',s:ss&C}
+                
+                return
+            }
+        }
         # show it all, on top
         #  same way &supetime does c.permasay
+        #  further E** are just to transcribe it all to D**
+        #   ie bits of s** dont nest in E**
+        # < finding E** for things in there
+        #    since there is now s**, then soon E**
         # < if we are the highest -Womb:
         Rs&Top && me&boxcap,'modulat','1' (&m{
-            ms&fs = 6
+            ms&fs = 8
             ms&ws = 1
+            # goes through the c&zuct=R, its R%C, then flatten(R%M)
             me&modclone,m,s
         })
         # < measure modulat? chunks? showable? Plyable?
@@ -4358,6 +4389,10 @@ me.Sch_The = &acgt{ return [
             hak(cant) and D.c['m'+k] = spant(cant)
         }
         down('c',D.c,s.c)
+        # could Dc&mc='zuct' and Dc&zuct='R Such 33'
+        #  letting E/0 for the R itself (sc&zuct is always in ss&z)
+        #  which gives us an Eref etc grip on its relation, R
+        #   see R embedded like so
         
         !Rs&top and ah(E,'D_hides','c','pi')
         !me&Rortopsc,R,'ignore_sc' and down('s',D.sc,s.sc)
@@ -4366,6 +4401,7 @@ me.Sch_The = &acgt{ return [
         # s**
         # < format for this
         each iz ss&z {
+            Rs&Wombzuct and break
             zc&not and continue
             me&Ei,{t:i,s:z}
         }

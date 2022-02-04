@@ -2505,29 +2505,37 @@ me.Fourismness = &acgt{ return [
 
         # )
         #c the ways to go deep, should be all? will dedup
-        # user throws something on any way
-        if (ss&z) {
-            $z = ss&z.filter(&s{ return 1 && s });
-            d.zort and d.zort(z,s,d);
-            each iD z {
-                out.push( me&ind,D,y,d );
+        if (d.inz) {
+            # user provides onward instead
+            $N = delete d.inz
+            each iD N {
+                out.push( me&ind,D,y,d )
             }
         }
-
-        if (s.y.in) {
-            out.push( me&ind,s.y.in,y,d );
-        }
-
-        if (s.y.tw) {
-            each tD s.y.tw {
-                out.push( me&ind,D,y,d );
+        else {
+            if (ss&z) {
+                $z = ss&z.filter(&s{ return 1 && s });
+                d.zort and d.zort(z,s,d);
+                each iD z {
+                    out.push( me&ind,D,y,d );
+                }
             }
-        }
 
-        if (s.y.tv) {
-            each tvD s.y.tv {
-                out.push( me&ind,D,y,d );
-            }}
+            if (s.y.in) {
+                out.push( me&ind,s.y.in,y,d );
+            }
+
+            if (s.y.tw) {
+                each tD s.y.tw {
+                    out.push( me&ind,D,y,d );
+                }
+            }
+
+            if (s.y.tv) {
+                each tvD s.y.tv {
+                    out.push( me&ind,D,y,d );
+                }}
+            }
         }
 
         out = out.filter(&s{ return 1 && s });

@@ -71,12 +71,27 @@
     #  is how we used to (but it unsorts the s** !?)
     me.modclone = &acgtms{
         fatal.isC(s)
-        me&indo,s,{m} (&sd{
-            sc&not and return d.not = 1
+        $sleeve = &sd{
             # drop %z and y/!cv
             s = Cye(s)
             ac(d.m,'z',s)
+            # follow me down
             d.m = s
+        }
+        me&indo,s,{m} (&sd{
+            sc&not and return d.not = 1
+            sleeve(s,d)
+            if (sc&zuct) {
+                $r = sc&zuct
+                # goes through its r%C
+                !rs&C and debugger
+                sleeve(rs&C,d)
+                # then all flatten(r%M)
+                d.inz = flatten(rs&M)
+                # s(c&zuct=r) always s/r
+                $any = grap(n => n != r,ss&z||[])
+                any and debugger
+            }
         })
     }
    
