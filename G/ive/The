@@ -4446,8 +4446,8 @@ me.Sch_The = &acgt{ return [
         $Cish = sym
         if (Cish) {
             # isA, isJ
-            isA(s) and sym = 'A'
-            isJ(s) and sym = 'J'
+            isA(s) and sym = asym = 'A'
+            isJ(s) and sym = asym = 'J'
         }
         elsif (isob(s)) {
             if (isar(s)) {
@@ -4504,6 +4504,7 @@ me.Sch_The = &acgt{ return [
         !isst(s.t) and me&strange,'!t'
         n t 12 $s:s.t label,deco
         # y&cv
+        # < or c|s&cv|ov?
         Rs&sym == 'A' || Rs&sym == 'J' and 1
         else
         !hak(s.y,'cv') and cv = '!cv'; me&strange,'!cv'
@@ -4594,7 +4595,80 @@ me.Sch_The = &acgt{ return [
             }
         },'ift,D'],
         
-   
+  //     -anA
+        ['anA',0.263,&acgtRs{
+            $D = Rs&D
+            $E = Rs&E
+            # A t|y|c|sc, A.y likes to group misc A.*
+            $N = me&ioty,E
+            $M = []
+            map(t => M.push(... grop(n => n.t == t, N)),
+                ['t','y','c','sc'])
+            !hak(M) and debugger
+            $y = theone(grep(n => n.t == 'y', M))
+            if (y) {
+                # A.y==A
+                yc&s != s and debugger
+                if (hak(N) <2) {
+                    # hide y
+                    me&TXilay,'noy','y:impl'
+                    # sprinkle misc A.* things in its place
+                    me&listin,M,y,N
+                    N = []
+                }
+                else {
+                    # hide misc A.*, let A.y.*
+                    me&tc,'hidemiscA.*','6y'
+                    me&TXilay,'forthy','y:miscAonly'
+                    each ie N {
+                        me&TXilay,'fory',hashkv(e.t,'impl')
+                    }
+                }
+            }
+            # < capture %miscAonly
+            # commit rearrange to E/*
+            hak(N) and M.push(...N)
+            me&listin,Es&z,M[0],M,1
+            
+            
+            me&ioty,E .map(&e{
+               # me&tc,"Et:"+e.t .sc.dis = 1
+            })
+        },'ift,D'],
+        &{
+            # place after
+            me.listin = &acgtMy,items,removing{
+                $yi = M.indexOf(y)
+                yi < 0 and debugger
+                if (removing) {
+                    # eg reordering E/*
+                    #  not knowing if we have all|subset-mingled
+                    #   or how to reconstruct that mingle (order of others)
+                    grop(notoneor(removing,items),M)
+                    #  so stack them all up where the first one was
+                    yi--
+                }
+                M.splice(yi+1,0,...items)
+            }
+            # &TXilay,'noy','y:impl'
+            me.TXilay = &acgtts{
+                s = peel(s)
+                $style = {}
+                each path,qua s {
+                    path = path.split('/')
+                    # path joined by /z
+                    $arqin = []
+                    path.map(t => arqin.push(t,'z'))
+                    #  ends at /$qua
+                    arqin.pop()
+                    ahk(style,...arqin,peel(qua))
+                }
+                $actt = T.act.t
+                me&TXin,actt+'-'+t,{layout:t} (style)
+                
+            }
+        },
+    
   //      etc X
         &{
             # -Hash may be -anX|x
