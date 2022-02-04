@@ -3545,6 +3545,12 @@ me.Sch_The = &acgt{ return [
         Ds&Xsc = {ope:1}
         ahsk(s.c,'mode','C') and Ds&Xsc.ope = -1
         # see -Belt/-Bit%D%Xc
+        
+        # style
+        $l = Cy&label
+        ls&fs = 15
+        $pi = Cy&transpi
+        pis&fs = 6
 
         #   pulling up the sc&tower.N
         $c = sc&tower
@@ -4386,7 +4392,15 @@ me.Sch_The = &acgt{ return [
         me&Ri,'limit:Bow,toomuch'
     },'ift,D'],
     ['Bow+Cish',0.2631,&acgtRs{
-        Rs&sym == 'R' && me&Ri,'limit:Bow-R,toomuch'
+        if (Rs&sym == 'R') {
+            me&Ri,'limit:Bow-R,toomuch'
+            # dont sprawl into s** when looking at R
+            me&TXin,'BowR',{layout:'R**'} ({
+                c: {z:{
+                    s: {ope:-1}
+                }}
+            })
+        }
         me&TXin,'BowC',{layout:'C**'} ({
             # usu t,ycv are impl by %Ctitle drawing them
             #  and y,c are dim
