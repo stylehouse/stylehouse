@@ -4639,6 +4639,9 @@ me.Sch_The = &acgt{ return [
         ['anA',0.265,&acgtRs{
             $D = Rs&D
             $E = Rs&E
+            $verb = &t{
+                0 and me&tc,t,'6y'
+            }
             # A t|y|c|sc, A.y likes to group misc A.*
             # < &pity,E,Ec&pi - to pick up the main items, amongst crowd
             #    ie R%ball and attendant R%Zave or so
@@ -4648,14 +4651,17 @@ me.Sch_The = &acgt{ return [
             map(t => M.push(... grop(n => n.t == t, N)),
                 ['t','y','c','sc'])
             !hak(M) and debugger
+            
             # any others are misc A.*
+            
             $Oth = me&Ro,'RX,miscAonly'
             if (Oth) {
-                me&tc,'hidenonmiscA.*','6y'
+                verb('hidenonmiscA.*')
+                me&sublate_Eref,'^'
                 each ie M {
                     me&TXilay,'foryonly',hashkv(e.t,'impl')
                 }
-                # < me&moddelete,r,{modt:'Ctitle'}
+                me&moddelete,R,{modt:'Ctitle'}
             }
             else
             1 and $y = theone(grep(n => n.t == 'y', M))
@@ -4672,7 +4678,7 @@ me.Sch_The = &acgt{ return [
                 }
                 else {
                     # hide misc A.*, let A.y show them
-                    me&tc,'hidemiscA.*','6y'
+                    verb('hidemiscA.*')
                     me&TXilay,'forthy','y:miscAonly'
                     each ie N {
                         me&TXilay,'fory',hashkv(e.t,'impl')
@@ -4682,13 +4688,18 @@ me.Sch_The = &acgt{ return [
             # commit rearrange to E/*
             hak(N) and M.push(...N)
             me&listin,Es&z,M[0],M,1
-            
-            
-            me&ioty,E .map(&e{
-               # me&tc,"Et:"+e.t .sc.dis = 1
-            })
         },'ift,D'],
         &{
+            me.sublate_Eref = &acgtt{
+                $N = me&Ro,'limit:ref,toomuch'
+                !N and return
+                each in N {
+                    $Erefc = ns&Erefc
+                    $refself = Erefc.self
+                    t == '^' && !(hak(refself.ups) == 2 && hak(refself.downs) == 1) and continue
+                    delete ns&toomuch
+                }
+            }
             # place after
             me.listin = &acgtMy,items,removing{
                 $yi = M.indexOf(y)
