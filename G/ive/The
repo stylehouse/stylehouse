@@ -2154,9 +2154,12 @@ me.Sch_The = &acgt{ return [
             each i,aq M {
                 $qua = aqs&qua
                 !qua and continue
-                $s = {RX:2,aq}
+                # the %%RX,aq,...,...qua
+                $brack = ex({},qua)
+                
                 $mix = qua.Rsc_mix
                 mix and pex(R.sc,mix)
+                
                 if (qua.ope) {
                     fatal.isnum(qua.ope)
                     qua.ope *= 1
@@ -2170,7 +2173,8 @@ me.Sch_The = &acgt{ return [
                 }
                 qua.impl and me&tc,"~impl~"
                 qua.dim and Rs&isdim = 1
-                me&Ri,s
+                
+                me&Ri,ex({RX:2,aq},brack)
             }
             each i,aq M {
                 $qua = aqs&qua
@@ -3009,7 +3013,7 @@ me.Sch_The = &acgt{ return [
     }
   
   // %%RX, %%layout
-    # what arrives there
+    # what arrives there in &Piero, is %%RX:2,aq,...qua
     me.RRXo = &acgtRc{
         $c = {t:'RX',sym:"⇃"}
         c.do18 = &c,li,re{
@@ -4596,16 +4600,30 @@ me.Sch_The = &acgt{ return [
         },'ift,D'],
         
   //     -anA
-        ['anA',0.263,&acgtRs{
+        ['anA',0.265,&acgtRs{
             $D = Rs&D
             $E = Rs&E
             # A t|y|c|sc, A.y likes to group misc A.*
+            # < &pity,E,Ec&pi - to pick up the main items, amongst crowd
+            #    ie R%ball and attendant R%Zave or so
             $N = me&ioty,E
+            
             $M = []
             map(t => M.push(... grop(n => n.t == t, N)),
                 ['t','y','c','sc'])
             !hak(M) and debugger
-            $y = theone(grep(n => n.t == 'y', M))
+            # any others are misc A.*
+            $Oth = me&Ro,'RX,miscAonly'
+            if (Oth) {
+                me&tc,'hidenonmiscA.*','6y'
+                each ie M {
+                    me&TXilay,'foryonly',hashkv(e.t,'impl')
+                }
+                # < me&moddelete,r,{modt:'Ctitle'}
+            }
+            else
+            1 and $y = theone(grep(n => n.t == 'y', M))
+            
             if (y) {
                 # A.y==A
                 yc&s != s and debugger
@@ -4617,7 +4635,7 @@ me.Sch_The = &acgt{ return [
                     N = []
                 }
                 else {
-                    # hide misc A.*, let A.y.*
+                    # hide misc A.*, let A.y show them
                     me&tc,'hidemiscA.*','6y'
                     me&TXilay,'forthy','y:miscAonly'
                     each ie N {
@@ -4625,7 +4643,6 @@ me.Sch_The = &acgt{ return [
                     }
                 }
             }
-            # < capture %miscAonly
             # commit rearrange to E/*
             hak(N) and M.push(...N)
             me&listin,Es&z,M[0],M,1
