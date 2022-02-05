@@ -2246,6 +2246,7 @@ me.Sch_The = &acgt{ return [
         return &h{ sol(h) }
     }
     # &TXilay,'noy','y:impl'
+    #  see -anA
     me.TXilay = &acgtts{
         s = peel(s)
         $style = {}
@@ -4663,16 +4664,45 @@ me.Sch_The = &acgt{ return [
             # < &pity,E,Ec&pi - to pick up the main items, amongst crowd
             #    ie R%ball and attendant R%Zaving etc
             $N = me&ioty,E
+            $asabovey = grep(e => ec&s == Ec&s,N)
             $M = []
-            map(t => M.push(... grop(n => n.t == t, N)),
+            map(t => M.push(... grop(e => e.t == t, N)),
                 ['t','y','c','sc'])
+            $y = theone(grep(n => n.t == 'y', M))
             !hak(M) and debugger
+            # now N are misc A.*
+            $TXie = &Ntc{
+                
+            }
+          // sort|group misc
+            $misc = N.slice()
             
-           // A.y
+            # group A.1-9 after %asabove, even if some of them are %asabove
+            $numbers = grop(e => num(e.t),misc)
+            # < by the first number only?
+            numbers = me&sortial,numbers,e=>e.t,'flat'
+            
+            $asabove = grop(asabovey,misc)
+            
+            # < might reoder to %asfollows
+            N = flatten([asabove,numbers,misc])
+            
+          // %asabove|follows
+            each ie asabove {
+                me&TXilay,'asabove',hashkv(e.t,'asabove')
+            }
+            if (me&Ro,'RX,asabove') {
+                # happening to us
+                $m = me&tsc,'asabove',"⩦",'g'
+                my&cv = 0.1008
+                ms&fs = 12
+            }
+            
+          // A.y
             # if we are A.y
             $anAy = me&Ro,'RX,anAy'
             if (anAy) {
-                verb('hidenonmiscA.*')
+                verb('anAy')
                 # < also mute modulat about it, if %asabove
                 me&sublate_Eref,'^'
                 each ie M {
@@ -4680,10 +4710,7 @@ me.Sch_The = &acgt{ return [
                 }
                 me&moddelete,R,{modt:'Ctitle'}
             }
-            else
-            1 and $y = theone(grep(n => n.t == 'y', M))
-            
-            if (y) {
+            elsif (y) {
                 # A.y==A
                 yc&s != s and debugger
                 if (hak(N) <3) {
@@ -4695,15 +4722,17 @@ me.Sch_The = &acgt{ return [
                 }
                 else {
                     # hide misc A.*, let A.y show them
-                    verb('hidemiscA.*')
+                    verb('anA')
                     me&TXilay,'forthy','y:anAy'
                     each ie N {
                         me&TXilay,'fory',hashkv(e.t,'impl')
                     }
                 }
             }
-           // A=y etc
-           // etc
+
+          // etc            
+            # < lot of indim-z
+            
             # commit rearrange to E/*
             hak(N) and M.push(...N)
             me&listin,Es&z,M[0],M,1
