@@ -1950,12 +1950,15 @@ me.Sch_The = &acgt{ return [
     #  &Eing on R%Pier via &Eing_some c.would
     # < features like g.unkeen should be available to both
     # < also nab brack as it goes (into &rowcap for it etc)
+    # < the match...effect occasions reliably:
+    #  < &Piero capable of matching on .t again?
+    #    perhaps %RX want to deliver?
     # < exude io to the moment called from
     #   instead of just returning M of qua
     #    for everyone to unpack for their context
     me.Pieri = &acgtEe{
-        # < many
-        # bunches of
+        # bunches of identity come awake
+        # aq pile onto E/matched/ for any of these:
         $Xc = {}
         Xc.t = e.t
         
@@ -1975,6 +1978,13 @@ me.Sch_The = &acgt{ return [
         
         $M = fi&RXglob,e,'matched'
         
+        # see &Eing_some c.would
+        #  which uses M/aq%qua.ope for keenness
+        # see &Piing
+        #  does nothing with M
+        #  yet aq pile onto E/matched/ for later being M
+        # it is very early...
+        #  effect qua in &Pieringi
         
         
         
@@ -1986,13 +1996,14 @@ me.Sch_The = &acgt{ return [
     me.Pieringi = &acgtRrc{
         $E = c.E
         $s = isba(R) && Rc&s
-        $peelmix = (s,c,k) => c[k] && ex(s,peel(c[k]))
+        
+        
         if (E) {
             # see also E&rc_mix below
             tax(r.sc,E.c,'dupl,noref,inline')
             # < not aka qua.Rsc_mix
             #    r refers to the sproutling A/r ?
-            peelmix(r.sc,E.c,'rsc_mix')
+            pex(r.sc,Ec&rsc_mix)
         }
         # may already E
         me&CED,r
@@ -2014,8 +2025,18 @@ me.Sch_The = &acgt{ return [
         if (E) {
             # see also sc&* -> &Piing c.*
             tax(r.c,E.c,'nl,dl')
-            peelmix(r.c,E.c,'rc_mix')
+            pex(r.c,Ec&rc_mix)
             isst(rc&dl) and rc&dl *= 1
+        }
+        # it is very early...
+        #  effect qua matched by &Pieri
+        $M = fi&RXglob,E,'matched'
+        each i,aq M {
+            $qua = aqs&qua
+            !qua and continue
+            pex(r.c,qua.rc_mix)
+            # there is a later @264 one of these called Rsc_mix
+            pex(r.sc,qua.rsc_mix)
         }
     }
     # cargo from Displayingness 27
@@ -4676,19 +4697,22 @@ me.Sch_The = &acgt{ return [
             $y = theone(grep(n => n.t == 'y', M))
             !hak(M) and debugger
             # now N are misc A.*
+            $misc = N.slice()
+            
             $impl = []
             $send = &Ntc{
                 N = fuN(N)
                 # these should be ignored but remain in E/*
                 c == 'impl' and impl.push(...N)
-                # when shooting %asfollows around
-                # < make it an Rsc_mix for &Pieri
-                !c and c ||= t
+                if (!c) {
+                    # shooting %asfollows around
+                    c = peel(t)
+                    c.rsc_mix = ex({},c)
+                }
                 each ie N {
                     me&TXilay,t,hashkv(e.t,c)
                 }
             }
-            $misc = N.slice()
             
             # group A.1-9 after %asabove, even if some of them are %asabove
             $numbers = grop(e => num(e.t),misc)
@@ -4700,7 +4724,6 @@ me.Sch_The = &acgt{ return [
             # < might reoder to %asfollows
             # < clue it all to mirage liner
             misc = flatten([asabove,numbers,misc])
-            
             
           // A.y
             # if we are A.y
@@ -4727,21 +4750,10 @@ me.Sch_The = &acgt{ return [
                     send(y,'misctoy','anAy')
                 }
             }
+          
           // %asabove|follows
             # to E/*
             send(asabovey,'asabove')
-            # to E
-            if (me&Ro,'RX,asabove') {
-                # happening to us
-                # < become R%asabove, mirage will want to start lines with them
-                #    many of them can =look=like=sense
-                $m = me&tsc,'asabove',"=",'G'
-                my&cv = 0.1008
-                # < cv sort?
-                ms&float = 'left'
-                ms&fs = 15
-                # < also mute Eref modulat about it
-            }
             
             # E/* about to Eref each other
             #  they may all get %impl in a move to A.y
@@ -4768,20 +4780,8 @@ me.Sch_The = &acgt{ return [
                 #$hert = slant(me.cby(R,'^^Top').slice(1))
                 #hert == '0 1/y' and me&fu,hert,{N,was:joint(was),misc:joint(misc)}
             }
-            if (me&Ro,'RX,asfollows') {
-                # happening to us
-                # < become R%asfollows, mirage them on a line
-                $m = me&tsc,'asfollows',"=",'G'
-                my&cv = 0.789
-                # < cv sort?
-                ms&float = 'right'
-                ms&fs = 15
-                # < also mute Eref modulat about it
-            }
           
-          // etc            
-            # < lot of indim-z
-            
+          // etc
             if (hak(misc)) {
                 sprinklemisc and me&listin,M,sprinklemisc,misc
                 else M.push(...misc)
@@ -4789,6 +4789,27 @@ me.Sch_The = &acgt{ return [
             # commit rearrange to E/*
             me&listin,Es&z,M[0],M,1
         },'ift,D'],
+        
+        # < when is after thingo:
+        # < also mute Eref modulat about it
+        ['asabove',0.55,&acgtRs{
+            $m = me&tsc,'asabove',"=",'G'
+            my&cv = 0.1008
+            # < cv sort?
+            ms&float = 'left'
+            ms&fs = 15
+            # < mirage will want to start lines with them
+            #    many of them can =look=like=sense
+        },'ift,D'],
+        ['asfollows',0.55,&acgtRs{
+            $m = me&tsc,'asfollows',"=",'G'
+            my&cv = 0.789
+            # < cv sort?
+            ms&float = 'right'
+            ms&fs = 15
+            # < mirage them on a line
+        },'ift,D'],
+        
         &{
             me.nottoomuch_Eref = &acgtt{
                 $N = me&Ro,'limit:ref,toomuch'
