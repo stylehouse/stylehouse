@@ -4691,6 +4691,36 @@ me.Sch_The = &acgt{ return [
             # < clue it all to mirage liner
             misc = flatten([asabove,numbers,misc])
             
+            
+          // A.y
+            # if we are A.y!
+            $anAy = me&Ro,'RX,anAy'
+            if (anAy) {
+                # have only misc A.* here
+                verb('anAy')
+                me&sublate_Eref,'^'
+                each ie M {
+                    me&TXilay,'anAy-covered',hashkv(e.t,'impl')
+                }
+                me&moddelete,R,{modt:'Ctitle'}
+            }
+            elsif (y) {
+                # A.y==A
+                yc&s != s and debugger
+                if (hak(misc) <3) {
+                    # hide A.y, have misc A.* in its place
+                    me&TXilay,'noy','y:impl'
+                    $sprinklemisc = y
+                }
+                else {
+                    # move misc to A.y
+                    verb('anA')
+                    me&TXilay,'forthy','y:anAy'
+                    each ie misc {
+                        me&TXilay,'fory',hashkv(e.t,'impl')
+                    }
+                }
+            }
           // %asabove|follows
             each ie asabovey {
                 me&TXilay,'asabove',hashkv(e.t,'asabove')
@@ -4745,45 +4775,15 @@ me.Sch_The = &acgt{ return [
                 ms&fs = 15
                 # < also mute Eref modulat about it
             }
-            
-            
-          // A.y
-            # if we are A.y!
-            $anAy = me&Ro,'RX,anAy'
-            if (anAy) {
-                # have only misc A.* here
-                verb('anAy')
-                me&sublate_Eref,'^'
-                each ie M {
-                    me&TXilay,'anAy-covered',hashkv(e.t,'impl')
-                }
-                me&moddelete,R,{modt:'Ctitle'}
-            }
-            elsif (y) {
-                # A.y==A
-                yc&s != s and debugger
-                if (hak(misc) <3) {
-                    # hide A.y
-                    me&TXilay,'noy','y:impl'
-                    # sprinkle misc A.* things in its place
-                    me&listin,M,y,misc
-                    misc = []
-                }
-                else {
-                    # move misc to A.y
-                    verb('anA')
-                    me&TXilay,'forthy','y:anAy'
-                    each ie misc {
-                        me&TXilay,'fory',hashkv(e.t,'impl')
-                    }
-                }
-            }
-
+          
           // etc            
             # < lot of indim-z
             
+            if (hak(misc)) {
+                sprinklemisc and me&listin,M,sprinklemisc,misc
+                else M.push(...misc)
+            }
             # commit rearrange to E/*
-            hak(misc) and M.push(...misc)
             me&listin,Es&z,M[0],M,1
         },'ift,D'],
         &{
