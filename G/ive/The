@@ -2245,6 +2245,22 @@ me.Sch_The = &acgt{ return [
         }
         return &h{ sol(h) }
     }
+    # &TXilay,'noy','y:impl'
+    me.TXilay = &acgtts{
+        s = peel(s)
+        $style = {}
+        each path,qua s {
+            path = path.split('/')
+            # path joined by /z
+            $arqin = []
+            path.map(t => arqin.push(t,'z'))
+            #  ends at /$qua
+            arqin.pop()
+            ahk(style,...arqin,peel(qua))
+        }
+        $actt = T.act.t
+        me&TXin,actt+'-'+t,{layout:t} (style)
+    }
   
   
   // R'The' &Topping, &specialfx
@@ -4642,24 +4658,25 @@ me.Sch_The = &acgt{ return [
             $verb = &t{
                 0 and me&tc,t,'6y'
             }
-            # A t|y|c|sc, A.y likes to group misc A.*
+            # sort A.* into:
+            # A t|y|c|sc, A.y likes to group misc A.*, since A.y=A
             # < &pity,E,Ec&pi - to pick up the main items, amongst crowd
-            #    ie R%ball and attendant R%Zave or so
+            #    ie R%ball and attendant R%Zaving etc
             $N = me&ioty,E
-            
             $M = []
             map(t => M.push(... grop(n => n.t == t, N)),
                 ['t','y','c','sc'])
             !hak(M) and debugger
             
-            # any others are misc A.*
-            
-            $Oth = me&Ro,'RX,miscAonly'
-            if (Oth) {
+           // A.y
+            # if we are A.y
+            $anAy = me&Ro,'RX,anAy'
+            if (anAy) {
                 verb('hidenonmiscA.*')
+                # < also mute modulat about it, if %asabove
                 me&sublate_Eref,'^'
                 each ie M {
-                    me&TXilay,'foryonly',hashkv(e.t,'impl')
+                    me&TXilay,'anAy-covered',hashkv(e.t,'impl')
                 }
                 me&moddelete,R,{modt:'Ctitle'}
             }
@@ -4679,12 +4696,14 @@ me.Sch_The = &acgt{ return [
                 else {
                     # hide misc A.*, let A.y show them
                     verb('hidemiscA.*')
-                    me&TXilay,'forthy','y:miscAonly'
+                    me&TXilay,'forthy','y:anAy'
                     each ie N {
                         me&TXilay,'fory',hashkv(e.t,'impl')
                     }
                 }
             }
+           // A=y etc
+           // etc
             # commit rearrange to E/*
             hak(N) and M.push(...N)
             me&listin,Es&z,M[0],M,1
@@ -4700,7 +4719,7 @@ me.Sch_The = &acgt{ return [
                     delete ns&toomuch
                 }
             }
-            # place after
+            # place items after y
             me.listin = &acgtMy,items,removing{
                 $yi = M.indexOf(y)
                 yi < 0 and debugger
@@ -4713,23 +4732,6 @@ me.Sch_The = &acgt{ return [
                     yi--
                 }
                 M.splice(yi+1,0,...items)
-            }
-            # &TXilay,'noy','y:impl'
-            me.TXilay = &acgtts{
-                s = peel(s)
-                $style = {}
-                each path,qua s {
-                    path = path.split('/')
-                    # path joined by /z
-                    $arqin = []
-                    path.map(t => arqin.push(t,'z'))
-                    #  ends at /$qua
-                    arqin.pop()
-                    ahk(style,...arqin,peel(qua))
-                }
-                $actt = T.act.t
-                me&TXin,actt+'-'+t,{layout:t} (style)
-                
             }
         },
     
