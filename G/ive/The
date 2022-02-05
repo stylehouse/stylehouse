@@ -4672,11 +4672,21 @@ me.Sch_The = &acgt{ return [
             $M = []
             map(t => M.push(... grop(e => e.t == t, N)),
                 ['t','y','c','sc'])
+            $norm = M.slice()
             $y = theone(grep(n => n.t == 'y', M))
             !hak(M) and debugger
             # now N are misc A.*
-            $TXie = &Ntc{
-                
+            $impl = []
+            $send = &Ntc{
+                N = fuN(N)
+                # these should be ignored but remain in E/*
+                c == 'impl' and impl.push(...N)
+                # when shooting %asfollows around
+                # < make it an Rsc_mix for &Pieri
+                !c and c ||= t
+                each ie N {
+                    me&TXilay,t,hashkv(e.t,c)
+                }
             }
             $misc = N.slice()
             
@@ -4693,15 +4703,13 @@ me.Sch_The = &acgt{ return [
             
             
           // A.y
-            # if we are A.y!
-            $anAy = me&Ro,'RX,anAy'
-            if (anAy) {
+            # if we are A.y
+            if (me&Ro,'RX,anAy') {
                 # have only misc A.* here
-                verb('anAy')
-                me&sublate_Eref,'^'
-                each ie M {
-                    me&TXilay,'anAy-covered',hashkv(e.t,'impl')
-                }
+                send(norm,'anAy-covered','impl')
+                # dont be %toomuch to E/*
+                me&nottoomuch_Eref,'^'
+                # not so much decor
                 me&moddelete,R,{modt:'Ctitle'}
             }
             elsif (y) {
@@ -4709,22 +4717,20 @@ me.Sch_The = &acgt{ return [
                 yc&s != s and debugger
                 if (hak(misc) <3) {
                     # hide A.y, have misc A.* in its place
-                    me&TXilay,'noy','y:impl'
+                    send(y,'noy','impl')
                     $sprinklemisc = y
                 }
                 else {
                     # move misc to A.y
                     verb('anA')
-                    me&TXilay,'forthy','y:anAy'
-                    each ie misc {
-                        me&TXilay,'fory',hashkv(e.t,'impl')
-                    }
+                    send(misc,'misctoy','impl')
+                    send(y,'misctoy','anAy')
                 }
             }
           // %asabove|follows
-            each ie asabovey {
-                me&TXilay,'asabove',hashkv(e.t,'asabove')
-            }
+            # to E/*
+            send(asabovey,'asabove')
+            # to E
             if (me&Ro,'RX,asabove') {
                 # happening to us
                 # < become R%asabove, mirage will want to start lines with them
@@ -4757,10 +4763,7 @@ me.Sch_The = &acgt{ return [
                 me&listin,misc,N[0],N,1
                 $asfollows = N.slice()
                 $eventually = asfollows.pop()
-                each ie asfollows {
-                    me&TXilay,'anAy-covered',hashkv(e.t,'asfollows')
-                    
-                }
+                send(asfollows,'asfollows')
                 
                 #$hert = slant(me.cby(R,'^^Top').slice(1))
                 #hert == '0 1/y' and me&fu,hert,{N,was:joint(was),misc:joint(misc)}
@@ -4787,7 +4790,7 @@ me.Sch_The = &acgt{ return [
             me&listin,Es&z,M[0],M,1
         },'ift,D'],
         &{
-            me.sublate_Eref = &acgtt{
+            me.nottoomuch_Eref = &acgtt{
                 $N = me&Ro,'limit:ref,toomuch'
                 !N and return
                 each in N {
