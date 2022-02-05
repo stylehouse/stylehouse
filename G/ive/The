@@ -4827,6 +4827,7 @@ me.Sch_The = &acgt{ return [
         },'ift,D'],
         
         &{
+            # for things '=' adjacent things
             # a kind of noise-obscuring white symbol
             #  that eventually eats all the thingoes
             me.swallowupper = &acgttsc{
@@ -4841,7 +4842,9 @@ me.Sch_The = &acgt{ return [
                 ex(m.sc,c)
                 
                 ac(R,'premeasurey',&{
+                    # mute id shared with adjacent thing we '='
                     me&moddelete,R,{t:'sym',modt:'hat'}
+                    me&moddelete,R,{modt:'Ctitle'}
                     
                     # folds thingoes
                     $N = me&modselect,R,{y:n=>nc&thing}
