@@ -2462,6 +2462,10 @@ me.Sch_The = &acgt{ return [
             # show non-At labels
             grepout(Rs&M,n => ns&modt == 'Pier')
         }
+        # any other callbacks
+        each iy Rs&premeasurey {
+            y (R)
+        }
     }
     # post-measure
     me.Topping_41 = &acgtRN{
@@ -2915,7 +2919,6 @@ me.Sch_The = &acgt{ return [
             res&title = lis&title || c.t
         }
         
-        
         c.do18 and c.do18(c,li,re)
         sz(c.ov,0.2) and return li
        // 2 rows
@@ -2956,6 +2959,9 @@ me.Sch_The = &acgt{ return [
         return li
     }
     # venn thingos inside each other
+    # how the layout-sym:re %title += layout-cap:li/*-cap%title
+    #  see &Rthingo / if c.sym
+    #   sets layout-cap:li c&thing.re = layout-sym:re
     me.thingodoptible = &acgtRtl{
         $c = lc&thing
         # thingos unpack when openish
@@ -2982,6 +2988,20 @@ me.Sch_The = &acgt{ return [
         lc&not = 1
         
     }
+    # in case of folding these thingo modulat up,
+    #  return one big title string about all of them
+    #  gather *-sym:re as mentioned above
+    me.thingoestitle = &acgtN{
+        $tw = {}
+        map(&n{ me&indo,n (&nd{
+            $c = nc&thing
+            !c and return d.not = 1
+            $re = c.re
+            !re and return 'keep going inward'
+            tw[res&title] = c
+        })},N)
+        return haks(tw).join("\n\n")
+    }
     # flatten modulat to D%$sym=modc&s+
     # < generalise string accumulator?
     #    bracket multiple subthingos?
@@ -3002,7 +3022,7 @@ me.Sch_The = &acgt{ return [
                 #  eg ^-Cish implies y ~:dim < ⇃
                 #  otherwise the RX-cap here   ^
                 #   may vanish if it was only (layouty) (see &TXin)
-                s.c.not and return d.not = 1
+                s.c.not == 1 and return d.not = 1
                 
                 s == d.promoted and return
                 if (sc&thing && sy&sym) {
@@ -4776,9 +4796,6 @@ me.Sch_The = &acgt{ return [
                 $asfollows = N.slice()
                 $eventually = asfollows.pop()
                 send(asfollows,'asfollows')
-                
-                #$hert = slant(me.cby(R,'^^Top').slice(1))
-                #hert == '0 1/y' and me&fu,hert,{N,was:joint(was),misc:joint(misc)}
             }
           
           // etc
@@ -4790,27 +4807,55 @@ me.Sch_The = &acgt{ return [
             me&listin,Es&z,M[0],M,1
         },'ift,D'],
         
-        # < when is after thingo:
+        # export some &Topping_37, is deep-first after thingo:
         # < also mute Eref modulat about it
         ['asabove',0.55,&acgtRs{
-            $m = me&tsc,'asabove',"=",'G'
-            my&cv = 0.1008
-            # < cv sort?
-            ms&float = 'left'
-            ms&fs = 15
+            me&swallowupper,'asabove','=','left'
             # < mirage will want to start lines with them
             #    many of them can =look=like=sense
         },'ift,D'],
+        ['asabove',0.66,&acgtRs{
+            $hert = slant(me.cby(R,'^^Top').slice(1))
+            if (1 || hert == '0 1/y') {
+            }
+            #me&tc,"Schal:"+hert,'1G'
+        },'ift,D'],
+        
         ['asfollows',0.55,&acgtRs{
-            $m = me&tsc,'asfollows',"=",'G'
-            my&cv = 0.789
-            # < cv sort?
-            ms&float = 'right'
-            ms&fs = 15
+            me&swallowupper,'asfollows','=','right'
             # < mirage them on a line
         },'ift,D'],
         
         &{
+            # a kind of noise-obscuring white symbol
+            #  that eventually eats all the thingoes
+            me.swallowupper = &acgttsc{
+                $R = me&R
+                c = peel(c)
+                # < cv sort doesnt seem to work
+                #   would be 1008 for left of At@101, 789 for right
+                #   then they should go with things slicing out labelly columna
+                c.float = haks(tax({},c,'left,right'))[0]
+                c.fs = 15
+                $m = Cy&swalsym = me&tsc,t,s,'G'
+                ex(m.sc,c)
+                
+                ac(R,'premeasurey',&{
+                    me&moddelete,R,{t:'sym',modt:'hat'}
+                    
+                    # folds thingoes
+                    $N = me&modselect,R,{y:n=>nc&thing}
+                    # not Displayed, still says them in D**
+                    N.map(n => nc&not = 2)
+                    # fold thingoes into the = sign's title (tooltip, hover diag)
+                    ms&title = me&thingoestitle,N
+                    
+                    $c = map(v => ex({},v), sex({},R.sc,'M,Mw'))
+                    c.N = N
+                    
+                    #me&fu,hert,c
+                })
+            }
             me.nottoomuch_Eref = &acgtt{
                 $N = me&Ro,'limit:ref,toomuch'
                 !N and return
