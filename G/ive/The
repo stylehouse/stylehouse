@@ -3436,11 +3436,11 @@ me.Sch_The = &acgt{ return [
   // site office
     ['Fez',0.66,&acgtRs{
         $E = Rs&E
-        $ups = me.cby(R).slice(-4)
-        $hert = joint(ups,'/')
         R.t != "awoke" and return
         # < &hu could increase dl if nl is very low
         # < should be getting %indim here and lowering
+        # E** path after R%Top
+        $hert = slant(me.cby(R,'^^Top').slice(1))
         if (hert == '0/r/c/X') {
             #me&tc,"HERE"
             #me&hu,"Thinkab",{p:Ry&up,R},{dl:6}
@@ -4660,8 +4660,11 @@ me.Sch_The = &acgt{ return [
             $verb = &t{
                 0 and me&tc,t,'6y'
             }
+          // sort|group tycsc|misc
             # sort A.* into:
-            # A t|y|c|sc, A.y likes to group misc A.*, since A.y=A
+            # A t|y|c|sc
+            #  A.y may envelope misc A.*
+            #   for a tidy A.*, since A.y=A
             # < &pity,E,Ec&pi - to pick up the main items, amongst crowd
             #    ie R%ball and attendant R%Zaving etc
             $N = me&ioty,E
@@ -4675,7 +4678,6 @@ me.Sch_The = &acgt{ return [
             $TXie = &Ntc{
                 
             }
-          // sort|group misc
             $misc = N.slice()
             
             # group A.1-9 after %asabove, even if some of them are %asabove
@@ -4686,7 +4688,8 @@ me.Sch_The = &acgt{ return [
             $asabove = grop(asabovey,misc)
             
             # < might reoder to %asfollows
-            N = flatten([asabove,numbers,misc])
+            # < clue it all to mirage liner
+            misc = flatten([asabove,numbers,misc])
             
           // %asabove|follows
             each ie asabovey {
@@ -4694,19 +4697,62 @@ me.Sch_The = &acgt{ return [
             }
             if (me&Ro,'RX,asabove') {
                 # happening to us
+                # < become R%asabove, mirage will want to start lines with them
+                #    many of them can =look=like=sense
                 $m = me&tsc,'asabove',"=",'G'
                 my&cv = 0.1008
                 # < cv sort?
                 ms&float = 'left'
                 ms&fs = 15
+                # < also mute Eref modulat about it
             }
             
+            # E/* about to Eref each other
+            #  they may all get %impl in a move to A.y
+            #   some being %impl would be a problem
+            #    < check R%asfollows target @4
+            $refNs = grep(N => hak(N)>1, me&sortial,misc,e=>ec&s )
+            each iN refNs {
+                # if one+ is a number, they stay there
+                $numbed = grep(numbers,N)
+                if (hak(numbed)) {
+                    # < should allow A.1=.3, .2 ?
+                    me&listbetween,N,numbed and debugger
+                    # lead N with them (become first instance)
+                    N = uniq([...numbed,...N])
+                }
+                # first instance becomes where to move
+                #  they may all be %asabove or not, etc
+                $was = misc.slice()
+                me&listin,misc,N[0],N,1
+                $asfollows = N.slice()
+                $eventually = asfollows.pop()
+                each ie asfollows {
+                    me&TXilay,'anAy-covered',hashkv(e.t,'asfollows')
+                    
+                }
+                
+                #$hert = slant(me.cby(R,'^^Top').slice(1))
+                #hert == '0 1/y' and me&fu,hert,{N,was:joint(was),misc:joint(misc)}
+            }
+            if (me&Ro,'RX,asfollows') {
+                # happening to us
+                # < become R%asfollows, mirage them on a line
+                $m = me&tsc,'asfollows',"=",'G'
+                my&cv = 0.789
+                # < cv sort?
+                ms&float = 'right'
+                ms&fs = 15
+                # < also mute Eref modulat about it
+            }
+            
+            
           // A.y
-            # if we are A.y
+            # if we are A.y!
             $anAy = me&Ro,'RX,anAy'
             if (anAy) {
+                # have only misc A.* here
                 verb('anAy')
-                # < also mute modulat about it, if %asabove
                 me&sublate_Eref,'^'
                 each ie M {
                     me&TXilay,'anAy-covered',hashkv(e.t,'impl')
@@ -4716,18 +4762,18 @@ me.Sch_The = &acgt{ return [
             elsif (y) {
                 # A.y==A
                 yc&s != s and debugger
-                if (hak(N) <3) {
-                    # hide y
+                if (hak(misc) <3) {
+                    # hide A.y
                     me&TXilay,'noy','y:impl'
                     # sprinkle misc A.* things in its place
-                    me&listin,M,y,N
-                    N = []
+                    me&listin,M,y,misc
+                    misc = []
                 }
                 else {
-                    # hide misc A.*, let A.y show them
+                    # move misc to A.y
                     verb('anA')
                     me&TXilay,'forthy','y:anAy'
-                    each ie N {
+                    each ie misc {
                         me&TXilay,'fory',hashkv(e.t,'impl')
                     }
                 }
@@ -4737,7 +4783,7 @@ me.Sch_The = &acgt{ return [
             # < lot of indim-z
             
             # commit rearrange to E/*
-            hak(N) and M.push(...N)
+            hak(misc) and M.push(...misc)
             me&listin,Es&z,M[0],M,1
         },'ift,D'],
         &{
@@ -4751,6 +4797,17 @@ me.Sch_The = &acgt{ return [
                     delete ns&toomuch
                 }
             }
+            # check if A.1 and A.3 have anything between them
+            me.listbetween = &acgtN,items{
+                $between = []
+                while (hak(items) > 1) {
+                    $a = items[0]
+                    $b = items[1]
+                    between.push(... ksaf(ksaf(N,{aft:a}),{bow:b}))
+                    items = items.slice(1)
+                }
+                return hak(between) && between
+            }
             # place items after y
             me.listin = &acgtMy,items,removing{
                 $yi = M.indexOf(y)
@@ -4759,9 +4816,14 @@ me.Sch_The = &acgt{ return [
                     # eg reordering E/*
                     #  not knowing if we have all|subset-mingled
                     #   or how to reconstruct that mingle (order of others)
-                    grop(notoneor(removing,items),M)
+                    $gone = grop(notoneor(removing,items),M)
                     #  so stack them all up where the first one was
-                    yi--
+                    $yi = gone.indexOf(y)
+                    # location floats backward as we go removing
+                    # < if we dont remove y (can noop if its in items):
+                    #  < this would be a good thing to grasp intuitively
+                    yi < 0 and throw "find goners before y"
+                    yi >= 0 and yi -= yi
                 }
                 M.splice(yi+1,0,...items)
             }
