@@ -147,10 +147,29 @@
                     !x and return
                     each in x.z {
                         nc&drop and continue
-                        # < brack occasionally not readonly, see &nottoomuch_Eref
                         # check it's still in the data
                         $non = !(n.sc[t] && (v == 1 || v == n.sc[t]))
-                        non and continue
+                        if (non) {
+                            if (!hak(n.sc,t)) {
+                                # < brack occasionally not readonly
+                                #   eg %%toomuch deleted, see &nottoomuch_Eref
+                                # dont match
+                                continue
+                            }
+                            elsif (num(n.sc[t]) && v == 1) {
+                                # c.led=1 may match %%led:0
+                                # eg &PaveelQup_5 / &jaa c='isready' o=1 [0]
+                                #  returns the 0 from %%isready:0
+                                # eg -Eel / &jaa c='Belti,Bet,Bit'
+                                #  wants %%Belti=0, is serial
+                                n.sc[t] != 0 and debugger
+                            }
+                            else {
+                                debugger
+                                # dont match?
+                                continue
+                            }
+                        }
                         !M.includes(n) and M.push(n)
                     }
                 }
