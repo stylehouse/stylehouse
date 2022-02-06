@@ -2278,6 +2278,11 @@ me.Sch_The = &acgt{ return [
             path.map(t => arqin.push(t,'z'))
             #  ends at /$qua
             arqin.pop()
+            if (isst(qua) && qua[0] == '%') {
+                # apply it to r%*
+                qua = peel(qua.slice(1))
+                qua.rsc_mix = ex({},qua)
+            }
             ahk(style,...arqin,peel(qua))
         }
         $actt = T.act.t
@@ -3424,6 +3429,7 @@ me.Sch_The = &acgt{ return [
             tes&deco = 1
             tes&hs = k == 'self' ? '999' : '888'
             tes&fs = 7
+            tes&pointEref = 1
         })
         !any and me&tc,'!any'
         
@@ -4932,11 +4938,10 @@ me.Sch_The = &acgt{ return [
     
         
   //     %asabove, %indim
-        # export some &Topping_37, is deep-first after thingo:
-        # < also mute Eref modulat about it
+        # export some &Topping_37, is deep-first after thingo
         ['asabove',0.55,&acgtRs{
             me&swallowupper,'asabove','=','left'
-            # < mirage will want to start lines with them
+            # mirage will want to start lines with them
             #    many of them can =look=like=sense
         },'ift,D'],
         ['asabove',0.66,&acgtRs{
@@ -4948,7 +4953,7 @@ me.Sch_The = &acgt{ return [
         
         ['asfollows',0.55,&acgtRs{
             me&swallowupper,'asfollows','=','right'
-            # < mirage them on a line
+            # mirage them on a line
         },'ift,D'],
         
         # dim space, eg /c
@@ -4960,6 +4965,40 @@ me.Sch_The = &acgt{ return [
                 spant(ips.ip.c.s) != ips.sip.c.s and debugger
                 else me&TXilay,'onlysip','ip:impl'
             }
+        },'ift,D'],
+        
+        # A/c/X/A♲^3
+        ['mayaswayabove',0.55,&acgtRs{
+            $Erefc = me&Ro,'Erefc,limit:ref',0
+            !Erefc and return
+            $se = Erefc.self
+            hak(se.down) > 1 and return
+            
+            # mirage will tack it near the opening
+            Rs&inline = 1
+            
+            # mute similar to %asabove
+            # < curly cell, leading back up to...
+            #    flab pinched around to the Efound
+            ac(R,'premeasurey',&{
+                # mute sym:A if we are /A
+                $sym = me&modselect,R,{t:'sym',modt:'hat'} [0]
+                sym && symc&s == R.t and symc&not = 3.14
+                
+                # we have said %Ctitle
+                me&moddelete,R,{modt:'Ctitle'}
+
+                # folds thingo:limit:ref
+                #  s/^(♲^\d*):.*/$1/
+                $lim = theone( me&modselect,R,{t:'limit-cap',y:n=>nc&thing} )
+                $point = theone( me&ioty,lim,['','pointEref'] )
+                !point and debugger
+                pointc&s = split(pointc&s,':',1)[0]
+                
+                # fold thingoes into the = sign's title (tooltip, hover diag)
+                #ms&title = me&thingoestitle,N
+
+            })
         },'ift,D'],
         
   //     -anX..-anx
@@ -4993,6 +5032,8 @@ me.Sch_The = &acgt{ return [
             }
         },
         ['anX',0.263,&acgtRs{
+            # A/c/X/A♲^3
+            me&TXilay,'anX.A','A:%mayaswayabove'
         },'ift,D'],
         # < -hat -anx .z.* may be X|x from elsewhere (no s.up to R^^anx)
         #   x may be lodged in a variety of weird places,
