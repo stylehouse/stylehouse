@@ -2616,6 +2616,10 @@ me.Sch_The = &acgt{ return [
                 # any amount of %inline+ on a line
                 !la and starts_inline = 1
             }
+            elsif (la && las&asfollows) {
+                # any amount of R%asfollows before their target
+                # < line could be too full for the rest compulsed
+            }
             elsif (landscape || aline + rs&geolen > 32) {
                 newline()
             }
@@ -3501,7 +3505,8 @@ me.Sch_The = &acgt{ return [
         # < &hu could increase dl if nl is very low
         # < should be getting %indim here and lowering
         # E** path after R%Top
-        $hert = slant(me.cby(R,'^^Top').slice(1))
+        $hert = slant(me.cby(r,'^^Top').slice(1))
+        ~>6 breaking after: hert
         if (hert == '0/r/c/X') {
             #me&tc,"HERE"
             #me&hu,"Thinkab",{p:Ry&up,R},{dl:6}
