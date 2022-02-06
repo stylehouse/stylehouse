@@ -2695,6 +2695,25 @@ me.Sch_The = &acgt{ return [
                     ns&va = 1
                     ns&dis = 4
                 })
+                
+                # R%asabove beginning aline sanity check
+                #  should be, since -anA sorted them there?
+                # < also check after &Topping_474 may reorder it
+                #  < make R%asfollows=e, check followed by ey&R
+                $begins = 1
+                $someasabove = 0
+                me&ioty,gu,['line','item'] .map(&it,{
+                    $r = itc&zuct
+                    !r || !rs&asabove and return begins = 0
+                    !begins and throw "asabove not beginning aline"
+                    someasabove = 1
+                })
+                
+                # R%asabove in first aline, laters %ml+=0.5
+                #  so it looks clingier than them
+                someasabove && me&ioty,gu,'line' .slice(1) .map(&al,{
+                    als&ml = 0.5
+                })
             }
             
             # c { longline, shortline } redistribution
