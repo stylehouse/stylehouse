@@ -1365,7 +1365,7 @@ me.Sch_Go = &acgt{ return [
                 if (a.Runafter == Runy&R) {
                     # remain wilful, initial &wants Run sporadically doesnt
                     # < Go, time, etc
-                    !c.starting and debugger
+                    !c.starting and ~>0 !starting: R.t, ns&RunStep
                     a.ov != 0.6 and h.ha('pur:Runkick',{pre:Run})
                     a.ov = 0.5
                 }
@@ -3769,7 +3769,7 @@ me.Sch_Go = &acgt{ return [
         # avail This/$pointer lookups
         # < through A.h.o (move h.o->h.i)
         me.oThis = &acgtR{
-            $Run = me.cbu(R,"PiiRun") .c.s
+            $Run = me.cbu(R,"PiiRun")
             # the pattern given in a callback, to allow many lines
             return &sc{
                 if (c) {
@@ -3780,7 +3780,7 @@ me.Sch_Go = &acgt{ return [
                         throw "unknown E-part", c
                     }
                 }
-                return me&Risc,R,'This/'+s
+                return me&Risc,Run,'This/'+s
             }
         }
         # study the R**c&dl of the last -six
