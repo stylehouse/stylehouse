@@ -1,6 +1,6 @@
 me.Sch_The = &acgt{ return [
  ... me&Sch_Go ,
- // The** !
+ // The** !!
     
    =The %TX <-> This -pi
     basically
@@ -2953,13 +2953,21 @@ me.Sch_The = &acgt{ return [
             ts&title = talk+" "+dis(N[0].sc)
             N[1] and ts&title += "\n    "+dis(N[1].sc)
             hak(N) > 2 and ts&title += "\n   + "+(hak(N)-2)
+            
+            # < defeatable, like qua.impl
+            #    via specialised %ope for thingo ov control
+            ns&casual && sz(c.ov,0.3) and tc&not = 1
         }
         
         # is also T.Mw - where &tc will be put
         return li
     }
     # venn thingos inside each other
-    # how the layout-sym:re %title += layout-cap:li/*-cap%title
+    #  eg when t=layout
+    #   layouty %%RX can be taken over by %%layout
+    #  eg when t=up
+    #   layout/dim merges into layout:
+    #   the layout-sym:re %title += layout-cap:li/dim-cap%title
     #  see &Rthingo / if c.sym
     #   sets layout-cap:li c&thing.re = layout-sym:re
     me.thingodoptible = &acgtRtl{
@@ -2985,7 +2993,7 @@ me.Sch_The = &acgt{ return [
         $lines = res&title.split("\n")
         ies&title += "\n+ "+lines.shift()
             +"\n"+lines.map(s => "  "+s).join("\n")
-        lc&not = 1
+        lc&not = 4
         
     }
     # in case of folding these thingo modulat up,
@@ -3022,7 +3030,8 @@ me.Sch_The = &acgt{ return [
                 #  eg ^-Cish implies y ~:dim < ⇃
                 #  otherwise the RX-cap here   ^
                 #   may vanish if it was only (layouty) (see &TXin)
-                s.c.not == 1 and return d.not = 1
+                # can be c.not=1 (%%casual) and 4 (&thingodoptible)
+                s.c.not && s.c.not != 2 and return d.not = 1
                 
                 s == d.promoted and return
                 if (sc&thing && sy&sym) {
@@ -4849,6 +4858,8 @@ me.Sch_The = &acgt{ return [
                 $m = Cy&swalsym = me&tsc,t,s,'G'
                 ex(m.sc,c)
                 
+                me&Ri,{layout:t,casual:1}
+                
                 ac(R,'premeasurey',&{
                     # mute id shared with adjacent thing we '='
                     me&moddelete,R,{t:'sym',modt:'hat'}
@@ -4857,6 +4868,9 @@ me.Sch_The = &acgt{ return [
                     # folds thingoes
                     $N = me&modselect,R,{y:n=>nc&thing}
                     # not Displayed, still says them in D**
+                    #  except for %%RX, which joins the %%layout we created
+                    #   with a casual '~' that doesnt say 'asfollows' etc
+                    # < defeatable, like qua.impl
                     N.map(n => nc&not = 2)
                     # fold thingoes into the = sign's title (tooltip, hover diag)
                     ms&title = me&thingoestitle,N
