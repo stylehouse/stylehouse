@@ -3281,6 +3281,10 @@ me.Sch_The = &acgt{ return [
             c.redraw and delete lim.toomuch
             me&Ri,lim
         }
+        if (c.self && hak(c.self.ups) < 6 && hak(c.self.downs) == 1) {
+            # eg A/c/X/A ♲^3, but not A/y/flup ♲^3:-hat/0 0
+            Rs&mayaswayabove = 1
+        }
         
         # note this time
         #  effectively a &pio to many places
@@ -3530,8 +3534,8 @@ me.Sch_The = &acgt{ return [
         # < &hu could increase dl if nl is very low
         # < should be getting %indim here and lowering
         # E** path after R%Top
-        $hert = slant(me.cby(r,'^^Top').slice(1))
-        ~>6 breaking after: hert
+        $hert = slant(me.cby(R,'^^Top').slice(1))
+        #~>6 breaking after: hert
         if (hert == '0/r/c/X') {
             #me&tc,"HERE"
             #me&hu,"Thinkab",{p:Ry&up,R},{dl:6}
@@ -4745,6 +4749,7 @@ me.Sch_The = &acgt{ return [
         },'ift,D'],
         
   //     -anA
+        # > hide if -Aipscape they are in implies them
         ['anA',0.265,&acgtRs{
             $D = Rs&D
             $E = Rs&E
@@ -4967,15 +4972,13 @@ me.Sch_The = &acgt{ return [
             }
         },'ift,D'],
         
-        # A/c/X/A♲^3
+        # A/c/X/A ♲^3
         ['mayaswayabove',0.55,&acgtRs{
-            $Erefc = me&Ro,'Erefc,limit:ref',0
-            !Erefc and return
-            $se = Erefc.self
-            hak(se.down) > 1 and return
-            
-            # mirage will tack it near the opening
-            Rs&inline = 1
+            $E = Rs&E
+            if (me&ioty,Ey&up .indexOf(E) == 0) {
+                # mirage will tack it near the opening
+                Rs&inline = 1
+            }
             
             # mute similar to %asabove
             # < curly cell, leading back up to...
@@ -5032,8 +5035,6 @@ me.Sch_The = &acgt{ return [
             }
         },
         ['anX',0.263,&acgtRs{
-            # A/c/X/A♲^3
-            me&TXilay,'anX.A','A:%mayaswayabove'
         },'ift,D'],
         # < -hat -anx .z.* may be X|x from elsewhere (no s.up to R^^anx)
         #   x may be lodged in a variety of weird places,
