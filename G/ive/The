@@ -3261,6 +3261,16 @@ me.Sch_The = &acgt{ return [
         }
         return mutual('brackios brackio brack Bow')
     }
+    # given target e, decide if it shows itself
+    #  ie is a self-worthy rendition, unobscured
+    me.Eref_goodpishow = &acgte{
+        $r = ey&R
+        # these are bad for expression
+        # note we only r%$magicword += n the first
+        # so %%layout,toomuch,E can not count
+        return !(rs&toomuch
+            || rs&asabove || rs&asfollows)
+    }
     # which Eref is best, classified to a suitability
     me.Rlimiti_ref_lookfor = &acgtRc{
         # find:
@@ -3286,9 +3296,7 @@ me.Sch_The = &acgt{ return [
             if ( !me&Eref_samepishow,g.Efinder,g.Efound,g ) {
                 c.other ||= g
             }
-            # note we only r%$magicword += n the first
-            # so %%layout,toomuch,E can not count
-            elsif ( rs&toomuch || Rs&tiny ) {
+            elsif ( !me&Eref_goodpishow,g.Efound || Rs&tiny ) {
                 c.almost ||= g
                 # find a fuller further rendition
             }
