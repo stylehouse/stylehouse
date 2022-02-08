@@ -3099,46 +3099,88 @@ me.Sch_Go = &acgt{ return [
         $R = me&R
         !Rs&Top and debugger
         # override &Piing's Efd:ope
-        delete Rs&noDisplay
+        #delete Rs&noDisplay
         $r = me&uptoR,Rs&E
         rs&Foldabline = 1
     }
-    },
-    # quiet s** R modulat for /-Log
-    ['Foldabline',0.98,&acgtRs{
-        s&bg = '#221'
-        
+    # quiets -Log, -seven, -Eight
+    #  returns con, a hash of /$tt=$ope for the first &Piing E
+    #  < should be Ey&main as such, might be -Bat if Ey&Todo
+    me.tidyball = &acgtR{
+        $s = Rc&s
         $N = me&modselect,R
-        # boost>=1 unfolds
-        me&til_boost_reDisplay and return
         
-        $N = me&modselect,R
-        # < keep warnings
+        # < keep warnings as such
         $keeps = grep(&n{
             return ns&fs >= 12 && n.t != 'Peace'
                 || ns&controls
             }, N)
         
-        # dont delete them
-        #grop(keeps,N)
-        # or, capsulate them:
-        hak(keeps) && me&boxcap,'savedmod' (&ml{
-            lc&not = 1
-            ms&right = 4
-            ms&ab = 2
-            
-            keeps.map(&n{
-                # mute -Log
-                ny&label and ny&label.c.not = 1
-                me&modclone,m,n
-            })
-        })
+        # < use there
+        sc&pi == 'seven' || sc&pi == 'Eight'
+            && keeps.push(... me&modselect,R,{t:'t',cv:11})
+        
+        if (hak(keeps)) {
+            # dont not them
+            grop(keeps,N)
+            if (0) {
+                # they capsulate, to move around?
+                grop(keeps,Rs&M)
+                me&boxcap,'savedmod' (&ml{
+                    lc&not = 1
+                    keeps.map(&n{
+                        # mute -Log
+                        ny&label and ny&label.c.not = 1
+                        #me&modclone,m,n
+                        ac(m,'z',n)
+                    })
+                })
+            }
+        }
         N.map(n => nc&not = 1)
         
         # also the R%ball/R%fix for s%attr
         me&ioty,R,'fix' .map(r => rs&noDisplay = 1)
+        
+        $con = havs(grep(map(n => ns&controls, keeps)))[0]
+        return con
+    }
+    me.minimod = &acgtr{
+        # the &Piing is not open
+        # < draw mod cv@11-12 tiny picture
+        me&boxcap,'minimod' (&ml{
+            lc&s = '~'
+            ls&fs = 11
+
+            me&tc,"was",'d'
+        })
+    }
+    },
+    # quiet s** R modulat for /-Log
+    ['Foldabline',0.94,&acgtRs{
+        s&bg = '#201'
         # reverse indent
         s&ml = -2
+        
+        # boost>=1 unfolds
+        me&til_boost_reDisplay and return
+        
+        # mute most stuff, end up with &Piing's m%controls
+        $con = me&tidyball,R
+        
+        # also, know if //E Display was on (independent of R%boost)
+        if (con && !con.D && sc&pi == 'Log') {
+            # < turn REy&main into E
+            $r = Rs&E.y.main
+            me&minimod,r
+        }
+        
+        # other style
+        # futile, usu much too big
+        map(C => s&dis = 1, r => rs&C, me&ioR,R,'Pier')
+        
+        # may beadding modulat very late:
+        Rs&Mw and me&modulatM,R
         
         return
         # < get -ology for putting these things back together
