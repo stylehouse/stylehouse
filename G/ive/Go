@@ -3145,25 +3145,24 @@ me.Sch_Go = &acgt{ return [
         $con = havs(grep(map(n => ns&controls, keeps)))[0]
         return con
     }
-    me.minimod = &acgtr{
-        # the &Piing is not open
-        !rs&Pier and debugger
-        $E = me&Eof,r
-        # < draw mod cv@11-12 tiny picture
+    
+    # draw mod cv@11-12 tiny picture
+    me.minimod = &acgtE{
         me&boxcap,'minimod' (&ml{
             lc&s = '~'
             ls&fs = 11
-            me&minimod_build,E,{dl:2}
+            me&minimod_build,E,{dl:4}
             me&tc,"was",'d'
         })
     }
     me.minimod_build = &acgtEd{
         d = peel(d)
         me&indo,E,d (&sd{
+            !sy&R and return d.not = 1
             $mobit = "mobit"
             d.unind = me&boxcap,'mobit:'+s.t
             $m = T.ab
-            ms&dis = 1
+            ms&dis = 2
             ms&pa = 0.3
             
             me&walls,m,'bd:4.4,hu:3'
@@ -3186,12 +3185,12 @@ me.Sch_Go = &acgt{ return [
         # mute most stuff, end up with &Piing's m%controls
         $con = me&tidyball,R
         
-        # also, know if //E Display was on (independent of R%boost)
+        # if //E Displays (independent of R%boost)
         if (con && !con.D && sc&pi == 'Log') {
             # < turn REy&main into E
             # s//E
             $E = me&Eof,s
-            #me&minimod,E
+            me&minimod,E
         }
         
         # other style
