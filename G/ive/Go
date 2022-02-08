@@ -3721,11 +3721,13 @@ me.Sch_Go = &acgt{ return [
             if (hak(g.what) < 2) {
                 # may be somethings here:
                 $c = A.h.be || A.h
-                $N = c.sc ? havs(c.sc) : As&six
-                !N and throw "Ah.diff without Ah>>.sc or A%six"
+                $N = c.sc && havs(c.sc)
+                $nonWombsameEight = n => nc&pi != 'Womb' && n.y.up.y.up.t == A.h.t
+                N ||= grep(nonWombsameEight, As&six)
+                !hak(N) and throw "Ah.diff without Ah>>.sc or A%six"
                 
                 # or one given to latest what
-                hak(g.what) == 1 and g.what = N.slice(-1)
+                hak(g.what) == 1 and g.what[1] = N.slice(-1) [0]
                 else
                 # default latest whats
                 !hak(g.what) and g.what = N.slice(-2)
@@ -3922,7 +3924,9 @@ me.Sch_Go = &acgt{ return [
             A&step++
 
             A&live = 1
-            $done = fi&complace,'yarrr',{W,A}
+            $mores = {}
+            A&step > 1 and mores.step = A&step
+            $done = fi&complace,'yarrr',{W,A},mores
 
             # main(), sunpit
             return &y{
