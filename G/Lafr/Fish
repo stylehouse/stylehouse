@@ -469,12 +469,14 @@ fi.Xios ||= {}
         
         $Neu =
         fi&Xsim,Y,'X',[],s,c
+        # < X/had/$At, not X.had/$At
+        #   ie not X.one=x, only X.one.two=x
         fi&Xsim,A,'X',['had'],s,c
         $Nld =
-        fi&Xsim,Y,'V',[],s,{}
+        fi&Xsim,Y,'V',[],s,{el:8}
         
         $sequence = Neu.length - 1
-        $b = Nld[sequence]
+        $b = Nld && Nld[sequence]
         return b
     }
   
