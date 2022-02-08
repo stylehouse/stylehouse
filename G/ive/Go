@@ -3092,6 +3092,7 @@ me.Sch_Go = &acgt{ return [
     },'ift,D'],
    
    // /@Run style, %Foldabline
+    # outside &Piing
     &{
     # for a tidy E-Log
     me.RE_singline = &acgt{
@@ -3107,22 +3108,36 @@ me.Sch_Go = &acgt{ return [
     ['Foldabline',0.98,&acgtRs{
         s&bg = '#221'
         
+        $N = me&modselect,R
         # boost>=1 unfolds
-        $Fold = cvlt(Rs&boost,1)
-        $was = me&ollbs,R,'Foldablined'
-        # drops y&Display/** history, recreating dom inside here
-        # < Display bug in the element list rearranger
-        #    drip feeds them in at the start, 1 at a time
-        Fold != was and Rs&igVDisplayin = 1
-        !Fold and return
-        Rs&Foldablined = 1
+        me&til_boost_reDisplay and return
         
         $N = me&modselect,R
         # < keep warnings
-        $keeps = grep(n => ns&fs >= 12, N)
-        grop(keeps,N)
+        $keeps = grep(&n{
+            return ns&fs >= 12 && n.t != 'Peace'
+                || ns&controls
+            }, N)
+        
+        # dont delete them
+        #grop(keeps,N)
+        # or, capsulate them:
+        hak(keeps) && me&boxcap,'savedmod' (&ml{
+            lc&not = 1
+            ms&right = 4
+            ms&ab = 2
+            
+            keeps.map(&n{
+                # mute -Log
+                ny&label and ny&label.c.not = 1
+                me&modclone,m,n
+            })
+        })
         N.map(n => nc&not = 1)
+        
+        # also the R%ball/R%fix for s%attr
         me&ioty,R,'fix' .map(r => rs&noDisplay = 1)
+        # reverse indent
         s&ml = -2
         
         return
@@ -3132,6 +3147,21 @@ me.Sch_Go = &acgt{ return [
         me&fu,"Futz",tz
         me&fu,"FutR",R
     },'ift,D'],
+    &{
+    # drops y&Display/** history, recreating dom inside here
+    # < Display bug in the element list rearranger
+    #    drip feeds them in at the start, 1 at a time
+    me.til_boost_reDisplay = &acgtk{
+        $R = me&R
+        k ||= T.act.t + 'd'
+        
+        $Fold = cvlt(Rs&boost,1) && 1
+        $was = me&ollbs,R,k
+        Fold != was and Rs&igVDisplayin = 1
+        !Fold and return 1
+        R.sc[k] = 1
+    }
+    },
   
    &{
    // @Run -> &Sunpit
