@@ -3156,22 +3156,7 @@ me.Sch_Go = &acgt{ return [
             !r and return d.not = 1
             d.unind = me&boxcap,'mobit:'+s.t
             $m = d.m = T.ab
-            
-            ms&dis = d.d == 1 ? 5 : d.d == 2 ? 3 : 2
-            # extend &ind d.* to know d/d
-            if (d.up) {
-                $uz = d.up.z ||= []
-                $nonfirst = uz.push(d) - 1
-            }
-            d.d >= 3 && nonfirst and ms&ml = d.d == 3 ? 0.3 : 0.1
-            
-            me&walls,m,'bd:4.4'
-            $hue = (4+d.d+"").slice(-1)[0]
-            $light = d.d <= 4 ? 4 : d.d <= 6 ? 3 : 2
-            ms&boc = hue+'7'+light
-            $l = my&label
-            lc&s = s.t
-            lc&not = 1
+            me&minimod_styling,m,s,d
             
             if (d.d <= 2) {
                 # ignore -Log/-row
@@ -3194,7 +3179,22 @@ me.Sch_Go = &acgt{ return [
             rs&Cish and return d.nofurther = 1
         })
     }
-    me.minimod_styling = &acgtEd{
+    me.minimod_styling = &acgtmsd{
+        ms&dis = d.d == 1 ? 5 : d.d == 2 ? 3 : 2
+        # extend &ind d.* to know d/d
+        if (d.up) {
+            $uz = d.up.z ||= []
+            $nonfirst = uz.push(d) - 1
+        }
+        d.d >= 3 && nonfirst and ms&ml = d.d == 3 ? 0.3 : 0.1
+
+        me&walls,m,'bd:4.4'
+        $hue = (4+d.d+"").slice(-1)[0]
+        $light = d.d <= 4 ? 4 : d.d <= 6 ? 3 : 2
+        ms&boc = hue+'7'+light
+        $l = my&label
+        lc&s = s.t
+        lc&not = 1
     }
   // %Foldabline
     # for a tidy E-Log
