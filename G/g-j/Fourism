@@ -2492,9 +2492,14 @@ me.Fourismness = &acgt{ return [
         $one;
         $my = [];
 
-        d.cbfirst and one = y(s,d)
+        d.cbfirst and one = y (s,d)
         d.not and return
-        d.nofurther and return one
+        if (d.nofurther) {
+            # undepthing callback
+            d.unind and d.unind (); delete d.unind
+            # return singular
+            return one
+        }
         d.for_string and $for_string = delete d.for_string
         
         if (d.s != s) {
@@ -2582,8 +2587,9 @@ me.Fourismness = &acgt{ return [
             d.for_string and $for_string = delete d.for_string
         }
         d.not and return
+        # undepthing callback
+        d.unind and d.unind (); delete d.unind
         out.unshift(one);
-        d.unind and d.unind ()
 
         out = out.filter(&s{ return 1 && s });
         !out.length and return

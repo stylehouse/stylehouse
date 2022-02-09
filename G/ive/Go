@@ -3158,16 +3158,23 @@ me.Sch_Go = &acgt{ return [
     me.minimod_build = &acgtEd{
         d = peel(d)
         me&indo,E,d (&sd{
-            !sy&R and return d.not = 1
-            $mobit = "mobit"
+            $r = sy&R
+            !r and return d.not = 1
             d.unind = me&boxcap,'mobit:'+s.t
-            $m = T.ab
+            $m = d.m = T.ab
             ms&dis = 2
-            ms&pa = 0.3
-            
+            ms&pa = 0.1
             me&walls,m,'bd:4.4,hu:3'
             $l = my&label
             lc&s = s.t
+            
+            # labelly stuff
+            me&modselect,r,{gte:1,lt:13} .map(&n{
+                me&modclone,m,n
+            })
+            
+            rs&Cish and return d.nofurther = 1
+            
             # we i inners in that boxcap
             me&tc,'.','d'
         })
