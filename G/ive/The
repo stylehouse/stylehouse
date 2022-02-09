@@ -2538,10 +2538,12 @@ me.Sch_The = &acgt{ return [
     
    // f modulat
     # tally R%M**c&s
-    me.measure_modulat = &acgtN{
+    me.measure_modulat = &acgtNd{
+        d = peel(d)
+        d.cbfirst = 1
         $len = 0
         $leny = &sd{
-            if (ss&geolen != null) {
+            if (!d.nomem && ss&geolen != null) {
                 # memo %geolen
                 len += ss&geolen
                 d and d.not = 1
@@ -2555,9 +2557,11 @@ me.Sch_The = &acgt{ return [
         }
         !isar(N) and N = [N]
         each in N {
-            ns&z && ns&z.length and me&ind,n,leny,{cbfirst:1}
-            else leny(n)
+            # < just do it?
+            ns&z && ns&z.length and me&ind,n,leny,d
+            else leny(n,d)
         }
+        
         
         
         

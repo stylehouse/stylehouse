@@ -3150,10 +3150,12 @@ me.Sch_Go = &acgt{ return [
     me.minimod = &acgtE{
         me&boxcap,'minimod' (&ml{
             lc&s = '~'
-            ls&fs = 10
+            ls&fs = 8
             me&minimod_build,E,{dl:4}
         })
     }
+    # sketch modulat from -Log**
+    # spaces out the &com c.* at d.d=3
     me.minimod_build = &acgtEd{
         d = peel(d)
         me&indo,E,d (&sd{
@@ -3162,10 +3164,17 @@ me.Sch_Go = &acgt{ return [
             d.unind = me&boxcap,'mobit:'+s.t
             $m = d.m = T.ab
             ms&dis = d.d == 1 ? 5 : d.d == 2 ? 3 : 2
-            ms&pa = d.d == 2 ? 0.3 : 0.1
-            $hue = (d.d*2+"").slice(-1)[0]
-            ms&boc = +'71'
-            me&walls,m,'bd:4.4.1'
+            # extend &ind d.* to know d/d
+            if (d.up) {
+                $uz = d.up.z ||= []
+                $nonfirst = uz.push(d) - 1
+            }
+            d.d >= 3 && nonfirst and ms&ml = d.d == 3 ? 0.3 : 0.1
+            
+            me&walls,m,'bd:4.4'
+            $hue = (4+d.d+"").slice(-1)[0]
+            $light = d.d <= 4 ? 4 : d.d <= 6 ? 3 : 2
+            ms&boc = hue+'7'+light
             $l = my&label
             lc&s = s.t
             lc&not = 1
@@ -3179,6 +3188,13 @@ me.Sch_Go = &acgt{ return [
                 me&modselect,r,{gte:1,lt:13} .map(&n{
                     me&modclone,m,n
                 })
+                # eg just number at N-vat/$i
+                $small = me&measure_modulat,ms&z < 5
+                if (small & d.d <= 4) {
+                    # press on until the many
+                    d.dl += 1
+                }
+                # < limit all, on unind
             }
             
             rs&Cish and return d.nofurther = 1
