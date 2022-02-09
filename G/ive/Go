@@ -563,7 +563,7 @@ me.Sch_Go = &acgt{ return [
             #    this could be synth quiet or synthart quiet
             if (Rs&is_quiet) {
                 # display how we were activated
-                $t = me&Mwty,R,'Peace','ie'
+                $t = me&Mwty,R,'Peace','R%icount'
                 ts&opa = 0.5
             }
         }
@@ -3134,8 +3134,9 @@ me.Sch_Go = &acgt{ return [
         # also the R%ball/R%fix for s%attr
         me&ioty,R,'fix' .map(r => rs&noDisplay = 1)
         
-        $con = havs(grep(map(n => ns&controls, keeps)))[0]
-        con.n = con
+        $controls = theone(grep(n => ns&controls, keeps))
+        $con = controlss&controls
+        con.n = controls
         return con
     }
     
@@ -3162,22 +3163,19 @@ me.Sch_Go = &acgt{ return [
             # E must be real
             $r = sy&R
             !r and return d.not = 1
+            # no capsule for -Log/-row
+            d.many_d && d.d < d.many_d and return
             
-            if (d.d < d.many_d) {
-                # ignore -Log/-row
-            }
-            else {
-                $m = me&minimod_capsuling,s,d
-                me&minimod_styling,m,s,d
-                
-                # gather labelly stuff
-                #  Cish@2637 also does this, to Dc&s = spant()
-                me&modselect,r,{gte:1,lt:13} .map(&n{
-                    me&modclone,m,n
-                })
-                
-                d.gotmod()
-            }
+            $m = me&minimod_capsuling,s,d
+            me&minimod_styling,m,s,d
+
+            # gather labelly stuff
+            #  Cish@2637 also does this, to Dc&s = spant()
+            me&modselect,r,{gte:1,lt:13} .map(&n{
+                me&modclone,m,n
+            })
+
+            d.gotmod()
         })
     }
     # process of having boxcaps
@@ -3235,16 +3233,11 @@ me.Sch_Go = &acgt{ return [
         me&walls,m,'b:3.4'
         delete ms&pa
         
-        $hue = (4+d.d*2+"").slice(-1)[0]
-        $light = d.d <= 4 ? 4 : d.d <= 6 ? 3 : 2
-        #ms&boc = hue+'7'+light
-        
         if (rs&Cish) {
             d.nofurther = 1
-            ms&bgh = '111'
+            ms&bgh = rs&anA ? '111' : '222'
             
         }
-        
     }
   // %Foldabline
     # for a tidy E-Log
@@ -3262,19 +3255,22 @@ me.Sch_Go = &acgt{ return [
         s&bg = '#201'
         # reverse indent
         s&ml = -2
+        delete s&pl
         
         # boost>=1 unfolds
         me&til_boost_reDisplay and return
         
         # mute most stuff, end up with &Piing's m%controls
         $con = me&tidyball,R
-        
-        # if //E Displays (independent of R%boost)
-        if (con && !con.D && sc&pi == 'Log') {
-            # < turn REy&main into E
-            # s//E
-            $E = me&Eof,s
-            me&minimod,E
+        if (con) {
+            $n = con.n
+            ny&label.sc.fs = 6
+            if (!con.D && sc&pi == 'Log') {
+                # < turn REy&main into E, soon as Ey&R?
+                # s//E
+                $E = me&Eof,s
+                me&minimod,E
+            }
         }
         
         # other style
