@@ -3135,6 +3135,7 @@ me.Sch_Go = &acgt{ return [
         me&ioty,R,'fix' .map(r => rs&noDisplay = 1)
         
         $con = havs(grep(map(n => ns&controls, keeps)))[0]
+        con.n = con
         return con
     }
     
@@ -3151,15 +3152,18 @@ me.Sch_Go = &acgt{ return [
     # spaces out the &com c.* at d.d=3
     me.minimod_build = &acgtEd{
         d = peel(d)
-        d.dl and d.may_boostdl = d.dl
+        if (d.dl) {
+            d.may_boost_d = d.dl
+            # start capsulating at eg -Log/-row/*
+            d.many_d = d.dl-1
+        }
         me&indo,E,d (&sd{
             d.sc = {}
             # E must be real
             $r = sy&R
             !r and return d.not = 1
             
-            
-            if (d.d <3) {
+            if (d.d < d.many_d) {
                 # ignore -Log/-row
             }
             else {
@@ -3172,10 +3176,8 @@ me.Sch_Go = &acgt{ return [
                     me&modclone,m,n
                 })
                 
-                d.gotmod(); delete d.gotmod
+                d.gotmod()
             }
-            
-            rs&Cish and return d.nofurther = 1
         })
     }
     # process of having boxcaps
@@ -3188,7 +3190,7 @@ me.Sch_Go = &acgt{ return [
         
         # d%boost: dl++ if little turned up yet
         d.gotmod = &{
-            $cusp = d.d == d.may_boostdl
+            $cusp = d.d == d.may_boost_d
             $more = hak(ss&z)
             if (cusp && more && me&measure_modulat,ms&z < 5) {
                 # eg just number at N-vat/$i
@@ -3196,6 +3198,7 @@ me.Sch_Go = &acgt{ return [
                 d.dl += 1
                 ds&boost = 1
             }
+            delete d.gotmod
         }
         
         d.unind = &{
@@ -3213,6 +3216,7 @@ me.Sch_Go = &acgt{ return [
         return m
     }
     me.minimod_styling = &acgtmsd{
+        $r = sy&R
         $l = my&label
         lc&s = s.t
         lc&not = 1
@@ -3223,12 +3227,24 @@ me.Sch_Go = &acgt{ return [
             $uz = d.up.z ||= []
             $nonfirst = uz.push(d) - 1
         }
-        d.d >= 3 && nonfirst and ms&ml = d.d == 3 ? 0.3 : 0.1
-
-        me&walls,m,'bd:4.4'
+        if (d.d >= d.many_d && nonfirst) {
+            # space between the main items
+            ms&ml = d.d == d.many_d ? 0.3 : 0.1
+        }
+        
+        me&walls,m,'b:3.4'
+        delete ms&pa
+        
         $hue = (4+d.d*2+"").slice(-1)[0]
         $light = d.d <= 4 ? 4 : d.d <= 6 ? 3 : 2
-        ms&boc = hue+'7'+light
+        #ms&boc = hue+'7'+light
+        
+        if (rs&Cish) {
+            d.nofurther = 1
+            ms&bgh = '111'
+            
+        }
+        
     }
   // %Foldabline
     # for a tidy E-Log
