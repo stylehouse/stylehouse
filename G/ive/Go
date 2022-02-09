@@ -3150,9 +3150,8 @@ me.Sch_Go = &acgt{ return [
     me.minimod = &acgtE{
         me&boxcap,'minimod' (&ml{
             lc&s = '~'
-            ls&fs = 11
+            ls&fs = 10
             me&minimod_build,E,{dl:4}
-            me&tc,"was",'d'
         })
     }
     me.minimod_build = &acgtEd{
@@ -3162,21 +3161,27 @@ me.Sch_Go = &acgt{ return [
             !r and return d.not = 1
             d.unind = me&boxcap,'mobit:'+s.t
             $m = d.m = T.ab
-            ms&dis = 2
-            ms&pa = 0.1
-            me&walls,m,'bd:4.4,hu:3'
+            ms&dis = d.d == 1 ? 5 : d.d == 2 ? 3 : 2
+            ms&pa = d.d == 2 ? 0.3 : 0.1
+            $hue = (d.d*2+"").slice(-1)[0]
+            ms&boc = +'71'
+            me&walls,m,'bd:4.4.1'
             $l = my&label
             lc&s = s.t
+            lc&not = 1
             
-            # labelly stuff
-            me&modselect,r,{gte:1,lt:13} .map(&n{
-                me&modclone,m,n
-            })
+            if (d.d <= 2) {
+                # ignore -Log/-row
+            }
+            else {
+                # gather labelly stuff
+                #  Cish@2637 also does this, to Dc&s = spant()
+                me&modselect,r,{gte:1,lt:13} .map(&n{
+                    me&modclone,m,n
+                })
+            }
             
             rs&Cish and return d.nofurther = 1
-            
-            # we i inners in that boxcap
-            me&tc,'.','d'
         })
     }
     },
