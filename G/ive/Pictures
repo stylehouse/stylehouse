@@ -26,13 +26,7 @@
         }
             
         # select what
-        $M = N.filter(&n{
-            return gteqcv(ny&cv,c)
-                && (c.modt == null || c.modt == ns&modt)
-                && (c.t == null || c.t == n.t)
-                && (c.y == null || c.y (n))
-                && (c.n == null || c.n == n)
-        })
+        $M = me&Nfilt,N,c
         if (c.el == 9) {
             # wont become R:Display
             M.map(n => nc&not = 1)
@@ -864,6 +858,45 @@
         isar(s) and N = N.map(k => s [k])
         return N
     }
+    
+    # filtering N[n+]
+    # < nc&not
+    me.Nfilt = &acgtNc{
+        return N.filter(n => me&nfilt,n,c)
+    }
+    me.nfilt = &acgtnc{
+        return gteqcv(ny&cv,c)
+            && (c.modt == null || c.modt == ns&modt)
+            && (c.t == null || c.t == n.t)
+            && (c.y == null || c.y (n))
+            && (c.n == null || c.n == n)
+    }
+    
+    # [1,1,2] = flatten([1,[1,2]])
+    window.flatten = &M{
+        !isar(M) and throw "flatten!ar"
+        $N = []
+        each il M {
+            l == null and continue
+            isar(l) and N.push(...l)
+            else N.push(l)
+        }
+        return N
+    }
+    
+    # randomize array
+    # < pick many, randomly
+    self.shuffle = &a{
+        var j, x, i;
+        for (i = a.length - 1; i > 0; i--) {
+            j = Math.floor(Math.random() * (i + 1));
+            x = a[i];
+            a[i] = a[j];
+            a[j] = x;
+        }
+        return a;
+    }
+  // misc() array grep|map
     # ! (s)ubject is passed in from the right, as perl does
     # < Babz in as perl does
     #   expr like 'grep {...} grep {...} N' need a lot of magic?
@@ -917,17 +950,6 @@
         }
         return out.map(i => N.splice(i,1)[0]).reverse()
     }
-    # [1,1,2] = flatten([1,[1,2]])
-    window.flatten = &M{
-        !isar(M) and throw "flatten!ar"
-        $N = []
-        each il M {
-            l == null and continue
-            isar(l) and N.push(...l)
-            else N.push(l)
-        }
-        return N
-    }
     
     # revisit &fabioty
     
@@ -971,18 +993,6 @@
             }
         })
         return N
-    }
-    # randomize array
-    # < pick many, randomly
-    self.shuffle = &a{
-        var j, x, i;
-        for (i = a.length - 1; i > 0; i--) {
-            j = Math.floor(Math.random() * (i + 1));
-            x = a[i];
-            a[i] = a[j];
-            a[j] = x;
-        }
-        return a;
     }
   // misc() array many
     # array from iterable: [s] = y.i=s|[s+]|&{}|[]
@@ -1034,6 +1044,7 @@
         }
         return N
     }
+  
   // misc() array string
     # ghostily, the way to w:Text from w:Pictures
     # < types for weird sorts of compression!!

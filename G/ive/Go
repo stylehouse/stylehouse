@@ -3151,36 +3151,73 @@ me.Sch_Go = &acgt{ return [
     # spaces out the &com c.* at d.d=3
     me.minimod_build = &acgtEd{
         d = peel(d)
+        d.dl and d.may_boostdl = d.dl
         me&indo,E,d (&sd{
+            d.sc = {}
+            # E must be real
             $r = sy&R
             !r and return d.not = 1
-            d.unind = me&boxcap,'mobit:'+s.t
-            $m = d.m = T.ab
-            me&minimod_styling,m,s,d
             
-            if (d.d <= 2) {
+            
+            if (d.d <3) {
                 # ignore -Log/-row
             }
             else {
+                $m = me&minimod_capsuling,s,d
+                me&minimod_styling,m,s,d
+                
                 # gather labelly stuff
                 #  Cish@2637 also does this, to Dc&s = spant()
                 me&modselect,r,{gte:1,lt:13} .map(&n{
                     me&modclone,m,n
                 })
-                # eg just number at N-vat/$i
-                $small = me&measure_modulat,ms&z < 5
-                if (small & d.d <= 4) {
-                    # press on until the many
-                    d.dl += 1
-                }
-                # < limit all, on unind
+                
+                d.gotmod(); delete d.gotmod
             }
             
             rs&Cish and return d.nofurther = 1
         })
     }
+    # process of having boxcaps
+    me.minimod_capsuling = &acgtsd{
+        $capsuling = me&boxcap,'mobit:'+s.t
+        $m = d.m = T.ab
+        ms&mobit = 1
+        
+        $modcmp = &{}
+        
+        # d%boost: dl++ if little turned up yet
+        d.gotmod = &{
+            $cusp = d.d == d.may_boostdl
+            $more = hak(ss&z)
+            if (cusp && more && me&measure_modulat,ms&z < 5) {
+                # eg just number at N-vat/$i
+                # press on until the many
+                d.dl += 1
+                ds&boost = 1
+            }
+        }
+        
+        d.unind = &{
+            # sync Tap:ab with &ind
+            capsuling()
+            
+            if (ds&boost && me&measure_modulat,ms&z,'nomem' > 13) {
+                me&ioty,m,['mobit','']
+                    .filter(n => !me&nfilt,n,{gt:1,lte:11} )
+                    .map(n => nc&not = 1)
+                me&ioty,m,'mobit'
+                    .map(n => ns&bor = 0)
+            }
+        }
+        return m
+    }
     me.minimod_styling = &acgtmsd{
-        ms&dis = d.d == 1 ? 5 : d.d == 2 ? 3 : 2
+        $l = my&label
+        lc&s = s.t
+        lc&not = 1
+        
+        ms&dis = 2
         # extend &ind d.* to know d/d
         if (d.up) {
             $uz = d.up.z ||= []
@@ -3189,12 +3226,9 @@ me.Sch_Go = &acgt{ return [
         d.d >= 3 && nonfirst and ms&ml = d.d == 3 ? 0.3 : 0.1
 
         me&walls,m,'bd:4.4'
-        $hue = (4+d.d+"").slice(-1)[0]
+        $hue = (4+d.d*2+"").slice(-1)[0]
         $light = d.d <= 4 ? 4 : d.d <= 6 ? 3 : 2
         ms&boc = hue+'7'+light
-        $l = my&label
-        lc&s = s.t
-        lc&not = 1
     }
   // %Foldabline
     # for a tidy E-Log
@@ -3257,6 +3291,7 @@ me.Sch_Go = &acgt{ return [
     }
     },
   
+  // A:Run <-> A:Fish
    &{
    // @Run -> &Sunpit
      // &Runpin
