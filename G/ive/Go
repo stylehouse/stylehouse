@@ -3584,6 +3584,7 @@ me.Sch_Go = &acgt{ return [
         # A.h .o(Eight.t) replaces A.h
         # @Run suits up A:Run (V), has an Eight** opener|cursor
         me.RunA_testo = &acgtV{
+          // who it is
             # -Eight++
             # get $id-Eight/$time-seven handle, for i-ing thence
             $Ah = V.h = {}
@@ -3605,8 +3606,8 @@ me.Sch_Go = &acgt{ return [
                 #  for access by assertions eg &AhWombmod
                 Vs&six ||= []
                 $A = V
-                # i Eight** handlers
                 
+          // what it does
                 # most pi
                 # like n $t -pi $s=suchacall()
                 h.tys = &tysc{
@@ -3842,7 +3843,7 @@ me.Sch_Go = &acgt{ return [
        
      // assertions, breakdowns, etc
       // assertions
-        # -Womb an s-six
+        # -Womb a s-six modulat
         me.AhWombmod = &acgts{
             s == -1 and s = a&six.slice(-1)[0]
             $E = me&Eof,s
@@ -3856,10 +3857,22 @@ me.Sch_Go = &acgt{ return [
             #A.h.hat('modcon', modcon, 'dl:5')
             return A.h.Womb('modulat of: '+s.t, modcon)
         }
-        # frontend argulator:
+        
+        # patches of modulat
+        me.AhDifmo = &acgt{
+            $g = me&Ahdiff_what,[...arguments].slice(4)
+            $n = me&Ahdiffany,g.t,g.c,...g.what
+            return A.h.tys(g.t,'Difmo',n)
+        }
         # be.diff("them",bes&_21*,'see'?)
         me.Ahdiff = &acgt{
-            $args = [...arguments].slice(4)
+            $g = me&Ahdiff_what,[...arguments].slice(4)
+            me&AhdiffWomb,g.t,g.c,...g.what
+        }
+        
+       // Ahdiff*
+        # diff argulator, &finishPiing
+        me.Ahdiff_what = &acgt,args{
             !A.h and debugger
             # and want to see its whatevers
             $g = {what:[]}
@@ -3881,6 +3894,7 @@ me.Sch_Go = &acgt{ return [
             if (hak(g.what) < 2) {
                 # may be somethings here:
                 $c = A.h.be || A.h
+                # named versions:
                 $N = c.sc && havs(c.sc)
                 $nonWombsameEight = n => nc&pi != 'Womb' && n.y.up.y.up.t == A.h.t
                 N ||= grep(nonWombsameEight, As&six)
@@ -3895,25 +3909,23 @@ me.Sch_Go = &acgt{ return [
 
             # < being visible in @Run as modulat is weird
             #   do a proper A:Run** situation? some -Eight take Run%M?
-            $c = peel(g.option)
+            g.c = peel(g.option)
 
             # < not just sixes?
             grep(six => me&finishPiing,six ,g.what)
             hak(g.what) != 2 and debugger
-
-            me&AhdiffWomb,g.t,c,...g.what
+            
+            return g
         }
         # -Womb <- diff $t $old $new c
+        #  ~~ &Ahdiff with concrete args
         # < &enL implanting C|N Lines via BQ (for eg %moren, if not deleted)
         me.AhdiffWomb = &acgttcsz{
             # < marking the first \n in|for a while
             # < Cye([t,y,c,sc]) can not drop %z
             c = peel(c)
-            $di = me&Ahdiffany,t,c,s,z
-            !dis&Comp and throw "!diff. are s|z %string?"
-            $z = Cye(['vis',1])
-            zs&z = dis&Comp.slice().map(n => Cye(n))
-            return A.h.Womb(t,z,'ignore_sc')
+            $n = me&Ahdiffany,t,c,s,z
+            return A.h.Womb(t,n,'ignore_sc')
         }
         # s:old, z:now
         me.Ahdiffany = &acgttcsz{
@@ -3926,9 +3938,18 @@ me.Sch_Go = &acgt{ return [
             # may be strings
             $N = isst(s) && isst(z) ? me&twoCstrings,t,z,s
                 : [z,s]
+            
             $di = me&diffany,R,...N,c
-            return di
+            
+            $N = dis&Comp
+            !N and throw "!diff. are s|z %string?"
+            $n = Cye(['vis',1])
+            # ! Cye() deletes y&*, %z
+            ex(n.y,{di,s,z})
+            ns&z = N.map(n => Cye(n))
+            return n
         }
+      
       // breakdowns, etc
         # avail This/$pointer lookups
         # < through A.h.o (move h.o->h.i)

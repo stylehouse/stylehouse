@@ -4508,12 +4508,15 @@ me.Sch_The = &acgt{ return [
         # < finding E** for things in there
         #    since there is now s**, then soon E**
         # < if we are the highest -Womb:
-        Rs&Top && me&boxcap,'modulat','1' (&m{
-            ms&fs = 8
-            ms&ws = 1
-            # goes through the c&zuct=R, its R%C, then flatten(R%M)
-            me&modclone,m,s
-        })
+        if (Rs&Top) {
+            me&boxcap,'modulat','1' (&ml{
+                lc&not = 1
+                ms&fs = 8
+                ms&ws = 1
+                # goes through the c&zuct=R, its R%C, then flatten(R%M)
+                me&modclone,m,s
+            })
+        }
         # < measure modulat? chunks? showable? Plyable?
         
         # the D** picture
@@ -4609,6 +4612,15 @@ me.Sch_The = &acgt{ return [
         me&moddelete,R,{y}
     },'ift,D'],
     
+  // -Difmo
+    ['Difmo',0.21,&acgtRs{
+        $E = Rs&E
+        $D = Rs&D
+        Ds&was = 2
+        me&Ei,{t:'diff',pi:'hat',s,dl:2}
+        !Rs&Top and return
+    },'ift,D'],
+  
   // -hat > -Hash etc
     # expects it to be C
     ['isC',0.21,&acgtRs{
