@@ -4616,10 +4616,126 @@ me.Sch_The = &acgt{ return [
     ['Difmo',0.21,&acgtRs{
         $E = Rs&E
         $D = Rs&D
-        Ds&was = 2
-        me&Ei,{t:'diff',pi:'hat',s,dl:2}
+        #me&Ei,{t:'diff',pi:'hat',s,dl:3}
         !Rs&Top and return
+        
     },'ift,D'],
+    ['Difmo',0.22,&acgtRs{
+        $E = Rs&E
+        $D = Rs&D
+        $nav = map(s => me&Eof,s , {gone:sy&s,new:sy&z})
+        
+        $Comp = ss&z.slice(0,9)
+        $X = me&Ploy,nav,Comp
+        me&Ei,{t:'diff',pi:'Fez',s:X}
+    },'ift,D'],
+    &{
+        me.Ploy = &acgt,nav,Comp{
+            A = fi&At,"Ploy"
+            $X = {A}
+            $io = &xkv{
+                # all indexes are k:v (&X_t)
+                # ~~ c.wild: vx={v:x+}
+                v == '*' and return x[k]
+                v == -1 and return havs(x[k]).pop()
+                return fi&Xsimp,x,hashkv(k,v)
+            }
+            # push to eg sph|nod/$line=i++
+            $iz = &Xkx{
+                $many = io(X,k,'*')
+                $i = hak(many)
+                # we may mesh|multi-path|link X...x 
+                x and ahk(X,k,i,x)
+                else {
+                    # or new ..x as usu
+                    x = io(X,k,i)
+                }
+                # meshing may eg i_line|mine
+                # < crude avoidance of same-index sequence distribution
+                #   having a subset at some locale
+                x['i_'+k] = i
+                return x
+            }
+            # X/$sphere=new = sph
+            #  sph/$node flatly or /$in** = nod
+            #   nod.sph = sph (also via nod.up**)
+            #   nod.E|D
+            #   nod/$line
+            #  sph/$line
+            $inode = &xe{
+                $sph = x.sph || x
+                # climb /$in** = nod, so nod.up reflects Ey&up
+                $nod = iz(x,'in')
+                # link sph/$node flatly
+                iz(sph,'node',nod)
+                # nod knows:
+                nod.sph = sph
+                nod.E = e
+                nod.D = Aof(e,'D')
+                # eventually /$line of its diffside
+                return nod
+            }
+            $inodlin = &nod,lin{
+                $sph = nod.sph
+                # join: one nod to many lin
+                lin.nod = nod
+                sph.line[lin.i_line] != lin and debugger
+                # nod/$mine is a subset of sph/$line
+                iz(nod,'mine',lin)
+            }
+            
+            # start old|new E** and their sph/$line
+            each te nav {
+                $sph = io(X,'sphere',t)
+                # 0th E**
+                $nod = inode(sph,e)
+                # for the 0th sph/$line
+                $lin = iz(sph,'line')
+                inodlin(nod,lin)
+            }
+        // Ploy access
+            
+            $nonontrailinglinebreaks = &s{
+                hak(s)-1 < s.indexOf("\n") and throw "many lin to one l"
+            }
+            $Nsph_for_l = &l{
+                return l.t == 'same' ? havs(io(X,'sphere','*'))
+                    : [io(X,'sphere',l.t)]
+            }
+            
+            
+        // Ploy loop
+            $Ply = me&boxcap,'Ploy','1' (&Ply,{
+                each il Comp {
+                    # join: one lin to many l
+                    nonontrailinglinebreaks(lc&s)
+                    
+                    me&drawtextliner,{},cint(i,l.t),lc&s
+                    0 && Nsph_for_l(l) .map(&sph,{
+                        # sph/$line/$bit/.l
+                        $lin = io(sph,'line',-1)
+                        !lin and throw "nolin"
+                        $lit = iz(lin,'bit')
+                        lit.l = l
+                        $nod = lin.nod
+                        $D = nod.D
+                        $str = nod.str = Dy&toLines
+                        !isst(str) and return iz(nod,'notgot').l = l
+                        # string length nod/$mine/$bit matched so far
+                        $at = nod.matchlen ||= 0
+                        nod.matchlen += lc&s.length
+                        {
+                            
+                        }
+                    })
+                    
+                    # these can break
+                    5 == i and me&tc,"La",1 .c.s = ''
+                }
+            })
+            return X
+        }
+    },
   
   // -hat > -Hash etc
     # expects it to be C
