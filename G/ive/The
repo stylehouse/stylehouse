@@ -4724,8 +4724,51 @@ me.Sch_The = &acgt{ return [
                 !isst(t) and throw "drawnontextliner!title"
                 return me&boxcap,t,'5' (&ml{
                     me&walls,m,'bd:1.3h4'
+                    # Ploy things
+                    
                     me&tsc,'s',dis(s),'6y'
                 })
+            }
+            me.Ploy_fail = &acgttcs{
+                $hang = s.nod
+                !hang and debugger
+                $x = iz(hang,'!'+t)
+                c and pex(x,c)
+                # display in modulat
+                me&boxcap,"fail",3 (&ml{
+                    me&walls,m,'ba:3.1h6'
+                    #ls&dis = 3
+                    ls&hue = 200
+                    me&tsc,"error:",'!'+t,'G'
+                    map(c => me&Ploy_identify,c , {s,c})
+                    me&boxcap,"ar",3 (&ml{
+                        ls&dis = 4
+                        me&drawbunchliner,c
+                    })
+                    me&boxcap,"co",3 (&ml{
+                        ls&dis = 4
+                        ms&hue = 33
+                        me&drawbunchliner,s
+                    })
+                })
+            }
+            
+            # turn c={k:sph|nod|lin +} to idc
+            me.Ploy_identify = &acgtc{
+                each ts c {
+                    # leave non-objects in
+                    !isha(s) and continue
+                    $h = {}
+                    map(&vk{
+                        # to leave out objects
+                        isob(v) and return
+                        $ma = k.match(/^i_(\w+)$/)
+                        ma and h[ma[1]] = v; return
+                        # a word or so
+                        h[k] = v
+                    },s)
+                    c[t] = h
+                }
             }
             
             
@@ -4737,30 +4780,6 @@ me.Sch_The = &acgt{ return [
                     
                     me&drawtextliner,{},cint(i,l.t),lc&s
                     $ok = 1
-                    $fail = &tcs{
-                        # stop l++
-                        ok = 0
-                        $hang = s.nod
-                        !hang and debugger
-                        $x = iz(hang,'!'+t)
-                        c and pex(x,c)
-                        # display in modulat
-                        me&boxcap,"fail",3 (&ml{
-                            me&walls,m,'ba:3.1h6'
-                            #ls&dis = 3
-                            ls&hue = 200
-                            me&tsc,"error:",'!'+t,'G'
-                            me&boxcap,"ar",3 (&ml{
-                                ls&dis = 4
-                                me&drawbunchliner,c
-                            })
-                            me&boxcap,"co",3 (&ml{
-                                ls&dis = 4
-                                ms&hue = 33
-                                me&drawbunchliner,s
-                            })
-                        })
-                    }
                     Nsph_for_l(l) .map(&sph,{
                         # sph/$line/$bit/.l|str
                         $lin = io(sph,'line',-1)
@@ -4771,7 +4790,11 @@ me.Sch_The = &acgt{ return [
                         $len = str.length
                         
                         $nod = lin.nod
-                        $no = &tc{ fail(t,c,{sph,nod}) }
+                        $no = &tc{ 
+                            # stop l++
+                            ok = 0
+                            me&Ploy_fail,t,c,{sph,nod} 
+                        }
                         
                         # D cmp str
                         $D = nod.D
@@ -4786,7 +4809,7 @@ me.Sch_The = &acgt{ return [
                             if (exp+"\n" == str) {
                                 # len (from str) now completes whole
                                 til -= 1
-                                til == whole.length and debugger
+                                til != whole.length and debugger
                             }
                             else return no('eq',{lin,str,exp,whole})
                         }
