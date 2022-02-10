@@ -4713,66 +4713,11 @@ me.Sch_The = &acgt{ return [
                 return l.t == 'same' ? havs(io(X,'sphere','*'))
                     : [io(X,'sphere',l.t)]
             }
-            me.drawbunchliner = &acgtc{
-                each kv c {
-                    isst(v) and me&drawtextliner,{},k,v
-                    else me&drawnontextliner,k,v
-                }
-            }
-            me.drawnontextliner = &acgtts{
-                !isst(t) and throw "drawnontextliner!title"
-                return me&boxcap,t,'5' (&ml{
-                    me&walls,m,'bd:1.3h4'
-                    # Ploy things
-                    
-                    me&tsc,'s',dis(s),'6y'
-                })
-            }
-            me.Ploy_fail = &acgttcs{
-                $hang = s.nod
-                !hang and debugger
-                $x = iz(hang,'!'+t)
-                c and pex(x,c)
-                # display in modulat
-                me&boxcap,"fail",3 (&ml{
-                    me&walls,m,'ba:3.1h6'
-                    #ls&dis = 3
-                    ls&hue = 200
-                    me&tsc,"error:",'!'+t,'G'
-                    map(c => me&Ploy_identify,c , {s,c})
-                    me&boxcap,"ar",3 (&ml{
-                        ls&dis = 4
-                        me&drawbunchliner,c
-                    })
-                    me&boxcap,"co",3 (&ml{
-                        ls&dis = 4
-                        ms&hue = 33
-                        me&drawbunchliner,s
-                    })
-                })
-            }
-            
-            # turn c={k:sph|nod|lin +} to idc
-            me.Ploy_identify = &acgtc{
-                each ts c {
-                    # leave non-objects in
-                    !isha(s) and continue
-                    $h = {}
-                    map(&vk{
-                        # to leave out objects
-                        isob(v) and return
-                        $ma = k.match(/^i_(\w+)$/)
-                        ma and h[ma[1]] = v; return
-                        # a word or so
-                        h[k] = v
-                    },s)
-                    c[t] = h
-                }
-            }
             
             
         // Ploy loop
             $Ply = me&boxcap,'Ploy','1' (&Ply,{
+                
                 each il Comp {
                     # join: one lin to many l
                     nonontrailinglinebreaks(lc&s)
@@ -4865,6 +4810,64 @@ me.Sch_The = &acgt{ return [
                 }
             })
             return X
+        }
+    // drawing
+        me.drawbunchliner = &acgtc{
+            each kv c {
+                isst(v) and me&drawtextliner,{},k,v
+                else me&drawnontextliner,k,v
+            }
+        }
+        me.drawnontextliner = &acgtts{
+            !isst(t) and throw "drawnontextliner!title"
+            return me&boxcap,t,'5' (&ml{
+                me&walls,m,'bd:1.3h4'
+                # Ploy things
+
+                me&tsc,'s',dis(s),'6y'
+            })
+        }
+    // fail
+        me.Ploy_fail = &acgttcs{
+            $hang = s.nod
+            !hang and debugger
+            $x = iz(hang,'!'+t)
+            c and pex(x,c)
+            # display in modulat
+            me&boxcap,"fail",3 (&ml{
+                me&walls,m,'ba:3.1h6'
+                #ls&dis = 3
+                ls&hue = 200
+                me&tsc,"error:",'!'+t,'G'
+                map(c => me&Ploy_identify,c , {s,c})
+                me&boxcap,"ar",3 (&ml{
+                    ls&dis = 4
+                    me&drawbunchliner,c
+                })
+                me&boxcap,"co",3 (&ml{
+                    ls&dis = 4
+                    ms&hue = 33
+                    me&drawbunchliner,s
+                })
+            })
+        }
+
+        # turn c={k:sph|nod|lin +} to idc
+        me.Ploy_identify = &acgtc{
+            each ts c {
+                # leave non-objects in
+                !isha(s) and continue
+                $h = {}
+                map(&vk{
+                    # to leave out objects
+                    isob(v) and return
+                    $ma = k.match(/^i_(\w+)$/)
+                    ma and h[ma[1]] = v; return
+                    # a word or so
+                    h[k] = v
+                },s)
+                c[t] = h
+            }
         }
     },
   
