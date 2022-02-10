@@ -4814,7 +4814,7 @@ me.Sch_The = &acgt{ return [
                             else return no('eq',{lin,str,exp,whole})
                         }
                         
-                        # done?
+                      // done?
                         nod.matchtil = til
                         $newline = str.slice(-1)[0] == "\n"
                         $newnode = til == whole.length
@@ -4828,9 +4828,12 @@ me.Sch_The = &acgt{ return [
                             $E = nod.E
                             
                         }
-                        newline && !newnode and debugger
                         if (newline) {
+                            # we might have a multi-lines y&toLines
+                            !newnode and debugger
                             # we will use this next time around
+                            $lin = iz(sph,'line')
+                            inodlin(nod,lin)
                         }
                     })
                     
