@@ -693,6 +693,8 @@
         $E = me&Risc,RE,'-'+REc&pi
         return E
     }
+    # < E types: Euber (This|The|Thy), RE, Etop, E (E**), hypoE
+    # < &ioty,E are real if ey&R
     
    // access many
     # &ioty with easier s//R for any %scgk, tends to R//s
@@ -742,31 +744,40 @@
    // access ^^
     # &complace -> &Thisplanet...
     # involves this climby visitor in &com:
-    me.Ay = &acgtvsc{
+    me.Ay = &acgtvscq{
         return &y{
         # v = $A
         # s = ^^..1^^
         # c = matches, eg c&complace. no callback if not.
         c = peel(c)
         c.c and c.c = peel(c.c)
+        # lets climb non-C (x.up) if q is given?
+        q ||= {Cish:1}
         
         # state
         $g = {d:0,visit:[],climb:[]}
         # and parsed expr:s
+        
+        # visit $v first, ie $v^^ not $v/^^
+        s [0] == '/' and s = s.slice(1)
+        else g.fromhere = 1
         # climbing particles once A.1 is reached (^^..1)
         s == '^^..1^^' and g.partat = 1
-        else '^^'
-        # visit $v first, ie $v^^ not $v/^^
-        g.fromhere = 1
+        else
+        s == '^^' and 'ok'
+        else {
+            throw "What", s
+        }
         
         $z = v
         while (1) {
             g.d++ > 10 and throw "oup"
             $skip = 0
-            fatal.isC(z)
+            q.Cish and fatal.isC(z)
             $visit_first = g.d == 1 && g.fromhere
             if (!visit_first) {
-                $up = zy&up
+                # the climb:
+                $up = q.Cish ? zy&up : z.up
                 # < extra ways up via y&R, etc
                 !up and break
                 up == z and g.loopy = 1; break
@@ -797,9 +808,12 @@
             # matching any
             c.c && !hak(sex({},z.c,c.c)) and skip = 1
             skip and continue
+            $la = g.visit.slice(-1)[0]
             ahk(g,['visit'],z)
+            
             # visit
-            $ret = y (z,g)
+            $ret = y (z,g,la)
+            
             ret and ahk(g,['yes'],z)
             g.not and break
         }
@@ -972,6 +986,11 @@
         })
         return waves.slice(-1)[0]
     }
+    # map without gaps, src first.
+    #  eg M = pam(N, e => ey&R && convert(e))
+    # < working? returns unmapped e.
+    # < non-first y() should not receive the gaps
+    self.pam = &{ return grep(map(reverse(...arguments))) }
     # returning [v+]
     self.armap = &{
         $s = map(...arguments)

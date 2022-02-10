@@ -4706,7 +4706,6 @@ me.Sch_The = &acgt{ return [
                 inodlin(nod,lin)
             }
         // Ploy access
-            
             $nonontrailinglinebreaks = &s{
                 hak(s)-1 < s.indexOf("\n") and throw "many lin to one l"
             }
@@ -4814,7 +4813,7 @@ me.Sch_The = &acgt{ return [
                             else return no('eq',{lin,str,exp,whole})
                         }
                         
-                      // done?
+                    // done?
                         nod.matchtil = til
                         $newline = str.slice(-1)[0] == "\n"
                         $newnode = til == whole.length
@@ -4823,10 +4822,35 @@ me.Sch_The = &acgt{ return [
                             !newline and debugger
                             delete nod.matchlen
                             nod.ok = 1
+                            me&tc,"linebreak",1 .c.s = ''
                             
                             # < more nodes
+                            $next
                             $E = nod.E
                             
+                            $N = me&ioty,E .filter(e => ey&R)
+                                .map(e => inode(nod,e))
+                            # < working
+                            #$N = pam(me&ioty,E , e => ey&R && inode(nod,e) )
+                            hak(N) and next = N[0]
+                            else {
+                                # climb until so
+                                $N = me&Ay,nod,'/^^',{},{} (&nda{
+                                    # be a node
+                                    !n.i_node and return d.not = 1
+                                    # n/[a+1]: another one after
+                                    n.in[a.i_in] != a and debugger
+                                    next = n.in[a.i_in*1+1]
+                                    # keep going up
+                                    !next and return
+                                    # we have a node
+                                    d.not = 1
+                                })
+                                me&fu,"Climbfornext",{nod,next,N}
+                            }
+                            !next and return no("nextless",{nod})
+                            isC(next) and return no("nextC",{nod,next})
+                            nod = next
                         }
                         if (newline) {
                             # we might have a multi-lines y&toLines
@@ -4838,9 +4862,6 @@ me.Sch_The = &acgt{ return [
                     })
                     
                     !ok and me&tc,"Abort",'G'; break
-                    
-                    # these can break
-                    5 == i and me&tc,"La",1 .c.s = ''
                 }
             })
             return X
