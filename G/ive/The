@@ -4623,7 +4623,9 @@ me.Sch_The = &acgt{ return [
     ['Difmo',0.22,&acgtRs{
         $E = Rs&E
         $D = Rs&D
-        $nav = map(s => me&Eof,s , {gone:sy&s,new:sy&z})
+        # from the RE, the titled -six
+        #  &Ahdiff_what is vague about what s|z are (so is &finishPiing)
+        $nav = map(s => me&REof,s , {gone:sy&s,new:sy&z})
         
         $Comp = ss&z.slice(0,9)
         $X = me&Ploy,nav,Comp
@@ -4671,7 +4673,16 @@ me.Sch_The = &acgt{ return [
                 # nod knows:
                 nod.sph = sph
                 nod.E = e
+                !ey&R and throw "undone E"
                 nod.D = Aof(e,'D')
+                # the RE doesnt have a D**
+                # < should it? ~~ Js&top: $W@9/*
+                #   and the RE/-hat|etc is an osc page
+                #    so each page has an encoding defined as pi
+                #     which may index pages by something else (t)
+                #    and W formats are explained as eg $Wt/1.js
+                #     which -js will be able to read,
+                nod.D ||= nod.i_node == 0 && nod.E
                 # eventually /$line of its diffside
                 return nod
             }
@@ -4687,6 +4698,7 @@ me.Sch_The = &acgt{ return [
             # start old|new E** sph and their /$line
             each te nav {
                 $sph = io(X,'sphere',t)
+                sph.sphere = t
                 # via X-Fez**, the /$line is what to refer to
                 $lin = iz(sph,'line')
                 $nod = inode(sph,e)
@@ -4702,6 +4714,19 @@ me.Sch_The = &acgt{ return [
                 return l.t == 'same' ? havs(io(X,'sphere','*'))
                     : [io(X,'sphere',l.t)]
             }
+            me.drawbunchliner = &acgtc{
+                each kv c {
+                    isst(v) and me&drawtextliner,{},k,v
+                    else me&drawnontextliner,k,v
+                }
+            }
+            me.drawnontextliner = &acgtts{
+                !isst(t) and throw "drawnontextliner!title"
+                return me&boxcap,t,'5' (&ml{
+                    me&walls,m,'bd:1.3h4'
+                    me&tsc,'s',dis(s),'6y'
+                })
+            }
             
             
         // Ploy loop
@@ -4711,23 +4736,55 @@ me.Sch_The = &acgt{ return [
                     nonontrailinglinebreaks(lc&s)
                     
                     me&drawtextliner,{},cint(i,l.t),lc&s
-                    0 && Nsph_for_l(l) .map(&sph,{
-                        # sph/$line/$bit/.l
+                    $ok = 1
+                    $fail = &tcs{
+                        # stop l++
+                        ok = 0
+                        $hang = s.nod
+                        !hang and debugger
+                        $x = iz(hang,'!'+t)
+                        c and pex(x,c)
+                        # display in modulat
+                        me&boxcap,"fail",3 (&ml{
+                            me&walls,m,'ba:3.1h6'
+                            #ls&dis = 3
+                            ls&hue = 200
+                            me&tsc,"error:",'!'+t,'G'
+                            me&boxcap,"ar",3 (&ml{
+                                ls&dis = 4
+                                me&drawbunchliner,c
+                            })
+                            me&boxcap,"co",3 (&ml{
+                                ls&dis = 4
+                                ms&hue = 33
+                                me&drawbunchliner,s
+                            })
+                        })
+                    }
+                    Nsph_for_l(l) .map(&sph,{
+                        # sph/$line/$bit/.l|str
                         $lin = io(sph,'line',-1)
                         !lin and throw "nolin"
                         $lit = iz(lin,'bit')
                         lit.l = l
+                        $str = lit.str = lc&s
+                        $len = str.length
+                        
                         $nod = lin.nod
+                        $no = &tc{ fail(t,c,{sph,nod}) }
+                        
                         $D = nod.D
-                        $str = nod.str = Dy&toLines
-                        !isst(str) and return iz(nod,'notgot').l = l
-                        # string length nod/$mine/$bit matched so far
+                        $whole = Dy&toLines
+                        !isst(whole) and return no('toLines',{l})
+                        # cursor whole to match
                         $at = nod.matchlen ||= 0
-                        nod.matchlen += lc&s.length
-                        {
-                            
-                        }
+                        $exp = whole.slice(at,at+len)
+                        exp != str and return no('eq',{lin,str,exp,whole})
+                        
+                        nod.matchlen += len
                     })
+                    
+                    !ok and me&tc,"Abort",'G'; break
                     
                     # these can break
                     5 == i and me&tc,"La",1 .c.s = ''
