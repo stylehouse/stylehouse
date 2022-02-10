@@ -875,11 +875,43 @@
         return N
     }
     
+    # check if A.1 and A.3 have anything between them
+    me.listbetween = &acgtN,items{
+        $between = []
+        while (hak(items) > 1) {
+            $a = items[0]
+            $b = items[1]
+            between.push(... ksaf(ksaf(N,{aft:a}),{bow:b}))
+            items = items.slice(1)
+        }
+        return hak(between) && between
+    }
+    # place items after y
+    me.listin = &acgtMy,items,removing{
+        $yi = M.indexOf(y)
+        yi < 0 and debugger
+        if (removing) {
+            # eg reordering E/*
+            #  not knowing if we have all|subset-mingled
+            #   or how to reconstruct that mingle (order of others)
+            $gone = grop(notoneor(removing,items),M)
+            #  so stack them all up where the first one was
+            $yi = gone.indexOf(y)
+            # location floats backward as we go removing
+            # < if we dont remove y (can noop if its in items):
+            #  < this would be a good thing to grasp intuitively
+            yi < 0 and throw "find goners before y"
+            yi >= 0 and yi -= yi
+        }
+        M.splice(yi+1,0,...items)
+    }
+    
     # filtering N[n+]
     # < nc&not
     me.Nfilt = &acgtNc{
         return N.filter(n => me&nfilt,n,c)
     }
+    # $c:cif programmatic if statement
     me.nfilt = &acgtnc{
         return gteqcv(ny&cv,c)
             && (c.modt == null || c.modt == ns&modt)

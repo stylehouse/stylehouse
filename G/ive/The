@@ -4638,7 +4638,9 @@ me.Sch_The = &acgt{ return [
             $io = &xkv{
                 # all indexes are k:v (&X_t)
                 # ~~ c.wild: vx={v:x+}
-                v == '*' and return x[k]
+                v == '.*' and return x[k]
+                # or x+
+                v == '*' and return havs(x[k])
                 v == -1 and return havs(x[k]).pop()
                 return fi&Xsimp,x,hashkv(k,v)
             }
@@ -4668,6 +4670,7 @@ me.Sch_The = &acgt{ return [
                 $sph = x.sph || x
                 # climb /$in** = nod, so nod.up reflects Ey&up
                 $nod = iz(x,'in')
+                nod.d = (x.d||0) + 1
                 # link sph/$node flatly
                 iz(sph,'node',nod)
                 # nod knows:
@@ -4721,10 +4724,18 @@ me.Sch_The = &acgt{ return [
                 each il Comp {
                     # join: one lin to many l
                     nonontrailinglinebreaks(lc&s)
+                    i == 0 && io(X,'sphere','*')
+                        .map(sph => io(sph,'node',-1))
+                        .map(nod => me&drawnod,nod)
                     
-                    me&drawtextliner,{},cint(i,l.t),lc&s
+                    me&drawdiffbit,i,l
                     $ok = 1
                     Nsph_for_l(l) .map(&sph,{
+                    # floppily contain rigid node**, floppy bits between
+                    $next
+                    me&boxcap,'l:'+i+':'+sph.sphere,2 (&m,la{
+                        lac&not = 1
+                        
                         # sph/$line/$bit/.l|str
                         $lin = io(sph,'line',-1)
                         !lin and throw "nolin"
@@ -4737,6 +4748,9 @@ me.Sch_The = &acgt{ return [
                         $no = &tc{ 
                             # stop l++
                             ok = 0
+                            # nod complains
+                            $x = iz(nod,'!'+t)
+                            c and pex(x,c)
                             me&Ploy_fail,t,c,{sph,nod} 
                         }
                         
@@ -4767,12 +4781,9 @@ me.Sch_The = &acgt{ return [
                             !newline and debugger
                             delete nod.matchlen
                             nod.ok = 1
-                            me&tc,"linebreak",1 .c.s = ''
                             
-                            # < more nodes
-                            $next
+                            # more nodes
                             $E = nod.E
-                            
                             $N = me&ioty,E .filter(e => ey&R)
                                 .map(e => inode(nod,e))
                             # < working
@@ -4805,6 +4816,9 @@ me.Sch_The = &acgt{ return [
                             inodlin(nod,lin)
                         }
                     })
+                    # out of l
+                    next and me&drawnod,next
+                    })
                     
                     !ok and me&tc,"Abort",'G'; break
                 }
@@ -4812,6 +4826,42 @@ me.Sch_The = &acgt{ return [
             return X
         }
     // drawing
+        me.drawdiffbit = &acgttl{
+            $name = cint(t,l.t)
+            me&boxcap,name,'5y' (&m,la{
+                me&walls,m,'bd:1.1'
+                lac&s = 
+                    l.t == 'new' ? '++' :
+                    l.t == 'gone' ? '++' :
+                    l.t == 'same' ? '==' : l.t
+                
+                $to = me&drawString,lc&s,'y'
+                tos&ws = 1
+                me&walls,to,'bd:2.2,bg:000'
+            })
+        }
+        me.drawnod = &acgt,nod{
+            $E = nod.E
+            me&boxcap,E.t,'1' (&ml{
+                lc&not = 1
+            me&boxcap,E.t,'4' (&ml{
+                me&walls,m,'bd:3.3h4'
+                ms&ml = (nod.d-1) * 0.6
+                me&drawsym,'E'
+                $sph = nod.sph
+                sph.sphere == 'gone' and ms&bg = '#300'
+            })
+            })
+        }
+        me.drawsym = &acgtt{
+            $sym = me&tsc,"sym",t
+            $m = T.ab
+            grop(sym, ms&z)
+            ms&z.unshift(sym)
+            pex(sym.sc,'fs:13,lh:0.8,hs:757')
+            
+        }
+        
         me.drawbunchliner = &acgtc{
             each kv c {
                 isst(v) and me&drawtextliner,{},k,v
@@ -4822,17 +4872,12 @@ me.Sch_The = &acgt{ return [
             !isst(t) and throw "drawnontextliner!title"
             return me&boxcap,t,'5' (&ml{
                 me&walls,m,'bd:1.3h4'
-                # Ploy things
-
+                # &Ploy_identify may have munged:
                 me&tsc,'s',dis(s),'6y'
             })
         }
     // fail
         me.Ploy_fail = &acgttcs{
-            $hang = s.nod
-            !hang and debugger
-            $x = iz(hang,'!'+t)
-            c and pex(x,c)
             # display in modulat
             me&boxcap,"fail",3 (&ml{
                 me&walls,m,'ba:3.1h6'
@@ -5199,36 +5244,6 @@ me.Sch_The = &acgt{ return [
                     t == '^' && !(hak(refself.ups) == 2 && hak(refself.downs) == 1) and continue
                     delete ns&toomuch
                 }
-            }
-            # check if A.1 and A.3 have anything between them
-            me.listbetween = &acgtN,items{
-                $between = []
-                while (hak(items) > 1) {
-                    $a = items[0]
-                    $b = items[1]
-                    between.push(... ksaf(ksaf(N,{aft:a}),{bow:b}))
-                    items = items.slice(1)
-                }
-                return hak(between) && between
-            }
-            # place items after y
-            me.listin = &acgtMy,items,removing{
-                $yi = M.indexOf(y)
-                yi < 0 and debugger
-                if (removing) {
-                    # eg reordering E/*
-                    #  not knowing if we have all|subset-mingled
-                    #   or how to reconstruct that mingle (order of others)
-                    $gone = grop(notoneor(removing,items),M)
-                    #  so stack them all up where the first one was
-                    $yi = gone.indexOf(y)
-                    # location floats backward as we go removing
-                    # < if we dont remove y (can noop if its in items):
-                    #  < this would be a good thing to grasp intuitively
-                    yi < 0 and throw "find goners before y"
-                    yi >= 0 and yi -= yi
-                }
-                M.splice(yi+1,0,...items)
             }
         },
     
