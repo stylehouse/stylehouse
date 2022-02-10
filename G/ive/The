@@ -4773,15 +4773,42 @@ me.Sch_The = &acgt{ return [
                         $nod = lin.nod
                         $no = &tc{ fail(t,c,{sph,nod}) }
                         
+                        # D cmp str
                         $D = nod.D
                         $whole = Dy&toLines
                         !isst(whole) and return no('toLines',{l})
                         # cursor whole to match
-                        $at = nod.matchlen ||= 0
-                        $exp = whole.slice(at,at+len)
-                        exp != str and return no('eq',{lin,str,exp,whole})
+                        $at = nod.matchtil || 0
+                        $til = at+len
+                        $exp = whole.slice(at,til)
+                        if (exp != str) {
+                            # no \n in y&toLines
+                            if (exp+"\n" == str) {
+                                # len (from str) now completes whole
+                                til -= 1
+                                til == whole.length and debugger
+                            }
+                            else return no('eq',{lin,str,exp,whole})
+                        }
                         
-                        nod.matchlen += len
+                        # done?
+                        nod.matchtil = til
+                        $newline = str.slice(-1)[0] == "\n"
+                        $newnode = til == whole.length
+                        if (newnode) {
+                            # no \n in y&toLines, is in str
+                            !newline and debugger
+                            delete nod.matchlen
+                            nod.ok = 1
+                            
+                            # < more nodes
+                            $E = nod.E
+                            
+                        }
+                        newline && !newnode and debugger
+                        if (newline) {
+                            # we will use this next time around
+                        }
                     })
                     
                     !ok and me&tc,"Abort",'G'; break
