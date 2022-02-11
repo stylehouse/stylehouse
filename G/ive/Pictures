@@ -755,11 +755,12 @@
         q ||= {Cish:1}
         
         # state
+        #  ~~ d of &ind, doesnt fork
         $g = {d:0,visit:[],climb:[]}
         # and parsed expr:s
         
-        # visit $v first, ie $v^^ not $v/^^
-        s [0] == '/' and s = s.slice(1)
+        # /^^ doesnt visit $v, only those above
+        s [0] == '/' and g.beyond = 1; s = s.slice(1)
         else g.fromhere = 1
         # climbing particles once A.1 is reached (^^..1)
         s == '^^..1^^' and g.partat = 1
@@ -774,8 +775,14 @@
             g.d++ > 10 and throw "oup"
             $skip = 0
             q.Cish and fatal.isC(z)
-            $visit_first = g.d == 1 && g.fromhere
-            if (!visit_first) {
+            
+            # d.beyond is the opposite of d.dl
+            #  climb past without visit
+            #   d.la is descendant, visited or not
+            $visit = g.d > (g.beyond||0)
+            # dont climb if we want to visit the first
+            $climb = g.d > 1 || !visit
+            if (climb) {
                 # the climb:
                 $up = q.Cish ? zy&up : z.up
                 # < extra ways up via y&R, etc
@@ -806,15 +813,18 @@
             # start climbing particles
             g.partat && z[g.partat] == z and g.party = 1
             # matching any
+            # < if visit?
             c.c && !hak(sex({},z.c,c.c)) and skip = 1
             skip and continue
-            $la = g.visit.slice(-1)[0]
-            ahk(g,['visit'],z)
             
-            # visit
-            $ret = y (z,g,la)
+            if (visit) {
+                $la = g.visit.slice(-1)[0]
+                ahk(g,['visit'],z)
+
+                $ret = y (z,g,g.la,la)
             
-            ret and ahk(g,['yes'],z)
+                ret and ahk(g,['yes'],z)
+            }
             g.not and break
         }
         return g
