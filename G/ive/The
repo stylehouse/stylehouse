@@ -492,13 +492,6 @@ me.Sch_The = &acgt{ return [
                 ~>3 aw: t
             }
         }
-        self.indent = &ds{
-            d == 0 and throw "d!>0"
-            isar(d) and d = hak(d)
-            s and throw "< splitindjoint"
-            # 1:'',2:'  ',3:'    '...
-            return new Array(1*d).join('  ')
-        }
     },
   
 &{
@@ -2118,7 +2111,7 @@ me.Sch_The = &acgt{ return [
             me&scroll,28
         },'ift,D'],
         ['Top',0.9,&acgtRs{
-            # disp
+            # Display is via Ry&up.sc.z += R
             
             Rs&sleeping and return
             me&applyRbitX,R
@@ -4736,13 +4729,14 @@ me.Sch_The = &acgt{ return [
                     me&boxcap,'l:'+i+':'+sph.sphere,2 (&m,la{
                         lac&not = 1
                         
-                        # sph/$line/$bit/.l|str
+                        # sph/$line/$bit .l|str
                         $lin = io(sph,'line',-1)
                         !lin and throw "nolin"
-                        $lit = iz(lin,'bit')
-                        lit.l = l
-                        $str = lit.str = lc&s
-                        $len = str.length
+                        $bit = iz(lin,'bit')
+                        bit.l = l
+                        $str = bit.str = lc&s
+                        # str never goes beyond \n
+                        $newline = str.slice(-1)[0] == "\n"
                         
                         $nod = lin.nod
                         $no = &tc{ 
@@ -4751,34 +4745,80 @@ me.Sch_The = &acgt{ return [
                             # nod complains
                             $x = iz(nod,'!'+t)
                             c and pex(x,c)
-                            me&Ploy_fail,t,c,{sph,nod} 
+                            me&Ploy_fail,t,c,{sph,nod,lin,bit} 
                         }
-                        
-                        # D cmp str
                         $D = nod.D
                         $whole = Dy&toLines
                         !isst(whole) and return no('toLines',{l})
+                        
+                        me&Ploy_indent_sympathy,nod,lin,bit
+                        
+                    // D cmp str
                         # cursor whole to match
                         $at = nod.matchtil || 0
+                        $str = bit.str
+                        
+                        # ignore str indent, coming from D** travel
+                        bit.trimstart and str = str.slice(bit.trimstart)
+                        # < dropping \n from bit, via this mechanism
+                        #   rather than adding one to exp if non-match now
+                        #    tho it does get us the \n between many nod/lin
+                        #     that would be visible as exp[-1]=="\n"
+                        bit.trimend and str = str.slice(0,hak(str)-bit.trimend)
+                        # < more munging the expression
+                        #    eg expect sequence number adjustment
+                        #    eg between different compressions
+                        #     one might deL->???->enL
+                        
+                        $len = str.length
                         $til = at+len
                         $exp = whole.slice(at,til)
-                        if (exp != str) {
+                        
+                        
+                        if (exp != str && newline) {
                             # no \n in y&toLines
-                            if (exp+"\n" == str) {
-                                # len (from str) now completes whole
-                                til -= 1
-                                til != whole.length and debugger
+                            me&Ploy_mung,bit,'+␤'
+                            exp += "\n"
+                            til -= 1
+                            $mungnl = 1
+                        }
+                        if (0 && exp != str && bit.i_bit == 0 && nod.d > 1) {
+                            # bit starts an indented line
+                            me&Ploy_mung,bit,'ind'
+                            # < spec as C/* indent, two spaces. see Text/Lines
+                            $fore = exp
+                            # turns 0->fatal, 1->'', 2->'  ', 3->'    '
+                            $space = indent(nod.d)
+                            exp = space + exp
+                            til -= space.length
+                            if (exp != str) {
+                                return no('eq-ind',
+                                    {lin,bit,str,fore,space,exp,whole}
+                                )
                             }
-                            else return no('eq',{lin,str,exp,whole})
+                            # < sort out indent funcs
+                            #    we seem to have .d starting at 1->'', etc
+                            #    Lines wants to indent by ' ' sometimes
+                            #   this one does it to exp, multiliney
+                            #   not too straight forward when exp may end in \n
+                            #    it should follow input strings form?
+                            #     and separate casting blah->blah\n
+                            #indents((nod.d-1)*2,exp,
+                            #    !ahsk(bit,'mung','+␤') && 'notailn'
+                            #)
+                            1
+                        }
+                        # should yield the whole line?
+                        mungnl && til != whole.length and debugger
+                        
+                        if (exp != str) {
+                            return no('eq',{lin,bit,str,exp,whole})
                         }
                         
                     // done?
                         nod.matchtil = til
-                        $newline = str.slice(-1)[0] == "\n"
                         $newnode = til == whole.length
-                        if (newnode) {
-                            # no \n in y&toLines, is in str
-                            !newline and debugger
+                        if (newnode && newline) {
                             delete nod.matchlen
                             nod.ok = 1
                             
@@ -4804,12 +4844,12 @@ me.Sch_The = &acgt{ return [
                                 })
                                 me&fu,"Climbfornext",{nod,next,N}
                             }
-                            !next and return no("nextless",{nod})
-                            isC(next) and return no("nextC",{nod,next})
+                            !next and return no("nextless")
+                            isC(next) and return no("nextC",{next})
                             nod = next
                         }
                         if (newline) {
-                            # we might have a multi-lines y&toLines
+                            # < until a multi-lines y&toLines
                             !newnode and debugger
                             # we will use this next time around
                             $lin = iz(sph,'line')
@@ -4825,7 +4865,49 @@ me.Sch_The = &acgt{ return [
             })
             return X
         }
+    // munging
+        # line may start with spaces, to imagine into exp
+        me.Ploy_indent_sympathy = &acgt,nod,lin,bit{
+            $bit0 = bit.i_bit == 0
+            # leading bits, until [^ ] is found
+            bit0 and lin.indent_sympathy = 0
+            lin.indent_sympathy == null and return
+            # nod/lin 0 == first line of D
+            $lin0 = lin.i_mine == 0
+            $no = &{ delete lin.indent_sympathy }
+            
+            # we only ever make C-indents (Linesing C/*) outside of D
+            !bit.str.startsWith('  ') and return no()
+            # count ^( )+
+            $level = hak(ksaf(bit.str,{bow:s => s != ' '}))
+            $Cindent = Math.floor(level/2)
+            
+            # the first line of D has the real indent
+            if (nod.Cindent) {
+                lin0 and debugger
+                $differ = Cindent - nod.Cindent
+                differ < 0 and debugger
+                # lin>0 should have at least ' ' more than lin0
+                nod.Cindent*2 == level and debugger
+                # < until BQ things have indents inside them:
+                differ > 2 and debugger
+                
+                Cindent = nod.Cindent
+            }
+            elsif (lin0) {
+                nod.Cindent and debugger
+                nod.Cindent = Cindent
+            }
+            
+            # < check what comes off is ' '+
+            bit.trimstart = Cindent*2
+        }
+        # note if|how we change exp to make things fit
+        me.Ploy_mung = &acgt,bit,t,v{
+            ahk(bit,'mung',t,v||1)
+        }
     // drawing
+        # not to be confused with $bit, which it maps to
         me.drawdiffbit = &acgttl{
             $name = cint(t,l.t)
             me&boxcap,name,'5y' (&m,la{
@@ -4844,7 +4926,7 @@ me.Sch_The = &acgt{ return [
             $E = nod.E
             me&boxcap,E.t,'1' (&ml{
                 lc&not = 1
-            me&boxcap,E.t,'4' (&ml{
+            me&boxcap,E.t,'1' (&ml{
                 me&walls,m,'bd:3.3h4'
                 ms&ml = (nod.d-1) * 0.6
                 me&drawsym,'E'
@@ -4903,16 +4985,35 @@ me.Sch_The = &acgt{ return [
                 # leave non-objects in
                 !isha(s) and continue
                 $h = {}
+                $looks
                 map(&vk{
-                    # to leave out objects
-                    isob(v) and return
+                    if (isob(v)) {
+                        if (looks == 'bit' && k == 'mung') {
+                            # know this object displays
+                            h[k] = me&loosedepeel,v
+                            return
+                        }
+                        # or leave out objects
+                        return
+                    }
                     $ma = k.match(/^i_(\w+)$/)
-                    ma and h[ma[1]] = v; return
+                    if (ma) {
+                        h[ma[1]] = v
+                        looks = ma[1]
+                        return
+                    }
                     # a word or so
                     h[k] = v
                 },s)
                 c[t] = h
             }
+        }
+        me.loosedepeel = &acgtc{
+            return coint(armap(&vk{
+                v == 1 and return k
+                iske(v) || isC(v) and return cint(k,v)
+                return cint(k,dis(v))
+            }, c))
         }
     },
   
@@ -5630,6 +5731,7 @@ me.Sch_The = &acgt{ return [
                 $r = sy&R
                 # doesn't see other E//R%hoisten=2 (-Eight|-seven)
                 !r || rs&hoisten == 2 and return
+                
                 $main = ahsk(d,'up','s','y','main')
                 #main && main != s and return
 

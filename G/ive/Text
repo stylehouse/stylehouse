@@ -1607,6 +1607,16 @@
     # Lines C may have indented bits after
     # < at one space, inconfusible with C/C indent
     me.LinesBQ_indent = '  '
+    # for N|i of '  ', starting with i=1 -> ''!
+    # < rename. GONE? used once.
+    #   could call &indents,(d-1)*2,s,'notailn'
+    self.indent = &ds{
+        d == 0 and throw "d!>0"
+        isar(d) and d = hak(d)
+        s and throw "< splitindjoint"
+        # 1:'',2:'  ',3:'    '...
+        return new Array(1*d).join('  ')
+    }
     # &ind (around &enL) uses '  ', BQ-ish things use:
     self.indents = &l,v,notailn{
         num(l) and l = new Array(1+l*1).join(' ')
