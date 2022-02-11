@@ -745,6 +745,7 @@
     # &complace -> &Thisplanet...
     # involves this climby visitor in &com:
     me.Ay = &acgtvscq{
+      // init
         return &y{
         # v = $A
         # s = ^^..1^^
@@ -752,6 +753,7 @@
         c = peel(c)
         c.c and c.c = peel(c.c)
         # lets climb non-C (x.up) if q is given?
+        # < go by isC(v), expect that type onward
         q ||= {Cish:1}
         
         # state
@@ -770,6 +772,7 @@
             throw "What", s
         }
         
+      // visiting
         $z = v
         while (1) {
             g.d++ > 10 and throw "oup"
@@ -777,54 +780,62 @@
             q.Cish and fatal.isC(z)
             
             # d.beyond is the opposite of d.dl
-            #  climb past without visit
-            #   d.la is descendant, visited or not
+            #  to climb past without visit
             $visit = g.d > (g.beyond||0)
-            # dont climb if we want to visit the first
-            $climb = g.d > 1 || !visit
-            if (climb) {
-                # the climb:
-                $up = q.Cish ? zy&up : z.up
-                # < extra ways up via y&R, etc
-                !up and break
-                up == z and g.loopy = 1; break
-                if (g.party) {
-                    !up.1 and debugger
-                    # after climbing A.up, visiting all until A==A.1
-                    # skip til next A with .1=A
-                    #  this is the A.1=A hack, see J
-                    # < g.partat = 3, for A^^..3, then all 3s, 4
-                    #    might need g.party=z...
-                    # < same for Cy&1-4?
-                    up.1 != up and skip = 1
-
-                    # nothing here about .2, which has this same sense
-                    # .2 to the .1 above our .1
-                    # .3 to itself, less often than .1
-                    # .4 to itself, avoid beyond
-                    up.4 == up and g.not = '>4'
-                }
-                g.la = z
-                z = up
-                # < g.N all inclusive
-                ahk(g,['climb'],z)
-            }
             
             # start climbing particles
             g.partat && z[g.partat] == z and g.party = 1
-            # matching any
-            # < if visit?
-            c.c && !hak(sex({},z.c,c.c)) and skip = 1
-            skip and continue
+            # matching what to visit
+            c.c && !hak(sex({},z.c,c.c)) and skip = 'cif:c'
+            if (g.party) {
+                # A should be J-knowing
+                !z.1 and debugger
+                # A occasionally J
+                z.1 != z and skip = 'party'
+                # after climbing A.up, visiting all until A==A.1
+                # skip til next A with .1=A
+                #  this is the A.1=A hack, see J
+                # < g.partat = 3, for A^^..3, then all 3s, 4
+                #    might need g.party=z...
+                # < same for Cy&1-4?
+                # nothing here about .2, which has this same sense
+                # .2 to the .1 above our .1
+                #  isnt always there
+                # .3 to itself, less often than .1
+                #  .3.2.3 should yield ^^3^^3
+                # .4 to itself, avoid beyond
+                z.4 == z and g.nofurther = '>4'
+            }
+            # < matching what to climb
             
-            if (visit) {
-                $la = g.visit.slice(-1)[0]
+            if (visit && !skip && !g.not) {
+                # doesnt have g.la|la if you visit the first one
+                $la = g.visit && g.visit.slice(-1)[0]
                 ahk(g,['visit'],z)
+                # g.la is your climbed-from descendant, visited or not
 
                 $ret = y (z,g,g.la,la)
             
                 ret and ahk(g,['yes'],z)
             }
+            
+      // climbing
+            g.not ||= g.nofurther
+            g.not and break
+            
+            $up = q.Cish ? zy&up : z.up
+            
+            # < extra ways up via y&R, etc
+            !up and break
+            up == z and g.loopy = 1; break
+            if (g.party) {
+                !up.1 and debugger
+            }
+            g.la = z
+            z = up
+            # < g.N all inclusive
+            ahk(g,['climb'],z)
+            
             g.not and break
         }
         return g
