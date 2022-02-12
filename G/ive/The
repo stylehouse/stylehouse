@@ -4723,51 +4723,23 @@ me.Sch_The = &acgt{ return [
                     A = A.3
                     me&drawdiffbit,i,l
                     
-                    
                     Nsph_for_l(l) .map(&sph,{
-                    # floppily contain rigid nod**
-                    # to init A3:Ploy/A:l+
-                    #  A:l always up to A3
-                    $title = 'l:'+i+':'+sph.sphere
+                        # floppily contain rigid nod**
                         A = A.3
-                        A = fi&At,title
-                        # -Fez is A-shy
-                        $V = sph.Al
-                        sph.Al = A
+                        # to init A3:Ploy/A:l+
+                        #  A:l always up to A3
+                        $title = 'l:'+i+':'+sph.sphere
+                        A = me&Ploy_nod_arrive,sph,l,title
+                        fatal.isC(A&nod.E)
                         
-                        # sph/$line/$bit .l|str
-                        $lin = 3c&io(sph,'line',-1)
-                        !lin and throw "nolin"
-                        $bit = 3c&iz(lin,'bit')
-                        bit.l = l
-                        bit.str = lc&s
-                        
-                        $nod = lin.nod
-                        V && Vs&next && nod != Vs&next and debugger
-                        # 
-                        ex(A.c,{sph,nod,lin,bit})
-                        
-                        
-                    # so we A3:Ploy/A:l+
-                    if (!V || Vc&nod != nod) {
-                        $D = nod.D
-                        nod.whole = Dy&toLines
-                        !isst(nod.whole) and return me&Ploy_fail,'toLines',{l}
-                        me&drawnod,nod
-                    }
-                    
-                    
-                    # floppy bits between nod:
-                    me&boxcap,title,2 (&m,la{
-                        lac&not = 1
-                        
-                        
-                        me&Ploy_indent_sympathy
-                        me&Ploy_match
-                        3c&not and return
-                        me&Ploy_nod_leaving
-                        
-                    })
+                        # floppy bits between nod:
+                        me&boxcap,title,2 (&m,la{
+                            lac&not = 1
+                            me&Ploy_indent_sympathy
+                            me&Ploy_match
+                            3c&not and return
+                            me&Ploy_nod_leaving
+                        })
                     })
                     
                     # after &Ploy_fail
@@ -4777,6 +4749,35 @@ me.Sch_The = &acgt{ return [
             return X
         }
     // Ploy acts
+        # A:l per nod/lin/bit
+        me.Ploy_nod_arrive = &acgt,sph,l,title{
+            A = fi&At,title
+            # -Fez is A-shy
+            $V = sph.Al
+            sph.Al = A
+
+            # sph/$line/$bit .l|str
+            $lin = 3c&io(sph,'line',-1)
+            !lin and throw "nolin"
+            $bit = 3c&iz(lin,'bit')
+            bit.l = l
+            bit.str = lc&s
+
+            $nod = lin.nod
+            # a second opinion on next nod, from last A:l
+            V && Vs&next && nod != Vs&next and debugger
+            
+            ex(A.c,{sph,nod,lin,bit})
+
+            # so we A3:Ploy/A:l+
+            if (!V || Vc&nod != nod) {
+                $D = nod.D
+                nod.whole = Dy&toLines
+                !isst(nod.whole) and return me&Ploy_fail,'toLines',{l}
+                me&drawnod,nod
+            }
+            return A
+        }
         # line may start with spaces, to imagine into exp
         me.Ploy_indent_sympathy = &acgt{
             # leading bits, until [^ ] is found
@@ -4897,7 +4898,7 @@ me.Sch_The = &acgt{ return [
                 $next = me&Ploy_nod_next
                 !next and return me&Ploy_fail,"nextless"
                 isC(next) and return me&Ploy_fail,"nextC",{next}
-                a&next = next
+                nod = a&next = next
             }
             if (a&newline) {
                 # tidy away lin
@@ -4938,6 +4939,7 @@ me.Sch_The = &acgt{ return [
             }
             return next
         }
+        
     // drawing
         # not to be confused with $bit, which it maps to
         me.drawdiffbit = &acgttl{
