@@ -4724,20 +4724,20 @@ me.Sch_The = &acgt{ return [
                         .map(sph => 3c&io(sph,'node',-1))
                         .map(nod => me&drawnod,nod)
                     
+                    A = A.3
                     me&drawdiffbit,i,l
                     
-                    $ok = 1
+                    
                     Nsph_for_l(l) .map(&sph,{
                     # floppily contain rigid nod**
-                    $next
                     # to init A3:Ploy/A:l+
                     #  A:l always up to A3
                     $title = 'l:'+i+':'+sph.sphere
                         A = A.3
                         A = fi&At,title
                         # -Fez is A-shy
-                        $lA = sph.A
-                        sph.A = A
+                        $V = sph.Al
+                        sph.Al = A
                         
                         # sph/$line/$bit .l|str
                         $lin = 3c&io(sph,'line',-1)
@@ -4745,14 +4745,12 @@ me.Sch_The = &acgt{ return [
                         $bit = 3c&iz(lin,'bit')
                         bit.l = l
                         bit.str = lc&s
-                        # str never goes beyond \n
-                        $newline = bit.str.slice(-1)[0] == "\n"
                         
                         $nod = lin.nod
-                        next && nod != next and debugger
+                        V && Vs&next && nod != Vs&next and debugger
                         $no = &tc{ 
                             # stop l++
-                            ok = 0
+                            3c&not = 1
                             # nod complains
                             $x = 3c&iz(nod,'!'+t)
                             c and pex(x,c)
@@ -4762,7 +4760,7 @@ me.Sch_The = &acgt{ return [
                         ex(A.c,{sph,nod,lin,bit})
                         
                         # so we A3:Ploy/A:l+
-                        !lA || lAc&nod != nod and me&drawnod,nod
+                        !V || Vc&nod != nod and me&drawnod,nod
                     
                     
                     # floppy bits between nod:
@@ -4779,6 +4777,8 @@ me.Sch_The = &acgt{ return [
                         # cursor whole to match
                         $at = nod.matchtil || 0
                         $str = bit.str
+                        # str never goes beyond \n
+                        $newline = str.slice(-1)[0] == "\n"
                         
                         # ignore str indent, coming from D** travel
                         bit.trimstart and str = str.slice(bit.trimstart)
@@ -4835,7 +4835,7 @@ me.Sch_The = &acgt{ return [
                             nod.Cindent && nod.Cindent == nod.d-1 and delete nod.Cindent
                             nod.ok = 1
                             # more nodes
-                            next = me&Ploy_nod_next,sph,nod
+                            next = me&Ploy_nod_next
                             !next and return no("nextless")
                             isC(next) and return no("nextC",{next})
                             nod = next
@@ -4852,7 +4852,7 @@ me.Sch_The = &acgt{ return [
                     })
                     })
                     
-                    !ok and me&tc,"Abort",'G'; break
+                    3c&not and me&tc,"Abort",'G'; break
                 }
             })
             return X
@@ -4903,10 +4903,11 @@ me.Sch_The = &acgt{ return [
             ahk(bit,'mung',t,v||1)
         }
         # more nodes: nod/*[0] first, then ^^/[nod+1]
-        me.Ploy_nod_next = &acgt,sph,nod{
+        me.Ploy_nod_next = &acgt{
             $E = A&nod.E
+            # i E/*
             $N = me&ioty,E .filter(e => ey&R)
-                .map(e => 3c&inode(nod,e))
+                .map(e => 3c&inode(A&nod,e))
             # < working
             #$N = pam(me&ioty,E , e => ey&R && inode(nod,e) )
             $next
