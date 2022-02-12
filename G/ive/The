@@ -4912,6 +4912,8 @@ me.Sch_The = &acgt{ return [
                 $next = me&Ploy_nod_next
                 !next and return me&Ploy_fail,"nextless"
                 isC(next) and return me&Ploy_fail,"nextC",{next}
+                nod.next = next
+                next.prev = nod
                 nod = a&next = next
             }
             if (a&newline) {
@@ -4937,8 +4939,6 @@ me.Sch_The = &acgt{ return [
             else {
                 # climb out until a next in
                 $N = me&Ay,A&nod,'/^^',{},{} (&nda{
-                    # < until returning to nod+1/nod/nod:from
-                    d.d > 2 and debugger
                     # be a node
                     !n.i_node && n != sph and debugger
                     !n.i_node and return d.not = 1
