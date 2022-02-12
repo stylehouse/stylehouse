@@ -4547,6 +4547,15 @@ me.Sch_The = &acgt{ return [
     ['Fez',0.21,&acgtRs{
         # < no restating refs per ^^-seven
         me&typeup,R,'hat'
+        # only for Top/*
+        Rs&Fezonly and Rs&Fezonly = peel(Rs&Fezonly)
+        # for Top/**
+        Rs&Feznott and Rc&Feznott = peel(Rs&Feznott)
+        $p = Ry&up
+        ps&Fezonly && !ps&Fezonly[R.t] and me&Ri,'limit:Fezonly,toomuch'
+        Rc&Feznott && Rc&Feznott[R.t] and me&Ri,'limit:Feznott,toomuch'
+        
+        #!Rs&Top and me&Ri,'limit:Fez,toomuch'
     },'ift,D'],
     # stops at C
     ['Fez+Cish',0.262,&acgtRs{
@@ -4637,18 +4646,33 @@ me.Sch_The = &acgt{ return [
             $X = {A}
             me&Ploy_io
             
-            # start old|new E** sph and their /$line
-            each te nav {
+            # sph/nod|lin
+            $tops = armap(&et{
+                # for old|new E**
                 $sph = 3c&io(X,'sphere',t)
                 sph.sphere = t
-                # via X-Fez**, the /$line is what to refer to
+                # line 0
                 $lin = 3c&iz(sph,'line')
+                # node 0
                 $nod = 3c&inode(sph,e)
-                # node 0 for line 0
-                3c&inodlin(nod,lin)
                 $D = nod.D
                 !Dy&toLines and debugger
+                3c&inodlin(nod,lin)
+                return nod
+            },nav)
+            
+            # joi/nod|lin
+            $ijoin = &tN{
+                $joi = 3c&joi = 3c&iz(X,'join')
+                joi.given = t
+                N.map(&nod,{
+                    nod.i_node == null and debugger
+                    3c&iz(joi,'with',nod)
+                })
+                return joi
             }
+            ijoin('given',tops)
+            
             
             $Ply = me&boxcap,'Ploy','1' (&Ply,{
                 each il Comp {
@@ -4690,6 +4714,7 @@ me.Sch_The = &acgt{ return [
         # < compile &iocall to A.3.i.iocall
         me.Ploy_io = &acgt{
             A.3 != A and debugger
+          // access
             3c&io = &xkv{
                 # all indexes are k:v (&X_t)
                 # ~~ c.wild: vx={v:x+}
@@ -4715,6 +4740,7 @@ me.Sch_The = &acgt{ return [
                 x['i_'+k] = i
                 return x
             }
+          // objects
             # X/$sphere=new = sph
             #  sph/$node flatly or /$in** = nod
             #   nod.sph = sph (also via nod.up**)
