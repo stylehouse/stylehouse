@@ -4759,77 +4759,27 @@ me.Sch_The = &acgt{ return [
                         # 
                         ex(A.c,{sph,nod,lin,bit})
                         
-                        # so we A3:Ploy/A:l+
-                        !V || Vc&nod != nod and me&drawnod,nod
+                        
+                    # so we A3:Ploy/A:l+
+                    if (!V || Vc&nod != nod) {
+                        $D = nod.D
+                        nod.whole = Dy&toLines
+                        !isst(nod.whole) and return no('toLines',{l})
+                        me&drawnod,nod
+                    }
                     
                     
                     # floppy bits between nod:
                     me&boxcap,title,2 (&m,la{
                         lac&not = 1
                         
-                        $D = nod.D
-                        $whole = Dy&toLines
-                        !isst(whole) and return no('toLines',{l})
                         
                         me&Ploy_indent_sympathy
-                        
-                    // D cmp str
-                        # cursor whole to match
-                        $at = nod.matchtil || 0
-                        $str = bit.str
-                        # str never goes beyond \n
-                        $newline = str.slice(-1)[0] == "\n"
-                        
-                        # ignore str indent, coming from D** travel
-                        bit.trimstart and str = str.slice(bit.trimstart)
-                        # < dropping \n from bit, via this mechanism
-                        #   rather than adding one to exp if non-match now
-                        #    tho it does get us the \n between many nod/lin
-                        #     that would be visible as exp[-1]=="\n"
-                        bit.trimend and str = str.slice(0,hak(str)-bit.trimend)
-                        # < more munging the expression
-                        #    eg expect sequence number adjustment
-                        #    eg between different compressions
-                        #     one might deL->???->enL
-                        
-                        $len = str.length
-                        $til = at+len
-                        $exp = whole.slice(at,til)
-                        
-                        
-                        if (exp != str && newline) {
-                            # no \n in y&toLines
-                            me&Ploy_mung,bit,'+␤'
-                            exp += "\n"
-                            til -= 1
-                            $mungnl = 1
-                        }
-                            # < sort out indent funcs
-                            #    we seem to have .d starting at 1->'', etc
-                            #    Lines wants to indent by ' ' sometimes
-                            #   this one does it to exp, multiliney
-                            #   not too straight forward when exp may end in \n
-                            #    it should follow input strings form?
-                            #     and separate casting blah->blah\n
-                            #indents((nod.d-1)*2,exp,
-                            #    !ahsk(bit,'mung','+␤') && 'notailn'
-                            #)
-                        # should yield the whole line?
-                        mungnl && til != whole.length and debugger
-                        
-                        if (exp != str) {
-                            return no('eq',{str,exp,whole})
-                        }
+                        me&Ploy_match
+                        3c&not and return
                         
                     // done?
-                        # shouldnt go around on the same nod after match
-                        $seeknod = nod.matchtil == til
-                            && !(mungnl && exp == "\n")
-                        seeknod and no("matchnone?",{str,exp,whole})
-                        
-                        nod.matchtil = til
-                        $newnode = til == whole.length
-                        if (newnode && newline) {
+                        if (a&newnode && a&newline) {
                             # tidy away nod
                             delete nod.matchtil
                             nod.Cindent && nod.Cindent == nod.d-1 and delete nod.Cindent
@@ -4840,11 +4790,11 @@ me.Sch_The = &acgt{ return [
                             isC(next) and return no("nextC",{next})
                             nod = next
                         }
-                        if (newline) {
+                        if (a&newline) {
                             # tidy away lin
                             delete lin.indent_sympathy
                             # < until a multi-lines y&toLines
-                            !newnode and debugger
+                            !a&newnode and debugger
                             # we will use this next time around
                             lin = 3c&iz(sph,'line')
                             3c&inodlin(nod,lin)
@@ -4901,6 +4851,67 @@ me.Sch_The = &acgt{ return [
         # note if|how we change exp to make things fit
         me.Ploy_mung = &acgt,bit,t,v{
             ahk(bit,'mung',t,v||1)
+        }
+        me.Ploy_match = &acgt{
+            $nod = A&nod
+            $bit = A&bit
+            # cursor whole to match
+            $at = nod.matchtil || 0
+            $str = bit.str
+            # str never goes beyond \n
+            a&newline = str.slice(-1)[0] == "\n"
+            # whole does
+            $whole = A&nod.whole
+            !hak(whole) and debugger
+
+            # ignore str indent, coming from D** travel
+            bit.trimstart and str = str.slice(bit.trimstart)
+            # < dropping \n from bit, via this mechanism
+            #   rather than adding one to exp if non-match now
+            #    tho it does get us the \n between many nod/lin
+            #     that would be visible as exp[-1]=="\n"
+            bit.trimend and str = str.slice(0,hak(str)-bit.trimend)
+            # < more munging the expression
+            #    eg expect sequence number adjustment
+            #    eg between different compressions
+            #     one might deL->???->enL
+
+            $len = str.length
+            $til = at+len
+            $exp = whole.slice(at,til)
+
+
+            if (exp != str && a&newline) {
+                # no \n in y&toLines
+                me&Ploy_mung,bit,'+␤'
+                exp += "\n"
+                til -= 1
+                $mungnl = 1
+            }
+                # < sort out indent funcs
+                #    we seem to have .d starting at 1->'', etc
+                #    Lines wants to indent by ' ' sometimes
+                #   this one does it to exp, multiliney
+                #   not too straight forward when exp may end in \n
+                #    it should follow input strings form?
+                #     and separate casting blah->blah\n
+                #indents((nod.d-1)*2,exp,
+                #    !ahsk(bit,'mung','+␤') && 'notailn'
+                #)
+            # should yield the whole line?
+            mungnl && til != whole.length and debugger
+
+            if (exp != str) {
+                return no('eq',{str,exp,whole})
+            }
+            
+            # shouldnt go around on the same nod after match
+            $seeknod = nod.matchtil == til
+                && !(mungnl && exp == "\n")
+            seeknod and no("matchnone?",{str,exp,whole})
+
+            nod.matchtil = til
+            a&newnode = til == nod.whole.length
         }
         # more nodes: nod/*[0] first, then ^^/[nod+1]
         me.Ploy_nod_next = &acgt{
