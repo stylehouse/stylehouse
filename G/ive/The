@@ -4630,7 +4630,7 @@ me.Sch_The = &acgt{ return [
             A.3 = A
             $X = {A}
         // Ploy i
-            $io = &xkv{
+            3c&io = &xkv{
                 # all indexes are k:v (&X_t)
                 # ~~ c.wild: vx={v:x+}
                 v == '.*' and return x[k]
@@ -4640,14 +4640,14 @@ me.Sch_The = &acgt{ return [
                 return fi&Xsimp,x,hashkv(k,v)
             }
             # push to eg sph|nod/$line=i++
-            $iz = &Xkx{
-                $many = io(X,k,'*')
+            3c&iz = &Xkx{
+                $many = 3c&io(X,k,'*')
                 $i = hak(many)
                 # we may mesh|multi-path|link X...x
                 x and ahk(X,k,i,x)
                 else {
                     # or new ..x as usu
-                    x = io(X,k,i)
+                    x = 3c&io(X,k,i)
                 }
                 # meshing may eg i_line|mine
                 # < crude avoidance of same-index sequence distribution
@@ -4661,13 +4661,13 @@ me.Sch_The = &acgt{ return [
             #   nod.E|D
             #   nod/$line
             #  sph/$line
-            $inode = 3c&inode = &xe{
+            3c&inode = &xe{
                 $sph = x.sph || x
                 # climb /$in** = nod, so nod.up reflects Ey&up
-                $nod = iz(x,'in')
+                $nod = 3c&iz(x,'in')
                 nod.d = (x.d||0) + 1
                 # link sph/$node flatly
-                iz(sph,'node',nod)
+                3c&iz(sph,'node',nod)
                 # nod knows:
                 nod.sph = sph
                 nod.E = e
@@ -4684,32 +4684,32 @@ me.Sch_The = &acgt{ return [
                 # eventually /$line of its diffside
                 return nod
             }
-            $inodlin = &nod,lin{
+            3c&inodlin = &nod,lin{
                 $sph = nod.sph
                 # join: one nod to many lin
                 lin.nod = nod
                 sph.line[lin.i_line] != lin and debugger
                 # nod/$mine is a subset of sph/$line
-                iz(nod,'mine',lin)
+                3c&iz(nod,'mine',lin)
             }
             
             # start old|new E** sph and their /$line
             each te nav {
-                $sph = io(X,'sphere',t)
+                $sph = 3c&io(X,'sphere',t)
                 sph.sphere = t
                 # via X-Fez**, the /$line is what to refer to
-                $lin = iz(sph,'line')
-                $nod = inode(sph,e)
+                $lin = 3c&iz(sph,'line')
+                $nod = 3c&inode(sph,e)
                 # node 0 for line 0
-                inodlin(nod,lin)
+                3c&inodlin(nod,lin)
             }
         // Ploy access
             $nonontrailinglinebreaks = &s{
                 hak(s)-1 < s.indexOf("\n") and throw "many lin to one l"
             }
             $Nsph_for_l = &l{
-                return l.t == 'same' ? havs(io(X,'sphere','*'))
-                    : [io(X,'sphere',l.t)]
+                return l.t == 'same' ? havs(3c&io(X,'sphere','*'))
+                    : [3c&io(X,'sphere',l.t)]
             }
             
             
@@ -4720,41 +4720,60 @@ me.Sch_The = &acgt{ return [
                     # join: one lin to many l
                     nonontrailinglinebreaks(lc&s)
                     # title the first things
-                    i == 0 && io(X,'sphere','*')
-                        .map(sph => io(sph,'node',-1))
+                    0 && i == 0 && 3c&io(X,'sphere','*')
+                        .map(sph => 3c&io(sph,'node',-1))
                         .map(nod => me&drawnod,nod)
                     
                     me&drawdiffbit,i,l
+                    
                     $ok = 1
                     Nsph_for_l(l) .map(&sph,{
-                    # floppily contain rigid node**, floppy bits between
+                    # floppily contain rigid nod**
                     $next
-                    me&boxcap,'l:'+i+':'+sph.sphere,2 (&m,la{
-                        lac&not = 1
+                    # to init A3:Ploy/A:l+
+                    #  A:l always up to A3
+                    $title = 'l:'+i+':'+sph.sphere
+                        A = A.3
+                        A = fi&At,title
+                        # -Fez is A-shy
+                        $lA = sph.A
+                        sph.A = A
                         
                         # sph/$line/$bit .l|str
-                        $lin = io(sph,'line',-1)
+                        $lin = 3c&io(sph,'line',-1)
                         !lin and throw "nolin"
-                        $bit = iz(lin,'bit')
+                        $bit = 3c&iz(lin,'bit')
                         bit.l = l
-                        $str = bit.str = lc&s
+                        bit.str = lc&s
                         # str never goes beyond \n
-                        $newline = str.slice(-1)[0] == "\n"
+                        $newline = bit.str.slice(-1)[0] == "\n"
                         
                         $nod = lin.nod
+                        next && nod != next and debugger
                         $no = &tc{ 
                             # stop l++
                             ok = 0
                             # nod complains
-                            $x = iz(nod,'!'+t)
+                            $x = 3c&iz(nod,'!'+t)
                             c and pex(x,c)
                             me&Ploy_fail,t,c,{sph,nod,lin,bit} 
                         }
+                        # 
+                        ex(A.c,{sph,nod,lin,bit})
+                        
+                        # so we A3:Ploy/A:l+
+                        !lA || lAc&nod != nod and me&drawnod,nod
+                    
+                    
+                    # floppy bits between nod:
+                    me&boxcap,title,2 (&m,la{
+                        lac&not = 1
+                        
                         $D = nod.D
                         $whole = Dy&toLines
                         !isst(whole) and return no('toLines',{l})
                         
-                        me&Ploy_indent_sympathy,nod,lin,bit
+                        me&Ploy_indent_sympathy
                         
                     // D cmp str
                         # cursor whole to match
@@ -4785,20 +4804,6 @@ me.Sch_The = &acgt{ return [
                             til -= 1
                             $mungnl = 1
                         }
-                        if (0 && exp != str && bit.i_bit == 0 && nod.d > 1) {
-                            # bit starts an indented line
-                            me&Ploy_mung,bit,'ind'
-                            # < spec as C/* indent, two spaces. see Text/Lines
-                            $fore = exp
-                            # turns 0->fatal, 1->'', 2->'  ', 3->'    '
-                            $space = indent(nod.d)
-                            exp = space + exp
-                            til -= space.length
-                            if (exp != str) {
-                                return no('eq-ind',
-                                    {lin,bit,str,fore,space,exp,whole}
-                                )
-                            }
                             # < sort out indent funcs
                             #    we seem to have .d starting at 1->'', etc
                             #    Lines wants to indent by ' ' sometimes
@@ -4809,16 +4814,19 @@ me.Sch_The = &acgt{ return [
                             #indents((nod.d-1)*2,exp,
                             #    !ahsk(bit,'mung','+␤') && 'notailn'
                             #)
-                            1
-                        }
                         # should yield the whole line?
                         mungnl && til != whole.length and debugger
                         
                         if (exp != str) {
-                            return no('eq',{lin,bit,str,exp,whole})
+                            return no('eq',{str,exp,whole})
                         }
                         
                     // done?
+                        # shouldnt go around on the same nod after match
+                        $seeknod = nod.matchtil == til
+                            && !(mungnl && exp == "\n")
+                        seeknod and no("matchnone?",{str,exp,whole})
+                        
                         nod.matchtil = til
                         $newnode = til == whole.length
                         if (newnode && newline) {
@@ -4838,12 +4846,10 @@ me.Sch_The = &acgt{ return [
                             # < until a multi-lines y&toLines
                             !newnode and debugger
                             # we will use this next time around
-                            $lin = iz(sph,'line')
-                            inodlin(nod,lin)
+                            lin = 3c&iz(sph,'line')
+                            3c&inodlin(nod,lin)
                         }
                     })
-                    # out of l
-                    next and me&drawnod,next
                     })
                     
                     !ok and me&tc,"Abort",'G'; break
@@ -4853,44 +4859,44 @@ me.Sch_The = &acgt{ return [
         }
     // Ploy acts
         # line may start with spaces, to imagine into exp
-        me.Ploy_indent_sympathy = &acgt,nod,lin,bit{
+        me.Ploy_indent_sympathy = &acgt{
             # leading bits, until [^ ] is found
-            $bit0 = bit.i_bit == 0
-            bit0 and lin.indent_sympathy = 1
-            !lin.indent_sympathy and return
-            $no = &{ delete lin.indent_sympathy }
+            $bit0 = A&bit.i_bit == 0
+            bit0 and A&lin.indent_sympathy = 1
+            !A&lin.indent_sympathy and return
+            $no = &{ delete A&lin.indent_sympathy }
             
             # we only ever make C-indents (Linesing C/*) outside of D
-            !bit.str.startsWith('  ') and return no()
+            !A&bit.str.startsWith('  ') and return no()
             # count ^( )+
-            $level = hak(ksaf(bit.str,{bow:s => s != ' '}))
+            $level = hak(ksaf(A&bit.str,{bow:s => s != ' '}))
             $Cindent = Math.floor(level/2)
             
             # the first line of D has the real indent
-            if (nod.Cindent) {
+            if (A&nod.Cindent) {
                 lin0 and debugger
-                $differ = Cindent - nod.Cindent
+                $differ = Cindent - A&nod.Cindent
                 differ < 0 and debugger
                 # lin>0 should have at least ' ' more than lin0
-                nod.Cindent*2 == level and debugger
+                A&nod.Cindent*2 == level and debugger
                 # < until BQ things have indents inside them:
                 differ > 2 and debugger
                 
-                Cindent = nod.Cindent
+                Cindent = A&nod.Cindent
             }
-            elsif (lin.i_mine == 0) {
+            elsif (A&lin.i_mine == 0) {
                 # nod/lin 0 == first line of D
-                nod.Cindent and debugger
-                nod.Cindent = Cindent
+                A&nod.Cindent and debugger
+                A&nod.Cindent = Cindent
                 # < until treating haphazard text as input
                 #    eg see codes / spec / pre-tangent
                 #     which wouldnt be a Cindent per se
                 #  < or BQ-embedded nodes...
-                Cindent != nod.d-1 and debugger
+                Cindent != A&nod.d-1 and debugger
             }
             
             # < check what comes off is ' '+
-            bit.trimstart = Cindent*2
+            A&bit.trimstart = Cindent*2
         }
         # note if|how we change exp to make things fit
         me.Ploy_mung = &acgt,bit,t,v{
@@ -4898,7 +4904,7 @@ me.Sch_The = &acgt{ return [
         }
         # more nodes: nod/*[0] first, then ^^/[nod+1]
         me.Ploy_nod_next = &acgt,sph,nod{
-            $E = nod.E
+            $E = A&nod.E
             $N = me&ioty,E .filter(e => ey&R)
                 .map(e => 3c&inode(nod,e))
             # < working
@@ -4907,7 +4913,7 @@ me.Sch_The = &acgt{ return [
             hak(N) and next = N[0]
             else {
                 # climb out until a next in
-                $N = me&Ay,nod,'/^^',{},{} (&nda{
+                $N = me&Ay,A&nod,'/^^',{},{} (&nda{
                     # < until returning to nod+1/nod/nod:from
                     d.d > 2 and debugger
                     # be a node
@@ -4944,7 +4950,7 @@ me.Sch_The = &acgt{ return [
             $E = nod.E
             me&boxcap,E.t,'1' (&ml{
                 lc&not = 1
-            me&boxcap,E.t,'1' (&ml{
+            me&boxcap,E.t,'2' (&ml{
                 me&walls,m,'bd:3.3h4'
                 ms&ml = (nod.d-1) * 0.6
                 me&drawsym,'E'
