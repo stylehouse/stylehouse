@@ -4854,6 +4854,8 @@ me.Sch_The = &acgt{ return [
                             nod = next
                         }
                         if (newline) {
+                            # tidy away lin
+                            delete lin.indent_sympathy
                             # < until a multi-lines y&toLines
                             !newnode and debugger
                             # we will use this next time around
@@ -4873,12 +4875,10 @@ me.Sch_The = &acgt{ return [
     // munging
         # line may start with spaces, to imagine into exp
         me.Ploy_indent_sympathy = &acgt,nod,lin,bit{
-            $bit0 = bit.i_bit == 0
             # leading bits, until [^ ] is found
-            bit0 and lin.indent_sympathy = 0
-            lin.indent_sympathy == null and return
-            # nod/lin 0 == first line of D
-            $lin0 = lin.i_mine == 0
+            $bit0 = bit.i_bit == 0
+            bit0 and lin.indent_sympathy = 1
+            !lin.indent_sympathy and return
             $no = &{ delete lin.indent_sympathy }
             
             # we only ever make C-indents (Linesing C/*) outside of D
@@ -4899,12 +4899,14 @@ me.Sch_The = &acgt{ return [
                 
                 Cindent = nod.Cindent
             }
-            elsif (lin0) {
+            elsif (lin.i_mine == 0) {
+                # nod/lin 0 == first line of D
                 nod.Cindent and debugger
                 nod.Cindent = Cindent
                 # < until treating haphazard text as input
                 #    eg see codes / spec / pre-tangent
                 #     which wouldnt be a Cindent per se
+                #  < or BQ-embedded nodes...
                 Cindent != nod.d-1 and debugger
             }
             
