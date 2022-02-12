@@ -4627,7 +4627,9 @@ me.Sch_The = &acgt{ return [
     &{
         me.Ploy = &acgt,nav,Comp{
             A = fi&At,"Ploy"
+            A.3 = A
             $X = {A}
+        // Ploy i
             $io = &xkv{
                 # all indexes are k:v (&X_t)
                 # ~~ c.wild: vx={v:x+}
@@ -4659,7 +4661,7 @@ me.Sch_The = &acgt{ return [
             #   nod.E|D
             #   nod/$line
             #  sph/$line
-            $inode = &xe{
+            $inode = 3c&inode = &xe{
                 $sph = x.sph || x
                 # climb /$in** = nod, so nod.up reflects Ey&up
                 $nod = iz(x,'in')
@@ -4717,6 +4719,7 @@ me.Sch_The = &acgt{ return [
                 each il Comp {
                     # join: one lin to many l
                     nonontrailinglinebreaks(lc&s)
+                    # title the first things
                     i == 0 && io(X,'sphere','*')
                         .map(sph => io(sph,'node',-1))
                         .map(nod => me&drawnod,nod)
@@ -4823,32 +4826,8 @@ me.Sch_The = &acgt{ return [
                             delete nod.matchtil
                             nod.Cindent && nod.Cindent == nod.d-1 and delete nod.Cindent
                             nod.ok = 1
-                            
-                            
                             # more nodes
-                            $E = nod.E
-                            $N = me&ioty,E .filter(e => ey&R)
-                                .map(e => inode(nod,e))
-                            # < working
-                            #$N = pam(me&ioty,E , e => ey&R && inode(nod,e) )
-                            hak(N) and next = N[0]
-                            else {
-                                # climb until so
-                                $N = me&Ay,nod,'/^^',{},{} (&nda{
-                                    # < until returning to nod+1/nod/nod:from
-                                    d.d > 2 and debugger
-                                    # be a node
-                                    !n.i_node && n != sph and debugger
-                                    !n.i_node and return d.not = 1
-                                    # n/[a+1]: another one after
-                                    n.in[a.i_in] != a and debugger
-                                    next = n.in[a.i_in*1+1]
-                                    # keep going up
-                                    !next and return
-                                    # we have a node
-                                    d.not = 1
-                                })
-                            }
+                            next = me&Ploy_nod_next,sph,nod
                             !next and return no("nextless")
                             isC(next) and return no("nextC",{next})
                             nod = next
@@ -4872,7 +4851,7 @@ me.Sch_The = &acgt{ return [
             })
             return X
         }
-    // munging
+    // Ploy acts
         # line may start with spaces, to imagine into exp
         me.Ploy_indent_sympathy = &acgt,nod,lin,bit{
             # leading bits, until [^ ] is found
@@ -4916,6 +4895,34 @@ me.Sch_The = &acgt{ return [
         # note if|how we change exp to make things fit
         me.Ploy_mung = &acgt,bit,t,v{
             ahk(bit,'mung',t,v||1)
+        }
+        # more nodes: nod/*[0] first, then ^^/[nod+1]
+        me.Ploy_nod_next = &acgt,sph,nod{
+            $E = nod.E
+            $N = me&ioty,E .filter(e => ey&R)
+                .map(e => 3c&inode(nod,e))
+            # < working
+            #$N = pam(me&ioty,E , e => ey&R && inode(nod,e) )
+            $next
+            hak(N) and next = N[0]
+            else {
+                # climb out until a next in
+                $N = me&Ay,nod,'/^^',{},{} (&nda{
+                    # < until returning to nod+1/nod/nod:from
+                    d.d > 2 and debugger
+                    # be a node
+                    !n.i_node && n != sph and debugger
+                    !n.i_node and return d.not = 1
+                    # n/[a+1]: another one after
+                    n.in[a.i_in] != a and debugger
+                    next = n.in[a.i_in*1+1]
+                    # keep going up
+                    !next and return
+                    # we have a node
+                    d.not = 1
+                })
+            }
+            return next
         }
     // drawing
         # not to be confused with $bit, which it maps to
