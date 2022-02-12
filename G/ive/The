@@ -4619,6 +4619,12 @@ me.Sch_The = &acgt{ return [
         # from the RE, the titled -six
         #  &Ahdiff_what is vague about what s|z are (so is &finishPiing)
         $nav = map(s => me&REof,s , {gone:sy&s,new:sy&z})
+        # < after reset, we may see RE/**!y&toLines
+        #    on the second trip to -seven/*
+        #     < which is unnecessary, see Fame
+        #     we are not during A:Run, so there is no &Ahdiff / &finishPiing
+        #     so our target, the eternal RE, is caught mid-redo
+        grep(e => me&finishPiing,e , nav)
         
         $Comp = ss&z.slice(0,16)
         $X = me&Ploy,nav,Comp
@@ -4629,7 +4635,61 @@ me.Sch_The = &acgt{ return [
             A = fi&At,"Ploy"
             A.3 = A
             $X = {A}
-        // Ploy i
+            me&Ploy_io
+            
+            # start old|new E** sph and their /$line
+            each te nav {
+                $sph = 3c&io(X,'sphere',t)
+                sph.sphere = t
+                # via X-Fez**, the /$line is what to refer to
+                $lin = 3c&iz(sph,'line')
+                $nod = 3c&inode(sph,e)
+                # node 0 for line 0
+                3c&inodlin(nod,lin)
+                $D = nod.D
+                !Dy&toLines and debugger
+            }
+            
+            $Ply = me&boxcap,'Ploy','1' (&Ply,{
+                each il Comp {
+                    A = A.3
+                    me&drawdiffbit,i,l
+                    
+                    $who = l.t == 'same' ? havs(3c&io(X,'sphere','*'))
+                        : [3c&io(X,'sphere',l.t)]
+                    who.map(&sph,{
+                        3c&not and return
+                        # floppily contain rigid nod**
+                        A = A.3
+                        # to init A3:Ploy/A:l+
+                        #  A:l always up to A3
+                        $title = 'l:'+i+':'+sph.sphere
+                        $a = me&Ploy_nod_arrive,sph,l,title
+                        !a and 3c&not = 1; return
+                        A = a
+                        fatal.isC(A&nod.E)
+                        
+                        # floppy bits between nod:
+                        me&boxcap,title,2 (&m,la{
+                            lac&not = 1
+                            me&Ploy_indent_sympathy
+                            me&Ploy_match
+                            3c&not and return
+                            me&Ploy_nod_leaving
+                        })
+                        3c&not and return
+                    })
+                    
+                    # after &Ploy_fail
+                    3c&not and me&tc,"Abort",'G'; break
+                }
+            })
+            return X
+        }
+        # proto io, on 3c&iocall(X|x,...)
+        # < compile &iocall to A.3.i.iocall
+        me.Ploy_io = &acgt{
+            A.3 != A and debugger
             3c&io = &xkv{
                 # all indexes are k:v (&X_t)
                 # ~~ c.wild: vx={v:x+}
@@ -4692,63 +4752,14 @@ me.Sch_The = &acgt{ return [
                 # nod/$mine is a subset of sph/$line
                 3c&iz(nod,'mine',lin)
             }
-            
-            # start old|new E** sph and their /$line
-            each te nav {
-                $sph = 3c&io(X,'sphere',t)
-                sph.sphere = t
-                # via X-Fez**, the /$line is what to refer to
-                $lin = 3c&iz(sph,'line')
-                $nod = 3c&inode(sph,e)
-                # node 0 for line 0
-                3c&inodlin(nod,lin)
-            }
-        // Ploy access
-            $nonontrailinglinebreaks = &s{
-                hak(s)-1 < s.indexOf("\n") and throw "many lin to one l"
-            }
-            $Nsph_for_l = &l{
-                return l.t == 'same' ? havs(3c&io(X,'sphere','*'))
-                    : [3c&io(X,'sphere',l.t)]
-            }
-            
-            
-        // Ploy loop
-            $Ply = me&boxcap,'Ploy','1' (&Ply,{
-                
-                each il Comp {
-                    # join: one lin to many l
-                    nonontrailinglinebreaks(lc&s)
-                    
-                    A = A.3
-                    me&drawdiffbit,i,l
-                    
-                    Nsph_for_l(l) .map(&sph,{
-                        # floppily contain rigid nod**
-                        A = A.3
-                        # to init A3:Ploy/A:l+
-                        #  A:l always up to A3
-                        $title = 'l:'+i+':'+sph.sphere
-                        A = me&Ploy_nod_arrive,sph,l,title
-                        fatal.isC(A&nod.E)
-                        
-                        # floppy bits between nod:
-                        me&boxcap,title,2 (&m,la{
-                            lac&not = 1
-                            me&Ploy_indent_sympathy
-                            me&Ploy_match
-                            3c&not and return
-                            me&Ploy_nod_leaving
-                        })
-                    })
-                    
-                    # after &Ploy_fail
-                    3c&not and me&tc,"Abort",'G'; break
-                }
-            })
-            return X
         }
     // Ploy acts
+        # the usual arrive, think, descent
+        #  the usual particle (A.1) is basically nod**
+        #   nod is also per sph
+        #   A:l is per l
+        #    for a nod finding it has /lin/bit
+        
         # A:l per nod/lin/bit
         me.Ploy_nod_arrive = &acgt,sph,l,title{
             A = fi&At,title
@@ -4761,7 +4772,9 @@ me.Sch_The = &acgt{ return [
             !lin and throw "nolin"
             $bit = 3c&iz(lin,'bit')
             bit.l = l
-            bit.str = lc&s
+            $str = bit.str = lc&s
+            # join: one lin to many l
+            hak(str)-1 < str.indexOf("\n") and throw "many lin to one l"
 
             $nod = lin.nod
             # a second opinion on next nod, from last A:l
@@ -4773,6 +4786,7 @@ me.Sch_The = &acgt{ return [
             if (!V || Vc&nod != nod) {
                 $D = nod.D
                 nod.whole = Dy&toLines
+                !isst(nod.whole) and debugger
                 !isst(nod.whole) and return me&Ploy_fail,'toLines',{l}
                 me&drawnod,nod
             }
@@ -4992,7 +5006,8 @@ me.Sch_The = &acgt{ return [
                 me&tsc,'s',dis(s),'6y'
             })
         }
-    // fail
+        
+    // f, fail
         me.Ploy_fail = &acgttc{
             # stop l++
             3c&not = 1
@@ -5698,10 +5713,10 @@ me.Sch_The = &acgt{ return [
         outEy&thing ||= Cye([outE.t,2])
 
         $d = {what: &sd{
-            # E**yD
+            # E**//D
             return sy&D
         }, compLines: &DdC{
-            # D is now C, D is a copy to encode
+            # E//D is now C, D is a copy to encode
             $E = Cy&E
             Ec&noencode and return d.not = 1
             # found another encoded thing
