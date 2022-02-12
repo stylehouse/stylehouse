@@ -4765,27 +4765,8 @@ me.Sch_The = &acgt{ return [
                         me&Ploy_indent_sympathy
                         me&Ploy_match
                         3c&not and return
+                        me&Ploy_nod_leaving
                         
-                        if (a&newnode && a&newline) {
-                            # tidy away nod
-                            delete nod.matchtil
-                            nod.Cindent && nod.Cindent == nod.d-1 and delete nod.Cindent
-                            nod.ok = 1
-                            # more nodes
-                            next = me&Ploy_nod_next
-                            !next and return me&Ploy_fail,"nextless"
-                            isC(next) and return me&Ploy_fail,"nextC",{next}
-                            nod = next
-                        }
-                        if (a&newline) {
-                            # tidy away lin
-                            delete lin.indent_sympathy
-                            # < until a multi-lines y&toLines
-                            !a&newnode and debugger
-                            # we will use this next time around
-                            lin = 3c&iz(sph,'line')
-                            3c&inodlin(nod,lin)
-                        }
                     })
                     })
                     
@@ -4839,6 +4820,7 @@ me.Sch_The = &acgt{ return [
         me.Ploy_mung = &acgt,bit,t,v{
             ahk(bit,'mung',t,v||1)
         }
+        # nod/whole <-> nod/mine/bit
         me.Ploy_match = &acgt{
             $nod = A&nod
             $bit = A&bit
@@ -4901,6 +4883,31 @@ me.Sch_The = &acgt{ return [
 
             nod.matchtil = til
             til == whole.length and a&newnode = true
+        }
+        # nod -> nod
+        me.Ploy_nod_leaving = &acgt{
+            $nod = A&nod
+            $lin = A&lin
+            if (a&newnode && a&newline) {
+                # tidy away nod
+                delete nod.matchtil
+                nod.Cindent && nod.Cindent == nod.d-1 and delete nod.Cindent
+                nod.ok = 1
+                # more nodes
+                $next = me&Ploy_nod_next
+                !next and return me&Ploy_fail,"nextless"
+                isC(next) and return me&Ploy_fail,"nextC",{next}
+                a&next = next
+            }
+            if (a&newline) {
+                # tidy away lin
+                delete lin.indent_sympathy
+                # < until a multi-lines y&toLines
+                !a&newnode and debugger
+                # we will use this next time around
+                lin = 3c&iz(A&sph,'line')
+                3c&inodlin(nod,lin)
+            }
         }
         # more nodes: nod/*[0] first, then ^^/[nod+1]
         me.Ploy_nod_next = &acgt{
