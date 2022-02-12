@@ -4819,8 +4819,11 @@ me.Sch_The = &acgt{ return [
                         nod.matchtil = til
                         $newnode = til == whole.length
                         if (newnode && newline) {
-                            delete nod.matchlen
+                            # tidy away nod
+                            delete nod.matchtil
+                            nod.Cindent && nod.Cindent == nod.d-1 and delete nod.Cindent
                             nod.ok = 1
+                            
                             
                             # more nodes
                             $E = nod.E
@@ -4832,6 +4835,7 @@ me.Sch_The = &acgt{ return [
                             else {
                                 # climb until so
                                 $N = me&Ay,nod,'/^^',{},{} (&nda{
+                                    # < until returning to nod+1/nod/nod:from
                                     d.d > 2 and debugger
                                     # be a node
                                     !n.i_node && n != sph and debugger
@@ -4898,6 +4902,10 @@ me.Sch_The = &acgt{ return [
             elsif (lin0) {
                 nod.Cindent and debugger
                 nod.Cindent = Cindent
+                # < until treating haphazard text as input
+                #    eg see codes / spec / pre-tangent
+                #     which wouldnt be a Cindent per se
+                Cindent != nod.d-1 and debugger
             }
             
             # < check what comes off is ' '+
