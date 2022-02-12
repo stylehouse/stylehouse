@@ -4719,10 +4719,6 @@ me.Sch_The = &acgt{ return [
                 each il Comp {
                     # join: one lin to many l
                     nonontrailinglinebreaks(lc&s)
-                    # title the first things
-                    0 && i == 0 && 3c&io(X,'sphere','*')
-                        .map(sph => 3c&io(sph,'node',-1))
-                        .map(nod => me&drawnod,nod)
                     
                     A = A.3
                     me&drawdiffbit,i,l
@@ -4748,14 +4744,6 @@ me.Sch_The = &acgt{ return [
                         
                         $nod = lin.nod
                         V && Vs&next && nod != Vs&next and debugger
-                        $no = &tc{ 
-                            # stop l++
-                            3c&not = 1
-                            # nod complains
-                            $x = 3c&iz(nod,'!'+t)
-                            c and pex(x,c)
-                            me&Ploy_fail,t,c,{sph,nod,lin,bit} 
-                        }
                         # 
                         ex(A.c,{sph,nod,lin,bit})
                         
@@ -4764,7 +4752,7 @@ me.Sch_The = &acgt{ return [
                     if (!V || Vc&nod != nod) {
                         $D = nod.D
                         nod.whole = Dy&toLines
-                        !isst(nod.whole) and return no('toLines',{l})
+                        !isst(nod.whole) and return me&Ploy_fail,'toLines',{l}
                         me&drawnod,nod
                     }
                     
@@ -4778,7 +4766,6 @@ me.Sch_The = &acgt{ return [
                         me&Ploy_match
                         3c&not and return
                         
-                    // done?
                         if (a&newnode && a&newline) {
                             # tidy away nod
                             delete nod.matchtil
@@ -4786,8 +4773,8 @@ me.Sch_The = &acgt{ return [
                             nod.ok = 1
                             # more nodes
                             next = me&Ploy_nod_next
-                            !next and return no("nextless")
-                            isC(next) and return no("nextC",{next})
+                            !next and return me&Ploy_fail,"nextless"
+                            isC(next) and return me&Ploy_fail,"nextC",{next}
                             nod = next
                         }
                         if (a&newline) {
@@ -4802,6 +4789,7 @@ me.Sch_The = &acgt{ return [
                     })
                     })
                     
+                    # after &Ploy_fail
                     3c&not and me&tc,"Abort",'G'; break
                 }
             })
@@ -4814,10 +4802,9 @@ me.Sch_The = &acgt{ return [
             $bit0 = A&bit.i_bit == 0
             bit0 and A&lin.indent_sympathy = 1
             !A&lin.indent_sympathy and return
-            $no = &{ delete A&lin.indent_sympathy }
             
             # we only ever make C-indents (Linesing C/*) outside of D
-            !A&bit.str.startsWith('  ') and return no()
+            !A&bit.str.startsWith('  ') and return delete A&lin.indent_sympathy
             # count ^( )+
             $level = hak(ksaf(A&bit.str,{bow:s => s != ' '}))
             $Cindent = Math.floor(level/2)
@@ -4859,11 +4846,11 @@ me.Sch_The = &acgt{ return [
             $at = nod.matchtil || 0
             $str = bit.str
             # str never goes beyond \n
-            a&newline = str.slice(-1)[0] == "\n"
+            str.slice(-1)[0] == "\n" and a&newline = true
             # whole does
             $whole = A&nod.whole
             !hak(whole) and debugger
-
+          // lying
             # ignore str indent, coming from D** travel
             bit.trimstart and str = str.slice(bit.trimstart)
             # < dropping \n from bit, via this mechanism
@@ -4900,23 +4887,25 @@ me.Sch_The = &acgt{ return [
                 #)
             # should yield the whole line?
             mungnl && til != whole.length and debugger
-
+            
+          // so
+            ex(A.sc,{str,exp})
             if (exp != str) {
-                return no('eq',{str,exp,whole})
+                return me&Ploy_fail,'eq'
             }
+            #A.t.includes(":4:") and me&Ploy_fail,'eeeeq'
             
             # shouldnt go around on the same nod after match
-            $seeknod = nod.matchtil == til
-                && !(mungnl && exp == "\n")
-            seeknod and no("matchnone?",{str,exp,whole})
+            $seeknod = nod.matchtil == til && !(mungnl && exp == "\n")
+            seeknod and me&Ploy_fail,"matchnone?"
 
             nod.matchtil = til
-            a&newnode = til == nod.whole.length
+            til == whole.length and a&newnode = true
         }
         # more nodes: nod/*[0] first, then ^^/[nod+1]
         me.Ploy_nod_next = &acgt{
             $E = A&nod.E
-            # i E/*
+            # i nod/* o E/*
             $N = me&ioty,E .filter(e => ey&R)
                 .map(e => 3c&inode(A&nod,e))
             # < working
@@ -4995,28 +4984,50 @@ me.Sch_The = &acgt{ return [
             })
         }
     // fail
-        me.Ploy_fail = &acgttcs{
+        me.Ploy_fail = &acgttc{
+            # stop l++
+            3c&not = 1
+            
+            # nod has errors
+            # < create ^^%strange
+            $x = 3c&iz(A&nod,'!'+t)
+            c and pex(x,c)
+            
             # display in modulat
             me&boxcap,"fail",3 (&ml{
                 me&walls,m,'ba:3.1h6'
                 #ls&dis = 3
                 ls&hue = 200
+                me&tc,"A:"+A.t,'6' .sc.ml = 1
                 me&tsc,"error:",'!'+t,'G'
-                map(c => me&Ploy_identify,c , {s,c})
-                me&boxcap,"ar",3 (&ml{
-                    ls&dis = 4
-                    me&drawbunchliner,c
-                })
-                me&boxcap,"co",3 (&ml{
-                    ls&dis = 4
-                    ms&hue = 33
-                    me&drawbunchliner,s
+                
+                
+                me&boxcap,"env",5 (&ml{
+                    lc&not = 1
+                    $inner = &tcy{
+                        c = me&Ploy_identify,c
+                        me&boxcap,t,3 (&ml{
+                            ls&dis = 4
+                            ls&ws = 1
+                            me&drawbunchliner,c
+                            y and y (m,l)
+                        })
+                    }
+
+                    c and inner('ar',c)
+                    inner('A&',me&novelAc,A.c ,&m{ ms&hue = 33 })
+                    inner('a&',A.sc,&m{ ms&hue = 66 })
                 })
             })
+        }
+        
+        me.novelAc = &acgtc{
+            return nex({},c,'X,ip,sip')
         }
 
         # turn c={k:sph|nod|lin +} to idc
         me.Ploy_identify = &acgtc{
+            c = ex({},c)
             each ts c {
                 # leave non-objects in
                 !isha(s) and continue
@@ -5043,6 +5054,7 @@ me.Sch_The = &acgt{ return [
                 },s)
                 c[t] = h
             }
+            return c
         }
         me.loosedepeel = &acgtc{
             return coint(armap(&vk{
