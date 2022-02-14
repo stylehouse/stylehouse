@@ -148,24 +148,8 @@
                 return nod
             },nav)
         // join
-            # joi/with=nod, nod.joi
-            $ijoin = &tN{
-                $joi = 3c&joi = 3c&iz(X,'join')
-                # reason eg given|leaving
-                joi.given = t
-                N.map(&nod,{
-                    # should be a node
-                    nod.i_node == null and debugger
-                    # not yet joined
-                    nod.i_with != null and debugger
-                    3c&iz(joi,'with',nod)
-                    nod.joi and debugger
-                    nod.joi = joi
-                })
-                return joi
-            }
             # join 0
-            ijoin('given',tops)
+            3c&ijoin('given',tops)
             =join
               drawing in /l*
                draw l
@@ -185,8 +169,9 @@
             =cut
             
         // loop
-            $Ply = me&boxcap,'Ploy','1' (&Ply,{
+            $Ply = me&boxcap,'Ploy',5 (&Ply,{
                 each il Comp {
+                    ly&seqi = i
                     A = A.3
                     me&drawdiffbit,i,l
                     
@@ -194,10 +179,9 @@
                         : [3c&io(X,'sphere',l.t)]
                     who.map(&sph,{
                         3c&not and return
-                        # floppily contain rigid nod**
-                        A = A.3
-                        # to init A3:Ploy/A:l+
+                        # to A3:Ploy/A:l+
                         #  A:l always up to A3
+                        A = A.3
                         $title = 'l:'+i+':'+sph.sphere
                         # nod remembered by last sph/lines
                         #  can return null if !Dy&toLines
@@ -206,9 +190,9 @@
                         A = a
                         fatal.isC(A&nod.E)
                         
-                        # floppy bits between nod:
                         me&boxcap,title,2 (&m,la{
                             lac&not = 1
+                            ms&type = 'sph<-l'
                             
                             me&Ploy_indent_sympathy
                             me&Ploy_match
@@ -217,10 +201,13 @@
                         })
                         3c&not and return
                     })
-                    3s&joined and me&Ploy_joined
+                    
+                    A = A.3
                     
                     # after &Ploy_fail
                     3c&not and me&tc,"Abort",'G'; break
+                    # to A3:Ploy/A:join+
+                    3s&joined and me&Ploy_joined
                 }
             })
             return X
@@ -293,6 +280,22 @@
                 sph.line[lin.i_line] != lin and debugger
                 # nod/$mine is a subset of sph/$line
                 3c&iz(nod,'mine',lin)
+            }
+            # joi/with=nod, nod.joi
+            3c&ijoin = &tN{
+                $joi = 3c&joi = 3c&iz(3c&X,'join')
+                # reason eg given|leaving
+                joi.given = t
+                N.map(&nod,{
+                    # should be a node
+                    nod.i_node == null and debugger
+                    # not yet joined
+                    nod.i_with != null and debugger
+                    3c&iz(joi,'with',nod)
+                    nod.joi and debugger
+                    nod.joi = joi
+                })
+                return joi
             }
         }
     // Ploy acts
@@ -499,19 +502,94 @@
             return next
         }
     //  join
+        # make join
+        me.Ploy_join = &acgt{
+        }
+        me.Ploy_drawjoin = &acgt,joi{
+            $i = joi.i_join
+            $nods = 3c&io(joi,'with','*')
+            #me&boxcap,'joinwrap:'+i,3 (&ml{
+            #    lc&not = 1
+            me&boxcap,'join:'+i,3 (&ml{
+                ms&type = 'join'
+                lc&s = i
+                ls&bri = 0.6
+                ls&dis = 4
+                # columns align or we have a border
+                #ms&bgh = 222
+                me&walls,m,'b:2.2h4'
+                ms&bol = '8px solid black'
+                
+                me&boxcap,'with',4 (&ml{
+                    lc&not = 1
+                    ms&fs = 7
+                    ms&maw = 6
+                    ms&miw = 3
+                    $la
+                    nods.map(&nod,{
+                        # show only one same title
+                        # < style about that
+                        la && nod.E.t == la.E.t and return
+                        me&drawnod,nod
+                        la = nod
+                    })
+                })
+                me&boxcap,'with/**bit',4 (&ml{
+                    lc&not = 1
+                    # make a flat list of l from:
+                    #  each l appearing on 1-2 bits
+                    #   for a line, for a node
+                    # < ~~ &twlic?
+                    # < &in should help with this situ
+                    #    going all deepest across branches
+                    #    to zip branch-branch
+                    # < dont flatten: link|styling from l/bit
+                    # < o l o nod/lin/bit.l
+                    $ls = flatten(nods.map(&nod,{
+                        return flatten(3c&io(nod,'mine','*').map(&lin,{
+                            return 3c&io(lin,'bit','*').map(&bit,{
+                                return bit.l
+                            })
+                        }))
+                    }))
+                    ls = me&sortial,ls,l=>ly&seqi,'sort,flat'
+                    
+                    $la
+                    each il ls {
+                        # == on both sph
+                        l == la and continue
+                        $bm = me&drawdiffbit,i,l
+                        
+                        la = l
+                    }
+                })
+            })
+            #})
+            
+            # drop other modulats we just restructured
+            $oktypes = peel('sph<-l,l,nod')
+            grop(n => oktypes[ns&type], T.ab.sc.z)
+        }
+        # & join nexts
         me.Ploy_joined = &acgt{
             $N = delete 3s&joined
             $X = 3c&X
             $i = hak(X.join)-1
             $title = 'join:'+i
             A = fi&At,title
-            $joi = A&joi = X.join[i]
-            joi != 3c&io(X,'join',-1) and return me&Ploy_fail,'join-1'
+            $old = A&old = X.join[i]
+            old != 3c&io(X,'join',-1) and return me&Ploy_fail,'join-1'
             hak(N) != 2 and return me&Ploy_fail,'Nx2',ex({},hamap(N))
             
-            # 
+            me&Ploy_drawjoin,old
             
-            me&tc,"Join:"+joint(N)
+            $nexts = armap(&V{
+                !(Vs&next && Vs&newline && Vs&newnode) and debugger
+                Vc&nod.joi != old and debugger
+                return Vs&next
+            },N)
+            
+            $neu = A&neu = 3c&ijoin('joined',nexts)
         }
         
         
@@ -577,10 +655,12 @@
             3c&not = 1
             
             # nod|joi has errors
-            $blame = A&nod||A&joi
             # < create ^^%strange
-            $x = 3c&iz(blame,'!'+t)
-            c and pex(x,c)
+            $blame = A&nod||A&joi
+            if (blame) {
+                $x = 3c&iz(blame,'!'+t)
+                c and pex(x,c)
+            }
             
             # display in modulat
             me&boxcap,"fail",3 (&ml{
