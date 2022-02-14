@@ -371,7 +371,8 @@ window.diff_prettyHtml = &diffs,{
                         $la;
                         each in Jnek {
                             $d = Jnet[n];
-                            d.type != 'J' and throw "JnetnotJ: ", d
+                            d.type != 'J' and break
+                                # throw "JnetnotJ: ", d
                             $l = la && Jnet[la.k];
                             if (l) {
                                 # same J takes highest number
@@ -391,18 +392,20 @@ window.diff_prettyHtml = &diffs,{
                             E.push(d);
                             la = d;
                         }
-                        $netname = [];
-                        each id E {
-                            !stringy(d) and d = d.v.t
-                            netname.push(d);
+                        if (E.length) {
+                            $netname = [];
+                            each id E {
+                                !stringy(d) and d = d.v.t
+                                netname.push(d);
+                            }
+                            netname = netname.join('.');
+                            # cv can prefix a net name
+                            if (cvm) {
+                                netname = cvm[1] +'@'+ netname;
+                                cvm = null;
+                            }
+                            N.unshift(['',netname]);
                         }
-                        netname = netname.join('.');
-                        # cv can prefix a net name
-                        if (cvm) {
-                            netname = cvm[1] +'@'+ netname;
-                            cvm = null;
-                        }
-                        N.unshift(['',netname]);
                     }
                     cvm and N.unshift(cvm);
                     M = N;

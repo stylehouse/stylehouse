@@ -130,7 +130,7 @@
         me.Ploy = &acgt,nav,Comp{
             A = fi&At,"Ploy"
             A.3 = A
-            $X = {A}
+            $X = 3c&X = {A}
             me&Ploy_io
             
             # sph/nod|lin
@@ -147,10 +147,11 @@
                 3c&inodlin(nod,lin)
                 return nod
             },nav)
-            
-            # joi/nod|lin
+        // join
+            # joi/with=nod, nod.joi
             $ijoin = &tN{
                 $joi = 3c&joi = 3c&iz(X,'join')
+                # reason eg given|leaving
                 joi.given = t
                 N.map(&nod,{
                     # should be a node
@@ -158,13 +159,32 @@
                     # not yet joined
                     nod.i_with != null and debugger
                     3c&iz(joi,'with',nod)
+                    nod.joi and debugger
+                    nod.joi = joi
                 })
                 return joi
             }
             # join 0
             ijoin('given',tops)
+            =join
+              drawing in /l*
+               draw l
+               nod arrive
+                draw nod if new
+             <<<
+              scoop them out when nod joins
+                so they show what fails
+               and draw a join table
+                < de-indent every so often
+                  describing the branch stepped into
+              nod joins on a&newline
+               may be the only join/with=nod
+                if the other sph matched no l since the last join
+                 ie the nodes are pulling away from each other
+              
+            =cut
             
-            
+        // loop
             $Ply = me&boxcap,'Ploy','1' (&Ply,{
                 each il Comp {
                     A = A.3
@@ -179,6 +199,8 @@
                         # to init A3:Ploy/A:l+
                         #  A:l always up to A3
                         $title = 'l:'+i+':'+sph.sphere
+                        # nod remembered by last sph/lines
+                        #  can return null if !Dy&toLines
                         $a = me&Ploy_nod_arrive,sph,l,title
                         !a and 3c&not = 1; return
                         A = a
@@ -187,6 +209,7 @@
                         # floppy bits between nod:
                         me&boxcap,title,2 (&m,la{
                             lac&not = 1
+                            
                             me&Ploy_indent_sympathy
                             me&Ploy_match
                             3c&not and return
@@ -194,6 +217,7 @@
                         })
                         3c&not and return
                     })
+                    3s&joined and me&Ploy_joined
                     
                     # after &Ploy_fail
                     3c&not and me&tc,"Abort",'G'; break
@@ -231,6 +255,7 @@
                 x['i_'+k] = i
                 return x
             }
+            
           // objects
             # X/$sphere=new = sph
             #  sph/$node flatly or /$in** = nod
@@ -418,6 +443,7 @@
         }
         # nod -> nod
         me.Ploy_nod_leaving = &acgt{
+            # per sph:
             $nod = A&nod
             $lin = A&lin
             if (a&newnode && a&newline) {
@@ -432,13 +458,15 @@
                 nod.next = next
                 next.prev = nod
                 nod = a&next = next
+                # let join happen
+                ac(A.3,'joined',A)
             }
             if (a&newline) {
                 # tidy away lin
                 delete lin.indent_sympathy
                 # < until a multi-lines y&toLines
                 !a&newnode and debugger
-                # we will use this next time around
+                # make empty lin to use next time around
                 lin = 3c&iz(A&sph,'line')
                 3c&inodlin(nod,lin)
             }
@@ -470,6 +498,23 @@
             }
             return next
         }
+    //  join
+        me.Ploy_joined = &acgt{
+            $N = delete 3s&joined
+            $X = 3c&X
+            $i = hak(X.join)-1
+            $title = 'join:'+i
+            A = fi&At,title
+            $joi = A&joi = X.join[i]
+            joi != 3c&io(X,'join',-1) and return me&Ploy_fail,'join-1'
+            hak(N) != 2 and return me&Ploy_fail,'Nx2',ex({},hamap(N))
+            
+            # 
+            
+            me&tc,"Join:"+joint(N)
+        }
+        
+        
         
     // drawing
         # not to be confused with $bit, which it maps to
@@ -477,9 +522,10 @@
             $name = cint(t,l.t)
             me&boxcap,name,'5y' (&m,la{
                 me&walls,m,'bd:1.1'
+                ms&type = 'l'
                 lac&s = 
                     l.t == 'new' ? '++' :
-                    l.t == 'gone' ? '++' :
+                    l.t == 'gone' ? '--' :
                     l.t == 'same' ? '==' : l.t
                 
                 $to = me&drawString,lc&s,'y'
@@ -491,6 +537,7 @@
             $E = nod.E
             me&boxcap,E.t,'1' (&ml{
                 lc&not = 1
+                ms&type = 'nod'
             me&boxcap,E.t,'2' (&ml{
                 me&walls,m,'bd:3.3h4'
                 ms&ml = (nod.d-1) * 0.6
@@ -529,9 +576,10 @@
             # stop l++
             3c&not = 1
             
-            # nod has errors
+            # nod|joi has errors
+            $blame = A&nod||A&joi
             # < create ^^%strange
-            $x = 3c&iz(A&nod,'!'+t)
+            $x = 3c&iz(blame,'!'+t)
             c and pex(x,c)
             
             # display in modulat
