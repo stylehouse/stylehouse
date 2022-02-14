@@ -149,7 +149,7 @@
             },nav)
         // join
             # join 0
-            3c&ijoin('given',tops)
+            me&Ploy_join,'given',tops
             =join
               drawing in /l*
                draw l
@@ -189,6 +189,8 @@
                         !a and 3c&not = 1; return
                         A = a
                         fatal.isC(A&nod.E)
+                        # capture l sequence
+                        me&Ploy_join_l
                         
                         me&boxcap,title,2 (&m,la{
                             lac&not = 1
@@ -502,8 +504,21 @@
             return next
         }
     //  join
-        # make join
-        me.Ploy_join = &acgt{
+        # 3s&joi++
+        me.Ploy_join = &acgttN{
+            return 3s&joi = 3c&ijoin(t,N)
+        }
+        # joi/lit .l, /bit
+        #  l-ordered bits of either sph
+        me.Ploy_join_l = &acgt{
+            $bit = A&bit
+            $l = bit.l
+            $la = 3c&io(3s&joi,'lit',-1)
+            $lit = la && la.l == l ? la
+                : 3c&iz(3s&joi,'lit')
+            lit.l = l;
+            # lets not inform of the rewire..? its just i_sphere
+            (lit.bit ||= []).push(bit)
         }
         me.Ploy_drawjoin = &acgt,joi{
             $i = joi.i_join
@@ -515,11 +530,12 @@
                 lc&s = i
                 ls&bri = 0.6
                 ls&dis = 4
-                # columns align or we have a border
                 #ms&bgh = 222
+                # < how to border rows
                 me&walls,m,'b:2.2h4'
                 ms&bol = '8px solid black'
                 
+                # joi/with=nod
                 me&boxcap,'with',4 (&ml{
                     lc&not = 1
                     ms&fs = 7
@@ -534,8 +550,10 @@
                         la = nod
                     })
                 })
-                me&boxcap,'with/**bit',4 (&ml{
+                # joi/lit.l, /bit...nod
+                me&boxcap,'**bit',4 (&ml{
                     lc&not = 1
+                  if (0) {
                     # make a flat list of l from:
                     #  each l appearing on 1-2 bits
                     #   for a line, for a node
@@ -545,6 +563,7 @@
                     #    to zip branch-branch
                     # < dont flatten: link|styling from l/bit
                     # < o l o nod/lin/bit.l
+                    
                     $ls = flatten(nods.map(&nod,{
                         return flatten(3c&io(nod,'mine','*').map(&lin,{
                             return 3c&io(lin,'bit','*').map(&bit,{
@@ -552,16 +571,14 @@
                             })
                         }))
                     }))
-                    ls = me&sortial,ls,l=>ly&seqi,'sort,flat'
                     
-                    $la
-                    each il ls {
-                        # == on both sph
-                        l == la and continue
+                    ls = me&sortial,ls,l=>ly&seqi,'sort,flat'
+                  }
+                    # lit.l, /bit
+                    3c&io(joi,'lit','*') .map(&lit,i{
+                        $l = lit.l
                         $bm = me&drawdiffbit,i,l
-                        
-                        la = l
-                    }
+                    })
                 })
             })
             #})
@@ -572,24 +589,25 @@
         }
         # & join nexts
         me.Ploy_joined = &acgt{
-            $N = delete 3s&joined
+            A = fi&At,'join:'+3s&joi.i_join
             $X = 3c&X
-            $i = hak(X.join)-1
-            $title = 'join:'+i
-            A = fi&At,title
-            $old = A&old = X.join[i]
-            old != 3c&io(X,'join',-1) and return me&Ploy_fail,'join-1'
+            # passes A:l+, are per sph
+            $N = delete 3s&joined
+            
+            A&old = 3s&joi
+            A&old != 3c&io(X,'join',-1) and return me&Ploy_fail,'join-1'
             hak(N) != 2 and return me&Ploy_fail,'Nx2',ex({},hamap(N))
             
-            me&Ploy_drawjoin,old
+            me&Ploy_drawjoin,A&old
             
             $nexts = armap(&V{
                 !(Vs&next && Vs&newline && Vs&newnode) and debugger
-                Vc&nod.joi != old and debugger
+                Vc&nod.joi != A&old and debugger
                 return Vs&next
             },N)
             
-            $neu = A&neu = 3c&ijoin('joined',nexts)
+            
+            A&neu = me&Ploy_join,'next',nexts
         }
         
         
