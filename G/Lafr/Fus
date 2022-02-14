@@ -1006,8 +1006,18 @@ S 7 Ath elvising
     # D diff -> modulat chunks sidetrack
     $Plo = me&AhDifmo,'lasttwo'
     $Ploy = me&Eof,Plo .y.Ploy
-    h.Fez(' Ploy X.sphere**', Ploy, {Fezonly:'sphere'} )
-    h.Fez(' Ploy X.join**', Ploy, {Fezonly:'join',Feznott:'up,sph,prev,next,in'})
+    # has a kind of an ugly sph/line/node**/line
+    h.Fez(' Ploy X.sphere**', Ploy, {Fezonly:'sphere',
+        # focus nod->nod to use /in
+        # < strategise from Top for Eref situation
+        #    favour sphere+join as parallel
+        #    ~~ what join is now trying to do
+        Feznott:'prev,next'}
+    )
+    h.Fez(' Ploy X.join**', Ploy, {Fezonly:'join',
+        # dont wander into sphere**
+        Feznott:'up,sph,prev,next,in'}
+    )
     
     # minimod sidetrack
     me&finishPiing,lacom
