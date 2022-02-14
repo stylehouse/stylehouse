@@ -537,7 +537,7 @@
                     # > keeping in|out points of str in bit, etc
                     
                     # for nod/*lin/*col.changey
-                    bit.l.t != 'same' and col.changey = 1
+                    bit.l.t != 'same' and mc.changey = col.changey = 1
                 }
                 
                 # < Lines always t,y,c?
@@ -632,15 +632,26 @@
                     
                     ls = me&sortial,ls,l=>ly&seqi,'sort,flat'
                   }
-                    # lit.l, /bit
+                    # lit.l, /bit|col
                     3c&io(joi,'lit','*') .map(&lit,i{
                         $l = lit.l
                         $n = me&drawdiffbit,i,l
-                        3c&io(lit,'bit','*') .map(&bit,{
-                            $nod = bit.up.nod
+                        
+                        # lit/bit is about l
+                        #  lit.bit is hash, this is a havs()
+                        $bits = 3c&io(lit,'bit','*')
+                        # <<<
+                        #  per sph|nod
+                        $nods = bits.map(bit => bit.up.nod)
+                        nods.map(&nod,{
                             nod.i_in == null and debugger
-                            y && y(lit,l,n,bit,nod)
                         })
+                        # <<<
+                        # lit/bit finds lit/nod/col
+                        $cols = lit.col
+                        
+                        $nod = bit.up.nod
+                        y && y(lit,l,n,bits,nods,cols)
                     })
                 })
             })
@@ -662,8 +673,29 @@
             A&old != 3c&io(X,'join',-1) and return me&Ploy_fail,'join-1'
             hak(N) != 2 and return me&Ploy_fail,'Nx2',ex({},hamap(N))
             
-            me&Ploy_drawjoin,A&old (&lit,l,n,bit,nod{
-                bit.str.startsWith('♲') and ns&opa = 0.5
+            me&Ploy_drawjoin,A&old (&lit,l,n,bits,nods,cols{
+                $qual = 10
+                $down = &v{
+                    qual > v and qual = v
+                }
+                each t,col cols {
+                    !col.changey and continue
+                    if (t != 'sc') {
+                        down(7)
+                    }
+                    else {
+                        # sc - depends what changed
+                        $ns = 3c&io(col,'microcol','*')
+                            .map(mb => mb.str).join("")
+                        down(5)
+                    }
+                    
+                    
+                }
+                #bit.str.startsWith('♲') and ns&opa = 0.5
+                qual == 10 and ns&opa = 0.4
+                else
+                qual == 5 and me&tsc,"only-sc-changed","%",'6y'
             })
             
             $nexts = armap(&V{
