@@ -599,6 +599,8 @@
                         
                         #  /#with:jodol, now per node
                         $jodol = 3c&io(jol,'jodol',nod.i_with)
+                        jodol.nod and debugger
+                        jodol.nod = nod
                         
                         # col from either node -> shared line, column
                         sex(jin,col,'changey')
@@ -615,6 +617,19 @@
                     # lin/col for both nodes
                     fatal.isst(jol.ark)
                     if (jol.changey) {
+                        # make whole of either sph for lines|columns
+                        3c&io(jol,'jodol','*') .map(&jodol,{
+                            $nod = jodol.nod
+                            # jin is for both nodes
+                            $jink = "whole_"+nod.sph.sphere
+                            !hak(jin,jink) and jin[jink] = ''
+                            jodol.whole = ''
+                            
+                            3c&io(jodol,'microcol','*') .map(&mc,{
+                                jin[jink] += mc.str
+                                jodol.whole += mc.str
+                            })
+                        })
                     }
                     else {
                         delete jin.jol[jol.ark]
