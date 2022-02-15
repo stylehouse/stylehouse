@@ -617,16 +617,13 @@
                     # lin/col for both nodes
                     fatal.isst(jol.ark)
                     if (jol.changey) {
-                        # make whole of either sph for lines|columns
+                        # make whole of either sph columns
+                        # < someday, decompress each via &Lines
+                        #    would make whole from nod/lin/bit
                         3c&io(jol,'jodol','*') .map(&jodol,{
                             $nod = jodol.nod
-                            # jin is for both nodes
-                            $jink = "whole_"+nod.sph.sphere
-                            !hak(jin,jink) and jin[jink] = ''
                             jodol.whole = ''
-                            
                             3c&io(jodol,'microcol','*') .map(&mc,{
-                                jin[jink] += mc.str
                                 jodol.whole += mc.str
                             })
                         })
@@ -639,12 +636,12 @@
         }
         # and iterate lit(/bit,nod)
         me.Ploy_drawjoin = &acgt,joi{
-            return &y{
             $i = joi.i_join
             $nods = 3c&io(joi,'with','*')
             #me&boxcap,'joinwrap:'+i,3 (&ml{
             #    lc&not = 1
             me&boxcap,'join:'+i,3 (&ml{
+                $joim = m
                 ms&type = 'join'
                 lc&s = i
                 ls&bri = 0.6
@@ -698,24 +695,18 @@
                     # lit.l, /bit|col
                     3c&io(joi,'lit','*') .map(&lit,i{
                         $l = lit.l
-                        $n = me&drawdiffbit,i,l
-                        
-                        # lit/bit is about l
-                        #  lit.bit is hash, this is a havs()
-                        $bits = 3c&io(lit,'bit','*')
-                        # <<<
-                        #  per sph|nod
-                        $nods = bits.map(bit => bit.up.nod)
-                        nods.map(&nod,{
-                            nod.i_in == null and debugger
-                        })
-                        # <<<
-                        # lit/bit finds lit/nod/col
-                        $cols = lit.col
-                        
-                        $nod = bit.up.nod
-                        y && y(lit,l,n,bits,nods,cols)
+                        $lm = ldraw[ly&seqi] = me&drawdiffbit,i,l
+                        l.t == 'same' and lms&bri = 0.6; lmy&label.c.not = 1
                     })
+                })
+            
+            // # joi/#lin:jin/#col:jol/#with:jodol/ 
+                me&boxcap,'**col',4 (&ml{
+                    lc&not = 1
+                    ms&maw = 6
+                    ms&miw = 3
+                    
+                    me&Ploy_drawjoin_jin,joi,{joim,ldraw}
                 })
             })
             #})
@@ -723,7 +714,68 @@
             # drop other modulats we just restructured
             $oktypes = peel('sph<-l,l,nod')
             grop(n => oktypes[ns&type], T.ab.sc.z)
-            }
+        }
+        # < u Ploy
+        me.Ploy_pernkgk = {sc:{'♲':8}}
+        me.Ploy_drawjoin_jin = &acgt,joi,g{
+            # modulats passed in:
+            #  g.joim = the join row
+            #  g.ldraw[ly&seqi] = l drawing
+            
+            # each jodol/microbit.bit.l is in here
+            $ls = 3c&io(joi,'lit','*') .map(lit => lit.l)
+            $none = 1
+            3c&io(joi,'jin','*') .map(&jin,{
+                # lin for both nodes
+                3c&io(jin,'jol','*') .map(&jol,{
+                    # changey lin/col for both nodes
+                    none = 0
+                    !jol.changey and debugger
+                    $arks = 3c&io(jol,'jodol','*') .map(jodol => jodol.ark)
+                    $ark = theone(uniq(arks))
+                    $jodols = jol.jodol
+                    !hak(jodols) and debugger
+                    
+                    $arksay = ark == 'sc' ? '%' : ark
+                    me&boxcap,arksay,4 (&ml{
+                        me&walls,m,'b:2.2h4'
+                        $maq = me&tc,'match-quality','6g'
+                        maqs&dis = 2
+                        $qual = 9
+                        $down = &v{
+                            qual > v and qual = v
+                        }
+                        
+                        if (ark == 'sc') {
+                            # can let a few things off
+                            $eith = map(jodol => peel(jodol.whole),jodols)
+                            hakd(...havs(eith)).map(&gk,{
+                                $know = ahsk(me.Ploy_pernkgk,ark,gk)
+                                # < further. seq++ numbers? pointer much changing?
+                                know ||= 5
+                                !num(know) and debugger
+                                down(know)
+                                me&boxcap,"gk:"+gk,2 (&ml{
+                                    me&walls,m,'b:2.2h4'
+                                    lc&s = gk
+                                    me&tc,'yup' .sc.dis = 0
+                                })
+                            })
+                        }
+                        else {
+                            # t|y|c completely
+                            down(1)
+                            #me&tc,'yup' .sc.dis = 0
+                        }
+                        
+                        maqc&s = qual
+                        if (qual == 9) {
+                            return mc&not = 1
+                        }
+                    })
+                })
+            })
+            none and g.joim.sc.bri = 0.6
         }
         # & join nexts!
         me.Ploy_joined = &acgt{
@@ -739,31 +791,8 @@
             # now its all done, assort joi/jin/jol/jodol
             #  for per-line, per-column, per-node change
             me&Ploy_joi_col,A&old
-            
-            me&Ploy_drawjoin,A&old (&lit,l,n,bits,nods,cols{
-                $qual = 10
-                $down = &v{
-                    qual > v and qual = v
-                }
-                each t,col cols {
-                    !col.changey and continue
-                    if (t != 'sc') {
-                        down(7)
-                    }
-                    else {
-                        # sc - depends what changed
-                        $ns = 3c&io(col,'microcol','*')
-                            .map(mb => mb.str).join("")
-                        down(5)
-                    }
-                    
-                    
-                }
-                #bit.str.startsWith('♲') and ns&opa = 0.5
-                qual == 10 and ns&opa = 0.4
-                else
-                qual == 5 and me&tsc,"only-sc-changed","%",'6y'
-            })
+            # jol per column, so ark=nk, eg sc
+            me&Ploy_drawjoin,A&old
             
             $nexts = armap(&V{
                 !(Vs&next && Vs&newline && Vs&newnode) and debugger
