@@ -172,8 +172,6 @@
                         !a and 3c&not = 1; return
                         A = a
                         fatal.isC(A&nod.E)
-                        # capture l sequence
-                        me&Ploy_join_l
                         
                         me&boxcap,title,2 (&m,la{
                             lac&not = 1
@@ -182,6 +180,10 @@
                             me&Ploy_indent_sympathy
                             me&Ploy_match
                             3c&not and return
+                            # join l sequence
+                            me&Ploy_joi_l
+                            # line columns
+                            me&Ploy_lin_col
                             me&Ploy_nod_leaving
                         })
                         3c&not and return
@@ -322,7 +324,7 @@
             }
             return A
         }
-        # nod -> nod
+        # next nod|lin
         me.Ploy_nod_leaving = &acgt{
             # per sph:
             $nod = A&nod
@@ -488,12 +490,12 @@
             
             nod.matchtil = til
             til == whole.length and a&newnode = true
-            
-            me&Ploy_lin_col,lin,bit
         }
         # what did bit bump into
         # regroups lin/bit into lin/col=t|y|c|sc/microcol
         me.Ploy_lin_col = &acgt,lin,bit{
+            $lin = A&lin
+            $bit = A&bit
             $str = bit.str
             if (lin.i_mine == 0) {
                 # tidy str
@@ -564,9 +566,9 @@
         me.Ploy_join = &acgttN{
             return 3s&joi = 3c&ijoin(t,N)
         }
-        # joi/lit .l, /bit
+        # 3s&joi/lit .l, /bit
         #  l-ordered bits of either sph
-        me.Ploy_join_l = &acgt{
+        me.Ploy_joi_l = &acgt{
             $bit = A&bit
             $l = bit.l
             $la = 3c&io(3s&joi,'lit',-1)
@@ -575,6 +577,50 @@
             lit.l = l;
             # lets not inform of the rewire..? its just i_sphere
             (lit.bit ||= []).push(bit)
+        }
+        # joi/#lin:jin/#col:jol/#with:jodol/
+        #  only changey
+        me.Ploy_joi_col = &acgt,joi{
+            $lin_quant
+            3c&io(joi,'with','*') .map(&nod,{
+                $sph = nod.sph
+                # sanity: same number of /lin
+                lin_quant != null && lin_quant != hak(nod.lin) and debugger
+                lin_quant = hak(nod.lin)
+                # assumes each node's nod/lin align
+                # < see resolve $n
+                3c&io(nod,'mine','*') .map(&lin,{
+                    # /#lin:jin
+                    $jin = 3c&io(joi,'jin',lin.i_mine)
+                    3c&io(lin,'col','*') .map(&col,{
+                        # /#col:jol
+                        fatal.isst(col.ark)
+                        $jol = 3c&io(jin,'jol',col.ark)
+                        
+                        #  /#with:jodol, now per node
+                        $jodol = 3c&io(jol,'jodol',nod.i_with)
+                        
+                        # col from either node -> shared line, column
+                        sex(jin,col,'changey')
+                        sex(jol,col,'ark,changey')
+                        #  and jodol, is per node
+                        sex(jodol,col,'ark,microcol,changey')
+                    })
+                })
+                
+            })
+            3c&io(joi,'jin','*') .map(&jin,{
+                # lin for both nodes
+                3c&io(jin,'jol','*') .map(&jol,{
+                    # lin/col for both nodes
+                    fatal.isst(jol.ark)
+                    if (jol.changey) {
+                    }
+                    else {
+                        delete jin.jol[jol.ark]
+                    }
+                })
+            })
         }
         # and iterate lit(/bit,nod)
         me.Ploy_drawjoin = &acgt,joi{
@@ -608,8 +654,10 @@
                         la = nod
                     })
                 })
-                # joi/lit.l, /bit...nod
-                me&boxcap,'**bit',4 (&ml{
+            
+            // # joi/lit.l
+                $ldraw = {}
+                me&boxcap,'**l',4 (&ml{
                     lc&not = 1
                   if (0) {
                     # make a flat list of l from:
@@ -672,6 +720,10 @@
             A&old = 3s&joi
             A&old != 3c&io(X,'join',-1) and return me&Ploy_fail,'join-1'
             hak(N) != 2 and return me&Ploy_fail,'Nx2',ex({},hamap(N))
+            
+            # now its all done, assort joi/jin/jol/jodol
+            #  for per-line, per-column, per-node change
+            me&Ploy_joi_col,A&old
             
             me&Ploy_drawjoin,A&old (&lit,l,n,bits,nods,cols{
                 $qual = 10
