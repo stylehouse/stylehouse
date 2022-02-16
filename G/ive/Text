@@ -418,7 +418,7 @@
             if (entirely) {
                 # (++  ) should keep going
                 # maybe even through (++  )(==      )(++yada)
-                !bit0 and debugger
+                #!bit0 and debugger
             }
             # more indent on (==      )
             !bit0 and A&nod.Cindent += Cindent
@@ -429,14 +429,10 @@
             # the first line of D has the real indent
             if (A&nod.Cindent) {
                 $lin0 = A&lin.i_mine == 0
+                # < until multi line D
                 !lin0 and debugger
-                $differ = Cindent - A&nod.Cindent
-                differ < 0 and debugger
-                # lin>0 should have at least ' ' more than lin0
-                A&nod.Cindent*2 == level and debugger
-                # < until BQ things have indents inside them:
-                differ > 2 and debugger
-                
+                # < sanity (was simple before more indent)
+                #    - lin>0 should have at least ' ' more than lin0
                 Cindent = A&nod.Cindent
             }
             elsif (A&lin.i_mine == 0) {
@@ -1683,8 +1679,7 @@
                         }
                     }
                     # < add a d.path
-                    maxed < max and debugger
-                    maxed < max and ~>0 Ply recovermuch: maxed
+                    maxed >= max and ~>0 Ply recovermuch: maxed, slant(me.cby(d).map(d => d.n))
                     !nl and return
                     })
                     if (!nl) {
@@ -1696,7 +1691,7 @@
                     
                     # find corresponding d to skip iteration until
                     $done = 0
-                    while (max-->0) {
+                    while (maxed<max) {
                         if (!done) {
                             if (dup.l && dup.l.sc.level < goodlevel) {
                                 done = 1
