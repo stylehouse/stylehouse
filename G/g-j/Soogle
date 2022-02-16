@@ -595,7 +595,8 @@ me.styler = &acgt{
     'ori:left~right~center ^text align^',
     'ori:none~all poi^nter ^events',
     'ori:all~none unsel^^user ^select',
-    'whipre white space',
+               # 1          3
+    'ori:initial~pre~nowrap~pre-line~pre-wrap white space',
     'ori:normal~break-word~break-all word break',
     'ori:none~block~inline-block'
     #    0    1     2 
@@ -755,13 +756,6 @@ me.styler = &acgt{
         }
         return s
     };
-    co.whipre = &s{
-        s += '';
-        return s.match(/^[0i]/) ? 'initial'
-            : s.match(/^[2n]/) ? 'nowrap'
-            : s.match(/^[3l]/) ? 'pre-line'
-        : 'pre';
-    }
     co.shadole = &s{
         s = s.split(' ');
         $colour = s.length == 4 && s.pop();
