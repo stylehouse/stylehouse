@@ -181,9 +181,9 @@
                                 # l%moren is a fold marker, everything inside is t=same
                                 #  we avoid leaving to nod**, which are spared from Comp
                                 #  it is otherwise a regular l, for A&nod
+                                # < (upstream) shouldnt %moren if many is small
+                                #    > unless many small %moren close together
                                 $many = hak(ls&moren)
-                                # < dont %moren if many is small
-                                #    unless many small %moren close together
                                 !(isar(ls&moren) && many) and debugger
                                 A&nod.hasmoren = many
                             }
@@ -407,15 +407,29 @@
             
             # we only ever make C-indents (Linesing C/*) outside of D
             !A&bit.str.startsWith('  ') and return delete A&lin.indent_sympathy
-            # count ^( )+
-            $level = hak(ksaf(A&bit.str,{bow:s => s != ' '}))
+            # count ^(  )+
+            $level = hak(ksaf(A&bit.str,{bow:s => s != ' ',may:1}))
             $Cindent = Math.floor(level/2)
+            # < never odd? or see Lines / BQ
+            level != Cindent*2 and debugger
+            
+            # we sometimes (++  )(==      yada)
+            $entirely = hak(A&bit.str) == level
+            if (entirely) {
+                # (++  ) should keep going
+                # maybe even through (++  )(==      )(++yada)
+                !bit0 and debugger
+            }
+            # more indent on (==      )
+            !bit0 and A&nod.Cindent += Cindent
+            
             # ends at \S
-            hak(A&bit.str) >= level and delete A&lin.indent_sympathy
+            !entirely and delete A&lin.indent_sympathy
             
             # the first line of D has the real indent
             if (A&nod.Cindent) {
-                lin0 and debugger
+                $lin0 = A&lin.i_mine == 0
+                !lin0 and debugger
                 $differ = Cindent - A&nod.Cindent
                 differ < 0 and debugger
                 # lin>0 should have at least ' ' more than lin0
@@ -433,7 +447,8 @@
                 #    eg see codes / spec / pre-tangent
                 #     which wouldnt be a Cindent per se
                 #  < or BQ-embedded nodes...
-                Cindent != A&nod.d-1 and debugger
+                # this is normal when entirely, eg (++  )
+                Cindent != A&nod.d-1 && !entirely and debugger
             }
             
             # < check what comes off is ' '+
@@ -1610,6 +1625,7 @@
                    // aim Comp[upto], notting d recursion up to it!
                     $indup = upto
                     $max = 1000
+                    $maxed = 0
                     $la2
                     $la
                     $nl
@@ -1623,7 +1639,7 @@
                     sublevel and me&ts,'sublevel-got-from-%subComp-parts','(part-indent)','6y'
                     $lastline
                     $opecovered = me&tt,"covered" ()
-                    while (max-->0) {
+                    while (maxed++<max) {
                         la2 = la
                         la = nl
                         indup++
@@ -1666,7 +1682,9 @@
                             break
                         }
                     }
-                    max < 5 and debugger
+                    # < add a d.path
+                    maxed < max and debugger
+                    maxed < max and ~>0 Ply recovermuch: maxed
                     !nl and return
                     })
                     if (!nl) {
