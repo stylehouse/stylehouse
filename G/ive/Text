@@ -207,6 +207,10 @@
                     # to A3:Ploy/A:join+
                     3s&joined and me&Ploy_joined
                 }
+                # check we found our way back to each sph/nod0
+                $lost = tops.slice()
+                grop(3s&seemsdone,lost)
+                hak(lost) and me&Ploy_fail,"seemsdone",ex({},lost)
             })
             return X
         }
@@ -352,13 +356,16 @@
                 nod.ok = 1
                 # more nodes
                 $next = me&Ploy_nod_next
-                !next and return me&Ploy_fail,"nextless"
-                isC(next) and return me&Ploy_fail,"nextC",{next}
-                nod.next = next
-                next.prev = nod
-                nod = a&next = next
+                if (!a&seemsdone) {
+                    !next and return me&Ploy_fail,"nextless"
+                    isC(next) and return me&Ploy_fail,"nextC",{next}
+                    nod.next = next
+                    next.prev = nod
+                    nod = a&next = next
+                }
                 # let join happen
                 ac(A.3,'joined',A)
+                a&seemsdone and return
             }
             if (a&newline) {
                 # tidy away lin
@@ -386,13 +393,19 @@
                 # climb out until a next in
                 $N = me&Ay,A&nod,'/^^',{},{} (&nda{
                     # be a node
-                    !n.i_node && n != sph and debugger
-                    !n.i_node and return d.not = 1
                     # n/[a+1]: another one after
                     n.in[a.i_in] != a and debugger
                     next = n.in[a.i_in*1+1]
-                    # keep going up
-                    !next and return
+                    if (!next) {
+                        if (!n.i_node) {
+                            # returns to the root at the end
+                            ac(A.3,'seemsdone',n)
+                            a&seemsdone = 1
+                            d.not = 1
+                        }
+                        # keep going up
+                        return
+                    }
                     # we have a node
                     d.not = 1
                 })
@@ -407,6 +420,12 @@
             $bit0 = A&bit.i_bit == 0
             bit0 and A&lin.indent_sympathy = 1
             !A&lin.indent_sympathy and return
+            
+            # < until multi line D, but only when:
+            #    flip indent_sympathy back on for lin-1 that BQ ?
+            #     ie choose your own next indent for < < ' '
+            $lin0 = A&lin.i_mine == 0
+            !lin0 and debugger
             
             # we only ever make C-indents (Linesing C/*) outside of D
             !A&bit.str.startsWith('  ') and return delete A&lin.indent_sympathy
@@ -426,14 +445,11 @@
             # more indent on (==      )
             !bit0 and A&nod.Cindent += Cindent
             
-            # ends at \S
+            # ends at [^ ]
             !entirely and delete A&lin.indent_sympathy
             
             # the first line of D has the real indent
             if (A&nod.Cindent) {
-                $lin0 = A&lin.i_mine == 0
-                # < until multi line D
-                !lin0 and debugger
                 # < sanity (was simple before more indent)
                 #    - lin>0 should have at least ' ' more than lin0
                 Cindent = A&nod.Cindent
@@ -450,8 +466,17 @@
                 Cindent != A&nod.d-1 && !entirely and debugger
             }
             
+            $relevel = Cindent*2
+            # may be spread over many bits, eg (++  )(==      )(++  yada)
+            #  we only want to trim this one bit
+            3c&io(A&lin,'bit','*') .map(&bit,{
+                bit != A&bit and relevel -= bit.trimstart||0
+            })
+            relevel != level and debugger
+            relevel < 2 and debugger
+            
             # < check what comes off is ' '+
-            A&bit.trimstart = Cindent*2
+            A&bit.trimstart = relevel
         }
         # note if|how we change exp to make things fit
         me.Ploy_mung = &acgt,bit,t,v{
@@ -513,7 +538,7 @@
             if (exp != str) {
                 return me&Ploy_fail,'eq'
             }
-            # may go around on the same nod without matching any
+            # may match nothing
             $tilstill = nod.matchtil == til
             #  that wasn't just (==\n)
             $seeknod = tilstill && !(mungnl && exp == "\n")
@@ -844,6 +869,9 @@
             me&Ploy_joi_col,A&old
             # jol per column, so ark=nk, eg sc
             me&Ploy_drawjoin,A&old
+            
+            $seemsdone = 0 == grep(V => !Vs&seemsdone, N)
+            seemsdone and me&tc,'Fin','G'; return
             
             $stretch
             $nexts = armap(&V{
