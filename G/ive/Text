@@ -335,6 +335,9 @@
                 !isst(nod.whole) and return me&Ploy_fail,'toLines',{l}
                 me&drawnod,nod
             }
+            
+            nod.joi and me&Ploy_joi_arrive,V
+            
             return A
         }
         # next nod|lin
@@ -582,15 +585,19 @@
             < de-indent every so often
               describing the branch stepped into
           nod joins on a&newline
+          nod.joi given by &Ploy_join / 3c&ijoin
          <<<
            may be the only join/with=nod
             if the other sph matched no l since the last join
              ie the nodes are pulling away from each other
           join inherits changey from **nod/lin/changey
         =cut
-        # 3s&joi++
+        # 3s&joi++ initially or by &Ploy_joined
         me.Ploy_join = &acgttN{
             return 3s&joi = 3c&ijoin(t,N)
+        }
+        me.Ploy_joi_arrive = &acgtN{
+            A&joi = A&nod.joi
         }
         # 3s&joi/lit .l, /bit
         #  l-ordered bits of either sph
@@ -604,6 +611,7 @@
             # lets not inform of the rewire..? its just i_sphere
             (lit.bit ||= []).push(bit)
         }
+        
         # joi/#lin:jin/#col:jol/#with:jodol/
         #  only changey
         me.Ploy_joi_col = &acgt,joi{
@@ -811,6 +819,7 @@
             })
             none and g.joim.sc.bri = 0.6
         }
+        
         # & join nexts!
         me.Ploy_joined = &acgt{
             A = fi&At,'join:'+3s&joi.i_join
@@ -933,11 +942,10 @@
             
             # nod|joi has errors
             # < create ^^%strange
-            $blame = A&nod||A&joi
-            if (blame) {
+            grep([A&joi,A&nod]).map(&blame,{
                 $x = 3c&iz(blame,'!'+t)
                 c and pex(x,c)
-            }
+            })
             
             # display in modulat
             $fm = me&boxcap,"fail",5 (&ml{
