@@ -177,10 +177,20 @@
                         me&boxcap,title,2 (&m,la{
                             lac&not = 1
                             ms&type = 'sph<-l'
-                            
+                            if (ls&moren) {
+                                # l%moren is a fold marker, everything inside is t=same
+                                #  we avoid leaving to nod**, which are spared from Comp
+                                #  it is otherwise a regular l, for A&nod
+                                $many = hak(ls&moren)
+                                # < dont %moren if many is small
+                                #    unless many small %moren close together
+                                !(isar(ls&moren) && many) and debugger
+                                A&nod.hasmoren = many
+                            }
                             me&Ploy_indent_sympathy
                             me&Ploy_match
                             3c&not and return
+                            ls&moren && !(a&newline && a&newnode) and debugger
                             # join l sequence
                             me&Ploy_joi_l
                             # line columns
@@ -305,7 +315,9 @@
             !lin and throw "nolin"
             $bit = 3c&iz(lin,'bit')
             bit.l = l
-            $str = bit.str = lc&s
+            # lc&s is a displayified string, sometimes has s/\n/↯/
+            !isst(ls&string) and debugger
+            $str = bit.str = ls&string
             # join: one lin to many l
             hak(str)-1 < str.indexOf("\n") and throw "many lin to one l"
 
@@ -358,8 +370,10 @@
         # more nodes: nod/*[0] first, then ^^/[nod+1]
         me.Ploy_nod_next = &acgt{
             $E = A&nod.E
+            # as long as we want to go into nod**, see l%moren
+            $inward = !A&nod.hasmoren
             # i nod/* o E/*
-            $N = me&ioty,E .filter(e => ey&R)
+            $N = inward && me&ioty,E .filter(e => ey&R)
                 .map(e => 3c&inode(A&nod,e))
             # < working
             #$N = pam(me&ioty,E , e => ey&R && inode(nod,e) )
@@ -697,6 +711,14 @@
                     3c&io(joi,'lit','*') .map(&lit,i{
                         $l = lit.l
                         $lm = ldraw[ly&seqi] = me&drawdiffbit,i,l
+                        if (ls&moren) {
+                            $ll = lmy&label
+                            llc&s = '↦'
+                            lls&fs = 20
+                            me&tc,'x'+hak(ls&moren),'6y'
+                            lms&bri = 0.6
+                        }
+                        else
                         l.t == 'same' and lms&bri = 0.6; lmy&label.c.not = 1
                     })
                 })
@@ -787,7 +809,7 @@
             
             A&old = 3s&joi
             A&old != 3c&io(X,'join',-1) and return me&Ploy_fail,'join-1'
-            hak(N) != 2 and return me&Ploy_fail,'Nx2',ex({},hamap(N))
+            hak(N) != 2 and return me&Ploy_fail,'Nx2',ex({},N)
             
             # now its all done, assort joi/jin/jol/jodol
             #  for per-line, per-column, per-node change
@@ -818,7 +840,7 @@
                     l.t == 'gone' ? '--' :
                     l.t == 'same' ? '==' : l.t
                 
-                $to = me&drawString,lc&s,'y'
+                $to = me&drawString,ls&string,'y'
                 tos&ws = 4
                 me&walls,to,'bd:2.2,bg:000'
             })
@@ -875,7 +897,7 @@
             }
             
             # display in modulat
-            me&boxcap,"fail",1 (&ml{
+            $fm = me&boxcap,"fail",5 (&ml{
                 me&walls,m,'ba:3.1h6'
                 #ls&dis = 3
                 ls&hue = 200
@@ -900,6 +922,9 @@
                     inner('a&',A.sc,&m{ ms&hue = 66 })
                 })
             })
+            # put after the Ploy table
+            grop(T.ab.sc.z,fm)
+            ac(me&R,'M',fm)
         }
         
         me.novelAc = &acgtc{
@@ -948,8 +973,8 @@
  // Ply = Ness + Comp <
     =pod
       probably GOING, Ploy is much better
-       we do know how to y&thing at -seven, etc.
-       and we only have one D, the other is a Ness
+       tho this does know how to y&thing at -seven, etc.
+        and only has one D, the other is a Ness
       < into X
       < with A
       < recovery
