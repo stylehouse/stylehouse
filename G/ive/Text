@@ -513,9 +513,16 @@
             if (exp != str) {
                 return me&Ploy_fail,'eq'
             }
-            # shouldnt go around on the same nod after match
-            $seeknod = nod.matchtil == til && !(mungnl && exp == "\n")
-            seeknod and me&Ploy_fail,"matchnone?"
+            # may go around on the same nod without matching any
+            $tilstill = nod.matchtil == til
+            #  that wasn't just (==\n)
+            $seeknod = tilstill && !(mungnl && exp == "\n")
+            if (seeknod) {
+                # perhaps about to mono join
+                #  ie only one 3s&joined (that was a&newnode)
+                A&joi.stall && A&joi.stall != nod and debugger
+                A&joi.stall = nod
+            }
             
             nod.matchtil = til
             til == whole.length and a&newnode = true
