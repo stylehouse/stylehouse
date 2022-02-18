@@ -640,10 +640,10 @@
         =join
           sequence of nod on either side (nod(-nod)?)
            per either of them having a&newnode
+          nod.joi given by &Ploy_join / 3c&ijoin
           draw a join table
             < de-indent every so often
               describing the branch stepped into
-          nod.joi given by &Ploy_join / 3c&ijoin
           
         =cut
         # 3s&joi++ initially or by &Ploy_joined
@@ -664,6 +664,75 @@
             lit.l = l;
             # lets not inform of the rewire..? its just i_sphere
             (lit.bit ||= []).push(bit)
+        }
+        
+        # & join nexts!
+        me.Ploy_joined = &acgt{
+            A = fi&At,'join:'+3s&joi.i_join
+            $X = 3c&X
+            # passes A:l+, are per sph
+            $N = delete 3s&joined
+            
+            # old|neu are between joi, gone|new are the spheres
+            A&old = 3s&joi
+            A&old != 3c&io(X,'join',-1) and return me&Ploy_fail,'join-1'
+            #hak(N) != 2 and return me&Ploy_fail,'Nx2',ex({},N)
+            
+            # now its all done, assort joi/jin/jol/jodol
+            #  for per-line, per-column, per-node change
+            me&Ploy_joi_col,A&old
+            # jol per column, so ark=nk, eg sc
+            me&Ploy_drawjoin,A&old
+            
+            $seemsdone = 0 == grep(V => !Vs&seemsdone, N)
+            seemsdone and me&tc,'Fin','G'; return
+            
+            
+            
+            $stretch
+            $nexts = armap(&V{
+                !(Vs&next && Vs&newline && Vs&newnode) and debugger
+                if (Vc&nod.joi != A&old) {
+                    # a node keeps matching after a while
+                    $ji = Vc&nod.joi.i_join
+                    
+                    $sn = me&tc,"stretch:"+ji,'G'
+                    
+                    
+                    me&tc,"twas:"+Vc&nod.E.t,'6y'
+                    stretch = Vc&nod
+                }
+                hak(N) == 1 and me&tc,"mono:"+Vc&nod.sph.sphere
+                return Vs&next
+            },N)
+            
+            A&old.i_join == 79 and me&fu,"strechy",N
+            
+            A&neu = me&Ploy_join,'next',nexts
+            # joi linked like nod
+            A&old.next = A&neu
+            A&neu.prev = A&old
+            
+            # join goes mono
+            $withs = spant(hak(A&old.with),hak(A&neu.with))
+            if (withs == '2 1') {
+                # starts non-joins - whole lines for only one sph
+                #  the other, eg gone, will not consume any l:new
+                me&tc,"decohere...",'G'
+                A&neu.last_good = A&old
+            }
+            if (withs == '1 1') {
+                # passes along...
+                sex(A&neu,A&old,'last_good')
+            }
+            if (withs == '1 2') {
+                # resumed matching after non-joins (joins with.length == 1)
+                A&neu.resumes = A&old.last_good
+                me&tc,"...recohere",'G'
+            }
+            # mono joins may have blips of stereo amongst
+            #  we want to sweep below for clarity
+            stretch and A&neu.stretch = stretch
         }
         
         # joi/#lin:jin/#col:jol/#with:jodol/
@@ -872,67 +941,6 @@
                 })
             })
             none and g.joim.sc.bri = 0.6
-        }
-        
-        # & join nexts!
-        me.Ploy_joined = &acgt{
-            A = fi&At,'join:'+3s&joi.i_join
-            $X = 3c&X
-            # passes A:l+, are per sph
-            $N = delete 3s&joined
-            
-            # old|neu are between joi, gone|new are the spheres
-            A&old = 3s&joi
-            A&old != 3c&io(X,'join',-1) and return me&Ploy_fail,'join-1'
-            #hak(N) != 2 and return me&Ploy_fail,'Nx2',ex({},N)
-            
-            # now its all done, assort joi/jin/jol/jodol
-            #  for per-line, per-column, per-node change
-            me&Ploy_joi_col,A&old
-            # jol per column, so ark=nk, eg sc
-            me&Ploy_drawjoin,A&old
-            
-            $seemsdone = 0 == grep(V => !Vs&seemsdone, N)
-            seemsdone and me&tc,'Fin','G'; return
-            
-            $stretch
-            $nexts = armap(&V{
-                !(Vs&next && Vs&newline && Vs&newnode) and debugger
-                if (Vc&nod.joi != A&old) {
-                    # a node keeps matching after a while
-                    me&tc,"shattery",'G'
-                    stretch = Vc&nod
-                }
-                return Vs&next
-            },N)
-            
-            
-            
-            A&neu = me&Ploy_join,'next',nexts
-            # joi linked like nod
-            A&old.next = A&neu
-            A&neu.prev = A&old
-            
-            # join goes mono
-            $withs = spant(hak(A&old.with),hak(A&neu.with))
-            if (withs == '2 1') {
-                # starts non-joins - whole lines for only one sph
-                #  the other, eg gone, will not consume any l:new
-                me&tc,"decohere...",'G'
-                A&neu.last_good = A&old
-            }
-            if (withs == '1 1') {
-                # passes along...
-                sex(A&neu,A&old,'last_good')
-            }
-            if (withs == '1 2') {
-                # resumed matching after non-joins (joins with.length == 1)
-                A&neu.resumes = A&old.last_good
-                me&tc,"...recohere",'G'
-            }
-            # mono joins may have blips of stereo amongst
-            #  we want to sweep below for clarity
-            stretch and A&neu.stretch = stretch
         }
         
         
