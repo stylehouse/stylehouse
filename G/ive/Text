@@ -675,7 +675,7 @@
           
           // A&old
             # old|neu are between joi, gone|new are the spheres
-            $joi = A&old = 3s&joi
+            $joi = A&joi = A&old = 3s&joi
             
             # is there an oddness to join/with <-> N[A&nod]
             me&Ploy_joi_stretchcheck,joi,N
@@ -703,66 +703,44 @@
         
         # and iterate lit(/bit,nod)
         # < allowing the odd message inserted on the next line
+        
         me.Ploy_drawjoin = &acgt,joi{
-            $i = joi.i_join
-            $nods = 3c&io(joi,'with','*')
-            me&boxcap,'join:'+i,3 (&ml{
-                $joim = m
-                ms&type = 'join'
-                
-                lc&s = i
-                ls&bri = 0.6
-                ls&dis = 4
-                #ms&bgh = 222
-                # < how to border rows
-                me&walls,m,'b:2.2h4'
-                ms&bol = '8px solid black'
-                
-                # joi/with=nod
-                me&boxcap,'with',4 (&ml{
-                    lc&not = 1
-                    ms&fs = 7
-                    ms&maw = 6
-                    ms&miw = 3
-                    $la
-                    nods.map(&nod,{
-                        # show only one same title
-                        # < style about that
-                        la && nod.E.t == la.E.t and return
-                        me&drawnod,nod
-                        la = nod
-                    })
-                })
+            # first and usually only type of row per joi
+            #  eg A&modjoi, maybe A&mododd, etc
+            $m = me&Ploy_drawjoin_rower
+            $joim = m
             
-            // # joi/lit.l
-                $ldraw = {}
-                me&boxcap,'**l',4 (&ml{
-                    lc&not = 1
-                    
-                    # lit.l, /bit|col
-                    3c&io(joi,'lit','*') .map(&lit,i{
-                        $l = lit.l
-                        $lm = ldraw[ly&seqi] = me&drawdiffbit,i,l
-                        if (ls&moren) {
-                            $ll = lmy&label
-                            llc&s = '↦'
-                            lls&fs = 20
-                            me&tc,'x'+hak(ls&moren),'6y'
-                            lms&bri = 0.6
-                        }
-                        else
-                        l.t == 'same' and lms&bri = 0.6; lmy&label.c.not = 1
-                    })
+            me&Ploy_rower_i,m,'with' (&ml{
+                $la
+                3c&io(joi,'with','*') .map(&nod,{
+                    # show only one same title
+                    # < style about that
+                    la && nod.E.t == la.E.t and return
+                    me&drawnod,nod
+                    la = nod
                 })
+            })
             
-            // # joi/#lin:jin/#col:jol/#with:jodol/ 
-                me&boxcap,'**col',4 (&ml{
-                    lc&not = 1
-                    ms&maw = 6
-                    ms&miw = 3
-                    
-                    me&Ploy_drawjoin_jin,joi,{joim,ldraw}
+            $ldraw = {}
+            me&Ploy_rower_i,m,'lit' (&ml{
+                # lit.l, /bit|col
+                3c&io(joi,'lit','*') .map(&lit,i{
+                    $l = lit.l
+                    $lm = ldraw[ly&seqi] = me&drawdiffbit,i,l
+                    if (ls&moren) {
+                        $ll = lmy&label
+                        llc&s = '↦'
+                        lls&fs = 20
+                        me&tc,'x'+hak(ls&moren),'6y'
+                        lms&bri = 0.6
+                    }
+                    else
+                    l.t == 'same' and lms&bri = 0.6; lmy&label.c.not = 1
                 })
+            })
+            
+            me&Ploy_rower_i,m,'jin' (&ml{
+                me&Ploy_drawjoin_jin,joi,{joim,ldraw}
             })
             
             # drop other modulats we just restructured
@@ -770,10 +748,66 @@
             $oktypes = peel('sph<-l,l,nod')
             grop(n => oktypes[ns&type], T.ab.sc.z)
             
-            me&Ploy_drawjoinodd,joi
+            me&Ploy_drawjoin_odd,joi
         }
+      // row+
+        # $m:row re-opens a &boxcap column for eg /with
+        me.Ploy_rower_i = &acgtmt{
+            return &y{
+                !me&fiu,m,t,8 and debugger
+                me&boxcap,t,4,2,m (&ml{
+                    y (m,l)
+                })
+            }
+        }
+        # boxcap for some kind of row, for a joi
+        me.Ploy_drawjoin_rower = &acgtkc{
+            c = peel(c)
+            # kind may also odd|fail
+            $modk = "mod"+(k||'joi')
+            $m = A&joi[modk]
+            if (!m) {
+                # name it after this row
+                $i = A&joi.i_join
+                $name = cint('join',i,k)
+                m = A&joi[modk] =
+                me&boxcap,'join:'+i,3 (&ml{
+                    ms&type = cint('join',k)
+                    # label is the first column
+                    lc&s = k || i
+                    ls&bri = 0.6
+                    ls&dis = 4
+                    # < how to border rows
+                    
+                    # with...E
+                    me&boxcap,'with',4 (&ml{
+                        lc&not = 1
+                        mc&maybeempty = 1
+                        ms&fs = 7
+                        ms&maw = 6
+                        ms&miw = 3
+                    });
+                    # lit...l
+                    me&boxcap,'lit',4 (&ml{
+                        lc&not = 1
+                        mc&maybeempty = 1
+                    });
+                    # jin... discernibles
+                    me&boxcap,'jin',4 (&ml{
+                        lc&not = 1
+                        mc&maybeempty = 1
+                        ms&maw = 6
+                        ms&miw = 3
+                    });
+                })
+            }
+            return m
+        }
+        
+        
+        
         # < make A&draw('E',&ml{ me&tc,'Fin','G' })
-        me.Ploy_drawjoinodd = &acgt,joi{
+        me.Ploy_drawjoin_odd = &acgt,joi{
             $i = joi.i_join
             if (i == 79) {
                 me&boxcap,'join:'+i+'odd',3 (&ml{
@@ -781,19 +815,12 @@
                     lc&s = 'odd'
                     ls&dis = 4
                     
-                    # with...E
-                    me&boxcap,'with',4 (&ml{
-                        me&tc,""
-                    });
-                    # lit...l
-                    me&boxcap,'lit',4 (&ml{
-                        me&tc,""
-                        me&tc,"btw",'G'
-                    });
                     # jin... discernibles
                     me&boxcap,'jin',4 (&ml{
+                        ms&tag = 'td'
+                        ahk(m.sc,'attr','colspan',3)
                         me&tc,""
-                        me&tt,"Lat" () and me&tc,"On"
+                        me&tt,"Latituuuuuuuu" () and me&tc,"On"
                     });
                 })
             }
