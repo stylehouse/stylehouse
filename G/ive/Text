@@ -689,7 +689,6 @@
           // A&neu
             $nexts = armap(&V{
                 !(Vs&next && Vs&newline && Vs&newnode) and debugger
-                hak(N) == 1 and me&tc,"mono:"+Vc&nod.sph.sphere
                 return Vs&next
             },N)
             
@@ -702,12 +701,21 @@
         }
         
         # and iterate lit(/bit,nod)
-        # < allowing the odd message inserted on the next line
         
         me.Ploy_drawjoin = &acgt,joi{
             # first and usually only type of row per joi
             #  eg A&modjoi, maybe A&mododd, etc
             $m = me&Ploy_drawjoin_rower
+            # allowing the odd message inserted on the next|same line
+            A&odd = &ty{
+                $m = me&Ploy_drawjoin_rower,'odd'
+                A&draw(t,y,m)
+            }
+            A&draw = &tym{
+                me&Ploy_rower_i,m,t (&ml{
+                    y (m,l)
+                })
+            }
             $joim = m
             
             me&Ploy_rower_i,m,'with' (&ml{
@@ -743,13 +751,13 @@
                 me&Ploy_drawjoin_jin,joi,{joim,ldraw}
             })
             
+            
             # drop other modulats we just restructured
             # < get them to draw only if they are needed... (&Ploy_fail)
             $oktypes = peel('sph<-l,l,nod')
             grop(n => oktypes[ns&type], T.ab.sc.z)
-            
-            me&Ploy_drawjoin_odd,joi
         }
+        
       // row+
         # $m:row re-opens a &boxcap column for eg /with
         me.Ploy_rower_i = &acgtmt{
@@ -818,13 +826,6 @@
             }
         }
         
-        me.Ploy_drawjoin_odd = &acgt,joi{
-            $i = joi.i_join
-            if (i == 79) {
-                me&Ploy_fail,"oh,oughtta",{Some:'where'}
-            }
-        }
-        
       // /with oddities
         # notice when N...nod.joi are different
         # < always combined with mono joins?
@@ -847,23 +848,34 @@
                 }
             })
         }
-        # goes mono
+        # is|goes mono!
         me.Ploy_joi_monocheck = &acgt{
+            $send = &say,{
+                A&odd('with',&{
+                    me&tc,say,'G'
+                })
+            }
+            if (hak(A&old.with) == 1) {
+                $nod = havs(A&old.with)[0]
+                send("mono:"+nod.sph.sphere)
+            }
+                
             $withs = spant(hak(A&old.with),hak(A&neu.with))
             if (withs == '2 1') {
                 # starts non-joins - whole lines for only one sph
                 #  the other, eg gone, will not consume any l:new
-                me&tc,"decohere...",'G'
+                send("decohere...")
                 A&neu.last_good = A&old
             }
             if (withs == '1 1') {
                 # passes along...
+                send("...")
                 sex(A&neu,A&old,'last_good')
             }
             if (withs == '1 2') {
                 # resumed matching after non-joins (joins with.length == 1)
                 A&neu.resumes = A&old.last_good
-                me&tc,"...recohere",'G'
+                send("...recohere")
             }
         }
         
