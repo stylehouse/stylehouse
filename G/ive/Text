@@ -706,8 +706,6 @@
         me.Ploy_drawjoin = &acgt,joi{
             $i = joi.i_join
             $nods = 3c&io(joi,'with','*')
-            #me&boxcap,'joinwrap:'+i,3 (&ml{
-            #    lc&not = 1
             me&boxcap,'join:'+i,3 (&ml{
                 $joim = m
                 ms&type = 'join'
@@ -766,11 +764,39 @@
                     me&Ploy_drawjoin_jin,joi,{joim,ldraw}
                 })
             })
-            #})
             
             # drop other modulats we just restructured
+            # < get them to draw only if they are needed... (&Ploy_fail)
             $oktypes = peel('sph<-l,l,nod')
             grop(n => oktypes[ns&type], T.ab.sc.z)
+            
+            me&Ploy_drawjoinodd,joi
+        }
+        # < make A&draw('E',&ml{ me&tc,'Fin','G' })
+        me.Ploy_drawjoinodd = &acgt,joi{
+            $i = joi.i_join
+            if (i == 79) {
+                me&boxcap,'join:'+i+'odd',3 (&ml{
+                    ms&type = 'join'
+                    lc&s = 'odd'
+                    ls&dis = 4
+                    
+                    # with...E
+                    me&boxcap,'with',4 (&ml{
+                        me&tc,""
+                    });
+                    # lit...l
+                    me&boxcap,'lit',4 (&ml{
+                        me&tc,""
+                        me&tc,"btw",'G'
+                    });
+                    # jin... discernibles
+                    me&boxcap,'jin',4 (&ml{
+                        me&tc,""
+                        me&tt,"Lat" () and me&tc,"On"
+                    });
+                })
+            }
         }
         
       // /with oddities
