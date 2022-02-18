@@ -218,7 +218,7 @@
                     # after &Ploy_fail
                     3c&not and me&tc,"Abort",'G'; break
                     # to A3:Ploy/A:join+
-                    3s&joined and me&Ploy_joined
+                    3s&joined and me&Ploy_joi_leaving
                 }
                 # check we found our way back to each sph/nod0
                 $lost = tops.slice()
@@ -646,10 +646,11 @@
               describing the branch stepped into
           
         =cut
-        # 3s&joi++ initially or by &Ploy_joined
+        # 3s&joi++, with N=[nod +], initially or by &Ploy_joined
         me.Ploy_join = &acgttN{
             return 3s&joi = 3c&ijoin(t,N)
         }
+        # after nod arrives
         me.Ploy_joi_arrive = &acgtN{
             A&joi = A&nod.joi
         }
@@ -666,47 +667,49 @@
             (lit.bit ||= []).push(bit)
         }
         
-        # & join nexts!
-        me.Ploy_joined = &acgt{
+        # joi is now joined, & join nexts!
+        me.Ploy_joi_leaving = &acgt{
             A = fi&At,'join:'+3s&joi.i_join
             $X = 3c&X
             # passes A:l+, are per sph
             $N = delete 3s&joined
-            
             # old|neu are between joi, gone|new are the spheres
-            A&old = 3s&joi
-            A&old != 3c&io(X,'join',-1) and return me&Ploy_fail,'join-1'
-            #hak(N) != 2 and return me&Ploy_fail,'Nx2',ex({},N)
+            $joi = A&old = 3s&joi
             
-            # now its all done, assort joi/jin/jol/jodol
+            # the old one is finishing
+            #  notice when N...nod.joi are different
+            N.map(&V{
+                $nj = Vc&nod.joi
+                if (nj != joi) {
+                    # a node keeps matching after a while
+                    # < boxlink to itsthe last box:joi
+                    $ji = nj.i_join
+                    me&tc,"twas:"+Vc&nod.E.t,'6y'
+                    # mono joins may have blips of stereo amongst
+                    #  we want to sweep below for clarity
+                    joi.stretch = Vc&nod
+                }
+            })
+            # now joi|old is done, assort joi/jin/jol/jodol
             #  for per-line, per-column, per-node change
-            me&Ploy_joi_col,A&old
+            me&Ploy_joi_col,joi
             # jol per column, so ark=nk, eg sc
-            me&Ploy_drawjoin,A&old
+            me&Ploy_drawjoin,joi
             
-            $seemsdone = 0 == grep(V => !Vs&seemsdone, N)
-            seemsdone and me&tc,'Fin','G'; return
-            
+            !N.some(V => !Vs&seemsdone) and me&tc,'Fin','G'; return
             
             
-            $stretch
             $nexts = armap(&V{
                 !(Vs&next && Vs&newline && Vs&newnode) and debugger
-                if (Vc&nod.joi != A&old) {
-                    # a node keeps matching after a while
-                    $ji = Vc&nod.joi.i_join
-                    
-                    $sn = me&tc,"stretch:"+ji,'G'
-                    
-                    
-                    me&tc,"twas:"+Vc&nod.E.t,'6y'
-                    stretch = Vc&nod
-                }
                 hak(N) == 1 and me&tc,"mono:"+Vc&nod.sph.sphere
                 return Vs&next
             },N)
             
-            A&old.i_join == 79 and me&fu,"strechy",N
+            if (0 && A&old.i_join == 79) {
+                me&boxcap,'join:'+i+'odd',3 (&ml{
+                    lc&s = 'odd'
+                })
+            }
             
             A&neu = me&Ploy_join,'next',nexts
             # joi linked like nod
@@ -730,9 +733,6 @@
                 A&neu.resumes = A&old.last_good
                 me&tc,"...recohere",'G'
             }
-            # mono joins may have blips of stereo amongst
-            #  we want to sweep below for clarity
-            stretch and A&neu.stretch = stretch
         }
         
         # joi/#lin:jin/#col:jol/#with:jodol/
@@ -792,6 +792,7 @@
             })
         }
         # and iterate lit(/bit,nod)
+        # < allowing the odd message inserted on the next line
         me.Ploy_drawjoin = &acgt,joi{
             $i = joi.i_join
             $nods = 3c&io(joi,'with','*')
@@ -800,6 +801,7 @@
             me&boxcap,'join:'+i,3 (&ml{
                 $joim = m
                 ms&type = 'join'
+                
                 lc&s = i
                 ls&bri = 0.6
                 ls&dis = 4
@@ -828,27 +830,7 @@
                 $ldraw = {}
                 me&boxcap,'**l',4 (&ml{
                     lc&not = 1
-                  if (0) {
-                    # make a flat list of l from:
-                    #  each l appearing on 1-2 bits
-                    #   for a line, for a node
-                    # < ~~ &twlic?
-                    # < &in should help with this situ
-                    #    going all deepest across branches
-                    #    to zip branch-branch
-                    # < dont flatten: link|styling from l/bit
-                    # < o l o nod/lin/bit.l
                     
-                    $ls = flatten(nods.map(&nod,{
-                        return flatten(3c&io(nod,'mine','*').map(&lin,{
-                            return 3c&io(lin,'bit','*').map(&bit,{
-                                return bit.l
-                            })
-                        }))
-                    }))
-                    
-                    ls = me&sortial,ls,l=>ly&seqi,'sort,flat'
-                  }
                     # lit.l, /bit|col
                     3c&io(joi,'lit','*') .map(&lit,i{
                         $l = lit.l
@@ -880,6 +862,8 @@
             $oktypes = peel('sph<-l,l,nod')
             grop(n => oktypes[ns&type], T.ab.sc.z)
         }
+        # classify C.*.* change
+        # < to somewhere, for regionating
         # < u Ploy
         me.Ploy_pernkgk = {sc:{'♲':8}}
         me.Ploy_drawjoin_jin = &acgt,joi,g{
