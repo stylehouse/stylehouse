@@ -761,8 +761,7 @@
             }
         }
         # boxcap for some kind of row, for a joi
-        me.Ploy_drawjoin_rower = &acgtkc{
-            c = peel(c)
+        me.Ploy_rower = &acgtk{
             # kind may also odd|fail
             $modk = "mod"+(k||'joi')
             $m = A&joi[modk]
@@ -786,43 +785,43 @@
                         ms&fs = 7
                         ms&maw = 6
                         ms&miw = 3
-                    });
+                    })
                     # lit...l
                     me&boxcap,'lit',4 (&ml{
                         lc&not = 1
                         mc&maybeempty = 1
-                    });
+                    })
                     # jin... discernibles
                     me&boxcap,'jin',4 (&ml{
                         lc&not = 1
                         mc&maybeempty = 1
                         ms&maw = 6
                         ms&miw = 3
-                    });
+                    })
                 })
             }
             return m
         }
+        # columns 2-4 span, for larger breakdowns, eg &Ploy_fail
+        me.Ploy_spannyrower = &acgtt{
+            return &y{
+                return me&boxcap,t,3 (&ml{
+                    me&boxcap,'spanny',4 (&ml{
+                        lc&not = 1
+                        mc&maybeempty = 1
+                        ms&tag = 'td'
+                        ahk(m.sc,'attr','colspan',3)
+                        
+                        y (m,l)
+                    })
+                })
+            }
+        }
         
-        
-        
-        # < make A&draw('E',&ml{ me&tc,'Fin','G' })
         me.Ploy_drawjoin_odd = &acgt,joi{
             $i = joi.i_join
             if (i == 79) {
-                me&boxcap,'join:'+i+'odd',3 (&ml{
-                    ms&type = 'join'
-                    lc&s = 'odd'
-                    ls&dis = 4
-                    
-                    # jin... discernibles
-                    me&boxcap,'jin',4 (&ml{
-                        ms&tag = 'td'
-                        ahk(m.sc,'attr','colspan',3)
-                        me&tc,""
-                        me&tt,"Latituuuuuuuu" () and me&tc,"On"
-                    });
-                })
+                me&Ploy_fail,"oh,oughtta",{Some:'where'}
             }
         }
         
@@ -1061,7 +1060,7 @@
             })
             
             # display in modulat
-            $fm = me&boxcap,"fail",5 (&ml{
+            me&Ploy_spannyrower,"fail" (&ml{
                 me&walls,m,'ba:3.1h6'
                 #ls&dis = 3
                 ls&hue = 200
@@ -1086,9 +1085,6 @@
                     inner('a&',A.sc,&m{ ms&hue = 66 })
                 })
             })
-            # put after the Ploy table
-            grop(T.ab.sc.z,fm)
-            ac(me&R,'M',fm)
         }
         
         me.novelAc = &acgtc{
