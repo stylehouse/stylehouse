@@ -4,7 +4,9 @@
      // &Stringclue|chew
         # used in &drawtextliner
         me.drawString = &acgtsc{
+            c ||= {}
             !isob(c) and c = {tsc:c}
+            # detect clue.say|pi|hs (|crush|geo|odd)
             $clue = me&Stringclue,s,{}
             
             $n = me&ts,'string','',c.tsc
@@ -12,7 +14,7 @@
             ns&hs = clue.hs
             
             # always add marks
-            me&Stringchew,n,clue
+            me&Stringchew,n,ex(clue,c)
             
             return n
         }
@@ -87,7 +89,8 @@
                 p.s = l
                 while (p.s.length) {
                     if (p.p(/^ +/)) {
-                        m space  $s:p.it
+                        $sayspace = c.squishindent ? " " : p.it
+                        m space  $s:sayspace
                         $len = p.it.length
                         len > 1 &&
                             m spaces  $s:len %mark,little
@@ -946,7 +949,7 @@
                     l.t == 'gone' ? '--' :
                     l.t == 'same' ? '==' : l.t
                 
-                $to = me&drawString,ls&string,'y'
+                $to = me&drawString,ls&string,{tsc:'y',squishindent:1}
                 tos&ws = 4
                 me&walls,to,'bd:2.2,bg:000'
             })
