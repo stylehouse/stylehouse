@@ -134,6 +134,16 @@
             A.3 = A
             $X = 3c&X = {A}
             me&Ploy_io
+
+            # nav.* = RE
+            # see &Ploy_nod_next
+            #  for our swerve into the first_truest after RE
+            # < have pointers to these things, time specified. lv C.
+            map(&RE,{
+                # RE//s (on the same node)
+                $s = REy&ers
+                !s and debugger
+            },nav)
             
             # sph/nod|lin
             $tops = armap(&et{
@@ -380,18 +390,30 @@
         # more nodes: nod/*[0] first, then ^^/[nod+1]
         me.Ploy_nod_next = &acgt{
             $E = A&nod.E
+            $N
             # as long as we want to go into nod**, see l%moren
             $inward = !A&nod.hasmoren
             # i nod/* o E/*
-            $N = inward && me&ioty,E .filter(e => ey&R)
-                .map(e => 3c&inode(A&nod,e))
-            # < working
-            #$N = pam(me&ioty,E , e => ey&R && inode(nod,e) )
+            if (inward) {
+                if (A&nod.i_node == 0) {
+                    # is an RE, use first_truest rendition of eg RE/-hat
+                    $truest = ahsk(Ey&ers,'y','first_truest','E')
+                    # and there is only ever one RE/E (outside/inside &Piing)
+                    truest and me&tc,"first_truest"
+                    truest and N = [truest]
+                }
+                # < generalise o E/*
+                N ||= me&ioty,E .filter(e => ey&R)
+                # creates all nod/nod:$e for later
+                #  and sph/node width first: is not nested: 1, 2, 1/1...
+                #   !~~ &ind: 1, 1/1, 2...
+                N = N.map(e => 3c&inode(A&nod,e))
+            }
             $next
             hak(N) and next = N[0]
             else {
                 # climb out until a next in
-                $N = me&Ay,A&nod,'/^^',{},{} (&nda{
+                me&Ay,A&nod,'/^^',{},{} (&nda{
                     # be a node
                     # n/[a+1]: another one after
                     n.in[a.i_in] != a and debugger
@@ -613,16 +635,13 @@
     
     //  joi
         =join
-           and draw a join table
+          sequence of nod on either side (nod(-nod)?)
+           per either of them having a&newnode
+          draw a join table
             < de-indent every so often
               describing the branch stepped into
-          nod joins on a&newline
           nod.joi given by &Ploy_join / 3c&ijoin
-         <<<
-           may be the only join/with=nod
-            if the other sph matched no l since the last join
-             ie the nodes are pulling away from each other
-          join inherits changey from **nod/lin/changey
+          
         =cut
         # 3s&joi++ initially or by &Ploy_joined
         me.Ploy_join = &acgttN{
