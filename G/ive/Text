@@ -667,130 +667,40 @@
             (lit.bit ||= []).push(bit)
         }
         
-        # joi is now joined, & join nexts!
+        # 3s&joi++
         me.Ploy_joi_leaving = &acgt{
             A = fi&At,'join:'+3s&joi.i_join
-            $X = 3c&X
             # passes A:l+, are per sph
             $N = delete 3s&joined
+          
+          // A&old
             # old|neu are between joi, gone|new are the spheres
             $joi = A&old = 3s&joi
             
-            # the old one is finishing
-            #  notice when N...nod.joi are different
-            N.map(&V{
-                $nj = Vc&nod.joi
-                if (nj != joi) {
-                    # a node keeps matching after a while
-                    # < boxlink to itsthe last box:joi
-                    $ji = nj.i_join
-                    me&tc,"twas:"+Vc&nod.E.t,'6y'
-                    # mono joins may have blips of stereo amongst
-                    #  we want to sweep below for clarity
-                    joi.stretch = Vc&nod
-                }
-            })
-            # now joi|old is done, assort joi/jin/jol/jodol
-            #  for per-line, per-column, per-node change
+            # is there an oddness to join/with <-> N[A&nod]
+            me&Ploy_joi_stretchcheck,joi,N
+            # joi/jin/jol/jodol: change per /line/column/node
             me&Ploy_joi_col,joi
-            # jol per column, so ark=nk, eg sc
             me&Ploy_drawjoin,joi
             
+            # all done!
             !N.some(V => !Vs&seemsdone) and me&tc,'Fin','G'; return
             
-            
+          // A&neu
             $nexts = armap(&V{
                 !(Vs&next && Vs&newline && Vs&newnode) and debugger
                 hak(N) == 1 and me&tc,"mono:"+Vc&nod.sph.sphere
                 return Vs&next
             },N)
             
-            if (0 && A&old.i_join == 79) {
-                me&boxcap,'join:'+i+'odd',3 (&ml{
-                    lc&s = 'odd'
-                })
-            }
-            
             A&neu = me&Ploy_join,'next',nexts
             # joi linked like nod
             A&old.next = A&neu
             A&neu.prev = A&old
             
-            # join goes mono
-            $withs = spant(hak(A&old.with),hak(A&neu.with))
-            if (withs == '2 1') {
-                # starts non-joins - whole lines for only one sph
-                #  the other, eg gone, will not consume any l:new
-                me&tc,"decohere...",'G'
-                A&neu.last_good = A&old
-            }
-            if (withs == '1 1') {
-                # passes along...
-                sex(A&neu,A&old,'last_good')
-            }
-            if (withs == '1 2') {
-                # resumed matching after non-joins (joins with.length == 1)
-                A&neu.resumes = A&old.last_good
-                me&tc,"...recohere",'G'
-            }
+            me&Ploy_joi_monocheck
         }
         
-        # joi/#lin:jin/#col:jol/#with:jodol/
-        #  only changey
-        me.Ploy_joi_col = &acgt,joi{
-            $lin_quant
-            3c&io(joi,'with','*') .map(&nod,{
-                $sph = nod.sph
-                # sanity: same number of /lin
-                lin_quant != null && lin_quant != hak(nod.lin) and debugger
-                lin_quant = hak(nod.lin)
-                # assumes each node's nod/lin align
-                # < see resolve $n
-                3c&io(nod,'mine','*') .map(&lin,{
-                    # /#lin:jin
-                    $jin = 3c&io(joi,'jin',lin.i_mine)
-                    3c&io(lin,'col','*') .map(&col,{
-                        # /#col:jol
-                        fatal.isst(col.ark)
-                        $jol = 3c&io(jin,'jol',col.ark)
-                        
-                        #  /#with:jodol, now per node
-                        $jodol = 3c&io(jol,'jodol',nod.i_with)
-                        jodol.nod and debugger
-                        jodol.nod = nod
-                        
-                        # col from either node -> shared line, column
-                        sex(jin,col,'changey')
-                        sex(jol,col,'ark,changey')
-                        #  and jodol, is per node
-                        sex(jodol,col,'ark,microcol,changey')
-                    })
-                })
-                
-            })
-            3c&io(joi,'jin','*') .map(&jin,{
-                # lin for both nodes
-                3c&io(jin,'jol','*') .map(&jol,{
-                    # lin/col for both nodes
-                    fatal.isst(jol.ark)
-                    if (jol.changey) {
-                        # make whole of either sph columns
-                        # < someday, decompress each via &Lines
-                        #    would make whole from nod/lin/bit
-                        3c&io(jol,'jodol','*') .map(&jodol,{
-                            $nod = jodol.nod
-                            jodol.whole = ''
-                            3c&io(jodol,'microcol','*') .map(&mc,{
-                                jodol.whole += mc.str
-                            })
-                        })
-                    }
-                    else {
-                        delete jin.jol[jol.ark]
-                    }
-                })
-            })
-        }
         # and iterate lit(/bit,nod)
         # < allowing the odd message inserted on the next line
         me.Ploy_drawjoin = &acgt,joi{
@@ -861,6 +771,107 @@
             # drop other modulats we just restructured
             $oktypes = peel('sph<-l,l,nod')
             grop(n => oktypes[ns&type], T.ab.sc.z)
+        }
+        
+      // /with oddities
+        # notice when N...nod.joi are different
+        # < always combined with mono joins?
+        #   may have blips of stereo amongst
+        #   we want to sweep below for clarity
+        #    ie turn l:== into l:++ (like its neighbours)
+        #    adding l:-- after, on a new joi for that one nod?
+        # < any bit progress once decohered is what to see
+        #    a nod matching that is not on the current joi
+        me.Ploy_joi_stretchcheck = &acgt,joi,N{
+            # the old one is finishing
+            N.map(&V{
+                $nj = Vc&nod.joi
+                if (nj != joi) {
+                    # a node keeps matching after a while
+                    # < boxlink to itsthe last box:joi
+                    $ji = nj.i_join
+                    me&tc,"twas:"+Vc&nod.E.t,'6y'
+                    joi.stretch = Vc&nod
+                }
+            })
+        }
+        # goes mono
+        me.Ploy_joi_monocheck = &acgt{
+            $withs = spant(hak(A&old.with),hak(A&neu.with))
+            if (withs == '2 1') {
+                # starts non-joins - whole lines for only one sph
+                #  the other, eg gone, will not consume any l:new
+                me&tc,"decohere...",'G'
+                A&neu.last_good = A&old
+            }
+            if (withs == '1 1') {
+                # passes along...
+                sex(A&neu,A&old,'last_good')
+            }
+            if (withs == '1 2') {
+                # resumed matching after non-joins (joins with.length == 1)
+                A&neu.resumes = A&old.last_good
+                me&tc,"...recohere",'G'
+            }
+        }
+        
+      // /jin/jol/jodol C.*.* change
+        # gather C.*.* change
+        # joi/#lin:jin/#col:jol/#with:jodol/
+        #  only changey
+        me.Ploy_joi_col = &acgt,joi{
+            $lin_quant
+            3c&io(joi,'with','*') .map(&nod,{
+                $sph = nod.sph
+                # sanity: same number of /lin
+                lin_quant != null && lin_quant != hak(nod.lin) and debugger
+                lin_quant = hak(nod.lin)
+                # assumes each node's nod/lin align
+                # < see resolve $n
+                3c&io(nod,'mine','*') .map(&lin,{
+                    # /#lin:jin
+                    $jin = 3c&io(joi,'jin',lin.i_mine)
+                    3c&io(lin,'col','*') .map(&col,{
+                        # /#col:jol
+                        fatal.isst(col.ark)
+                        $jol = 3c&io(jin,'jol',col.ark)
+                        
+                        #  /#with:jodol, now per node
+                        $jodol = 3c&io(jol,'jodol',nod.i_with)
+                        jodol.nod and debugger
+                        jodol.nod = nod
+                        
+                        # col from either node -> shared line, column
+                        sex(jin,col,'changey')
+                        sex(jol,col,'ark,changey')
+                        #  and jodol, is per node
+                        sex(jodol,col,'ark,microcol,changey')
+                    })
+                })
+                
+            })
+            3c&io(joi,'jin','*') .map(&jin,{
+                # lin for both nodes
+                3c&io(jin,'jol','*') .map(&jol,{
+                    # lin/col for both nodes
+                    fatal.isst(jol.ark)
+                    if (jol.changey) {
+                        # make whole of either sph columns
+                        # < someday, decompress each via &Lines
+                        #    would make whole from nod/lin/bit
+                        3c&io(jol,'jodol','*') .map(&jodol,{
+                            $nod = jodol.nod
+                            jodol.whole = ''
+                            3c&io(jodol,'microcol','*') .map(&mc,{
+                                jodol.whole += mc.str
+                            })
+                        })
+                    }
+                    else {
+                        delete jin.jol[jol.ark]
+                    }
+                })
+            })
         }
         # classify C.*.* change
         # < to somewhere, for regionating
