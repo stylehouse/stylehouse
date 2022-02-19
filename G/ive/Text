@@ -670,12 +670,26 @@
         # 3s&joi++
         me.Ploy_joi_leaving = &acgt{
             A = fi&At,'join:'+3s&joi.i_join
+            # we are the joined joi
+            $joi = A&joi = A&old = 3s&joi
             # passes A:l+, are per sph
             $N = delete 3s&joined
-          
-          // A&old
-            # old|neu are between joi, gone|new are the spheres
-            $joi = A&joi = A&old = 3s&joi
+            # all done!
+            # < or still a stretch?
+            a&Fin = !N.some(V => !Vs&seemsdone)
+            if (!a&Fin) {
+                # make the A&neu joi
+                #  mostly so we can notice it going mono
+                $nexts = armap(&V{
+                    !(Vs&next && Vs&newline && Vs&newnode) and debugger
+                    return Vs&next
+                },N)
+
+                A&neu = me&Ploy_join,'next',nexts
+                # joi linked like nod
+                A&old.next = A&neu
+                A&neu.prev = A&old
+            }
             
             # when joined
             # joi/jin/jol/jodol: change per /line/column/node
@@ -685,25 +699,11 @@
             
             # joi row
             me&Ploy_drawjoin,joi
+            !a&Fin and me&Ploy_joi_monocheck
             #  any odd rows after that:
             me&Ploy_drawjoin_factoids
             
-            
-            # all done!
-            !N.some(V => !Vs&seemsdone) and me&tc,'Fin','G'; return
-            
-          // A&neu
-            $nexts = armap(&V{
-                !(Vs&next && Vs&newline && Vs&newnode) and debugger
-                return Vs&next
-            },N)
-            
-            A&neu = me&Ploy_join,'next',nexts
-            # joi linked like nod
-            A&old.next = A&neu
-            A&neu.prev = A&old
-            
-            me&Ploy_joi_monocheck
+            a&Fin && me&tc,'Fin','G'
         }
         
         # and iterate lit(/bit,nod)
@@ -854,10 +854,28 @@
                     $lak = haks(joi.sc).pop()
                     each kv joi.sc {
                         me&tc,k,'6y'
+                        k == 'stretch' and me&Ploy_tid,v,'joi'
                         lak != k and me&tc,',','6d'
                     }
                 })
             })
+            
+            A&odd('with',&ml{
+                me&tt,'joi' () and me&fu,"joi@"+joi.i_join,joi
+            })
+        }
+        # name|number n:E.t, j:$i...
+        me.Ploy_tid = &acgtvk{
+            isar(v) and return coint(armap(v => me&Ploy_tid,v,k , v))
+            k and v = v[k]
+            !ish(v) and debugger
+            $type = v.i_join ? 'j'
+                : v.i_node ? 'n'
+                :'?'
+            $t = v.i_join ? v.i_join
+                : v.i_node ? v.E.t
+                : '?'
+            me&tc,cint(type,t),'6G'
         }
        // incursion
         me.joisc = &acgt{
@@ -869,21 +887,16 @@
             if (3s&joi != A&joi) {
                 # previous other nod joined, we are left behind
                 me&joisc,'behinod',A&nod
-                if (a&tilstill) {
+                if (!a&tilstill) {
                     # something
                     me&joisc,'tilmoves',A&nod
                 }
-            }
-            A&joi.i_join == 49 and me&joisc,'49er',A&nod
-            if (a&tilstill) {
-                # nothing
-                me&joisc,'tilstill',A&nod
             }
             if (a&seeknod) {
                 # nothing excepting \n$
                 # perhaps about to mono join
                 #  ie only one 3s&joined (that was a&newnode)
-                me&joisc,'stall',A&nod
+                me&joisc,'seeknod',A&nod
             }
         }
       
@@ -903,7 +916,6 @@
                     # a node keeps matching after a while
                     # < boxlink to itsthe last box:joi
                     $ji = nj.i_join
-                    me&tc,"stretch<joi:"+ji+",E:"+Vc&nod.E.t,'6y'
                     me&joisc,'stretch',Vc&nod
                 }
             })
@@ -917,25 +929,26 @@
             }
             if (hak(A&old.with) == 1) {
                 $nod = havs(A&old.with)[0]
-                send("mono:"+nod.sph.sphere)
+                # this sphere is the only one for a while
+                me&joisc,'mono',nod.sph
             }
                 
             $withs = spant(hak(A&old.with),hak(A&neu.with))
             if (withs == '2 1') {
                 # starts non-joins - whole lines for only one sph
                 #  the other, eg gone, will not consume any l:new
-                send("decohere...")
+                me&joisc,'enmono',1
                 A&neu.last_good = A&old
             }
             if (withs == '1 1') {
                 # passes along...
-                send("...")
-                sex(A&neu,A&old,'last_good')
+                !A&old.sc.mono and debugger
+                A&neu.last_good = A&old.last_good
             }
             if (withs == '1 2') {
                 # resumed matching after non-joins (joins with.length == 1)
                 A&neu.resumes = A&old.last_good
-                send("...recohere")
+                me&joisc,'demono',1
             }
         }
         
