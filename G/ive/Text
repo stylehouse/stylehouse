@@ -301,6 +301,8 @@
                 $joi = 3c&joi = 3c&iz(3c&X,'join')
                 # reason eg given|leaving
                 joi.given = t
+                # factoid collection
+                joi.sc = {}
                 N.map(&nod,{
                     # should be a node
                     nod.i_node == null and debugger
@@ -563,19 +565,16 @@
             if (exp != str) {
                 return me&Ploy_fail,'eq'
             }
+            
             # may match nothing
-            $tilstill = nod.matchtil == til
+            nod.matchtil == til and a&tilstill = 1
             #  that wasn't just (==\n)
-            $seeknod = tilstill && !(mungnl && exp == "\n")
-            if (seeknod) {
-                # perhaps about to mono join
-                #  ie only one 3s&joined (that was a&newnode)
-                A&joi.stall && A&joi.stall != nod and debugger
-                A&joi.stall = nod
-            }
+            a&tilstill && !(mungnl && exp == "\n") and a&seeknod = 1
             
             nod.matchtil = til
             til == whole.length and a&newnode = true
+            
+            me&Ploy_nod_matchcheck
         }
         # what did bit bump into
         # regroups lin/bit into lin/col=t|y|c|sc/microcol
@@ -637,6 +636,7 @@
         }
     
     //  joi
+      // join++
         =join
           sequence of nod on either side (nod(-nod)?)
            per either of them having a&newnode
@@ -677,11 +677,17 @@
             # old|neu are between joi, gone|new are the spheres
             $joi = A&joi = A&old = 3s&joi
             
-            # is there an oddness to join/with <-> N[A&nod]
-            me&Ploy_joi_stretchcheck,joi,N
+            # when joined
             # joi/jin/jol/jodol: change per /line/column/node
             me&Ploy_joi_col,joi
+            # is there an oddness to join/with <-> N[A&nod]
+            me&Ploy_joi_stretchcheck,joi,N
+            
+            # joi row
             me&Ploy_drawjoin,joi
+            #  any odd rows after that:
+            me&Ploy_drawjoin_factoids
+            
             
             # all done!
             !N.some(V => !Vs&seemsdone) and me&tc,'Fin','G'; return
@@ -705,10 +711,10 @@
         me.Ploy_drawjoin = &acgt,joi{
             # first and usually only type of row per joi
             #  eg A&modjoi, maybe A&mododd, etc
-            $m = me&Ploy_drawjoin_rower
+            $m = me&Ploy_rower
             # allowing the odd message inserted on the next|same line
             A&odd = &ty{
-                $m = me&Ploy_drawjoin_rower,'odd'
+                $m = me&Ploy_rower,'odd'
                 A&draw(t,y,m)
             }
             A&draw = &tym{
@@ -736,11 +742,9 @@
                     $l = lit.l
                     $lm = ldraw[ly&seqi] = me&drawdiffbit,i,l
                     if (ls&moren) {
-                        $ll = lmy&label
-                        llc&s = '↦'
+                        $ll = me&tsc,"moren-foldmarker",'↦'
                         lls&fs = 20
-                        me&tc,'x'+hak(ls&moren),'6y'
-                        lms&bri = 0.6
+                        me&tc,"moren-size",'x'+hak(ls&moren),'6y'
                     }
                     else
                     l.t == 'same' and lms&bri = 0.6; lmy&label.c.not = 1
@@ -751,14 +755,13 @@
                 me&Ploy_drawjoin_jin,joi,{joim,ldraw}
             })
             
-            
             # drop other modulats we just restructured
             # < get them to draw only if they are needed... (&Ploy_fail)
             $oktypes = peel('sph<-l,l,nod')
             grop(n => oktypes[ns&type], T.ab.sc.z)
         }
         
-      // row+
+      // row+ f
         # $m:row re-opens a &boxcap column for eg /with
         me.Ploy_rower_i = &acgtmt{
             return &y{
@@ -827,6 +830,63 @@
         }
         
       // /with oddities
+        =joi
+         A&joi.sc.$oddness = [uniq objects...]
+          in either A:l (nod match) or A:joined (joi leave)
+          during
+           nod match
+            .behinod=$nod - A&joi != 3s&joi
+            .tilmoves=$nod - as above + empty match
+            .tilstill=$nod - empty match
+            .seeknod=$nod - as above + it wasnt munged \n$
+           joi leave
+            .stretch=$nod - behinod when joined
+        =cut
+       // outsummation
+        me.Ploy_drawjoin_factoids = &acgt{
+            $joi = A&joi
+            # more angles 
+            
+            !hak(joi.sc) and return
+            A&odd('lit',&ml{
+                me&boxcap,'joi-factoids',2 (&ml{
+                    lc&not = 1
+                    $lak = haks(joi.sc).pop()
+                    each kv joi.sc {
+                        me&tc,k,'6y'
+                        lak != k and me&tc,',','6d'
+                    }
+                })
+            })
+        }
+       // incursion
+        me.joisc = &acgt{
+            ahk(A&joi,['sc'],...[...arguments].slice(4))
+        }
+      
+        me.Ploy_nod_matchcheck = &acgt{
+            # for a nod matching
+            if (3s&joi != A&joi) {
+                # previous other nod joined, we are left behind
+                me&joisc,'behinod',A&nod
+                if (a&tilstill) {
+                    # something
+                    me&joisc,'tilmoves',A&nod
+                }
+            }
+            A&joi.i_join == 49 and me&joisc,'49er',A&nod
+            if (a&tilstill) {
+                # nothing
+                me&joisc,'tilstill',A&nod
+            }
+            if (a&seeknod) {
+                # nothing excepting \n$
+                # perhaps about to mono join
+                #  ie only one 3s&joined (that was a&newnode)
+                me&joisc,'stall',A&nod
+            }
+        }
+      
         # notice when N...nod.joi are different
         # < always combined with mono joins?
         #   may have blips of stereo amongst
@@ -843,8 +903,8 @@
                     # a node keeps matching after a while
                     # < boxlink to itsthe last box:joi
                     $ji = nj.i_join
-                    me&tc,"twas:"+Vc&nod.E.t,'6y'
-                    joi.stretch = Vc&nod
+                    me&tc,"stretch<joi:"+ji+",E:"+Vc&nod.E.t,'6y'
+                    me&joisc,'stretch',Vc&nod
                 }
             })
         }
