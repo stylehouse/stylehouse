@@ -156,14 +156,14 @@
                 # line 0
                 $lin = 3c&iz(sph,'line')
                 # node 0
-                $nod = 3c&inode(sph,e)
+                $nod = me&Ploy_i_nod,sph,e
                 $D = nod.D
                 !Dy&toLines and debugger
-                3c&inodlin(nod,lin)
+                me&Ploy_i_lin,nod,lin
                 return nod
             },nav)
             # join 0
-            me&Ploy_join,'given',tops
+            me&Ploy_i_joi,'given',tops
             
         // loop
             $Ply = me&boxcap,'Ploy',5 (&Ply,{
@@ -187,29 +187,26 @@
                         A = a
                         fatal.isC(A&nod.E)
                         
-                        me&boxcap,title,2 (&m,la{
-                            lac&not = 1
-                            ms&type = 'sph<-l'
-                            if (ls&moren) {
-                                # l%moren is a fold marker, everything inside is t=same
-                                #  we avoid leaving to nod**, which are spared from Comp
-                                #  it is otherwise a regular l, for A&nod
-                                # < (upstream) shouldnt %moren if many is small
-                                #    > unless many small %moren close together
-                                $many = hak(ls&moren)
-                                !(isar(ls&moren) && many) and debugger
-                                A&nod.hasmoren = many
-                            }
-                            me&Ploy_indent_sympathy
-                            me&Ploy_match
-                            3c&not and return
-                            ls&moren && !(a&newline && a&newnode) and debugger
-                            # join l sequence
-                            me&Ploy_joi_l
-                            # line columns
-                            me&Ploy_lin_col
-                            me&Ploy_nod_leaving
-                        })
+                        if (ls&moren) {
+                            # l%moren is a fold marker, everything inside is t=same
+                            #  we avoid leaving to nod**, which are spared from Comp
+                            #  it is otherwise a regular l, for A&nod
+                            # < (upstream) shouldnt %moren if many is small
+                            #    > unless many small %moren close together
+                            $many = hak(ls&moren)
+                            !(isar(ls&moren) && many) and debugger
+                            A&nod.hasmoren = many
+                        }
+                        me&Ploy_indent_sympathy
+                        me&Ploy_match
+                        3c&not and return
+                        ls&moren && !(a&newline && a&newnode) and debugger
+                        # join l sequence
+                        me&Ploy_joi_l
+                        # line columns
+                        me&Ploy_lin_col
+                        me&Ploy_nod_leaving
+                        
                         3c&not and return
                     })
                     
@@ -231,7 +228,6 @@
         # < compile &iocall to A.3.i.iocall
         me.Ploy_io = &acgt{
             A.3 != A and debugger
-          // access
             3c&io = &xkv{
                 # all indexes are k:v (&X_t)
                 # ~~ c.wild: vx={v:x+}
@@ -257,72 +253,43 @@
                 x['i_'+k] = i
                 return x
             }
-            
-          // objects
-            # X/$sphere=new = sph
-            #  sph/$node flatly or /$in** = nod
-            #   nod.sph = sph (also via nod.up**)
-            #   nod.E|D
-            #   nod/$line
-            #  sph/$line
-            3c&inode = &xe{
-                $sph = x.sph || x
-                # climb /$in** = nod, so nod.up reflects Ey&up
-                $nod = 3c&iz(x,'in')
-                nod.d = (x.d||0) + 1
-                # link sph/$node flatly
-                3c&iz(sph,'node',nod)
-                # nod knows:
-                nod.sph = sph
-                nod.E = e
-                !ey&R and throw "undone E"
-                nod.D = Aof(e,'D')
-                # the RE doesnt have a D**
-                # < should it? ~~ Js&top: $W@9/*
-                #   and the RE/-hat|etc is an osc page
-                #    so each page has an encoding defined as pi
-                #     which may index pages by something else (t)
-                #    and W formats are explained as eg $Wt/1.js
-                #     which -js will be able to read,
-                nod.D ||= nod.i_node == 0 && nod.E
-                # eventually /$line of its diffside
-                return nod
-            }
-            3c&inodlin = &nod,lin{
-                $sph = nod.sph
-                # join: one nod to many lin
-                lin.nod = nod
-                sph.line[lin.i_line] != lin and debugger
-                # nod/$mine is a subset of sph/$line
-                3c&iz(nod,'mine',lin)
-            }
-            # joi/with=nod, nod.joi
-            3c&ijoin = &tN{
-                $joi = 3c&joi = 3c&iz(3c&X,'join')
-                # reason eg given|leaving
-                joi.given = t
-                # factoid collection
-                joi.sc = {}
-                N.map(&nod,{
-                    # should be a node
-                    nod.i_node == null and debugger
-                    # not yet joined
-                    nod.i_with != null and debugger
-                    3c&iz(joi,'with',nod)
-                    nod.joi and debugger
-                    nod.joi = joi
-                })
-                return joi
-            }
         }
     //  nod
+        # X/$sphere=new = sph
+        #  sph/$node flatly or /$in** = nod
+        #   nod.sph = sph (also via nod.up**)
+        #   nod.E|D
+        #   nod/$line
+        #  sph/$line
+        me.Ploy_i_nod = &acgtxe{
+            $sph = x.sph || x
+            # climb /$in** = nod, so nod.up reflects Ey&up
+            $nod = 3c&iz(x,'in')
+            nod.d = (x.d||0) + 1
+            # link sph/$node flatly
+            3c&iz(sph,'node',nod)
+            # nod knows:
+            nod.sph = sph
+            nod.E = e
+            !ey&R and throw "undone E"
+            nod.D = Aof(e,'D')
+            # the RE doesnt have a D**
+            # < should it? ~~ Js&top: $W@9/*
+            #   and the RE/-hat|etc is an osc page
+            #    so each page has an encoding defined as pi
+            #     which may index pages by something else (t)
+            #    and W formats are explained as eg $Wt/1.js
+            #     which -js will be able to read,
+            nod.D ||= nod.i_node == 0 && nod.E
+            # eventually /$line of its diffside
+            return nod
+        }
+        
         # the usual arrive, think, descent
         #  the usual particle (A.1) is basically nod**
         #   nod is also per sph
         #   A:l is per l
         #    for a nod finding it has /lin/bit
-        
-        # A:l per nod/lin/bit
         me.Ploy_nod_arrive = &acgt,sph,l,title{
             A = fi&At,title
             # -Fez is A-shy
@@ -389,7 +356,7 @@
                 !a&newnode and debugger
                 # make empty lin to use next time around
                 lin = 3c&iz(A&sph,'line')
-                3c&inodlin(nod,lin)
+                me&Ploy_i_lin,nod,lin
             }
         }
         # more nodes: nod/*[0] first, then ^^/[nod+1]
@@ -412,7 +379,7 @@
                 # creates all nod/nod:$e for later
                 #  and sph/node width first: is not nested: 1, 2, 1/1...
                 #   !~~ &ind: 1, 1/1, 2...
-                N = N.map(e => 3c&inode(A&nod,e))
+                N = N.map(e => me&Ploy_i_nod,A&nod,e )
             }
             $next
             hak(N) and next = N[0]
@@ -441,6 +408,14 @@
         }
     
     //  lin
+        me.Ploy_i_lin = &acgt,nod,lin{
+            $sph = nod.sph
+            # join: one nod to many lin
+            lin.nod = nod
+            sph.line[lin.i_line] != lin and debugger
+            # nod/$mine is a subset of sph/$line
+            3c&iz(nod,'mine',lin)
+        }
         # line may start with spaces, to imagine into exp
         me.Ploy_indent_sympathy = &acgt{
             # leading bits, until [^ ] is found
@@ -636,7 +611,6 @@
         }
     
     //  joi
-      // join++
         =join
           sequence of nod on either side (nod(-nod)?)
            per either of them having a&newnode
@@ -646,10 +620,32 @@
               describing the branch stepped into
           
         =cut
+       // join f
         # 3s&joi++, with N=[nod +], initially or by &Ploy_joined
-        me.Ploy_join = &acgttN{
-            return 3s&joi = 3c&ijoin(t,N)
+        me.Ploy_i_joi = &acgttN{
+            $joi = 3c&joi = 3c&iz(3c&X,'join')
+            # reason eg given|leaving
+            joi.given = t
+            # factoid collection, via &joisc
+            joi.sc = {}
+            # joi/with=nod, nod.joi
+            N.map(&nod,{
+                # should be a node
+                nod.i_node == null and debugger
+                # not yet joined
+                nod.i_with != null and debugger
+                3c&iz(joi,'with',nod)
+                nod.joi and debugger
+                nod.joi = joi
+            })
+            # become the latest join
+            3s&joi = joi
+            return joi
         }
+        me.joisc = &acgt{
+            ahk(A&joi,['sc'],...[...arguments].slice(4))
+        }
+        
         # after nod arrives
         me.Ploy_joi_arrive = &acgtN{
             A&joi = A&nod.joi
@@ -667,7 +663,7 @@
             (lit.bit ||= []).push(bit)
         }
         
-        # 3s&joi++
+       // join++
         me.Ploy_joi_leaving = &acgt{
             A = fi&At,'join:'+3s&joi.i_join
             # we are the joined joi
@@ -685,7 +681,7 @@
                     return Vs&next
                 },N)
 
-                A&neu = me&Ploy_join,'next',nexts
+                A&neu = me&Ploy_i_joi,'next',nexts
                 # joi linked like nod
                 A&old.next = A&neu
                 A&neu.prev = A&old
@@ -706,8 +702,7 @@
             a&Fin && me&tc,'Fin','G'
         }
         
-        # and iterate lit(/bit,nod)
-        
+        # iterate lit(/bit,nod)
         me.Ploy_drawjoin = &acgt,joi{
             # first and usually only type of row per joi
             #  eg A&modjoi, maybe A&mododd, etc
@@ -761,7 +756,7 @@
             grop(n => oktypes[ns&type], T.ab.sc.z)
         }
         
-      // row+ f
+     // row+ f
         # $m:row re-opens a &boxcap column for eg /with
         me.Ploy_rower_i = &acgtmt{
             return &y{
@@ -829,20 +824,24 @@
             }
         }
         
-      // /with oddities
+     // /with oddities
         =joi
          A&joi.sc.$oddness = [uniq objects...]
           in either A:l (nod match) or A:joined (joi leave)
           during
            nod match
-            .behinod=$nod - A&joi != 3s&joi
+            .behinod=$nod - nod.joi != 3s&joi
             .tilmoves=$nod - as above + empty match
+             < ^x2 dont seem to happen
             .tilstill=$nod - empty match
             .seeknod=$nod - as above + it wasnt munged \n$
            joi leave
             .stretch=$nod - behinod when joined
+             
+             < check for minor == stuff, eg '    ', \n$
+           
         =cut
-       // outsummation
+      // outsummation
         me.Ploy_drawjoin_factoids = &acgt{
             $joi = A&joi
             # more angles 
@@ -877,11 +876,8 @@
                 : '?'
             me&tc,cint(type,t),'6G'
         }
-       // incursion
-        me.joisc = &acgt{
-            ahk(A&joi,['sc'],...[...arguments].slice(4))
-        }
-      
+      // incursion
+       // nod time
         me.Ploy_nod_matchcheck = &acgt{
             # for a nod matching
             if (3s&joi != A&joi) {
@@ -892,14 +888,17 @@
                     me&joisc,'tilmoves',A&nod
                 }
             }
+            
             if (a&seeknod) {
                 # nothing excepting \n$
                 # perhaps about to mono join
                 #  ie only one 3s&joined (that was a&newnode)
                 me&joisc,'seeknod',A&nod
             }
+            
         }
       
+       // joi time
         # notice when N...nod.joi are different
         # < always combined with mono joins?
         #   may have blips of stereo amongst
