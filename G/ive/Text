@@ -943,76 +943,8 @@
             grop(n => oktypes[ns&type], T.ab.sc.z)
         }
         
-     // row+ f
-        # $m:row re-opens a &boxcap column for eg /with
-        me.Ploy_rower_i = &acgtmt{
-            return &y{
-                !me&fiu,m,t,8 and debugger
-                me&boxcap,t,4,2,m (&ml{
-                    y (m,l)
-                })
-            }
-        }
-        # boxcap for some kind of row, for a joi
-        me.Ploy_rower = &acgtk{
-            # kind may also odd|fail
-            $modk = "mod"+(k||'joi')
-            $m = A&joi[modk]
-            if (!m) {
-                # name it after this row
-                $i = A&joi.i_join
-                $name = cint('join',i,k)
-                m = A&joi[modk] =
-                me&boxcap,'join:'+i,3 (&ml{
-                    ms&type = cint('join',k)
-                    # label is the first column
-                    lc&s = k || i
-                    ls&bri = 0.6
-                    ls&dis = 4
-                    k and ls&fs = 7
-                    # < how to border rows
-                    
-                    # with...E
-                    me&boxcap,'with',4 (&ml{
-                        lc&not = 1
-                        mc&maybeempty = 1
-                        ms&fs = 7
-                        ms&maw = 6
-                        ms&miw = 3
-                    })
-                    # lit...l
-                    me&boxcap,'lit',4 (&ml{
-                        lc&not = 1
-                        mc&maybeempty = 1
-                    })
-                    # jin... discernibles
-                    me&boxcap,'jin',4 (&ml{
-                        lc&not = 1
-                        mc&maybeempty = 1
-                        ms&maw = 6
-                        ms&miw = 3
-                    })
-                })
-            }
-            return m
-        }
-        # columns 2-4 span, for larger breakdowns, eg &Ploy_fail
-        me.Ploy_spannyrower = &acgtt{
-            return &y{
-                return me&boxcap,t,3 (&ml{
-                    me&boxcap,'spanny',4 (&ml{
-                        lc&not = 1
-                        mc&maybeempty = 1
-                        ms&tag = 'td'
-                        ahk(m.sc,'attr','colspan',3)
-                        
-                        y (m,l)
-                    })
-                })
-            }
-        }
         
-     // < /with oddities
+       // factoids of joi
         =joi
          A&joi.sc.$oddness = [uniq objects...]
           in either A:l (nod match) or A:joined (joi leave)
@@ -1039,7 +971,6 @@
           cant see any %behinod but is apparently
            
         =cut
-      // outsummation!
         me.Ploy_drawjoin_factoids = &acgt{
             $joi = A&joi
             # more angles
@@ -1075,23 +1006,8 @@
                 me&tt,'joi' () and me&fu,"joi@"+joi.i_join,joi
             })
         }
-        # name|number n:E.t, j:$i...
-        # see also &Ploy_identify
-        # < should become -Difmo/joi/E**?
-        me.Ploy_tid = &acgtvk{
-            isar(v) and return coint(armap(v => me&Ploy_tid,v,k , v))
-            k and v = v[k]
-            !ish(v) and debugger
-            $type = v.i_join ? 'j'
-                : v.i_node ? 'n'
-                :'?'
-            $t = v.i_join ? v.i_join
-                : v.i_node ? v.E.t
-                : '?'
-            me&tc,cint(type,t),'6G'
-        }
       
-      // check out whats happening
+      
         me.Ploy_joi_check = &acgt,joi,N{
             # having %minor details
             $an = {}
@@ -1201,7 +1117,91 @@
         }
         
         
+    // drawing row+
+        # $m:row re-opens a &boxcap column for eg /with
+        me.Ploy_rower_i = &acgtmt{
+            return &y{
+                !me&fiu,m,t,8 and debugger
+                me&boxcap,t,4,2,m (&ml{
+                    y (m,l)
+                })
+            }
+        }
+        # boxcap for some kind of row, for a joi
+        me.Ploy_rower = &acgtk{
+            # kind may also odd|fail
+            $modk = "mod"+(k||'joi')
+            $m = A&joi[modk]
+            if (!m) {
+                # name it after this row
+                $i = A&joi.i_join
+                $name = cint('join',i,k)
+                m = A&joi[modk] =
+                me&boxcap,'join:'+i,3 (&ml{
+                    ms&type = cint('join',k)
+                    # label is the first column
+                    lc&s = k || i
+                    ls&bri = 0.6
+                    ls&dis = 4
+                    k and ls&fs = 7
+                    # < how to border rows
+                    
+                    # with...E
+                    me&boxcap,'with',4 (&ml{
+                        lc&not = 1
+                        mc&maybeempty = 1
+                        ms&fs = 7
+                        ms&maw = 6
+                        ms&miw = 3
+                    })
+                    # lit...l
+                    me&boxcap,'lit',4 (&ml{
+                        lc&not = 1
+                        mc&maybeempty = 1
+                    })
+                    # jin... discernibles
+                    me&boxcap,'jin',4 (&ml{
+                        lc&not = 1
+                        mc&maybeempty = 1
+                        ms&maw = 6
+                        ms&miw = 3
+                    })
+                })
+            }
+            return m
+        }
+        # columns 2-4 span, for larger breakdowns, eg &Ploy_fail
+        me.Ploy_spannyrower = &acgtt{
+            return &y{
+                return me&boxcap,t,3 (&ml{
+                    me&boxcap,'spanny',4 (&ml{
+                        lc&not = 1
+                        mc&maybeempty = 1
+                        ms&tag = 'td'
+                        ahk(m.sc,'attr','colspan',3)
+                        
+                        y (m,l)
+                    })
+                })
+            }
+        }
+        
     // drawing f
+        # name|number n:E.t, j:$i...
+        # see also &Ploy_identify
+        # < should become -Difmo/joi/E**?
+        me.Ploy_tid = &acgtvk{
+            isar(v) and return coint(armap(v => me&Ploy_tid,v,k , v))
+            k and v = v[k]
+            !ish(v) and debugger
+            $type = v.i_join ? 'j'
+                : v.i_node ? 'n'
+                :'?'
+            $t = v.i_join ? v.i_join
+                : v.i_node ? v.E.t
+                : '?'
+            me&tc,cint(type,t),'6G'
+        }
         # not to be confused with $bit, which it maps to
         me.drawdiffbit = &acgttl{
             $name = cint(t,l.t)
