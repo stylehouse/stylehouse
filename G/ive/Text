@@ -1,4 +1,4 @@
-# lines of characters, etc!
+# lines of characters, etc!!
  
  // -String etc
      // &Stringclue|chew
@@ -486,6 +486,8 @@
                 # (++  ) should keep going
                 # maybe even through (++  )(==      )(++yada)
                 #!bit0 and debugger
+                # remember this, isnt sameness
+                A&bit.allindents = level
             }
             # more indent on (==      )
             !bit0 and A&nod.Cindent += Cindent
@@ -736,11 +738,7 @@
         # < to somewhere, for regionating
         # < u Ploy
         me.Ploy_pernkgk = {sc:{'♲':8}}
-        me.Ploy_drawjoin_jin = &acgt,joi,g{
-            # modulats passed in:
-            #  g.joim = the join row
-            #  g.ldraw[ly&seqi] = l drawing
-            
+        me.Ploy_drawjoin_jin = &acgt,joi{
             # each jodol/microbit.bit.l is in here
             $ls = 3c&io(joi,'lit','*') .map(lit => lit.l)
             3c&io(joi,'jin','*') .map(&jin,{
@@ -748,9 +746,9 @@
                 3c&io(jin,'jol','*') .map(&jol,{
                     # changey lin/col for both nodes
                     !jol.changey and debugger
-                    $arks = 3c&io(jol,'jodol','*') .map(jodol => jodol.ark)
+                    $arks = 3c&o(jol,'jodol') .map(jodol => jodol.ark)
                     $ark = theone(uniq(arks))
-                    $jodols = jol.jodol
+                    $jodols = 3c&o(jol,'jodol')
                     !hak(jodols) and debugger
                     
                     $arksay = ark == 'sc' ? '%' : ark
@@ -759,8 +757,14 @@
                         $maq = me&tc,'match-quality','6g'
                         maqs&dis = 2
                         $qual = 9
-                        $down = &v{
+                        $down = &vk{
+                            # column|nk ~ = greatest gk ~
+                            #  ie, lots of 8 is still just 8
+                            #  usu (5,8) is 5
                             qual > v and qual = v
+                            # a general changiness
+                            #  it all might just be ('%♲')
+                            ahk(joi,'changes',k,1)
                         }
                         
                         if (ark == 'sc') {
@@ -771,7 +775,7 @@
                                 # < further. seq++ numbers? pointer much changing?
                                 know ||= 5
                                 !num(know) and debugger
-                                down(know)
+                                down(know,'%'+gk)
                                 me&boxcap,"gk:"+gk,2 (&ml{
                                     me&walls,m,'b:2.2h4'
                                     lc&s = gk
@@ -781,7 +785,7 @@
                         }
                         else {
                             # t|y|c completely
-                            down(1)
+                            down(1,ark)
                             #me&tc,'yup' .sc.dis = 0
                         }
                         
@@ -904,7 +908,6 @@
                     y (m,l)
                 })
             }
-            $joim = m
             
             me&Ploy_rower_i,m,'with' (&ml{
                 $la
@@ -934,7 +937,7 @@
             })
             
             me&Ploy_rower_i,m,'jin' (&ml{
-                joi.jin and me&Ploy_drawjoin_jin,joi,{joim,ldraw}
+                joi.jin and me&Ploy_drawjoin_jin,joi
             })
             
             # drop other modulats we just restructured
@@ -963,19 +966,33 @@
             .stretchy=$nod - doesnt end on joi (no ...\n$)
             .stretching=$nod - began before joi (after the above)
             .stretch=$nod - finally ended
-            <<<
-             coupled to a joi.prev+%strechy=$nod
+             < are coupled to a joi.prev+%strechy=$nod
              
-            .minor=$nod - minimal == (eg '    ', \n$) amongst larger ++|--
+            .sameness=$ratio - low or high sameness
+              ignores ^\s+(++    ) and the near-sameness of only %♲
+               # code: any illegal syntax (regex (+) is potential otherlang
+             < joi@54 should have very low sameness, just (==\n)
+               after stretch:joi@46 has (==         sc⇥-Hash⇥)
+             < joi@69 also, should have sameness...
            
           cant see any %behinod but is apparently
+         
+         A&joi.changes.$nk$gk? = 1
+          seeing jodol** change
            
         =cut
         me.Ploy_drawjoin_factoids = &acgt{
             $joi = A&joi
             # more angles
             
+            if (joi.changes) {
+                $only = cint(haks(joi.changes))
+                # doesnt warrant a sameness
+                only == '%♲' and delete jois&sameness
+            }
+            
             if (hak(joi.sc) == 0) {
+                # no factoids
                 if (!joi.jin) {
                     # no difference
                     $m = joi.modjoi
@@ -987,16 +1004,20 @@
                 # only %mono
                 a&nojin && jois&mono and return
             }
-            # no facts without difference
+            # difference > factoids
             !joi.jin and debugger
+            
             
             A&odd('lit',&ml{
                 me&boxcap,'joi-factoids',2 (&ml{
                     lc&not = 1
                     $lak = haks(joi.sc).pop()
-                    each kv joi.sc {
+                    each kN joi.sc {
                         me&tc,k,'6y'
-                        k == 'stretch' and me&Ploy_tid,v,'joi'
+                        each iv N {
+                            k == 'stretch' and me&Ploy_tid,v,'joi'
+                            !ish(v) and me&tsc,"value",dis(v),'6b'
+                        }
                         lak != k and me&tc,',','6d'
                     }
                 })
@@ -1009,16 +1030,46 @@
       
       
         me.Ploy_joi_check = &acgt,joi,N{
-            # having %minor details
-            $an = {}
-            3c&oy(joi,'lit.l',&lc{
+          // %stretch*
+            $L = 3c&o(joi,'lit.l')
+            if (hak(L) > 1) {
+                # having %minor details
+                $an = {}
                 # overall amount shared|not on this joi
-                $k = l.t == 'same' ? 'same' : 'diff'
-                an.cosize ||= {}
-                an.cosize[k] += hak(ls&string)
-            })
+                L.map(&l{
+                    $quantity = hak(ls&string)
+                    if (l.t == 'same') {
+                        # dont count eg joi@69 (==      )
+                        $anod = 3c&o(joi,'with')[0]
+                        3c&o(anod,'mine/bit') .map(&bit,{
+                            bit.l != l and return
+                            quantity -= bit.allindents || 0
+                        })
+                    }
+                    
+                    
+                    $k = l.t == 'same' ? 'same' : 'diff'
+                    an.cosize ||= {}
+                    an.cosize[k] ||= 0
+                    # < leaving out ^ oddly not fatal to v (Try@3 / js oddities)
+                    an.cosize[k] += quantity
+                })
+                # < &ind + ex()
+                $sa = map(v => cvs(dec(v,2)), &c{
+                    hak(c) > 2 and debugger
+                    # same/0 == 1
+                    !c.diff and return 1
+                    $same = c.same || 0
+                    return same / (same + c.diff)
+                },an)
+                
+                # hardly any or lots of similarity
+                sa.cosize <= 22 || sa.cosize >= 78
+                    && me&joisc,'sameness',sa.cosize
+            }
             
-            # notice going %stretchy or continuing the %stretching
+          // %stretch*
+            # going %stretchy or continuing the %stretching
             #  ~~ middle, beginning and end (%stretch)
             #   many beginnings (%stretching) may occur
             #    if we share l with several joins with diff \n$
@@ -1029,6 +1080,7 @@
                         3c&oy(joi,'with',&nod,{
                             $bit = 3c&o(nod,'mine/bit') [0]
                             # nod began earlier l on a previous joi
+                            # < joi@69 is simply (++  ) that some nod doesnt have
                             bit.l != l and me&joisc,'stretching',nod
                         })
                     }
@@ -1191,7 +1243,6 @@
         # see also &Ploy_identify
         # < should become -Difmo/joi/E**?
         me.Ploy_tid = &acgtvk{
-            isar(v) and return coint(armap(v => me&Ploy_tid,v,k , v))
             k and v = v[k]
             !ish(v) and debugger
             $type = v.i_join ? 'j'
