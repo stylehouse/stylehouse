@@ -165,9 +165,10 @@
             # join 0
             me&Ploy_i_joi,'given',tops
             
-        // loop
+        // loop l -> sph
             $Ply = me&boxcap,'Ploy',5 (&Ply,{
                 each il Comp {
+                    
                     ly&seqi = i
                     A = A.3
                     me&drawdiffbit,i,l
@@ -175,6 +176,7 @@
                     $who = l.t == 'same' ? havs(3c&io(X,'sphere','*'))
                         : [3c&io(X,'sphere',l.t)]
                     who.map(&sph,{
+                        
                         3c&not and return
                         # to A3:Ploy/A:l+
                         #  A:l always up to A3
@@ -186,6 +188,9 @@
                         !a and 3c&not = 1; return
                         A = a
                         fatal.isC(A&nod.E)
+            
+                        !A&nod.joi and debugger
+                        me&Ploy_joi_arrive
                         
                         if (ls&moren) {
                             # l%moren is a fold marker, everything inside is t=same
@@ -206,17 +211,19 @@
                         # line columns
                         me&Ploy_lin_col
                         me&Ploy_nod_leaving
-                        
-                        3c&not and return
                     })
                     
                     A = A.3
                     
                     # after &Ploy_fail
                     3c&not and me&tc,"Abort",'G'; break
+                    
                     # to A3:Ploy/A:join+
                     3s&joined and me&Ploy_joi_leaving
                 }
+                
+                
+                
                 # check we found our way back to each sph/nod0
                 $lost = tops.slice()
                 grop(3s&seemsdone,lost)
@@ -255,18 +262,13 @@
             }
         }
     //  nod
-        # X/$sphere=new = sph
-        #  sph/$node flatly or /$in** = nod
-        #   nod.sph = sph (also via nod.up**)
-        #   nod.E|D
-        #   nod/$line
-        #  sph/$line
+        # ^nod|sph += nod
         me.Ploy_i_nod = &acgtxe{
             $sph = x.sph || x
             # climb /$in** = nod, so nod.up reflects Ey&up
             $nod = 3c&iz(x,'in')
             nod.d = (x.d||0) + 1
-            # link sph/$node flatly
+            # link sph/$node flatly (width first, !~~ &ind)
             3c&iz(sph,'node',nod)
             # nod knows:
             nod.sph = sph
@@ -292,9 +294,6 @@
         #    for a nod finding it has /lin/bit
         me.Ploy_nod_arrive = &acgt,sph,l,title{
             A = fi&At,title
-            # -Fez is A-shy
-            $V = sph.Al
-            sph.Al = A
 
             # sph/$line/$bit .l|str
             $lin = 3c&io(sph,'line',-1)
@@ -308,6 +307,9 @@
             hak(str)-1 < str.indexOf("\n") and throw "many lin to one l"
 
             $nod = lin.nod
+            # -Fez is C-shy
+            $V = nod.prev && nod.prev.A
+            nod.A = A
             # a second opinion on next nod, from last A:l
             V && Vs&next && nod != Vs&next and debugger
             
@@ -321,8 +323,6 @@
                 !isst(nod.whole) and return me&Ploy_fail,'toLines',{l}
                 me&drawnod,nod
             }
-            
-            nod.joi and me&Ploy_joi_arrive,V
             
             return A
         }
