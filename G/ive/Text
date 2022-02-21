@@ -163,7 +163,7 @@
                 return x
             }
           // o, oy
-            3c&o = &xs{
+            3c&o = &xsy{
                 $path = split(s,/\/|(?=\.)/)
                 $N = [x]
                 each in path {
@@ -175,27 +175,28 @@
                         N = flatten(N.map(x => 3c&io(x,n,'*')))
                     }
                 }
-                return N
-            }
-            3c&oy = &xsy{
-                $N = 3c&o(x,s)
-                $lai = hak(N)-1
-                $M = []
-                each in N {
-                    # < gr3p(): y(v,k,setc) about where you are
-                    #    and relations nearby, is very almost io
-                    $setc = {}
-                    0 == i and setc.first = 1
-                    lai == i and setc.last = 1
-                    
-                    $ret = y (n,setc)
-                    setc.not and return
-                    ret and M.push(ret)
+                if (y) {
+                    $lai = hak(N)-1
+                    $M = []
+                    each in N {
+                        # < gr3p(): y(v,k,setc) about where you are
+                        #    and relations nearby, is very almost io
+                        $setc = {}
+                        0 == i and setc.first = 1
+                        lai == i and setc.last = 1
+
+                        $ret = y (n,setc)
+                        setc.not and return
+                        ret and M.push(ret)
+                    }
+                    # y() as grep(armap(y,N))
+                    N = M
                 }
-                return M
+                return N
             }
         }
         me.Ploy = &acgt,nav,Comp{
+          // A:Ploy init
             A = fi&At,"Ploy"
             A.3 = A
             $X = 3c&X = {A}
@@ -228,8 +229,9 @@
             # join 0
             me&Ploy_i_joi,'given',tops
             
-        // Comp/$l -> $sph
+          // Comp/$l -> $sph
             me&boxcap,'Ploy',5 (&ml{
+                
                 lc&not = 1
                 each il Comp {
                     
@@ -1030,7 +1032,7 @@
       
       
         me.Ploy_joi_check = &acgt,joi,N{
-          // %stretch*
+          // %sameness
             $L = 3c&o(joi,'lit.l')
             if (hak(L) > 1) {
                 # having %minor details
@@ -1073,11 +1075,11 @@
             #  ~~ middle, beginning and end (%stretch)
             #   many beginnings (%stretching) may occur
             #    if we share l with several joins with diff \n$
-            3c&oy(joi,'lit.l',&lc{
+            3c&o(joi,'lit.l',&lc{
                 if (l.t != 'same') {
                     # text they dont share
                     if (c.first) {
-                        3c&oy(joi,'with',&nod,{
+                        3c&o(joi,'with',&nod,{
                             $bit = 3c&o(nod,'mine/bit') [0]
                             # nod began earlier l on a previous joi
                             # < joi@69 is simply (++  ) that some nod doesnt have
@@ -1086,7 +1088,7 @@
                     }
                     if (c.last) {
                         # a nod doesnt have this \n$
-                        3c&oy(joi,'with',&nod,{
+                        3c&o(joi,'with',&nod,{
                             $bit = 3c&o(nod,'mine/bit') .slice(-1)[0]
                             bit.l != l and me&joisc,'stretchy',nod
                         })
