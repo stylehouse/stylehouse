@@ -264,8 +264,6 @@
             ls&moren && !(a&newline && a&newnode) and debugger
             # join l sequence
             me&Ploy_joi_lit
-            # line columns
-            me&Ploy_lin_col
             me&Ploy_noded
         }
     
@@ -421,11 +419,11 @@
     //  lin
         me.Ploy_i_lin = &acgt,nod,lin{
             $sph = nod.sph
-            # join: one nod to many lin
-            lin.nod = nod
             sph.line[lin.i_line] != lin and debugger
             # nod/$mine is a subset of sph/$line
             3c&iz(nod,'mine',lin)
+            # join: one nod to many lin
+            lin.nod = nod
         }
         # line may start with spaces, to imagine into exp
         me.Ploy_indent_sympathy = &acgt{
@@ -577,17 +575,26 @@
             (lit.bit ||= []).push(bit)
         }
         
-        # i lin/col=$nk/microcol o lin/bit
-        # to see columns t|y|c|sc, assuming Lines encoding
-        # < is per nod, lazily
+        # lazily nod/lin/col, per nod via joined
+        me.Ploy_nod_col = &acgt,nod{
+            3c&io(nod,'mine','*') .map(&lin,{
+                3c&io(lin,'bit','*') .map(&bit,{
+                    me&Ploy_lin_col,lin,bit
+                })
+                # Lines always t,y,c
+                # < reintroduce this... tripped when jois&seeknod
+                #hak(lin.col) < 3 and me&Ploy_fail,"endon-col:c|sc",lin.col
+            })
+        }
+        # i lin/col/microcol o lin/bit
+        # to see col=$nk=t|y|c|sc, assuming Lines encoding
         me.Ploy_lin_col = &acgt,lin,bit{
-            $lin = A&lin
-            $bit = A&bit
+            $nod = lin.nod
             $str = bit.str
             if (lin.i_mine == 0) {
                 # tidy str
                 # < indent column? ~~ lin.indent_sympathy
-                lin.indent_sympathy and str = str.slice(0,A&nod.Cindent)
+                lin.indent_sympathy and str = str.slice(0,nod.Cindent)
                 # < what is "string".trimEnd() ?
                 str.slice(-1)[0] == "\n" and str = str.slice(0,hak(str)-1)
                 
@@ -628,16 +635,13 @@
                     # for nod/*lin/*col.changey
                     bit.l.t != 'same' and mc.changey = col.changey = 1
                 }
-                
-                # < Lines always t,y,c?
-                a&newnode && hak(cols) > 1 and me&Ploy_fail,"endon-col:c|sc",lin.col
             }
             else {
                 me&Ploy_fail,"multiline"
             }
         }
+        # i joi/#lin:jin/#col:jol/#with:jodol o nod/lin/col
         # joi gathers C.*.* change in stereo (or mono)
-        # joi/#lin:jin/#col:jol/#with:jodol/
         #  only changey
         # < 3c&ioing()?
         me.Ploy_joi_jin = &acgt,joi{
@@ -826,8 +830,18 @@
             }
             
             # when joined
-            # joi/jin/jol/jodol: change per /line/column/node
-            me&Ploy_joi_jin,joi
+            if (1 == hak(joi.lit)) {
+                # by a single l, a whole line
+                a&nojin = 1
+            }
+            else {
+                # inflate nod/lin/col
+                3c&io(joi,'with','*') .map(&nod,{
+                    me&Ploy_nod_col,nod
+                })
+                # and merge to joi/jin/jol
+                me&Ploy_joi_jin,joi
+            }
             # is there an oddness to join/with <-> N[A&nod]
             me&Ploy_joi_check,joi,N
             
@@ -890,7 +904,7 @@
             })
             
             me&Ploy_rower_i,m,'jin' (&ml{
-                me&Ploy_drawjoin_jin,joi,{joim,ldraw}
+                joi.jin and me&Ploy_drawjoin_jin,joi,{joim,ldraw}
             })
             
             # drop other modulats we just restructured
@@ -991,6 +1005,9 @@
             # more angles 
             
             !hak(joi.sc) and return
+            if (hak(joi.sc) == 1) {
+                a&nojin && jois&mono and return
+            }
             A&odd('lit',&ml{
                 me&boxcap,'joi-factoids',2 (&ml{
                     lc&not = 1
@@ -1041,7 +1058,6 @@
                 #  ie only one 3s&joined (that was a&newnode)
                 me&joisc,'seeknod',A&nod
             }
-            
         }
         # notice when N...nod.joi are different
         # < always combined with mono joins?
@@ -1052,6 +1068,7 @@
         # < any bit progress once decohered is what to see
         #    a nod matching that is not on the current joi
         me.Ploy_joi_check = &acgt,joi,N{
+            
             # the old one is finishing
             N.map(&V{
                 $nj = Vc&nod.joi
