@@ -136,6 +136,7 @@
         # < compile &iocall to A.3.i.iocall
         me.Ploy_io = &acgt{
             A.3 != A and debugger
+          // io, iz
             3c&io = &xkv{
                 # all indexes are k:v (&X_t)
                 # ~~ c.wild: vx={v:x+}
@@ -160,6 +161,38 @@
                 #   having a subset at some locale
                 x['i_'+k] = i
                 return x
+            }
+          // o, oy
+            3c&o = &xs{
+                $path = split(s,/\/|(?=\.)/)
+                $N = [x]
+                each in path {
+                    if (n.startsWith('.')) {
+                        # eg bit.l
+                        N = N.map(x => x[n.slice(1)])
+                    }
+                    else {
+                        N = flatten(N.map(x => 3c&io(x,n,'*')))
+                    }
+                }
+                return N
+            }
+            3c&oy = &xsy{
+                $N = 3c&o(x,s)
+                $lai = hak(N)-1
+                $M = []
+                each in N {
+                    # < gr3p(): y(v,k,setc) about where you are
+                    #    and relations nearby, is very almost io
+                    $setc = {}
+                    0 == i and setc.first = 1
+                    lai == i and setc.last = 1
+                    
+                    $ret = y (n,setc)
+                    setc.not and return
+                    ret and M.push(ret)
+                }
+                return M
             }
         }
         me.Ploy = &acgt,nav,Comp{
@@ -261,6 +294,7 @@
             me&Ploy_indent_sympathy
             me&Ploy_match
             3c&not and return
+            me&Ploy_nod_check
             ls&moren && !(a&newline && a&newnode) and debugger
             # join l sequence
             me&Ploy_joi_lit
@@ -557,11 +591,9 @@
             
             nod.matchtil = til
             til == whole.length and a&newnode = true
-            
-            me&Ploy_nod_matchcheck
         }
     
-    //  nod/lin/col, joi/lit|jin
+    //  lit, col, jin/lin/col, joi/lit|jin
         # joi/lit .l, /bit
         #  l-ordered bits of either sph
         me.Ploy_joi_lit = &acgt{
@@ -640,6 +672,7 @@
                 me&Ploy_fail,"multiline"
             }
         }
+        
         # i joi/#lin:jin/#col:jol/#with:jodol o nod/lin/col
         # joi gathers C.*.* change in stereo (or mono)
         #  only changey
@@ -710,12 +743,10 @@
             
             # each jodol/microbit.bit.l is in here
             $ls = 3c&io(joi,'lit','*') .map(lit => lit.l)
-            $none = 1
             3c&io(joi,'jin','*') .map(&jin,{
                 # lin for both nodes
                 3c&io(jin,'jol','*') .map(&jol,{
                     # changey lin/col for both nodes
-                    none = 0
                     !jol.changey and debugger
                     $arks = 3c&io(jol,'jodol','*') .map(jodol => jodol.ark)
                     $ark = theone(uniq(arks))
@@ -761,7 +792,6 @@
                     })
                 })
             })
-            none and g.joim.sc.bri = 0.6
         }
     
     //  joi
@@ -995,19 +1025,40 @@
             .seeknod=$nod - as above + it wasnt munged \n$
            joi leave
             .stretch=$nod - behinod when joined
+             eg joi@84 is ++'    ' after joi@80 =='    ' started $nod
+              < where we would turn joi@80 ++'    '
+                 which would turn it %mono
+            .stretchy=$nod - doesnt end on joi (no ...\n$)
+            .stretching=$nod - began before joi (after the above)
+            .stretch=$nod - finally ended
+            <<<
+             coupled to a joi.prev+%strechy=$nod
              
-             < check for minor == stuff, eg '    ', \n$
+            .minor=$nod - minimal == (eg '    ', \n$) amongst larger ++|--
+           
+          cant see any %behinod but is apparently
            
         =cut
-      // outsummation
+      // outsummation!
         me.Ploy_drawjoin_factoids = &acgt{
             $joi = A&joi
-            # more angles 
+            # more angles
             
-            !hak(joi.sc) and return
+            if (hak(joi.sc) == 0) {
+                if (!joi.jin) {
+                    # no difference
+                    $m = joi.modjoi
+                    ms&bri = 0.6
+                }
+                return
+            }
             if (hak(joi.sc) == 1) {
+                # only %mono
                 a&nojin && jois&mono and return
             }
+            # no facts without difference
+            !joi.jin and debugger
+            
             A&odd('lit',&ml{
                 me&boxcap,'joi-factoids',2 (&ml{
                     lc&not = 1
@@ -1041,35 +1092,48 @@
         }
       
       // check out whats happening
-        me.Ploy_nod_check = &acgt{
-            # for a nod matching
-            if (3s&joi != A&joi) {
-                # previous other nod joined, we are left behind
-                me&joisc,'behinod',A&nod
-                if (!a&tilstill) {
-                    # something
-                    me&joisc,'tilmoves',A&nod
-                }
-            }
-            
-            if (a&seeknod) {
-                # nothing excepting \n$
-                # perhaps about to mono join
-                #  ie only one 3s&joined (that was a&newnode)
-                me&joisc,'seeknod',A&nod
-            }
-        }
-        # notice when N...nod.joi are different
-        # < always combined with mono joins?
-        #   may have blips of stereo amongst
-        #   we want to sweep below for clarity
-        #    ie turn l:== into l:++ (like its neighbours)
-        #    adding l:-- after, on a new joi for that one nod?
-        # < any bit progress once decohered is what to see
-        #    a nod matching that is not on the current joi
         me.Ploy_joi_check = &acgt,joi,N{
+            # having %minor details
+            $an = {}
+            3c&oy(joi,'lit.l',&lc{
+                # overall amount shared|not on this joi
+                $k = l.t == 'same' ? 'same' : 'diff'
+                an.cosize ||= {}
+                an.cosize[k] += hak(ls&string)
+            })
             
-            # the old one is finishing
+            # notice going %stretchy or continuing the %stretching
+            #  ~~ middle, beginning and end (%stretch)
+            #   many beginnings (%stretching) may occur
+            #    if we share l with several joins with diff \n$
+            3c&oy(joi,'lit.l',&lc{
+                if (l.t != 'same') {
+                    # text they dont share
+                    if (c.first) {
+                        3c&oy(joi,'with',&nod,{
+                            $bit = 3c&o(nod,'mine/bit') [0]
+                            # nod began earlier l on a previous joi
+                            bit.l != l and me&joisc,'stretching',nod
+                        })
+                    }
+                    if (c.last) {
+                        # a nod doesnt have this \n$
+                        3c&oy(joi,'with',&nod,{
+                            $bit = 3c&o(nod,'mine/bit') .slice(-1)[0]
+                            bit.l != l and me&joisc,'stretchy',nod
+                        })
+                    }
+                }
+            })
+            # a %stretch is finally joined
+            # notice when N...nod.joi are different
+            # < always combined with mono joins?
+            #   may have blips of stereo amongst
+            #   we want to sweep below for clarity
+            #    ie turn l:== into l:++ (like its neighbours)
+            #    adding l:-- after, on a new joi for that one nod?
+            # < any bit progress once decohered is what to see
+            #    a nod matching that is not on the current joi
             N.map(&V{
                 $nj = Vc&nod.joi
                 if (nj != joi) {
@@ -1080,6 +1144,7 @@
                 }
             })
         }
+        
         # is|goes mono!
         me.Ploy_joi_next_check = &acgt{
             $send = &say,{
@@ -1112,6 +1177,28 @@
             }
         }
         
+        me.Ploy_nod_check = &acgt{
+            # for a nod matching
+            if (3s&joi != A&joi) {
+                # previous other nod joined, we are left behind
+                me&joisc,'behinod',A&nod
+                if (!a&tilstill) {
+                    # something
+                    me&joisc,'tilmoves',A&nod
+                }
+            }
+            
+            
+            
+            
+            
+            if (a&seeknod) {
+                # nothing excepting \n$
+                # perhaps about to mono join
+                #  ie only one 3s&joined (that was a&newnode)
+                me&joisc,'seeknod',A&nod
+            }
+        }
         
         
     // drawing f
