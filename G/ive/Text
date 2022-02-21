@@ -132,6 +132,36 @@
  // Ploy = (D Comp D)**
     # classifies differences
     // Ploy
+        # proto io, on 3c&iocall(X|x,...)
+        # < compile &iocall to A.3.i.iocall
+        me.Ploy_io = &acgt{
+            A.3 != A and debugger
+            3c&io = &xkv{
+                # all indexes are k:v (&X_t)
+                # ~~ c.wild: vx={v:x+}
+                v == '.*' and return x[k]
+                # or x+
+                v == '*' and return havs(x[k])
+                v == -1 and return havs(x[k]).pop()
+                return fi&Xsimp,x,hashkv(k,v)
+            }
+            # push to eg sph|nod/$line=i++
+            3c&iz = &Xkx{
+                $many = 3c&io(X,k,'*')
+                $i = hak(many)
+                # we may mesh|multi-path|link X...x
+                x and ahk(X,k,i,x)
+                else {
+                    # or new ..x as usu
+                    x = 3c&io(X,k,i)
+                }
+                # meshing may eg i_line|mine
+                # < crude avoidance of same-index sequence distribution
+                #   having a subset at some locale
+                x['i_'+k] = i
+                return x
+            }
+        }
         me.Ploy = &acgt,nav,Comp{
             A = fi&At,"Ploy"
             A.3 = A
@@ -165,53 +195,22 @@
             # join 0
             me&Ploy_i_joi,'given',tops
             
-        // loop l -> sph
-            $Ply = me&boxcap,'Ploy',5 (&Ply,{
+        // each sph
+            me&boxcap,'Ploy',5 (&ml{
+                lc&not = 1
                 each il Comp {
                     
                     ly&seqi = i
                     A = A.3
                     me&drawdiffbit,i,l
                     
-                    $who = l.t == 'same' ? havs(3c&io(X,'sphere','*'))
+                    $who = l.t == 'same'
+                        # == are for both spheres
+                        ? havs(3c&io(X,'sphere','*'))
+                        # ++|-- only for sph:new|gone
                         : [3c&io(X,'sphere',l.t)]
-                    who.map(&sph,{
-                        
-                        3c&not and return
-                        # to A3:Ploy/A:l+
-                        #  A:l always up to A3
-                        A = A.3
-                        $title = 'l:'+i+':'+sph.sphere
-                        # nod remembered by last sph/lines
-                        #  can return null if !Dy&toLines
-                        $a = me&Ploy_nod_arrive,sph,l,title
-                        !a and 3c&not = 1; return
-                        A = a
-                        fatal.isC(A&nod.E)
-            
-                        !A&nod.joi and debugger
-                        me&Ploy_joi_arrive
-                        
-                        if (ls&moren) {
-                            # l%moren is a fold marker, everything inside is t=same
-                            #  we avoid leaving to nod**, which are spared from Comp
-                            #  it is otherwise a regular l, for A&nod
-                            # < (upstream) shouldnt %moren if many is small
-                            #    > unless many small %moren close together
-                            $many = hak(ls&moren)
-                            !(isar(ls&moren) && many) and debugger
-                            A&nod.hasmoren = many
-                        }
-                        me&Ploy_indent_sympathy
-                        me&Ploy_match
-                        3c&not and return
-                        ls&moren && !(a&newline && a&newnode) and debugger
-                        # join l sequence
-                        me&Ploy_joi_l
-                        # line columns
-                        me&Ploy_lin_col
-                        me&Ploy_nod_leaving
-                    })
+                    
+                    who.map(sph => me&Ploy_sph,l,sph)
                     
                     A = A.3
                     
@@ -231,36 +230,44 @@
             })
             return X
         }
-        # proto io, on 3c&iocall(X|x,...)
-        # < compile &iocall to A.3.i.iocall
-        me.Ploy_io = &acgt{
-            A.3 != A and debugger
-            3c&io = &xkv{
-                # all indexes are k:v (&X_t)
-                # ~~ c.wild: vx={v:x+}
-                v == '.*' and return x[k]
-                # or x+
-                v == '*' and return havs(x[k])
-                v == -1 and return havs(x[k]).pop()
-                return fi&Xsimp,x,hashkv(k,v)
+        # l -> sph
+        me.Ploy_sph = &acgtl,sph{
+            3c&not and return
+            # to A3:Ploy/A:l+
+            #  A:l always up to A3
+            A = A.3
+            $title = 'l:'+ly&seqi+':'+sph.sphere
+            # nod remembered by last sph/lines
+            #  can return null if !Dy&toLines
+            $a = me&Ploy_nod_arrive,sph,l,title
+            !a and 3c&not = 1; return
+            A = a
+            fatal.isC(A&nod.E)
+
+            !A&nod.joi and debugger
+            me&Ploy_joi_arrive
+
+            if (ls&moren) {
+                # l%moren is a fold marker, everything inside is t=same
+                #  we avoid leaving to nod**, which are spared from Comp
+                #  it is otherwise a regular l, for A&nod
+                # < (upstream) shouldnt %moren if many is small
+                #    > unless many small %moren close together
+                $many = hak(ls&moren)
+                !(isar(ls&moren) && many) and debugger
+                A&nod.hasmoren = many
             }
-            # push to eg sph|nod/$line=i++
-            3c&iz = &Xkx{
-                $many = 3c&io(X,k,'*')
-                $i = hak(many)
-                # we may mesh|multi-path|link X...x
-                x and ahk(X,k,i,x)
-                else {
-                    # or new ..x as usu
-                    x = 3c&io(X,k,i)
-                }
-                # meshing may eg i_line|mine
-                # < crude avoidance of same-index sequence distribution
-                #   having a subset at some locale
-                x['i_'+k] = i
-                return x
-            }
+            me&Ploy_indent_sympathy
+            me&Ploy_match
+            3c&not and return
+            ls&moren && !(a&newline && a&newnode) and debugger
+            # join l sequence
+            me&Ploy_joi_l
+            # line columns
+            me&Ploy_lin_col
+            me&Ploy_nod_leaving
         }
+    
     //  nod
         # ^nod|sph += nod
         me.Ploy_i_nod = &acgtxe{
@@ -371,7 +378,6 @@
                     # is an RE, use first_truest rendition of eg RE/-hat
                     $truest = ahsk(Ey&ers,'y','first_truest','E')
                     # and there is only ever one RE/E (outside/inside &Piing)
-                    truest and me&tc,"first_truest"
                     truest and N = [truest]
                 }
                 # < generalise o E/*
@@ -707,6 +713,8 @@
             # first and usually only type of row per joi
             #  eg A&modjoi, maybe A&mododd, etc
             $m = me&Ploy_rower
+            $l = my&label
+            ls&ws = 1
             # allowing the odd message inserted on the next|same line
             A&odd = &ty{
                 $m = me&Ploy_rower,'odd'
@@ -782,6 +790,7 @@
                     lc&s = k || i
                     ls&bri = 0.6
                     ls&dis = 4
+                    k and ls&fs = 7
                     # < how to border rows
                     
                     # with...E
@@ -824,7 +833,7 @@
             }
         }
         
-     // /with oddities
+     // < /with oddities
         =joi
          A&joi.sc.$oddness = [uniq objects...]
           in either A:l (nod match) or A:joined (joi leave)
@@ -864,6 +873,8 @@
             })
         }
         # name|number n:E.t, j:$i...
+        # see also &Ploy_identify
+        # < should become -Difmo/joi/E**?
         me.Ploy_tid = &acgtvk{
             isar(v) and return coint(armap(v => me&Ploy_tid,v,k , v))
             k and v = v[k]
@@ -1076,7 +1087,7 @@
         
         
         
-    // drawing
+    // drawing f
         # not to be confused with $bit, which it maps to
         me.drawdiffbit = &acgttl{
             $name = cint(t,l.t)
