@@ -181,7 +181,7 @@
                     each in N {
                         # < gr3p(): y(v,k,setc) about where you are
                         #    and relations nearby, is very almost io
-                        $setc = {}
+                        $setc = {i}
                         0 == i and setc.first = 1
                         lai == i and setc.last = 1
 
@@ -1001,6 +1001,12 @@
             # difference > factoids
             !joi.jin and debugger
             
+            $withnods = 0
+            A&odd('with',&ml{
+                me&tt,'joi' () and me&fu,"joi@"+joi.i_join,joi
+                me&tt,'nod' () and withnods = 1
+            })
+            withnods and me&Ploy_drawjoin_nods
             
             A&odd('lit',&ml{
                 me&boxcap,'joi-factoids',2 (&ml{
@@ -1011,7 +1017,7 @@
                             lc&s = k
                             mc&maybeempty = 1
                             each iv N {
-                                k == 'stretch' and me&Ploy_tid,v,'joi'
+                                k.startsWith('stretch') and me&Ploy_tid,v,'joi'
                                 k == 'sameness' and me&tsc,"ratio",cvs(v)||'Nil','6b'
                                 else
                                 !ish(v) and me&tsc,"value",dis(v),'6b'
@@ -1021,9 +1027,34 @@
                 })
             })
             
-            A&odd('with',&ml{
-                me&tt,'joi' () and me&fu,"joi@"+joi.i_join,joi
+        }
+        
+        # joi,odd + gone,new lin/bits
+        # < %stretch(ing) add the nod to joi/with_stretch=nod?
+        me.Ploy_drawjoin_nods = &acgt{
+            $joi = A&joi
+            $tw = {}
+            3c&o(joi,'with',&nod,{
+                tw[nod.sph.sphere] = nod
             })
+            each sphere,nod tw {
+                $m = me&Ploy_rower,sphere
+                ms&hue = sphere == 'new' ? 60 : 130
+                A&draw('with',&ml{
+                    me&drawnod,nod
+                },m)
+                A&draw('lit',&ml{
+                    $ls = 3c&o(joi,'lit.l')
+                    3c&o(nod,'mine/bit',&bit,c{
+                        $l = bit.l
+                        $lm = me&drawdiffbit,c.i,l
+                        #!ls.includes(l) and lms&opa = 0.5
+                    })
+                },m)
+                A&draw('jin',&ml{
+                    me&tt,'nood' () and me&fu,sphere+":nod@"+joi.i_join,nod
+                },m)
+            }
         }
       
       
@@ -1166,7 +1197,8 @@
                 me&joisc,'seeknod',A&nod
             }
         }
-       // fix %stretch
+        
+       // fix joi%stretch
         =stretch
          possible untanglement of joi%stretchy
            see Fus@7
@@ -1223,7 +1255,7 @@
                 $i = A&joi.i_join
                 $name = cint('join',i,k)
                 m = A&joi[modk] =
-                me&boxcap,'join:'+i,3 (&ml{
+                me&boxcap,name,3 (&ml{
                     ms&type = cint('join',k)
                     # label is the first column
                     lc&s = k || i
