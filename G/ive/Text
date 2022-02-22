@@ -488,8 +488,6 @@
                 # (++  ) should keep going
                 # maybe even through (++  )(==      )(++yada)
                 #!bit0 and debugger
-                # remember this, isnt sameness
-                A&bit.allindents = level
             }
             # more indent on (==      )
             !bit0 and A&nod.Cindent += Cindent
@@ -866,11 +864,8 @@
             }
             
             # when joined
-            if (1 == hak(joi.lit)) {
-                # by a single l, a whole line
-                a&nojin = 1
-            }
-            else {
+            if (hak(joi.lit) > 1) {
+                # multiple l, compute columns
                 # inflate nod/lin/col
                 3c&io(joi,'with','*') .map(&nod,{
                     me&Ploy_nod_col,nod
@@ -1004,7 +999,7 @@
             }
             if (hak(joi.sc) == 1) {
                 # only %mono
-                a&nojin && jois&mono and return
+                !joi.jin && jois&mono and return
             }
             # difference > factoids
             !joi.jin and debugger
@@ -1015,12 +1010,16 @@
                     lc&not = 1
                     $lak = haks(joi.sc).pop()
                     each kN joi.sc {
-                        me&tc,k,'6y'
-                        each iv N {
-                            k == 'stretch' and me&Ploy_tid,v,'joi'
-                            !ish(v) and me&tsc,"value",dis(v),'6b'
-                        }
-                        lak != k and me&tc,',','6d'
+                        me&boxcap,"fact:"+k,'6y' (&ml{
+                            lc&s = k
+                            mc&maybeempty = 1
+                            each iv N {
+                                k == 'stretch' and me&Ploy_tid,v,'joi'
+                                k == 'sameness' and me&tsc,"ratio",cvs(v)||'Nil','6b'
+                                else
+                                !ish(v) and me&tsc,"value",dis(v),'6b'
+                            }
+                        })
                     }
                 })
             })
@@ -1033,22 +1032,22 @@
       
         me.Ploy_joi_check = &acgt,joi,N{
           // %sameness
-            $L = 3c&o(joi,'lit.l')
-            if (hak(L) > 1) {
-                # having %minor details
-                $an = {}
+            $lits = 3c&o(joi,'lit')
+            if (hak(lits) > 1) {
                 # overall amount shared|not on this joi
-                L.map(&l{
+                $an = {}
+                lits.map(&lit,{
+                    $l = lit.l
                     $quantity = hak(ls&string)
-                    if (l.t == 'same') {
-                        # dont count eg joi@69 (==      )
-                        $anod = 3c&o(joi,'with')[0]
-                        3c&o(anod,'mine/bit') .map(&bit,{
-                            bit.l != l and return
-                            quantity -= bit.allindents || 0
-                        })
+                    # indent doesnt count, eg joi@69 (==      )
+                    #  no other uses of trimstart?
+                    $trims = grep(3c&o(lit,'bit',bit => bit.trimstart))
+                    if (hak(trims)) {
+                        # lit/bit join 1-2 bit.up.nod, by the same l
+                        hak(trims) > 2 and debugger
+                        hak(uniq(trims)) > 1 and debugger
+                        quantity -= trims[0]
                     }
-                    
                     
                     $k = l.t == 'same' ? 'same' : 'diff'
                     an.cosize ||= {}
@@ -1057,7 +1056,7 @@
                     an.cosize[k] += quantity
                 })
                 # < &ind + ex()
-                $sa = map(v => cvs(dec(v,2)), &c{
+                $sa = map(v => dec(v,2), &c{
                     hak(c) > 2 and debugger
                     # same/0 == 1
                     !c.diff and return 1
@@ -1066,8 +1065,9 @@
                 },an)
                 
                 # hardly any or lots of similarity
-                sa.cosize <= 22 || sa.cosize >= 78
-                    && me&joisc,'sameness',sa.cosize
+                if (sa.cosize <= 0.22 || sa.cosize >= 0.78) {
+                    me&joisc,'sameness',sa.cosize
+                }
             }
             
           // %stretch*
