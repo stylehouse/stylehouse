@@ -609,23 +609,15 @@
             (lit.bit ||= []).push(bit)
         }
         
-        # lazily nod/lin/col, per nod via joined
-        me.Ploy_nod_col = &acgt,nod{
-            3c&io(nod,'mine','*') .map(&lin,{
-                3c&io(lin,'bit','*') .map(&bit,{
-                    me&Ploy_lin_col,lin,bit
-                })
-                # Lines always t,y,c
-                # < reintroduce this... tripped when jois&seeknod
-                #hak(lin.col) < 3 and me&Ploy_fail,"endon-col:c|sc",lin.col
-            })
-        }
         # i lin/col/microcol o lin/bit
+        # lazily nod/lin/col, per nod via joined
         # to see col=$nk=t|y|c|sc, assuming Lines encoding
-        me.Ploy_lin_col = &acgt,lin,bit{
+        me.Ploy_lin_col = &acgt,lin{
+            lin.i_mine != 0 and return me&Ploy_fail,"multiline",lin
+            lin.i_mine == null and debugger
             $nod = lin.nod
-            $str = bit.str
-            if (lin.i_mine == 0) {
+            3c&o(lin,'bit',&bit,{
+                $str = bit.str
                 # tidy str
                 # < indent column? ~~ lin.indent_sympathy
                 lin.indent_sympathy and str = str.slice(0,nod.Cindent)
@@ -669,10 +661,10 @@
                     # for nod/*lin/*col.changey
                     bit.l.t != 'same' and mc.changey = col.changey = 1
                 }
-            }
-            else {
-                me&Ploy_fail,"multiline"
-            }
+            })
+            # Lines always t,y,c
+            # < reintroduce this... tripped when jois&seeknod
+            #hak(lin.col) < 3 and me&Ploy_fail,"endon-col:c|sc",lin.col
         }
         
         # i joi/#lin:jin/#col:jol/#with:jodol o nod/lin/col
@@ -866,9 +858,11 @@
             # when joined
             if (hak(joi.lit) > 1) {
                 # multiple l, compute columns
+                
                 # inflate nod/lin/col
-                3c&io(joi,'with','*') .map(&nod,{
-                    me&Ploy_nod_col,nod
+                #joi.i_join == 87 and debugger
+                3c&o(joi,'with/mine',&lin,{
+                    me&Ploy_lin_col,lin
                 })
                 # and merge to joi/jin/jol
                 me&Ploy_joi_jin,joi
@@ -962,15 +956,18 @@
                  which would turn it %mono
             .stretchy=$nod - doesnt end on joi (no ...\n$)
             .stretching=$nod - began before joi (after the above)
+             < happens too much
             .stretch=$nod - finally ended
              < are coupled to a joi.prev+%strechy=$nod
              
             .sameness=$ratio - low or high sameness
               ignores ^\s+(++    ) and the near-sameness of only %♲
                # code: any illegal syntax (regex (+) is potential otherlang
-             < joi@54 should have very low sameness, just (==\n)
-               after stretch:joi@46 has (==         sc⇥-Hash⇥)
-             < joi@69 also, should have sameness...
+             eg joi@54 should have very low sameness, just (==\n)
+              < after stretch:joi@46 has (==         sc⇥-Hash⇥)
+                 is also on joi@53, a better place to match it...
+             eg joi@69 has low sameness
+              < (==s) microbit in different column: gone t, new y
            
           cant see any %behinod but is apparently
          
