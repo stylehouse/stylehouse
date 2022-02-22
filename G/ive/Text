@@ -233,11 +233,24 @@
             me&boxcap,'Ploy',5 (&ml{
                 
                 lc&not = 1
+                
+                # options
+                $m = me&Ploy_rower,'conf'
+                me&Ploy_rower_i,m,'lit' (&ml{
+                    # dont go around fixing %stretch etc
+                    # drawjoin as soon as it is joined
+                    me&tt,'1pass' () and 3c&single_pass = 1
+                    # draw sph<-l etc as it goes (then replace them with a drawjoin)
+                    #  only if you want context around a &Ploy_fail
+                    me&tt,'debug' () and 3c&accreting_modulat = 1
+                })
+            
                 each il Comp {
                     
                     ly&seqi = i
                     A = A.3
-                    me&drawdiffbit,i,l
+                    3c&accreting_modulat
+                        && me&drawdiffbit,i,l
                     
                     $who = l.t == 'same'
                         # == are for both spheres
@@ -256,12 +269,15 @@
                     3s&joined and me&Ploy_joined
                 }
                 
-                
+                if (!3c&single_pass) {
+                    me&Ploy_joins
+                }
                 
                 # check we found our way back to each sph/nod0
                 $lost = tops.slice()
                 grop(3s&seemsdone,lost)
                 hak(lost) and me&Ploy_fail,"seemsdone",ex({},lost)
+                else me&tc,'Fin','G'
             })
             return X
         }
@@ -365,7 +381,8 @@
                 nod.whole = Dy&toLines
                 !isst(nod.whole) and debugger
                 !isst(nod.whole) and return me&Ploy_fail,'toLines',{l}
-                me&drawnod,nod
+                3c&accreting_modulat
+                    && me&drawnod,nod
             }
             
             return A
@@ -718,6 +735,28 @@
                                 jodol.whole += mc.str
                             })
                         })
+                        # < the rest here is pulled from &Ploy_drawjoin_jin,
+                        #   which is still too MassiveViewController
+                        #    compute and present should be split
+                        # the column should have an ark|nk, eg c
+                        $ark = theone(uniq(3c&o(jol,'jodol',_=>_.ark)))
+                        $jodols = 3c&o(jol,'jodol')
+                        !hak(jodols) and debugger
+                        
+                        # changes.$nk, or .$nk.$gk if sc
+                        if (ark == 'sc') {
+                            ark = '%'
+                            # < stash eith, is eg {♲:'^4:...'}
+                            $eith = map(jodol => peel(jodol.whole),jodols)
+                            hakd(...havs(eith)).map(&gk,{
+                                # a general changiness
+                                #  it all might just be ('%♲')
+                                ahk(joi,'changes',ark+gk,1)
+                            })
+                        }
+                        else {
+                            ahk(joi,'changes',ark,1)
+                        }
                     }
                     else {
                         delete jin.jol[jol.ark]
@@ -754,9 +793,6 @@
                             #  ie, lots of 8 is still just 8
                             #  usu (5,8) is 5
                             qual > v and qual = v
-                            # a general changiness
-                            #  it all might just be ('%♲')
-                            ahk(joi,'changes',k,1)
                         }
                         
                         if (ark == 'sc') {
@@ -767,18 +803,17 @@
                                 # < further. seq++ numbers? pointer much changing?
                                 know ||= 5
                                 !num(know) and debugger
-                                down(know,'%'+gk)
+                                down(know)
                                 me&boxcap,"gk:"+gk,2 (&ml{
                                     me&walls,m,'b:2.2h4'
+                                    mc&maybeempty = 1
                                     lc&s = gk
-                                    me&tc,'yup' .sc.dis = 0
                                 })
                             })
                         }
                         else {
                             # t|y|c completely
-                            down(1,ark)
-                            #me&tc,'yup' .sc.dis = 0
+                            down(1)
                         }
                         
                         maqc&s = qual
@@ -867,23 +902,18 @@
                 # and merge to joi/jin/jol
                 me&Ploy_joi_jin,joi
             }
+            
             # is there an oddness to join/with <-> N[A&nod]
             me&Ploy_joi_check,joi,N
-            
-            # joi row
-            me&Ploy_drawjoin,joi
             !a&Fin and me&Ploy_joi_next_check
             
-            
-            #me&Ploy_drawjoin_factoids
-            #  any odd rows after that:
-            me&Ploy_drawjoin_factoids
-            
-            a&Fin && me&tc,'Fin','G'
+            # joi row
+            3c&single_pass and me&Ploy_drawjoin
         }
         
         # iterate lit(/bit,nod)
-        me.Ploy_drawjoin = &acgt,joi{
+        me.Ploy_drawjoin = &acgt{
+            $joi = A&joi
             # first and usually only type of row per joi
             #  eg A&modjoi, maybe A&mododd, etc
             $m = me&Ploy_rower
@@ -899,7 +929,7 @@
                     y (m,l)
                 })
             }
-            
+          // this row/with|lit|jin
             me&Ploy_rower_i,m,'with' (&ml{
                 $la
                 3c&io(joi,'with','*') .map(&nod,{
@@ -930,14 +960,18 @@
             me&Ploy_rower_i,m,'jin' (&ml{
                 joi.jin and me&Ploy_drawjoin_jin,joi
             })
+          // etc
+            # any odd rows after that:
+            me&Ploy_drawjoin_factoids
             
-            # drop other modulats we just restructured
-            # < get them to draw only if they are needed... (&Ploy_fail)
-            $oktypes = peel('sph<-l,l,nod')
-            grop(n => oktypes[ns&type], T.ab.sc.z)
+            if (3c&accreting_modulat) {
+                # drop other modulats we just restructured
+                # < get them to draw only if they are needed, on+before &Ploy_fail
+                $oktypes = peel('sph<-l,l,nod')
+                grop(n => oktypes[ns&type], T.ab.sc.z)
+            }
         }
-        
-        
+      
        // factoids of joi
         =joi
          A&joi.sc.$oddness = [uniq objects...]
@@ -962,7 +996,7 @@
              
             .sameness=$ratio - low or high sameness
               ignores ^\s+(++    ) and the near-sameness of only %♲
-               # code: any illegal syntax (regex (+) is potential otherlang
+               # code: any illegal syntax eg /(+/ is potential otherlang
              eg joi@54 should have very low sameness, just (==\n)
               < after stretch:joi@46 has (==         sc⇥-Hash⇥)
                  is also on joi@53, a better place to match it...
@@ -978,12 +1012,6 @@
         me.Ploy_drawjoin_factoids = &acgt{
             $joi = A&joi
             # more angles
-            
-            if (joi.changes) {
-                $only = cint(haks(joi.changes))
-                # doesnt warrant a sameness
-                only == '%♲' and delete jois&sameness
-            }
             
             if (hak(joi.sc) == 0) {
                 # no factoids
@@ -1061,7 +1089,8 @@
         me.Ploy_joi_check = &acgt,joi,N{
           // %sameness
             $lits = 3c&o(joi,'lit')
-            if (hak(lits) > 1) {
+            $dont = cint(haks(joi.changes)) == '%♲'
+            if (hak(lits) > 1 && !dont) {
                 # overall amount shared|not on this joi
                 $an = {}
                 lits.map(&lit,{
@@ -1198,10 +1227,21 @@
             }
         }
         
+       // < joins: pass 2
+        me.Ploy_joins = &acgt{
+            3c&o(3c&X,'join',&joi,{
+                A = fi&At,'joins:'+joi.i_join
+                A&joi = joi
+                me&Ploy_drawjoin
+                A = A.3
+            })
+        }
+        
        // fix joi%stretch
         =stretch
          possible untanglement of joi%stretchy
            see Fus@7
+            
             joi@48:
               ｢ 18sc⇥-Hash⇥｣  ++｢⇥♲␤｣
                ++｢ 20...␤｣ # many
@@ -1211,6 +1251,7 @@
                ++｢ 20...␤｣ # many
                    ++｢ 24src⇥-Num⇥"1812"␤｣ 
              good starter?
+            
             joi@71:
                ｢ 6｣  ++｢ 2｣  --｢sc⇥-Hash⇥␤｣
                 # gone|new E:sc|of
@@ -1231,7 +1272,7 @@
               
               
               
-        =stretch
+        =cut
                    
         
         
