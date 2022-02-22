@@ -4037,6 +4037,7 @@ me.Differingness = &acgt{ return [
         }
         return hak(shall)
     }
+    # split l so \n can only occur at their end
     me.textdiff_expandmultiline = &acgtN{
         $M = []
         each in N {
@@ -4249,6 +4250,7 @@ me.Differingness = &acgt{ return [
       // layout
         # output scrunches !
         $la = null
+        $morenable = n => n.t == 'same' && !ns&ope && las&level <= ns&level
         each in N {
             # permanent record
             ns&string = nc&s
@@ -4256,8 +4258,9 @@ me.Differingness = &acgt{ return [
                 # visible trailing \n
                 nc&s.match(/^\s+|\s+$/) and nc&s = nc&s.replace(/\n/,"↯\n")
             }
-            elsif (!ns&ope
-                && la && la.t == 'same' && las&level <= ns&level) {
+            elsif (la && la.t == 'same' && morenable(n)
+                    # need at least two of them to bother
+                    && (las&moren || morenable(N[1+i*1]))) {
                 # we may roll into the last one
                 ac(la,'moren',n)
                 continue
