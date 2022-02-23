@@ -687,7 +687,7 @@
         # i joi/#lin:jin/#col:jol/#with:jodol o nod/lin/col
         # joi gathers C.*.* change in stereo (or mono)
         #  only changey
-        # < 3c&ioing()?
+        # < joi@86 says %~ changed, but it didnt. it is only seeing the /with nod
         me.Ploy_joi_jin = &acgt,joi{
             $lin_quant
             3c&io(joi,'with','*') .map(&nod,{
@@ -724,42 +724,41 @@
                 3c&io(jin,'jol','*') .map(&jol,{
                     # lin/col for both nodes
                     fatal.isst(jol.ark)
-                    if (jol.changey) {
-                        # make whole of either sph columns
-                        # < someday, decompress each via &Lines
-                        #    would make whole from nod/lin/bit
-                        3c&io(jol,'jodol','*') .map(&jodol,{
-                            $nod = jodol.nod
-                            jodol.whole = ''
-                            3c&io(jodol,'microcol','*') .map(&mc,{
-                                jodol.whole += mc.str
-                            })
+                    if (!jol.changey) {
+                        delete jin.jol[jol.ark]
+                        return
+                    }
+                    # make whole of either sph columns
+                    # < someday, decompress each via &Lines
+                    #    would make whole from nod/lin/bit
+                    3c&io(jol,'jodol','*') .map(&jodol,{
+                        $nod = jodol.nod
+                        jodol.whole = ''
+                        3c&io(jodol,'microcol','*') .map(&mc,{
+                            jodol.whole += mc.str
                         })
-                        # < the rest here is pulled from &Ploy_drawjoin_jin,
-                        #   which is still too MassiveViewController
-                        #    compute and present should be split
-                        # the column should have an ark|nk, eg c
-                        $ark = theone(uniq(3c&o(jol,'jodol',_=>_.ark)))
-                        $jodols = 3c&o(jol,'jodol')
-                        !hak(jodols) and debugger
-                        
-                        # changes.$nk, or .$nk.$gk if sc
-                        if (ark == 'sc') {
-                            ark = '%'
-                            # < stash eith, is eg {♲:'^4:...'}
-                            $eith = map(jodol => peel(jodol.whole),jodols)
-                            hakd(...havs(eith)).map(&gk,{
-                                # a general changiness
-                                #  it all might just be ('%♲')
-                                ahk(joi,'changes',ark+gk,1)
-                            })
-                        }
-                        else {
-                            ahk(joi,'changes',ark,1)
-                        }
+                    })
+                    # < the rest here is pulled from &Ploy_drawjoin_jin,
+                    #   which is still too MassiveViewController
+                    #    compute and present should be split
+                    # the column should have an ark|nk, eg c
+                    $ark = theone(uniq(3c&o(jol,'jodol',_=>_.ark)))
+                    $jodols = 3c&o(jol,'jodol')
+                    !hak(jodols) and debugger
+
+                    # changes.$nk, or .$nk.$gk if sc
+                    if (ark == 'sc') {
+                        ark = '%'
+                        # < stash eith, is eg {♲:'^4:...'}
+                        $eith = map(jodol => peel(jodol.whole),jodols)
+                        hakd(...havs(eith)).map(&gk,{
+                            # a general changiness
+                            #  it all might just be ('%♲')
+                            ahk(joi,'changes',ark+gk,1)
+                        })
                     }
                     else {
-                        delete jin.jol[jol.ark]
+                        ahk(joi,'changes',ark,1)
                     }
                 })
             })
@@ -1057,14 +1056,19 @@
             })
             
         }
+        # nods = joi/with+loosely
+        me.Ploy_joi_nods = &acgt,joi{
+            return [... 3c&o(joi,'with'),
+                # possible non-belonging nods
+                ... 3c&o(joi,'loosely')]
+        }
         
         # odd row may expand per nod
         # < %stretch(ing) add the nod to joi/with_stretch=nod?
         me.Ploy_drawjoin_nods = &acgt{
             $joi = A&joi
-            $nods = [... 3c&o(joi,'with'),
-            # possible non-belonging nods
-                ... 3c&o(joi,'loosely')]
+            $nods = me&Ploy_joi_nods,joi
+            # < mapkv(): y returns [k,v]
             $tw = {}
             nods.map(nod => tw[nod.sph.sphere] = nod )
             each sphere,nod tw {
