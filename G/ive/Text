@@ -629,10 +629,16 @@
         # i lin/col/microcol o lin/bit
         # lazily nod/lin/col, per nod via joined
         # to see col=$nk=t|y|c|sc, assuming Lines encoding
-        me.Ploy_lin_col = &acgt,lin{
+        me.Ploy_lin_col = &acgt,lin,joi{
             lin.i_mine != 0 and return me&Ploy_fail,"multiline",lin
             lin.i_mine == null and debugger
             $nod = lin.nod
+            if (lin.col) {
+                # may rebuild lin/col with more bits upon joi%stretch
+                nod.joi == joi and debugger
+                !jois&stretch and debugger
+                delete lin.col
+            }
             3c&o(lin,'bit',&bit,{
                 $str = bit.str
                 # tidy str
@@ -687,10 +693,9 @@
         # i joi/#lin:jin/#col:jol/#with:jodol o nod/lin/col
         # joi gathers C.*.* change in stereo (or mono)
         #  only changey
-        # < joi@86 says %~ changed, but it didnt. it is only seeing the /with nod
         me.Ploy_joi_jin = &acgt,joi{
             $lin_quant
-            3c&io(joi,'with','*') .map(&nod,{
+            me&Ploy_joi_nods,joi .map(&nod,{
                 $sph = nod.sph
                 # sanity: same number of /lin
                 lin_quant != null && lin_quant != hak(nod.lin) and debugger
@@ -706,7 +711,8 @@
                         $jol = 3c&io(jin,'jol',col.ark)
                         
                         #  /#with:jodol, now per node
-                        $jodol = 3c&io(jol,'jodol',nod.i_with)
+                        #   not quite #with: nod may be from joi/with|loosely
+                        $jodol = 3c&iz(jol,'jodol')
                         jodol.nod and debugger
                         jodol.nod = nod
                         
@@ -889,22 +895,26 @@
                 A&neu.prev = A&old
             }
             
-            # when joined
+            
+            # is there an oddness to joi/with <-> N[A&nod]
+            #  extra nod are put in: joi/loosely
+            me&Ploy_joi_stretch_check,joi,N
+            !a&Fin and me&Ploy_joi_next_check
+            
+            # when joined (perhaps with /loosely)
             if (hak(joi.lit) > 1) {
                 # multiple l, compute columns
                 
                 # inflate nod/lin/col
-                #joi.i_join == 87 and debugger
-                3c&o(joi,'with/mine',&lin,{
-                    me&Ploy_lin_col,lin
+                me&Ploy_joi_nods,joi .map(&nod,{
+                    3c&o(nod,'mine',&lin,{
+                        me&Ploy_lin_col,lin,joi
+                    })
                 })
                 # and merge to joi/jin/jol
                 me&Ploy_joi_jin,joi
             }
-            
-            # is there an oddness to join/with <-> N[A&nod]
-            me&Ploy_joi_check,joi,N
-            !a&Fin and me&Ploy_joi_next_check
+            me&Ploy_joi_sameness_check,joi
             
             # joi row
             3c&single_pass and me&Ploy_drawjoin
@@ -1095,49 +1105,9 @@
                 },m)
             }
         }
-      
-        me.Ploy_joi_check = &acgt,joi,N{
-          // %sameness
-            $lits = 3c&o(joi,'lit')
-            $dont = cint(haks(joi.changes)) == '%♲'
-            if (hak(lits) > 1 && !dont) {
-                # overall amount shared|not on this joi
-                $an = {}
-                lits.map(&lit,{
-                    $l = lit.l
-                    $quantity = hak(ls&string)
-                    # indent doesnt count, eg joi@69 (==      )
-                    #  no other uses of trimstart?
-                    $trims = grep(3c&o(lit,'bit',bit => bit.trimstart))
-                    if (hak(trims)) {
-                        # lit/bit join 1-2 bit.up.nod, by the same l
-                        hak(trims) > 2 and debugger
-                        hak(uniq(trims)) > 1 and debugger
-                        quantity -= trims[0]
-                    }
-                    
-                    $k = l.t == 'same' ? 'same' : 'diff'
-                    an.cosize ||= {}
-                    an.cosize[k] ||= 0
-                    # < leaving out ^ oddly not fatal to v (Try@3 / js oddities)
-                    an.cosize[k] += quantity
-                })
-                # < &ind + ex()
-                $sa = map(v => dec(v,2), &c{
-                    hak(c) > 2 and debugger
-                    # same/0 == 1
-                    !c.diff and return 1
-                    $same = c.same || 0
-                    return same / (same + c.diff)
-                },an)
-                
-                # hardly any or lots of similarity
-                if (sa.cosize <= 0.22 || sa.cosize >= 0.78) {
-                    me&joisc,'sameness',sa.cosize
-                }
-            }
-            
-          // %stretch*
+        
+        # joi/with supplemented by joi/loosely
+        me.Ploy_joi_stretch_check = &acgt,joi,N{
             # going %stretchy or continuing the %stretching
             #  ~~ middle, beginning and end (%stretch)
             #   many beginnings (%stretching) may occur
@@ -1186,7 +1156,6 @@
                 }
             })
         }
-        
         # is|goes mono!
         me.Ploy_joi_next_check = &acgt{
             $send = &say,{
@@ -1216,6 +1185,47 @@
                 # resumed matching after non-joins (joins with.length == 1)
                 A&neu.resumes = A&old.last_good
                 me&joisc,'demono',1
+            }
+        }
+        # after jin makes joi.changes
+        me.Ploy_joi_sameness_check = &acgt,joi{
+            $lits = 3c&o(joi,'lit')
+            $dont = cint(haks(joi.changes)) == '%♲'
+            if (hak(lits) > 1 && !dont) {
+                # overall amount shared|not on this joi
+                $an = {}
+                lits.map(&lit,{
+                    $l = lit.l
+                    $quantity = hak(ls&string)
+                    # indent doesnt count, eg joi@69 (==      )
+                    #  no other uses of trimstart?
+                    $trims = grep(3c&o(lit,'bit',bit => bit.trimstart))
+                    if (hak(trims)) {
+                        # lit/bit join 1-2 bit.up.nod, by the same l
+                        hak(trims) > 2 and debugger
+                        hak(uniq(trims)) > 1 and debugger
+                        quantity -= trims[0]
+                    }
+                    
+                    $k = l.t == 'same' ? 'same' : 'diff'
+                    an.cosize ||= {}
+                    an.cosize[k] ||= 0
+                    # < leaving out ^ oddly not fatal to v (Try@3 / js oddities)
+                    an.cosize[k] += quantity
+                })
+                # < &ind + ex()
+                $sa = map(v => dec(v,2), &c{
+                    hak(c) > 2 and debugger
+                    # same/0 == 1
+                    !c.diff and return 1
+                    $same = c.same || 0
+                    return same / (same + c.diff)
+                },an)
+                
+                # hardly any or lots of similarity
+                if (sa.cosize <= 0.22 || sa.cosize >= 0.78) {
+                    me&joisc,'sameness',sa.cosize
+                }
             }
         }
         
