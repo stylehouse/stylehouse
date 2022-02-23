@@ -1009,6 +1009,7 @@
           seeing jodol** change
            
         =cut
+        # if any factoids, put on the odd row
         me.Ploy_drawjoin_factoids = &acgt{
             $joi = A&joi
             # more angles
@@ -1057,14 +1058,15 @@
             
         }
         
-        # joi,odd + gone,new lin/bits
+        # odd row may expand per nod
         # < %stretch(ing) add the nod to joi/with_stretch=nod?
         me.Ploy_drawjoin_nods = &acgt{
             $joi = A&joi
+            $nods = [... 3c&o(joi,'with'),
+            # possible non-belonging nods
+                ... 3c&o(joi,'loosely')]
             $tw = {}
-            3c&o(joi,'with',&nod,{
-                tw[nod.sph.sphere] = nod
-            })
+            nods.map(nod => tw[nod.sph.sphere] = nod )
             each sphere,nod tw {
                 $m = me&Ploy_rower,sphere
                 ms&hue = sphere == 'new' ? 60 : 130
@@ -1073,10 +1075,15 @@
                 },m)
                 A&draw('lit',&ml{
                     $ls = 3c&o(joi,'lit.l')
+                    $inters = me&drawintersplice,"l-belonging"
                     3c&o(nod,'mine/bit',&bit,c{
                         $l = bit.l
+                        # if this l belongs before|after this joi
+                        $belongs = ls.includes(l)
+                        !belongs && !(jois&stretchy || jois&stretch) and debugger
+                        inters(belongs)
                         $lm = me&drawdiffbit,c.i,l
-                        #!ls.includes(l) and lms&opa = 0.5
+                        !belongs and lms&opa = 0.6
                     })
                 },m)
                 A&draw('jin',&ml{
@@ -1084,7 +1091,6 @@
                 },m)
             }
         }
-      
       
         me.Ploy_joi_check = &acgt,joi,N{
           // %sameness
@@ -1139,7 +1145,10 @@
                         3c&o(joi,'with',&nod,{
                             $bit = 3c&o(nod,'mine/bit') [0]
                             # nod began earlier l on a previous joi
-                            # < joi@69 is simply (++  ) that some nod doesnt have
+                            # < and doesnt finish here, or its a %stretch
+                            #   these are wrong, bit0 doesnt have to be ==
+                            # < joi@71 is simply (++  ) that some nod doesnt have
+                            # < joi@0 also
                             bit.l != l and me&joisc,'stretching',nod
                         })
                     }
@@ -1168,6 +1177,8 @@
                     # < boxlink to itsthe last box:joi
                     $ji = nj.i_join
                     me&joisc,'stretch',Vc&nod
+                    # let joi know of these other nodes
+                    3c&iz(joi,'loosely',Vc&nod)
                 }
             })
         }
@@ -1412,6 +1423,30 @@
                 # &Ploy_identify may have munged:
                 me&tsc,'s',dis(s),'6y'
             })
+        }
+        # for a series of calls with v = {0,0,1,1,1,0}
+        #  put markers between the 0,1 and 1,0, pointing at the 1
+        me.drawintersplice = &acgtt{
+            $first = 1
+            $inside = 1
+            return &v{
+                if (v && !inside) {
+                    # after some that dont
+                    inside = 1
+                    $n = me&tsc,t+'-starts',"\u21A6"
+                    ns&fs = 12
+                    ns&co = '7c9'
+                }
+                if (!v && inside) {
+                    inside = 0
+                    if (!first) {
+                        $n = me&tsc,t+'-stops',"\u21A4"
+                        ns&fs = 12
+                        ns&co = '7c9'
+                    }
+                }
+                first = 0
+            }
         }
         
     // f, fail
