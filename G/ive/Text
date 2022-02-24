@@ -244,7 +244,7 @@
                     #  only if you want context around a &Ploy_fail
                     me&tt,'debug' () and 3c&accreting_modulat = 1
                 })
-            
+                
                 each il Comp {
                     
                     ly&seqi = i
@@ -740,9 +740,13 @@
                     3c&io(jol,'jodol','*') .map(&jodol,{
                         $nod = jodol.nod
                         jodol.whole = ''
-                        3c&io(jodol,'microcol','*') .map(&mc,{
-                            jodol.whole += mc.str
-                        })
+                        $mcs = 3c&o(jodol,'microcol')
+                        mcs.map(mc => jodol.whole += mc.str)
+                        if (jodol.ark == 't' && hak(mcs) > 1) {
+                            # could be for either or both nod
+                            # < not to include indent in the t column
+                            me&joisc,'tsplit',1
+                        }
                     })
                     # < the rest here is pulled from &Ploy_drawjoin_jin,
                     #   which is still too MassiveViewController
@@ -862,8 +866,11 @@
             3s&joi = joi
             return joi
         }
-        me.joisc = &acgt{
-            ahk(A&joi,['sc'],...[...arguments].slice(4))
+        me.joisc = &acgtkv{
+            $was = A&joi.sc[k]
+            was && was != v and debugger
+            A&joi.sc[k] = v
+            #ahk(A&joi,'sc',...[...arguments].slice(4))
         }
         
         # after nod arrives
@@ -972,6 +979,7 @@
           // etc
             # any odd rows after that:
             me&Ploy_drawjoin_factoids
+            me&Ploy_drawjoin_fixes
             
             if (3c&accreting_modulat) {
                 # drop other modulats we just restructured
@@ -1054,12 +1062,15 @@
                         me&boxcap,"fact:"+k,'6y' (&ml{
                             lc&s = k
                             mc&maybeempty = 1
-                            each iv N {
+                            $v = N
+                            #each iv N {
+                                # sees the forward-er 3s&joi on a nod.joi
+                                k == 'tilmoves' and me&Ploy_tid,v
                                 k.startsWith('stretch') and me&Ploy_tid,v,'joi'
                                 k == 'sameness' and me&tsc,"ratio",cvs(v)||'Nil','6b'
                                 else
                                 !ish(v) and me&tsc,"value",dis(v),'6b'
-                            }
+                            #}
                         })
                     }
                 })
@@ -1069,7 +1080,8 @@
         # nods = joi/with+loosely
         me.Ploy_joi_nods = &acgt,joi{
             return [... 3c&o(joi,'with'),
-                # possible non-belonging nods
+                # possible non-belonging nods on joi%stretch
+                
                 ... 3c&o(joi,'loosely')]
         }
         
@@ -1235,8 +1247,8 @@
                 # previous other nod joined, we are left behind
                 me&joisc,'behinod',A&nod
                 if (!a&tilstill) {
-                    # something
-                    me&joisc,'tilmoves',A&nod
+                    # something matched
+                    me&joisc,'tilmoves',3s&joi
                 }
             }
             
@@ -1254,6 +1266,7 @@
         
        // < joins: pass 2
         me.Ploy_joins = &acgt{
+            me&Ploy_joins_tidy
             3c&o(3c&X,'join',&joi,{
                 A = fi&At,'joins:'+joi.i_join
                 A&joi = joi
@@ -1276,30 +1289,93 @@
                ++｢ 20...␤｣ # many
                    ++｢ 24src⇥-Num⇥"1812"␤｣ 
              good starter?
+               
             
             joi@71:
-               ｢ 6｣  ++｢ 2｣  --｢sc⇥-Hash⇥␤｣
+               ++｢ 2｣  ｢ 6｣  ++｢ 2of⇥-Ha｣  ｢s｣  ++｢h⇥␤｣
                 # gone|new E:sc|of
-               --｢ 41 2⇥-anA⇥"A more"⇥~｣  ++｢ 2of⇥-Hash⇥␤｣
-                # gone E:1 2
                ++｢ 12...␤｣ # many
-              ++｢ 6sc⇥-Hash⇥⇥♲␤｣
-                # new E:sc
-              ++｢ 41 2⇥-anA⇥"A more"⇥~,♲:^3:7/having 4.sc.todo//-hat/1 2｣  ｢␤｣
-                # new E:1 2
-                @87, %stretch from @72 E:1 2
+                  ++｢ 22sr｣  ｢c⇥-Hash⇥␤｣
+                  # finishing E:sc loosely
+                  #  high sameness but much different Cindent
+                  #  also nk:t microbit>1 is undesirable
+                  ｢ 4｣  ++｢ 201812⇥-anx⇥⇥~␤｣
+                  # gone|new E:1 2|1812
+                  #  no sameness, much different Cindent
+                    ++｢ 26z⇥-Array⇥␤｣ # many
+               ++｢ 6sc⇥-Hash⇥⇥♲␤｣
+                # correct E:sc location
+                #  findable only via Cindent + starts same
+             ++｢ 4｣  ｢1 2⇥-anA⇥"A more"⇥~｣  ++｢,♲:^3:7/having 4.sc.todo//-hat/1 2｣  ｢␤｣
+               # new E:1 2
+               # @86, %stretch from @71 E:1 2
              want:
                ++｢ 8of⇥-Hash⇥␤｣
                 ++｢ 12...␤｣ # many
               ｢ 6sc⇥-Hash⇥⇥♲␤｣
               ｢ 41 2⇥-anA⇥"A more"⇥~｣ ++｢,♲:^3:7/having 4.sc.todo//-hat/1 2｣ ｢␤｣
              bit more difficult...
-              
-              
-              
+           
+            < joi%tsplit should discourage E:sc on joi@81
+            < so should the much different Cindent of E:1 2 on joi@82
+            < jodol.ark=in
+             
         =cut
-                   
-        
+        me.Ploy_joins_tidy = &acgt{
+            $jois = 3c&o(3c&X,'join')
+            $yon_demono = &joi,{
+                $i = joi.i_join*1
+                $dem
+                while (1) {
+                    i += 1
+                    $ojo = jois[i]
+                    !ojo and break
+                    !ojos&mono and debugger
+                    ojos&demono and dem = ojo; break
+                }
+                !dem and joi.fix = ahk(joi,'fix','fail','nodem'); return
+                dems&stretch.joi != joi and debugger
+                return dem
+            }
+            $todo = {}
+            each i,joi jois {
+                !(jois&stretchy && jois&enmono) and continue
+                if (jois&sameness != null && jois&sameness <= 0.2) {
+                    # at joi@71, or joi@82 (E:1 2 having only indent there)
+                    #  many joi.lit, low sameness, != indent
+                    $dem = yon_demono(joi)
+                    !dem and continue
+                    
+                    ahk(dem,'fix','laterthan',1)
+                }
+                else {
+                    # at joi@48
+                    #  few joi.lit there, the later l has low sameness
+                    # find joi@56, where it completes
+                    $dem = yon_demono(joi)
+                    !dem and continue
+                    if (dems&sameness != null && dems&sameness <= 0.1) {
+                        # make it all ++, put the same bit back on joi@48
+                        $gobit = 3c&o(dem,'lit') .slice(-1)[0]
+                        # < remove \n$ from the ++, add an == with it
+                        ahk(joi,'fix','in',gobit.l.sc.string)
+                        ahk(dem,'fix','out',gobit.l.sc.string)
+                    }
+                    else {
+                        ahk(joi,'fix','fail','unsame')
+                    }
+                }
+            }
+        }
+        me.Ploy_drawjoin_fixes = &acgt{
+            $joi = A&joi
+            !joi.fix and return
+            $m = me&Ploy_rower,'fix'
+            ms&hue = 200
+            A&draw('jin',&ml{
+                me&tc,dis(joi.fix)
+            },m)
+        }
         
     // drawing row+
         # $m:row re-opens a &boxcap column for eg /with
