@@ -1354,9 +1354,13 @@
              bit more difficult...
            
             < joi%tsplit should discourage E:sc on joi@81
-            < so should the much different Cindent of E:1 2 on joi@82
-            < jodol.ark=in
-             
+               just having different nod.d works for now...
+         
+         < release as indentsual-diff-match-patch
+           perhaps it is easier to cost:
+            similarity earlier > difference later (per line)
+            closer indent
+            
         =cut
         me.Ploy_joins_fix = &acgt{
             $jois = 3c&o(3c&X,'join')
@@ -1421,7 +1425,7 @@
                 !dem && maybe and debugger
                 return dem
             }
-          // f
+          // gather fixes
             each i,joi jois {
                 !(jois&stretchy && jois&enmono) and continue
                 # find eg joi@56, where joi@48 completes
@@ -1463,13 +1467,115 @@
                     }
                 }
             }
+          // apply fixes
+            each i,joi jois {
+                each if joi.fix {
+                    $nod = f.add || f.rm
+                    !nod and continue
+                    f.add && f.rm and debugger
+                    $sphere = nod.sph.sphere
+                    $osphere = sphere == 'new' ? 'gone' : 'new'
+                    $ls = 3c&o(joi,'lit.l') .slice()
+                    $bitl = 3c&o(nod,'mine/bit.l')
+                    if (f.add) {
+                        # shattered bits to put together, eg joi@71->@85
+                        $whole = bitl.map(l => ls&string).join('')
+                        each il bitl {
+                            # eg joi@86 matches after one new->same
+                            ls.includes(l) and continue
+                            # see if it starts like that
+                            $ol = ls[0]
+                            # initially, relying on ls.includes(l) for the rest
+                            if (ols&string == ls&string) {
+                                i > 0 and debugger
+                                # new->same, eg also joi@86
+                                $bol = Cye(['same',1])
+                                bols&string = ls&string
+                                ls[0] = bol
+                                continue
+                            }
+                            # see if we can add it to the end
+                            $ol = ls.slice(-1)[0]
+                            if (ols&string.endsWith(ls&string)) {
+                                # nibble eg \n$ at joi@48
+                                $nol = Cye([ol.t,1])
+                                nols&string = ols&string.slice(0,-hak(ls&string))
+                                $bol = Cye(['same',1])
+                                bols&string = ls&string
+                                ls.splice(-1,1, nol,bol)
+                                continue
+                            }
+                            # or edgily, eg joi@85 is all same except (++⇥♲)
+                            $most = whole.slice(0, dec(hak(whole)*0.66,0) )
+                            if (ols&string.startsWith(most)) {
+                                # beginning
+                                $Nl = []
+                                $nol = Cye(['same',1,{},{string:''}])
+                                $nib = 0
+                                while (ols&string[nib] == whole[nib]) {
+                                    nols&string += whole[nib]
+                                    nib ++
+                                }
+                                hak(nols&string) and Nl.push(nol)
+                                
+                                # end
+                                $eol = Cye(['same',1,{},{string:''}])
+                                nib = -1
+                                while (ols&string.slice(nib)[0] == whole.slice(nib)[0]) {
+                                    eols&string = whole.slice(nib)[0] + eols&string
+                                    nib --
+                                }
+                                
+                                # their middle
+                                $from = hak(nols&string)
+                                if (from + hak(eols&string) < hak(ols&string)) {
+                                    $mol = Cye([osphere,1])
+                                    $til = hak(ols&string) - hak(eols&string)
+                                    mols&string = ols&string.slice(from,til)
+                                    Nl.push(mol)
+                                }
+                                
+                                # our middle
+                                if (hak(nols&string) + hak(eols&string) < hak(whole)) {
+                                    $mol = Cye([sphere,1])
+                                    mols&string = whole.slice(hak(nols&string),hak(eols&string))
+                                    hak(mols&string) and Nl.push(mol)
+                                }
+                                
+                                hak(eols&string) and Nl.push(eol)
+                                
+                                ls = Nl
+                                break
+                            }
+                            ls.push(Cye(['new',1,{},{string:'SPESH:'+whole}]))
+                            debugger
+                            break
+                        }
+                    }
+                    if (f.rm) {
+                        $Nl = grep(l => l.t != sphere, ls)
+                        $l = Cye([osphere,1])
+                        ls&string = Nl.map(l => ls&string).join('')
+                        ls = [l]
+                    }
+                    joi.reComp = ls
+                }
+            }
         }
         me.Ploy_drawjoin_fixes = &acgt{
             $joi = A&joi
             !joi.fix and return
             $m = me&Ploy_rower,'fix'
             ms&hue = 200
-            A&draw('lit',&ml{
+            
+            # rebuilt l+
+            me&Ploy_rower_i,m,'lit' (&ml{
+                each il joi.reComp {
+                    me&drawdiffbit,i,l
+                }
+            })
+            # the facts leading to rebuild
+            A&draw('jin',&ml{
                 each if joi.fix {
                     # see &Ploy_joins_fix / afix()
                     $c = ex({},f)
