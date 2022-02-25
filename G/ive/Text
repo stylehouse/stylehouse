@@ -639,11 +639,10 @@
                 !jois&stretch and debugger
                 delete lin.col
             }
+            $indent_sympathy = 1
             3c&o(lin,'bit',&bit,{
                 $str = bit.str
                 # tidy str
-                # < indent column? ~~ lin.indent_sympathy
-                lin.indent_sympathy and str = str.slice(0,nod.Cindent)
                 # < what is "string".trimEnd() ?
                 str.slice(-1)[0] == "\n" and str = str.slice(0,hak(str)-1)
                 
@@ -664,8 +663,35 @@
                 
                 # fill up col+ from bit.str
                 $N = str.split("\t")
+                # indent column ~~ lin.indent_sympathy
+                if (indent_sympathy) {
+                    if (N[0].startsWith('  ')) {
+                        # make an initial non-\t-delimited column for indent
+                        $til = N[0].split('').findIndex(v => v != ' ')
+                        til < 0 and til = hak(N[0])
+                        $spaces = N[0].slice(0,til)
+                        N[0] = N[0].slice(til)
+                        # nothing left
+                        !hak(N[0]) and N.shift()
+                        # something left, no more indenting
+                        else indent_sympathy = 0
+                        
+                        # may split indent, then other columns take it
+                        lin.col && cint(haks(lin.col)) != 'indent' and debugger
+                        # < cargoey
+                        $ark = 'indent'
+                        $incol = 3c&io(lin,'col',ark)
+                        incol.ark = ark
+                        $mc = 3c&iz(incol,'microcol')
+                        mc.str = spaces
+                        mc.bit = bit
+                        # for nod/*lin/*col.changey
+                        bit.l.t != 'same' and mc.changey = incol.changey = 1
+                    }
+                    else indent_sympathy = 0
+                }
                 each is N {
-                    if (!col || 0 < i) {
+                    if (!col || i > 0) {
                         # new col
                         $ark = cols.shift()
                         !ark and debugger
@@ -989,39 +1015,47 @@
             }
         }
       
-       // factoids of joi
+       // joi%$factoid
         =joi
          A&joi.sc.$oddness = [uniq objects...]
           in either A:l (nod match) or A:joined (joi leave)
+           they both have A&joi
           during
-           nod match
-            .behinod=$nod - nod.joi != 3s&joi
-            .tilmoves=$nod - as above + empty match
+           &Ploy_sph (nod matches $l)
+            %behinod=$nod - nod.joi != 3s&joi
+            %tilmoves=$nod - as above + empty match
              < ^x2 dont seem to happen
-            .tilstill=$nod - empty match
-            .seeknod=$nod - as above + it wasnt munged \n$
-           joi leave
-            .stretch=$nod - behinod when joined
-             eg joi@84 is ++'    ' after joi@80 =='    ' started $nod
-              < where we would turn joi@80 ++'    '
-                 which would turn it %mono
-            .stretchy=$nod - doesnt end on joi (no ...\n$)
-            .stretching=$nod - began before joi (after the above)
+            %tilstill=$nod - empty match
+            %seeknod=$nod - as above + it wasnt munged \n$
+            
+           &Ploy_joined (nod+ leaving -> joi leaving)
+            %stretchy=$nod - doesnt end on joi (no ...\n$)
+            %stretching=$nod - began before joi (after the above)
              < happens too much
-            .stretch=$nod - finally ended
+            %stretch=$nod - finally ended
+             eg joi@86 is ++'    ' after joi@82 =='    ' started E:1 2
              < are coupled to a joi.prev+%strechy=$nod
+            
+            %enmono, %mono, %demono - while joining only 1 nod
              
-            .sameness=$ratio - low or high sameness
+            %sameness=$ratio - low or high sameness
               ignores ^\s+(++    ) and the near-sameness of only %♲
                # code: any illegal syntax eg /(+/ is potential otherlang
-             eg joi@54 should have very low sameness, just (==\n)
-              < after stretch:joi@46 has (==         sc⇥-Hash⇥)
-                 is also on joi@53, a better place to match it...
-             eg joi@69 has low sameness
+             eg joi@56 should have very low sameness, just (==\n)
+              < joi@48 is very similar, should be all there.
+                 joi@56 has low sameness, different nod.d
+                 joi@55 very high sameness, different nod.d
+                see fix / stretch
+             eg joi@71 has low sameness
               < (==s) microbit in different column: gone t, new y
+            %tsplit when col:t has a bit-boundary (>1 microbits)
+            
+            < %noddoff - different nod.d
+            < %numeric - number++
+            
+           &Ploy_joins (pass 1 complete)
+            just looks at them...
            
-          cant see any %behinod but is apparently
-         
          A&joi.changes.$nk$gk? = 1
           seeing jodol** change
            
@@ -1203,51 +1237,52 @@
         me.Ploy_joi_sameness_check = &acgt,joi{
             $lits = 3c&o(joi,'lit')
             $dont = cint(haks(joi.changes)) == '%♲'
-            if (hak(lits) > 1 && !dont) {
-                # overall amount shared|not on this joi
-                $an = {}
-                lits.map(&lit,{
-                    $l = lit.l
-                    $quantity = hak(ls&string)
-                    # indent doesnt count, eg joi@69 (==      )
-                    #  no other uses of trimstart?
-                    $trims = grep(3c&o(lit,'bit',bit => bit.trimstart))
-                    if (hak(trims)) {
-                        # lit/bit join 1-2 bit.up.nod, by the same l
-                        hak(trims) > 2 and debugger
-                        hak(uniq(trims)) > 1 and debugger
-                        quantity -= trims[0]
-                    }
-                    
-                    $k = l.t == 'same' ? 'same' : 'diff'
-                    an.cosize ||= {}
-                    an.cosize[k] ||= 0
-                    # < leaving out ^ oddly not fatal to v (Try@3 / js oddities)
-                    an.cosize[k] += quantity
-                })
-                # < &ind + ex()
-                $sa = map(v => dec(v,2), &c{
-                    hak(c) > 2 and debugger
-                    # same/0 == 1
-                    !c.diff and return 1
-                    $same = c.same || 0
-                    return same / (same + c.diff)
-                },an)
-                
-                # hardly any or lots of similarity
-                if (sa.cosize <= 0.22 || sa.cosize >= 0.78) {
-                    me&joisc,'sameness',sa.cosize
+            hak(lits) == 1 || dont and return
+            # overall amount shared|not on this joi
+            $an = {}
+            lits.map(&lit,{
+                $l = lit.l
+                $quantity = hak(ls&string)
+                # indent doesnt count, eg joi@69 (==      )
+                #  no other uses of trimstart?
+                $trims = grep(3c&o(lit,'bit',bit => bit.trimstart))
+                if (hak(trims)) {
+                    # lit/bit join 1-2 bit.up.nod, by the same l
+                    hak(trims) > 2 and debugger
+                    hak(uniq(trims)) > 1 and debugger
+                    quantity -= trims[0]
                 }
+
+                $k = l.t == 'same' ? 'same' : 'diff'
+                an.cosize ||= {}
+                an.cosize[k] ||= 0
+                # < leaving out ^ oddly not fatal to v (Try@3 / js oddities)
+                an.cosize[k] += quantity
+            })
+            # < &ind + ex()
+            $sa = map(v => dec(v,2), &c{
+                hak(c) > 2 and debugger
+                # same/0 == 1
+                !c.diff and return 1
+                $same = c.same || 0
+                return same / (same + c.diff)
+            },an)
+
+            # hardly any or lots of similarity
+            if (sa.cosize <= 0.22 || sa.cosize >= 0.78) {
+                me&joisc,'sameness',sa.cosize
             }
         }
         
+        # for a nod matching
         me.Ploy_nod_check = &acgt{
-            # for a nod matching
             if (3s&joi != A&joi) {
                 # previous other nod joined, we are left behind
                 me&joisc,'behinod',A&nod
                 if (!a&tilstill) {
-                    # something matched
+                    # something matched after joi moves on
+                    #  ie goes %mono, leaving nod.joi behind
+                    #  write the later joi on the earlier nod.joi
                     me&joisc,'tilmoves',3s&joi
                 }
             }
@@ -1266,7 +1301,8 @@
         
        // < joins: pass 2
         me.Ploy_joins = &acgt{
-            me&Ploy_joins_tidy
+            # decide how to rewrite Comp/l for less %stretch
+            me&Ploy_joins_fix
             3c&o(3c&X,'join',&joi,{
                 A = fi&At,'joins:'+joi.i_join
                 A&joi = joi
@@ -1321,7 +1357,7 @@
             < jodol.ark=in
              
         =cut
-        me.Ploy_joins_tidy = &acgt{
+        me.Ploy_joins_fix = &acgt{
             $jois = 3c&o(3c&X,'join')
             $yon_demono = &joi,{
                 $i = joi.i_join*1
