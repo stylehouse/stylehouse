@@ -1360,7 +1360,19 @@
         =cut
         me.Ploy_joins_fix = &acgt{
             $jois = 3c&o(3c&X,'join')
-           // f
+            $joi
+          // f
+            $afix = &joi2,t,c{
+                c = pex({t},c||{})
+                # the origin of this fix, eg joi@71
+                c.joi = joi
+                # may c.add|rm=nod to add|remove from joi's lit's Comp/l
+                ahk(joi2,['fix'],c)
+            }
+            $lin0whole = &nod,{
+                return 3c&o(nod,'mine/bit',_=>_.str).join('')
+            }
+           // walk jois
             # step over some joi%mono to the end of a %stretch
             $yon_demono = &joi,{
                 $i = joi.i_join*1
@@ -1376,9 +1388,6 @@
                 $nod = dems&stretch
                 !(nod && nod.joi == joi) and debugger
                 return dem
-            }
-            $lin0whole = &nod,{
-                return 3c&o(nod,'mine/bit',_=>_.str).join('')
             }
             # search further with nod/lin0
             $yon_lin0match = &joi,dem{
@@ -1412,43 +1421,45 @@
                 !dem && maybe and debugger
                 return dem
             }
-           // f
-            $todo = {}
+          // f
             each i,joi jois {
                 !(jois&stretchy && jois&enmono) and continue
+                # find eg joi@56, where joi@48 completes
+                $dem = yon_demono(joi)
+                !dem and continue
+                $nod = dems&stretch
                 if (jois&sameness != null && jois&sameness <= 0.2) {
+                    # dis-join an earlier low-sameness
                     # at joi@71 -> @81 (many joi.lit @71)
                     # or joi@82 -> @86 (only indent @82)
                     #  both having != indent, low sameness
-                    $dem = yon_demono(joi)
-                    !dem and continue
-                    $nod = dems&stretch
                     # joi@81 is not where to match it
                     $nod2 = theone(3c&o(dem,'with'))
                     if (nod2.d != nod.d) {
+                        afix(dem,'notd',{rm:nod,cmp:nod2.d+'|'+nod.d})
                         # search further with nod/lin0
-                        ahk(dem,'fix','notd',nod2.d+'|'+nod.d)
                         dem = yon_lin0match(joi,dem)
+                        !dem and debugger
                     }
-                    
-                    ahk(joi,'fix','earlier',1)
-                    ahk(dem,'fix','later',joi.i_join)
+                    afix(joi,'early',{rm:nod})
+                    afix(dem,'later',{add:nod})
                 }
                 else {
+                    # dis-join a later low-sameness
                     # at joi@48
                     #  few joi.lit there, the later l has low sameness
-                    # find joi@56, where it completes
-                    $dem = yon_demono(joi)
-                    !dem and continue
+                    #  ie it put off matching a mere "\n" for many lines
+                    #   ending on a different nod.d (unconsidered)
                     if (dems&sameness != null && dems&sameness <= 0.1) {
                         # make it all ++, put the same bit back on joi@48
                         $gobit = 3c&o(dem,'lit') .slice(-1)[0]
                         # < remove \n$ from the ++, add an == with it
-                        ahk(joi,'fix','in',gobit.l.sc.string)
-                        ahk(dem,'fix','out',gobit.l.sc.string)
+                        afix(joi,'allin',{add:nod})
+                        afix(dem,'notin',{rm:nod})
                     }
                     else {
-                        ahk(joi,'fix','fail','unsame')
+                        afix(joi,'unsame',{fail:1})
+                        debugger
                     }
                 }
             }
@@ -1458,8 +1469,27 @@
             !joi.fix and return
             $m = me&Ploy_rower,'fix'
             ms&hue = 200
-            A&draw('jin',&ml{
-                me&tc,dis(joi.fix)
+            A&draw('lit',&ml{
+                each if joi.fix {
+                    # see &Ploy_joins_fix / afix()
+                    $c = ex({},f)
+                    me&boxcap,"fix:"+c.t,'2g' (&ml{
+                        ms&ml = 2
+                        me&walls,m,'b:2.2h4'
+                        mc&maybeempty = 1
+                        lc&s = delete c.t
+                        $origin = delete c.joi
+                        origin != joi and me&Ploy_tid,origin
+                        each kv c {
+                            me&boxcap,"fix-data",2 (&ml{
+                                lc&not = 1
+                                me&tsc,"key",k,'b'
+                                ish(v) and me&Ploy_tid,v
+                                else me&tc,dis(v)
+                            })
+                        }
+                    })
+                }
             },m)
         }
         
