@@ -1148,6 +1148,7 @@
                 },m)
                 A&draw('jin',&ml{
                     me&tt,'nood' () and me&fu,sphere+":nod@"+joi.i_join,nod
+                    !3c&o(joi,'with') .includes(nod) and me&tc,"loose",'6y'
                 },m)
             }
         }
@@ -1359,6 +1360,8 @@
         =cut
         me.Ploy_joins_fix = &acgt{
             $jois = 3c&o(3c&X,'join')
+           // f
+            # step over some joi%mono to the end of a %stretch
             $yon_demono = &joi,{
                 $i = joi.i_join*1
                 $dem
@@ -1370,19 +1373,66 @@
                     ojos&demono and dem = ojo; break
                 }
                 !dem and joi.fix = ahk(joi,'fix','fail','nodem'); return
-                dems&stretch.joi != joi and debugger
+                $nod = dems&stretch
+                !(nod && nod.joi == joi) and debugger
                 return dem
             }
+            $lin0whole = &nod,{
+                return 3c&o(nod,'mine/bit',_=>_.str).join('')
+            }
+            # search further with nod/lin0
+            $yon_lin0match = &joi,dem{
+                $nod = dems&stretch
+                $whole = lin0whole(nod)
+                dem = null
+                $maybe
+                $i = joi.i_join*1
+                while (1) {
+                    i += 1
+                    $ojo = jois[i]
+                    !ojo and break
+                    # find one (%mono) of the other sph, same nod.d
+                    !ojos&mono and continue
+                    $nod2 = theone(3c&o(ojo,'with'))
+                    nod2.sph == nod.sph and debugger
+                    nod2.d != nod.d and continue
+                    # and string match
+                    $whole2 = lin0whole(nod2)
+                    if (whole != whole2) {
+                        # < approximate is okay if it is best
+                        #   ie fully cost the nod.d, creating %tsplit, etc
+                        maybe = {nod2,whole2}
+                        $most2 = whole2.slice(0, dec(hak(whole2)*0.66,0) )
+                        !whole.startsWith(most2) and continue
+                    }
+                    dem = ojo
+                    break
+                }
+                # < do a looser string match
+                !dem && maybe and debugger
+                return dem
+            }
+           // f
             $todo = {}
             each i,joi jois {
                 !(jois&stretchy && jois&enmono) and continue
                 if (jois&sameness != null && jois&sameness <= 0.2) {
-                    # at joi@71, or joi@82 (E:1 2 having only indent there)
-                    #  many joi.lit, low sameness, != indent
+                    # at joi@71 -> @81 (many joi.lit @71)
+                    # or joi@82 -> @86 (only indent @82)
+                    #  both having != indent, low sameness
                     $dem = yon_demono(joi)
                     !dem and continue
+                    $nod = dems&stretch
+                    # joi@81 is not where to match it
+                    $nod2 = theone(3c&o(dem,'with'))
+                    if (nod2.d != nod.d) {
+                        # search further with nod/lin0
+                        ahk(dem,'fix','notd',nod2.d+'|'+nod.d)
+                        dem = yon_lin0match(joi,dem)
+                    }
                     
-                    ahk(dem,'fix','laterthan',1)
+                    ahk(joi,'fix','earlier',1)
+                    ahk(dem,'fix','later',joi.i_join)
                 }
                 else {
                     # at joi@48
