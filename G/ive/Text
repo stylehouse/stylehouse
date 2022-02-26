@@ -228,6 +228,7 @@
                 # decide how to rewrite Comp/l for less %stretch
                 me&Ploy_joins_fix
                 
+                3c&not and me&tc,"Abort",'G'; return
                 if (a&fixed_Comp) {
                     # doctored input data for clearer diffs, see fix joi%stretch
                     me&Ploy_spannyrower,'fix' (&ml{
@@ -936,11 +937,16 @@
             3s&joi = joi
             return joi
         }
-        me.joisc = &acgtkv{
-            $was = A&joi.sc[k]
+        # joi%$k = $v adds a factoid
+        #  args k,v or joi,k,v
+        me.joisc = &acgt{
+            $args = [...arguments].slice(4)
+            $joi = ish(args[0]) ? args.shift() : A&joi
+            $k = args.shift()
+            $v = args.shift()
+            $was = joi.sc[k]
             was && was != v and debugger
-            A&joi.sc[k] = v
-            #ahk(A&joi,'sc',...[...arguments].slice(4))
+            joi.sc[k] = v
         }
         
         # after nod arrives
@@ -953,6 +959,8 @@
             A = fi&At,'join:'+3s&joi.i_join
             # we are the joined joi
             $joi = A&joi = A&old = 3s&joi
+            # may defer one nod due to not matching any bits, eg joi@49
+            me&Ploy_joined_unbitnod
             # passes A:l+, are per sph
             $N = delete 3s&joined
             # all done!
@@ -965,6 +973,12 @@
                     !(Vs&next && Vs&newline && Vs&newnode) and debugger
                     return Vs&next
                 },N)
+                
+                if (joi.unbitnod) {
+                    # carrying an unmatching nod through %mono of the other sphere
+                    hak(nexts) > 1 and debugger
+                    nexts.push(joi.unbitnod)
+                }
 
                 A&neu = me&Ploy_i_joi,'next',nexts
                 # joi linked like nod
@@ -976,7 +990,8 @@
             # is there an oddness to joi/with <-> N[A&nod]
             #  extra nod are put in: joi/loosely
             me&Ploy_joi_stretch_check,joi,N
-            !a&Fin and me&Ploy_joi_next_check
+            # note joi%mono etc, now that unbitnod may have shrunk joi/with
+            me&Ploy_joi_mono_check
             
             # when joined (perhaps with /loosely)
             if (hak(joi.lit) > 1) {
@@ -995,6 +1010,21 @@
             
             # joi row
             3c&single_pass and me&Ploy_drawjoin
+        }
+        # may defer one nod due to not matching any bits
+        me.Ploy_joined_unbitnod = &acgt{
+            $joi = A&joi
+            $unbitnods = grep(nod => !hak(3c&o(nod,'mine/bit')),
+                3c&o(joi,'with'))
+            $nod = theone(unbitnods)
+            !nod and return
+            joi.unbitnod and debugger
+            joi.unbitnod = nod
+            # remove joi association
+            delete joi.with[nod.i_with]
+            delete nod.i_with
+            delete nod.joi
+            # then joins nexts
         }
         
         # iterate lit(/bit,nod)
@@ -1116,12 +1146,13 @@
                 }
                 return
             }
-            if (hak(joi.sc) == 1) {
-                # only %mono
-                !joi.jin && jois&mono and return
+            # factoids usu follow some difference now tabulated in /jin...
+            if (!joi.jin) {
+                $about = haks(joi.sc)
+                grop(['enmono','mono','demono'],about)
+                hak(about) and debugger
+                else return
             }
-            # difference > factoids
-            !joi.jin and debugger
             
             $withnods = 0
             A&odd('with',&ml{
@@ -1195,6 +1226,8 @@
             }
         }
         
+        
+        
         # joi/with supplemented by joi/loosely
         me.Ploy_joi_stretch_check = &acgt,joi,N{
             # going %stretchy or continuing the %stretching
@@ -1207,7 +1240,6 @@
                     if (c.first) {
                         3c&o(joi,'with',&nod,{
                             $bit = 3c&o(nod,'mine/bit') [0]
-                            !bit and me&joisc,"STRANGE",nod; return
                             # nod began earlier l on a previous joi
                             # < and doesnt finish here, or its a %stretch
                             #   these are wrong, bit0 doesnt have to be ==
@@ -1220,7 +1252,6 @@
                         # a nod doesnt have this \n$
                         3c&o(joi,'with',&nod,{
                             $bit = 3c&o(nod,'mine/bit') .slice(-1)[0]
-                            !bit and me&joisc,"STRANGE",nod; return
                             bit.l != l and me&joisc,'stretchy',nod
                         })
                     }
@@ -1248,34 +1279,31 @@
             })
         }
         # is|goes mono!
-        me.Ploy_joi_next_check = &acgt{
-            $send = &say,{
-                A&odd('with',&{
-                    me&tc,say,'G'
-                })
-            }
-            if (hak(A&old.with) == 1) {
-                $nod = havs(A&old.with)[0]
+        me.Ploy_joi_mono_check = &acgt{
+            $joi = A&joi
+            if (hak(joi.with) == 1) {
+                $nod = havs(joi.with)[0]
                 # this sphere is the only one for a while
                 me&joisc,'mono',nod.sph
             }
-                
-            $withs = spant(hak(A&old.with),hak(A&neu.with))
+            
+            # A&neu is too new to count /with yet, see unbitnod
+            #  joi (A&old) and joi.prev have accurate /with now
+            $prev = joi.prev
+            !prev and return
+            $withs = spant(hak(prev.with),hak(joi.with))
             if (withs == '2 1') {
                 # starts non-joins - whole lines for only one sph
                 #  the other, eg gone, will not consume any l:new
-                me&joisc,'enmono',1
-                A&neu.last_good = A&old
+                me&joisc,prev,'enmono',1
             }
             if (withs == '1 1') {
                 # passes along...
-                !A&old.sc.mono and debugger
-                A&neu.last_good = A&old.last_good
+                !prevs&mono and debugger
             }
             if (withs == '1 2') {
-                # resumed matching after non-joins (joins with.length == 1)
-                A&neu.resumes = A&old.last_good
-                me&joisc,'demono',1
+                # resumes matching after non-joins (single joi/with)
+                me&joisc,prev,'demono',1
             }
         }
         # after jin makes joi.changes
