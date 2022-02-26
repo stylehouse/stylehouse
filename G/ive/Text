@@ -199,10 +199,73 @@
           // A:Ploy init
             A = fi&At,"Ploy"
             A.3 = A
-            $X = 3c&X = {A}
             me&Ploy_io
+            
+            me&boxcap,'Ploy',5 (&ml{
+                
+                lc&not = 1
+                # options
+                me&Ploy_spannyrower,'conf' (&ml{
+                    # if you &Ploy_fail, these draw the context in time for it:
+                    me&boxcap,'pass1' (&ml{
+                        # drawjoin as soon as it is joined
+                        #  omits l that belongs to a later joi
+                        me&tt,'only' () and 3c&single_pass = 1
+                        me&tc,',','6y'
+                        # draw l etc as it goes
+                        #  we then replace them with a drawjoin
+                        me&tt,'lasap' () and 3c&accreting_modulat = 1
+                    })
+                    # shows the possible fixes...
+                    me&tt,'nofix' () and 3c&nofix = 1
+                })
+            })
+            # pass 1
+            # make joined nod from l+
+            me&Ploy_Comp_sph,nav,Comp
+            
+            if (!3c&single_pass) {
+                # decide how to rewrite Comp/l for less %stretch
+                me&Ploy_joins_fix
+                
+                if (a&fixed_Comp) {
+                    # doctored input data for clearer diffs, see fix joi%stretch
+                    me&Ploy_spannyrower,'fix' (&ml{
+                        a&fixed_joins .map(&joi,{
+                            me&Ploy_tid,joi
+                        })
+                    })
+                    if (!3c&nofix) {
+                        # around again
+                        me&Ploy_Comp_sph,nav,a&fixed_Comp
+                    }
+                    # sanity: applied fixes dont change either sphere's whole string
+                    $samp = {was:Comp,is:a&fixed_Comp}
+                    $sphs = ['new','gone']
+                    each it sphs {
+                        $sa = map(&L{
+                            return L.filter(l => l.t == 'same' || l.t == t)
+                                .map(l => ls&string).join('')
+                        },samp)
+                        sa.was == sa.is and continue
+                        me&Ahdiffany,'sph:'+t,'see',sa.was,sa.is
+                    }
+                }
+                
+                3c&o(3c&X,'join',&joi,{
+                    A = fi&At,'joins:'+joi.i_join
+                    A&joi = joi
+                    # happens every &Ploy_joined if 3c&single_pass
+                    me&Ploy_drawjoin
+                    A = A.3
+                })
+            }
+        }
+        # makes X, l+ -> sph+
+        me.Ploy_Comp_sph = &acgt,nav,Comp{
+            $X = 3c&X = {A}
 
-            # nav.* = RE
+            # check nav.* = RE
             # see &Ploy_nod_next
             #  for our swerve into the first_truest after RE
             # < have pointers to these things, time specified. lv C.
@@ -229,56 +292,38 @@
             # join 0
             me&Ploy_i_joi,'given',tops
             
+            
           // Comp/$l -> $sph
-            me&boxcap,'Ploy',5 (&ml{
                 
-                lc&not = 1
+            each il Comp {
+
+                ly&seqi = i
+                A = A.3
+                3c&accreting_modulat
+                    && me&drawdiffbit,i,l
+
+                $who = l.t == 'same'
+                    # == are for both spheres
+                    ? havs(3c&io(X,'sphere','*'))
+                    # ++|-- only for sph:new|gone
+                    : [3c&io(X,'sphere',l.t)]
+
+                who.map(sph => me&Ploy_sph,l,sph)
+
+                A = A.3
+
+                # after &Ploy_fail
+                3c&not and me&tc,"Abort",'G'; break
+
+                # to A3:Ploy/A:join+
+                3s&joined and me&Ploy_joined
+            }
+
+            # check we found our way back to each sph/nod0
+            $lost = tops.slice()
+            grop(3s&seemsdone,lost)
+            hak(lost) and me&Ploy_fail,"seemsdone",ex({},lost)
                 
-                # options
-                $m = me&Ploy_rower,'conf'
-                me&Ploy_rower_i,m,'lit' (&ml{
-                    # dont go around fixing %stretch etc
-                    # drawjoin as soon as it is joined
-                    me&tt,'1pass' () and 3c&single_pass = 1
-                    # draw sph<-l etc as it goes (then replace them with a drawjoin)
-                    #  only if you want context around a &Ploy_fail
-                    me&tt,'debug' () and 3c&accreting_modulat = 1
-                })
-                
-                each il Comp {
-                    
-                    ly&seqi = i
-                    A = A.3
-                    3c&accreting_modulat
-                        && me&drawdiffbit,i,l
-                    
-                    $who = l.t == 'same'
-                        # == are for both spheres
-                        ? havs(3c&io(X,'sphere','*'))
-                        # ++|-- only for sph:new|gone
-                        : [3c&io(X,'sphere',l.t)]
-                    
-                    who.map(sph => me&Ploy_sph,l,sph)
-                    
-                    A = A.3
-                    
-                    # after &Ploy_fail
-                    3c&not and me&tc,"Abort",'G'; break
-                    
-                    # to A3:Ploy/A:join+
-                    3s&joined and me&Ploy_joined
-                }
-                
-                if (!3c&single_pass) {
-                    me&Ploy_joins
-                }
-                
-                # check we found our way back to each sph/nod0
-                $lost = tops.slice()
-                grop(3s&seemsdone,lost)
-                hak(lost) and me&Ploy_fail,"seemsdone",ex({},lost)
-                else me&tc,'Fin','G'
-            })
             return X
         }
         
@@ -381,8 +426,7 @@
                 nod.whole = Dy&toLines
                 !isst(nod.whole) and debugger
                 !isst(nod.whole) and return me&Ploy_fail,'toLines',{l}
-                3c&accreting_modulat
-                    && me&drawnod,nod
+                3c&accreting_modulat and me&drawnod,nod
             }
             
             return A
@@ -1052,13 +1096,11 @@
             
             < %noddoff - different nod.d
             < %numeric - number++
-            
-           &Ploy_joins (pass 1 complete)
-            just looks at them...
-           
+         
          A&joi.changes.$nk$gk? = 1
           seeing jodol** change
-           
+          not suggesting the diff is going ugly
+          < but if it could be rearranged to minimise these...
         =cut
         # if any factoids, put on the odd row
         me.Ploy_drawjoin_factoids = &acgt{
@@ -1165,6 +1207,7 @@
                     if (c.first) {
                         3c&o(joi,'with',&nod,{
                             $bit = 3c&o(nod,'mine/bit') [0]
+                            !bit and me&joisc,"STRANGE",nod; return
                             # nod began earlier l on a previous joi
                             # < and doesnt finish here, or its a %stretch
                             #   these are wrong, bit0 doesnt have to be ==
@@ -1177,6 +1220,7 @@
                         # a nod doesnt have this \n$
                         3c&o(joi,'with',&nod,{
                             $bit = 3c&o(nod,'mine/bit') .slice(-1)[0]
+                            !bit and me&joisc,"STRANGE",nod; return
                             bit.l != l and me&joisc,'stretchy',nod
                         })
                     }
@@ -1300,17 +1344,6 @@
             }
         }
         
-       // < joins: pass 2
-        me.Ploy_joins = &acgt{
-            # decide how to rewrite Comp/l for less %stretch
-            me&Ploy_joins_fix
-            3c&o(3c&X,'join',&joi,{
-                A = fi&At,'joins:'+joi.i_join
-                A&joi = joi
-                me&Ploy_drawjoin
-                A = A.3
-            })
-        }
         
        // fix joi%stretch
         =stretch
@@ -1426,6 +1459,7 @@
                 return dem
             }
           // gather fixes
+            $fixed = []
             each i,joi jois {
                 !(jois&stretchy && jois&enmono) and continue
                 # find eg joi@56, where joi@48 completes
@@ -1447,6 +1481,7 @@
                     }
                     afix(joi,'early',{rm:nod})
                     afix(dem,'later',{add:nod})
+                    fixed.push(dem)
                 }
                 else {
                     # dis-join a later low-sameness
@@ -1460,6 +1495,7 @@
                         # < remove \n$ from the ++, add an == with it
                         afix(joi,'allin',{add:nod})
                         afix(dem,'notin',{rm:nod})
+                        fixed.push(joi)
                     }
                     else {
                         afix(joi,'unsame',{fail:1})
@@ -1476,6 +1512,7 @@
                     $sphere = nod.sph.sphere
                     $osphere = sphere == 'new' ? 'gone' : 'new'
                     $ls = 3c&o(joi,'lit.l') .slice()
+                    $ols = ls.slice()
                     $bitl = 3c&o(nod,'mine/bit.l')
                     if (f.add) {
                         # shattered bits to put together, eg joi@71->@85
@@ -1558,9 +1595,25 @@
                         ls&string = Nl.map(l => ls&string).join('')
                         ls = [l]
                     }
+                    # merge sequences of same l.t
+                    $la = null
+                    grop(&l{
+                        if (la && l.t == la.t) {
+                            las&string += ls&string
+                            return 1
+                        }
+                        la = l
+                    },ls)
                     joi.reComp = ls
                 }
             }
+          // redo Comp -> Ploy again
+            # may have no need to
+            !fixed and return
+            a&fixed_joins = fixed
+            a&fixed_Comp = flatten(
+                map(joi => joi.reComp || 3c&o(joi,'lit.l'), jois)
+            )
         }
         me.Ploy_drawjoin_fixes = &acgt{
             $joi = A&joi
@@ -1611,7 +1664,7 @@
         }
         # boxcap for some kind of row, for a joi
         me.Ploy_rower = &acgtk{
-            # kind may also odd|fail
+            # kind may also odd|fail|fix|etc
             $modk = "mod"+(k||'joi')
             $m = A&joi[modk]
             if (!m) {
