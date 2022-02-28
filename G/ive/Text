@@ -1072,6 +1072,7 @@
             # any odd rows after that:
             me&Ploy_drawjoin_factoids
             me&Ploy_drawjoin_fixes
+            me&Ploy_drawjoin_regions
             
             if (3c&accreting_modulat) {
                 # drop other modulats we just restructured
@@ -1679,6 +1680,7 @@
         me.Ploy_regions = &acgt{
             $regs = []
             $jois = 3c&o(3c&X,'join')
+            !hak(jois) and debugger
             # convert joi%mono to joi.changes.*
             each i,joi jois {
                 $sph = jois&mono
@@ -1704,6 +1706,7 @@
                 grop(&reg,{
                     $quality = reg.matches / reg.over
                     if (quality < 0.4) {
+                        ahk(joi,['regs'],'end',reg)
                         reg.ends = joi.i_join
                         return 1
                     }
@@ -1713,11 +1716,15 @@
                     # new reg
                     $reg = 3c&iz(3c&X,'region')
                     reg.t = k
+                    ahk(joi,['regs'],'start',reg)
                     reg.starts = joi.i_join
                     reg.matches = 1
                     reg.over = 1
                     regs.push(reg)
                 }
+            }
+            each i,reg regs {
+                reg.ends = joi.i_join
             }
             me&boxcap,"regions",5 (&ml{
                 3c&o(3c&X,'region',&reg,{
@@ -1736,6 +1743,27 @@
                         ns&dis = 4
                     })
                 })
+            })
+        }
+        # oddrow: regs start|end at a join
+        me.Ploy_drawjoin_regions = &acgt{
+            $joi = A&joi
+            !joi.regs and return
+            $m = me&Ploy_rower,'regs'
+            ms&hue = 260
+            
+            me&Ploy_rower_i,m,'lit' (&ml{
+                $regs = sex({},joi.regs,'end,start')
+                each th regs {
+                    me&boxcap,t,2 (&ml{
+                        each i,reg h {
+                            me&boxcap,"reg"+reg.i_region,2 (&ml{
+                                me&walls,m,'bd:2.2'
+                                me&tsc,'cond-match',reg.t,'G'
+                            })
+                        }
+                    })
+                }
             })
         }
         
