@@ -1677,6 +1677,38 @@
         }
         
     //  reg
+        =pod
+          group like stuff
+           Ploy/region
+            of consistent conditions
+             and how to draw them
+            ie sub-nod** we would dimly light
+             or show whole things of either sph
+
+           conditions:
+            joi.changes.%♲|c|allnew etc
+           make reg
+            spreads to
+             next joi, linearly
+              < unless drop in nod.d from where reg started
+             < inners
+               eg E:1 starts reg:%♲, spreads to /c/again joi@22
+               is already there with the 'not counting' of lafew_relevant_overs()
+
+            higher levels of:
+              < continuation of an Eref: ♲
+                 about the one ♲:^3:7/having 4.sc.todo//-hat/1
+                   mentions the gone t from our ^2
+                    presenting the usual new-version-of-same we can often see...
+                  followed by lots of simple ♲
+                   which say ref continuity continues into here
+                    > when it doesnt
+
+           make are
+              hoist interestingness
+                > venn types of change over space
+                > forward mungible change|seq
+        =cut
         # group like stuff
         me.Ploy_regions = &acgt{
             # rolling recent conditions
@@ -1827,17 +1859,19 @@
             }
             # should all come off again
             hak(regs) and debugger
-           // percolate
+           
+           // < percolate
             # percolate change to ancestors
             $places = 3c&o(3c&X,'place')
             reverse(places).map(&place,{
-                $serious = grep(reg => reg.t != '%♲', place.regs)
-                each i,reg serious {
+                each i,reg place.regs {
                     $up = place.up
+                    # < get the most-urgent level of change, was in col
+                    $serious = reg.t == '%♲' ? 8 : 1
                     $i = 100
                     while (up) {
                         i-- < 0 and debugger; break
-                        ahk(up,['inter'],reg.t,place.d,place)
+                        ahk(up,['inter'],serious,reg.t,place.d,place)
                         up = up.up
                     }
                 }
@@ -1848,10 +1882,13 @@
                 jois&inter = dis(place.inter)
             }
             
+            # go back down again, chasing place.inter.*
             # <<<
-            # go back down again, grouping areas of branches once:
-            #  place**.inter.* reduces to one reg
-            #   such that one region may split if straddling branches
+            #  until it reduces to one reg
+            #   call that an area
+            #    it may leave off tips further inside
+            #  one region may split if straddling branches
+            #  ancestors, siblings dimly glow...
             # into something easy for -Difmo to get
             #  might swap %zuct for lum diag
             $eat = &place,{
@@ -1862,6 +1899,7 @@
                     $nod = havs(place.joi.with)[0]
                     !nod and debugger
                     lc&s = nod.E.t
+                    ls&fs = 6
                     
                     # regs here
                     $regs = place.regs
@@ -1870,9 +1908,18 @@
                         $regts = place.regs.map(reg => reg.t)
                         me&tsc,"regs-had",coint(regts),'y'
                     }
-                    !place.inter and return
+                    if (!place.inter) {
+                        $tomany = hak(place.placed)
+                        tomany and me&drawsym,'⦄'; me&tc,'x'+tomany
+                        return
+                    }
+                    
                     # regs from here/**
-                    me&tsc,"regs-in",coint(haks(place.inter)),'6y'
+                    $regs = []
+                    each serious,regts place.inter {
+                        serious < 5 and delete ls&fs
+                        me&tsc,"regs-in",coint(haks(regts)),'6y'
+                    }
                     3c&o(place,'placed',&pla,{
                         eat(pla)
                     })
