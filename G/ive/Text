@@ -1699,7 +1699,10 @@
                         joi.changes and return
                         $nod = havs(joi.with)[0]
                         $r = Aof(nod.E)
-                        return rs&Fun || rs&String
+                        rs&Fun || rs&String and return 1
+                        # or if it keeps the same Eref
+                        $D = nod.D
+                        D.sc['♲'] and return 1
                     },more)
                 }
                 return more.slice(-5)
