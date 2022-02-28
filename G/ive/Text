@@ -1683,6 +1683,7 @@
             $regs = []
             $jois = 3c&o(3c&X,'join')
             !hak(jois) and debugger
+           // f
             # convert joi%mono to joi.changes.allnew|gone
             #  to have all relevant conditions in joi.changes.*
             each i,joi jois {
@@ -1712,6 +1713,7 @@
                 reg.ends = joi.i_join
             }
             
+           // matches
             each i,joi jois {
                 # whats here
                 $cond = haks(joi.changes)
@@ -1761,9 +1763,128 @@
                     regs.push(reg)
                 }
             }
+            # any still active now end
             each i,reg regs {
                 reg_ends(reg,joi)
             }
+           
+           // hier
+            # hier joi** wrt regs
+            
+            # subset of joins leading to regions
+            $top = 3c&iz(3c&X,'place')
+            $stack = [top]
+            $regs = []
+            each i,joi jois {
+                # get nod.d
+                $nods = me&Ploy_joi_nods,joi
+                $h = {}
+                nods.map(nod => ahk(h,[nod.d],nod))
+                $depths = haks(h)
+                hak(depths) != 1 and debugger
+                $nod = h[depths[0]].shift()
+                
+                # create hierarchy
+                if (i == 0) {
+                    $place = stack[0]
+                    place.d = 1
+                }
+                else {
+                    $prev = stack[nod.d-1]
+                    $place = 3c&iz(3c&X,'place')
+                    # in relation to
+                    $up = stack[nod.d-2]
+                    place.d = nod.d
+                    place.up = up
+                    3c&iz(up,'placed',place)
+                    # from here in
+                    stack[nod.d-1] = place
+                    while (hak(stack) > nod.d) {
+                        # eg d=2 should have stack x2
+                        stack.pop()
+                    }
+                }
+                
+                # for one joi
+                place.joi and debugger
+                place.joi = joi
+                
+                # with many regs
+                if (joi.regs) {
+                    each i,reg joi.regs.start {
+                        regs.push(reg)
+                    }
+                }
+                each i,reg regs {
+                    ahk(place,['regs'],reg)
+                    !reg.over.includes(joi) and debugger
+                }
+                if (joi.regs) {
+                    each i,reg joi.regs.end {
+                        grop([reg],regs)
+                    }
+                }
+            }
+            # should all come off again
+            hak(regs) and debugger
+           // percolate
+            # percolate change to ancestors
+            $places = 3c&o(3c&X,'place')
+            reverse(places).map(&place,{
+                $serious = grep(reg => reg.t != '%♲', place.regs)
+                each i,reg serious {
+                    $up = place.up
+                    $i = 100
+                    while (up) {
+                        i-- < 0 and debugger; break
+                        ahk(up,['inter'],reg.t,place.d,place)
+                        up = up.up
+                    }
+                }
+            })
+            each i,place places {
+                !place.inter and continue
+                $joi = place.joi
+                jois&inter = dis(place.inter)
+            }
+            
+            # <<<
+            # go back down again, grouping areas of branches once:
+            #  place**.inter.* reduces to one reg
+            #   such that one region may split if straddling branches
+            # into something easy for -Difmo to get
+            #  might swap %zuct for lum diag
+            $eat = &place,{
+                me&boxcap,"place"+place.i_place,1 (&ml{
+                    ms&ml = 0.3
+                    me&walls,m,'bd:2.2'
+                    mc&maybeempty = 1
+                    $nod = havs(place.joi.with)[0]
+                    !nod and debugger
+                    lc&s = nod.E.t
+                    
+                    # regs here
+                    $regs = place.regs
+                    if (regs) {
+                        # just means joi is in a region high in this condition
+                        $regts = place.regs.map(reg => reg.t)
+                        me&tsc,"regs-had",coint(regts),'y'
+                    }
+                    !place.inter and return
+                    # regs from here/**
+                    me&tsc,"regs-in",coint(haks(place.inter)),'6y'
+                    3c&o(place,'placed',&pla,{
+                        eat(pla)
+                    })
+                })
+            }
+            me&boxcap,"places",1 (&ml{
+                me&walls,m,'bd:2.2'
+                eat(top)
+            })
+            
+           // done
+            
             me&boxcap,"regions",5 (&ml{
                 3c&o(3c&X,'region',&reg,{
                     $ze = me&boxcap,"reg"+reg.i_region,3 (&ml{
@@ -1787,6 +1908,7 @@
         me.Ploy_drawjoin_regions = &acgt{
             $joi = A&joi
             !joi.regs and return
+            
             $m = me&Ploy_rower,'regs'
             ms&hue = 260
             
