@@ -1143,7 +1143,8 @@
             if (!joi.jin) {
                 $about = haks(joi.sc)
                 grop(['enmono','mono','demono'],about)
-                hak(about) and debugger
+                # < joi.debug, similar to but not a factoid...
+                hak(about) and 1
                 else return
             }
             
@@ -1678,15 +1679,36 @@
     //  reg
         # group like stuff
         me.Ploy_regions = &acgt{
+            # rolling recent conditions
             $regs = []
             $jois = 3c&o(3c&X,'join')
             !hak(jois) and debugger
-            # convert joi%mono to joi.changes.*
+            # convert joi%mono to joi.changes.allnew|gone
+            #  to have all relevant conditions in joi.changes.*
             each i,joi jois {
                 $sph = jois&mono
                 !sph and continue
                 ahk(joi,'changes','all'+sph.sphere,1)
             }
+            # return the last few joi a reg should have in /matches
+            $lafew_relevant_overs = &reg,{
+                $more = reg.over.slice(-10)
+                if (reg.t == '%♲') {
+                    grop(&joi,{
+                        # not counting == E%Fun|String, since not Eref-able
+                        joi.changes and return
+                        $nod = havs(joi.with)[0]
+                        $r = Aof(nod.E)
+                        return rs&Fun || rs&String
+                    },more)
+                }
+                return more.slice(-5)
+            }
+            $reg_ends = &reg,joi{
+                ahk(joi,['regs'],'end',reg)
+                reg.ends = joi.i_join
+            }
+            
             each i,joi jois {
                 # whats here
                 $cond = haks(joi.changes)
@@ -1694,37 +1716,50 @@
                 each i,reg regs {
                     grop(&k{
                         if (reg.t == k) {
-                            reg.matches += 1
+                            ahk(reg,['matches'],joi)
                             # not cond -> new reg
                             return 1
                         }
                     },cond)
-                    reg.over += 1
+                    ahk(reg,['over'],joi)
                 }
                 # until they seem lost
                 # < rounding off branches
                 grop(&reg,{
-                    $quality = reg.matches / reg.over
-                    if (quality < 0.4) {
-                        ahk(joi,['regs'],'end',reg)
-                        reg.ends = joi.i_join
+                    # last few /over=joi this reg should have in /matches
+                    $lafew = lafew_relevant_overs(reg)
+                    $had = grep(reg.matches, lafew)
+                    $qual = hak(had) / hak(lafew)
+                    #joi.sc['regqua'+reg.t] = qual
+                    
+                    if (qual < 0.4) {
+                        # trim end of region to last matching joi
+                        $endjoi = had.slice(-1)[0]
+                        !endjoi and debugger
+                        $overs = ksaf(reg.over,{aft:endjoi})
+                        !hak(overs) and debugger
+                        # trim reg/match
+                        #endjoi.sc['regtrim'+reg.t] = hak(overs)
+                        grop(overs,reg.over)
+                        reg_ends(reg,endjoi)
+                        # remove from regs[]
                         return 1
                     }
                 },regs)
                 # unknown cond -> new reg
                 each ik cond {
-                    # new reg
+                    # new reg!
                     $reg = 3c&iz(3c&X,'region')
                     reg.t = k
                     ahk(joi,['regs'],'start',reg)
                     reg.starts = joi.i_join
-                    reg.matches = 1
-                    reg.over = 1
+                    ahk(reg,['matches'],joi)
+                    ahk(reg,['over'],joi)
                     regs.push(reg)
                 }
             }
             each i,reg regs {
-                reg.ends = joi.i_join
+                reg_ends(reg,joi)
             }
             me&boxcap,"regions",5 (&ml{
                 3c&o(3c&X,'region',&reg,{
@@ -1736,8 +1771,8 @@
                             me&tc,"->"
                             me&tsc,'joi-ended',reg.ends,'6y'
                         })
-                        me&tsc,'match',reg.matches
-                        me&tsc,'over','/'+reg.over
+                        me&tsc,'match',hak(reg.matches)
+                        me&tsc,'over','/'+hak(reg.over)
                     })
                     me&ioty,ze .map(&n{
                         ns&dis = 4
