@@ -1745,7 +1745,7 @@
             each i,joi jois {
                 $sph = jois&mono
                 !sph and continue
-                ahk(joi,'changes','all'+sph.sphere,3)
+                ahk(joi,'changes',sph.sphere,3)
             }
             # return the last few joi a reg should have in /matches
             $lafew_relevant_overs = &reg,{
@@ -1767,6 +1767,24 @@
             $reg_ends = &reg,joi{
                 ahk(joi,['regs'],'end',reg)
                 reg.ends = joi.i_join
+            }
+            
+            $inplace = &sd{
+                isfu(d) and d = {y:d}
+                d = ex({},d||{})
+                d.path = (d.path||[]).slice();
+                (d.visit ||= []).push(s)
+                
+                d.d ||= 0
+                d.d++
+                d.d > 100 and debugger; return
+                
+                d.y && d.y (s,d)
+                d.not and return
+                d.path.push(s)
+                3c&o(s,'placed',&z,{
+                    inplace(z,d)
+                })
             }
             
            // reg <- joi
@@ -1841,7 +1859,7 @@
                 hak(depths) != 1 and debugger
                 $nod = h[depths[0]].shift()
                 
-                # create hierarchy
+                # create place hierarchy via stack=[place+]
                 if (i == 0) {
                     $place = stack[0]
                     place.d = 1
@@ -1888,24 +1906,17 @@
            // < percolate
             # percolate change to ancestors
             $places = 3c&o(3c&X,'place')
-            reverse(places).map(&place,{
+            inplace(top,&place,d{
                 each i,reg place.regs {
-                    $up = place.up
-                    $i = 100
-                    while (up) {
-                        i-- < 0 and debugger; break
+                    each i,up d.path {
                         ahk(up,['inter'],reg.degree,reg.t,place.d,place)
-                        up = up.up
                     }
                 }
+                # for further consciousness of how good a place it is for what
+                place.sc = {}
             })
-            each i,place places {
-                !place.inter and continue
-                $joi = place.joi
-                #jois&inter = dis(place.inter)
-            }
             
-            # go back down again, chasing place.inter.*
+            # chasing place.inter.*
             # <<<
             #  until it reduces to one reg
             #   call that an area
@@ -1914,22 +1925,10 @@
             #  ancestors, siblings dimly glow...
             # into something easy for -Difmo to get
             #  might swap %zuct for lum diag
-            $inplace = &sd{
-                d = ex({},d)
-                d.path = (d.path||[]).slice()
-                d.path.push(s)
-                d.d ||= 0
-                d.d++
-                d.d > 100 and debugger; return
-                
-                d.y (s,d)
-                d.not and return
-                3c&o(s,'placed',&z,{
-                    inplace(z,d)
-                })
-            }
-            $eat = &place,{
-                me&boxcap,"place"+place.i_place,1 (&ml{
+            me&boxcap,"places",1 (&ml{
+                me&walls,m,'bd:2.2'
+              inplace(top,&place,d{
+                d.cap = me&boxcap,"place"+place.i_place,1,0,d.cap (&ml{
                     ms&ml = 0.3
                     me&walls,m,'bd:2.2'
                     mc&maybeempty = 1
@@ -1950,11 +1949,14 @@
                     }
                     if (!place.inter) {
                         if (place.placed) {
-                            $many = 0
-                            inplace(place,{y:&sd{
-                                d.d > 1 and many++
-                            }})
-                            me&tc,'⦄','b'; me&tc,'..'+many
+                            # mark closed?!
+                            $many = hak(inplace(place))
+                            many <3 and 'showing them is easier'
+                            else {
+                                places&toomany = many-1
+                                me&tc,'⦄','b'
+                                me&tc,'..'+many
+                            }
                         }
                         return
                     }
@@ -1962,21 +1964,16 @@
                     # regs from here/**
                     me&boxcap,"inter",2 (&ml{
                         me&walls,m,'bd:2.2'
+                        ms&fs = 6
                         lc&s = '**'
                         each degree,regts place.inter {
                             degree < 5 and delete ls&fs
-                            me&tsc,"regs-in",coint(haks(regts)),'6y'
-                            me&tsc,'match-quality',degree,'6g'
+                            me&tsc,"regs-in",coint(haks(regts)),'y'
+                            me&tsc,'match-quality',degree,'g'
                         }
                     })
-                    3c&o(place,'placed',&pla,{
-                        eat(pla)
-                    })
                 })
-            }
-            me&boxcap,"places",1 (&ml{
-                me&walls,m,'bd:2.2'
-                eat(top)
+              })
             })
             
            // done
