@@ -1771,7 +1771,10 @@
             
             $inplace = &sd{
                 isfu(d) and d = {y:d}
-                d = ex({},d||{})
+                d ||= {}
+                $dn = ex({},d)
+                d.path and dn.up = d
+                d = dn
                 d.path = (d.path||[]).slice();
                 (d.visit ||= []).push(s)
                 
@@ -1925,9 +1928,41 @@
             #  ancestors, siblings dimly glow...
             # into something easy for -Difmo to get
             #  might swap %zuct for lum diag
+            inplace(top,&pla,d{
+                # regs here
+                $regs = pla.regs
+                if (regs) {
+                    # just means joi is in a region high in this condition
+                    #  have to check joi.changes[reg.t] to know if joi has reg
+
+                }
+                if (!pla.inter) {
+                    if (pla.placed) {
+                        $many = hak(inplace(pla))
+                        many >= 4 and plas&toomany = many-1
+                    }
+                    plas&non = 'nofurther'
+                    return
+                }
+
+                # regs from /**
+                # < Babz: pla.inter.*.*:t
+                d.inregs = []
+                each degree,t,d_places pla.inter {
+                    # < d_places has geo of the many n:place at such depths, nice
+                    d.inregs.push(t)
+                }}
+                if (!d.up || hak(d.up.inregs) > hak(d.inregs)) {
+                    # /** contains such reg.t
+                    plas&con = coint(d.inregs)
+                }
+            })
+            
+           // done, visualise
+            
             me&boxcap,"places",1 (&ml{
                 me&walls,m,'bd:2.2'
-              inplace(top,&place,d{
+                inplace(top,&place,d{
                 d.cap = me&boxcap,"place"+place.i_place,1,0,d.cap (&ml{
                     ms&ml = 0.3
                     me&walls,m,'bd:2.2'
@@ -1947,21 +1982,27 @@
                         me&tsc,"regs-had",coint(regts),'y'
                         me&tsc,'match-quality',degree,'6g'
                     }
-                    if (!place.inter) {
-                        if (place.placed) {
-                            # mark closed?!
-                            $many = hak(inplace(place))
-                            many <3 and 'showing them is easier'
+                    
+                    
+                    me&boxcap,"here",2 (&ml{
+                        me&walls,m,'bd:2.2'
+                        ms&hue = 150
+                        lc&not = 1
+                        each kv place.sc {
+                            k == 'toomany' and me&tc,'⦄..'+many,'b'
                             else {
-                                places&toomany = many-1
-                                me&tc,'⦄','b'
-                                me&tc,'..'+many
+                                $n = me&tc,cint(k,v),'g'
+                                k == 'non' and nc&s = '.'
                             }
                         }
+                    })
+                    if (!place.inter) {
+                        # may mark closed if /**
+                        places&toomany and me&tc,'⦄..'+many,'b'
                         return
                     }
                     
-                    # regs from here/**
+                    # regs from /**
                     me&boxcap,"inter",2 (&ml{
                         me&walls,m,'bd:2.2'
                         ms&fs = 6
@@ -1973,10 +2014,9 @@
                         }
                     })
                 })
-              })
+                })
             })
-            
-           // done
+                    
             
             me&boxcap,"regions",5 (&ml{
                 3c&o(3c&X,'region',&reg,{
