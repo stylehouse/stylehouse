@@ -1745,7 +1745,7 @@
             each i,joi jois {
                 $sph = jois&mono
                 !sph and continue
-                ahk(joi,'changes','all'+sph.sphere,1)
+                ahk(joi,'changes','all'+sph.sphere,3)
             }
             # return the last few joi a reg should have in /matches
             $lafew_relevant_overs = &reg,{
@@ -1769,16 +1769,17 @@
                 reg.ends = joi.i_join
             }
             
-           // matches
+           // reg <- joi
             each i,joi jois {
                 # whats here
-                $cond = haks(joi.changes)
+                $cond = ex({},joi.changes || {})
                 # counted into|against regs
                 each i,reg regs {
-                    grop(&k{
+                    grop(&degree,k{
                         if (reg.t == k) {
                             ahk(reg,['matches'],joi)
-                            # not cond -> new reg
+                            reg.degree > degree and reg.degree = degree
+                            # dont cond -> new reg
                             return 1
                         }
                     },cond)
@@ -1808,10 +1809,11 @@
                     }
                 },regs)
                 # unknown cond -> new reg
-                each ik cond {
+                each k,degree cond {
                     # new reg!
                     $reg = 3c&iz(3c&X,'region')
                     reg.t = k
+                    reg.degree = degree
                     ahk(joi,['regs'],'start',reg)
                     reg.starts = joi.i_join
                     ahk(reg,['matches'],joi)
@@ -1824,9 +1826,8 @@
                 reg_ends(reg,joi)
             }
            
-           // hier
+           // hier place**
             # hier joi** wrt regs
-            
             # subset of joins leading to regions
             $top = 3c&iz(3c&X,'place')
             $stack = [top]
@@ -1890,12 +1891,10 @@
             reverse(places).map(&place,{
                 each i,reg place.regs {
                     $up = place.up
-                    # < get the most-urgent level of change, was in col
-                    $serious = reg.t == '%♲' ? 8 : 1
                     $i = 100
                     while (up) {
                         i-- < 0 and debugger; break
-                        ahk(up,['inter'],serious,reg.t,place.d,place)
+                        ahk(up,['inter'],reg.degree,reg.t,place.d,place)
                         up = up.up
                     }
                 }
@@ -1915,6 +1914,20 @@
             #  ancestors, siblings dimly glow...
             # into something easy for -Difmo to get
             #  might swap %zuct for lum diag
+            $inplace = &sd{
+                d = ex({},d)
+                d.path = (d.path||[]).slice()
+                d.path.push(s)
+                d.d ||= 0
+                d.d++
+                d.d > 100 and debugger; return
+                
+                d.y (s,d)
+                d.not and return
+                3c&o(s,'placed',&z,{
+                    inplace(z,d)
+                })
+            }
             $eat = &place,{
                 me&boxcap,"place"+place.i_place,1 (&ml{
                     ms&ml = 0.3
@@ -1929,21 +1942,33 @@
                     $regs = place.regs
                     if (regs) {
                         # just means joi is in a region high in this condition
+                        #  have to check joi.changes[reg.t] to know if joi has reg
                         $regts = place.regs.map(reg => reg.t)
+                        $degree = place.regs.map(reg => reg.degree).sort()[0]
                         me&tsc,"regs-had",coint(regts),'y'
+                        me&tsc,'match-quality',degree,'6g'
                     }
                     if (!place.inter) {
-                        $tomany = hak(place.placed)
-                        tomany and me&drawsym,'⦄'; me&tc,'x'+tomany
+                        if (place.placed) {
+                            $many = 0
+                            inplace(place,{y:&sd{
+                                d.d > 1 and many++
+                            }})
+                            me&tc,'⦄','b'; me&tc,'..'+many
+                        }
                         return
                     }
                     
                     # regs from here/**
-                    $regs = []
-                    each serious,regts place.inter {
-                        serious < 5 and delete ls&fs
-                        me&tsc,"regs-in",coint(haks(regts)),'6y'
-                    }
+                    me&boxcap,"inter",2 (&ml{
+                        me&walls,m,'bd:2.2'
+                        lc&s = '**'
+                        each degree,regts place.inter {
+                            degree < 5 and delete ls&fs
+                            me&tsc,"regs-in",coint(haks(regts)),'6y'
+                            me&tsc,'match-quality',degree,'6g'
+                        }
+                    })
                     3c&o(place,'placed',&pla,{
                         eat(pla)
                     })
