@@ -635,6 +635,14 @@
     }
     fatal.refresh()
     G&yl:0.04,&{ fatal.refresh() }
+    
+    # fatal assignment, must stay same once set
+    # < Babz: h =. v
+    self.fatas = &hkv{
+        v == null and throw "null-assign:"+k, h
+        h[k] != null && h[k] != v and throw "reassign:"+k, h[k], v, h, k
+        h[k] = v
+    }
    # < iot(s,c,q) with callbacks, see 'where via group by'
    // access types
     # see also Index / common nodal

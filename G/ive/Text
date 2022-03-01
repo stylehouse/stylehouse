@@ -129,7 +129,7 @@
  // Diff
    # < copy from Soogle
  
- // Ploy = (D Comp D)**
+ // Ploy = (D Comp/l+ D)**
     # classifies differences
     // Ploy
         # proto io, on 3c&io|iz|o(X|x,...)
@@ -649,7 +649,7 @@
             til == whole.length and a&newnode = true
         }
     
-    //  lit, col, jin/lin/col, joi/lit|jin
+    //  lit, col, jin/lin/col, joi /lit, /jin/jol/gol
         # joi/lit .l, /bit
         #  l-ordered bits of either sph
         me.Ploy_joi_lit = &acgt{
@@ -716,9 +716,9 @@
                         # may split indent, then other columns take it
                         lin.col && cint(haks(lin.col)) != 'indent' and debugger
                         # < cargoey
-                        $ark = 'indent'
-                        $incol = 3c&io(lin,'col',ark)
-                        incol.ark = ark
+                        $nk = 'indent'
+                        $incol = 3c&io(lin,'col',nk)
+                        incol.nk = nk
                         $mc = 3c&iz(incol,'microcol')
                         mc.str = spaces
                         mc.bit = bit
@@ -730,10 +730,10 @@
                 each is N {
                     if (!col || i > 0) {
                         # new col
-                        $ark = cols.shift()
-                        !ark and debugger
-                        col = 3c&io(lin,'col',ark)
-                        col.ark = ark
+                        $nk = cols.shift()
+                        !nk and debugger
+                        col = 3c&io(lin,'col',nk)
+                        col.nk = nk
                     }
                     # nothing at this point
                     !s.length and continue
@@ -770,8 +770,8 @@
                     $jin = 3c&io(joi,'jin',lin.i_mine)
                     3c&io(lin,'col','*') .map(&col,{
                         # /#col:jol
-                        fatal.isst(col.ark)
-                        $jol = 3c&io(jin,'jol',col.ark)
+                        fatal.isst(col.nk)
+                        $jol = 3c&io(jin,'jol',col.nk)
                         
                         #  /#with:jodol, now per node
                         #   not quite #with: nod may be from joi/with|loosely
@@ -781,9 +781,9 @@
                         
                         # col from either node -> shared line, column
                         sex(jin,col,'changey')
-                        sex(jol,col,'ark,changey')
+                        sex(jol,col,'nk,changey')
                         #  and jodol, is per node
-                        sex(jodol,col,'ark,microcol,changey')
+                        sex(jodol,col,'nk,microcol,changey')
                     })
                 })
                 
@@ -792,46 +792,90 @@
                 # lin for both nodes
                 3c&io(jin,'jol','*') .map(&jol,{
                     # lin/col for both nodes
-                    fatal.isst(jol.ark)
+                    # the column should have an $nk ark, eg c
+                    $nk = jol.nk
+                    fatal.isst(nk)
                     if (!jol.changey) {
-                        delete jin.jol[jol.ark]
+                        delete jin.jol[nk]
                         return
                     }
-                    # make whole of either sph columns
+                    $jodols = 3c&o(jol,'jodol')
+                    !hak(jodols) and debugger
+                    
+                    # whole of either sph columns
                     # < someday, decompress each via &Lines
                     #    would make whole from nod/lin/bit
-                    3c&io(jol,'jodol','*') .map(&jodol,{
+                    jodols .map(&jodol,{
                         $nod = jodol.nod
-                        jodol.whole = ''
                         $mcs = 3c&o(jodol,'microcol')
-                        mcs.map(mc => jodol.whole += mc.str)
-                        if (jodol.ark == 't' && hak(mcs) > 1) {
+                        jodol.whole = armap(mc => mc.str, mcs).join('')
+                        if (hak(mcs) > 1 && nk == 't') {
                             # could be for either or both nod
                             # < not to include indent in the t column
                             me&joisc,'tsplit',1
                         }
                     })
+                    
                     # < the rest here is pulled from &Ploy_drawjoin_jin,
                     #   which is still too MassiveViewController
                     #    compute and present should be split
-                    # the column should have an ark|nk, eg c
-                    $ark = theone(uniq(3c&o(jol,'jodol',_=>_.ark)))
-                    $jodols = 3c&o(jol,'jodol')
-                    !hak(jodols) and debugger
 
-                    # changes.$nk, or .$nk.$gk if sc
-                    if (ark == 'sc') {
-                        ark = '%'
-                        # < stash eith, is eg {♲:'^4:...'}
-                        $eith = map(jodol => peel(jodol.whole),jodols)
-                        hakd(...havs(eith)).map(&gk,{
-                            # a general changiness
-                            #  it all might just be ('%♲')
-                            ahk(joi,'changes',ark+gk,1)
+                    # changes.$nk, or ."$nk$gk" if sc
+                    # degree of change, lower is more serious
+                    $degree = 1
+                    $knowing = ahsk(me.Ploy_knowing_nkgk,nk)
+                    if (knowing) {
+                        # parse the sc column
+                        # gk=sc aka %, so we can concat the usual notation of eg %♲
+                        $ark = knowing.ark || nk
+                        degree = 5
+                        # i $nk:jol/$gk:gol/#jodol:nogol.v
+                        # collect nk/gk/v
+                        jodols .map(&jodol,{
+                            $s = jodol.whole
+                            # < use a sub of &Lines
+                            $h = jodol.decoded = s.startsWith('{') ? dej(s) : peel(s)
+                            each gk,v h {
+                                # col/gol are nk/gk
+                                $gol = 3c&io(jol,'gol',gk)
+                                fatas(gol,'gk',gk)
+                                jodol.i_jodol == null and debugger
+                                # each nod's v
+                                $nogol = 3c&io(gol,'nogol',jodol.i_jodol)
+                                fatas(nogol,'jodol',jodol)
+                                nogol.v = v
+                            }
+                            return h
+                        })
+                        # difference nk/gk/v (there is a v per jodol)
+                        3c&o(jol,'gol',&gol,{
+                            $gk = gol.gk
+                            $nogols = 3c&o(gol,'nogol')
+                            $vs = armap(_=>_.v, nogols)
+                            if (vs[0] != vs[1] || hak(vs) == 1) {
+                                # < diff refs, etc etc. osc|sustain-ing what-is
+                                # < further. seq++ numbers? pointer much changing?
+                                
+                                # how serious is the change
+                                #  so far, ~%♲ is not a big deal
+                                $gol_degree = ahsk(knowing,'gk_degree',gk) || degree
+                                # joi.changes.$nk$gk=degree
+                                ahk(joi,'changes',ark+gk,gol_degree)
+                                # joi/jin/jol/gol.degree
+                                gol.degree = gol_degree
+                                # the various *.changey=1 are deduced from l, not treeaged thusly
+                                # most serious percolates to jol.degree
+                                #  ie, lots of 8 is still just 8
+                                #  usu (5,8) is 5
+                                if (!jol.degree || jol.degree > gol.degree) {
+                                    jol.degree = gol.degree
+                                }
+                            }
                         })
                     }
                     else {
-                        ahk(joi,'changes',ark,1)
+                        jol.degree = degree
+                        ahk(joi,'changes',nk,degree)
                     }
                 })
             })
@@ -840,7 +884,7 @@
         # classify C.*.* change
         # < to somewhere, for regionating
         # < u Ploy
-        me.Ploy_pernkgk = {sc:{'♲':8}}
+        me.Ploy_knowing_nkgk = {sc:{ark:'%',gk_degree:{'♲':8}}}
         me.Ploy_drawjoin_jin = &acgt,joi{
             # each jodol/microbit.bit.l is in here
             $ls = 3c&io(joi,'lit','*') .map(lit => lit.l)
@@ -848,50 +892,30 @@
                 # lin for both nodes
                 3c&io(jin,'jol','*') .map(&jol,{
                     # changey lin/col for both nodes
+                    # various *.changey=1 are deduced from l
                     !jol.changey and debugger
-                    $arks = 3c&o(jol,'jodol') .map(jodol => jodol.ark)
-                    $ark = theone(uniq(arks))
-                    $jodols = 3c&o(jol,'jodol')
-                    !hak(jodols) and debugger
+                    # joi.changes.$nk$gk=degree
+                    !joi.changes and debugger
+                    # most serious percolates to jol.degree (may also be gol.degree)
+                    !jol.degree and debugger
+                    $nk = jol.nk
+                    fatal.isst(nk)
+                    # gk=sc aka %, so we can concat the usual notation of eg %♲
+                    $ark = ahsk(me.Ploy_knowing_nkgk,nk,'ark') || nk
                     
-                    $arksay = ark == 'sc' ? '%' : ark
-                    me&boxcap,arksay,4 (&ml{
+                    me&boxcap,ark,4 (&ml{
                         me&walls,m,'b:2.2h4'
-                        $maq = me&tc,'match-quality','6g'
+                        $maq = me&tsc,'match-quality',jol.degree,'6g'
                         maqs&dis = 2
-                        $qual = 9
-                        $down = &vk{
-                            # column|nk ~ = greatest gk ~
-                            #  ie, lots of 8 is still just 8
-                            #  usu (5,8) is 5
-                            qual > v and qual = v
-                        }
-                        
-                        if (ark == 'sc') {
-                            # can let a few things off
-                            $eith = map(jodol => peel(jodol.whole),jodols)
-                            hakd(...havs(eith)).map(&gk,{
-                                $know = ahsk(me.Ploy_pernkgk,ark,gk)
-                                # < further. seq++ numbers? pointer much changing?
-                                know ||= 5
-                                !num(know) and debugger
-                                down(know)
-                                me&boxcap,"gk:"+gk,2 (&ml{
-                                    me&walls,m,'b:2.2h4'
-                                    mc&maybeempty = 1
-                                    lc&s = gk
-                                })
+                        3c&o(jol,'gol',&gol,{
+                            !gol.degree and return
+                            $gk = gol.gk
+                            me&boxcap,"gk:"+gk,2 (&ml{
+                                me&walls,m,'b:2.2h4'
+                                mc&maybeempty = 1
+                                lc&s = gk
                             })
-                        }
-                        else {
-                            # t|y|c completely
-                            down(1)
-                        }
-                        
-                        maqc&s = qual
-                        if (qual == 9) {
-                            return mc&not = 1
-                        }
+                        })
                     })
                 })
             })
@@ -1879,7 +1903,7 @@
             each i,place places {
                 !place.inter and continue
                 $joi = place.joi
-                jois&inter = dis(place.inter)
+                #jois&inter = dis(place.inter)
             }
             
             # go back down again, chasing place.inter.*
