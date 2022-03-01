@@ -1912,6 +1912,8 @@
             inplace(top,&place,d{
                 each i,reg place.regs {
                     each i,up d.path {
+                        ahk(up,['conregpla'],reg.t,place)
+                        # or by degrees and at depths
                         ahk(up,['inter'],reg.degree,reg.t,place.d,place)
                     }
                 }
@@ -1929,12 +1931,18 @@
             # into something easy for -Difmo to get
             #  might swap %zuct for lum diag
             inplace(top,&pla,d{
+                # its parent
+                $eld = pla.up
+                
+                # in the order they would show up on a -Difrow
+                
                 # regs here
                 $regs = pla.regs
                 if (regs) {
                     # just means joi is in a region high in this condition
                     #  have to check joi.changes[reg.t] to know if joi has reg
-
+                    
+                    
                 }
                 if (!pla.inter) {
                     if (pla.placed) {
@@ -1947,14 +1955,10 @@
 
                 # regs from /**
                 # < Babz: pla.inter.*.*:t
-                d.inregs = []
-                each degree,t,d_places pla.inter {
-                    # < d_places has geo of the many n:place at such depths, nice
-                    d.inregs.push(t)
-                }}
-                if (!d.up || hak(d.up.inregs) > hak(d.inregs)) {
+                $refining = hak(eld.conregpla) > hak(pla.conregpla)
+                if (!d.up || refining) {
                     # /** contains such reg.t
-                    plas&con = coint(d.inregs)
+                    plas&con = coint(haks(pla.conregpla))
                 }
             })
             
