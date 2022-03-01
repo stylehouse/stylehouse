@@ -1022,11 +1022,13 @@
         isar(y)     and $Z = y;    y = n => Z.includes(n)
         hak(y,'is') and $v = y.is; y = n => n == y.is
         !isfu(y)    and $v = y;    y = n => n == v
+        $array = !N || isar(N)
         each in N {
-            i *= 1
+            array and i *= 1
             y (n,i) and out.unshift(i)
         }
-        return out.map(i => N.splice(i,1)[0]).reverse()
+        return array ? out.map(i => N.splice(i,1)[0]).reverse()
+            : tax({},N,out)
     }
     
     # revisit &fabioty
