@@ -1896,11 +1896,20 @@
                 isfu(d) and d = {y:d}
                 d ||= {}
                 $dn = ex({},d)
-                d.path and dn.up = d
+                d.d and dn.up = d
                 d = dn
-                d.path = (d.path||[]).slice();
+                if (!d.d) {
+                    # top d
+                    # these d.* clone per d
+                    $ext = peel('z,path,stack')
+                    haks(ext).map(k => d[k] = [])
+                    d.extend = pex(ext,d.extend)
+                }
+                else {
+                    up.z.push(d)
+                }
+                # flat list of all d**
                 (d.visit ||= []).push(s)
-                d.extend and d.extend = peel(d.extend)
                 each kv d.extend {
                     !d[k] and continue
                     d[k] = ex((isar(d[k]) ? [] : {}),d[k])
@@ -1909,14 +1918,21 @@
                 d.d ||= 0
                 d.d++
                 d.d > 100 and debugger; return
+                d.s = s
+                d.sc = {}
                 
                 d.y && d.y (s,d)
                 d.not and return
                 d.path.push(s)
-                3c&o(s,'placed',&z,{
+                d.stack.push(d)
+                # can iterate pla** or d**
+                $N = s.placed && 3c&o(s,'placed') || s.z || []
+                N.map(&z,{
                     d.not and return
                     inplace(z,d)
                 })
+                d.not and return
+                d.yy && d.yy (s,d)
             }
             # scan pla**, require ratio of true y(pla)
             $inplace_ratio = &pla,ratio,y,{
@@ -1927,24 +1943,30 @@
                     ret and trve++
                     total = hak(d.visit)
                     if (total > 3 && trve / total < ratio) {
-                        d.path.map(d => d.not = 1)
+                        d.stack.map(d => d.not = 1)
                     }
                 })
                 return total > 3 && trve / total > ratio
             }
             # argulate a pla** chase
-            $inplacing = &pla,y,{
-                inplace(pla,{extend:'hadbyall',y:&pla,d{
-                    # its parent and past life
-                    $eld = pla.up
-                    $joi = pla.joi
-                    # just means reg covers this joi, ie reg.over = [joi+]
-                    $regs = pla.regs
-                    # this means reg matches this joi, ie reg.matches = [joi+]
-                    $had = ahsk(joi,'regs','had')
-                    
-                    y (pla,d,eld,joi,regs,had)
-                }})
+            $inplacing = &pla,y,yy{
+                $call = &y{
+                    return &pla,d{
+                        # its parent and past life
+                        $eld = pla.up
+                        $joi = pla.joi
+                        # just means reg covers this joi, ie reg.over = [joi+]
+                        $regs = pla.regs
+                        # this means reg matches this joi, ie reg.matches = [joi+]
+                        $had = ahsk(joi,'regs','had')
+
+                        y (pla,d,eld,joi,regs,had)
+                    }
+                }
+                $d = {extend:'hadbyall'}
+                d.y = call(y)
+                yy and d.yy = call(yy)
+                return inplace(pla,d)
             }
            
            // < percolate
@@ -1972,7 +1994,8 @@
             # into something easy for -Difmo to get
             #  might swap %zuct for lum diag
             
-            # pla + reg
+            # pla + reg had|no-more|reduced-set
+            # diags in the order they would show up on a -Difrow
             inplacing(top,&pla,d,eld,joi,regs,had{
                 # had matched
                 each i,reg had {
@@ -1981,7 +2004,7 @@
                 }
                 
                 if (!pla.inter) {
-                    # no /** had regs
+                    # no more /** had regs
                     if (pla.placed) {
                         $many = hak(inplace(pla))
                         # < allow so-much geo within, to then eg dl=2
@@ -1995,7 +2018,7 @@
                     return
                 }
 
-                # regs from /**
+                # regs from /** are a subset of regs from ^/**
                 $refining = hak(eld.conregpla) > hak(pla.conregpla)
                     # not too few to pla%con
                     && sum(havs(pla.conregpla).map(hak)) > 3
@@ -2022,11 +2045,33 @@
                     # see c.saidbyancestor above
                     ahsk(pla,'sc','regtc',t) and continue
                     # or say when we dont
-                # diags in the order they would show up on a -Difrow
-                joi.i_join == 50 and me&fu,"FI",{pla,d}
                     ahk(pla,'sc','unhad_regtc',t,{})
                 }
-                
+            })
+            
+            
+            # pla** long-necked skinny-branch water-sprouts (arborism)
+            inplacing(top,&pla,d{},&pla,d{
+                # on the way back up
+                # ! these must be into d.sc.*
+                #    since d.yy() can happen before later d.y()
+                #     we can still inherit from an above d.*
+                #     alt, do topd.visit in reverse, once all d** are separated
+                d.stack.map(&p{
+                    p == d and return
+                    ps&descendants ||= 0
+                    ps&descendants ++
+                })
+                # not too many
+                ds&descendants > 9 and return
+                hak(pla.placed) > 2 and return
+                # average amount of children (divergence) is low
+                !inplace_ratio(pla, 0.67,pla => hak(pla.placed) < 2) and return
+                plas&watersprout = 1
+                # claims that area (of descendants)
+                inplace(pla,&pla,d{
+                    d.d > 1 and delete plas&watersprout
+                })
             })
             
            // done, visualise
@@ -2044,6 +2089,10 @@
                     lc&s = nod.E.t
                     ls&fs = 6
                     
+                    # folding skinny branch
+                    plas&watersprout and d.foldedup = 1
+                    d.foldedup and ms&dis = 2; ms&pt = ms&pb = 0.03; delete ms&ml
+                
                     # regs here
                     each tc plas&regtc {
                         c.saidbyancestor and continue
@@ -2066,7 +2115,9 @@
                         lc&not = 1
                         each kv place.sc {
                             k.endsWith('tc') and continue
-                            k == 'toomany' and me&tc,'⦄..'+v,'b'
+                            k == 'watersprout' and me&tsc,k,'⸙','b'
+                            else
+                            k == 'toomany' and me&tsc,k,'⦄..'+v,'b'
                             else {
                                 $n = me&tc,cint(k,v),'g'
                                 k == 'non' and nc&s = '.'
