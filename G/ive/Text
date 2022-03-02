@@ -1791,6 +1791,9 @@
             }
             
            // reg <- joi
+            # joi.regs.(start|had|end) = [reg+]
+            # reg.matches = [joi+] that had the cond of reg
+            # reg.over = [joi+] during that reg's start..end,
             each i,joi jois {
                 # whats here
                 $cond = ex({},joi.changes || {})
@@ -1799,6 +1802,7 @@
                     grop(&degree,k{
                         if (reg.t == k) {
                             ahk(reg,['matches'],joi)
+                            ahk(joi,['regs'],'had',reg)
                             reg.degree > degree and reg.degree = degree
                             # dont cond -> new reg
                             return 1
@@ -1847,7 +1851,7 @@
                 reg_ends(reg,joi)
             }
            
-           // hier place**
+           // hier place** <- joi
             # hier joi** wrt regs
             # subset of joins leading to regions
             $top = 3c&iz(3c&X,'place')
@@ -1931,25 +1935,32 @@
             # into something easy for -Difmo to get
             #  might swap %zuct for lum diag
             inplace(top,&pla,d{
-                # its parent
+                # its parent and past life
                 $eld = pla.up
+                $joi = pla.joi
+                $had = ahsk(joi,'regs','had')
+                
                 
                 # in the order they would show up on a -Difrow
                 
                 # regs here
                 $regs = pla.regs
                 if (regs) {
-                    # just means joi is in a region high in this condition
-                    #  have to check joi.changes[reg.t] to know if joi has reg
+                    # just means reg covers this joi, ie reg.over = [joi+]
                     
                     
                 }
                 if (!pla.inter) {
                     if (pla.placed) {
                         $many = hak(inplace(pla))
+                        # < allow so-much geo within, to then eg dl=2
+                        #   depends on backpressure of the whole set of diags
                         many >= 4 and plas&toomany = many-1
                     }
-                    plas&non = 'nofurther'
+                    if (!had) {
+                        # nothing much node
+                        plas&non = 'nofurther'
+                    }
                     return
                 }
 
@@ -1978,11 +1989,10 @@
                     
                     # regs here
                     $regs = place.regs
-                    if (regs) {
-                        # just means joi is in a region high in this condition
-                        #  have to check joi.changes[reg.t] to know if joi has reg
-                        $regts = place.regs.map(reg => reg.t)
-                        $degree = place.regs.map(reg => reg.degree).sort()[0]
+                    $had = ahsk(place,'joi','regs','had')
+                    if (had) {
+                        $regts = had.map(reg => reg.t)
+                        $degree = had.map(reg => reg.degree).sort()[0]
                         me&tsc,"regs-had",coint(regts),'y'
                         me&tsc,'match-quality',degree,'6g'
                     }
@@ -1993,18 +2003,15 @@
                         ms&hue = 150
                         lc&not = 1
                         each kv place.sc {
-                            k == 'toomany' and me&tc,'⦄..'+many,'b'
+                            k == 'toomany' and me&tc,'⦄..'+v,'b'
                             else {
                                 $n = me&tc,cint(k,v),'g'
                                 k == 'non' and nc&s = '.'
                             }
                         }
                     })
-                    if (!place.inter) {
-                        # may mark closed if /**
-                        places&toomany and me&tc,'⦄..'+many,'b'
-                        return
-                    }
+                    
+                    !place.inter and return
                     
                     # regs from /**
                     me&boxcap,"inter",2 (&ml{
