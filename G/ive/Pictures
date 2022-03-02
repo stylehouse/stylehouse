@@ -64,7 +64,7 @@
     # C += C**, independent of the above &mod*
     # i $m/@sum/** y o $s:sum/**
     #  is how we used to (but it unsorts the s** !?)
-    me.modclone = &acgtms{
+    me.modclone = &acgtmsd{
         fatal.isC(s)
         $sleeve = &sd{
             # drop %z and y/!cv
@@ -72,15 +72,21 @@
             ac(d.m,'z',s)
             # follow me down
             d.m = s
+            return s
         }
-        me&indo,s,{m} (&sd{
+        d ||= {}
+        d.m = m
+        me&indo,s,d (&sd{
             sc&not and return d.not = 1
             sleeve(s,d)
             if (sc&zuct) {
                 $r = sc&zuct
                 # goes through its r%C
                 !rs&C and debugger
-                sleeve(rs&C,d)
+                $sl = sleeve(rs&C,d)
+                # here you can leave the sleeving empty
+                #  eg then fill it with the relative d/*//r above|around &modclone, see Ploy
+                d.zucty && d.zucty(s,r,d,sl) and return d.not = 1
                 # then all flatten(r%M)
                 d.inz = flatten(rs&M)
                 # s(c&zuct=r) always s/r

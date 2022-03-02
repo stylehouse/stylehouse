@@ -1841,11 +1841,15 @@
                 
                 # get nod.d
                 $nods = me&Ploy_joi_nods,joi
-                $h = {}
-                nods.map(nod => ahk(h,[nod.d],nod))
-                $depths = haks(h)
+                # pla.with - more inclusive
+                # < sph:old first already?
+                nods = me&sortial,nods,nod=>nod.sph.sphere=='new','sort,flat'
+                $nod = nods.slice(-1)[0]
+                !nod and debugger
+                # check indent-only change
+                $depths = uniq(nods.map(nod => nod.d))
+                # < stack per sph?
                 hak(depths) != 1 and debugger
-                $nod = h[depths[0]].shift()
                 
                 # create place hierarchy via stack=[place+]
                 if (i == 0) {
@@ -1868,6 +1872,9 @@
                     }
                 }
                 
+                $pla = place
+                pla.with = nods
+                pla.anod = nod
                 # for one joi
                 place.joi and debugger
                 place.joi = joi
@@ -1970,7 +1977,7 @@
                 return inplace(pla,d)
             }
            
-           // < percolate
+           // percolate
             # percolate change to ancestors
             $places = 3c&o(3c&X,'place')
             inplace(top,&place,d{
@@ -1987,17 +1994,13 @@
             
             =pod
              chasing place.inter.*
-              until it reduces to one reg
-             <<<
-              call that an area?
-              it may leave off tips further inside
+              until it reduces to one reg, etc
+              
+             < it may leave off tips further inside
+               # see how -Difmo looks first
                eg joi@86 E:1 2
                 could say "88% %♲", &tt inflate pla/**
               
-                
-                
-              one region may split if straddling branches
-              ancestors, siblings dimly glow...
              into something easy for -Difmo to get
               might swap %zuct for lum diag
             =cut
@@ -2091,18 +2094,48 @@
             
             
            // done, visualise
-            
+            # reg+
+            me&boxcap,"regions",5 (&ml{
+                3c&o(3c&X,'region',&reg,{
+                    $ze = me&boxcap,"reg"+reg.i_region,3 (&ml{
+                        me&walls,m,'bd:2.2'
+                        me&tsc,'cond-match',reg.t,'G'
+                        me&boxcap,"joi" (&ml{
+                            me&tsc,'joi-started',reg.starts,'6y'
+                            me&tc,"->"
+                            me&tsc,'joi-ended',reg.ends,'6y'
+                        })
+                        me&tsc,'match',hak(reg.matches)
+                        me&tsc,'over','/'+hak(reg.over)
+                    })
+                    me&ioty,ze .map(&n{
+                        ns&dis = 4
+                    })
+                })
+            })
+            # pla**
             me&boxcap,"places",1 (&ml{
                 me&walls,m,'bd:2.2'
                 inplacing(top,&pla,d,eld,joi,regs,had{
-                d.cap = me&boxcap,"place"+pla.i_place,1,0,d.cap (&ml{
-                    ms&ml = 0.3
-                    me&walls,m,'bd:2.2'
+                    $nod = pla.anod
+                    
+                # < resolve $n: tw+i should work. have refs around.
+                $capsleeve = (ahsk(eld,'sc',nod.E.t)||[]).shift()
+                $cap = capsleeve|| d.cap
+                d.cap = me&boxcap,"place"+pla.i_place,1,0,cap (&ml{
+                  // drawing
+                    my&cv = 0.7
                     mc&maybeempty = 1
-                    $nod = havs(pla.joi.with)[0]
-                    !nod and debugger
-                    lc&s = nod.E.t
-                    ls&fs = 6
+                    if (capsleeve) {
+                        # we are inside nod modulat
+                        me&tsc,"sleeved",'⌈','y'
+                    }
+                    else {
+                        ms&ml = 0.3
+                        me&walls,m,'bd:2.2'
+                        lc&s = nod.E.t
+                        ls&fs = 6
+                    }
                     
                     # folding skinny branch
                     plas&watersprout and d.foldedup = 1
@@ -2112,6 +2145,7 @@
                         !plas&watersprout and delete ms&ml
                     }
                 
+                   // regs etc
                     # regs here
                     # give an overall degree
                     $degree = grep(havs(plas&regtc).map(c => c.degree)).sort()[0]
@@ -2143,6 +2177,7 @@
                         })
                     }
                     
+                    
                     hak(pla.sc) &&
                     me&boxcap,"here",2 (&ml{
                         me&walls,m,'bd:2.2'
@@ -2164,30 +2199,28 @@
                         !plas&watersprouted and me&Ploy_tid,joi
                     })
                     
-                    !pla.inter and return
+                  // remodulating
+                    nod.E.t == 'X' and d.Xactly = 1
+                    !d.Xactly and return
+                    # clone mod amongst the pla drawings
+                    mc&sortcv = 1
+                    lc&not = 1
+                    pla.with.map(&nod,{
+                        nod.sph.sphere != 'new' and return
+                        $E = nod.E
+                        $r = Aof(E)
+                        $zucty = &srdl{
+                            ahk(pla,['sc'],r.t,l)
+                            return 1
+                        }
+                        me&modselect,r .map(n => me&modclone,m,n,{zucty})
+                    })
+                    
                 })
                 })
             })
                     
             
-            me&boxcap,"regions",5 (&ml{
-                3c&o(3c&X,'region',&reg,{
-                    $ze = me&boxcap,"reg"+reg.i_region,3 (&ml{
-                        me&walls,m,'bd:2.2'
-                        me&tsc,'cond-match',reg.t,'G'
-                        me&boxcap,"joi" (&ml{
-                            me&tsc,'joi-started',reg.starts,'6y'
-                            me&tc,"->"
-                            me&tsc,'joi-ended',reg.ends,'6y'
-                        })
-                        me&tsc,'match',hak(reg.matches)
-                        me&tsc,'over','/'+hak(reg.over)
-                    })
-                    me&ioty,ze .map(&n{
-                        ns&dis = 4
-                    })
-                })
-            })
         }
         # oddrow: regs start|end at a join
         me.Ploy_drawjoin_regions = &acgt{
