@@ -1985,15 +1985,22 @@
                 place.sc = {}
             })
             
-            # chasing place.inter.*
-            # <<<
-            #  until it reduces to one reg
-            #   call that an area
-            #    it may leave off tips further inside
-            #  one region may split if straddling branches
-            #  ancestors, siblings dimly glow...
-            # into something easy for -Difmo to get
-            #  might swap %zuct for lum diag
+            =pod
+             chasing place.inter.*
+              until it reduces to one reg
+             <<<
+              call that an area?
+              it may leave off tips further inside
+               eg joi@86 E:1 2
+                could say "88% %♲", &tt inflate pla/**
+              
+                
+                
+              one region may split if straddling branches
+              ancestors, siblings dimly glow...
+             into something easy for -Difmo to get
+              might swap %zuct for lum diag
+            =cut
             
             # pla + reg had|no-more|reduced-set
             # diags in the order they would show up on a -Difrow
@@ -2001,7 +2008,9 @@
                 # had matched
                 each i,reg had {
                     $c = ahk(pla,'sc','regtc',reg.t,{})
+                    # styles per pla/reg
                     sex(c,reg,'degree')
+                    joi == reg.matches[0] and c.emphasis = 1
                 }
                 
                 if (!pla.inter) {
@@ -2051,7 +2060,10 @@
             })
             
             
-            # pla** long-necked skinny-branch water-sprouts (arborism)
+            
+            # pla%watersprouts (arborism)
+            #  long-necked skinny-branch
+            # < should avoid ** with .regs? coincidentally does for now
             inplacing(top,&pla,d{},&pla,d{
                 # on the way back up
                 # ! these must be into d.sc.*
@@ -2071,9 +2083,12 @@
                 plas&watersprout = 1
                 # claims that area (of descendants)
                 inplace(pla,&pla,d{
-                    d.d > 1 and delete plas&watersprout
+                    d.d == 1 and return
+                    delete plas&watersprout
+                    plas&watersprouted = 1
                 })
             })
+            
             
            // done, visualise
             
@@ -2091,7 +2106,11 @@
                     
                     # folding skinny branch
                     plas&watersprout and d.foldedup = 1
-                    d.foldedup and ms&dis = 2; ms&pt = ms&pb = 0.03; delete ms&ml
+                    if (plas&watersprouted) {
+                        ms&dis = 2
+                        ms&pt = ms&pb = 0.03
+                        !plas&watersprout and delete ms&ml
+                    }
                 
                     # regs here
                     # give an overall degree
@@ -2103,7 +2122,12 @@
                     # are visible (or not)
                     each tc plas&regtc {
                         c.saidbyancestor and continue
-                        me&tsc,"regs-had",t,'y'
+                        $n = me&tsc,"regs-had",t,'y'
+                        if (c.emphasis) {
+                            ns&fs = 17
+                            # marking stuck in indent
+                            pex(me&tsc,"regs-emphasis",t,'y' .sc,'ab,left:0,fs:17')
+                        }
                         c.hadbyall
                             && me&tsc,"regs-hadbyall",'***','y'
                         c.degree && c.degree != degree
@@ -2126,6 +2150,7 @@
                         lc&not = 1
                         each kv pla.sc {
                             k.endsWith('tc') and continue
+                            k == 'watersprouted' and continue
                             k == 'degree' and me&tsc,k,'°'+v,'b'
                             else
                             k == 'watersprout' and me&tsc,k,'⸙','b'
@@ -2136,7 +2161,7 @@
                                 k == 'non' and nc&s = '.'
                             }
                         }
-                        me&Ploy_tid,joi
+                        !plas&watersprouted and me&Ploy_tid,joi
                     })
                     
                     !pla.inter and return
