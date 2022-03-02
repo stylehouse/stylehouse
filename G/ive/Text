@@ -2079,13 +2079,12 @@
             
             me&boxcap,"places",1 (&ml{
                 me&walls,m,'bd:2.2'
-                inplace(top,&place,d{
-                $pla = place
-                d.cap = me&boxcap,"place"+place.i_place,1,0,d.cap (&ml{
+                inplacing(top,&pla,d,eld,joi,regs,had{
+                d.cap = me&boxcap,"place"+pla.i_place,1,0,d.cap (&ml{
                     ms&ml = 0.3
                     me&walls,m,'bd:2.2'
                     mc&maybeempty = 1
-                    $nod = havs(place.joi.with)[0]
+                    $nod = havs(pla.joi.with)[0]
                     !nod and debugger
                     lc&s = nod.E.t
                     ls&fs = 6
@@ -2095,12 +2094,22 @@
                     d.foldedup and ms&dis = 2; ms&pt = ms&pb = 0.03; delete ms&ml
                 
                     # regs here
+                    # give an overall degree
+                    $degree = grep(havs(plas&regtc).map(c => c.degree)).sort()[0]
+                    degree && degree < 8 and plas&degree = degree
+                    ms&bgh = degree > 7 ? '241'
+                        : degree > 0 ? '642'
+                        : '001'
+                    # are visible (or not)
                     each tc plas&regtc {
                         c.saidbyancestor and continue
                         me&tsc,"regs-had",t,'y'
-                        c.hadbyall and me&tsc,"regs-hadbyall",'***','y'
-                        c.degree and me&tsc,'match-quality',c.degree,'6g'
+                        c.hadbyall
+                            && me&tsc,"regs-hadbyall",'***','y'
+                        c.degree && c.degree != degree
+                            && me&tsc,'match-quality',c.degree,'6g'
                     }
+                    # are against what was saidbyancestor
                     each tc plas&unhad_regtc {
                         me&boxcap,"unhad-amongst",2,2 (&ml{
                             lc&not = 1
@@ -2110,12 +2119,15 @@
                         })
                     }
                     
+                    hak(pla.sc) &&
                     me&boxcap,"here",2 (&ml{
                         me&walls,m,'bd:2.2'
                         ms&hue = 150
                         lc&not = 1
-                        each kv place.sc {
+                        each kv pla.sc {
                             k.endsWith('tc') and continue
+                            k == 'degree' and me&tsc,k,'°'+v,'b'
+                            else
                             k == 'watersprout' and me&tsc,k,'⸙','b'
                             else
                             k == 'toomany' and me&tsc,k,'⦄..'+v,'b'
@@ -2124,21 +2136,10 @@
                                 k == 'non' and nc&s = '.'
                             }
                         }
+                        me&Ploy_tid,joi
                     })
                     
-                    !place.inter and return
-                    
-                    # regs from /**
-                    0 && me&boxcap,"inter",2 (&ml{
-                        me&walls,m,'bd:2.2'
-                        ms&fs = 6
-                        lc&s = '**'
-                        each degree,regts place.inter {
-                            degree < 5 and delete ls&fs
-                            me&tsc,"regs-in",coint(haks(regts)),'y'
-                            me&tsc,'match-quality',degree,'g'
-                        }
-                    })
+                    !pla.inter and return
                 })
                 })
             })
