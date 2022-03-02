@@ -1972,14 +1972,16 @@
             # into something easy for -Difmo to get
             #  might swap %zuct for lum diag
             
+            # pla + reg
             inplacing(top,&pla,d,eld,joi,regs,had{
+                # had matched
                 each i,reg had {
                     $c = ahk(pla,'sc','regtc',reg.t,{})
                     sex(c,reg,'degree')
                 }
                 
-                
                 if (!pla.inter) {
+                    # no /** had regs
                     if (pla.placed) {
                         $many = hak(inplace(pla))
                         # < allow so-much geo within, to then eg dl=2
@@ -1994,8 +1996,9 @@
                 }
 
                 # regs from /**
-                # < Babz: pla.inter.*.*:t
                 $refining = hak(eld.conregpla) > hak(pla.conregpla)
+                    # not too few to pla%con
+                    && sum(havs(pla.conregpla).map(hak)) > 3
                 if (!d.up || refining) {
                     # /** contains such reg.t
                     plas&con = coint(haks(pla.conregpla))
@@ -2025,8 +2028,6 @@
                 }
                 
             })
-            
-            # < too few to con
             
            // done, visualise
             
