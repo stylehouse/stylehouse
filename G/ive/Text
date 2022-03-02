@@ -2128,9 +2128,8 @@
                     mc&maybeempty = 1
                     if (capsleeve) {
                         # we are inside nod modulat
-                        me&tsc,"sleeved",'⌈','y'
                     }
-                    else {
+                    elsif (!d.Xactly) {
                         ms&ml = 0.3
                         me&walls,m,'bd:2.2'
                         lc&s = nod.E.t
@@ -2149,7 +2148,7 @@
                     # regs here
                     # give an overall degree
                     $degree = grep(havs(plas&regtc).map(c => c.degree)).sort()[0]
-                    degree && degree < 8 and plas&degree = degree
+                    degree and plas&degree = degree
                     ms&bgh = degree > 7 ? '241'
                         : degree > 0 ? '642'
                         : '001'
@@ -2186,7 +2185,7 @@
                         each kv pla.sc {
                             k.endsWith('tc') and continue
                             k == 'watersprouted' and continue
-                            k == 'degree' and me&tsc,k,'°'+v,'b'
+                            k == 'degree' and v < 8 && me&tsc,k,'°'+v,'b'
                             else
                             k == 'watersprout' and me&tsc,k,'⸙','b'
                             else
@@ -2200,11 +2199,16 @@
                     })
                     
                   // remodulating
-                    nod.E.t == 'X' and d.Xactly = 1
+                    peel('X,step,todo')[nod.E.t] and d.Xactly = 1
                     !d.Xactly and return
                     # clone mod amongst the pla drawings
                     mc&sortcv = 1
                     lc&not = 1
+                    delete ms&dis
+                    # < our ms&bgh
+                    # < mute things
+                    # < X/of/(w)/t/(reandom) skip r%C? dont have black left border
+                    
                     pla.with.map(&nod,{
                         nod.sph.sphere != 'new' and return
                         $E = nod.E
