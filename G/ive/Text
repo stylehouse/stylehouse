@@ -1768,28 +1768,7 @@
                 ahk(joi,['regs'],'end',reg)
                 reg.ends = joi.i_join
             }
-            
-            $inplace = &sd{
-                isfu(d) and d = {y:d}
-                d ||= {}
-                $dn = ex({},d)
-                d.path and dn.up = d
-                d = dn
-                d.path = (d.path||[]).slice();
-                (d.visit ||= []).push(s)
-                
-                d.d ||= 0
-                d.d++
-                d.d > 100 and debugger; return
-                
-                d.y && d.y (s,d)
-                d.not and return
-                d.path.push(s)
-                3c&o(s,'placed',&z,{
-                    inplace(z,d)
-                })
-            }
-            
+           
            // reg <- joi
             # joi.regs.(start|had|end) = [reg+]
             # reg.matches = [joi+] that had the cond of reg
@@ -1858,6 +1837,7 @@
             $stack = [top]
             $regs = []
             each i,joi jois {
+                
                 # get nod.d
                 $nods = me&Ploy_joi_nods,joi
                 $h = {}
@@ -1910,6 +1890,63 @@
             # should all come off again
             hak(regs) and debugger
            
+           // f pla
+            # see &ind, which cannot travel otherways than ss&z
+            $inplace = &sd{
+                isfu(d) and d = {y:d}
+                d ||= {}
+                $dn = ex({},d)
+                d.path and dn.up = d
+                d = dn
+                d.path = (d.path||[]).slice();
+                (d.visit ||= []).push(s)
+                d.extend and d.extend = peel(d.extend)
+                each kv d.extend {
+                    !d[k] and continue
+                    d[k] = ex((isar(d[k]) ? [] : {}),d[k])
+                }
+                
+                d.d ||= 0
+                d.d++
+                d.d > 100 and debugger; return
+                
+                d.y && d.y (s,d)
+                d.not and return
+                d.path.push(s)
+                3c&o(s,'placed',&z,{
+                    d.not and return
+                    inplace(z,d)
+                })
+            }
+            # scan pla**, require ratio of true y(pla)
+            $inplace_ratio = &pla,ratio,y,{
+                $trve = 0
+                $total = 1
+                inplace(pla,&pla,d{
+                    $ret = y (pla,d)
+                    ret and trve++
+                    total = hak(d.visit)
+                    if (total > 3 && trve / total < ratio) {
+                        d.path.map(d => d.not = 1)
+                    }
+                })
+                return total > 3 && trve / total > ratio
+            }
+            # argulate a pla** chase
+            $inplacing = &pla,y,{
+                inplace(pla,{extend:'hadbyall',y:&pla,d{
+                    # its parent and past life
+                    $eld = pla.up
+                    $joi = pla.joi
+                    # just means reg covers this joi, ie reg.over = [joi+]
+                    $regs = pla.regs
+                    # this means reg matches this joi, ie reg.matches = [joi+]
+                    $had = ahsk(joi,'regs','had')
+                    
+                    y (pla,d,eld,joi,regs,had)
+                }})
+            }
+           
            // < percolate
             # percolate change to ancestors
             $places = 3c&o(3c&X,'place')
@@ -1934,22 +1971,14 @@
             #  ancestors, siblings dimly glow...
             # into something easy for -Difmo to get
             #  might swap %zuct for lum diag
-            inplace(top,&pla,d{
-                # its parent and past life
-                $eld = pla.up
-                $joi = pla.joi
-                $had = ahsk(joi,'regs','had')
-                
-                
-                # in the order they would show up on a -Difrow
-                
-                # regs here
-                $regs = pla.regs
-                if (regs) {
-                    # just means reg covers this joi, ie reg.over = [joi+]
-                    
-                    
+            
+            inplacing(top,&pla,d,eld,joi,regs,had{
+                each i,reg had {
+                    $c = ahk(pla,'sc','regtc',reg.t,{})
+                    sex(c,reg,'degree')
                 }
+                
+                
                 if (!pla.inter) {
                     if (pla.placed) {
                         $many = hak(inplace(pla))
@@ -1973,11 +2002,38 @@
                 }
             })
             
+            # reg is so popular in pla** that we say when it doesnt match
+            inplacing(top,&pla,d,eld,joi,regs,had{
+                each tc plas&regtc {
+                    # already in the ***, dont need to say reg
+                    ahsk(d,'hadbyall',t) and c.saidbyancestor = 1; continue
+                    # high having reg in pla**
+                    !inplace_ratio(pla, 0.88,pla => ahsk(pla,'sc','regtc',t)) and continue
+                    # < similar for new Eref bunches?
+                    ahk(d,'hadbyall',t,{})
+                    c.hadbyall = 1
+                }
+                !d.hadbyall and return
+                # an ancestor says reg***
+                each tg d.hadbyall {
+                    # see c.saidbyancestor above
+                    ahsk(pla,'sc','regtc',t) and continue
+                    # or say when we dont
+                # diags in the order they would show up on a -Difrow
+                joi.i_join == 50 and me&fu,"FI",{pla,d}
+                    ahk(pla,'sc','unhad_regtc',t,{})
+                }
+                
+            })
+            
+            # < too few to con
+            
            // done, visualise
             
             me&boxcap,"places",1 (&ml{
                 me&walls,m,'bd:2.2'
                 inplace(top,&place,d{
+                $pla = place
                 d.cap = me&boxcap,"place"+place.i_place,1,0,d.cap (&ml{
                     ms&ml = 0.3
                     me&walls,m,'bd:2.2'
@@ -1988,21 +2044,27 @@
                     ls&fs = 6
                     
                     # regs here
-                    $regs = place.regs
-                    $had = ahsk(place,'joi','regs','had')
-                    if (had) {
-                        $regts = had.map(reg => reg.t)
-                        $degree = had.map(reg => reg.degree).sort()[0]
-                        me&tsc,"regs-had",coint(regts),'y'
-                        me&tsc,'match-quality',degree,'6g'
+                    each tc plas&regtc {
+                        c.saidbyancestor and continue
+                        me&tsc,"regs-had",t,'y'
+                        c.hadbyall and me&tsc,"regs-hadbyall",'***','y'
+                        c.degree and me&tsc,'match-quality',c.degree,'6g'
                     }
-                    
+                    each tc plas&unhad_regtc {
+                        me&boxcap,"unhad-amongst",2,2 (&ml{
+                            lc&not = 1
+                            ms&hue = 300
+                            me&tsc,"regs-unhad",'!','y' .sc.fs = 17
+                            me&tsc,"regs-unhad",t,'y'
+                        })
+                    }
                     
                     me&boxcap,"here",2 (&ml{
                         me&walls,m,'bd:2.2'
                         ms&hue = 150
                         lc&not = 1
                         each kv place.sc {
+                            k.endsWith('tc') and continue
                             k == 'toomany' and me&tc,'⦄..'+v,'b'
                             else {
                                 $n = me&tc,cint(k,v),'g'
@@ -2014,7 +2076,7 @@
                     !place.inter and return
                     
                     # regs from /**
-                    me&boxcap,"inter",2 (&ml{
+                    0 && me&boxcap,"inter",2 (&ml{
                         me&walls,m,'bd:2.2'
                         ms&fs = 6
                         lc&s = '**'
