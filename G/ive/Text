@@ -2120,7 +2120,7 @@
                     $nod = pla.anod
                     
                 # < resolve $n: tw+i should work. have refs around.
-                $capsleeve = (ahsk(eld,'sc',nod.E.t)||[]).shift()
+                $capsleeve = (ahsk(eld,'tw_modsleeves',nod.E.t)||[]).shift()
                 $cap = capsleeve|| d.cap
                 cap and capc&sortcv = 1
                 d.cap = me&boxcap,"place"+pla.i_place,1,0,cap (&ml{
@@ -2163,6 +2163,7 @@
                     ms&bgh = degree > 7 ? '241'
                         : degree > 0 ? '642'
                         : '001'
+                    
                     # are visible (or not)
                     each tc plas&regtc {
                         c.saidbyancestor and continue
@@ -2187,40 +2188,54 @@
                         })
                     }
                     
-                    hak(pla.sc) &&
+                    $heren = hak(pla.sc) &&
                     me&boxcap,"here",2 (&ml{
                         me&walls,m,'bd:2.2'
                         ms&hue = 150
                         lc&not = 1
+                        $unususc = []
                         each kv pla.sc {
                             k.endsWith('tc') and continue
                             k == 'watersprouted' and continue
-                            k == 'degree' and v < 8 && me&tsc,k,'°'+v,'b'
+                            if (k == 'degree') {
+                                v < 8 and me&tsc,k,'°'+v,'b'; unususc.push(k)
+                            }
                             else
                             k == 'watersprout' and me&tsc,k,'⸙','b'
                             else
-                            k == 'toomany' and me&tsc,k,'⦄..'+v,'b'
+                            k == 'non' and me&tsc,k,'.','b'
                             else {
-                                $n = me&tc,cint(k,v),'g'
-                                k == 'non' and nc&s = '.'
+                                unususc.push(k)
+                                k == 'toomany' and me&tsc,k,'⦄..'+v,'b'
+                                else {
+                                    me&tc,cint(k,v),'g'
+                                }
                             }
+                        }
+                        if (!hak(unususc)) {
+                            ms&usualstuff = 1
                         }
                         !plas&watersprouted and me&Ploy_tid,joi
                     })
                     
                   // remodulating
-                    peel('X,step,todo')[nod.E.t] and d.remodulating = 1
+                    d.d == 3 && nod.E.t == 1 and d.remodulating = 1
                     !d.remodulating and return
                     lc&not = 1
                     # $m=d.cap sits flush inside|around r%C
                     delete ms&dis
-                    # < our ms&bgh
-                    # < mute things
                     
                     pla.with.map(&nod,{
-                        nod.sph.sphere != 'new' and return
                         $E = nod.E
                         $r = Aof(E)
+                        $sphere = nod.sph.sphere
+                        pot[sphere] = rs&M
+                        sphere != 'new' and return
+                        if (1) {
+                            # mute things
+                            heren && herens&usualstuff and herenc&not = 1
+                            # < each %regtc wants a modulat-splicing relativity in with...modulat
+                        }
                         if (!capsleeve) {
                             # r%C must be placed inside $m=d.cap, swallowing m/* so far
                             #  has important styles sometimes, eg black left border
@@ -2231,19 +2246,35 @@
                             m = rC
                         }
                         $zucty = &srdl{
-                            ahk(pla,['sc'],r.t,l)
+                            ahk(pla,['tw_modsleeves'],r.t,l)
                             return 1
                         }
                         # clone mod amongst the pla drawings
                         mc&sortcv = 1
                         me&modselect,r .map(n => me&modclone,m,n,{zucty})
                     })
-                    
+                    nod.E.t == 'step' and me&fu,"A",pot
                 })
                 })
             })
-                    
+        }
+        me.Ploy_pla_remodulating = &acgtm,pla,{
             
+            =pod
+              for new|gone brackets around modclones:
+                border-radius: 4em;
+                border: 0.2em dashed rgb(38, 110, 217);
+                filter: hue-rotate(30deg);
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                padding: 0.2em;
+                margin-left: -0.2em;
+                margin-top: -0.2em;
+                z-index: -30;
+                border-left: none;
+                border-right: none;
+            =pod
         }
         # oddrow: regs start|end at a join
         me.Ploy_drawjoin_regions = &acgt{
