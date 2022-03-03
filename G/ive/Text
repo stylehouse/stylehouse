@@ -2122,26 +2122,37 @@
                 # < resolve $n: tw+i should work. have refs around.
                 $capsleeve = (ahsk(eld,'sc',nod.E.t)||[]).shift()
                 $cap = capsleeve|| d.cap
+                cap and capc&sortcv = 1
                 d.cap = me&boxcap,"place"+pla.i_place,1,0,cap (&ml{
                   // drawing
                     my&cv = 0.7
                     mc&maybeempty = 1
-                    if (capsleeve) {
-                        # we are inside nod modulat
+                    
+                    if (d.remodulating) {
+                        if (capsleeve) {
+                            # we are inside ...modulat.../r%C
+                            #  when mirage has mirageec&zuct=r, see &sfx_mirage
+                        }
+                        else {
+                            # or not, just E/e sitting there
+                            #  which is why my&cv=7
+                        }
                     }
-                    elsif (!d.Xactly) {
+                    else {
                         ms&ml = 0.3
                         me&walls,m,'bd:2.2'
                         lc&s = nod.E.t
                         ls&fs = 6
-                    }
                     
-                    # folding skinny branch
-                    plas&watersprout and d.foldedup = 1
-                    if (plas&watersprouted) {
-                        ms&dis = 2
-                        ms&pt = ms&pb = 0.03
-                        !plas&watersprout and delete ms&ml
+                        # folding skinny branch
+                        #  only when not remodulating
+                        #   this is a cheap analogue of &sfx_mirage making lines?
+                        plas&watersprout and d.foldedup = 1
+                        if (plas&watersprouted) {
+                            ms&dis = 2
+                            ms&pt = ms&pb = 0.03
+                            !plas&watersprout and delete ms&ml
+                        }
                     }
                 
                    // regs etc
@@ -2176,7 +2187,6 @@
                         })
                     }
                     
-                    
                     hak(pla.sc) &&
                     me&boxcap,"here",2 (&ml{
                         me&walls,m,'bd:2.2'
@@ -2199,24 +2209,33 @@
                     })
                     
                   // remodulating
-                    peel('X,step,todo')[nod.E.t] and d.Xactly = 1
-                    !d.Xactly and return
-                    # clone mod amongst the pla drawings
-                    mc&sortcv = 1
+                    peel('X,step,todo')[nod.E.t] and d.remodulating = 1
+                    !d.remodulating and return
                     lc&not = 1
+                    # $m=d.cap sits flush inside|around r%C
                     delete ms&dis
                     # < our ms&bgh
                     # < mute things
-                    # < X/of/(w)/t/(reandom) skip r%C? dont have black left border
                     
                     pla.with.map(&nod,{
                         nod.sph.sphere != 'new' and return
                         $E = nod.E
                         $r = Aof(E)
+                        if (!capsleeve) {
+                            # r%C must be placed inside $m=d.cap, swallowing m/* so far
+                            #  has important styles sometimes, eg black left border
+                            $rC = Cye(rs&C)
+                            rCs&z = delete ms&z
+                            ac(m,'z',rC)
+                            # be the place to put modclones
+                            m = rC
+                        }
                         $zucty = &srdl{
                             ahk(pla,['sc'],r.t,l)
                             return 1
                         }
+                        # clone mod amongst the pla drawings
+                        mc&sortcv = 1
                         me&modselect,r .map(n => me&modclone,m,n,{zucty})
                     })
                     
