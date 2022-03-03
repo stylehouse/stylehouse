@@ -2133,10 +2133,11 @@
                 me&walls,m,'bd:2.2'
                 inplacing(top,&pla,d,eld,joi,regs,had{
                     $nod = pla.anod
-                    
-                    # < resolve $n: tw+i should work. have refs around.
-                    $capsleeve = (ahsk(eld,'tw_modsleeves',nod.E.t)||[]).shift()
-                    $cap = capsleeve|| d.cap
+                    # where to put $m
+                    #  r%C may be %zuct'd into the above modulat (aft &modclone)
+                    $capsleeve = me&Ploy_pla_remodulating_arrive,pla
+                    #  or just the $m above
+                    $cap = capsleeve || d.cap
                     cap and capc&sortcv = 1
                     d.cap = me&boxcap,"place"+pla.i_place,1,0,cap (&ml{
                       // drawing
@@ -2242,19 +2243,160 @@
                         delete ms&dis
                         # mute things
                         heren && herens&usualstuff and herenc&not = 1
+                        mc&sortcv = 1
 
                         me&Ploy_pla_remodulating,m,pla
                     })
                 })
             })
         }
-        
+        # pla...pla relative to nod...modulat...c&zuct=r//nod{
+        # resolve $n: tw+i should work
+        # < have refs around... we are pla, not per nod yet
+        me.Ploy_pla_remodulating_arrive = &acgt,pla{
+            $nod = pla.anod
+            $r = Aof(nod.E)
+            $eld = pla.up
+            $N = ahsk(eld,'tw_modsleeves',nod.E.t)
+            !N and return
+            #$sl = grep(sl => sly&rC == rs&C, N)
+            #hak(sl) != 1 and debugger
+            return N.shift()
+        }
+        # portable relativity, see resolve $n
+        #  an each-either iteration
+        #  produces paired or interleaved seam=[{el=1|2,part|parting}+]
+        #   el:1 interleaved
+        #    may be of either side, ie no el:9
+        #   el:2 paired
+        #    you may then diff the two .parting/part.mod
+        # resolve $n:
+        #  with arbitrary $index=[bit+] should work, mostly
+        #  no finding slightly different $index, mod... similarity, etc
+        # < changing order with... el:6+9?
+        me.intivity = &acgt{
+            $sides = {}
+            return {
+               // side(...).part(...), what() all
+                side: &t,rem{
+                    sides[t] and debugger
+                    $side = ahk(sides,t,{t,rem})
+                    return {
+                        part: &mod,c{
+                            $part = ahk(side,['parts'],{up:side,mod})
+                            # needs these heq() with the other side
+                            part.relativity = c
+                        }
+                    }
+                },
+                what: &{
+                    # both sides now
+                    $both = haks(sides)
+                    $east = sides[both[0]]
+                    $west = sides[both[1]]
+                    if (!west) {
+                        # the shortcut, one side (eg pla.with|nod|sphere) involved
+                        # the one side all el:2, nothing to interleave
+                        return map(&part,{
+                            return {el:2,part}
+                        }, east.parts)
+                    }
+                    map(side => side.i = 0, sides)
+                    # eventually 
+                    $seam = []
+                   
+               //     f partmatch, trymore
+                    $partmatch = &one,two{
+                        $ok = 1
+                        each kN one.relativity {
+                            # name of and index
+                            $oN = two.relativity[k]
+                            !oN || !heq(N,oN) and ok = 0; break
+                        }
+                        return ok
+                    }
+                    
+                    # lookahead limit
+                    #  later if all different, groups this many on either side at once
+                    $lookahead = 4
+                    # lookahead to trymore matches
+                    # no index of relativity, see &twlim / &fiu,L,s,8
+                    # < index? relativity.k.i=v are iske()?
+                    $trymore = &part,side{
+                        $morei = 1
+                        # the side/part skipped over, starting with the one falling into here
+                        $skip = []
+                        while (morei <= lookahead) {
+                            $i = side.i+morei
+                            skip.push(side.parts[i-1])
+                            $other = side.parts[i]
+                            if (partmatch(part,other)) {
+                                # found it
+                                $N = skipped.map(part => {el:1,part})
+                                N.push({el:2,parting:[part,other]})
+                                side.i = i+1
+                                part.up.side.i++
+                                return N
+                            }
+                            morei++
+                        }
+                    }
+                    
+               //     resolve $n
+                    $i = 100
+                    while (1) {
+                        i-- < 0 and debugger; break
+                        # these are $side, either could .rem.nod of eg sph:new
+                        $one = east.parts[east.i]
+                        $two = west && west.parts[west.i]
+                        !one && !two and break
+                        if (!one || !two) {
+                            # either run out
+                            $part = one || two
+                            seam.push({el:1,part})
+                            east.i++
+                            # west not there for one-sided things
+                            west && west.i++
+                        }
+                        elsif (partmatch(one,two)) {
+                            # usu paired by relativity
+                            seam.push({el:2,parting:[one,two]})
+                            east.i++
+                            west.i++
+                        }
+                        else {
+                            # either isnt there
+                            # allows several (++|--)+
+                            $yonder = trymore(one,west) || trymore(two,east)
+                            if (yonder) {
+                                # has adjusted one|two.i accordingly
+                                seam.push(...yonder)
+                            }
+                            else {
+                                # el:1 a bunch of either side, see < index?
+                                $swathe = []
+                                [east,west].map(&side,{
+                                    $wasi = side.i
+                                    side.i += lookahead
+                                    swathe.push(... side.parts.slice(wasi,side.i) )
+                                })
+                                seam.push(... swathe.map(part => {el:1,part}) )
+                            }
+                        }
+                    }
+                    
+               //     yep
+                    return seam
+                }
+            }
+        }
         me.Ploy_pla_remodulating = &acgtm,pla,{
             # pla/#nod:remod/#n:mod - relativity between nod modulat
-            $la = null
-            pla.with.map(&nod,i{
+            $inti = me&intivity
+            pla.with.map(&nod,{
                 $rem = 3c&io(pla,'remod',nod.sph.sphere)
                 rem.nod = nod
+                $into = inti.side(nod.sph.sphere,rem)
                 $E = nod.E
                 $r = Aof(E)
                 if (0) {
@@ -2262,40 +2404,47 @@
                     $N = me&modselect,r
                     !heq(N,rs&M) and debugger
                 }
+                
                 rs&M.map(&n{
                     $mod = 3c&iz(rem,'mod')
                     mod.n = n
                     # the relativity index for modulat, allows dupey %z
-                    ahk(rem,['tvi'],n.t,ny&cv,n)
+                    into.part(mod,{tv:[n.t,ny&cv]})
                 })
-                la = rem
             })
-            if (hak(pla.remod) == 2) {
-                # check the sets of names...
-            }
+            # {el:1|2,part|parting}+
+            $N = inti.what()
             3c&o(pla,'remod',&rem,{
                 $nod = rem.nod
                 nod.sph.sphere != 'new' and return
                 $E = nod.E
                 $r = Aof(E)
                 
+                $modinto = m
                 if (!ms&capsleeve) {
                     # r%C must be placed inside $m=d.cap, swallowing m/* so far
                     #  has important styles sometimes, eg black left border
                     $rC = Cye(rs&C)
-                    rCs&z = delete ms&z
-                    ac(m,'z',rC)
+                    rCs&z = delete modintos&z
+                    ac(modinto,'z',rC)
                     # be the place to put modclones
-                    m = rC
+                    modinto = rC
                 }
+                # we may run into r...r, who will be ms&capsleeve
                 $zucty = &srdl{
+                    # sleeve l = clone r%C
+                    ly&rC = rs&C
                     ahk(pla,['tw_modsleeves'],r.t,l)
+                    # this stops &modclone cloning into
                     return 1
                 }
                 # clone mod amongst the pla drawings
-                mc&sortcv = 1
-                me&modselect,r .map(n => me&modclone,m,n,{zucty})
+                3c&o(rem,'mod',&mod,{
+                    $n = mod.n
+                    me&modclone,modinto,n,{zucty}
+                })
             })
+            
             =pod
               for new|gone brackets around modclones:
                 border-radius: 4em;
@@ -2310,7 +2459,7 @@
                 z-index: -30;
                 border-left: none;
                 border-right: none;
-            =pod
+            =cut
         }
         # oddrow: regs start|end at a join
         me.Ploy_drawjoin_regions = &acgt{
