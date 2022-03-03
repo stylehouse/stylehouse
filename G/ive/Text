@@ -1733,6 +1733,53 @@
                 > venn types of change over space
                 > forward mungible change|seq
         =cut
+        # &ind variant
+        me.inlace = &acgtsd,loc{
+            isfu(d) and d = {y:d}
+            d ||= {}
+            $dn = ex({},d)
+            d.d and dn.up = d
+            d = dn
+            if (!d.d) {
+                # top d
+                # these d.* clone per d
+                $ext = peel('z,path,stack')
+                haks(ext).map(k => d[k] = [])
+                d.extend = pex(ext,d.extend)
+            }
+            else {
+                d.up.z.push(d)
+            }
+            if (loc) {
+                # iterated pointer out of d.up.s
+            }
+            # flat list of all d**
+            (d.visit ||= []).push(s)
+            each kv d.extend {
+                !d[k] and continue
+                d[k] = ex((isar(d[k]) ? [] : {}),d[k])
+            }
+
+            d.d ||= 0
+            d.d++
+            d.d > 100 and debugger; return
+            d.s = s
+            d.sc = {}
+
+            d.y && d.y (s,d)
+            d.not and return
+            d.path.push(s)
+            d.stack.push(d)
+            # can iterate ??? or d**
+            $N = d.may_iterate || s.z || []
+            N = fuN(N,s,d)
+            N.map(&z,{
+                d.not and return
+                me&inlace,z,d
+            })
+            d.not and return
+            d.yy && d.yy (s,d)
+        }
         # group like stuff
         me.Ploy_regions = &acgt{
             # rolling recent conditions
@@ -1903,44 +1950,9 @@
             $inplace = &sd{
                 isfu(d) and d = {y:d}
                 d ||= {}
-                $dn = ex({},d)
-                d.d and dn.up = d
-                d = dn
-                if (!d.d) {
-                    # top d
-                    # these d.* clone per d
-                    $ext = peel('z,path,stack')
-                    haks(ext).map(k => d[k] = [])
-                    d.extend = pex(ext,d.extend)
-                }
-                else {
-                    up.z.push(d)
-                }
-                # flat list of all d**
-                (d.visit ||= []).push(s)
-                each kv d.extend {
-                    !d[k] and continue
-                    d[k] = ex((isar(d[k]) ? [] : {}),d[k])
-                }
-                
-                d.d ||= 0
-                d.d++
-                d.d > 100 and debugger; return
-                d.s = s
-                d.sc = {}
-                
-                d.y && d.y (s,d)
-                d.not and return
-                d.path.push(s)
-                d.stack.push(d)
                 # can iterate pla** or d**
-                $N = s.placed && 3c&o(s,'placed') || s.z || []
-                N.map(&z,{
-                    d.not and return
-                    inplace(z,d)
-                })
-                d.not and return
-                d.yy && d.yy (s,d)
+                d.may_iterate = (s) => s.placed && 3c&o(s,'placed')
+                me&inlace,s,d
             }
             # scan pla**, require ratio of true y(pla)
             $inplace_ratio = &pla,ratio,y,{
@@ -1977,7 +1989,7 @@
                 return inplace(pla,d)
             }
            
-           // percolate
+           // pla** percolate
             # percolate change to ancestors
             $places = 3c&o(3c&X,'place')
             inplace(top,&place,d{
@@ -2052,7 +2064,9 @@
                     ahk(d,'hadbyall',t,{})
                     c.hadbyall = 1
                 }
+                
                 !d.hadbyall and return
+                
                 # an ancestor says reg***
                 each tg d.hadbyall {
                     # see c.saidbyancestor above
@@ -2132,6 +2146,7 @@
                         if (capsleeve) {
                             # we are inside ...modulat.../r%C
                             #  when mirage has mirageec&zuct=r, see &sfx_mirage
+                            ms&capsleeve = 1
                         }
                         else {
                             # or not, just E/e sitting there
@@ -2224,42 +2239,62 @@
                     lc&not = 1
                     # $m=d.cap sits flush inside|around r%C
                     delete ms&dis
+                    # mute things
+                    heren && herens&usualstuff and herenc&not = 1
                     
-                    pla.with.map(&nod,{
-                        $E = nod.E
-                        $r = Aof(E)
-                        $sphere = nod.sph.sphere
-                        pot[sphere] = rs&M
-                        sphere != 'new' and return
-                        if (1) {
-                            # mute things
-                            heren && herens&usualstuff and herenc&not = 1
-                            # < each %regtc wants a modulat-splicing relativity in with...modulat
-                        }
-                        if (!capsleeve) {
-                            # r%C must be placed inside $m=d.cap, swallowing m/* so far
-                            #  has important styles sometimes, eg black left border
-                            $rC = Cye(rs&C)
-                            rCs&z = delete ms&z
-                            ac(m,'z',rC)
-                            # be the place to put modclones
-                            m = rC
-                        }
-                        $zucty = &srdl{
-                            ahk(pla,['tw_modsleeves'],r.t,l)
-                            return 1
-                        }
-                        # clone mod amongst the pla drawings
-                        mc&sortcv = 1
-                        me&modselect,r .map(n => me&modclone,m,n,{zucty})
-                    })
-                    nod.E.t == 'step' and me&fu,"A",pot
+                    me&Ploy_pla_remodulating,m,pla
                 })
                 })
             })
         }
+        
         me.Ploy_pla_remodulating = &acgtm,pla,{
-            
+            # pla/#nod:remod/#n:mod - relativity between nod modulat
+            $la = null
+            pla.with.map(&nod,i{
+                $rem = 3c&io(pla,'remod',nod.sph.sphere)
+                rem.nod = nod
+                $E = nod.E
+                $r = Aof(E)
+                if (0) {
+                    # < always ~~, may ~order about to be sorted out?
+                    $N = me&modselect,r
+                    !heq(N,rs&M) and debugger
+                }
+                rs&M.map(&n{
+                    $mod = 3c&iz(rem,'mod')
+                    mod.n = n
+                    # the relativity index for modulat, allows dupey %z
+                    ahk(rem,['tvi'],n.t,ny&cv,n)
+                })
+                la = rem
+            })
+            if (hak(pla.remod) == 2) {
+                # check the sets of names...
+            }
+            3c&o(pla,'remod',&rem,{
+                $nod = rem.nod
+                nod.sph.sphere != 'new' and return
+                $E = nod.E
+                $r = Aof(E)
+                
+                if (!ms&capsleeve) {
+                    # r%C must be placed inside $m=d.cap, swallowing m/* so far
+                    #  has important styles sometimes, eg black left border
+                    $rC = Cye(rs&C)
+                    rCs&z = delete ms&z
+                    ac(m,'z',rC)
+                    # be the place to put modclones
+                    m = rC
+                }
+                $zucty = &srdl{
+                    ahk(pla,['tw_modsleeves'],r.t,l)
+                    return 1
+                }
+                # clone mod amongst the pla drawings
+                mc&sortcv = 1
+                me&modselect,r .map(n => me&modclone,m,n,{zucty})
+            })
             =pod
               for new|gone brackets around modclones:
                 border-radius: 4em;
