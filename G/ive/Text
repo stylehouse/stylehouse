@@ -2280,10 +2280,12 @@
                // side(...).part(...), what() all
                 side: &t,rem{
                     sides[t] and debugger
-                    $side = ahk(sides,t,{t,rem})
+                    $side = {t,rem}
+                    ahk(sides,t,side)
                     return {
                         part: &mod,c{
-                            $part = ahk(side,['parts'],{up:side,mod})
+                            $part = {up:side,mod}
+                            ahk(side,['parts'],part)
                             # needs these heq() with the other side
                             part.relativity = c
                         }
@@ -2323,19 +2325,28 @@
                     # no index of relativity, see &twlim / &fiu,L,s,8
                     # < index? relativity.k.i=v are iske()?
                     $trymore = &part,side{
+                        part.up == side and debugger
                         $morei = 1
                         # the side/part skipped over, starting with the one falling into here
                         $skip = []
                         while (morei <= lookahead) {
                             $i = side.i+morei
+                            # skipping their current part and more
                             skip.push(side.parts[i-1])
                             $other = side.parts[i]
-                            if (partmatch(part,other)) {
-                                # found it
-                                $N = skipped.map(part => {el:1,part})
-                                N.push({el:2,parting:[part,other]})
+                            if (!other || partmatch(part,other)) {
+                                $N = []
+                                skip.map(part => N.push({el:1,part:part,flav:'sunk'}))
+                                if (other) {
+                                    # found it
+                                    N.push({el:2,parting:[part,other],flav:'resync'})
+                                }
+                                else {
+                                    # or the end, so el:1
+                                    N.push({el:1,part,flav:'sunkend'})
+                                }
                                 side.i = i+1
-                                part.up.side.i++
+                                part.up.i++
                                 return N
                             }
                             morei++
@@ -2353,19 +2364,19 @@
                         if (!one || !two) {
                             # either run out
                             $part = one || two
-                            seam.push({el:1,part})
+                            seam.push({el:1,part,flav:'runout'})
                             east.i++
                             # west not there for one-sided things
                             west && west.i++
                         }
                         elsif (partmatch(one,two)) {
                             # usu paired by relativity
-                            seam.push({el:2,parting:[one,two]})
+                            seam.push({el:2,parting:[one,two],flav:'paired'})
                             east.i++
                             west.i++
                         }
                         else {
-                            # either isnt there
+                            # either isnt there!
                             # allows several (++|--)+
                             $yonder = trymore(one,west) || trymore(two,east)
                             if (yonder) {
@@ -2378,11 +2389,15 @@
                                 [east,west].map(&side,{
                                     $wasi = side.i
                                     side.i += lookahead
-                                    swathe.push(... side.parts.slice(wasi,side.i) )
+                                    # slice() end is not included
+                                    $N = side.parts.slice(wasi,side.i+1)
+                                    hak(grep(N)) < hak(N) and debugger
+                                    swathe.push(... grep(N))
                                 })
-                                seam.push(... swathe.map(part => {el:1,part}) )
+                                swathe.map(part => seam.push({el:1,part,flav:'swathe'}))
                             }
                         }
+                        hak(grep(seam)) < hak(seam) and debugger
                     }
                     
                //     yep
@@ -2391,7 +2406,8 @@
             }
         }
         me.Ploy_pla_remodulating = &acgtm,pla,{
-            # pla/#nod:remod/#n:mod - relativity between nod modulat
+            # i pla/#nod:remod/#n:mod o pla/with/nod//r/%M/n
+            #  relativity between nod modulat
             $inti = me&intivity
             pla.with.map(&nod,{
                 $rem = 3c&io(pla,'remod',nod.sph.sphere)
@@ -2399,50 +2415,84 @@
                 $into = inti.side(nod.sph.sphere,rem)
                 $E = nod.E
                 $r = Aof(E)
+                $N = me&modselect,r
                 if (0) {
                     # < always ~~, may ~order about to be sorted out?
-                    $N = me&modselect,r
                     !heq(N,rs&M) and debugger
                 }
-                
-                rs&M.map(&n{
+                N.map(&n{
                     $mod = 3c&iz(rem,'mod')
                     mod.n = n
                     # the relativity index for modulat, allows dupey %z
                     into.part(mod,{tv:[n.t,ny&cv]})
                 })
             })
+            
             # {el:1|2,part|parting}+
             $N = inti.what()
-            3c&o(pla,'remod',&rem,{
-                $nod = rem.nod
-                nod.sph.sphere != 'new' and return
-                $E = nod.E
-                $r = Aof(E)
+            
+            $modinto = m
+            $somerC = null
+            # part &modclone may run into r...r, who will be ms&capsleeve
+            $zucty = &srdl{
+                # sleeve l = clone r%C
+                ly&rC = rs&C
+                ahk(pla,['tw_modsleeves'],r.t,l)
+                # this stops &modclone into l** (yet)
+                return 1
+            }
+            
+            #pla.anod.E.t == 'X' and me&fu,"XN",[N.map(_=>dis(_)),N.slice(4,6)]
+            N.map(&rel,{
+                # want gone,new
+                $sides = {}
+                $parts = rel.part ? [rel.part] : havs(rel.parting)
+                parts.map(part => sides[part.up.t] = part)
+                hak(sides) == 2 && cint(haks(sides)) != 'gone:new' and debugger
                 
-                $modinto = m
-                if (!ms&capsleeve) {
-                    # r%C must be placed inside $m=d.cap, swallowing m/* so far
-                    #  has important styles sometimes, eg black left border
-                    $rC = Cye(rs&C)
-                    rCs&z = delete modintos&z
-                    ac(modinto,'z',rC)
-                    # be the place to put modclones
-                    modinto = rC
+                if (rel.el == 2) {
+                    # < ignore gone if part.mod.n** c|sc same
+                    #   ie whole r/* are drawn
+                    #    or maybe til mirage line...
+                    delete sides.gone
                 }
-                # we may run into r...r, who will be ms&capsleeve
-                $zucty = &srdl{
-                    # sleeve l = clone r%C
-                    ly&rC = rs&C
-                    ahk(pla,['tw_modsleeves'],r.t,l)
-                    # this stops &modclone cloning into
-                    return 1
-                }
-                # clone mod amongst the pla drawings
-                3c&o(rem,'mod',&mod,{
+                
+                each sphere,part sides {
+                    $side = part.up
+                    # an el:1 from gone
+                    side.t != 'new' and debugger
+                    $rem = side.rem
+
+                    $nod = rem.nod
+                    nod.sph.sphere != 'new' and return
+                    $E = nod.E
+                    $r = Aof(E)
+                    if (!rem.rels) {
+                        # init
+                        if (!somerC && !ms&capsleeve) {
+                            # r%C must be placed
+                            #  inside $m=d.cap, swallowing m/* so far
+                            #  has important styles sometimes, eg black left border
+                            $rC = Cye(rs&C)
+                            rCs&z = delete modintos&z
+                            ac(modinto,'z',rC)
+                            # be the place to put modclones
+                            modinto = somerC = rC
+                        }
+                    }
+                    ahk(rem,['rels'],rel)
+
+                    # clone mod amongst the pla drawings
+                    $mod = part.mod
                     $n = mod.n
                     me&modclone,modinto,n,{zucty}
-                })
+                    rel.el == 1 and me&tc,modinto,"1:"+n.t,'6y'
+                }
+            })
+            3c&o(pla,'remod',&rem,{
+                rem.rels and return
+                # no parts?
+                #me&tc,"No:"+rem.nod.sph.sphere
             })
             
             =pod
