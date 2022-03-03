@@ -2406,6 +2406,7 @@
             }
         }
         me.Ploy_pla_remodulating = &acgtm,pla,{
+           // source $n
             # i pla/#nod:remod/#n:mod o pla/with/nod//r/%M/n
             #  relativity between nod modulat
             $inti = me&intivity
@@ -2428,11 +2429,25 @@
                 })
             })
             
-            # {el:1|2,part|parting}+
-            $N = inti.what()
-            
+           // on r%C
+            # where to put parts
             $modinto = m
+            # first rem to have parts may claim pla's overall r%C clone
+            # < diff them
             $somerC = null
+            # either rem starts having parts of r
+            $rem_init = &r{
+                if (!somerC && !ms&capsleeve) {
+                    # r%C must be placed
+                    #  inside $m=d.cap, swallowing m/* so far
+                    #  has important styles sometimes, eg black left border
+                    $rC = Cye(rs&C)
+                    rCs&z = delete modintos&z
+                    ac(modinto,'z',rC)
+                    # be the place to put modclones
+                    modinto = somerC = rC
+                }
+            }
             # part &modclone may run into r...r, who will be ms&capsleeve
             $zucty = &srdl{
                 # sleeve l = clone r%C
@@ -2442,12 +2457,17 @@
                 return 1
             }
             
+           // get relativities
+            # {el:1|2,part|parting}+
+            $N = inti.what()
+            
             #pla.anod.E.t == 'X' and me&fu,"XN",[N.map(_=>dis(_)),N.slice(4,6)]
             N.map(&rel,{
                 # want gone,new
-                $sides = {}
-                $parts = rel.part ? [rel.part] : havs(rel.parting)
-                parts.map(part => sides[part.up.t] = part)
+                # < kap(_.up.t,...) # sets the keys
+                $sides = {};
+                (rel.part ? [rel.part] : havs(rel.parting))
+                    .map(part => sides[part.up.t] = part)
                 hak(sides) == 2 && cint(haks(sides)) != 'gone:new' and debugger
                 
                 if (rel.el == 2) {
@@ -2467,19 +2487,8 @@
                     nod.sph.sphere != 'new' and return
                     $E = nod.E
                     $r = Aof(E)
-                    if (!rem.rels) {
-                        # init
-                        if (!somerC && !ms&capsleeve) {
-                            # r%C must be placed
-                            #  inside $m=d.cap, swallowing m/* so far
-                            #  has important styles sometimes, eg black left border
-                            $rC = Cye(rs&C)
-                            rCs&z = delete modintos&z
-                            ac(modinto,'z',rC)
-                            # be the place to put modclones
-                            modinto = somerC = rC
-                        }
-                    }
+                    # init
+                    !rem.rels and rem_init(r)
                     ahk(rem,['rels'],rel)
 
                     # clone mod amongst the pla drawings
