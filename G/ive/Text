@@ -1779,6 +1779,7 @@
             })
             d.not and return
             d.yy && d.yy (s,d)
+            return d
         }
         # group like stuff
         me.Ploy_regions = &acgt{
@@ -1952,7 +1953,7 @@
                 d ||= {}
                 # can iterate pla** or d**
                 d.may_iterate = (s) => s.placed && 3c&o(s,'placed')
-                me&inlace,s,d
+                return me&inlace,s,d
             }
             # scan pla**, require ratio of true y(pla)
             $inplace_ratio = &pla,ratio,y,{
@@ -2133,117 +2134,117 @@
                 inplacing(top,&pla,d,eld,joi,regs,had{
                     $nod = pla.anod
                     
-                # < resolve $n: tw+i should work. have refs around.
-                $capsleeve = (ahsk(eld,'tw_modsleeves',nod.E.t)||[]).shift()
-                $cap = capsleeve|| d.cap
-                cap and capc&sortcv = 1
-                d.cap = me&boxcap,"place"+pla.i_place,1,0,cap (&ml{
-                  // drawing
-                    my&cv = 0.7
-                    mc&maybeempty = 1
-                    
-                    if (d.remodulating) {
-                        if (capsleeve) {
-                            # we are inside ...modulat.../r%C
-                            #  when mirage has mirageec&zuct=r, see &sfx_mirage
-                            ms&capsleeve = 1
+                    # < resolve $n: tw+i should work. have refs around.
+                    $capsleeve = (ahsk(eld,'tw_modsleeves',nod.E.t)||[]).shift()
+                    $cap = capsleeve|| d.cap
+                    cap and capc&sortcv = 1
+                    d.cap = me&boxcap,"place"+pla.i_place,1,0,cap (&ml{
+                      // drawing
+                        my&cv = 0.7
+                        mc&maybeempty = 1
+
+                        if (d.remodulating) {
+                            if (capsleeve) {
+                                # we are inside ...modulat.../r%C
+                                #  when mirage has mirageec&zuct=r, see &sfx_mirage
+                                ms&capsleeve = 1
+                            }
+                            else {
+                                # or not, just E/e sitting there
+                                #  which is why my&cv=7
+                            }
                         }
                         else {
-                            # or not, just E/e sitting there
-                            #  which is why my&cv=7
-                        }
-                    }
-                    else {
-                        ms&ml = 0.3
-                        me&walls,m,'bd:2.2'
-                        lc&s = nod.E.t
-                        ls&fs = 6
-                    
-                        # folding skinny branch
-                        #  only when not remodulating
-                        #   this is a cheap analogue of &sfx_mirage making lines?
-                        plas&watersprout and d.foldedup = 1
-                        if (plas&watersprouted) {
-                            ms&dis = 2
-                            ms&pt = ms&pb = 0.03
-                            !plas&watersprout and delete ms&ml
-                        }
-                    }
-                
-                   // regs etc
-                    # regs here
-                    # give an overall degree
-                    $degree = grep(havs(plas&regtc).map(c => c.degree)).sort()[0]
-                    degree and plas&degree = degree
-                    ms&bgh = degree > 7 ? '241'
-                        : degree > 0 ? '642'
-                        : '001'
-                    
-                    # are visible (or not)
-                    each tc plas&regtc {
-                        c.saidbyancestor and continue
-                        $n = me&tsc,"regs-had",t,'y'
-                        if (c.emphasis) {
-                            ns&fs = 17
-                            # marking stuck in indent
-                            pex(me&tsc,"regs-emphasis",t,'y' .sc,'ab,left:0,fs:17')
-                        }
-                        c.hadbyall
-                            && me&tsc,"regs-hadbyall",'***','y'
-                        c.degree && c.degree != degree
-                            && me&tsc,'match-quality',c.degree,'6g'
-                    }
-                    # are against what was saidbyancestor
-                    each tc plas&unhad_regtc {
-                        me&boxcap,"unhad-amongst",2,2 (&ml{
-                            lc&not = 1
-                            ms&hue = 300
-                            me&tsc,"regs-unhad",'!','y' .sc.fs = 17
-                            me&tsc,"regs-unhad",t,'y'
-                        })
-                    }
-                    
-                    $heren = hak(pla.sc) &&
-                    me&boxcap,"here",2 (&ml{
-                        me&walls,m,'bd:2.2'
-                        ms&hue = 150
-                        lc&not = 1
-                        $unususc = []
-                        each kv pla.sc {
-                            k.endsWith('tc') and continue
-                            k == 'watersprouted' and continue
-                            if (k == 'degree') {
-                                v < 8 and me&tsc,k,'°'+v,'b'; unususc.push(k)
+                            ms&ml = 0.3
+                            me&walls,m,'bd:2.2'
+                            lc&s = nod.E.t
+                            ls&fs = 6
+
+                            # folding skinny branch
+                            #  only when not remodulating
+                            #   this is a cheap analogue of &sfx_mirage making lines?
+                            plas&watersprout and d.foldedup = 1
+                            if (plas&watersprouted) {
+                                ms&dis = 2
+                                ms&pt = ms&pb = 0.03
+                                !plas&watersprout and delete ms&ml
                             }
-                            else
-                            k == 'watersprout' and me&tsc,k,'⸙','b'
-                            else
-                            k == 'non' and me&tsc,k,'.','b'
-                            else {
-                                unususc.push(k)
-                                k == 'toomany' and me&tsc,k,'⦄..'+v,'b'
+                        }
+
+                       // regs etc
+                        # regs here
+                        # give an overall degree
+                        $degree = grep(havs(plas&regtc).map(c => c.degree)).sort()[0]
+                        degree and plas&degree = degree
+                        ms&bgh = degree > 7 ? '241'
+                            : degree > 0 ? '642'
+                            : '001'
+
+                        # are visible (or not)
+                        each tc plas&regtc {
+                            c.saidbyancestor and continue
+                            $n = me&tsc,"regs-had",t,'y'
+                            if (c.emphasis) {
+                                ns&fs = 17
+                                # marking stuck in indent
+                                pex(me&tsc,"regs-emphasis",t,'y' .sc,'ab,left:0,fs:17')
+                            }
+                            c.hadbyall
+                                && me&tsc,"regs-hadbyall",'***','y'
+                            c.degree && c.degree != degree
+                                && me&tsc,'match-quality',c.degree,'6g'
+                        }
+                        # are against what was saidbyancestor
+                        each tc plas&unhad_regtc {
+                            me&boxcap,"unhad-amongst",2,2 (&ml{
+                                lc&not = 1
+                                ms&hue = 300
+                                me&tsc,"regs-unhad",'!','y' .sc.fs = 17
+                                me&tsc,"regs-unhad",t,'y'
+                            })
+                        }
+
+                        $heren = hak(pla.sc) &&
+                        me&boxcap,"here",2 (&ml{
+                            me&walls,m,'bd:2.2'
+                            ms&hue = 150
+                            lc&not = 1
+                            $unususc = []
+                            each kv pla.sc {
+                                k.endsWith('tc') and continue
+                                k == 'watersprouted' and continue
+                                if (k == 'degree') {
+                                    v < 8 and me&tsc,k,'°'+v,'b'; unususc.push(k)
+                                }
+                                else
+                                k == 'watersprout' and me&tsc,k,'⸙','b'
+                                else
+                                k == 'non' and me&tsc,k,'.','b'
                                 else {
-                                    me&tc,cint(k,v),'g'
+                                    unususc.push(k)
+                                    k == 'toomany' and me&tsc,k,'⦄..'+v,'b'
+                                    else {
+                                        me&tc,cint(k,v),'g'
+                                    }
                                 }
                             }
-                        }
-                        if (!hak(unususc)) {
-                            ms&usualstuff = 1
-                        }
-                        !plas&watersprouted and me&Ploy_tid,joi
+                            if (!hak(unususc)) {
+                                ms&usualstuff = 1
+                            }
+                            !plas&watersprouted and me&Ploy_tid,joi
+                        })
+
+                      // remodulating
+                        d.d == 3 && nod.E.t == 1 and d.remodulating = 1
+                        !d.remodulating and return
+                        lc&not = 1
+                        # $m=d.cap sits flush inside|around r%C
+                        delete ms&dis
+                        # mute things
+                        heren && herens&usualstuff and herenc&not = 1
+
+                        me&Ploy_pla_remodulating,m,pla
                     })
-                    
-                  // remodulating
-                    d.d == 3 && nod.E.t == 1 and d.remodulating = 1
-                    !d.remodulating and return
-                    lc&not = 1
-                    # $m=d.cap sits flush inside|around r%C
-                    delete ms&dis
-                    # mute things
-                    heren && herens&usualstuff and herenc&not = 1
-                    
-                    me&Ploy_pla_remodulating,m,pla
-                })
                 })
             })
         }
