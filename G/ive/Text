@@ -1776,11 +1776,13 @@
             d.sc = {}
 
             d.y && d.y (s,d)
+            d.abort and d.not = 1; d.stack.map(d => d.not = 1)
             d.not and return
             d.path.push(s)
             d.stack.push(d)
             # can iterate ??? or d**
-            $N = d.may_iterate || s.z || []
+            $N = delete d.inz
+            N ||= d.may_iterate || s.z || []
             N = fuN(N,s,d)
             N.map(&z,{
                 d.not and return
@@ -1973,7 +1975,7 @@
                     ret and trve++
                     total = hak(d.visit)
                     if (total > 3 && trve / total < ratio) {
-                        d.stack.map(d => d.not = 1)
+                        d.abort = 1
                     }
                 })
                 return total > 3 && trve / total > ratio
