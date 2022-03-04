@@ -2410,10 +2410,34 @@
                         hak(grep(seam)) < hak(seam) and debugger
                     }
                     
-               //     yep
+               //     done
+                    seam.map(&rel,{
+                        # < mak(_.up.t,...) # sets the keys
+                        rel.sided = {}
+                        $parts = rel.part ? [rel.part] : havs(rel.parting)
+                        parts.map(part => rel.sided[part.up.t] = part)
+                    })
                     return seam
                 }
             }
+        }
+        # check rel parts are the same
+        # 
+        me.howsame_pla_rel = &acgt,pla,rel{
+            $check_except = {c:{zuct:1},sc:{z:1}}
+            $same = &szd{
+                each nk,except check_except {
+                    $off = hakd(s [nk], z [nk])
+                    # they may both have a different c&zuct, etc
+                    hak(off) && grop(k => except[k] && s [nk][k] && z [nk][k],off)
+                    hak(off) and return 0
+                }
+                return 1
+            }
+            
+            me&indo,s,{} (&sd{
+                sc&not and return d.not = 1
+            })
         }
         me.Ploy_pla_remodulating = &acgtm,pla,{
             $nod = pla.anod
@@ -2473,17 +2497,13 @@
             # {el:1|2,part|parting}+
             $N = inti.what()
             
-            $thenode = r.t == 'of'
+            $thenode = r.t == 'X'
             $data = []
             
             #pla.anod.E.t == 'X' and me&fu,"XN",[N.map(_=>dis(_)),N.slice(4,6)]
             N.map(&rel,{
                 # want gone,new
-                # < kap(_.up.t,...) # sets the keys
-                $sides = {};
-                (rel.part ? [rel.part] : havs(rel.parting))
-                    .map(part => sides[part.up.t] = part)
-                hak(sides) == 2 && cint(haks(sides)) != 'gone:new' and debugger
+                hak(rel.sided) == 2 && cint(haks(rel.sided)) != 'gone:new' and debugger
                 
                 thenode and data.push(rel)
                 if (rel.el == 2) {
@@ -2492,7 +2512,7 @@
                     #    or maybe til mirage line...
                     #delete sides.gone
                 }
-                
+           // etc
                 each sphere,part sides {
                     $side = part.up
                     # an el:1 from gone
