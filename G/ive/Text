@@ -206,6 +206,7 @@
                 me&Ploy_spannyrower,'conf' (&ml{
                     # if you &Ploy_fail, these draw the context in time for it:
                     me&boxcap,'pass1' (&ml{
+                        me&walls,m,'b:2.2'
                         # drawjoin as soon as it is joined
                         #  omits l that belongs to a later joi
                         me&tt,'only' () and 3c&single_pass = 1
@@ -216,6 +217,12 @@
                     })
                     # shows the possible fixes...
                     me&tt,'nofix' () and 3c&nofix = 1
+                    me&boxcap,'pass1' (&ml{
+                        me&walls,m,'b:2.2'
+                        me&tt,'show-jois' () and 3c&show_jois = 1
+                        me&tc,',','6y'
+                        me&tt,'hide-regs' () and 3c&hide_regs = 1
+                    })
                 })
             })
             # pass 1
@@ -243,13 +250,15 @@
                 # group like stuff
                 me&Ploy_regions
                 
-                3c&o(3c&X,'join',&joi,{
-                    A = fi&At,'joins:'+joi.i_join
-                    A&joi = joi
-                    # happens every &Ploy_joined if 3c&single_pass
-                    me&Ploy_drawjoin
-                    A = A.3
-                })
+                if (3c&show_jois) {
+                    3c&o(3c&X,'join',&joi,{
+                        A = fi&At,'joins:'+joi.i_join
+                        A&joi = joi
+                        # happens every &Ploy_joined if 3c&single_pass
+                        me&Ploy_drawjoin
+                        A = A.3
+                    })
+                }
             }
             return 3c&X
         }
@@ -2109,6 +2118,7 @@
             
             
            // done, visualise
+            3c&hide_regs and return
             # reg+
             me&boxcap,"regions",5 (&ml{
                 3c&o(3c&X,'region',&reg,{
@@ -2406,6 +2416,8 @@
             }
         }
         me.Ploy_pla_remodulating = &acgtm,pla,{
+            $nod = pla.anod
+            $r = Aof(nod.E)
            // source $n
             # i pla/#nod:remod/#n:mod o pla/with/nod//r/%M/n
             #  relativity between nod modulat
@@ -2461,6 +2473,9 @@
             # {el:1|2,part|parting}+
             $N = inti.what()
             
+            $thenode = r.t == 'of'
+            $data = []
+            
             #pla.anod.E.t == 'X' and me&fu,"XN",[N.map(_=>dis(_)),N.slice(4,6)]
             N.map(&rel,{
                 # want gone,new
@@ -2470,34 +2485,41 @@
                     .map(part => sides[part.up.t] = part)
                 hak(sides) == 2 && cint(haks(sides)) != 'gone:new' and debugger
                 
+                thenode and data.push(rel)
                 if (rel.el == 2) {
                     # < ignore gone if part.mod.n** c|sc same
                     #   ie whole r/* are drawn
                     #    or maybe til mirage line...
-                    delete sides.gone
+                    #delete sides.gone
                 }
                 
                 each sphere,part sides {
                     $side = part.up
                     # an el:1 from gone
-                    side.t != 'new' and debugger
+                    #side.t != 'new' and debugger
+                    
                     $rem = side.rem
-
                     $nod = rem.nod
-                    nod.sph.sphere != 'new' and return
                     $E = nod.E
                     $r = Aof(E)
+                    
+                    $mod = part.mod
+                    $n = mod.n
+                    
+                    thenode and data.push(n)
+                    side.t != 'new' and continue
+                    
                     # init
                     !rem.rels and rem_init(r)
                     ahk(rem,['rels'],rel)
 
                     # clone mod amongst the pla drawings
-                    $mod = part.mod
-                    $n = mod.n
                     me&modclone,modinto,n,{zucty}
-                    rel.el == 1 and me&tc,modinto,"1:"+n.t,'6y'
+                    #rel.el == 1 and me&tc,modinto,"1:"+n.t,'6y'
                 }
             })
+            
+            thenode and me&fu,"Lerel",data
             3c&o(pla,'remod',&rem,{
                 rem.rels and return
                 # no parts?
@@ -2524,6 +2546,7 @@
         me.Ploy_drawjoin_regions = &acgt{
             $joi = A&joi
             !joi.regs and return
+            cint(haks(joi.regs)) == 'had' and return
             
             $m = me&Ploy_rower,'regs'
             ms&hue = 260
