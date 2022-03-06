@@ -2292,6 +2292,7 @@
                // side(...).part(...), what() all
                 side: &t,rem{
                     sides[t] and debugger
+                    # .rem is optional, you may want part.up.rem from seam**
                     $side = {t,rem}
                     ahk(sides,t,side)
                     return {
@@ -2309,10 +2310,10 @@
                     $east = sides[both[0]]
                     $west = sides[both[1]]
                     if (!west) {
-                        # the shortcut, one side (eg pla.with|nod|sphere) involved
-                        # the one side all el:2, nothing to interleave
+                        # shortcut, one side (eg pla.with|nod|sphere) involved
+                        #  they all el:1, nothing to interleave
                         return map(&part,{
-                            return {el:2,part}
+                            return {el:1,part,flav:'mono'}
                         }, east.parts)
                     }
                     map(side => side.i = 0, sides)
@@ -2413,6 +2414,8 @@
                     }
                     
                //     done
+                    # rel.sided[side.t] = part
+                    #  part.mod usu = n, or the holder of n
                     seam.map(&rel,{
                         # < mak(_.up.t,...) # sets the keys
                         rel.sided = {}
@@ -2423,23 +2426,61 @@
                 }
             }
         }
-        # check rel parts are the same
-        # 
+        # check rel** parts are the same
+        # < notice when certain pla%regtc seem to be involved
+        #   eg reg:c (specifically c.s) may see n:At change (as Dc&s = "$sym $t")
+        #   eg reg:%♲ is for nc&thing/*y&symc&s==♲
         me.howsame_pla_rel = &acgt,pla,rel{
             $check_except = {c:{zuct:1},sc:{z:1}}
-            $same = &szd{
+            $same = &sz{
                 each nk,except check_except {
                     $off = hakd(s [nk], z [nk])
-                    # they may both have a different c&zuct, etc
-                    hak(off) && grop(k => except[k] && s [nk][k] && z [nk][k],off)
+                    # may both have a different c&zuct|thing, s&z etc
+                    hak(off) && grop(k => isob(s [nk][k]) && isob(z [nk][k]),off)
                     hak(off) and return 0
                 }
                 return 1
             }
-            
-            me&indo,s,{} (&sd{
-                sc&not and return d.not = 1
-            })
+            $ok = 1
+            $y = &rel,d{
+                # further items
+                d.inz = []
+                
+                $sided = map(part => part.mod, rel.sided)
+                # extra layer where &intivity given part.mod!=n
+                d.d ==  1 and sided = map(_=>_.n,sided)
+                
+                # check out $side/n
+                !hak(sided) and debugger
+                # mono
+                $bad = hak(sided) == 1
+                bad && rel.el != 1 and debugger
+                # c|sc difference
+                bad ||= !same(...havs(sided))
+                if (bad) {
+                    ok = 0
+                    d.abort = 1
+                    return
+                }
+                
+                !havs(sided)[0].sc.z and return
+                # now $side/n/*
+                $inti = me&intivity
+                each tn sided {
+                    $into = inti.side(t)
+                    # this is fine... they both must have
+                    nc&not and return d.not = 1
+                    each iz ns&z {
+                        !z and debugger
+                        into.part(z,{tv:[z.t,zy&cv]})
+                    }
+                }
+                d.inz = inti.what()
+                !hak(d.inz) and debugger
+                !d.inz and debugger
+            }
+            me&inlace,rel,{y}
+            return ok
         }
         me.Ploy_pla_remodulating = &acgtm,pla,{
             $nod = pla.anod
@@ -2496,7 +2537,7 @@
             }
             
            // get relativities
-            # {el:1|2,part|parting}+
+            # {el:1|2,part|parting,sided.$t=part}+
             $N = inti.what()
             
             $thenode = r.t == 'X'
@@ -2508,17 +2549,19 @@
                 hak(rel.sided) == 2 && cint(haks(rel.sided)) != 'gone:new' and debugger
                 
                 thenode and data.push(rel)
+                
+                
                 if (rel.el == 2) {
-                    # < ignore gone if part.mod.n** c|sc same
-                    #   ie whole r/* are drawn
-                    #    or maybe til mirage line...
-                    #delete sides.gone
+                    # might be the same
+                    me&howsame_pla_rel,pla,rel and rel.el = 8
                 }
+                rel.el == 8 and delete sided.gone
+                
            // etc
-                each sphere,part sides {
+                each t,part rel.sided {
                     $side = part.up
-                    # an el:1 from gone
-                    #side.t != 'new' and debugger
+                    # ie whole r/* are drawn, preferring side:new
+                    rel.el == 8 and side.t != 'new' and continue
                     
                     $rem = side.rem
                     $nod = rem.nod
@@ -2529,15 +2572,19 @@
                     $n = mod.n
                     
                     thenode and data.push(n)
-                    side.t != 'new' and continue
+                    #t != 'new' and continue
                     
                     # init
                     !rem.rels and rem_init(r)
                     ahk(rem,['rels'],rel)
 
                     # clone mod amongst the pla drawings
-                    me&modclone,modinto,n,{zucty}
-                    #rel.el == 1 and me&tc,modinto,"1:"+n.t,'6y'
+                    $s = me&modclone,modinto,n,{zucty}
+                    
+                    if (rel.el < 8) {
+                        # mark as new|gone
+                        me&modmark_sided,s,t
+                    }
                 }
             })
             
@@ -2563,6 +2610,23 @@
                 border-left: none;
                 border-right: none;
             =cut
+        }
+        me.modmark_sided = &acgtst{
+            $n = me&tc,s,'side:'+t
+            ss&z.push(ss&z.pop())
+            delete nc&s
+            # border without verticals
+            ns&br = 4
+            ns&bo = '0.2em dashed rgb(38, 110, 217)'
+            ns&hue = t == 'gone' ? 30 : -60
+            ns&bol = 0
+            ns&bor = 0
+            ns&po = 1
+            ns&wi = '100%'
+            ns&he = '100%'
+            ns&pa = 0.2
+            ns&ml = -0.2
+            ns&mt = -0.2
         }
         # oddrow: regs start|end at a join
         me.Ploy_drawjoin_regions = &acgt{
