@@ -2444,32 +2444,51 @@
             $ok = 1
             $y = &rel,d{
                 # further items
+                #  until they are added, a return in here ~~ d.not=1
                 d.inz = []
+                
                 
                 $sided = map(part => part.mod, rel.sided)
                 # extra layer where &intivity given part.mod!=n
                 d.d ==  1 and sided = map(_=>_.n,sided)
+                # an example of the two particles
+                #  ~~ pla.anod, is handy to have
+                $an = havs(sided)[0]
+                d.locate.push(an)
                 
                 # check out $side/n
                 !hak(sided) and debugger
                 # mono
                 $bad = hak(sided) == 1
                 bad && rel.el != 1 and debugger
-                # c|sc difference
-                bad ||= !same(...havs(sided))
+                if (!bad && ans&miragia) {
+                    # suppose mirage lines ~%geolen etc shouldnt matter
+                    #  we are basing all this on D** string remember
+                }
+                else {
+                    # c|sc difference
+                    bad ||= !same(...havs(sided))
+                }
+                
                 if (bad) {
                     ok = 0
+                    # for the whole d**
                     d.abort = 1
+                    ~>0 difrant: slant(d.locate)
                     return
                 }
                 
-                !havs(sided)[0].sc.z and return
+                !ans&z and return
+                if (anc&zuct) {
+                    1 == hak(uniq( armap(v => ahsk(v,'c','zuct','t'), sided) )) and return
+                    # to different r.t...
+                }
                 # now $side/n/*
                 $inti = me&intivity
                 each tn sided {
                     $into = inti.side(t)
                     # this is fine... they both must have
-                    nc&not and return d.not = 1
+                    nc&not and return
                     each iz ns&z {
                         !z and debugger
                         into.part(z,{tv:[z.t,zy&cv]})
@@ -2479,7 +2498,7 @@
                 !hak(d.inz) and debugger
                 !d.inz and debugger
             }
-            me&inlace,rel,{y}
+            me&inlace,rel,{y,extend:'locate',locate:[]}
             return ok
         }
         me.Ploy_pla_remodulating = &acgtm,pla,{
@@ -2540,28 +2559,23 @@
             # {el:1|2,part|parting,sided.$t=part}+
             $N = inti.what()
             
-            $thenode = r.t == 'X'
-            $data = []
+            $thenode = r.t == 'step'
+            $data = {}
             
-            #pla.anod.E.t == 'X' and me&fu,"XN",[N.map(_=>dis(_)),N.slice(4,6)]
             N.map(&rel,{
                 # want gone,new
                 hak(rel.sided) == 2 && cint(haks(rel.sided)) != 'gone:new' and debugger
                 
-                thenode and data.push(rel)
-                
-                
                 if (rel.el == 2) {
-                    # might be the same
+                    # might be the same!
                     me&howsame_pla_rel,pla,rel and rel.el = 8
                 }
-                rel.el == 8 and delete sided.gone
                 
            // etc
                 each t,part rel.sided {
                     $side = part.up
                     # ie whole r/* are drawn, preferring side:new
-                    rel.el == 8 and side.t != 'new' and continue
+                    rel.el == 8 && t != 'new' and continue
                     
                     $rem = side.rem
                     $nod = rem.nod
@@ -2570,8 +2584,9 @@
                     
                     $mod = part.mod
                     $n = mod.n
+                    nc&not and continue
+                    thenode and ahk(data,[r.t],n.t,rel)
                     
-                    thenode and data.push(n)
                     #t != 'new' and continue
                     
                     # init
@@ -2579,8 +2594,9 @@
                     ahk(rem,['rels'],rel)
 
                     # clone mod amongst the pla drawings
+                    # < if nc&s, make extra container around it
+                    #    where &modmark_sided will be
                     $s = me&modclone,modinto,n,{zucty}
-                    
                     if (rel.el < 8) {
                         # mark as new|gone
                         me&modmark_sided,s,t
@@ -2594,39 +2610,35 @@
                 # no parts?
                 #me&tc,"No:"+rem.nod.sph.sphere
             })
-            
-            =pod
-              for new|gone brackets around modclones:
-                border-radius: 4em;
-                border: 0.2em dashed rgb(38, 110, 217);
-                filter: hue-rotate(30deg);
-                position: fixed;
-                width: 100%;
-                height: 100%;
-                padding: 0.2em;
-                margin-left: -0.2em;
-                margin-top: -0.2em;
-                z-index: -30;
-                border-left: none;
-                border-right: none;
-            =cut
         }
+        # for new|gone brackets around modclones
         me.modmark_sided = &acgtst{
-            $n = me&tc,s,'side:'+t
-            ss&z.push(ss&z.pop())
+            $n = me&tc,s,'side:'+t+':'+s.t,'y'
+            $nn = ss&z.pop()
+            nn != n and debugger
+            ss&z.unshift(nn)
             delete nc&s
             # border without verticals
+            # position:fixed
+            ns&po = 3
+            # display:block/position:absolute
+            ss&dis == 1 and ns&po = 1
             ns&br = 4
             ns&bo = '0.2em dashed rgb(38, 110, 217)'
             ns&hue = t == 'gone' ? 30 : -60
             ns&bol = 0
             ns&bor = 0
-            ns&po = 1
+            #ns&zi = -1
             ns&wi = '100%'
             ns&he = '100%'
+            ns&miw = '16px'
+            ns&mih = 1
             ns&pa = 0.2
-            ns&ml = -0.2
-            ns&mt = -0.2
+            # centering
+            ns&ml = -0.3
+            ns&mt = -0.3
+            !ns&po and ns&top = 0
+            
         }
         # oddrow: regs start|end at a join
         me.Ploy_drawjoin_regions = &acgt{
