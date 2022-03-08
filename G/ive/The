@@ -4677,12 +4677,15 @@ me.Sch_The = &acgt{ return [
         # rely on the labels of the others
         Cy&label.c.not = 1
         R.t == 'loading' and me&fu,"Lat",pla
-        # copy the R%inline etc relevant for &sfx_mirage
-        # < inlineable,inline must be in both or may downgrade if big diff
-        map(
-            r => sex(R.sc,r.sc,'inlineable,isdim,indim,inline,asabove,asfollows'),
-            3c&o(pla,'with',nod => nod.E.y.R)
-        )
+        3c&o(pla,'with',nod => nod.E.y.R) .map(&r{
+            # copy the R%inline etc relevant for &sfx_mirage
+            # < inlineable,inline must be in both or may downgrade if big diff
+            sex(R.sc,r.sc,'inlineable,isdim,indim,inline,asabove,asfollows')
+            # and r%C, may have a border etc
+            $rC = rs&C
+            # ignore the first two, which have scroll
+            pla.d > 2 and ex(C.sc,rC.sc)
+        })
         
         # do stuff
         $cont = Cye(['contain-remodulation',1])
