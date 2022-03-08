@@ -1708,7 +1708,8 @@
                 }
             },m)
         }
-        
+    
+    
     //  reg -> pla
         =pod
           group like stuff
@@ -2039,6 +2040,8 @@
                     sex(c,reg,'degree')
                     joi == reg.matches[0] and c.emphasis = 1
                 }
+                $degree = grep(havs(plas&regtc).map(c => c.degree)).sort()[0]
+                degree and plas&degree = degree
                 
                 if (!pla.inter) {
                     # no more /** had regs
@@ -2168,8 +2171,7 @@
                       // regs etc
                         # regs here
                         # give an overall degree
-                        $degree = grep(havs(plas&regtc).map(c => c.degree)).sort()[0]
-                        degree and plas&degree = degree
+                        $degree = plas&degree
                         ms&bgh = degree > 7 ? '241'
                             : degree > 0 ? '642'
                             : '001'
@@ -2181,7 +2183,10 @@
                             if (c.emphasis) {
                                 ns&fs = 17
                                 # marking stuck in indent
-                                pex(me&tsc,"regs-emphasis",t,'y' .sc,'ab,left:0,fs:17')
+                                me&drawleftwing (&{
+                                    me&tsc,"regs-emphasis",t .sc.fs = 17
+                                })
+                                pex()
                             }
                             c.hadbyall
                                 && me&tsc,"regs-hadbyall",'***','y'
@@ -2231,6 +2236,7 @@
                 })
             })
         }
+    
     //  pla remodulating
         # portable relativity, see resolve $n
         #  an each-either iteration
@@ -2688,6 +2694,17 @@
         }
         
     // drawing f
+        # space for marking in the indent space
+        me.drawleftwing = &acgt{
+            return &y{
+                me&boxcap,'leftwing',2 (&ml{
+                    lc&not = 1
+                    pex(m.sc,'ab,left:0')
+                    me&walls,m,'b:2.2h:4'
+                    y (m,l)
+                })
+            }
+        }
         # name|number n:E.t, j:$i...
         # see also &Ploy_identify
         # < should become -Difmo/joi/E**?
