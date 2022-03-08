@@ -4686,7 +4686,37 @@ me.Sch_The = &acgt{ return [
             # ignore the first two, which have scroll
             pla.d > 2 and ex(C.sc,rC.sc)
         })
+       
+    // markers
+        # are visible (or not)
+        each tc plas&regtc {
+            c.saidbyancestor and continue
+            $n = me&tsc,"regs-had",t,'y'
+            if (c.emphasis || c.hadbyall) {
+                nc&not = 1
+                # marking stuck in indent
+                me&drawleftwing (&{
+                    me&tsc,"regs-emphasis",t .sc.fs = 17
+                    c.hadbyall
+                        && me&tsc,"regs-hadbyall",'***','y'
+                })
+            }
+            if (!c.hadbyall && (c.emphasis || plas&degree >= 8)) {
+                # let the drawleftwing here|near-ish say it
+                nc&not = 1
+            }
+        }
+        # are against what was saidbyancestor
+        each tc plas&unhad_regtc {
+            me&boxcap,"unhad-amongst",2,2 (&ml{
+                lc&not = 1
+                ms&hue = 300
+                me&tsc,"regs-unhad",'!','y' .sc.fs = 17
+                me&tsc,"regs-unhad",t,'y'
+            })
+        }
         
+    // remodulation
         # do stuff
         $cont = Cye(['contain-remodulation',1])
         me&Ploy_pla_remodulating,cont,pla

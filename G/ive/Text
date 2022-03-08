@@ -2186,7 +2186,6 @@
                                 me&drawleftwing (&{
                                     me&tsc,"regs-emphasis",t .sc.fs = 17
                                 })
-                                pex()
                             }
                             c.hadbyall
                                 && me&tsc,"regs-hadbyall",'***','y'
@@ -2202,6 +2201,7 @@
                                 me&tsc,"regs-unhad",t,'y'
                             })
                         }
+                        pla.joi.i_join == 40 and me&fu,"Forc",pla
 
                         $heren = hak(pla.sc) &&
                         me&boxcap,"here",2 (&ml{
@@ -2518,6 +2518,11 @@
                 # never happens, unless c&zuct outside of %miragia**
                 debugger
             }
+            $newc = ahsk(pla,'sc','regtc','new')
+            if (newc) {
+                newc.hadbyall and me&modmark_sided,modinto,'new'
+                newc.hadbyall || newc.saidbyancestor and $no_mark_sided = 1
+            }
             
             N.map(&rel,{
                 # want gone,new
@@ -2557,7 +2562,7 @@
                     # < if nc&s, make extra container around it
                     #    where &modmark_sided will be
                     $s = me&modclone,(figaro||modinto),n,{zucty}
-                    if (rel.el < 8) {
+                    if (rel.el < 8 && !no_mark_sided) {
                         # mark as new|gone
                         me&modmark_sided,(figaro||s),t
                     }
