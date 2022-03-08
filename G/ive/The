@@ -4666,16 +4666,28 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
     ['Difpla',0.23,&acgtRs{
         $pla = s
-        #me&moddelete,
+        # just ignore the first one, which is an RE so
+        pla.d == 1 and return
         # get in the A:Ploy light cone for 3c&o() etc
         $V = me&Rsc,R,'^^PloyA'
         !V and debugger
         A = V
         Rs&PloyA = A = fi&At,"Difpla"
         
+        # rely on the labels of the others
+        Cy&label.c.not = 1
+        R.t == 'loading' and me&fu,"Lat",pla
+        # copy the R%inline etc relevant for &sfx_mirage
+        # < inlineable,inline must be in both or may downgrade if big diff
+        map(
+            r => sex(R.sc,r.sc,'inlineable,isdim,indim,inline,asabove,asfollows'),
+            3c&o(pla,'with',nod => nod.E.y.R)
+        )
+        
         # do stuff
         $cont = me&tc,"contain-remodulation"
         delete contc&s
+        contc&sortcv = 1
         conts&Difpla = 1
         me&Ploy_pla_remodulating,cont,pla
     },'ift,D'],
@@ -5038,7 +5050,7 @@ me.Sch_The = &acgt{ return [
             $E = Rs&E
             # qua.impl ip if sip
             $ips = grep(map((v,t) => me&fiu,E,t,8 , peel('ip,sip')))
-            if (hak(ips)) {
+            if (hak(ips) && ips.ip && ips.sip) {
                 spant(ips.ip.c.s) != ips.sip.c.s and debugger
                 else me&TXilay,'onlysip','ip:impl'
             }
