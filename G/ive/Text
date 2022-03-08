@@ -2145,46 +2145,27 @@
                 me&walls,m,'bd:2.2'
                 inplacing(top,&pla,d,eld,joi,regs,had{
                     $nod = pla.anod
-                    # where to put $m
-                    #  r%C may be %zuct'd into the above modulat (aft &modclone)
-                    $capsleeve = me&Ploy_pla_remodulating_arrive,pla
-                    #  or just the $m above
-                    $cap = capsleeve || d.cap
-                    cap and capc&sortcv = 1
-                    d.cap = me&boxcap,"place"+pla.i_place,1,0,cap (&ml{
+                    d.cap = me&boxcap,"place"+pla.i_place,1,0,d.cap (&ml{
                       // drawing
                         my&cv = 0.7
                         mc&maybeempty = 1
 
-                        if (d.remodulating) {
-                            if (capsleeve) {
-                                # we are inside ...modulat.../r%C
-                                #  when mirage has mirageec&zuct=r, see &sfx_mirage
-                                ms&capsleeve = 1
-                            }
-                            else {
-                                # or not, just E/e sitting there
-                                #  which is why my&cv=7
-                            }
-                        }
-                        else {
-                            ms&ml = 0.3
-                            me&walls,m,'bd:2.2'
-                            lc&s = nod.E.t
-                            ls&fs = 6
+                        ms&ml = 0.3
+                        me&walls,m,'bd:2.2'
+                        lc&s = nod.E.t
+                        ls&fs = 6
 
-                            # folding skinny branch
-                            #  only when not remodulating
-                            #   this is a cheap analogue of &sfx_mirage making lines?
-                            plas&watersprout and d.foldedup = 1
-                            if (plas&watersprouted) {
-                                ms&dis = 2
-                                ms&pt = ms&pb = 0.03
-                                !plas&watersprout and delete ms&ml
-                            }
+                        # folding skinny branch
+                        #  only when not remodulating
+                        #   this is a cheap analogue of &sfx_mirage making lines?
+                        plas&watersprout and d.foldedup = 1
+                        if (plas&watersprouted) {
+                            ms&dis = 2
+                            ms&pt = ms&pb = 0.03
+                            !plas&watersprout and delete ms&ml
                         }
 
-                       // regs etc
+                      // regs etc
                         # regs here
                         # give an overall degree
                         $degree = grep(havs(plas&regtc).map(c => c.degree)).sort()[0]
@@ -2246,38 +2227,11 @@
                             }
                             !plas&watersprouted and me&Ploy_tid,joi
                         })
-
-                      // remodulating
-                        # < GOING to %Difmo/**
-                        return 1
-                        d.d == 3 && nod.E.t == 1 and d.remodulating = 1
-                        !d.remodulating and return
-                        lc&not = 1
-                        # $m=d.cap sits flush inside|around r%C
-                        delete ms&dis
-                        # mute things
-                        heren && herens&usualstuff and herenc&not = 1
-                        mc&sortcv = 1
-
-                        me&Ploy_pla_remodulating,m,pla
                     })
                 })
             })
         }
     //  pla remodulating
-        # pla...pla relative to nod...modulat...c&zuct=r//nod{
-        # resolve $n: tw+i should work
-        # < have refs around... we are pla, not per nod yet
-        me.Ploy_pla_remodulating_arrive = &acgt,pla{
-            $nod = pla.anod
-            $r = Aof(nod.E)
-            $eld = pla.up
-            $N = ahsk(eld,'tw_modsleeves',nod.E.t)
-            !N and return
-            #$sl = grep(sl => sly&rC == rs&C, N)
-            #hak(sl) != 1 and debugger
-            return N.shift()
-        }
         # portable relativity, see resolve $n
         #  an each-either iteration
         #  produces paired or interleaved seam=[{el=1|2,part|parting}+]
@@ -2516,8 +2470,11 @@
             return ok
         }
         me.Ploy_pla_remodulating = &acgtm,pla,{
+            # for example
             $nod = pla.anod
             $r = Aof(nod.E)
+            # where to put parts
+            $modinto = m
            // source $n
             # i pla/#nod:remod/#n:mod o pla/with/nod//r/%M/n
             #  relativity between nod modulat
@@ -2544,40 +2501,17 @@
                 })
             })
             
-           // on r%C
-            # where to put parts
-            $modinto = m
-            # first rem to have parts may claim pla's overall r%C clone
-            # < diff them
-            $somerC = null
-            # either rem starts having parts of r
-            $rem_init = &r{
-                if (!somerC && !ms&capsleeve) {
-                    # r%C must be placed
-                    #  inside $m=d.cap, swallowing m/* so far
-                    #  has important styles sometimes, eg black left border
-                    $rC = Cye(rs&C)
-                    rCs&z = delete modintos&z
-                    ac(modinto,'z',rC)
-                    # be the place to put modclones
-                    modinto = somerC = rC
-                }
-            }
-            # part &modclone may run into r...r, who will be ms&capsleeve
-            $zucty = &srdl{
-                # sleeve l = clone r%C
-                ly&rC = rs&C
-                ahk(pla,['tw_modsleeves'],r.t,l)
-                # this stops &modclone into l** (yet)
-                return 1
-            }
             
-           // get relativities
+           // per part
             # {el:1|2,part|parting,sided.$t=part}+
             $N = inti.what()
             
-            $thenode = r.t == '1' && ry&up.t == '-hat'
+            $thenode = 0 && r.t == '1' && ry&up.t == '-hat'
             $data = {}
+            $zucty = &srdl{
+                # never happens, unless c&zuct outside of %miragia**
+                debugger
+            }
             
             N.map(&rel,{
                 # want gone,new
@@ -2588,7 +2522,6 @@
                     me&howsame_pla_rel,pla,rel and rel.el = 8
                 }
                 
-           // etc
                 each t,part rel.sided {
                     $side = part.up
                     # ie whole r/* are drawn, preferring side:new
@@ -2604,13 +2537,11 @@
                     nc&not and continue
                     thenode and ahk(data,[r.t],n.t,rel)
                     
-                    #t != 'new' and continue
-                    
                     # init
-                    !rem.rels and rem_init(r)
+                    #!rem.rels and rem_init(r)
                     ahk(rem,['rels'],rel)
 
-                    # clone mod amongst the pla drawings
+           //   clone mod amongst
                     $figaro = null
                     if (hak(n.c,'s') && rel.el < 8) {
                         # extra container around text element
@@ -2628,11 +2559,6 @@
             })
             
             thenode and me&fu,"Lerel",data
-            3c&o(pla,'remod',&rem,{
-                rem.rels and return
-                # no parts?
-                #me&tc,"No:"+rem.nod.sph.sphere
-            })
         }
         # for new|gone brackets around modclones
         me.modmark_sided = &acgtst{
