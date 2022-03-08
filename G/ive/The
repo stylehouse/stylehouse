@@ -4625,7 +4625,14 @@ me.Sch_The = &acgt{ return [
         !Rs&Top and return
         
     },'ift,D'],
-    ['Difmo',0.22,&acgtRs{
+    &{
+    me.Eiplace = &acgt,pla{
+        $t = pla.anod.E.t
+        me&Ei,{t,pi:'Difpla',s:pla}
+    }
+    },
+    # computes, makes E/**)%Difmo,pla
+    ['Difmo+Top',0.22,&acgtRs{
         $E = Rs&E
         $D = Rs&D
         # from the RE, the titled -six
@@ -4641,6 +4648,26 @@ me.Sch_The = &acgt{ return [
         $Comp = ss&z.slice(0)
         $X = me&Ploy,nav,Comp
         Ey&Ploy = X
+        
+        # drawing E/** <- pla**
+        #  can be a modpile, but we want to re-mirage E/e
+        #me&Ei,{t:'Ploy_X_place',s:X.place,pi:'Fez',dl:3}
+        $top = X.place[0]
+        me&Eiplace,top
+    },'ift,D'],
+    # E/**)%Difpla stereo modulat
+    ['Difpla',0.22,&acgtRs{
+        $p = Ry&up
+        me&walls,C,"bd:2.2"
+        $t = s.anod.E.t
+        p.t == '-hat' && t == '1' and Rs&remodulating = 1
+        sex(R.sc,p.sc,'remodulating')
+        each i,pla s.placed {
+            me&Eiplace,pla
+        }
+    },'ift,D'],
+    ['Difpla+remodulating',0.23,&acgtRs{
+        me&tc,"@" .sc.hue = -70
     },'ift,D'],
     &{
     },
