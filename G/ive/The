@@ -4648,6 +4648,7 @@ me.Sch_The = &acgt{ return [
         $Comp = ss&z.slice(0)
         $X = me&Ploy,nav,Comp
         Ey&Ploy = X
+        Rs&PloyA = X.A
         
         # drawing E/** <- pla**
         #  can be a modpile, but we want to re-mirage E/e
@@ -4659,15 +4660,24 @@ me.Sch_The = &acgt{ return [
     ['Difpla',0.22,&acgtRs{
         $p = Ry&up
         me&walls,C,"bd:2.2"
-        $t = s.anod.E.t
-        p.t == '-hat' && t == '1' and Rs&remodulating = 1
-        sex(R.sc,p.sc,'remodulating')
         each i,pla s.placed {
             me&Eiplace,pla
         }
     },'ift,D'],
-    ['Difpla+remodulating',0.23,&acgtRs{
-        me&tc,"@" .sc.hue = -70
+    ['Difpla',0.23,&acgtRs{
+        $pla = s
+        #me&moddelete,
+        # get in the A:Ploy light cone for 3c&o() etc
+        $V = me&Rsc,R,'^^PloyA'
+        !V and debugger
+        A = V
+        Rs&PloyA = A = fi&At,"Difpla"
+        
+        # do stuff
+        $cont = me&tc,"contain-remodulation"
+        delete contc&s
+        conts&Difpla = 1
+        me&Ploy_pla_remodulating,cont,pla
     },'ift,D'],
     &{
     },
