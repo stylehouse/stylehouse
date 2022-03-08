@@ -2291,6 +2291,18 @@
         # < changing order with... el:6+9?
         me.intivity = &acgt{
             $sides = {}
+            # on return, mix rel.sided.$t=part from rel.part|parting.$i = part
+            $retseam = &seam,{
+                # rel.sided[side.t] = part
+                #  part.mod usu = n, or the holder of n
+                seam.map(&rel,{
+                    # < mak(_.up.t,...) # sets the keys
+                    rel.sided = {}
+                    $parts = rel.part ? [rel.part] : havs(rel.parting)
+                    parts.map(part => rel.sided[part.up.t] = part)
+                })
+                return seam
+            }
             return {
                // side(...).part(...), what() all
                 side: &t,rem{
@@ -2311,14 +2323,20 @@
                     # both sides now
                     $both = haks(sides)
                     $east = sides[both[0]]
+                    # you should have >=1 side() to use &intivity
+                    !east and debugger; return []
                     $west = sides[both[1]]
                     if (!west) {
-                        # shortcut, one side (eg pla.with|nod|sphere) involved
+                        # shortcut, one side() (eg pla.with|nod|sphere) involved
                         #  they all el:1, nothing to interleave
-                        return map(&part,{
+                        return retseam(map(&part,{
                             return {el:1,part,flav:'mono'}
-                        }, east.parts)
+                        }, east.parts))
                     }
+                    # one|both may have no part(), -> mono|empty seam
+                    east.parts ||= []
+                    west.parts ||= []
+                    
                     map(side => side.i = 0, sides)
                     # eventually 
                     $seam = []
@@ -2417,15 +2435,7 @@
                     }
                     
                //     done
-                    # rel.sided[side.t] = part
-                    #  part.mod usu = n, or the holder of n
-                    seam.map(&rel,{
-                        # < mak(_.up.t,...) # sets the keys
-                        rel.sided = {}
-                        $parts = rel.part ? [rel.part] : havs(rel.parting)
-                        parts.map(part => rel.sided[part.up.t] = part)
-                    })
-                    return seam
+                    return retseam(seam)
                 }
             }
         }
