@@ -2038,7 +2038,6 @@
                     $c = ahk(pla,'sc','regtc',reg.t,{})
                     # styles per pla/reg
                     sex(c,reg,'degree')
-                    joi == reg.matches[0] and c.emphasis = 1
                 }
                 $degree = grep(havs(plas&regtc).map(c => c.degree)).sort()[0]
                 degree and plas&degree = degree
@@ -2069,6 +2068,7 @@
             })
             
             # reg is so popular in pla** that we say when it doesnt match
+            # < io expr
             inplacing(top,&pla,d,eld,joi,regs,had{
                 each tc plas&regtc {
                     # already in the ***, dont need to say reg
@@ -2121,6 +2121,17 @@
                 })
             })
             
+            # create emphasis for some regs
+            #  these are the only ones said by -Difpla
+            #   everything else becomes mod diffs or is invisible
+            inplacing(top,&pla,d,eld,joi,regs,had{
+                each i,reg had {
+                    $c = ahsk(pla,'sc','regtc',reg.t)
+                    if (joi == reg.matches[0] || c.hadbyall) {
+                        c.emphasis = 1
+                    }
+                }
+            })
             
            // done, visualise
             3c&hide_regs and return
@@ -2153,7 +2164,7 @@
                         my&cv = 0.7
                         mc&maybeempty = 1
 
-                        ms&ml = 0.3
+                        ms&ml = 1
                         me&walls,m,'bd:2.2'
                         lc&s = nod.E.t
                         ls&fs = 6
@@ -2168,7 +2179,7 @@
                             !plas&watersprout and delete ms&ml
                         }
 
-                      // regs etc
+                      // regs etc!
                         # regs here
                         # give an overall degree
                         $degree = plas&degree
@@ -2183,8 +2194,10 @@
                             if (c.emphasis) {
                                 ns&fs = 17
                                 # marking stuck in indent
-                                me&drawleftwing (&{
+                                me&drawleftwing,pla (&{
                                     me&tsc,"regs-emphasis",t .sc.fs = 17
+                                    c.hadbyall
+                                        && me&tsc,"regs-hadbyall",'***','y'
                                 })
                             }
                             c.hadbyall
