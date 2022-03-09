@@ -765,6 +765,7 @@
         # i joi/#lin:jin/#col:jol/#with:jodol o nod/lin/col
         # joi gathers C.*.* change in stereo (or mono)
         #  only changey
+        me.Ploy_knowing_nkgk = {sc:{ark:'%',gk_degree:{'♲':{degree:7,if1_degree:8}}}}
         me.Ploy_joi_jin = &acgt,joi{
             $lin_quant
             me&Ploy_joi_nods,joi .map(&nod,{
@@ -866,12 +867,19 @@
                                 # < further. seq++ numbers? pointer much changing?
                                 
                                 # how serious is the change
-                                #  so far, ~%♲ is not a big deal
-                                $gol_degree = ahsk(knowing,'gk_degree',gk) || degree
+                                $deg = degree
+                                $how = ahsk(knowing,'gk_degree',gk)
+                                if (how) {
+                                    # so far %♲ is low severity (7), %♲:1 even lower (8)
+                                    how.degree and deg = how.degree
+                                    if (how.if1_degree && vs[0] == 1) {
+                                        deg = how.if1_degree
+                                    } 
+                                }
                                 # joi.changes.$nk$gk=degree
-                                ahk(joi,'changes',ark+gk,gol_degree)
+                                ahk(joi, 'changes',ark+gk, deg)
                                 # joi/jin/jol/gol.degree
-                                gol.degree = gol_degree
+                                gol.degree = deg
                                 # the various *.changey=1 are deduced from l, not treeaged thusly
                                 # most serious percolates to jol.degree
                                 #  ie, lots of 8 is still just 8
@@ -893,7 +901,6 @@
         # classify C.*.* change
         # < to somewhere, for regionating
         # < u Ploy
-        me.Ploy_knowing_nkgk = {sc:{ark:'%',gk_degree:{'♲':8}}}
         me.Ploy_drawjoin_jin = &acgt,joi{
             # each jodol/microbit.bit.l is in here
             $ls = 3c&io(joi,'lit','*') .map(lit => lit.l)
@@ -1986,8 +1993,10 @@
                 # had matched
                 each i,reg had {
                     $c = ahk(pla,'sc','regtc',reg.t,{})
-                    # styles per pla/reg
-                    sex(c,reg,'degree')
+                    # reg.degree is the lowest (most severe) per any of its /matches
+                    # pla/#reg.degree shall be wrt itself
+                    $degree = ahsk(joi,'changes',reg.t)
+                    degree and c.degree = degree
                 }
                 $degree = grep(havs(plas&regtc).map(c => c.degree)).sort()[0]
                 degree and plas&degree = degree
