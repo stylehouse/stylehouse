@@ -4693,7 +4693,10 @@ me.Sch_The = &acgt{ return [
         
         me&Ploy_pla_remodulating,C,pla
         # let sort with E/* miragia
-        map(n => ac(R,'M',n), s&z)
+        each in s&z {
+            nc&thing && nc&thing.t == 'mirage' and continue
+            ac(R,'M',n)
+        }
         s&z = []
         
     // markers!
