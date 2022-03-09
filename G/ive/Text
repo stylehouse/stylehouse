@@ -2715,7 +2715,8 @@
         
     // drawing f
         # space for marking in the indent space
-        me.drawleftwing = &acgt{
+        me.drawleftwing = &acgt,pla{
+            $depth = pla ? pla.d : 5
             return &y{
                 me&boxcap,'leftwing',2 (&ml{
                     lc&not = 1
@@ -2723,8 +2724,21 @@
                     # < ^ is not enough most of the time?
                     # extra sort-first hack:
                     ms&floats = 'left'
-                    pex(m.sc,'ab,left:0')
+                    ms&ab = 1
+                    if (s&po == 2) {
+                        # an m%left would be relative to that (C)
+                        # < or any above, an R:Display-time look-around style
+                        #   as would be figuring out our indent properly
+                        #    whence you would probably use &boxlink (at shui() time)
+                        # how far we are indented is had to gauge
+                        #  this assumes %ml=1 per depth, with the occasional inline
+                        #   and ignore depth=1 having no %ml, clearing width of m from C
+                        ms&ml = - dec(depth * 0.67,2)
+                    }
+                    else ms&left = 0
+                    ms&mw = 3
                     me&walls,m,'b:2.2h:4'
+                    
                     y (m,l)
                 })
             }
