@@ -2378,8 +2378,7 @@ me.Sch_The = &acgt{ return [
                 lat.map(n => ac(rs&Msink,'z',n))
             }
         }
-        $M = Rs&M
-        vsortz(M)
+        vsortz(Rs&M)
     }
     # upwards, cook modulat
     me.specialfx1 = &acgtR{
@@ -2575,10 +2574,12 @@ me.Sch_The = &acgt{ return [
         $af = me&fiu,mir,'mirmod1'
         fos&z = fore
         foy&cv = 0.03
-        foc&sortcv = 1
         afs&z = aft
         afy&cv = 0.77
-        afc&sortcv = 1
+        foc&sortcv = afc&sortcv = 1
+        # this means they contain modulat you should include as if flat
+        #  when ignoring mirage lines, eg as &Ploy_pla_remodulating
+        fos&miragia = afs&miragia = 2
         
         # further R%M/* are redirected into af/*
         Rs&Msink = af
@@ -4689,7 +4690,7 @@ me.Sch_The = &acgt{ return [
     // remodulation
         # do stuff
         
-        R.t == 'loading' and me&fu,"Lat",pla
+        #R.t == 'loading' and me&fu,"Lat",pla
         
         me&Ploy_pla_remodulating,C,pla
         # let sort with E/* miragia
