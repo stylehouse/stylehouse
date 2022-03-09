@@ -2026,6 +2026,26 @@
                 }
             })
             
+            # may become more severe $v, returns most severe
+            $mostdeg = &pla,v{
+                $was = ahsk(pla,'most','degree')
+                v and !was || was > v and ahk(pla,'most','degree',v); return v
+                return was
+            }
+            # fade the boring**
+            #  find parents of **degree >= 8
+            inplacing(top,&{},&pla,d,eld,joi,regs,had{
+                # amongst pla/** and pla
+                $most = mostdeg(pla,plas&degree)
+                !eld and return
+                mostdeg(eld,most)
+            })
+            inplacing(top,&pla,d,eld,joi,regs,had{
+                mostdeg(pla) < 8 and return
+                plas&borein = 1
+                d.not = 1
+            })
+            
             # reg is so popular in pla** that we say when it doesnt match
             # < io expr
             inplacing(top,&pla,d,eld,joi,regs,had{

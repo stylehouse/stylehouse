@@ -4701,12 +4701,11 @@ me.Sch_The = &acgt{ return [
         s&z = []
         
     // markers!
-        # are visible (or not)
+        # regs with emphasis labelled in the indent space
         each tc plas&regtc {
             c.saidbyancestor and continue
-            $n = me&tsc,"regs-had",t,'y'
+            c.emphasis && c.saidbyancestor and debugger
             if (c.emphasis) {
-                nc&not = 1
                 # marking stuck in indent
                 me&drawleftwing,pla (&{
                     me&tsc,"regs-emphasis",t .sc.fs = 17
@@ -4714,12 +4713,6 @@ me.Sch_The = &acgt{ return [
                         && me&tsc,"regs-hadbyall",'***','y'
                 })
             }
-            if (!c.hadbyall && (c.emphasis || c.degree >= 8)) {
-                # let the drawleftwing here|near-ish say it
-                nc&not = 1
-            }
-            # lets only &drawleftwing
-            nc&not = 1
         }
         # are against what was saidbyancestor
         each tc plas&unhad_regtc {
@@ -4730,7 +4723,10 @@ me.Sch_The = &acgt{ return [
                 me&tsc,"regs-unhad",t,'y'
             })
         }
-        
+        if (plas&borein) {
+            s&opa = 0.5
+            # < R%geolen > 100 and shut?
+        }
     },'ift,D'],
     &{
     },
