@@ -2276,6 +2276,7 @@
                 return seam
             }
             return {
+               
                // side(...).part(...), what() all
                 side: &t,rem{
                     sides[t] and debugger
@@ -2493,6 +2494,19 @@
             $r = Aof(nod.E)
             # where to put parts
             $modinto = m
+            plas&degree && plas&degree < 8 and ms&mt = ms&mb = 0.1
+            # may overall new|gone, instead of lots of little marks
+            $no_mark_sided = 0
+            map(&k{
+                $c = ahsk(pla,'sc','regtc',k)
+                !c and return
+                if (!c.saidbyancestor) {
+                    $n = me&modmark_sided,modinto,k
+                    c.hadbyall and ns&bol = '0.25em dotted rgb(38, 110, 217)'
+                }
+                no_mark_sided = 1
+            },['new','gone'])
+            
            // source $n
             # i pla/#nod:remod/#n:mod o pla/with/nod//r/%M/n
             #  relativity between nod modulat
@@ -2529,11 +2543,6 @@
             $zucty = &srdl{
                 # never happens, unless c&zuct outside of %miragia**
                 debugger
-            }
-            $newc = ahsk(pla,'sc','regtc','new')
-            if (newc) {
-                newc.hadbyall and me&modmark_sided,modinto,'new'
-                newc.hadbyall || newc.saidbyancestor and $no_mark_sided = 1
             }
             
             N.map(&rel,{
@@ -2600,25 +2609,26 @@
             if (sc&figaro) {
                 # pos:rel,dis:inline-block / pos:abs,dis:block
                 ss&po = 2; ss&dis = 2; ns&po = 1; ns&dis = 1
-                ss&miw = 1
             }
             
             # border without verticals
-            ns&br = 4
+            ns&br = 1
             ns&bo = '0.25em dashed rgb(38, 110, 217)'
             ns&hue = t == 'gone' ? 30 : -60
-            ns&bol = 0
+            ns&bol ||= 0
             ns&bor = 0
             #ns&zi = -1
             ns&wi = '100%'
             ns&he = '100%'
-            ns&miw = '16px'
+            ns&miw = 1
             ns&mih = 1
             ns&pa = 0.2
             # centering
             ns&ml = -0.2
             ns&mt = -0.4125
             !ns&po and ns&top = 0
+            
+            return n
         }
         # oddrow: regs start|end at a join
         me.Ploy_drawjoin_regions = &acgt{
