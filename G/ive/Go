@@ -3647,6 +3647,19 @@ me.Sch_Go = &acgt{ return [
                 return h
             }
         }
+        # guesses some A&six, eg &Ahdiff_what it should diff
+        #  which is unlikely to want other diffs (which -Womb)
+        me.testo_pi_unassumable = {Womb:1,Difmo:1}
+        me.testo_pi_recent = &acgt{
+            !As&six and debugger
+            # < grep(y,y,N), and sub y=fu|ar|C arg interpretation
+            return grep(&n{
+                # primary source, eg -hat not -Womb
+                return !me.testo_pi_unassumable[nc&pi]
+                # in the same Eight as now
+                    && n.y.up.y.up.t == A.h.t
+            }, As&six)
+        }
      
      // mock objects
        // &mockR
@@ -3845,7 +3858,9 @@ me.Sch_Go = &acgt{ return [
        
      // assertions, breakdowns, etc
       // assertions
-        # -Womb a s-six modulat
+       // modulat
+        # -Womb a s-six modulat, styles and all
+        # < not E**, only E (//R%M) ?
         me.AhWombmod = &acgts{
             s == -1 and s = a&six.slice(-1)[0]
             $E = me&Eof,s
@@ -3863,6 +3878,7 @@ me.Sch_Go = &acgt{ return [
             return A.h.Womb('modulat of: '+s.t, modcon)
         }
         
+       // diff
         # patches of modulat
         me.AhDifmo = &acgt{
             $g = me&Ahdiff_what,[...arguments].slice(4)
@@ -3890,9 +3906,6 @@ me.Sch_Go = &acgt{ return [
                 isC(v) and g.what.push(v)
             }
 
-            # title for the diff-Womb, %Diff gets named after $exp
-            !g.t and throw "title the diff"
-
             # we drift onto new A.h recreated by A.h.o
             #  or beyond onto &mockbrackR c, gaining sight of its cs&_Aips
             # < As&six
@@ -3901,8 +3914,7 @@ me.Sch_Go = &acgt{ return [
                 $c = A.h.be || A.h
                 # named versions:
                 $N = c.sc && havs(c.sc)
-                $nonWombsameEight = n => nc&pi != 'Womb' && n.y.up.y.up.t == A.h.t
-                N ||= grep(nonWombsameEight, As&six)
+                N ||= me&testo_pi_recent
                 !hak(N) and throw "Ah.diff without Ah>>.sc or A%six"
                 
                 # or one given to latest what
@@ -3910,7 +3922,12 @@ me.Sch_Go = &acgt{ return [
                 else
                 # default latest whats
                 !hak(g.what) and g.what = N.slice(-2)
-            } 
+            }
+            g.what.some(n => !isC(n)) and debugger
+            
+            # auto title
+            # < R%Diff gets named after $exp. rebuild it!
+            !hak(g,'t') and g.t = '..'+g.what.slice(-1)[0].t
 
             # < being visible in @Run as modulat is weird
             #   do a proper A:Run** situation? some -Eight take Run%M?
