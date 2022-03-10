@@ -2524,11 +2524,14 @@ me.Sch_Go = &acgt{ return [
             me&boxcap,'offend',1 (&ml{
             me&walls,m,'b:3.3'
             ls&ml = 2
+            lc&s = ''
             me&scroll,m
+            
+            !me&tt,"offend?" () and $dont = 1
+            
             $N = ahsk(Ply,'y','offendEd') || []
             !hak(N) and me&tc,"none!?",'B'
             me&tc,"~x"+hak(N)
-            me&tt,"polite" () and N = []
             # < should be an iterator, seeking @Ply/offend <-> This**
             $maxsend = 11
             if (hak(N) > maxsend) {
@@ -2577,7 +2580,7 @@ me.Sch_Go = &acgt{ return [
                     if (i >= maxsend) {
                         ms&opa = 0.7
                     }
-                    else {
+                    elsif (!dont) {
                         # sending to $node:-six/E-Fez
                         # < any This** that changes when we do this is sus
                         me&Effect,s,E,'showy-'+ds&pi,{show:1,ope:1,arrowy:1}
