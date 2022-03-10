@@ -1468,6 +1468,9 @@
         =cut
         me.Ploy_joins_fix = &acgt{
             $jois = 3c&o(3c&X,'join')
+            # copy the original Comp, we edit l%string
+            # < dont edit l%string, clone to joi.reComp
+            $oComp = 3c&Comp.map(Cye)
             $joi
           // f
             $afix = &joi2,t,c{
@@ -1703,7 +1706,7 @@
             )
             
             # sanity: applied fixes dont change either sphere's whole string
-            $samp = {was:3c&Comp,is:a&fixed_Comp}
+            $samp = {was:oComp,is:a&fixed_Comp}
             $sphs = ['new','gone']
             each it sphs {
                 $sa = map(&L{
