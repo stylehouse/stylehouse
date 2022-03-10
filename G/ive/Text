@@ -199,6 +199,8 @@
             A = fi&At,"Ploy"
             A.3 = A
             me&Ploy_io
+            # we may edit l in &Ploy_joins_fix
+            Comp = Comp.map(n => Cye(n))
             
             me&boxcap,'Ploy',5 (&ml{
                 
@@ -231,37 +233,54 @@
             # make joined nod from l+
             me&Ploy_Comp_sph,nav,Comp
             
-            if (!3c&single_pass) {
-                # decide how to rewrite Comp/l+ for less %stretch
-                me&Ploy_joins_fix
-                
-                3c&not and me&tc,"Abort",'G'; return
-                if (a&fixed_Comp) {
-                    # doctored input data for clearer diffs, see fix joi%stretch
-                    me&Ploy_spannyrower,'fix' (&ml{
-                        a&fixed_joins .map(&joi,{
-                            me&Ploy_tid,joi
-                        })
-                    })
-                    if (!3c&nofix) {
-                        # around again
-                        me&Ploy_Comp_sph,nav,a&fixed_Comp
-                    }
-                }
-                
-                # group like stuff
-                me&Ploy_regions
-                
-                if (3c&show_jois) {
+            $show_jois = &{
+                if (3c&not || 3c&show_jois) {
                     3c&o(3c&X,'join',&joi,{
                         A = fi&At,'joins:'+joi.i_join
                         A&joi = joi
-                        # happens every &Ploy_joined if 3c&single_pass
-                        me&Ploy_drawjoin
+                        # happens at &Ploy_joined if &tt:lasap
+                        !3c&accreting_modulat and me&Ploy_drawjoin
                         A = A.3
+                    })
+                    !3c&not and return
+                    # draw a few more l for context
+                    me&boxcap,"l...",1 (&ml{
+                        $bit = 3c&fail_bit
+                        !bit and return
+                        $l = bit.l
+                        3c&Comp.slice(ly&seqi,ly&seqi*1+5).map(&li{
+                            me&drawdiffbit,i,l .sc.dis = 1
+                        })
                     })
                 }
             }
+            3c&not and me&tc,"Abort",'G'; show_jois(); return
+            
+            # decide how to rewrite Comp/l+ for less %stretch
+            me&Ploy_joins_fix
+            
+            3c&single_pass and me&Ploy_fail,'single-pass'
+                
+            if (a&fixed_Comp) {
+                # doctored input data for clearer diffs, see fix joi%stretch
+                me&Ploy_spannyrower,'fix' (&ml{
+                    a&fixed_joins .map(&joi,{
+                        me&Ploy_tid,joi
+                    })
+                })
+                3c&not and me&tc,"Abort",'G'; show_jois(); return
+                if (!3c&nofix) {
+                    # around again
+                    me&tc,"second-pass..."
+                    me&Ploy_Comp_sph,nav,a&fixed_Comp
+                }
+            }
+
+            # group like stuff
+            me&Ploy_regions
+
+            show_jois()
+            
             return 3c&X
         }
         # makes X, l+ -> sph+
@@ -1044,7 +1063,7 @@
             me&Ploy_joi_sameness_check,joi
             
             # joi row
-            3c&single_pass and me&Ploy_drawjoin
+            3c&accreting_modulat and me&Ploy_drawjoin
         }
         # may defer one nod due to not matching any bits
         me.Ploy_joined_unbitnod = &acgt{
@@ -1512,7 +1531,7 @@
                 return dem
             }
           // gather fixes
-            $fixed = []
+            $fixed = a&fixed = []
             each i,joi jois {
                 !(jois&stretchy && jois&enmono) and continue
                 # find eg joi@56, where joi@48 completes
@@ -1622,7 +1641,7 @@
                                     $mol = Cye([osphere,1])
                                     $til = hak(ols&string) - hak(eols&string)
                                     mols&string = ols&string.slice(from,til)
-                                    Nl.push(mol)
+                                    hak(mols&string) and Nl.push(mol)
                                 }
                                 
                                 # our middle
@@ -1643,20 +1662,34 @@
                         }
                     }
                     if (f.rm) {
+                        # bits from some sphere to be sifted out
                         $Nl = grep(l => l.t != sphere, ls)
                         $l = Cye([osphere,1])
                         ls&string = Nl.map(l => ls&string).join('')
                         ls = [l]
                     }
                     # merge sequences of same l.t
+                    #ls = ls.map(n => Cye(n))
                     $la = null
                     grop(&l{
+                        !hak(ls&string) and return 1
                         if (la && l.t == la.t) {
                             las&string += ls&string
                             return 1
                         }
                         la = l
                     },ls)
+                    map(&l{
+                        # < where from?
+                        $nli = ls&string.indexOf("\n")
+                        if (nli >=0 && nli+1 != hak(ls&string)) {
+                            me&Ploy_fail,"fix:weird-nl",{l}
+                        }
+                        if (!hak(ls&string)) {
+                            me&Ploy_fail,"fix:empty-string",{l}
+                        }
+                    },ls)
+                    !hak(ls) and debugger
                     joi.reComp = ls
                 }
             }
@@ -1678,8 +1711,9 @@
                         .map(l => ls&string).join('')
                 },samp)
                 sa.was == sa.is and continue
+                me&Ploy_fail,"fix:sanity-whole-same"
+                
                 me&Ahdiffany,'sph:'+t,'see',sa.was,sa.is
-                debugger
             }
         }
         me.Ploy_drawjoin_fixes = &acgt{
@@ -1770,7 +1804,7 @@
             }
             # return the last few joi a reg should have in /matches
             $lafew_relevant_overs = &reg,{
-                $more = reg.over.slice(-10)
+                $more = reg.over.slice()
                 if (reg.t == '%♲') {
                     grop(&joi,{
                         # not counting == E%Fun|String, since not Eref-able
@@ -2630,6 +2664,7 @@
 
                     c and inner('ar',c)
                     inner('A&',me&novelAc,A.c ,&m{ ms&hue = 33 })
+                    A&bit and 3c&fail_bit = A&bit
                     inner('a&',A.sc,&m{ ms&hue = 66 })
                 })
             })
