@@ -4666,6 +4666,7 @@ me.Sch_The = &acgt{ return [
         }
     },'ift,D'],
     ['Difpla',0.23,&acgtRs{
+        $D = Rs&D
         $pla = s
         # ignore the first one, which is an RE so
         pla.d == 1 and return
@@ -4680,7 +4681,7 @@ me.Sch_The = &acgt{ return [
         3c&o(pla,'with',nod => nod.E.y.R) .map(&r{
             # copy the R%inline etc relevant for &sfx_mirage
             # < inlineable,inline must be in both or may downgrade if big diff
-            sex(R.sc,r.sc,'inlineable,isdim,indim,inline,asabove,asfollows')
+            sex(R.sc,r.sc,'inlineable,isdim,indim,inline')
             # and r%C, may have a border etc
             $rC = rs&C
             # ignore the first two, which have scroll
@@ -4703,6 +4704,7 @@ me.Sch_The = &acgt{ return [
     // markers!
         # regs with emphasis labelled in the indent space
         each tc plas&regtc {
+            ahk(D,['regts'],t)
             c.saidbyancestor and continue
             c.emphasis && c.saidbyancestor and debugger
             if (c.emphasis) {
@@ -4714,6 +4716,7 @@ me.Sch_The = &acgt{ return [
                 })
             }
         }
+        Ds&regts and Ds&regts = spant(Ds&regts)
         # are against what was saidbyancestor
         each tc plas&unhad_regtc {
             me&boxcap,"unhad-amongst",2,2 (&ml{
