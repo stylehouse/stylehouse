@@ -465,7 +465,8 @@
             if (a&newnode && a&newline) {
                 # tidy away nod
                 delete nod.matchtil
-                nod.Cindent && nod.Cindent == nod.d-1 and delete nod.Cindent
+                #   indent implied by nod.d
+                nod.indlev && nod.indlev/2 == nod.d-1 and delete nod.indlev
                 nod.ok = 1
                 # more nodes
                 $next = me&Ploy_nod_next
@@ -559,13 +560,17 @@
             $lin0 = A&lin.i_mine == 0
             !lin0 and debugger
             
-            # we only ever make C-indents (Linesing C/*) outside of D
-            !A&bit.str.startsWith('  ') and return delete A&lin.indent_sympathy
-            # count ^(  )+
+            # usu make Cindents (two spaces each, Linesing C/*) outside of D
+            #  sometimes eg (-- )(==    )(-- ) # when unindenting Cindent:2<-3
+            !A&bit.str.startsWith(' ') and return delete A&lin.indent_sympathy
+            # count ^( )+
             $level = hak(ksaf(A&bit.str,{bow:s => s != ' ',may:1}))
             $Cindent = Math.floor(level/2)
             # < never odd? or see Lines / BQ
-            level != Cindent*2 and debugger
+            if (level != Cindent*2) {
+                # < check these coagulate even
+                ac(A.3,'oddindentlevel',A&bit)
+            }
             
             # we sometimes (++  )(==      yada)
             $entirely = hak(A&bit.str) == level
@@ -574,38 +579,43 @@
                 # maybe even through (++  )(==      )(++yada)
                 #!bit0 and debugger
             }
-            # more indent on (==      )
-            !bit0 and A&nod.Cindent += Cindent
-            
-            # ends at [^ ]
-            !entirely and delete A&lin.indent_sympathy
+            else {
+                # ends at [^ ]
+                delete A&lin.indent_sympathy
+            }
+            if (A&bit.i_bit > 0) {
+                # more bits of indent coagulate
+                A&nod.indlev += level
+            }
             
             # the first line of D has the real indent
-            if (A&nod.Cindent) {
+            if (A&nod.indlev) {
                 # < sanity (was simple before more indent)
                 #    - lin>0 should have at least ' ' more than lin0
-                Cindent = A&nod.Cindent
+                level = A&nod.indlev
             }
             elsif (A&lin.i_mine == 0) {
                 # nod/lin 0 == first line of D
-                A&nod.Cindent and debugger
-                A&nod.Cindent = Cindent
+                A&nod.indlev and debugger
+                A&nod.indlev = level
                 # < until treating haphazard text as input
                 #    eg see codes / spec / pre-tangent
                 #     which wouldnt be a Cindent per se
                 #  < or BQ-embedded nodes...
-                # this is normal when entirely, eg (++  )
+                # this is normal when entirely indent, eg (++  )
+                # once non-space starts we should be at a predictable Cindent
                 Cindent != A&nod.d-1 && !entirely and debugger
             }
             
-            $relevel = Cindent*2
-            # may be spread over many bits, eg (++  )(==      )(++  yada)
-            #  we only want to trim this one bit
+            $relevel = level
+            # may be spread over many bits of indent
+            #  eg (++  )(==      )(++  yada)
+            #  we only want to trim  ^^ this one bit
             3c&io(A&lin,'bit','*') .map(&bit,{
                 bit != A&bit and relevel -= bit.trimstart||0
             })
-            relevel != level and debugger
-            relevel < 2 and debugger
+            #relevel != level and debugger
+            #relevel < 2 and debugger
             
             # < check what comes off is ' '+
             A&bit.trimstart = relevel
@@ -1551,7 +1561,8 @@
                     if (nod2.d != nod.d) {
                         afix(dem,'notd',{rm:nod,cmp:nod2.d+'|'+nod.d})
                         # search further with nod/lin0
-                        dem = yon_lin0match(joi,dem)
+                        $dembet = yon_lin0match(joi,dem)
+                        dembet and dem = betdem
                         !dem and debugger
                     }
                     afix(joi,'early',{rm:nod})
@@ -1593,6 +1604,7 @@
                         # shattered bits to put together, eg joi@71->@85
                         $whole = bitl.map(l => ls&string).join('')
                         each il bitl {
+                          // usu
                             # eg joi@86 matches after one new->same
                             ls.includes(l) and continue
                             # see if it starts like that
@@ -1659,8 +1671,12 @@
                                 ls = Nl
                                 break
                             }
-                            ls.push(Cye(['new',1,{},{string:'SPESH:'+whole}]))
-                            debugger
+                          // adjacent to unlike joi line
+                            # maybe these lines dont belong together
+                            # < new might be better placed before the joi%stretchy
+                            #    by indent?
+                            ls = me&Ploy_joi_separate_ls,joi
+                            jois&separate_ls = 1
                             break
                         }
                     }
@@ -1671,8 +1687,8 @@
                         ls&string = Nl.map(l => ls&string).join('')
                         ls = [l]
                     }
+                // thence
                     # merge sequences of same l.t
-                    #ls = ls.map(n => Cye(n))
                     $la = null
                     grop(&l{
                         !hak(ls&string) and return 1
@@ -1719,6 +1735,31 @@
                 me&Ahdiffany,'sph:'+t,'see',sa.was,sa.is
             }
         }
+        
+        # make [l+], a continuous bunch of ++|-- 
+        me.Ploy_joi_separate_ls = &acgt,joi{
+            $N = []
+            $nods = me&Ploy_joi_nods,joi
+            # < mapkv(): y returns [k,v]
+            $tw = {}
+            nods.map(nod => tw[nod.sph.sphere] = nod )
+            each sphere,nod tw {
+                $ls = 3c&o(joi,'lit.l')
+                $bits = 3c&o(nod,'mine/bit')
+                each i,bit bits {
+                    $l = bit.l
+                    # fyi, if this l belongs before|after this joi
+                    # < check they are only from the joi%stretch we are fixing wrt
+                    $belongs = ls.includes(l)
+                    l = Cye(l)
+                    # either is all ++|--, unsharing eg \n$
+                    l.t = sphere
+                    N.push(l)
+                }
+            }
+            return N
+        }
+        
         me.Ploy_drawjoin_fixes = &acgt{
             $joi = A&joi
             !joi.fix and return
@@ -1907,7 +1948,7 @@
                 # check indent-only change
                 $depths = uniq(nods.map(nod => nod.d))
                 # < stack per sph?
-                hak(depths) != 1 and debugger
+                #hak(depths) != 1 and debugger
                 
                 # create place hierarchy via stack=[place+]
                 if (i == 0) {
@@ -1919,6 +1960,13 @@
                     $place = 3c&iz(3c&X,'place')
                     # in relation to
                     $up = stack[nod.d-2]
+                    if (!up) {
+                        jois&pla_stack_gap = 1
+                        #me&Ploy_fail,"place-stack-gap",{joi,nod}
+                        # not conjuncted with indent:
+                        hak(depths) != 1 and debugger
+                        up = stack.slice(-1)[0]
+                    }
                     place.d = nod.d
                     place.up = up
                     3c&iz(up,'placed',place)
