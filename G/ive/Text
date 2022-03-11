@@ -318,6 +318,7 @@
             # group like stuff
             me&Ploy_regions
 
+            3c&not and me&tc,"Abort",'G'; show_jois(); return
             show_jois()
             
             return 3c&X
@@ -1048,7 +1049,14 @@
             $k = args.shift()
             $v = args.shift()
             $was = joi.sc[k]
-            was && was != v and debugger
+            if (was && was != v) {
+                # now the oddity of multiple %tilmoves
+                #  ie stretching match across >2 other nods
+                # < create a compression pattern of Ploy/**-Fez types...
+                #    ambavail by Stories/**
+                #    novelty arrives on the scene of eg Fus@7...
+                ahk(joi,['sc'],'N'+k,was)
+            }
             joi.sc[k] = v
         }
         
@@ -1615,6 +1623,10 @@
                     }
                     else {
                         afix(joi,'early',{rm:nod})
+                        each i,moi jois&Ntilmoves {
+                            # partial matches over >2 joi
+                            afix(moi,'notin',{rm:nod})
+                        }
                         afix(dem,'later',{add:nod})
                         fixed.push(dem)
                     }
@@ -1721,6 +1733,7 @@
                                 ls = Nl
                                 break
                             }
+                            
                           // adjacent to unlike joi line
                             # maybe these lines dont belong together
                             # < new might be better placed before the joi%stretchy
@@ -1739,6 +1752,8 @@
                     }
                     if (f.rm) {
                         # bits from some sphere to be sifted out
+                        #  quite cruxical we dont use joi/with=nod
+                        #   as we may not have it..?
                         $Nl = grep(l => l.t != sphere, ls)
                         $l = Cye([osphere,1])
                         ls&string = Nl.map(l => ls&string).join('')
@@ -1771,12 +1786,22 @@
             }
             
           // redo Comp -> Ploy again
-            # may have no need to
-            !fixed and return
+            # < may have no need to!
             a&fixed_joins = fixed
-            a&fixed_Comp = flatten(
-                map(joi => joi.reComp || 3c&o(joi,'lit.l'), jois)
-            )
+            $N = a&fixed_Comp = []
+            each i,joi jois {
+                $ls = joi.reComp || 3c&o(joi,'lit.l')
+                each il ls {
+                    ls&string.startsWith('\t-Number') and debugger
+                    N.push(l)
+                }
+            }
+            grop(&l{
+                if (0 && ls&string.startsWith("\t-Number")) {
+                    #debugger
+                    return 1
+                }
+            },N)
             
             # sanity: applied fixes dont change either sphere's whole string
             $samp = {was:oComp,is:a&fixed_Comp}
@@ -1787,9 +1812,12 @@
                         .map(l => ls&string).join('')
                 },samp)
                 sa.was == sa.is and continue
-                me&Ploy_fail,"fix:sanity-whole-same"
                 
                 me&Ahdiffany,'sph:'+t,'see',sa.was,sa.is
+                me&strange,"fix:sanity-whole-same"
+                continue
+                
+                me&Ploy_fail,"fix:sanity-whole-same"
             }
         }
         
@@ -1932,6 +1960,11 @@
             each i,joi jois {
                 # whats here
                 $cond = ex({},joi.changes || {})
+                $nod = havs(joi.with)[0]
+                if (!nod) {
+                    me&Ploy_fail,"joi:with",{joi}
+                    return
+                }
                 # counted into|against regs
                 each i,reg regs {
                     grop(&degree,k{

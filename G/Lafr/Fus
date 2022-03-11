@@ -980,16 +980,43 @@ S 7 Ath elvising
     #  simulate async A&oftserve to /believe/ in things
     A.h.sixc = 'expectλ,first_truest'
     $h = A.h.o('Ath+oftserve')
-    
+  // ground features
     $oft = c => pex({of:'w',t:'reandom'},c)
     $Fish = me&Fishliver
-    $thetime = 36363636
-    $tick = () => thetime += 0.001
     # A.4
     $Al
+    # mock 4%yls completion, no real delay
+    $Delays_back = &A{
+        A != Al and debugger
+        # < &syncopation does a better &com?
+        fi&com,"Dials"
+        As&yls.map(&c{
+            c.ready = fi&Gtime
+            c.y()
+        })
+    }
+    # inside the above, &syncopation / &elvis / &wantfour,e
+    #  one 4%synco/*.t at a time
+    #   ie group of callbacks may eject N=[e+]
+    #   may or not be 4c&live
+    #    trusts you to 4%todo if 4c&live
+    $syncserve_drain = &A{
+        # may or not be 4c&live
+        #  depends on doing this in|out of Fish()
+        #   which is really &Fishlive, a step++
+        #   &complace has a built in 
+        $N = delete 4s&syncs
+        return N
+    }
+    
+    # mock timeofday
+    $thetime = 36363636
+    $tick = seconds => thetime += seconds||0.001
+    
     # A:more shall be the client
     # < show A&b as we &Atsomewhere vs Fish()
     $Am
+    # A:loading also, where A.4 piles storage
     Fish("the ground",&AV{
         # A.4 = A:least
         Al = A
@@ -1001,6 +1028,12 @@ S 7 Ath elvising
         4c&ylserve = &seconds,y,{
             ac(A.4,'yls',{seconds,y})
         }
+        # async callbacks want &elvis e
+        4c&syncserve = &N{
+            each ie N {
+                ac(A.4,'syncs',e)
+            }
+        }
         # ability to get the time things are happening
         4c&Gtimeserve = &{
             return thetime
@@ -1009,6 +1042,7 @@ S 7 Ath elvising
         Am = fi&Atsomewhere,A,'more'
     })
     
+  // plot
     tick()
     # now with a thing wanted
     Fish("unknown thing needing Athinger",&AV{
@@ -1069,10 +1103,27 @@ S 7 Ath elvising
     Fish("gets it",&AV{
         fi&elvising
     })
-    #Als&yls.map()
     #h.diff("becomes gets it")
     # < -Difmo: switch on whole nod** of diff. see sphere-hopping
     me&AhDifmo
+    
+    tick()
+    # A.4 receives response
+    #  pretend this is async
+    Fish("receives response",&AV{
+        tick(3)
+        Delays_back(A)
+    })
+    me&AhDifmo
+    return
+    
+    tick()
+    Fish("wantsback",&AV{
+        $some = syncserve_drain(A)
+        fi&com,"syncserved",{some}
+    })
+    
+    
     
     # mocked &syncopation / Gtime() with something on A.4
     #   < build into &Fishliver?

@@ -1386,7 +1386,11 @@ fi.Xios ||= {}
             throw "whate"
         }
         ac(A.4,'todo',e)
-        !4c&live and fi&wantfour,e
+        # eventuate wake:@Cat if  out of time,
+        #  eg &syncopation handles tiny callback
+        #   that will fi&elvis before doing much at all
+        #    < getting this at S
+        4c&live != 1 and fi&wantfour,e
     }
     # o 4%todo/*
     # called outside anything
@@ -1469,6 +1473,7 @@ fi.Xios ||= {}
     }
     # the requestIdleCallback stream
     #  and other things
+    # one 4%synco/*.t at a time
     fi.syncopation = &acgtsc{
         # A + s identifies where+what
         c == 'draw' and 'or requestAnimationFrame'
@@ -1517,7 +1522,8 @@ fi.Xios ||= {}
             com_done()
         }
     }
-    # get 4's attention
+    # collect requests to then get 4's Attention
+    #  during the async other unwoken callback time of syncopation
     fi.wantfour = &acgte{
         $N = 4c&forfour
         # when 4 is not awake,
@@ -1536,11 +1542,18 @@ fi.Xios ||= {}
             delete 4c&forfourvor
             $N = delete 4c&forfour
             !hak(N) and fi&com,"pool!elvis",{l}
+            if (4c&syncserve) {
+                # testo has a sync R%Cat
+                #  it can simply Fish() for more Attention
+                #  we are in mock-async &yl there right now
+                return 4c&syncserve(N)
+            }
             # one wake:R%Cat, from whereever hopefully
             $R = Cy&R
-            $wake = fc&otherer
+            $wake = 4c&otherer
             !R || !wake and debugger; return
-            A = fc&otherA
+            A = 4c&otherA
+            !A and debugger
             me&elvis,R,'re-live',{wake}
         }
     }
