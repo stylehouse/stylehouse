@@ -1451,7 +1451,7 @@ fi.Xios ||= {}
         grepout(N,merged)
     }
    
-   // &yl, &syncopation
+   // &yl|&Gtime, &syncopation
     # < fit most delays into &syncopation
     fi.yl = &acgt,seconds{
         seconds = dec(seconds,3)
@@ -1460,14 +1460,20 @@ fi.Xios ||= {}
             return G&delay,seconds,y
         }
     }
+    # gettimeofday() for Fish, might be testo
+    # < &Ploy finding all Gtime()-ish numbers, make relative
+    fi.Gtime = &acgt{
+        4c&Gtimeserve and return 4c&Gtimeserve()
+        return Gtime()
+    }
     # the requestIdleCallback stream
     #  and other things
     fi.syncopation = &acgtsc{
         # A + s identifies where+what
         c == 'draw' and 'or requestAnimationFrame'
         c ||= {timeout:5}
-        c.began = Gtime()
-        c.timeout and c.timeout = c.timeout + Gtime()
+        c.began = fi&Gtime
+        c.timeout and c.timeout = c.timeout + fi&Gtime
         c.n ||= A
         $name = A.t+"'s "+joint(haks(s))
         $later = Cye([name,8,c,s])
@@ -1479,7 +1485,7 @@ fi.Xios ||= {}
         # < which we may not want to suddenly &elvis from
         return &y{
             laterc&do = y
-            laterc&ready = Gtime()
+            laterc&ready = fi&Gtime
             !laters&waiting and throw "notwaiting", later
             $ok = delete laters&waiting
             # to get all "loading's P", then engage them all
@@ -1500,7 +1506,7 @@ fi.Xios ||= {}
                 lc&do()
                 delete ls&pending
                 delete lc&timeout
-                lc&done = Gtime()
+                lc&done = fi&Gtime
             }
             # convert many ^ &elvis into one wake:R%Cat
             $pts = joint(all.map(l => ls&P.t))

@@ -983,6 +983,8 @@ S 7 Ath elvising
     
     $oft = c => pex({of:'w',t:'reandom'},c)
     $Fish = me&Fishliver
+    $thetime = 36363636
+    $tick = () => thetime += 0.001
     # A.4
     $Al
     # A:more shall be the client
@@ -1000,21 +1002,29 @@ S 7 Ath elvising
             fi&com,"Delay",{seconds}
             ac(A.4,'yls',{seconds,y})
         }
+        # ability to get the time things are happening
+        4c&Gtimeserve = &{
+            return thetime
+        }
         # the client
         Am = fi&Atsomewhere,A,'more'
     })
+    
+    tick()
+    # now with a thing wanted
     Fish("unknown thing needing Athinger",&AV{
         $got = fi&Ath,Am,oft()
         got and throw "got first"
     })
     me&AhDifmo
+    
+    tick()
     # A.4 thinking about what to do
     #  at another time, all unknowns since are now known
     Fish("realises need for Amess",&AV{
         fi&elvising
     })
     $Plo = me&AhDifmo
-    
    // Ploy sidetrack
     # D diff -> modulat chunks sidetrack
     # better than:
@@ -1051,8 +1061,12 @@ S 7 Ath elvising
     )
    // ...
    
+    tick()
     # A.4 thinking about what to do
     #  at another time, all unknowns since are now known
+    #  Amess then requests a delay (irl: expects a response)
+    #   and the 4%todo becomes 4%synco until 4%yls come back
+    #   irl we would do the http
     Fish("gets it",&AV{
         fi&elvising
     })
@@ -1060,7 +1074,21 @@ S 7 Ath elvising
     # < -Difmo: switch on whole nod** of diff. see sphere-hopping
     me&AhDifmo
     
-    # < replace &syncopation / Gtime() with something on A.4
+    # mocked &syncopation / Gtime() with something on A.4
+    #   < build into &Fishliver?
+    #     to take mock time from testo
+    #     these steps being Fish.S("the title",...
+    #     and so Fishc&least can be got?
+    #   4c&Gtimeserve, 4c&ylserve, 4c&complace
+    #    all hide the testo|reality
+    #   4c&oftserve
+    #    hides 4's thing-rummager
+    # < or is it:
+    #    A.5, exerting some @Pro-visions onto A.4
+    #     push 4->5 can want oft|yl|complace
+    #     pull 4<-5 can take oft|Gtime
+    #    async may require your own 3c&ylserve etc..?
+    #     which would share IdleCallbacks with 4c&ylserve etc...
     
     =prototype &Ath
       we are moving to the /believe/ system with &t prototype &Ath
