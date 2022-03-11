@@ -132,6 +132,45 @@
  // Ploy = (D Comp/l+ D)**
     # classifies differences, annotating merged modulat
     # see -Difmo
+    =note
+       tests,
+        < reduce examples to a single feature
+       Fus@7 / "..thence net" before c2ca1264be04e2 "splitting moments of ground"
+         is the test case referred to by all joi@cv comments in here
+          it has now moved on!
+         < park stable version somewhere in a museum
+        
+       Fus@7 / "..gets it" is ugly, wants better tools to figure the figuring out
+        < a big ugly '..gets it'-Difmo
+           see &Ploy_joins_fix / sweepin
+           I dont really understand why the c|sc should appear in yls/ rather than synco/
+            possibly treating array indices as less-compelling might help
+            or &typeup c|sc to Emp|Uni, from -Hash, which can also sidle us into yls/*
+            c|sc is really stretching from ugly matches on joi@23|27?
+              the joi@27 is easier to see
+           see fix fail:place-stack-gap
+            some of it (c?) has an indent mismatch
+            caused by many joi%separate_ls in a row wanting to group all their ++|--
+             will still be stack-gappy?
+            needs more desire to keep E/* together...
+             esp indent change probably applying to all
+              a region finds indent change, and magnetises l for it
+            right now,
+             we have (--c) on joi@
+            -Difmo about this gets ugly
+             &drawleftwing jam, pos:2 not seen above+, where it could help
+              may benefit from keeping -Difmo out of mirguts (a mirage)
+          higher levels:
+           even more muck-about with diffs to make them present good
+            human wants to isolate the todo|synco/* limb
+             and connect c-c, sc-sc...
+             about pulling apart a mingled diff until etc
+           the joi@26 is changing A.t but not C.t of A:loading
+            it may be noticed that either nod.Ec&s is the same object
+        < sphere-hopping... to see between fix|nofix joi
+       
+       test &intivity, see resolve $n
+    =cut
     // Ploy
         # proto io, on 3c&io|iz|o(X|x,...)
         # < compile &iocall to A.3.i.iocall
@@ -225,7 +264,7 @@
                         # < wants to subjunk extra -six** for zippable spheres
                         me&tt,'show-jois' () and 3c&show_jois = 1
                         me&tc,',','6y'
-                        me&tt,'show-regs' () and 3c&hide_regs = 1
+                        me&tt,'show-regs' () and 3c&show_regs = 1
                     })
                 })
             })
@@ -260,7 +299,7 @@
             me&Ploy_joins_fix
             
             3c&single_pass and me&Ploy_fail,'single-pass'
-                
+            
             if (a&fixed_Comp) {
                 # doctored input data for clearer diffs, see fix joi%stretch
                 me&Ploy_spannyrower,'fix' (&ml{
@@ -1565,9 +1604,20 @@
                         dembet and dem = betdem
                         !dem and debugger
                     }
-                    afix(joi,'early',{rm:nod})
-                    afix(dem,'later',{add:nod})
-                    fixed.push(dem)
+                    if (0 && (nod.E.t == 'c' || ahsk(joi,'changes','t') && nod.prev.keepc)) {
+                        # < GOING a hack.
+                        $addto = nod.keepc = nod.prev.keepc || joi
+                        # second one doesnt appear in drawfixes l?
+                        $adding = nod.prev.keepc ? {sweepin:nod} : {add:nod}
+                        afix(addto,'earlier',adding)
+                        afix(dem,'lateier',{rm:nod})
+                        fixed.push(dem)
+                    }
+                    else {
+                        afix(joi,'early',{rm:nod})
+                        afix(dem,'later',{add:nod})
+                        fixed.push(dem)
+                    }
                 }
                 else {
                     # dis-join a later low-sameness
@@ -1592,7 +1642,7 @@
           // apply fixes
             each i,joi jois {
                 each if joi.fix {
-                    $nod = f.add || f.rm
+                    $nod = f.sweepin || f.add || f.rm
                     !nod and continue
                     f.add && f.rm and debugger
                     $sphere = nod.sph.sphere
@@ -1680,6 +1730,13 @@
                             break
                         }
                     }
+                    if (f.sweepin) {
+                        # < GOING? a hack.
+                        # were adjacent nod, sweep back together!
+                        $whole = bitl.map(l => ls&string).join('')
+                        ls = me&Ploy_joi_separate_ls,joi
+                        ls.splice(1,0, Cye([sphere,1,{},{string:whole}]) )
+                    }
                     if (f.rm) {
                         # bits from some sphere to be sifted out
                         $Nl = grep(l => l.t != sphere, ls)
@@ -1692,7 +1749,7 @@
                     $la = null
                     grop(&l{
                         !hak(ls&string) and return 1
-                        if (la && l.t == la.t) {
+                        if (la && !las&string.includes("\n") && l.t == la.t) {
                             las&string += ls&string
                             return 1
                         }
@@ -2561,7 +2618,6 @@
     // drawing f
         # space for marking in the indent space
         me.drawleftwing = &acgt,pla{
-            $depth = pla ? pla.d : 5
             return &y{
                 me&boxcap,'leftwing',2 (&ml{
                     lc&not = 1
@@ -2578,9 +2634,14 @@
                         # how far we are indented is had to gauge
                         #  this assumes %ml=1 per depth, with the occasional inline
                         #   and ignore depth=1 having no %ml, clearing width of m from C
+                        $depth = pla ? pla.d : 5
                         ms&ml = - dec(depth * 0.67,2)
                     }
-                    else ms&left = 0
+                    #else ms&left = 0
+                    # just in case we end up piled up on other stuff
+                    #  eg if we are put into a line...
+                    ms&opa = 0.6
+                    ms&hue = -80
                     ms&mw = 3
                     me&walls,m,'b:2.2h:4'
                     
