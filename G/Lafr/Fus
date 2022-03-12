@@ -1006,6 +1006,7 @@ S 7 Ath elvising
         #   which is really &Fishlive, a step++
         #   &complace has a built in 
         $N = delete 4s&syncs
+        hak(N) and me&com,"syncs-drain",{N}
         return N
     }
     
@@ -1110,18 +1111,24 @@ S 7 Ath elvising
     tick()
     # A.4 receives response
     #  pretend this is async
+    # < get &complace to work async (with i This...)
     Fish("receives response",&AV{
         tick(3)
         Delays_back(A)
     })
     me&AhDifmo
-    return
     
     tick()
+    # < if we could Delays_back() async
+    #   we could notice 4%syncs wanting Attention (to 4%todo
+    #   so the following syncserve_drain() does nothing
     Fish("wantsback",&AV{
-        $some = syncserve_drain(A)
-        fi&com,"syncserved",{some}
+        # might show us e wanting Attention
+        $N = syncserve_drain(A)
+        # then we attend 4%todo again
+        #fi&elvising
     })
+    me&AhDifmo
     
     
     
