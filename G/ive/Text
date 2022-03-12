@@ -656,7 +656,12 @@
                 #  < or BQ-embedded nodes...
                 # this is normal when entirely indent, eg (++  )
                 # once non-space starts we should be at a predictable Cindent
-                Cindent != A&nod.d-1 && !entirely and debugger
+                if (Cindent != A&nod.d-1 && !entirely) {
+                    uniq(3c&o(A&joi,'with',nod => nod.E.t)) == 1 and debugger
+                    else {
+                        A&joi.sc.disparate_nodd_Cintent = 1
+                    }
+                }
             }
             
             $relevel = level
@@ -725,13 +730,15 @@
                 #    !ahsk(bit,'mung','+␤') && 'notailn'
                 #)
             # should yield the whole line?
-            mungnl && til != whole.length and debugger
+            mungnl && til != whole.length and $shoulded = 1
             
           // so
             ex(A.sc,{str,exp})
             if (exp != str) {
                 return me&Ploy_fail,'eq'
             }
+            # always with the above fail?
+            shoulded and debugger
             
             # may match nothing
             nod.matchtil == til and a&tilstill = 1
@@ -1584,7 +1591,8 @@
                     # find one (%mono) of the other sph, same nod.d
                     !ojos&mono and continue
                     $nod2 = theone(3c&o(ojo,'with'))
-                    nod2.sph == nod.sph and debugger
+                    # < study this
+                    nod2.sph == nod.sph and return ojo
                     nod2.d != nod.d and continue
                     # and string match
                     $whole2 = lin0whole(nod2)
@@ -1621,7 +1629,7 @@
                         afix(dem,'notd',{rm:nod,cmp:nod2.d+'|'+nod.d})
                         # search further with nod/lin0
                         $dembet = yon_lin0match(joi,dem)
-                        dembet and dem = betdem
+                        dembet and dem = dembet
                         !dem and debugger
                     }
                     if (0 && (nod.E.t == 'c' || ahsk(joi,'changes','t') && nod.prev.keepc)) {
