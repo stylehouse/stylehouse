@@ -1587,7 +1587,7 @@
                 
                 jois&stretch || jois&stretchy and crap.stretch = 1
                 
-                hak(crap) and jois&crap = cint(haks(crap))
+                hak(crap) and jois&crap = cint(haks(crap)); joi.crap = crap
             }
             
            // find nod** containing vastly crap joi
@@ -1596,14 +1596,49 @@
             $y = &nod,d{
                 # how to get to nod/*nod
                 d.inz = nod.innod || []
-                $joi = nod.joi
             }
+            $N = []
             $yy = &nod,d{
-                # upwardly incorporating
-                # <<<
+                # upwardly
+                # here
+                $joi = nod.joi
+                $am = hak(joi.crap)
+                !am and d.good = 1
+                am > 1 and d.crap = 1
+                d.total = 1
+                map(k => d[k] && ahk(d,'bey',0,k,1),['good','crap','total'])
+                # beyond
+                each in d.z {
+                    each dist,k,sum n.bey {
+                        $already = ahsk(d,'bey',dist+1,k) || 0
+                        ahk(d,'bey',dist+1,k, already+sum)
+                    }}
+                }
+                d.sums = {}
+                each dist,k,sum d.bey {
+                    d.sums[k] ||= 0
+                    d.sums[k] += sum
+                }}
+                N.push(d)
             }
             nods.map(nod => me&inlace,nod,{y,yy} )
-            
+            N.map(&d{
+                $nod = d.s
+                $joi = nod.joi
+                $p = d.up
+                !p and return
+                d.crap || d.sums.total < 16 and return
+                hak(d.sums) < 3 and return
+                $marginal = d.sums.total - d.sums.good
+                
+                jois&crapsia = dec(marginal / d.sums.total,2)
+                    +' '+ dec(d.sums.crap / d.sums.total,2)
+                    +' x'+ d.sums.total
+                    
+                dec(d.sums.crap / d.sums.total,2) < 0.3 and return
+                # then!
+                jois&crapcap = d
+            })
         }
         me.Ploy_joins_fix = &acgt{
             me&Ploy_joins_unfixable
