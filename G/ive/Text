@@ -1178,6 +1178,15 @@
           // this row/with|lit|jin
             me&Ploy_rower_i,m,'with' (&ml{
                 $la
+                $nods = me&Ploy_joi_nods,joi
+                # are their nod.d the same...
+                $fact = hak(nods) == 1 && "1"
+                if (!fact) {
+                    $ddiff = nods[0].d - nods[1].d
+                    ddiff and fact = ddiff > 0 ? "+"+ddiff : ddiff
+                }
+                fact and me&tsc,"nod.d-fact",fact,'g' .sc.ab = 1
+                
                 3c&io(joi,'with','*') .map(&nod,{
                     # show only one same title
                     # < style about that
@@ -1306,7 +1315,7 @@
                                 # sees the forward-er 3s&joi on a nod.joi
                                 k == 'tilmoves' and me&Ploy_tid,v
                                 k.startsWith('stretch') and me&Ploy_tid,v,'joi'
-                                k == 'sameness' and me&tsc,"ratio",cvs(v)||'Nil','6b'
+                                k == 'sameness' and me&tsc,"ratio",v==1&&1||cvs(v)||'Nil','6b'
                                 else
                                 !ish(v) and me&tsc,"value",dis(v),'6b'
                             #}
@@ -1452,6 +1461,7 @@
                 # < leaving out ^ oddly not fatal to v (Try@3 / js oddities)
                 an.cosize[k] += quantity
             })
+            
             # < &ind + ex()
             $sa = map(v => dec(v,2), &c{
                 hak(c) > 2 and debugger
@@ -1460,11 +1470,13 @@
                 $same = c.same || 0
                 return same / (same + c.diff)
             },an)
-
+            
             # hardly any or lots of similarity
             if (sa.cosize <= 0.22 || sa.cosize >= 0.78) {
                 me&joisc,'sameness',sa.cosize
             }
+            # < sameness=1 may coincide with joi%indent
+            #    where trimstart ignored difference
         }
         
         # for a nod matching
@@ -1542,6 +1554,13 @@
             closer indent
             
         =cut
+        # give up on badly joined nod** regions...
+        #  separating into entire ++ and --
+        me.Ploy_joins_unfixable = &acgt{
+            $spheres = 3c&o(3c&X,'sphere')
+            $nods = map(sph => sph.node[0],spheres)
+            # <<<
+        }
         me.Ploy_joins_fix = &acgt{
             $jois = 3c&o(3c&X,'join')
             # copy the original Comp, we edit l%string
@@ -1562,6 +1581,7 @@
            // walk jois
             # step over some joi%mono to the end of a %stretch
             $yon_demono = &joi,{
+                jois&tilmoves and return jois&tilmoves
                 $i = joi.i_join*1
                 $dem
                 while (1) {
@@ -1572,9 +1592,13 @@
                     ojo.final and ojos&demono ||= 1
                     ojos&demono and dem = ojo; break
                 }
-                !dem and joi.fix = ahk(joi,'fix','fail','nodem'); return
+                !dem and debugger; joi.fix = ahk(joi,'fix','fail','nodem'); return
                 $nod = dems&stretch
-                !(nod && nod.joi == joi) and debugger
+                if (!(nod && nod.joi == joi)) {
+                    # stretching through multiple joi?
+                    jois&many_tilmoves_demono_confused = 1
+                    !nod.joi.sc.Ntilmoves and debugger
+                }
                 return dem
             }
             # search further with nod/lin0
@@ -1613,11 +1637,22 @@
           // gather fixes
             $fixed = a&fixed = []
             each i,joi jois {
+                if (!hak(joi.with)) {
+                    $ojo = jois[i-1]
+                    ojo.fix and debugger
+                    $nod = theone(3c&o(joi,'loosely'))
+                    afix(ojo,'stutter',{add:nod})
+                    afix(joi,'stuttered',{rm:nod})
+                    jois&stuttered = 1
+                }
+                # most others are in this situation:
                 !(jois&stretchy && jois&enmono) and continue
                 # find eg joi@56, where joi@48 completes
                 $dem = yon_demono(joi)
                 !dem and continue
                 $nod = dems&stretch
+                
+                joi.i_join == 66 and debugger
                 if (jois&sameness != null && jois&sameness <= 0.2) {
                     # dis-join an earlier low-sameness
                     # at joi@71 -> @81 (many joi.lit @71)
@@ -1625,8 +1660,8 @@
                     #  both having != indent, low sameness
                     # joi@81 is not where to match it
                     $nod2 = theone(3c&o(dem,'with'))
-                    if (nod2.d != nod.d) {
-                        afix(dem,'notd',{rm:nod,cmp:nod2.d+'|'+nod.d})
+                    if (!jois&tilmoves && nod2.d != nod.d) {
+                        $noddoff = dem
                         # search further with nod/lin0
                         $dembet = yon_lin0match(joi,dem)
                         dembet and dem = dembet
@@ -1642,14 +1677,31 @@
                         fixed.push(dem)
                     }
                     else {
-                        afix(joi,'early',{rm:nod})
-                        each i,moi jois&Ntilmoves {
-                            # partial matches over >2 joi
-                            afix(moi,'notin',{rm:nod})
+                        # < flattening o-mode &josc?
+                        #   this seems to be the only joi%* that may many
+                        # partial matches over many joi
+                        $ojois = grep(flatten([jois&Ntilmoves,jois&tilmoves]))
+                        # only one joi.fix may happen before corrupting data
+                        $already = grep(ojo => ojo.fix,
+                            flatten([ojois,joi,dem]))
+                        if (hak(already)) {
+                            # lets not do it
+                            $jids = coint(already.map(ojo => ojo.i_join))
+                            me&tc,"Already:j:"+jids,'b'
+                            jois&unfixable = jids
+                            continue
                         }
+                        # lets do it
+                        afix(joi,'early',{rm:nod})
+                        ojois.map(&ojo,{
+                            # not the final place we want to put it
+                            ojo == dem and return
+                            afix(ojo,'notin',{rm:nod})
+                        })
                         afix(dem,'later',{add:nod})
                         fixed.push(dem)
                     }
+                    #noddoff and afix(noddoff,'notd',{rm:nod,cmp:nod2.d+'|'+nod.d})
                 }
                 else {
                     # dis-join a later low-sameness
@@ -1758,7 +1810,7 @@
                             # maybe these lines dont belong together
                             # < new might be better placed before the joi%stretchy
                             #    by indent?
-                            ls = me&Ploy_joi_separate_ls,joi
+                            ls = me&Ploy_joi_separate_ls,joi,nod
                             jois&separate_ls = 1
                             break
                         }
@@ -1800,7 +1852,7 @@
                             me&Ploy_fail,"fix:empty-string",{l}
                         }
                     },ls)
-                    !hak(ls) and debugger
+                    !hak(ls) && !jois&stuttered and debugger
                     joi.reComp = ls
                 }
             }
@@ -1817,6 +1869,7 @@
                 }
             }
             grop(&l{
+                ly&becomes_separate_ls and return 1
                 if (0 && ls&string.startsWith("\t-Number")) {
                     #debugger
                     return 1
@@ -1841,18 +1894,20 @@
             }
         }
         
-        # make [l+], a continuous bunch of ++|-- 
-        me.Ploy_joi_separate_ls = &acgt,joi{
+        # make [l+], a continuous bunch of ++|--
+        #  and possibly add $nod on the end... if it is much later
+        # < fix f.add may resort to this... it seems to fail:fix-whole
+        # < mapkv(): y returns k|[k,v]
+        me.Ploy_joi_separate_ls = &acgt,joi,nod{
             $N = []
             $nods = me&Ploy_joi_nods,joi
-            # < mapkv(): y returns [k,v]
-            $tw = {}
-            nods.map(nod => tw[nod.sph.sphere] = nod )
-            each sphere,nod tw {
+            $addin = &nod,{
+                $sphere = nod.sph.sphere
                 $ls = 3c&o(joi,'lit.l')
                 $bits = 3c&o(nod,'mine/bit')
                 each i,bit bits {
                     $l = bit.l
+                    ly&becomes_separate_ls = 1
                     # fyi, if this l belongs before|after this joi
                     # < check they are only from the joi%stretch we are fixing wrt
                     $belongs = ls.includes(l)
@@ -1862,6 +1917,8 @@
                     N.push(l)
                 }
             }
+            nods.map(nod => addin(nod))
+            nod && !nods.includes(nod) and addin(nod)
             return N
         }
         
@@ -2076,6 +2133,8 @@
                         # not conjuncted with indent:
                         hak(depths) != 1 and debugger
                         up = stack.slice(-1)[0]
+                        !up and debugger
+                        !up and return me&Ploy_fail,"stack-empty",{joi,nod}
                     }
                     place.d = nod.d
                     place.up = up
