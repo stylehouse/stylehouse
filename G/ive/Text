@@ -462,6 +462,15 @@
             #    and W formats are explained as eg $Wt/1.js
             #     which -js will be able to read,
             nod.D ||= nod.i_node == 0 && nod.E
+            
+            # besides nod.in|next, conventional nod.innod nod%z/nod
+            # ! nod.z is autoviv by 3c&iz / 3c&io / &Xsimp
+            #    &Xsomp would multiply the location (nod)
+            #     by some rows in the location (nod.z)
+            #   lets just leave that be... nod.innod is like pla.inplace
+            # so we can &inlace them in &Ploy_joins_unfixable
+            x.d > 0 and ahk(x,['innod'],nod)
+            
             # eventually /$line of its diffside
             return nod
         }
@@ -1557,11 +1566,47 @@
         # give up on badly joined nod** regions...
         #  separating into entire ++ and --
         me.Ploy_joins_unfixable = &acgt{
-            $spheres = 3c&o(3c&X,'sphere')
-            $nods = map(sph => sph.node[0],spheres)
-            # <<<
+           // generate joi.crap.$reason
+            $jois = 3c&o(3c&X,'join')
+            each i,joi jois {
+                $crap = {}
+                # two|near nod.d
+                $nods = me&Ploy_joi_nods,joi
+                if (hak(nods) == 2) {
+                    $nod1 = nods.shift()
+                    $nod2 = nods.shift()
+                    $off = nod1.d - nod2.d
+                    off < 0 and off *= 1
+                    off > 3 and crap.d = 1
+                }
+                else {
+                    crap.mono = 1
+                }
+                
+                jois&sameness != null && jois&sameness < 0.3 and crap.diff = 1
+                
+                jois&stretch || jois&stretchy and crap.stretch = 1
+                
+                hak(crap) and jois&crap = cint(haks(crap))
+            }
+            
+           // find nod** containing vastly crap joi
+            $joi = jois[0]
+            $nods = me&Ploy_joi_nods,joi
+            $y = &nod,d{
+                # how to get to nod/*nod
+                d.inz = nod.innod || []
+                $joi = nod.joi
+            }
+            $yy = &nod,d{
+                # upwardly incorporating
+                # <<<
+            }
+            nods.map(nod => me&inlace,nod,{y,yy} )
+            
         }
         me.Ploy_joins_fix = &acgt{
+            me&Ploy_joins_unfixable
             $jois = 3c&o(3c&X,'join')
             # copy the original Comp, we edit l%string
             # < dont edit l%string, clone to joi.reComp
@@ -1652,7 +1697,6 @@
                 !dem and continue
                 $nod = dems&stretch
                 
-                joi.i_join == 66 and debugger
                 if (jois&sameness != null && jois&sameness <= 0.2) {
                     # dis-join an earlier low-sameness
                     # at joi@71 -> @81 (many joi.lit @71)
