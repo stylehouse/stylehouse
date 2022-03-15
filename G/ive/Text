@@ -1639,9 +1639,68 @@
                 # then!
                 jois&crapcap = d
             })
+           // group joi, simplify their l+
+            # joi%crapcap spreads down either nod**
+            $caps = []
+            $y = &nod,d{
+                $joi = nod.joi
+                $cap = d.crapcap
+                if (cap) {
+                    cap.joins ||= []
+                    cap.joins[joi.i_join] = joi
+                }
+                elsif (jois&crapcap) {
+                    # this is our d from the last &inlace, will be inherited
+                    d.crapcap = jois&crapcap
+                    caps.push(cap)
+                }
+            }
+            nods.map(nod => me&inlace,nod,{y} )
+            
+            $cap_per_joi = {}
+            each id caps {
+                # this d is from the 'find nod**' &inlace
+                $nod = d.s
+                $joi = nod.joi
+                jois&capped
+                
+                # sanity: cap occurs in one sphere
+                cap_per_joi[joi.i_join] and debugger
+                cap_per_joi[joi.i_join] = 1
+                # sanity: cap is a good joi
+                $nods = me&Ploy_joi_nods,joi
+                hak(nods) != 2 and debugger
+                each i,ojo cap.joins {
+                    # sanity: no gaps
+                    0 < i && cap.joins[i-1] != ojo.prev and debugger
+                    
+                    # ignored by &Ploy_joins_fix
+                    ojos&capped = joi
+                }
+                
+                # redo Comp
+                $sphere_ls = {new:[],gone:[]}
+                each i,ojo cap.joins {
+                    ojo.reComp = []
+                    $ls = 3c&o(ojo,'lit.l') .slice()
+                    each il ls {
+                        $ks = l == 'same' ? ['new','gone'] : [l.t]
+                        each ik ks {
+                            sphere_ls[k] ||= []
+                            sphere_ls[k].push(l)
+                        }
+                    }
+                }
+                
+                joi.reComp = map(Cye,[...sphere_ls.new, ...sphere_ls.gone])
+                # merge sequences of same l.t
+                me&Ploy_ls_tidy,joi.reComp
+                me&fu,"crapcap_redo:"+nod.E.t+'@'+nod.d,joi.reComp
+            }
         }
         me.Ploy_joins_fix = &acgt{
             me&Ploy_joins_unfixable
+            
             $jois = 3c&o(3c&X,'join')
             # copy the original Comp, we edit l%string
             # < dont edit l%string, clone to joi.reComp
@@ -1717,6 +1776,7 @@
           // gather fixes
             $fixed = a&fixed = []
             each i,joi jois {
+                jois&capped and fixed.push(fixed); continue
                 if (!hak(joi.with)) {
                     $ojo = jois[i-1]
                     ojo.fix and debugger
@@ -1729,7 +1789,7 @@
                 !(jois&stretchy && jois&enmono) and continue
                 # find eg joi@56, where joi@48 completes
                 $dem = yon_demono(joi)
-                !dem and continue
+                !dem || dems&capped and continue
                 $nod = dems&stretch
                 
                 if (jois&sameness != null && jois&sameness <= 0.2) {
@@ -1912,15 +1972,7 @@
                     }
                 // thence
                     # merge sequences of same l.t
-                    $la = null
-                    grop(&l{
-                        !hak(ls&string) and return 1
-                        if (la && !las&string.includes("\n") && l.t == la.t) {
-                            las&string += ls&string
-                            return 1
-                        }
-                        la = l
-                    },ls)
+                    me&Ploy_ls_tidy,ls
                     map(&l{
                         # < where from?
                         $nli = ls&string.indexOf("\n")
@@ -1971,6 +2023,18 @@
                 
                 me&Ploy_fail,"fix:sanity-whole-same"
             }
+        }
+        # merge sequences of same l.t
+        me.Ploy_ls_tidy = &acgt,ls{
+            $la = null
+            grop(&l{
+                !hak(ls&string) and return 1
+                if (la && !las&string.includes("\n") && l.t == la.t) {
+                    las&string += ls&string
+                    return 1
+                }
+                la = l
+            },ls)
         }
         
         # make [l+], a continuous bunch of ++|--
