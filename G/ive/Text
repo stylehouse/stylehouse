@@ -1593,10 +1593,8 @@
            // find nod** containing vastly crap joi
             $joi = jois[0]
             $nods = me&Ploy_joi_nods,joi
-            $y = &nod,d{
-                # how to get to nod/*nod
-                d.inz = nod.innod || []
-            }
+            # how to get to nod/*nod
+            $may_iterate = nod => havs(nod.in) || []
             $N = []
             $yy = &nod,d{
                 # upwardly
@@ -1621,7 +1619,8 @@
                 }}
                 N.push(d)
             }
-            nods.map(nod => me&inlace,nod,{y,yy} )
+            nods.map(nod => me&inlace,nod,{may_iterate,yy} )
+            $any = 0
             N.map(&d{
                 $nod = d.s
                 $joi = nod.joi
@@ -1638,8 +1637,11 @@
                 dec(d.sums.crap / d.sums.total,2) < 0.3 and return
                 # then!
                 jois&crapcap = d
+                any = 1
             })
-           // group joi, simplify their l+
+            !any and return
+           
+           // group joi
             # joi%crapcap spreads down either nod**
             $caps = []
             $y = &nod,d{
@@ -1652,17 +1654,22 @@
                 elsif (jois&crapcap) {
                     # this is our d from the last &inlace, will be inherited
                     d.crapcap = jois&crapcap
-                    caps.push(cap)
+                    caps.push(d.crapcap)
                 }
             }
-            nods.map(nod => me&inlace,nod,{y} )
+            nods.map(nod => me&inlace,nod,{may_iterate,y} )
             
+            # we should find joi%crapcap twice
+            #  since it was a good join
+            caps = uniq(caps)
+            !hak(caps) and debugger
+            hak(caps) > 1 and debugger
             $cap_per_joi = {}
             each id caps {
                 # this d is from the 'find nod**' &inlace
                 $nod = d.s
                 $joi = nod.joi
-                jois&capped
+                jois&capped = 1
                 
                 # sanity: cap occurs in one sphere
                 cap_per_joi[joi.i_join] and debugger
@@ -1670,17 +1677,69 @@
                 # sanity: cap is a good joi
                 $nods = me&Ploy_joi_nods,joi
                 hak(nods) != 2 and debugger
-                each i,ojo cap.joins {
+                $la = null
+                each i,ojo d.joins {
                     # sanity: no gaps
-                    0 < i && cap.joins[i-1] != ojo.prev and debugger
-                    
+                    if (la && d.joins[i-1] != ojo.prev) {
+                        if (!d.joins[i-1]) {
+                            $prevooj = d.joins[i-2]
+                            # gaps never > 1 joi
+                            !prevooj and debugger
+                            $ooj = ojo.prev
+                            $no = me&Ploy_joi_nods,ooj [0]
+                            # if no ooj/with=nod, there is no nod.joi=ooj
+                            #  aka joi%stuttered:
+                            #   [(==...)(--...\n)] [(++...\n)]:ooj
+                            if (!hak(ooj.with) && no.joi != ooj
+                                && no.joi == d.joins[i-2]) {
+                                oojs&surprisecap = 'missstuttered'
+                            }
+                            else {
+                                !(no && no.joi == ooj) and debugger
+                                # if the missing joi:ooj/nod:no/^/joi:poj
+                                $poj = no.up.joi
+                                #  started before the joi
+                                #   ie, ooj is a sibling of one we have,
+                                #    descendant of something outside the joi%crapcap**
+                                if (poj.i_join < joi.i_join) {
+                                    oojs&surprisecap = 'siblingofbefore'
+                                }
+                                #   or is descendent of such
+                                elsif (pojs&surprisecap) {
+                                    debugger
+                                    oojs&surprisecap = 'descendantofbefore'
+                                }
+                            }
+                            if (oojs&surprisecap) {
+                                # just add it in...
+                                # < we should know where the other nod** was
+                                #   for the duration of the joi>>joi selection...
+                                d.joins[i-1] = ooj
+                            }
+                            else {
+                                me&Ploy_fail,'Gappy',{joi:ooj}
+                            }
+                        }
+                    }
+                    la = ojo
+                }
+            }
+            
+           // simplify their l+
+            each id caps {
+                # this d is from the 'find nod**' &inlace
+                $nod = d.s
+                $joi = nod.joi
+                jois&capped = 1
+                
+                each i,ojo d.joins {
                     # ignored by &Ploy_joins_fix
                     ojos&capped = joi
                 }
                 
                 # redo Comp
                 $sphere_ls = {new:[],gone:[]}
-                each i,ojo cap.joins {
+                each i,ojo d.joins {
                     ojo.reComp = []
                     $ls = 3c&o(ojo,'lit.l') .slice()
                     each il ls {
@@ -1692,7 +1751,9 @@
                     }
                 }
                 
-                joi.reComp = map(Cye,[...sphere_ls.new, ...sphere_ls.gone])
+                joi.reComp = map(Cye,[
+                    ...3c&o(joi,'lit.l') .slice(),
+                    ...sphere_ls.new, ...sphere_ls.gone])
                 # merge sequences of same l.t
                 me&Ploy_ls_tidy,joi.reComp
                 me&fu,"crapcap_redo:"+nod.E.t+'@'+nod.d,joi.reComp
@@ -1776,7 +1837,8 @@
           // gather fixes
             $fixed = a&fixed = []
             each i,joi jois {
-                jois&capped and fixed.push(fixed); continue
+                jois&crapcap and fixed.push(fixed); continue
+                jois&capped and continue
                 if (!hak(joi.with)) {
                     $ojo = jois[i-1]
                     ojo.fix and debugger
