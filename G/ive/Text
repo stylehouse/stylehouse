@@ -1638,8 +1638,12 @@
             $caps = []
             $y = &nod,d{
                 $joi = nod.joi
+                
                 $cap = d.crapcap
+                cap ||= joi.transcap
                 if (cap) {
+                    # to transmit between sph without finding joi%crapcap
+                    d.crapcap = joi.transcap = cap
                     cap.joins ||= []
                     cap.joins[joi.i_join] = joi
                 }
@@ -1650,8 +1654,15 @@
                 }
             }
             nods.map(nod => me&inlace,nod,{may_iterate,y} )
+            # and once more to transmit between sph
+            #  without finding joi%crapcap on the way in
+            #  so eg '..wantsback' joi@69:
+            #  flows in through E:dige, then to its E:0,
+            #   then on to joi@70 E:seconds, otherwise not joi%capped
+            me&inlace,nods[0],{may_iterate,y}
             
-            # we should find joi%crapcap twice
+           // sanity
+            # we should find joi%crapcap twice (thrice?)
             #  since it was a good join
             caps = uniq(caps)
             !hak(caps) and debugger
