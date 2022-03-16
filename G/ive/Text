@@ -1555,7 +1555,7 @@
             closer indent
             
         =cut
-        # give up on badly joined nod** regions...
+        # give up on really badly joined nod**
         #  separating into entire ++ and --
         me.Ploy_joins_unfixable = &acgt{
            // generate joi.crap.$reason
@@ -1604,6 +1604,7 @@
                         ahk(d,'bey',dist+1,k, already+sum)
                     }}
                 }
+                # come together (dist is unused)
                 d.sums = {}
                 each dist,k,sum d.bey {
                     d.sums[k] ||= 0
@@ -1618,6 +1619,7 @@
                 $joi = nod.joi
                 $p = d.up
                 !p and return
+                # on a good join with many inside
                 d.crap || d.sums.total < 16 and return
                 hak(d.sums) < 3 and return
                 $marginal = d.sums.total - d.sums.good
@@ -1627,7 +1629,7 @@
                     +' x'+ d.sums.total
                     
                 dec(d.sums.crap / d.sums.total,2) < 0.3 and return
-                # then!
+                # vastly crap!
                 jois&crapcap = d
                 any = 1
             })
@@ -1746,23 +1748,26 @@
                     ojo.reComp = []
                     $ls = 3c&o(ojo,'lit.l') .slice()
                     each il ls {
-                        $ks = l == 'same' ? ['new','gone'] : [l.t]
+                        $ks = l.t == 'same' ? ['new','gone'] : [l.t]
                         each ik ks {
+                            $nl = Cye([k,1,{},l.sc])
                             sphere_ls[k] ||= []
-                            sphere_ls[k].push(l)
+                            sphere_ls[k].push(nl)
                         }
                     }
                 }
                 
                 joi.reComp = map(Cye,[
-                    ...3c&o(joi,'lit.l') .slice(),
+                    ...3c&o(joi,'lit.l') .map(Cye),
                     ...sphere_ls.new, ...sphere_ls.gone])
                 # merge sequences of same l.t
                 me&Ploy_ls_tidy,joi.reComp
-                me&fu,"crapcap_redo:"+nod.E.t+'@'+nod.d,joi.reComp
+                #me&fu,"crapcap_redo:"+nod.E.t+'@'+nod.d,joi.reComp
             }
         }
+        # < refactor
         me.Ploy_joins_fix = &acgt{
+            # give up on really badly joined nod**
             me&Ploy_joins_unfixable
             
             $jois = 3c&o(3c&X,'join')
@@ -1837,6 +1842,7 @@
                 !dem && maybe and debugger
                 return dem
             }
+          
           // gather fixes
             $fixed = a&fixed = []
             each i,joi jois {
@@ -2054,7 +2060,6 @@
             each i,joi jois {
                 $ls = joi.reComp || 3c&o(joi,'lit.l')
                 each il ls {
-                    #ls&string.startsWith('\t-Number') and debugger
                     N.push(l)
                 }
             }
@@ -2118,7 +2123,6 @@
                 la = l
             },ls)
         }
-        
         # make [l+], a continuous bunch of ++|--
         #  and possibly add $nod on the end... if it is much later
         # < fix f.add may resort to this... it seems to fail:fix-whole
@@ -2358,7 +2362,6 @@
                         # not conjuncted with indent:
                         hak(depths) != 1 and debugger
                         up = stack.slice(-1)[0]
-                        !up and debugger
                         !up and return me&Ploy_fail,"stack-empty",{joi,nod}
                     }
                     place.d = nod.d
