@@ -1884,24 +1884,14 @@
                         # < flattening o-mode &josc?
                         #   this seems to be the only joi%* that may many
                         # partial matches over many joi
-                        $ojois = grep(flatten([jois&Ntilmoves,jois&tilmoves]))
+                        
                         # only one joi.fix may happen before corrupting data
-                        $already = grep(ojo => ojo.fix,
-                            flatten([ojois,joi,dem]))
-                        if (hak(already)) {
-                            # lets not do it
-                            $jids = coint(already.map(ojo => ojo.i_join))
-                            me&tc,"Already:j:"+jids,'b'
-                            jois&unfixable = jids
-                            continue
-                        }
+                        #  also might joi%N?tilmoves/*->rm(nod)
+                        $doit = me&Ploy_plotfix,joi,dem,nod
+                        !doit and continue
                         # lets do it
                         afix(joi,'early',{rm:nod})
-                        ojois.map(&ojo,{
-                            # not the final place we want to put it
-                            ojo == dem and return
-                            afix(ojo,'notin',{rm:nod})
-                        })
+                        doit(afix)
                         afix(dem,'later',{add:nod})
                         fixed.push(dem)
                     }
@@ -1917,7 +1907,10 @@
                         # make it all ++, put the same bit back on joi@48
                         $gobit = 3c&o(dem,'lit') .slice(-1)[0]
                         # < remove \n$ from the ++, add an == with it
+                        $doit = me&Ploy_plotfix,joi,dem,nod
+                        !doit and continue
                         afix(joi,'allin',{add:nod})
+                        doit(afix)
                         afix(dem,'notin',{rm:nod})
                         fixed.push(joi)
                     }
@@ -1927,6 +1920,7 @@
                     }
                 }
             }
+          
           // apply fixes
             each i,joi jois {
                 each if joi.fix {
@@ -2087,6 +2081,29 @@
                 continue
                 
                 me&Ploy_fail,"fix:sanity-whole-same"
+            }
+        }
+        # where we might joi->add(nod), dem->rm(nod)
+        #  also might joi%N?tilmoves/*->rm(nod)
+        #  and check only one joi.fix may happen before corrupting data
+        me.Ploy_plotfix = &acgt,joi,dem,nod{
+            $ojois = grep(flatten([jois&Ntilmoves,jois&tilmoves]))
+            # only one joi.fix may happen before corrupting data
+            $already = grep(ojo => ojo.fix, [...ojois,joi,dem])
+            if (hak(already)) {
+                # lets not do it
+                $jids = coint(already.map(ojo => ojo.i_join))
+                me&tc,"Already:j:"+jids,'b'
+                jois&unfixable = jids
+                return
+            }
+            return &afix,{
+                # lets do it
+                ojois.map(&ojo,{
+                    # not the final place we want to put it
+                    ojo == dem and return
+                    afix(ojo,'notin',{rm:nod})
+                })
             }
         }
         # merge sequences of same l.t
