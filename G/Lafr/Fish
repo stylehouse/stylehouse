@@ -348,7 +348,7 @@ fi.Xios ||= {}
      increasing in civility:
      &A creates
      &At name + A&X
-     &Att arrive + A&V
+     &Att arrive + A&V - last complete A&V
      
      < maybe &A,... winding voices
        see &elvising to prototype:
@@ -366,17 +366,15 @@ fi.Xios ||= {}
     fi.A = &acgtY{
         Y ||= A
         A = fi&A_new,Y
-        
         # incremental space spread
         fi&A_ipipisip
         return A
     }
     # given A.t + A.c.*
-    # < pronounced acgtivic. extra intellectual suffixualism
+    # < pronounced acgtiyic. extra intellectual suffixualism
     fi.At = &acgtYc{
-        # Y optional
+        # Y optional, c usu just 'name'
         !isA(Y) and c = Y; Y = null
-        # usu just 'name'
         isst(c) and c = {t:c}
         A = fi&A,Y
         
@@ -386,16 +384,20 @@ fi.Xios ||= {}
         return A
     }
     # A/A++ and arrive $At
-    fi.Att = 
-    fi.Atsomewhere = &acgtAt{
+    fi.Atsomewhere =
+    fi.Att = &acgtAt{
         A = fi&At,t
-        
-        !A.up.up and ac(A.up,'z',A)
-        fi&Ariv,{}
+        # < only on A.4?
+        !A.up.up and fi&A_z
+        fi&A_arrive,{At:A.t}
         return A
     }
   // A features
-    # A++ ^Y
+   // creation Y/A
+    # may take a Y that may be|correspond to Ay&up
+    #  for whatever is happening
+    
+    # A++
     fi.A_new = &acgtY{
         !isA(Y) and throw "!A"
         A = ex({},Y)
@@ -407,8 +409,8 @@ fi.Xios ||= {}
         return A
     }
     # A&ip++ seq space, see Aip
-    fi.A_ipipisip = &acgt{
-        $Y = Ay&up
+    fi.A_ipipisip = &acgtY{
+        Y ||= Ay&up
         A&ip = [...(Yc&ip||[])]
         # < starts at 1, 0 is a redo
         #    implying ip[+1] is what to redo
@@ -417,6 +419,48 @@ fi.Xios ||= {}
         Yc&ipi ||= 1
         A&ip.push(Yc&ipi++)
         A&sip = A&ip.join(' ')
+    }
+    # %z+=A
+    fi.A_z = &acgtY{
+        Y ||= Ay&up
+        Ys&z ||= []
+        Ys&z.push(A)
+    }
+    
+   // identity X(<-V)+, A&b
+    # arrive X... and recall its b, previous tick of A
+    # < many potential b, for further match (and suggestion)
+    fi.A_arrive = &acgts{
+        # as got by arriving A^%X|V...$s
+        $b = fi&had,s,{n:A}
+        !b and return
+        A&b = b
+        !bc&X and return
+        A&V = bc&X
+    }
+    # i A/had/$At/$n:A^
+    #   A's copy of where A is in A^
+    #   < might need to arrive again if differing same had s.$k
+    #   < nearby proto dis-includable X hoisting
+    # A^/$At/$n:A|b
+    # < and the plurality of before+now
+    #   b may not match only on sequence
+    fi.had = &acgtsc{
+        $Y = Ay&up
+        
+        # < X/had/$At, not X.had/$At
+        #   ie not X.one=x, only X.one.two=x
+        #fi&Xsim,A,'X',[],ex({had:1},s),c
+        fi&Xsim,A,'X',['had'],s,c
+        
+        $Neu =
+        fi&Xsim,Y,'X',[],s,c
+        $Nld =
+        fi&Xsim,Y,'V',[],s,{el:8}
+        # seq-resolve relativity to history
+        $sequence = Neu.length - 1
+        $b = Nld && Nld[sequence]
+        return b
     }
    
   // A use, &J
@@ -460,41 +504,6 @@ fi.Xios ||= {}
         return J
     }
    
-  // &At A&X, &Ariv A&b
-    # A&V is the old A&X
-    #  as got by arriving:
-    # Ac&b = old life
-    fi.Ariv = &acgtc{
-        $b = fi&had,pex(c,{At:A.t}),{n:A}
-        !b and return
-        A&b = b
-        !bc&X and return
-        # V(iew) meaning readonly
-        #  may be limiting a plumbed actual last A&X
-        #  also may many potential b
-        #   waiting for further match
-        A&V = bc&X
-    }
-    # arrive X..., recall a b
-    # i A^/$At/$n:A
-    # o Y&V/$At/$n:b
-    # < and the plurality of before+now
-    #   b may not match only on sequence
-    fi.had = &acgtsc{
-        $Y = A.up
-        
-        $Neu =
-        fi&Xsim,Y,'X',[],s,c
-        # < X/had/$At, not X.had/$At
-        #   ie not X.one=x, only X.one.two=x
-        fi&Xsim,A,'X',['had'],s,c
-        $Nld =
-        fi&Xsim,Y,'V',[],s,{el:8}
-        
-        $sequence = Neu.length - 1
-        $b = Nld && Nld[sequence]
-        return b
-    }
   
  // &Xsim - proto &Xio
   
