@@ -4329,10 +4329,17 @@ me.Sch_The = &acgt{ return [
                 # < defeatable (like %impl) for modulat. &TXin it?
                 Rs&inline = 1
                 ah(R,'noCy','label',1)
-                # < define this for -String
-                map(n => ns&fs = 12,
-                    # < &modo 'String/string@13', &modi for zuct-ing
-                    me&modselect,R,{modt:'String',t:'string',cv:128})
+                
+                # colour what it says by what it says
+                $hue = sum(armap(i => Ec&s.charCodeAt(i),[0,1,2,3]))
+                hue > 300 and hue -= 300
+                # < &modo 'String/string@13', &modi for zuct-ing
+                me&modselect,R,{modt:'String',t:'string',cv:128}
+                    .map(&n{
+                        ns&fs = 12
+                        ns&hue = hue
+                        ns&hs = 886
+                    })
             }
         }
         else {
