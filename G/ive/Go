@@ -4137,7 +4137,7 @@ me.Sch_Go = &acgt{ return [
             me&Fishlive_dohook,'aft',W,I,g
         }
         
-      // modularities
+      // modularly
        // f, usu
         me.Fishlive_dohook = &acgttWIg{
             each ik I.c[t] {
@@ -4160,17 +4160,15 @@ me.Sch_Go = &acgt{ return [
         }
        
        // notime
-        # A.4 protocols
+        # A.4 protocols for never going async
         me.Fishlive_init_notime = &acgtWIg{
             # Athinger etc
             me&Fishlive_init_basica,W,I,g
             
             # &yl will to async, requests for mock delay
             me&Fishlive_init_notime_ylserve,W,I,g
-            
             # 4s%syncs[e+] instead of Ying:elvis:$wake=R
             me&Fishlive_init_notime_syncserve,W,I,g
-            
             # &Gtime is made up
             me&Fishlive_init_notime_Gtimeserve,W,I,g
             
@@ -4186,14 +4184,20 @@ me.Sch_Go = &acgt{ return [
                 !4c&live and throw "unlive"
                 # < &syncopation does a better &com?
                 fi&com,"Dials"
-                As&yls.map(&c{
+                map(&c{
                     c.ready = fi&Gtime
-                    c.y()
-                })
+                    c.y ()
+                }, As&yls)
             }
         }
         
+        # the way back to &elvising Attention from outside
+        # < since we &Delays_back while 4c&live
         me.Fishlive_init_notime_syncserve = &acgtWIg{
+            # async, callbacks want &elvising to carry on their 4%todo
+            A&syncserve = &N{
+                N.map(e => ac(A.4,'syncs',e))
+            }
             # inside the above, &syncopation / &elvis / &wantfour,e
             #  one 4%synco/*.t at a time
             #   ie group of callbacks may eject N=[e+]
@@ -4206,14 +4210,23 @@ me.Sch_Go = &acgt{ return [
                 #   which is really &Fishlive, a step++
                 #   &complace has a built in 
                 $N = delete 4s&syncs
-                hak(N) and me&com,"syncs-drain",{N}
+                hak(N) and fi&com,"syncs-drain",{N}
                 return N
             }
-            # async callbacks want &elvis e
-            A&syncserve = &N{
-                each ie N {
-                    ac(A.4,'syncs',e)
-                }
+        }
+        # < use Ying
+        #   Go sleepy Nine until 4%syncs are served
+        #    the Fishlive Sunpit knows leaving early
+        #    cursors park meanwhile, etc...
+        me.Fishlive_init_Yingtime_syncserve = &acgtWIg{
+            A&syncserve = &e{
+                # one wake:R%Cat, from whereever hopefully
+                $R = Cy&R
+                $wake = 4c&otherer
+                !R || !wake and debugger; return
+                A = 4c&otherA
+                !A and debugger
+                me&elvis,R,'re-live',{wake}
             }
         }
         

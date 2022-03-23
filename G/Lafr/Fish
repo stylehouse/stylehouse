@@ -961,36 +961,11 @@ fi.Xios ||= {}
      
      inside time is when 4c&live=1, see &Fishlive
       &complace exists, etc
-     
-     o A/$oft/believe/$Q
-      Q may be more specific ie /$src/$version/$Q
-        such qualified Q will never change, except:
-         to be marked %ood={src,version} ?
-          if it loses the /believe/$Q spot
-           if Q made into W maps, leading users
-           they would ask for latest Q+src
-           and consider the %ood version
-            which was the next thing to happen
-            in the situation we were interested in
-         to re-decode Qc&s=C**
-     
-     imports across slope
-      i A.up/$oft/$n=A - the want of $oft
-      i A/$oft/believe/.../$Q - believed from A.up
-     
-     atop the slope is creation by A:loading
-      5/$oft/asked/.../$P - proofs from peers
-      5/$oft/believe/.../$Q - fully ready items
-       could say nothing, Ps&el=9?
-       are put into A:least
-        since A:loading isnt on the &Ath climb
-     
-     see Q id
-     see Coffle '#I'
     =cut
-   
+    
   // being|getting|leaving outside time
-   // motion|perception
+   # see &Fishlive / notime for test harnessing
+   // erst-&yl motion, &Gtime perception
     # fi&yl,3 (&{ ...3 seconds later }) )
     # < fit most delays into &syncopation
     fi.yl = &acgt,seconds{
@@ -1001,6 +976,12 @@ fi.Xios ||= {}
             return G&delay,seconds,y
         }
     }
+    
+    
+    
+    
+    
+    
     # gettimeofday() for Fish, might be testo
     # < &Ploy finding all Gtime()-ish numbers, make relative
     fi.Gtime = &acgt{
@@ -1008,8 +989,14 @@ fi.Xios ||= {}
         return Gtime()
     }
    
-   // &syncopation
+   // &syncopation to an async callback
+    # behalving A.t + s={P}
+    #  4%synco/later spool awaiting callbacks
+    #   and doing the callback async,
+    #    around anything that might &elvis
+    #    when !4&live, something must catch todo++ to -> me&elvis
     # 
+    # < repeatedly? for eg an event listener?
     # < probably do this for the requestIdleCallback stream
     #   and other things, eg &Amess's response
     #   < and permanent listenings...
@@ -1018,8 +1005,51 @@ fi.Xios ||= {}
         # A + s identifies where+what
         c == 'draw' and 'or requestAnimationFrame'
         c ||= {timeout:5}
+        # create a later, they persist
+        $later = fi&synco_i_later,s,c
+        # called in async time, see &Amess
+        # < which we may not want to suddenly &elvis from
+        return &y{
+            $N = fi&synco_later_pending,later,y
+            !N and return
+            # N=[later+] batched
+            # we are resolving one or more waits
+            $com_done = fi&complace,'syncopation',{A}
+            
+            # if these &elvis,
+            # < as one big+individual B, try-catch
+            #  < going into Atime just to go into Atime
+            $done = fi&todowatch
+            each il N {
+                lc&do()
+                fi&synco_later_done,l
+                done.part(l)
+            }
+            
+            $M = done()
+            if (hak(M)) {
+                # any new 4%todo/e into one wake:R%Cat
+                # or eg &Fishlive being sync
+                #  it can simply Fish.S(...) for more Attention
+                #  we are in mock-async &yl there right now
+                !4c&live and 4c&syncserve(M)
+            }
+            else {
+                # when &syncopation doesnt lead to an &elvis
+                fi&com,"pool!elvis",{later}
+            }
+            
+            $pts = joint(N)
+            # < timings of all (like DevTools Network)
+            fi&com,'re-live:',ex(hashkv(later.t,'x'+hak(N)),{pts})
+            com_done('packup')
+        }
+    }
+   // synco f
+    fi.synco_i_later = &acgtsc{
         c.began = fi&Gtime
         c.timeout and c.timeout = c.timeout + fi&Gtime
+        # < unused? make latery&A?
         c.n ||= A
         $name = A.t+"'s "+joint(haks(s))
         $later = Cye([name,8,c,s])
@@ -1027,75 +1057,61 @@ fi.Xios ||= {}
         #  < involving A.4/A.3/A:loading and /asked/$P
         ac(A.4,'synco',later)
         laters&waiting = 1
-        # called in async time, see &Amess
-        # < which we may not want to suddenly &elvis from
-        return &y{
-            laterc&do = y
-            laterc&ready = fi&Gtime
-            !laters&waiting and throw "notwaiting", later
-            $ok = delete laters&waiting
-            # to get all "loading's P", then engage them all
-            $others = 4s&synco.filter(l => l.t == later.t && l != later)
-            if (hak(others.filter(l => ls&waiting))) {
-                laters&pending = 1
-                return
-            }
+        return later
+    }
+    # outer callback fired, given inner callback
+    fi.synco_later_pending = &acgt,later,y,{
+        $ok = delete laters&waiting
+        !ok and throw "notwaiting", later
+        laterc&do = y
+        laterc&ready = fi&Gtime
+        
+        # to get all "loading's P" then engage them all
+        $N = grep(l => l.t == later.t, 4s&synco)
+        
+        if (grap(l => ls&waiting, N)) {
+            laters&pending = 1
+            return
+        }
+        return N
+    }
+    # inner callback done
+    fi.synco_later_done = &acgt,later,y,{
+        delete laters&pending
+        delete laterc&timeout
+        laterc&done = fi&Gtime
+    }
+   
+   // &todowatch for e%spawns[e+]
+    # use:
+    #  &elvising consuming|producing 4%todo
+    #  &syncopation
+    #   arranges comeback from out of time if producing 4%todo
+    #   eventuate wake:@Cat if  out of time,
+    #   eg &syncopation handles tiny callback
+    #    that will fi&elvis before doing much at all
+    #    < getting this at S
+    fi.todowatch = &acgt{
+        $N = 4s&todo
+        !isar(N) and debugger
+        4c&todowatch and debugger
+        4c&todowatch = 1
+        $began = map(N)
+        $known = map(N)
             
-            # we are resolving one or more waits
-            $com_done = fi&complace,'syncopation',{A}
-            $all = [...others.filter(l => ls&pending),later]
-            # if these &elvis, a plan
-            # < as one big+individual B, try-catch
-            #  < going into Atime just to go into Atime
-            $done = fi&poolfour,later
-            each il all {
-                lc&do()
-                delete ls&pending
-                delete lc&timeout
-                lc&done = fi&Gtime
-            }
-            # convert many ^ &elvis into one wake:R%Cat
-            $pts = joint(all.map(l => ls&P.t))
-            # < timings of all (like DevTools Network)
-            fi&com,'re-live:',ex(hashkv(later.t,'x'+hak(all)),{pts})
-            done()
-            com_done('packup')
+        $done = &{
+            delete 4c&todowatch
+            return N.slice(hak(began))
         }
-    }
-    # collect requests to then get 4's Attention
-    #  during the async other unwoken callback time of syncopation
-    fi.wantfour = &acgte{
-        $N = 4c&forfour
-        # when 4 is not awake,
-        #  something must catch todo++ to -> me&elvis
-        !N and throw "no poolfour"
-        N.push(e)
-    }
-    fi.poolfour = &acgtl{
-        $f = A.4
-        $ol = 4c&forfourvor
-        ol and throw "double poolfour",{l,ol}
-        !l and throw "!object"
-        4c&forfourvor = l
-        4c&forfour = []
-        return &{
-            delete 4c&forfourvor
-            $N = delete 4c&forfour
-            !hak(N) and fi&com,"pool!elvis",{l}
-            if (4c&syncserve) {
-                # testo has a sync R%Cat
-                #  it can simply Fish() for more Attention
-                #  we are in mock-async &yl there right now
-                return 4c&syncserve(N)
-            }
-            # one wake:R%Cat, from whereever hopefully
-            $R = Cy&R
-            $wake = 4c&otherer
-            !R || !wake and debugger; return
-            A = 4c&otherA
-            !A and debugger
-            me&elvis,R,'re-live',{wake}
+        done.part = &e{
+            $neu = N.slice(hak(known))
+            !hak(neu) and return
+            # this e emits more todo/e
+            es&spawns and debugger
+            es&spawns = neu
+            known = map(N)
         }
+        return done
     }
    
    // &elvis -> 4%todo -> &elvising time hops
@@ -1127,11 +1143,8 @@ fi.Xios ||= {}
             throw "whate"
         }
         ac(A.4,'todo',e)
-        # eventuate wake:@Cat if  out of time,
-        #  eg &syncopation handles tiny callback
-        #   that will fi&elvis before doing much at all
-        #    < getting this at S
-        4c&live != 1 and fi&wantfour,e
+        # usu track e%spawns[e+]
+        !4c&live && !4c&todowatch and debugger
     }
     # o 4%todo/e cause fi&Adoing,...c.*
     # < post-R, called outside anything for ways|levels of Attention
@@ -1139,10 +1152,12 @@ fi.Xios ||= {}
     #   errors|more-async cause a traffic jam
     fi.elvising = &acgt{
         $N = a&todo || []
+        # merge same fi,N,c
         fi&emergible,N
-        $began = N.slice()
-        $known = N.slice()
-        each ie began {
+        # notice new 4%todo
+        $done = fi&todowatch
+        $began = map(N)
+        began.map(&e{
             # < mergible ec&N amongst c.*+c.c.*-same
             if (ec&fi) {
                 # {fi:'Athinging',A:Y,N:[Q],c:{}}
@@ -1153,17 +1168,10 @@ fi.Xios ||= {}
             else {
                 throw "what todo", c
             }
-            if (hak(N) > hak(known)) {
-                # this e emits more todo/e
-                # before or after the rest of what we're doing?
-                #$neu = map(N)
-                $neu = N.filter(n => !known.includes(n))
-                es&spawns and debugger
-                es&spawns = neu
-                known.push(...neu)
-            }
-        }
-        $finished = grepout(N,n => began.includes(n))
+            done.part(e)
+        })
+        $did = grop(began,N)
+        $M = done()
         !hak(N) and fi&com,'8-still'
     }
     # merge ec&N when ec&*, ec&c.*, etc same
@@ -1199,6 +1207,34 @@ fi.Xios ||= {}
    
    
   // A/believe/
+    =pod
+     o A/$oft/believe/$Q
+      Q may be more specific ie /$src/$version/$Q
+        such qualified Q will never change, except:
+         to be marked %ood={src,version} ?
+          if it loses the /believe/$Q spot
+           if Q made into W maps, leading users
+           they would ask for latest Q+src
+           and consider the %ood version
+            which was the next thing to happen
+            in the situation we were interested in
+         to re-decode Qc&s=C**
+     
+     imports across slope
+      i A.up/$oft/$n=A - the want of $oft
+      i A/$oft/believe/.../$Q - believed from A.up
+     
+     atop the slope is creation by A:loading
+      5/$oft/asked/.../$P - proofs from peers
+      5/$oft/believe/.../$Q - fully ready items
+       could say nothing, Ps&el=9?
+       are put into A:least
+        since A:loading isnt on the &Ath climb
+     
+     see Q id
+     see Coffle '#I'
+    =cut
+   
    // &Ath front ^^4/$of...
     fi.Ath = &acgtAscq{
         c ||= {}
