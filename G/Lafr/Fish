@@ -1645,17 +1645,22 @@ fi.Xios ||= {}
     fi._S = &acgtANc{
     }
   
-  // Amess
-    # A:loading messaging
+  // < Amess
+    # A:loading messaging P@1-2-3
     # < proxy to @Aearch
     # &elvis must be coming back to %Cat sometimes
     fi.Amess = &acgtANc{
         # ! this must not be a for (each) loop, or we ack the same later
         N.map(&P{
+            Py&cv != 0.1 and debugger
             # sent
             Py&cv = 0.2
             
-            
+            # < rebuild %Search, knowing what requests to make depending on ...
+            # requests usu /$of/$t, possibly with params
+            # response usu blob of text, possibly with header 'sc: {json...}''
+            $path = slant(Pc&of,Pc&t)
+            $back = me&fetch,path,{}
             
             $back = &{
                 # receive callbacks
@@ -1665,10 +1670,14 @@ fi.Xios ||= {}
             }
             0 and back(); return
             $ack = fi&syncopation,{P}
-            $delay = 0.3
-            P.t[0] == 'r' and delay -= 0.1
-            fi&yl,delay (&{ack(back)})
         })
+    }
+    fi.fetch = &acgttc{
+        4c&fetchserve and return 4c&fetchserve(t,c)
+        
+        $delay = 0.3
+        P.t[0] == 'r' and delay -= 0.1
+        fi&yl,delay (&{ack(back)})
     }
    
    
