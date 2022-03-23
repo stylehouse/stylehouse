@@ -460,7 +460,7 @@ fi.Xios ||= {}
     }
    
   // A use, &J
-    # minimal top-level A, makes Cy&Fish
+    # W|Cy&Fish = minimal top-level A.4
     fi.Atopleast = &acgt,net{
         $Y = A
         $A = {t:'top',c:{},sc:{}}
@@ -617,6 +617,7 @@ fi.Xios ||= {}
     }
     # o /believe.../$Q
     # look up believe/src/version/$Q
+    # sort by believe/$Q
     # < define /$n mode: intermediaries (eg src.z) may be empty
     #   they may be hung in the most specific place thus far, etc.
     # sort by believe/$Q, usu return latest one
@@ -628,9 +629,9 @@ fi.Xios ||= {}
         # wildcarding hash slice, usu believe:1 anyway
         $first = hashkv(haks(s)[0])
         
-        fi&bug,'bel-somp' and $un = fi&ibug,'somp'
-            $N = fi&Xsomp,x,s,{norder:first}
-        un && un()
+        #fi&bug,'bel-somp' and $un = fi&ibug,'somp'
+        $N = fi&Xsomp,x,s,{norder:first}
+        #un && un()
         
         c.rows and return N
         $ax = N.pop()
@@ -934,9 +935,15 @@ fi.Xios ||= {}
     }
  
  // < Attention
- 
     =pod
+     we 4%todo/e callbacks
+      &elvis creates them
+       if outside time tries to enqueue an:
+      &elvising winds them up
+       at inside time, until quiet...
      
+     inside time is when 4c&live=1, see &Fishlive
+      &complace exists, etc
      
      o A/$oft/believe/$Q
       Q may be more specific ie /$src/$version/$Q
@@ -964,94 +971,113 @@ fi.Xios ||= {}
      see Q id
      see Coffle '#I'
     =cut
-   // &Ath front ^^4/$of...
-    fi.Ath = &acgtAscq{
-        c ||= {}
-        q ||= {}
-        $a = fi&wantbelieve,A,s,c,q
-        
-        if (!a) {
-            fi&com,"Ath-not",{s,c,q}
-        }
-        else {
-            # have the answer
-            $Q = a.n
-            !isC(Q) and debugger
-            fi&com,"Ath",{s,c,q,Q}
-            return Q
+   
+  // being|getting|leaving outside time
+   // motion|perception
+    # fi&yl,3 (&{ ...3 seconds later }) )
+    # < fit most delays into &syncopation
+    fi.yl = &acgt,seconds{
+        seconds = dec(seconds,3)
+        return &y{
+            fi&com,"Delay",{seconds}
+            4c&ylserve and return 4c&ylserve(seconds,y)
+            return G&delay,seconds,y
         }
     }
-    # over sloper $d (dip)
-    # < rebuild inside out in &Ath, with me.cby()?
-    fi.wantbelieve = &acgtAscqd{
-        c ||= {}
-        q ||= {}
-        d ||= {}
-        $n = d.A || A
-        d.A = A
-        # s is oft ($of+$t+...), a Q.c.* set
-        #  init. Qx has only demand for a Q:
-        # dup i /$n, next lower|est A:n**
-        $Qx = fi&Xsimp,A,s,{n}
-        # < uniq map of $ofts etc at X.th.'of+t'/$n=Qx
-        #    then you could X.of.*.t.*=Qx join it
-        
-        # /believe/... as a wildcard
-        # q.believe='anything' makes /anything/
-        #  may be /contentions/ or so? locking in Qx space
-        $beliefs = fi&Qbel,0,q
-        $wants = ex({},beliefs)
-        # c may specify some ...
-        # < ifs, wheres
-        # < T belief-lockin may reuse V/.../believe...
-        sex(wants,c,beliefs)
-        # o /believe/...[-1]/$Q
-        #  later greater
-        $a = fi&believeoQ,Qx,wants,{row:1}
-        if (!a) {
-            # go further upwards
-            A.up and a = fi&wantbelieve,A.up,s,c,q,{A,d}
-            else {
-                # gateway, or sync read (as A:P) eg localStorage
-                a = Ac&oftserve(s,c,q,d)
-            }
-            if (a && !q.cas) {
-                # thing brung
-                # threading back down to ..A:n
-                # an ax with /believe/... mixed in
-                #  towed in by the resyncing A:more
-                $ax = me&axsimilate,a
-                # < $believed = &axarkvs ... are ax.arkx.* JOIN ax.*
-                $believed = sex({},a,beliefs)
-                # < would have ax.arkx.believed but not ax.believed?
-                ax.x = fi&believeiQ,Qx,believed,a.n
-                ax.n != a.n and throw "Yaklt"
-                a = ax
-            }
-        }
-        return a
+    # gettimeofday() for Fish, might be testo
+    # < &Ploy finding all Gtime()-ish numbers, make relative
+    fi.Gtime = &acgt{
+        4c&Gtimeserve and return 4c&Gtimeserve()
+        return Gtime()
     }
-    # on A.4 (A:least)
-    #  &oftserve finally elvises P:Q to &Athinger
-    #   it will be async at least up to Fish@8
-    #    which may keep %todo-ing (&elvising) in one A:Run sync
-    fi.isAthinger = &acgt{
-        # try get something
-        A&oftserve = &scqd{
-            # is &Ath,s,c,q after d climb
-            $Ac = {}
-            $Qs = {}
-            if (hak(c)) {
-                # c.* divides &Athinger batches, might .el
-                Ac = ex({},c)
-                # c.* might also be believables, eg spec $version
-                #  ie reduce its dual meanings
-                # < bad design? should any Qish s,c,q arg let c.* into Q%*?
-                tax(Qs,Ac, fi&Qbel,0,q )
+   
+   // &syncopation
+    # 
+    # < probably do this for the requestIdleCallback stream
+    #   and other things, eg &Amess's response
+    #   < and permanent listenings...
+    # one 4%synco/*.t at a time
+    fi.syncopation = &acgtsc{
+        # A + s identifies where+what
+        c == 'draw' and 'or requestAnimationFrame'
+        c ||= {timeout:5}
+        c.began = fi&Gtime
+        c.timeout and c.timeout = c.timeout + fi&Gtime
+        c.n ||= A
+        $name = A.t+"'s "+joint(haks(s))
+        $later = Cye([name,8,c,s])
+        # < A.4 should linger %Cat on this %plan
+        #  < involving A.4/A.3/A:loading and /asked/$P
+        ac(A.4,'synco',later)
+        laters&waiting = 1
+        # called in async time, see &Amess
+        # < which we may not want to suddenly &elvis from
+        return &y{
+            laterc&do = y
+            laterc&ready = fi&Gtime
+            !laters&waiting and throw "notwaiting", later
+            $ok = delete laters&waiting
+            # to get all "loading's P", then engage them all
+            $others = 4s&synco.filter(l => l.t == later.t && l != later)
+            if (hak(others.filter(l => ls&waiting))) {
+                laters&pending = 1
+                return
             }
-            # Q to find P(roof), then be $Q
-            $Q = fi&aQ,s,Qs
-            fi&elvis,{fi:'Athinger',A,N:[Q],c:Ac}
+            
+            # we are resolving one or more waits
+            $com_done = fi&complace,'syncopation',{A}
+            $all = [...others.filter(l => ls&pending),later]
+            # if these &elvis, a plan
+            # < as one big+individual B, try-catch
+            #  < going into Atime just to go into Atime
+            $done = fi&poolfour,later
+            each il all {
+                lc&do()
+                delete ls&pending
+                delete lc&timeout
+                lc&done = fi&Gtime
+            }
+            # convert many ^ &elvis into one wake:R%Cat
+            $pts = joint(all.map(l => ls&P.t))
+            # < timings of all (like DevTools Network)
+            fi&com,'re-live:',ex(hashkv(later.t,'x'+hak(all)),{pts})
+            done()
+            com_done('packup')
+        }
+    }
+    # collect requests to then get 4's Attention
+    #  during the async other unwoken callback time of syncopation
+    fi.wantfour = &acgte{
+        $N = 4c&forfour
+        # when 4 is not awake,
+        #  something must catch todo++ to -> me&elvis
+        !N and throw "no poolfour"
+        N.push(e)
+    }
+    fi.poolfour = &acgtl{
+        $f = A.4
+        $ol = 4c&forfourvor
+        ol and throw "double poolfour",{l,ol}
+        !l and throw "!object"
+        4c&forfourvor = l
+        4c&forfour = []
+        return &{
+            delete 4c&forfourvor
+            $N = delete 4c&forfour
+            !hak(N) and fi&com,"pool!elvis",{l}
+            if (4c&syncserve) {
+                # testo has a sync R%Cat
+                #  it can simply Fish() for more Attention
+                #  we are in mock-async &yl there right now
+                return 4c&syncserve(N)
+            }
+            # one wake:R%Cat, from whereever hopefully
+            $R = Cy&R
+            $wake = 4c&otherer
+            !R || !wake and debugger; return
+            A = 4c&otherA
+            !A and debugger
+            me&elvis,R,'re-live',{wake}
         }
     }
    
@@ -1153,6 +1179,100 @@ fi.Xios ||= {}
         #me&nu,"Fiz",{N,merged}
         grepout(N,merged)
     }
+   
+   
+  // A/believe
+   // &Ath front ^^4/$of...
+    fi.Ath = &acgtAscq{
+        c ||= {}
+        q ||= {}
+        $a = fi&wantbelieve,A,s,c,q
+        
+        if (!a) {
+            fi&com,"Ath-not",{s,c,q}
+        }
+        else {
+            # have the answer
+            $Q = a.n
+            !isC(Q) and debugger
+            fi&com,"Ath",{s,c,q,Q}
+            return Q
+        }
+    }
+    # over sloper $d (dip)
+    # < rebuild inside out in &Ath, with me.cby()?
+    fi.wantbelieve = &acgtAscqd{
+        c ||= {}
+        q ||= {}
+        d ||= {}
+        $n = d.A || A
+        d.A = A
+        # s is oft ($of+$t+...), a Q.c.* set
+        #  init. Qx has only demand for a Q:
+        # dup i /$n, next lower|est A:n**
+        $Qx = fi&Xsimp,A,s,{n}
+        # < uniq map of $ofts etc at X.th.'of+t'/$n=Qx
+        #    then you could X.of.*.t.*=Qx join it
+        
+        # /believe/... as a wildcard
+        # q.believe='anything' makes /anything/
+        #  may be /contentions/ or so? locking in Qx space
+        $beliefs = fi&Qbel,0,q
+        $wants = ex({},beliefs)
+        # c may specify some ...
+        # < ifs, wheres
+        # < T belief-lockin may reuse V/.../believe...
+        sex(wants,c,beliefs)
+        # o /believe/...[-1]/$Q
+        #  later greater
+        $a = fi&believeoQ,Qx,wants,{row:1}
+        if (!a) {
+            # go further upwards
+            A.up and a = fi&wantbelieve,A.up,s,c,q,{A,d}
+            else {
+                # gateway, or sync read (as A:P) eg localStorage
+                a = Ac&oftserve(s,c,q,d)
+            }
+            if (a && !q.cas) {
+                # thing brung
+                # threading back down to ..A:n
+                # an ax with /believe/... mixed in
+                #  towed in by the resyncing A:more
+                $ax = me&axsimilate,a
+                # < $believed = &axarkvs ... are ax.arkx.* JOIN ax.*
+                $believed = sex({},a,beliefs)
+                # < would have ax.arkx.believed but not ax.believed?
+                ax.x = fi&believeiQ,Qx,believed,a.n
+                ax.n != a.n and throw "Yaklt"
+                a = ax
+            }
+        }
+        return a
+    }
+    # on A.4 (A:least)
+    #  &oftserve finally elvises P:Q to &Athinger
+    #   it will be async at least up to Fish@8
+    #    which may keep %todo-ing (&elvising) in one A:Run sync
+    fi.isAthinger = &acgt{
+        # try get something
+        A&oftserve = &scqd{
+            # is &Ath,s,c,q after d climb
+            $Ac = {}
+            $Qs = {}
+            if (hak(c)) {
+                # c.* divides &Athinger batches, might .el
+                Ac = ex({},c)
+                # c.* might also be believables, eg spec $version
+                #  ie reduce its dual meanings
+                # < bad design? should any Qish s,c,q arg let c.* into Q%*?
+                tax(Qs,Ac, fi&Qbel,0,q )
+            }
+            # Q to find P(roof), then be $Q
+            $Q = fi&aQ,s,Qs
+            fi&elvis,{fi:'Athinger',A,N:[Q],c:Ac}
+        }
+    }
+   
    
    // &elvising handlers
     =pod
@@ -1493,109 +1613,7 @@ fi.Xios ||= {}
     }
    
    
-   // &yl|&Gtime, &syncopation
-    # < fit most delays into &syncopation
-    fi.yl = &acgt,seconds{
-        seconds = dec(seconds,3)
-        return &y{
-            fi&com,"Delay",{seconds}
-            4c&ylserve and return 4c&ylserve(seconds,y)
-            return G&delay,seconds,y
-        }
-    }
-    # gettimeofday() for Fish, might be testo
-    # < &Ploy finding all Gtime()-ish numbers, make relative
-    fi.Gtime = &acgt{
-        4c&Gtimeserve and return 4c&Gtimeserve()
-        return Gtime()
-    }
-    # the requestIdleCallback stream
-    #  and other things, eg &Amess's response
-    #   < and permanent listenings
-    # one 4%synco/*.t at a time
-    fi.syncopation = &acgtsc{
-        # A + s identifies where+what
-        c == 'draw' and 'or requestAnimationFrame'
-        c ||= {timeout:5}
-        c.began = fi&Gtime
-        c.timeout and c.timeout = c.timeout + fi&Gtime
-        c.n ||= A
-        $name = A.t+"'s "+joint(haks(s))
-        $later = Cye([name,8,c,s])
-        # < A.4 should linger %Cat on this %plan
-        #  < involving A.4/A.3/A:loading and /asked/$P
-        ac(A.4,'synco',later)
-        laters&waiting = 1
-        # called in async time, see &Amess
-        # < which we may not want to suddenly &elvis from
-        return &y{
-            laterc&do = y
-            laterc&ready = fi&Gtime
-            !laters&waiting and throw "notwaiting", later
-            $ok = delete laters&waiting
-            # to get all "loading's P", then engage them all
-            $others = 4s&synco.filter(l => l.t == later.t && l != later)
-            if (hak(others.filter(l => ls&waiting))) {
-                laters&pending = 1
-                return
-            }
-            
-            # we are resolving one or more waits
-            $com_done = fi&complace,'syncopation',{A}
-            $all = [...others.filter(l => ls&pending),later]
-            # if these &elvis, a plan
-            # < as one big+individual B, try-catch
-            #  < going into Atime just to go into Atime
-            $done = fi&poolfour,later
-            each il all {
-                lc&do()
-                delete ls&pending
-                delete lc&timeout
-                lc&done = fi&Gtime
-            }
-            # convert many ^ &elvis into one wake:R%Cat
-            $pts = joint(all.map(l => ls&P.t))
-            # < timings of all (like DevTools Network)
-            fi&com,'re-live:',ex(hashkv(later.t,'x'+hak(all)),{pts})
-            done()
-            com_done('packup')
-        }
-    }
-    # collect requests to then get 4's Attention
-    #  during the async other unwoken callback time of syncopation
-    fi.wantfour = &acgte{
-        $N = 4c&forfour
-        # when 4 is not awake,
-        #  something must catch todo++ to -> me&elvis
-        !N and throw "no poolfour"
-        N.push(e)
-    }
-    fi.poolfour = &acgtl{
-        $f = A.4
-        $ol = 4c&forfourvor
-        ol and throw "double poolfour",{l,ol}
-        !l and throw "!object"
-        4c&forfourvor = l
-        4c&forfour = []
-        return &{
-            delete 4c&forfourvor
-            $N = delete 4c&forfour
-            !hak(N) and fi&com,"pool!elvis",{l}
-            if (4c&syncserve) {
-                # testo has a sync R%Cat
-                #  it can simply Fish() for more Attention
-                #  we are in mock-async &yl there right now
-                return 4c&syncserve(N)
-            }
-            # one wake:R%Cat, from whereever hopefully
-            $R = Cy&R
-            $wake = 4c&otherer
-            !R || !wake and debugger; return
-            A = 4c&otherA
-            !A and debugger
-            me&elvis,R,'re-live',{wake}
-        }
-    }
+   
    
    // Travel
     # see also &pio
