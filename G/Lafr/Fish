@@ -387,9 +387,13 @@ fi.Xios ||= {}
     fi.Atsomewhere =
     fi.Att = &acgtAt{
         A = fi&At,t
+        
         # < only on A.4?
         #!A.up.up and fi&A_z
+        
+        # < use Ac&b?
         fi&A_arrive,{At:A.t}
+        
         return A
     }
   // A features
@@ -427,8 +431,9 @@ fi.Xios ||= {}
         Ys&z.push(A)
     }
     
-   // identity X(<-V)+, A&b
-    # arrive X... and recall its b, previous tick of A
+   // identity X(<-V)+, $b
+    # arrive A^/$At/A
+    #  recalling its b, previous life of A
     # < many potential b, for further match (and suggestion)
     fi.A_arrive = &acgts{
         # as got by arriving A^%X|V...$s
@@ -438,8 +443,7 @@ fi.Xios ||= {}
         !bc&X and return
         A&V = bc&X
     }
-    # A^/...$s/$n:A|b
-    #  i X and o V produces b = previous A
+    # writing on A^, may arrive|resolve b from A^%V/...$s/$n=b
     # ~~ &pio, which finds %TX
     # < possibly:
     #    A%X/had/...$s/$n=A^ tracks what we A^/...$s/$n=A
@@ -459,6 +463,15 @@ fi.Xios ||= {}
         return b
     }
    
+   // time
+    # < 4 rolls over?
+    fi.A_again = &acgt{
+        A&again = &{
+            A&V = A&X
+            A&X = {A}
+        }
+    }
+   
   // A use, &J
     # W|Cy&Fish = minimal top-level A.4
     fi.Atopleast = &acgt,net{
@@ -476,10 +489,7 @@ fi.Xios ||= {}
         delete A.up
         A&X = {A}
         # it would usually 
-        A&again = &{
-            A&V = A&X
-            A&X = {A}
-        }
+        fi&A_again
         return A
     }
     
