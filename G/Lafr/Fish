@@ -1533,6 +1533,68 @@ fi.Xios ||= {}
         }
     }
     
+   //   Amess
+    =pod
+     A:loading messaging
+      downloads a P%string
+       < or does a <script> for /wjs/, etc etc
+       < and P%* from http header
+      < memory of Amess, available sockets
+        depending on news outlets to notify of change
+         or similar check the linkage to that branch
+      P@1 -> @2 while waiting -> @3
+       we magically know to return to Athinger @3
+        just like we knew the P%src back then already
+         it is more of a concern of Amess though,
+          which might have any number of ways to get info
+           sifting until one is trusted to @3
+    =cut
+    # < proxy to @Aearch
+    # &elvis must be coming back to %Cat sometimes
+    fi.Amess = &acgtANc{
+        # ! this must not be a for (each) loop, or we ack the same later
+        N.map(&P{
+            # < rebuild %Search, knowing what requests to make depending on ...
+            if (Py&cv == 0.1) {
+                # P@2 while waiting for a response
+                Py&cv = 0.2
+                $recv = &sc{
+                    # response usu blob of text
+                    #  possibly with http header 'sc: {json...}'
+                    Py&cv = 0.3
+                    Ps&string = s
+                    fi&elvis,{fi:'Athinger',A,N:[P],c:{}}
+                }
+                # a 4%synco/later from this Amess|P
+                #  wraps completion event recv(...)
+                #  which later%spawns=[e:Athinger] above
+                # < all e|latery&spawns, spawnin reversily? event vines
+                #   this later could just be a noop 4%todo
+                #    so other events can see and wait for it?
+                # allows recv() to happen outside time and &elvis its way in
+                $ack = fi&syncopation,{P}
+                $back = &sc{
+                    ack(&{ recv(s,c) })
+                }
+                # requests usu /$of/$t
+                #  possibly with http params
+                fi&fetch,slant(Pc&of,Pc&t),{},back
+            }
+            else {
+                debugger
+            }
+        })
+    }
+    fi.fetch = &acgttcy{
+        4c&fetchserve and return 4c&fetchserve(t,c,y)
+        # < real
+        $s = '3 * 3'
+        $delay = 0.3
+        t[2] == 'r' and delay -= 0.1; s = "yardial"
+        fi&yl,delay (&{ y(s,{}) })
+    }
+   
+   // -> Abelieve -> Athinging
     # A:loading, Q gathering into /believe/
     fi.Abelieve = &acgtANc{
         A&thinger and A = A&thinger
@@ -1661,67 +1723,6 @@ fi.Xios ||= {}
     fi._S = &acgtANc{
     }
   
-  // < Amess
-    =pod
-     A:loading messaging
-      downloads a P%string
-       < or does a <script> for /wjs/, etc etc
-       < and P%* from http header
-      < memory of Amess, available sockets
-        depending on news outlets to notify of change
-         or similar check the linkage to that branch
-      P@1 -> @2 while waiting -> @3
-       we magically know to return to Athinger @3
-        just like we knew the P%src back then already
-         it is more of a concern of Amess though,
-          which might have any number of ways to get info
-           sifting until one is trusted to @3
-    =cut
-    # < proxy to @Aearch
-    # &elvis must be coming back to %Cat sometimes
-    fi.Amess = &acgtANc{
-        # ! this must not be a for (each) loop, or we ack the same later
-        N.map(&P{
-            # < rebuild %Search, knowing what requests to make depending on ...
-            if (Py&cv == 0.1) {
-                # P@2 while waiting for a response
-                Py&cv = 0.2
-                $recv = &sc{
-                    # response usu blob of text
-                    #  possibly with http header 'sc: {json...}'
-                    Py&cv = 0.3
-                    Ps&string = s
-                    fi&elvis,{fi:'Athinger',A,N:[P],c:{}}
-                }
-                # a 4%synco/later from this Amess|P
-                #  wraps completion event recv(...)
-                #  which later%spawns=[e:Athinger] above
-                # < all e|latery&spawns, spawnin reversily? event vines
-                #   this later could just be a noop 4%todo
-                #    so other events can see and wait for it?
-                # allows recv() to happen outside time and &elvis its way in
-                $ack = fi&syncopation,{P}
-                $back = &sc{
-                    ack(&{ recv(s,c) })
-                }
-                # requests usu /$of/$t
-                #  possibly with http params
-                fi&fetch,slant(Pc&of,Pc&t),{},back
-            }
-            else {
-                debugger
-            }
-        })
-    }
-    fi.fetch = &acgttcy{
-        4c&fetchserve and return 4c&fetchserve(t,c,y)
-        # < real
-        $s = '3 * 3'
-        $delay = 0.3
-        t[2] == 'r' and delay -= 0.1; s = "yardial"
-        fi&yl,delay (&{ y(s,{}) })
-    }
-   
    
    
    
