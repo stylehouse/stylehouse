@@ -964,6 +964,7 @@ fi.Xios ||= {}
     =cut
     
   // outside time
+   
    # see &Fishlive / notime for test harnessing
    // erst-&yl motion, &Gtime perception
     # fi&yl,3 (&{ ...3 seconds later }) )
@@ -1006,7 +1007,7 @@ fi.Xios ||= {}
         c == 'draw' and 'or requestAnimationFrame'
         c ||= {timeout:5}
         # create a later, they persist
-        $later = fi&synco_i_later,s,c
+        $later = fi&synco_later_begin,s,c
         # called in async time, see &Amess
         # < which we may not want to suddenly &elvis from
         return &y{
@@ -1046,7 +1047,7 @@ fi.Xios ||= {}
         }
     }
    // synco f
-    fi.synco_i_later = &acgtsc{
+    fi.synco_later_begin = &acgtsc{
         c.began = fi&Gtime
         c.timeout and c.timeout = c.timeout + fi&Gtime
         # < unused? make latery&A?
@@ -1094,7 +1095,8 @@ fi.Xios ||= {}
     fi.todowatch = &acgt{
         $N = 4s&todo ||= []
         !isar(N) and debugger
-        4c&todowatch and debugger
+        # < &syncopation with nofetch can complete inside time
+        #4c&todowatch and debugger
         4c&todowatch = 1
         $began = map(N)
         $known = map(N)
@@ -1327,11 +1329,12 @@ fi.Xios ||= {}
         }
     }
    
-   // &elvising handlers
+   // Athinger
     =pod
      &Athinger,A,N[Q->P],c
       P lifecycle before Q
-      based on Q, about forming a Q
+       based on Q, about forming a Q
+       they have O
        
      &Amess,A,N[P],c
       making requests|responses for a thing
@@ -1406,38 +1409,11 @@ fi.Xios ||= {}
         A&thinger and A = A&thinger
         $Y = A.up
         each iP N {
-           // P before Q
             $q = {believe:'asked'}
-            # we can push+pull, usu pull:
-            # request P +%src
-            # response P +%version,string
-            #  may keep P-ing for stages of decoding, search...
-            #   relating them to each other somehow
-            #  finally resolve to an s.P=$P, which becomes:
-            # believe -> Q %string,P,src,version
-            # ask for it, keep receiving it
             
-            if (Py&cv <= 0.1) {
-                # < Qc&el and other knowns not for /$oft?
-                Ps&string != null and 'isapush'
-            }
-            elsif (Py&cv == 0.3) {
-                # on the response side
-                # may be done without %string (/wjs/)
-                if (Ps&string != null) {
-                    # < a %digs may be supplied via http header etc
-                    #   is the version of the source that compiled to this
-                    #    ie /ghost/ %dige are /w/ %digs,
-                    #     /w/ having compiled and argumented to %dige
-                    $dige = dig(Ps&string)
-                    Ps&dige != null && Ps&dige != dige and debugger
-                    Ps&dige = dige
-                    # < decode, get wjs script|function?
-                    Ps&act ||= 'decode'
-                }
-            }
+            # @1|3 grasp P%*
+            fi&Athinger_Pattr,P,q
             
-           // arrive $P
             # < spool on /asked/$P while asking (cv 3-6)
             #   and centrally at A/t_asked/$oft/$P ?
             Ps&src ||= '1812'
@@ -1449,75 +1425,114 @@ fi.Xios ||= {}
             # in namespace (in A:loading/$oft/asked/.../$P)
             # may On == P
             $On = fi&Qubsist,A,P,q
-            if (O) {
-                # O clone of P before
-                if (!On) {
-                    # new naming, as O is
-                    # P acquires eg $version
-                    Py&cv < 0.3 and debugger
-                }
-                else {
-                    # same naming
-                }
-            }
-            else {
-                Py&cv > 0.1 and debugger
-                if (!On) {
-                    # new P
-                }
-                else {
-                    # new P finds P already
-                    #  done or in progress
-                    #   want to know it has &elvising active
-                    #  rarely happens?
-                    #   only while keeping on &t-ing same things prior to async
-                    #    then once a /believe/...Q, no &Athinger-ing is required
-                    #    ie we are de-duping oftserve(s), until it caches a Q
-                    fi&com,"DupP",{On}
-                    # drops elvising of P?
-                    return
-                }
-            }
-            
-            if (On && On != P) {
-                $kd = hakd(On.sc,P.sc)
-                hak(kd) and fi&com,"OnP",{kd}
-                # < same naming sans that we want to push,
-                #   we can send trees only, reuse the objects, a la git
-            }
-            if (O) {
-                # what was set by an async handler prior to &elvising back here
-                $kd = hakd(O.sc,P.sc)
-                hak(kd) and fi&com,"OP",{kd}
-            }
-            
+            # ~P against either of those
+            fi&Athinger_Posc,P,O,On,q
             On != P and fi&AiQ,A,P,q
             
-            if (Py&cv == 0.1) {
-                fi&elvis,{fi:'Amess',A,N:[P],c:{}}
-            }
-            elsif (Py&cv == 0.3) {
-                q.novers and debugger
-                # -> Q
-                $Q = Cye([P.t,1])
-                ex(Q.c,P.c)
-                each kv P.sc {
-                    !isob(v) and Q.sc[k] = v
-                }
-                sex(Q.sc,P.sc,'Live')
-                Qs&P = P
-                fi&elvis,{fi:'Abelieve',A,N:[Q],c:{}}
-            }
+            # @1|3 actuate P%*-ing
+            fi&Athinger_Pact,P,O,On,q
             
             # a clone of P at the end of each time
             Ps&O = Cye(P)
+            
             # < -P prototype S ways with an A:P voice
             $PN = fi&AoQ,A,P,q
             fi&com,"Asked",{PN,P}
         }
     }
-    fi.Athinger_1 = &acgtANc{
+    # realise pull (or push)
+    fi.Athinger_Pattr = &acgtP{
+        # we can push+pull, usu pull:
+        # request P +%src
+        # response P +%version,string
+        #  may keep P-ing for stages of decoding, search...
+        #   relating them to each other somehow
+        #  finally resolve to an s.P=$P, which becomes:
+        # believe -> Q %string,P,src,version
+        # ask for it, keep receiving it
+
+        if (Py&cv <= 0.1) {
+            # < Qc&el and other knowns not for /$oft?
+            Ps&string != null and 'isapush'
+        }
+        elsif (Py&cv == 0.3) {
+            # on the response side
+            # may be done without %string (/wjs/)
+            if (Ps&string != null) {
+                # < a %digs may be supplied via http header etc
+                #   is the version of the source that compiled to this
+                #    ie /ghost/ %dige are /w/ %digs,
+                #     /w/ having compiled and argumented to %dige
+                $dige = dig(Ps&string)
+                Ps&dige != null && Ps&dige != dige and debugger
+                Ps&dige = dige
+                # < decode, get wjs script|function?
+                Ps&act ||= 'decode'
+            }
+        }
     }
+    # < lv
+    fi.Athinger_Posc = &acgtPO,On,q,{
+        if (O) {
+            # O clone of P before
+            if (!On) {
+                # new naming, as O is
+                # P acquires eg $version
+                Py&cv < 0.3 and debugger
+            }
+            else {
+                # same naming
+            }
+        }
+        else {
+            Py&cv > 0.1 and debugger
+            if (!On) {
+                # new P
+            }
+            else {
+                # new P finds P already
+                #  done or in progress
+                #   want to know it has &elvising active
+                #  rarely happens?
+                #   only while keeping on &t-ing same things prior to async
+                #    then once a /believe/...Q, no &Athinger-ing is required
+                #    ie we are de-duping oftserve(s), until it caches a Q
+                fi&com,"DupP",{On}
+                # drops elvising of P?
+                return
+            }
+        }
+
+        if (On && On != P) {
+            $kd = hakd(On.sc,P.sc)
+            hak(kd) and fi&com,"OnP",{kd}
+            # < same naming sans that we want to push,
+            #   we can send trees only, reuse the objects, a la git
+        }
+        if (O) {
+            # what was set by an async handler prior to &elvising back here
+            $kd = hakd(O.sc,P.sc)
+            hak(kd) and fi&com,"OP",{kd}
+        }
+    }
+    fi.Athinger_Pact = &acgtP,q,{
+        if (Py&cv == 0.1) {
+            fi&elvis,{fi:'Amess',A,N:[P],c:{}}
+        }
+        elsif (Py&cv == 0.3) {
+            q.novers and debugger
+            # -> Q
+            $Q = Cye([P.t,1])
+            ex(Q.c,P.c)
+            each kv P.sc {
+                !isob(v) and Q.sc[k] = v
+            }
+            sex(Q.sc,P.sc,'Live')
+            Qs&P = P
+            fi&elvis,{fi:'Abelieve',A,N:[Q],c:{}}
+        }
+    }
+    
     # A:loading, Q gathering into /believe/
     fi.Abelieve = &acgtANc{
         A&thinger and A = A&thinger
@@ -1622,6 +1637,7 @@ fi.Xios ||= {}
         #fi&com,"Thinging",{Q}
         me&nu,"Athinging",{V,N,M}
     }
+   
    // more P doc
     fi._P = &acgtANc{
         # arrival at various /$P, present an other:
@@ -1646,38 +1662,64 @@ fi.Xios ||= {}
     }
   
   // < Amess
-    # A:loading messaging P@1-2-3
+    =pod
+     A:loading messaging
+      downloads a P%string
+       < or does a <script> for /wjs/, etc etc
+       < and P%* from http header
+      < memory of Amess, available sockets
+        depending on news outlets to notify of change
+         or similar check the linkage to that branch
+      P@1 -> @2 while waiting -> @3
+       we magically know to return to Athinger @3
+        just like we knew the P%src back then already
+         it is more of a concern of Amess though,
+          which might have any number of ways to get info
+           sifting until one is trusted to @3
+    =cut
     # < proxy to @Aearch
     # &elvis must be coming back to %Cat sometimes
     fi.Amess = &acgtANc{
         # ! this must not be a for (each) loop, or we ack the same later
         N.map(&P{
-            Py&cv != 0.1 and debugger
-            # sent
-            Py&cv = 0.2
-            
             # < rebuild %Search, knowing what requests to make depending on ...
-            # requests usu /$of/$t, possibly with params
-            # response usu blob of text, possibly with header 'sc: {json...}''
-            $path = slant(Pc&of,Pc&t)
-            $back = me&fetch,path,{}
-            
-            $back = &{
-                # receive callbacks
-                Py&cv = 0.3
-                Ps&string = P.t[0] == 'r' ? "yardial" : '3 * 3'
-                fi&elvis,{fi:'Athinger',A,N:[P],c:{}}
+            if (Py&cv == 0.1) {
+                # P@2 while waiting for a response
+                Py&cv = 0.2
+                $recv = &sc{
+                    # response usu blob of text
+                    #  possibly with http header 'sc: {json...}'
+                    Py&cv = 0.3
+                    Ps&string = s
+                    fi&elvis,{fi:'Athinger',A,N:[P],c:{}}
+                }
+                # a 4%synco/later from this Amess|P
+                #  wraps completion event recv(...)
+                #  which later%spawns=[e:Athinger] above
+                # < all e|latery&spawns, spawnin reversily? event vines
+                #   this later could just be a noop 4%todo
+                #    so other events can see and wait for it?
+                # allows recv() to happen outside time and &elvis its way in
+                $ack = fi&syncopation,{P}
+                $back = &sc{
+                    ack(&{ recv(s,c) })
+                }
+                # requests usu /$of/$t
+                #  possibly with http params
+                fi&fetch,slant(Pc&of,Pc&t),{},back
             }
-            0 and back(); return
-            $ack = fi&syncopation,{P}
+            else {
+                debugger
+            }
         })
     }
-    fi.fetch = &acgttc{
-        4c&fetchserve and return 4c&fetchserve(t,c)
-        
+    fi.fetch = &acgttcy{
+        4c&fetchserve and return 4c&fetchserve(t,c,y)
+        # < real
+        $s = '3 * 3'
         $delay = 0.3
-        P.t[0] == 'r' and delay -= 0.1
-        fi&yl,delay (&{ack(back)})
+        t[2] == 'r' and delay -= 0.1; s = "yardial"
+        fi&yl,delay (&{ y(s,{}) })
     }
    
    

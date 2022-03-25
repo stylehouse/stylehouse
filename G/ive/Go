@@ -4174,6 +4174,15 @@ me.Sch_Go = &acgt{ return [
             
         }
         
+        # &fetch can be pre-loaded
+        me.Fishlive_init_nofetch = &acgtWIg{
+            A&fetchserve = &tcy{
+                $s = ahsk(I,'fetch',t)
+                s == null and debugger
+                y (s,{})
+            }
+        }
+        
         # &yl will to async, requests for mock delay
         me.Fishlive_init_notime_ylserve = &acgtWIg{
             A&ylserve = &seconds,y,{
@@ -4189,6 +4198,11 @@ me.Sch_Go = &acgt{ return [
                     c.y ()
                 }, As&yls)
             }
+            # drain completed &yls before each non-first Fish.S()
+            ahk(I,['c'],'noninit','drainyls')
+        }
+        me.Fishlive_noninit_drainyls = &acgtWIg{
+            grop(c => c.ready, As&yls)
         }
         
         # the way back to &elvising Attention from outside
@@ -4228,6 +4242,11 @@ me.Sch_Go = &acgt{ return [
                 !A and debugger
                 me&elvis,R,'re-live',{wake}
             }
+            # drain completed &syncopations before each non-first Fish.S()
+            ahk(I,['c'],'noninit','drainsynco')
+        }
+        me.Fishlive_noninit_drainsynco = &acgtWIg{
+            grop(l => lc&ready, As&synco)
         }
         
         me.Fishlive_init_notime_Gtimeserve = &acgtWIg{
@@ -4235,6 +4254,7 @@ me.Sch_Go = &acgt{ return [
             I.thetime = 36363636
             
             I.tick = seconds => I.thetime += seconds||0.001
+            # I.tick() before each non-first Fish.S()
             ahk(I,['c'],'noninit','autotick')
             
             # ability to get the time things are happening
