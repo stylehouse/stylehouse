@@ -4062,6 +4062,7 @@ me.Sch_The = &acgt{ return [
         $D = Rs&D
         $E = Rs&E
         $p = Ry&up
+       // org A|X/*
         if (Rs&anA) {
             # right after anA @265
             $Y = s
@@ -4080,22 +4081,29 @@ me.Sch_The = &acgt{ return [
                     grop(e,Es&z)
                     Es&z.unshift(e)
                 }
-                
             }
-            Rs&nobrackets = 'black'
+            Rs&xish = 1
         }
+       // bracket style
+        ps&xish and Rs&nobrackets = '#462e2e'
         Rs&anX and Rs&nobrackets = '#424233'
-        ps&anX || ps&anx and Rs&nobrackets = '#462e2e'
+        Rs&anx and Rs&nobrackets = 'black'
         
         ps&sym == 'C' and Rs&inCaways = 1
         ps&inCaways and Rs&inCaways = 1
-        Rs&Cish && !ps&Cish and Rs&nobrackets = 'darkblue'
+        Rs&Cish && !ps&Cish and Rs&nobrackets = 'darkgreen'
         Rs&Cish && ps&Cish and delete Rs&nobrackets
         
+        if (Rs&xish) {
+            me&moddelete,R,{t:'sym',modt:'hat'}
+            Rc&dl += 1
+        }
+        
+       // flightcase
         if (Ec&flightcase) {
             delete Rs&inCaways
+            Rs&nobrackets = 'darkblue'
             # < transparent way through
-            Rs&nobrackets = 'darkgreen'
             # < generalise
             $N = me&ioty,E
             $la
@@ -4104,6 +4112,7 @@ me.Sch_The = &acgt{ return [
                 la && heq(e.c,la.c) and lac&asfollows = 1
                 la = e
             }
+            hak(N) == 1 and N[0].c.alone = 1
             me&moddelete,R,{modt:'Pier',t:'At'}
             Rs&rowy = 1
         }
@@ -4111,6 +4120,7 @@ me.Sch_The = &acgt{ return [
             Rs&outdent = 1
             Rs&rowy = 1
             Rs&inlineblock = 1
+            Ec&alone and me&moddelete,R,{modt:'Pier',t:'At'}
         }
         if (Ec&asfollows) {
             # < generalise
@@ -4119,7 +4129,7 @@ me.Sch_The = &acgt{ return [
             Rs&asfollows = 1
         }
         # not via 
-        Rs&inCaways and delete Rs&nobrackets
+        Rs&inCaways && Rs&nobrackets == 1 and delete Rs&nobrackets
     },'ift,D'],
    // regroups
     &{
