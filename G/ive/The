@@ -2839,9 +2839,9 @@ me.Sch_The = &acgt{ return [
                 }
                 rCs&dis ||= 2
                 !many and rCs&dis = 1
-                if (rs&nobrackets) {
-                    als&ml = 0.2
-                }
+                rs&nobrackets and als&ml = 0.2
+                rs&outdent and als&ml = -0.6
+                rs&inlineblock and rCs&dis = 2
             }
         }
     }
@@ -4082,15 +4082,36 @@ me.Sch_The = &acgt{ return [
                 
             }
         }
-        Rs&Cish and Rs&nobrackets = 'blue'
+        Rs&Cish and Rs&nobrackets = 'darkblue'
         $p = Ry&up
         ps&Cish and delete Rs&nobrackets
         
-        Rs&anx and Rs&nobrackets = 'red'
-        Rs&anX and Rs&nobrackets = 'orange'
+        Rs&anx and Rs&nobrackets = 'darkred'
+        Rs&anX and Rs&nobrackets = 'darkorange'
         if (Ec&flightcase) {
             # < transparent way through
-            Rs&nobrackets = 'green'
+            Rs&nobrackets = 'darkgreen'
+            # < generalise
+            $N = me&ioty,E
+            $la
+            each ie N {
+                ec&flightcased = 1
+                la && heq(e.c,la.c) and lac&asfollows = 1
+                la = e
+            }
+            me&moddelete,R,{modt:'Pier',t:'At'}
+            Rs&rowy = 1
+        }
+        if (Ec&flightcased) {
+            Rs&outdent = 1
+            Rs&rowy = 1
+            Rs&inlineblock = 1
+        }
+        if (Ec&asfollows) {
+            # < generalise
+            me&Ri,{limit:'asfollows',toomuch:1}
+            #Rs&inline = 1
+            Rs&asfollows = 1
         }
     },'ift,D'],
    // regroups
