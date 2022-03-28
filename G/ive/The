@@ -2278,6 +2278,7 @@ me.Sch_The = &acgt{ return [
         return &h{ sol(h) }
     }
     # &TXilay,'noy','y:impl'
+    #  t:effective-name c:tw_qua
     #  see -anA
     me.TXilay = &acgtts{
         s = peel(s)
@@ -4261,14 +4262,35 @@ me.Sch_The = &acgt{ return [
         # ^ is=1 contains: me&typeup,R,'hat'
     },'ift,D'],
     # modulate expression of data we follow
-    ['AXV+Cish',0.264,&acgtRv{
+    ['AXV',0.2651,&acgtRs{
         $D = Rs&D
         $E = Rs&E
-        if (Rs&sym == 'A') {
-            me&heminterest,E,v
+        if (Rs&anA) {
+            # right after anA @265
+            $Y = s
+            me&heminterest,E,Y
+            me&fiu,E,'y',9
         }
+        if (Rs&anX || Rs&anx) {
+            $X = s
+            # < intelligently, expect up sense
+            me&TXilay,'usuup','A:impl'
+            if (X.z) {
+                me&fiu,E,'z',9
+                # its many
+                hak(X.z) and me&Ei,{t:'∫',s:X.z,flightcase:1,rsc_mix:'nobrackets'}
+                
+            }
+        }
+        if (Ec&flightcase) {
+            me&tc,'∫' .sc.fs = 40
+            # < transparent way through
+        }
+        !Rs&Cish && !Ec&flightcase and delete Rs&nobrackets
     },'ift,D'],
+   // E** regroup
     &{
+    
         # if A(&|%)* is minimal, inline all c|sc suchly
         # < io for this, subframe (s.c|sc,$gk) to frame (E(/c|sc)?/$nk/$gk)
         me.heminterest = &acgtEv{
@@ -4284,7 +4306,6 @@ me.Sch_The = &acgt{ return [
                 me&Eing,6
             }
         }
-        
         # list interesting .c|sc.* (objects)
         me.gkinterest = &acgtkh{
             $N = []
@@ -4828,7 +4849,7 @@ me.Sch_The = &acgt{ return [
     &{
     },
   
-  // -hat > -Hash etc
+  // -hat > -Hash etc data divergence @21
     # expects it to be C
     ['isC',0.21,&acgtRs{
         me&walls,C,'bd:1.5'
@@ -4890,11 +4911,43 @@ me.Sch_The = &acgt{ return [
         
         asym and me&typeup,R,'an'+asym
     },'ift,D'],
+  // -Hash** many @263
     ['Cish',0.263,&acgtRs{
         Rs&Hash = 1
         Rs&inlineable = 1
         Rs&Ctitle = 1
     },'ift,D'],
+    ['Hash',0.263,&acgtRs{
+        $D = Rs&D
+        $E = Rs&E
+        # Object has border
+        #  inc At, key of it somewhere
+        me&walls,C,'b:2.2'
+
+        # its brackets, 23-77
+        # %shym = a %sym that can be mirrored
+        isar(s) and Rs&shym = '['; me&typeup,R,'Array'
+        else Rs&shym = '{'
+
+        # < G&n should Mw by T.Mw||T.act.t
+        #   as &tsc does
+        T.Mw = 'shym'
+        $bracket = me&modbracket,Rs&shym
+        # its many
+        #  is fairly safe to spew out lots of E/*
+        #   that should inform limits of &Eing_some
+        #   < should be able to communicate pagination
+        #   100 * usual %many_thresh shall %strange (flow-stopper)
+        $hard_many = 2000
+        each kv s {
+            $e = me&Ei,{t:k,s:v}
+            Rs&Cish and es&nkish = 1
+            hard_many-- < 1 and me&strange,"MANY:E/*"; break
+        }
+        bracket()
+    },'ift,D'],
+    
+  // %Ctitle @2632
     ['Ctitle',0.2632,&acgtRs{
         # C display whittles down to symbol + name
         # < unless a cold light,
@@ -4932,36 +4985,8 @@ me.Sch_The = &acgt{ return [
             })
         }
     },'ift,D'],
-  // -Hash etc
-        ['Hash',0.263,&acgtRs{
-            $D = Rs&D
-            $E = Rs&E
-            # Object has border
-            #  inc At, key of it somewhere
-            me&walls,C,'b:2.2'
-            
-            # its brackets, 23-77
-            # %shym = a %sym that can be mirrored
-            isar(s) and Rs&shym = '['; me&typeup,R,'Array'
-            else Rs&shym = '{'
-            
-            # < G&n should Mw by T.Mw||T.act.t
-            #   as &tsc does
-            T.Mw = 'shym'
-            $bracket = me&modbracket,Rs&shym
-            # its many
-            #  is fairly safe to spew out lots of E/*
-            #   that should inform limits of &Eing_some
-            #   < should be able to communicate pagination
-            #   100 * usual %many_thresh shall %strange (flow-stopper)
-            $hard_many = 2000
-            each kv s {
-                $e = me&Ei,{t:k,s:v}
-                Rs&Cish and es&nkish = 1
-                hard_many-- < 1 and me&strange,"MANY:E/*"; break
-            }
-            bracket()
-        },'ift,D'],
+  
+  // -String etc
         # < G&arfgunc
         ['Fun',0.263,&acgtRs{
             !me&Rortopsc,R,'expectλ' and me&strange,"looking-at-functions"
@@ -5017,7 +5042,10 @@ me.Sch_The = &acgt{ return [
                 ['t','y','c','sc'])
             $norm = M.slice()
             $y = theone(grep(n => n.t == 'y', M))
-            !hak(M) and debugger
+            # we expect to regroup E/** from -Hash@263
+            #  eg -AXV then switches up E/**
+            hak(M) < 4 and me&strange,"ElessthananA"
+            hak(M) < 3 and return
             # now N are misc A.*
             $misc = N.slice()
             
