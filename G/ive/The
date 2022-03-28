@@ -4054,20 +4054,21 @@ me.Sch_The = &acgt{ return [
  
   // -AXV** > -hat
     ['AXV',0.21,&acgtRs{
-        me&Epigraph,'is,in:AXV'
+        me&Epigraph,'is,ube'
         # ^ is=1 contains: me&typeup,R,'hat'
     },'ift,D'],
     # modulate expression of data we follow
     ['AXV',0.2651,&acgtRs{
         $D = Rs&D
         $E = Rs&E
+        $p = Ry&up
         if (Rs&anA) {
             # right after anA @265
             $Y = s
             me&heminterest,E,Y
             me&fiu,E,'y',9
         }
-        if (Rs&anX || Rs&anx) {
+        elsif (Rs&anX || Rs&anx) {
             $X = s
             # < intelligently, expect up sense
             me&TXilay,'usuup','A:impl'
@@ -4081,14 +4082,18 @@ me.Sch_The = &acgt{ return [
                 }
                 
             }
+            Rs&nobrackets = 'black'
         }
-        Rs&Cish and Rs&nobrackets = 'darkblue'
-        $p = Ry&up
-        ps&Cish and delete Rs&nobrackets
+        Rs&anX and Rs&nobrackets = '#424233'
+        ps&anX || ps&anx and Rs&nobrackets = '#462e2e'
         
-        Rs&anx and Rs&nobrackets = 'darkred'
-        Rs&anX and Rs&nobrackets = 'darkorange'
+        ps&sym == 'C' and Rs&inCaways = 1
+        ps&inCaways and Rs&inCaways = 1
+        Rs&Cish && !ps&Cish and Rs&nobrackets = 'darkblue'
+        Rs&Cish && ps&Cish and delete Rs&nobrackets
+        
         if (Ec&flightcase) {
+            delete Rs&inCaways
             # < transparent way through
             Rs&nobrackets = 'darkgreen'
             # < generalise
@@ -4113,6 +4118,8 @@ me.Sch_The = &acgt{ return [
             #Rs&inline = 1
             Rs&asfollows = 1
         }
+        # not via 
+        Rs&inCaways and delete Rs&nobrackets
     },'ift,D'],
    // regroups
     &{
@@ -4127,7 +4134,7 @@ me.Sch_The = &acgt{ return [
                     me&fiu,E,k,9
                 }
                 each ig much {
-                    me&Ei,sex({pi:'AXV'},g,'t,s')
+                    me&Ei,sex({pi:'AXV',hemint:1},g,'t,s')
                 }
                 me&Eing,6
             }
