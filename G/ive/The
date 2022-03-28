@@ -4046,7 +4046,85 @@ me.Sch_The = &acgt{ return [
 
         #me&Ei,{t:'aq',pi:'hat',s:aq,dl:2}
     },'ift,D'],
-   
+ 
+ 
+ 
+  // -AXV** > -hat
+    ['AXV',0.21,&acgtRs{
+        me&Epigraph,'is,in:AXV'
+        # ^ is=1 contains: me&typeup,R,'hat'
+    },'ift,D'],
+    # modulate expression of data we follow
+    ['AXV',0.2651,&acgtRs{
+        $D = Rs&D
+        $E = Rs&E
+        if (Rs&anA) {
+            # right after anA @265
+            $Y = s
+            me&heminterest,E,Y
+            me&fiu,E,'y',9
+        }
+        if (Rs&anX || Rs&anx) {
+            $X = s
+            # < intelligently, expect up sense
+            me&TXilay,'usuup','A:impl'
+            if (X.z) {
+                me&fiu,E,'z',9
+                # its many
+                hak(X.z) and me&Ei,{t:'∫',s:X.z,flightcase:1,rsc_mix:'nobrackets'}
+                
+            }
+        }
+        if (Ec&flightcase) {
+            me&tc,'∫' .sc.fs = 40
+            # < transparent way through
+        }
+        !Rs&Cish && !Ec&flightcase and delete Rs&nobrackets
+    },'ift,D'],
+   // regroups
+    &{
+    
+        # if A(&|%)* is minimal, inline all c|sc suchly
+        # < io for this, subframe (s.c|sc,$gk) to frame (E(/c|sc)?/$nk/$gk)
+        me.heminterest = &acgtEv{
+            me.hems = ['c','sc']
+            $much = flatten(armap(k => me&gkinterest,k,v[k] ,me.hems))
+            if (hak(much) < 5) {
+                each ik me.hems {
+                    me&fiu,E,k,9
+                }
+                each ig much {
+                    me&Ei,sex({pi:'AXV'},g,'t,s')
+                }
+                me&Eing,6
+            }
+        }
+        # list interesting .c|sc.* (objects)
+        me.gkinterest = &acgtkh{
+            $N = []
+            each gk,s h {
+                !isob(s) and continue
+                gk == 'ip' and continue
+                gk == 'thinger' and continue
+                N.push({
+                    # .sc.name -> %name
+                    t: (k == 'c' ? '&' : '%')+gk,
+                    nk: k, gk,
+                    s
+                })
+            }
+            return N
+        }
+        me.Eu = &acgtc{
+            $t = haks(c)[0]
+            $s = c[t]
+            me&Eitys,{t,pi:'hat',s}
+        }
+        me.Eitys = &acgttys{
+            me&Ei,{t,pi:y,s}
+        }
+    },
+  
   // -brackios? > -hat
     # test dump bunch
     #  {"title":s-brackio}
@@ -4255,81 +4333,7 @@ me.Sch_The = &acgt{ return [
             me&tsc,t,str,'g'
         }
         },
-  // -AXV** > -hat
-    ['AXV',0.21,&acgtRs{
-        me&Epigraph,'is,in:AXV'
-        # ^ is=1 contains: me&typeup,R,'hat'
-    },'ift,D'],
-    # modulate expression of data we follow
-    ['AXV',0.2651,&acgtRs{
-        $D = Rs&D
-        $E = Rs&E
-        if (Rs&anA) {
-            # right after anA @265
-            $Y = s
-            me&heminterest,E,Y
-            me&fiu,E,'y',9
-        }
-        if (Rs&anX || Rs&anx) {
-            $X = s
-            # < intelligently, expect up sense
-            me&TXilay,'usuup','A:impl'
-            if (X.z) {
-                me&fiu,E,'z',9
-                # its many
-                hak(X.z) and me&Ei,{t:'∫',s:X.z,flightcase:1,rsc_mix:'nobrackets'}
-                
-            }
-        }
-        if (Ec&flightcase) {
-            me&tc,'∫' .sc.fs = 40
-            # < transparent way through
-        }
-        !Rs&Cish && !Ec&flightcase and delete Rs&nobrackets
-    },'ift,D'],
-   // E** regroup
-    &{
-    
-        # if A(&|%)* is minimal, inline all c|sc suchly
-        # < io for this, subframe (s.c|sc,$gk) to frame (E(/c|sc)?/$nk/$gk)
-        me.heminterest = &acgtEv{
-            me.hems = ['c','sc']
-            $much = flatten(armap(k => me&gkinterest,k,v[k] ,me.hems))
-            if (hak(much) < 5) {
-                each ik me.hems {
-                    me&fiu,E,k,9
-                }
-                each ig much {
-                    me&Ei,sex({pi:'AXV'},g,'t,s')
-                }
-                me&Eing,6
-            }
-        }
-        # list interesting .c|sc.* (objects)
-        me.gkinterest = &acgtkh{
-            $N = []
-            each gk,s h {
-                !isob(s) and continue
-                gk == 'ip' and continue
-                gk == 'thinger' and continue
-                N.push({
-                    # .sc.name -> %name
-                    t: (k == 'c' ? '&' : '%')+gk,
-                    nk: k, gk,
-                    s
-                })
-            }
-            return N
-        }
-        me.Eu = &acgtc{
-            $t = haks(c)[0]
-            $s = c[t]
-            me&Eitys,{t,pi:'hat',s}
-        }
-        me.Eitys = &acgttys{
-            me&Ei,{t,pi:y,s}
-        }
-    },
+  
   // -Log** > -hat
     ['Log',0.21,&acgtRs{
         $D = Rs&D
@@ -4420,133 +4424,6 @@ me.Sch_The = &acgt{ return [
         else {
             
         }
-    },'ift,D'],
-  
-  // effectivenesses
-  
-   // logc&muteslaters
-    &{
-    
-        # some -Log finds first -Log in the &complace
-        # < if time++ since &complace opened
-        #    go further back (prev -seven:$time)
-        # < better expressivity. o ^^-seven/-Log[0]//s...
-        me.firstsix_muteslaters = &acgtE{
-            # < o E-Log^:/-seven/-Log[0]/c&s
-            #          ^ the opposite of /, ie -seven/-Log
-            #            ^ means it should slope-over RE-Log
-            #              the opposite of assuming we can RE->y&main
-            #               through -Log[0]/E
-            #  < some way to mean the first sibling etc
-            #     of ours, in s** (outsphere), which the RE-sphere mimics
-            # just to avoid hanging it on -seveny&initlog or so when we are it
-            #  in case that causes a &forgetRunStep bug
-            #  < X about stuff emit to -seven, for other -Log...
-            $sLog = me.cbu(Ey&R,r => rs&Piing) .c.s
-            $sev = sLogy&up
-            $init = me&iot,sev,'-Log' [0]
-            init == sLog and return
-            $log = initc&s
-            logc&fe_time == 3
-            
-            if (0) {
-                $sev = me.cbu(E,E => Ec&pi == 'seven')
-                $initRE = me&iot,sev,'-Log' [0]
-                $initLog = me&iot,initRE,'-Log' [0]
-                $LogE = ahsk(initLog,'y','R','y','E')
-                me&fu,"fgako",LogE
-                # ! REy&main is an R, which will do
-                #  ! but is only there later!?
-                # aka $D = &log
-                $initlog = ahsk(initRE,'y','main','c','s')
-            }
-            
-            logc&muteslaters and Es&mutinglaters = log
-        }
-        # mute if they are the same as the &complace -Log had them
-        #  $k it something else to watch it mutate
-        me.laters_mutebykv = &acgtEkv{
-            $Log = me.cbu(E,E => Ec&pi == 'Log')
-            $s = csof(Log)
-            # we are a new wave of it (&complace in the same Eight)
-            sc&muteslaters and return
-            
-            
-            $log = Logs&mutinglaters
-            !log and return
-            $muteX = logs&X
-            # < trust &Xsomp (no /$n, noises up X.notthere?)
-            $kx = muteX.k[k]
-            !kx and return
-            !kx.refs and debugger
-            $does = kx.refs.includes(v)
-            !does and return
-            
-            return 1
-        }
-    },
-   
-   // &Epigraph E** typing
-    &{
-    # a short quotation or saying at the beginning of a book or chapter
-    #  intended to suggest its theme
-    # bunch trait declaration
-    #  similar to &acting, or a bunch of &reaw|&rollbs|&bin
-    me.Epigraph = &acgtc{
-        $R = me&R
-        $E = Rs&E
-        # suppose these are known Ec&pi,
-        #  the pi-dentity stuff is for can be guessed if eg c.in=1 from peel 'in':
-        $pi = T.act.t
-        # < remark if not schematic
-        ah(R,'noCy','transpi',1)
-        # < peel allowing ty+pes -> [ty,pes] ?
-        #   then all these fuN(c.is).map(pi => ...)
-        c = peel(c)
-        # subclass
-        #  eg act like a -hat
-        c.is and me&typeup,R,notoneor(c.is,'hat')
-        # E/* of such type
-        #  eg the -Hash part of us will &Ei for s.*
-        #   enforce -row/-vat as that happens
-        if (c.ube) {
-            c.in = c.ube = notoneor(c.ube,pi)
-            # top of E^^^-vat
-            Ey&up.c.pi != c.ube and $wasube = E.c['uber'+c.ube] = 1
-        }
-        c.in and Rs&Ei_pi = c.in
-        
-        c.Dpi and Rs&Dpiverbose = notoneor(c.Dpi,pi)
-        
-        !(c.ube && wasube) and Rs&nobrackets = 1
-        # shatters the cell, via &sfx_mirage
-        #Rs&inline = 1
-    }
-    },
-   
-   // %noCy %Dpiverbose %nobrackets
-    # not stating pi change
-    ['noCy',0.88,&acgtRs{
-        # a filtering map
-        # < i R%M/--$n o C.y.$k o R%noCy/$k
-        #     knowing %noCy has $k|$v? or %noCy.$k
-        #      or %noCy[:k] # more keys-explicit
-        haks(Rs&noCy) .map(k => C.y [k]) .filter(n=>n)
-            .map(n => me&modselect,R,{el:9,n})
-    },'ift,D'],
-    # after becoming -Hash, go back to being a -row on D
-    ['Dpiverbose',0.263,&acgtRs{
-        $D = Rs&D
-        $E = Rs&E
-        Dc&pi = notoneor(Rs&Dpiverbose,Ec&pi)
-    },'ift,D'],
-    
-    ['nobrackets',0.88,&acgtRs{
-        $E = Rs&E
-        s&bol = '1em solid black'
-        
-        $y = n => ns&label == 'bracket'
-        me&moddelete,R,{y}
     },'ift,D'],
   
   // -Womb -Fez -Bow > -hat
@@ -4852,6 +4729,8 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
     &{
     },
+  
+  
   
   // -hat > -Hash etc data divergence @21
     # expects it to be C
@@ -5192,69 +5071,6 @@ me.Sch_The = &acgt{ return [
             }
         },
     
-        
-  //     %asabove, %indim
-        # export some &Topping_37, is deep-first after thingo
-        ['asabove',0.55,&acgtRs{
-            me&swallowupper,'asabove','=','left'
-            # mirage will want to start lines with them
-            #    many of them can =look=like=sense
-        },'ift,D'],
-        ['asabove',0.66,&acgtRs{
-            $hert = slant(me.cby(R,'^^Top').slice(1))
-            if (1 || hert == '0 1/y') {
-            }
-            #me&tc,"Schal:"+hert,'1G'
-        },'ift,D'],
-        
-        ['asfollows',0.55,&acgtRs{
-            me&swallowupper,'asfollows','=','right'
-            # mirage them on a line
-        },'ift,D'],
-        
-        # dim space, eg /c
-        ['isdim',0.265,&acgtRs{
-            $E = Rs&E
-            # qua.impl ip if == sip
-            $ips = grep(map((v,t) => me&fiu,E,t,8 , peel('ip,sip')))
-            if (hak(ips) && ips.ip && ips.sip && iske(ips.sip.c.s)) {
-                spant(ips.ip.c.s) != ips.sip.c.s and debugger
-                else me&TXilay,'onlysip','ip:impl'
-            }
-        },'ift,D'],
-        
-        # A/c/X/A ♲^3
-        ['mayaswayabove',0.55,&acgtRs{
-            $E = Rs&E
-            if (me&ioty,Ey&up .indexOf(E) == 0) {
-                # mirage will tack it near the opening
-                Rs&inline = 1
-            }
-            
-            # mute similar to %asabove
-            # < curly cell, leading back up to...
-            #    flab pinched around to the Efound
-            ac(R,'premeasurey',&{
-                # mute sym:A if we are /A
-                $sym = me&modselect,R,{t:'sym',modt:'hat'} [0]
-                sym && symc&s == R.t and symc&not = 3.14
-                
-                # we have said %Ctitle
-                me&moddelete,R,{modt:'Ctitle'}
-
-                # folds thingo:limit:ref
-                #  s/^(♲^\d*):.*/$1/
-                $lim = theone( me&modselect,R,{t:'limit-cap',y:n=>nc&thing} )
-                $point = theone( me&ioty,lim,['','pointEref'] )
-                !point and debugger
-                pointc&s = split(pointc&s,':',1)[0]
-                
-                # fold thingoes into the = sign's title (tooltip, hover diag)
-                #ms&title = me&thingoestitle,N
-
-            })
-        },'ift,D'],
-        
   //     -anX..-anx
         &{
             # -Hash may be -anX|x
@@ -5333,6 +5149,196 @@ me.Sch_The = &acgt{ return [
             }
         },'ift,D'],
   
+  // effectivenesses
+   // logc&muteslaters
+    &{
+    
+        # some -Log finds first -Log in the &complace
+        # < if time++ since &complace opened
+        #    go further back (prev -seven:$time)
+        # < better expressivity. o ^^-seven/-Log[0]//s...
+        me.firstsix_muteslaters = &acgtE{
+            # < o E-Log^:/-seven/-Log[0]/c&s
+            #          ^ the opposite of /, ie -seven/-Log
+            #            ^ means it should slope-over RE-Log
+            #              the opposite of assuming we can RE->y&main
+            #               through -Log[0]/E
+            #  < some way to mean the first sibling etc
+            #     of ours, in s** (outsphere), which the RE-sphere mimics
+            # just to avoid hanging it on -seveny&initlog or so when we are it
+            #  in case that causes a &forgetRunStep bug
+            #  < X about stuff emit to -seven, for other -Log...
+            $sLog = me.cbu(Ey&R,r => rs&Piing) .c.s
+            $sev = sLogy&up
+            $init = me&iot,sev,'-Log' [0]
+            init == sLog and return
+            $log = initc&s
+            logc&fe_time == 3
+            
+            if (0) {
+                $sev = me.cbu(E,E => Ec&pi == 'seven')
+                $initRE = me&iot,sev,'-Log' [0]
+                $initLog = me&iot,initRE,'-Log' [0]
+                $LogE = ahsk(initLog,'y','R','y','E')
+                me&fu,"fgako",LogE
+                # ! REy&main is an R, which will do
+                #  ! but is only there later!?
+                # aka $D = &log
+                $initlog = ahsk(initRE,'y','main','c','s')
+            }
+            
+            logc&muteslaters and Es&mutinglaters = log
+        }
+        # mute if they are the same as the &complace -Log had them
+        #  $k it something else to watch it mutate
+        me.laters_mutebykv = &acgtEkv{
+            $Log = me.cbu(E,E => Ec&pi == 'Log')
+            $s = csof(Log)
+            # we are a new wave of it (&complace in the same Eight)
+            sc&muteslaters and return
+            
+            
+            $log = Logs&mutinglaters
+            !log and return
+            $muteX = logs&X
+            # < trust &Xsomp (no /$n, noises up X.notthere?)
+            $kx = muteX.k[k]
+            !kx and return
+            !kx.refs and debugger
+            $does = kx.refs.includes(v)
+            !does and return
+            
+            return 1
+        }
+    },
+   
+   // &Epigraph E** typing
+    &{
+    # a short quotation or saying at the beginning of a book or chapter
+    #  intended to suggest its theme
+    # bunch trait declaration
+    #  similar to &acting, or a bunch of &reaw|&rollbs|&bin
+    me.Epigraph = &acgtc{
+        $R = me&R
+        $E = Rs&E
+        # suppose these are known Ec&pi,
+        #  the pi-dentity stuff is for can be guessed if eg c.in=1 from peel 'in':
+        $pi = T.act.t
+        # < remark if not schematic
+        ah(R,'noCy','transpi',1)
+        # < peel allowing ty+pes -> [ty,pes] ?
+        #   then all these fuN(c.is).map(pi => ...)
+        c = peel(c)
+        # subclass
+        #  eg act like a -hat
+        c.is and me&typeup,R,notoneor(c.is,'hat')
+        # E/* of such type
+        #  eg the -Hash part of us will &Ei for s.*
+        #   enforce -row/-vat as that happens
+        if (c.ube) {
+            c.in = c.ube = notoneor(c.ube,pi)
+            # top of E^^^-vat
+            Ey&up.c.pi != c.ube and $wasube = E.c['uber'+c.ube] = 1
+        }
+        c.in and Rs&Ei_pi = c.in
+        
+        c.Dpi and Rs&Dpiverbose = notoneor(c.Dpi,pi)
+        
+        !(c.ube && wasube) and Rs&nobrackets = 1
+        # shatters the cell, via &sfx_mirage
+        #Rs&inline = 1
+    }
+    },
+   
+   // %noCy %Dpiverbose %nobrackets
+    # not stating pi change
+    ['noCy',0.88,&acgtRs{
+        # a filtering map
+        # < i R%M/--$n o C.y.$k o R%noCy/$k
+        #     knowing %noCy has $k|$v? or %noCy.$k
+        #      or %noCy[:k] # more keys-explicit
+        haks(Rs&noCy) .map(k => C.y [k]) .filter(n=>n)
+            .map(n => me&modselect,R,{el:9,n})
+    },'ift,D'],
+    # after becoming -Hash, go back to being a -row on D
+    ['Dpiverbose',0.263,&acgtRs{
+        $D = Rs&D
+        $E = Rs&E
+        Dc&pi = notoneor(Rs&Dpiverbose,Ec&pi)
+    },'ift,D'],
+    
+    ['nobrackets',0.88,&acgtRs{
+        $E = Rs&E
+        s&bol = '1em solid black'
+        
+        $y = n => ns&label == 'bracket'
+        me&moddelete,R,{y}
+    },'ift,D'],
+  
+   //     %asabove, %indim
+        # export some &Topping_37, is deep-first after thingo
+        ['asabove',0.55,&acgtRs{
+            me&swallowupper,'asabove','=','left'
+            # mirage will want to start lines with them
+            #    many of them can =look=like=sense
+        },'ift,D'],
+        ['asabove',0.66,&acgtRs{
+            $hert = slant(me.cby(R,'^^Top').slice(1))
+            if (1 || hert == '0 1/y') {
+            }
+            #me&tc,"Schal:"+hert,'1G'
+        },'ift,D'],
+        
+        ['asfollows',0.55,&acgtRs{
+            me&swallowupper,'asfollows','=','right'
+            # mirage them on a line
+        },'ift,D'],
+        
+        # dim space, eg /c
+        ['isdim',0.265,&acgtRs{
+            $E = Rs&E
+            # qua.impl ip if == sip
+            $ips = grep(map((v,t) => me&fiu,E,t,8 , peel('ip,sip')))
+            if (hak(ips) && ips.ip && ips.sip && iske(ips.sip.c.s)) {
+                spant(ips.ip.c.s) != ips.sip.c.s and debugger
+                else me&TXilay,'onlysip','ip:impl'
+            }
+        },'ift,D'],
+        
+        # A/c/X/A ♲^3
+        ['mayaswayabove',0.55,&acgtRs{
+            $E = Rs&E
+            if (me&ioty,Ey&up .indexOf(E) == 0) {
+                # mirage will tack it near the opening
+                Rs&inline = 1
+            }
+            
+            # mute similar to %asabove
+            # < curly cell, leading back up to...
+            #    flab pinched around to the Efound
+            ac(R,'premeasurey',&{
+                # mute sym:A if we are /A
+                $sym = me&modselect,R,{t:'sym',modt:'hat'} [0]
+                sym && symc&s == R.t and symc&not = 3.14
+                
+                # we have said %Ctitle
+                me&moddelete,R,{modt:'Ctitle'}
+
+                # folds thingo:limit:ref
+                #  s/^(♲^\d*):.*/$1/
+                $lim = theone( me&modselect,R,{t:'limit-cap',y:n=>nc&thing} )
+                $point = theone( me&ioty,lim,['','pointEref'] )
+                !point and debugger
+                pointc&s = split(pointc&s,':',1)[0]
+                
+                # fold thingoes into the = sign's title (tooltip, hover diag)
+                #ms&title = me&thingoestitle,N
+
+            })
+        },'ift,D'],
+  
+  
+    
     
  // R'The' compress -> $D ->
    // %thingo -> $D @68
