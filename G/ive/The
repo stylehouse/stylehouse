@@ -2839,6 +2839,9 @@ me.Sch_The = &acgt{ return [
                 }
                 rCs&dis ||= 2
                 !many and rCs&dis = 1
+                if (rs&nobrackets) {
+                    als&ml = 0.2
+                }
             }
         }
     }
@@ -4071,15 +4074,24 @@ me.Sch_The = &acgt{ return [
             if (X.z) {
                 me&fiu,E,'z',9
                 # its many
-                hak(X.z) and me&Ei,{t:'∫',s:X.z,flightcase:1,rsc_mix:'nobrackets'}
+                if (hak(X.z)) {
+                    $e = me&Ei,{t:'∫',s:X.z,flightcase:1}
+                    grop(e,Es&z)
+                    Es&z.unshift(e)
+                }
                 
             }
         }
+        Rs&Cish and Rs&nobrackets = 'blue'
+        $p = Ry&up
+        ps&Cish and delete Rs&nobrackets
+        
+        Rs&anx and Rs&nobrackets = 'red'
+        Rs&anX and Rs&nobrackets = 'orange'
         if (Ec&flightcase) {
-            me&tc,'∫' .sc.fs = 40
             # < transparent way through
+            Rs&nobrackets = 'green'
         }
-        !Rs&Cish && !Ec&flightcase and delete Rs&nobrackets
     },'ift,D'],
    // regroups
     &{
@@ -4336,6 +4348,7 @@ me.Sch_The = &acgt{ return [
   
   // -Log** > -hat
     ['Log',0.21,&acgtRs{
+    
         $D = Rs&D
         $E = Rs&E
         if (Rs&Top) {
@@ -5269,13 +5282,13 @@ me.Sch_The = &acgt{ return [
     
     ['nobrackets',0.88,&acgtRs{
         $E = Rs&E
-        s&bol = '1em solid black'
+        s&bol = '1em solid '+notoneor(Rs&nobrackets,'black')
         
         $y = n => ns&label == 'bracket'
         me&moddelete,R,{y}
     },'ift,D'],
   
-   //     %asabove, %indim
+   //     %asabove, %indim, very of A
         # export some &Topping_37, is deep-first after thingo
         ['asabove',0.55,&acgtRs{
             me&swallowupper,'asabove','=','left'
