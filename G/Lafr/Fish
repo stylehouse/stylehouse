@@ -609,7 +609,11 @@ fi.Xios ||= {}
     }
    
    // Q io
-    # oft N[ax:oft.N[belief]], ie o /...$oft/...$Qbel
+    # oft N[ax:oft.N[belief+]+], ie o /...$oft/...$Qbel
+    #  A/$oft=$Q(/believe)
+    #   a.n = oft/$n = A**
+    #   a.of|t,etc
+    #   a.N=[believe/$Q+]
     fi.AoQ = &acgtAQq{
         q ||= {}
         fatal.isC(Q)
@@ -1310,6 +1314,10 @@ fi.Xios ||= {}
     #   it will be async at least up to Fish@8
     #    which may keep %todo-ing (&elvising) in one A:Run sync
     fi.isAthinger = &acgt{
+    
+    
+    
+    
         # try get something
         A&oftserve = &scqd{
             # is &Ath,s,c,q after d climb
@@ -1651,6 +1659,8 @@ fi.Xios ||= {}
         c.d ||= 1
         # avoids V loops
         c.refs || arrefs(c)
+        
+        # i #V/#n/Q
         # starting with V=A.4, finding V/V
         # < J: are A.3, with Q for any A they are working on
         $M = []
@@ -1659,58 +1669,74 @@ fi.Xios ||= {}
             $lv = Cye([n.t,1,{n}])
             # < brack reduction: %%V,Vn,Q,Qwas +
             $into = arrefs()
-            each iQ N {
+            N.map(&Q{
                 !Qc&of || !Qs&dige and throw "Athinging!Q"
+                # o A:n/$Q:oft/
                 # < io left outer join
                 # wanting of/t, grouping by n
-                $oftN = fi&AoQ,n,Q
-                !hak(oftN) and continue
-                
-                
-                each i,oft oftN {
-                    $n = oft.n
-                    # oft may !/believe/ yet, wrt Q el<3?
-                    # assuming only latest /believe/ is in use
+                fi&AoQ,n,Q .map(&a{
+                    # may !/believe/ yet
+                    # < assuming only latest /believe/ there is in use?
                     # < J: recreating and merging A|X
-                    $la = oft.N.slice(-1)[0]
+                    $la = a.N.slice(-1)[0]
                     if (la) {
                         $Qwas = la.n
-                        heq(Qwas.sc,Q.sc) and continue
+                        heq(Qwas.sc,Q.sc) and return
                     }
-                    
-                    into.addref(n,Q)
-                }
-                #$belN = oftN.map(ax => ax.N.slice(-1)[0])
-                #me&zu,"Mightbe"+eye,{r,n:r.n,oftN,belN,Q}
-            }
+                    into.addref(a.n,Q)
+                })
+            })
             into.maprefs(&n,QN{
                 # they might be for V or V/V
                 $lvn = n == r.n ? lv : Cye([n.t,1,{n}])
                 lvn != lv and ac(lv,'z',lvn)
-                QN = uniqe(QN)
-                lvns&QN = QN
-                lvc&el ||= 8
+                
+                lvns&QN = uniqe(QN)
+                lvc&el ||= 7
                 lvnc&el = 6
             })
-            lvc&el and M.push(lv)
+            lvc&el ||= 8
+            # 4/* sparsely
+            c.d == 1 && lvc&el == 8 and return
+            M.push(lv)
         })
         c.d > 1 and return M
         each i,lv M {
             me&ioty,lv .map(&lvn,{
+                # chase its subset of Q+
                 $M = fi&Athinging,lvnc&n,lvns&QN,ex({},c,{d:c.d+1})
                 M.map(lvnn => ac(lvn,'z',lvnn))
             })
         }
-        # these might be Vc&repeat()-able
+        # these might be nc&repeat()-able
         # el:6 should wake fully
         # el:7 are above el:6, slep any inputs from an el:6?
         # el:8 probably dont wake
         #fi&com,"Thinging",{Q}
         #me&nu,"Athinging",{V,N,M}
-        fi&elvis,{fi:'Aredo',A,V,N,M,c:{}}
+        fi&elvis,{fi:'Aredo',V,N:M,c:{}}
     }
     
-    fi.Aredo = &acgt{
+    # when to wake what, given lv c&n=A:least s&QN=[Q+]
+    fi.Aredo = &acgtVNc{
+        N.map(&lv,{
+            $Y = lvc&n
+            # < lvc&el == 7 may only redo /$oft to reflect news
+            Yc&main and fi&elvis,{fi:'Alv',Y,N:[lv],c:{}}
+            else {
+                throw "how else to wake A", Y, lv
+            }
+        })
+    }
+    
+    # A&main can &Alv
+    fi.A_main = &acgtt{
+        A&main = t
+    }
+    fi.Alv = &acgtVNc{
+        N.map(&lv,{
+            $Y = lvc&n
+        })
     }
    
    // more P doc
