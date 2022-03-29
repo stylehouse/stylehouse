@@ -2417,7 +2417,7 @@ me.Sch_The = &acgt{ return [
         me&sfx_mirage,R,N
     }
     
-   // Top modulat rejigs
+   // Topping@2-41 Top modulat rejigs
     # pre-thingo, r%Mw still there
     me.Topping_2 = &acgtr{
         $N = me&ioR,r
@@ -2478,6 +2478,7 @@ me.Sch_The = &acgt{ return [
             # show non-At labels
             grepout(Rs&M,n => ns&modt == 'Pier')
         }
+        
         # any other callbacks
         each iy Rs&premeasurey {
             y (R)
@@ -4084,10 +4085,11 @@ me.Sch_The = &acgt{ return [
             }
             Rs&xish = 1
         }
-       // bracket style
+       // style
         ps&xish and Rs&nobrackets = '#462e2e'
         Rs&anX and Rs&nobrackets = '#424233'
         Rs&anx and Rs&nobrackets = 'black'
+        ps&xish || Rs&xish and Rs&Atlarge = 1
         
         ps&sym == 'C' and Rs&inCaways = 1
         ps&inCaways and Rs&inCaways = 1
@@ -4098,6 +4100,12 @@ me.Sch_The = &acgt{ return [
             me&moddelete,R,{t:'sym',modt:'hat'}
             Rc&dl += 1
         }
+        Rs&Atlarge && me&modselect,R,{modt:'Pier',t:'At'}
+            .map(n => ns&fs = 9)
+        
+                
+        
+        Rs&slickness = 1
         
        // flightcase
         if (Ec&flightcase) {
@@ -5325,7 +5333,19 @@ me.Sch_The = &acgt{ return [
         $y = n => ns&label == 'bracket'
         me&moddelete,R,{y}
     },'ift,D'],
-  
+    ['slickness',0.66,&acgtRs{
+        ac(R,'premeasurey',&{
+            $mutethings = peel('asfollows,layout')
+            $y = &n{
+                $c = nc&thing
+                !c and return
+                mutethings[c.t] and return 1
+                grap(n => mutethings[ns&limit],c.N) and return 1
+            }
+            $N = me&modselect,R,{y,el:9}
+        })
+    },'ift,D'],
+    
    //     %asabove, %indim, very of A
         # export some &Topping_37, is deep-first after thingo
         ['asabove',0.55,&acgtRs{
