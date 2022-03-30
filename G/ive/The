@@ -4063,6 +4063,8 @@ me.Sch_The = &acgt{ return [
         $D = Rs&D
         $E = Rs&E
         $p = Ry&up
+       // travel
+        me&Fishlive_matching,E
        // org A|X/*
         if (Rs&anA) {
             # right after anA @265
@@ -4090,27 +4092,25 @@ me.Sch_The = &acgt{ return [
         Rs&anX and Rs&nobrackets = '#424233'
         Rs&anx and Rs&nobrackets = 'black'
         ps&xish || Rs&xish and Rs&Atlarge = 1
+        Ec&flightcase and Rs&nobrackets = 'darkblue'
         
         ps&sym == 'C' and Rs&inCaways = 1
         ps&inCaways and Rs&inCaways = 1
+        Ec&flightcase and delete Rs&inCaways
         Rs&Cish && !ps&Cish and Rs&nobrackets = 'darkgreen'
         Rs&Cish && ps&Cish and delete Rs&nobrackets
         
+        Rs&Atlarge && me&modselect,R,{modt:'Pier',t:'At'}
+            .map(n => ns&fs = 9)
         if (Rs&xish) {
             me&moddelete,R,{t:'sym',modt:'hat'}
             Rc&dl += 1
         }
-        Rs&Atlarge && me&modselect,R,{modt:'Pier',t:'At'}
-            .map(n => ns&fs = 9)
-        
-                
-        
+        # drops some more stuff,
         Rs&slickness = 1
         
        // flightcase
         if (Ec&flightcase) {
-            delete Rs&inCaways
-            Rs&nobrackets = 'darkblue'
             # < transparent way through
             # < generalise
             $N = me&ioty,E

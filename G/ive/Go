@@ -4120,10 +4120,14 @@ me.Sch_Go = &acgt{ return [
             # modularly
             me&Fishlive_dohook,(init?'init':'noninit'),W,I,g
             
+            $aT = {}
+            
             # main(), sunpit, the ways
             each iy g.y {
-                y (A,V)
+                y (A,V,aT)
             }
+            
+            aT.adj and me&Fishlive_adj,W,I,g,aT.adj; delete aT.adj
             
             # go outside
             done()
@@ -4136,6 +4140,132 @@ me.Sch_Go = &acgt{ return [
 
             # datadumps
             me&Fishlive_dohook,'aft',W,I,g
+        }
+        # pseudo-&TXilay for the aft thing
+        me.Fishlive_adj = &acgtWIgN{
+            # N = T.adj = ['At/is:limini','t/limini','&b',
+            #              '&V !^^At/is:reandom']
+            # become l/tx
+            fatal.isar(N)
+            $lex = &l{
+                return {path:l.split("/")}
+            }
+            $M = []
+            each il N {
+                l = map(lex, l.split(' '))
+                if (hak(l) > 1) {
+                    hak(l) > 2 and debugger
+                    # negations
+                    $ifnot = grop(&tx,{
+                        if (tx.path[0].startsWith('!^^')) {
+                            tx.path[0] = tx.path[0].slice(2)
+                            return 1
+                        }
+                    },l)
+                    
+                    # ' ' ~~ /**, whereas tx.path are continuous
+                    $la = null
+                    grop(&tx,{
+                        la and $depends = la.andthen = [tx]
+                        la = tx
+                        # see them only via la matching
+                        depends and return 1
+                    },l)
+                    
+                    if (hak(ifnot)) {
+                        map(&tx,{
+                            # the &V dont match if At/is:reandom did 
+                            tx.ifnot = map(ifnot)
+                        },l)
+                        l.push(...ifnot)
+                    }
+                }
+                M.push(...l)
+            }
+            hak(M) and ahk(g,'aftc','adj',M)
+        }
+        me.Fishlive_matching = &acgtE{
+            $R = Aof(E)
+            $up = Ey&up
+            $ube = me.cbu(E,e=>ec&top)
+            ube.y.up.t != 'takes a change' and return
+            if (E == ube) {
+                # E adopts sc&adj
+                $s = up.y.ers
+                sc&adj and Ec&adj = map(sc&adj)
+                me&fu,"Ithas",{ons:sc&adj,onE:Ec&adj}
+                # dont start on -AXV
+                return
+            }
+            if (R.t == 'loading') {
+                $adj = ube.c.adj
+                me&fu,"Hada",{E,ube,adj}
+            }
+            !ubec&adj and return
+            
+            $r = Aof(up)
+            # matches dribbling down here
+            $pro = rs&adj_progress
+            
+            # may have pro - knows path solving
+            $now = {}
+            $matches = &tx,pro,{
+                $i = 0
+                if (pro) {
+                    # pro/$match=$tx/.thusfar - amount solved
+                    # ! 0 here means no /$n
+                    $prog = me&oX_s,pro,tx,0,'match'
+                    prog.thusfar and i = prog.thusfar
+                }
+                return tx.path[i] == E.t
+            }
+            
+            # matches from the top
+            $neu = grep(tx => matches(tx), ubec&adj||[])
+            
+            # in-progress
+            pro && grep(tx => matches(tx,pro) && neu.push(tx),
+                pro.doing)
+        
+        // neu/tx that matched
+            neu.map(&tx,{
+                # (above and)? here matching of $tx
+                $prog = me&X_s,now,tx,0,'match'
+                $brog = pro && me&oX_s,pro,tx,0,'match'
+                
+                # < stop &X/At ocurring at least/more ?
+                brog && brog.done and debugger; return
+                
+                prog.thusfar = brog && brog.thusfar || 0
+                prog.thusfar += 1
+                $next = tx.path[prog.thusfar]
+                if (next) {
+                    # keep doing this tx
+                    ahk(now,['doing'],tx)
+                }
+                else {
+                    # matched whole tx!
+                    ahk(now,['done'],tx)
+                    # it might lead to more %TX, see ' ' ~~ /**
+                    map(tx => ahk(now,['alsos'],tx), tx.andthen)
+                }
+            })
+            # ** keep floating down
+            pro && map(tx => ahk(now,['alsos'],tx), pro.alsos)
+            #   then take themselves out when not
+            # ! either arg to grop() may be null, noop
+            grop(now.done, now.alsos)
+            #   alsos are pro.doing another round
+            map(tx => ahk(now,['doing'],tx), now.alsos)
+            
+            
+            
+            Rs&adj_progress = now
+            
+            $bit = slant(me.cby(E).slice(-5))
+            hak(neu) and me&fu,"neuing:"+bit,{now,neu,pro}
+            
+            E.t == 'is:limini' and me&fu,"zube",{now,neu,pro}
         }
         
       // modularly
@@ -4160,7 +4290,8 @@ me.Sch_Go = &acgt{ return [
             Wy&testo.hat(g.t,sipA)
         }
         me.Fishlive_aft_AXV = &acgtWIg{
-            Wy&testo.tys(g.t,'AXV',A,'nl:500')
+            $c = pex(g.aftc||{},'nl:500')
+            Wy&testo.tys(g.t,'AXV',A,c)
         }
        
        // notime

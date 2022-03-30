@@ -50,16 +50,22 @@
             return r
         }
         # the X/uniq($s) += r
-        me.X_s = &acgtXsr,kf{
-            kf ||= 's'
-            return me&X_refer,X,s,r,kf
+        me.oX_s = &acgtXsr,kf,q,{
+            q ||= {}
+            q.el = 8
+            return me&X_s,X,s,r,kf,q
         }
-        me.X_refer = &acgtXsr,kf,kfs{
+        me.X_s = &acgtXsr,kf,q,{
+            kf ||= 's'
+            return me&X_refer,X,s,r,kf,0,q
+        }
+        me.X_refer = &acgtXsr,kf,kfs,q,{
             !kf and throw "named"
             kfs ||= kf+'s'
             # by id of the value
             $fs = X[kfs] ||= [];
             $vi = fs.indexOf(s);
+            q && q.el == 8 && vi < 0 and return
             vi < 0 and vi = fs.push(s)-1
             $f = X[kf] ||= [];
             $x = f[vi] ||= {};
