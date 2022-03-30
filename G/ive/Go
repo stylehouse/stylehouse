@@ -4141,6 +4141,8 @@ me.Sch_Go = &acgt{ return [
             # datadumps
             me&Fishlive_dohook,'aft',W,I,g
         }
+       
+       // adj
         # pseudo-&TXilay for the aft thing
         me.Fishlive_adj = &acgtWIgN{
             # N = T.adj = ['At/is:limini','t/limini','&b',
@@ -4148,7 +4150,7 @@ me.Sch_Go = &acgt{ return [
             # become l/tx
             fatal.isar(N)
             $lex = &l{
-                return {path:l.split("/")}
+                return {t:l,path:l.split("/")}
             }
             $M = []
             each il N {
@@ -4184,22 +4186,20 @@ me.Sch_Go = &acgt{ return [
             }
             hak(M) and ahk(g,'aftc','adj',M)
         }
+        # pseudo %RXing
         me.Fishlive_matching = &acgtE{
             $R = Aof(E)
             $up = Ey&up
             $ube = me.cbu(E,e=>ec&top)
+            $bit = slant(me.cby(E,e => e == ube))
             ube.y.up.t != 'takes a change' and return
+          // get in
             if (E == ube) {
                 # E adopts sc&adj
                 $s = up.y.ers
                 sc&adj and Ec&adj = map(sc&adj)
-                me&fu,"Ithas",{ons:sc&adj,onE:Ec&adj}
                 # dont start on -AXV
                 return
-            }
-            if (R.t == 'loading') {
-                $adj = ube.c.adj
-                me&fu,"Hada",{E,ube,adj}
             }
             !ubec&adj and return
             
@@ -4215,18 +4215,17 @@ me.Sch_Go = &acgt{ return [
                     # pro/$match=$tx/.thusfar - amount solved
                     # ! 0 here means no /$n
                     $prog = me&oX_s,pro,tx,0,'match'
-                    prog.thusfar and i = prog.thusfar
+                    prog && prog.thusfar and i = prog.thusfar
                 }
                 return tx.path[i] == E.t
             }
             
             # matches from the top
-            $neu = grep(tx => matches(tx), ubec&adj||[])
+            $adj = map(ubec&adj||[])
+            # and in-progress, passed down
+            pro and map(tx => adj.push(tx), pro.doing)
+            $neu = grep(tx => matches(tx,pro), adj)
             
-            # in-progress
-            pro && grep(tx => matches(tx,pro) && neu.push(tx),
-                pro.doing)
-        
         // neu/tx that matched
             neu.map(&tx,{
                 # (above and)? here matching of $tx
@@ -4242,14 +4241,25 @@ me.Sch_Go = &acgt{ return [
                 if (next) {
                     # keep doing this tx
                     ahk(now,['doing'],tx)
+                    return
                 }
-                else {
-                    # matched whole tx!
-                    ahk(now,['done'],tx)
-                    # it might lead to more %TX, see ' ' ~~ /**
-                    map(tx => ahk(now,['alsos'],tx), tx.andthen)
+                if (tx.ifnot) {
+                    # unless, some other adj/tx has happened
+                    pro && grap(tx.ifnot,pro.evers) and me&fu,"Notifnot",{bit,tx,pro}
+                    pro && grap(tx.ifnot,pro.evers) and return
                 }
+                
+                # matched whole tx!
+                ahk(now,['done'],tx)
+                # for ever to remember it
+                me&X_s,now,tx,0,'ever'
+                # it might lead to more %TX, see ' ' ~~ /**
+                map(tx => ahk(now,['alsos'],tx), tx.andthen)
+                
+                me&tc,"Complete:"+tx.t,'g' .sc.fs = 16
             })
+            # every tx ever matched (once)
+            pro && map(tx => me&X_s,now,tx,0,'ever' , pro.evers)
             # ** keep floating down
             pro && map(tx => ahk(now,['alsos'],tx), pro.alsos)
             #   then take themselves out when not
@@ -4262,10 +4272,9 @@ me.Sch_Go = &acgt{ return [
             
             Rs&adj_progress = now
             
-            $bit = slant(me.cby(E).slice(-5))
-            hak(neu) and me&fu,"neuing:"+bit,{now,neu,pro}
-            
-            E.t == 'is:limini' and me&fu,"zube",{now,neu,pro}
+            $say = now.done ? "Done " : (hak(neu) ? "..." : '!')
+            $neusay = spant(neu.map(tx=>tx.t))
+            #hak(neu) and me&fu,say+neusay,{bit,now,neu,pro}
         }
         
       // modularly
