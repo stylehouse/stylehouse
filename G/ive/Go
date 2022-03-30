@@ -4118,7 +4118,7 @@ me.Sch_Go = &acgt{ return [
             A&live = 1
             $done = fi&complace,g.t,{W,A},com
             # modularly
-            me&Fishlive_dohook,(init?'init':'noninit'),W,I,g
+            me&Fishlive_dohook,(init?'init':'noninit'),W,I,g,V
             
             $aT = {}
             
@@ -4279,10 +4279,11 @@ me.Sch_Go = &acgt{ return [
         
       // modularly
        // f, usu
-        me.Fishlive_dohook = &acgttWIg{
+        me.Fishlive_dohook = &acgttWIgV{
+            $args = [...arguments].slice(5)
             each ik I.c[t] {
                 # display functions
-                me&mecy,['Fishlive_',t,'_',k],W,I,g
+                me&mecy,['Fishlive_',t,'_',k],...args
             }
         }
         
@@ -4325,6 +4326,10 @@ me.Sch_Go = &acgt{ return [
                 s == null and debugger
                 y (s,{})
             }
+        }
+        # A.5 can be needed for G&h within
+        me.Fishlive_init_givefive = &acgtWIgV{
+            A.5 = V.5
         }
         
         # &yl will to async, requests for mock delay
