@@ -867,7 +867,11 @@ fi.Xios ||= {}
             }
             # starts from the end|newest, which matter more
             each i,ax inside {
-                M.includes(ax) and throw "test multiple q.norder.*"
+                if (M.includes(ax)) {
+                    hak(c.norder) > 1 and throw "test multiple q.norder.*"
+                    # < odd, perhaps x.z is dupey?
+                    continue
+                }
                 M.unshift(ax)
             }
         }
@@ -1621,7 +1625,8 @@ fi.Xios ||= {}
                     return
                 }
                 else {
-                    debugger
+                    $dd = hakd(O.sc,Q.sc)
+                    fi&com,"~Q",{neu:sex({},Q.sc,dd)}
                 }
             }
 
