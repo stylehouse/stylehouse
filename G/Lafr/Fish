@@ -711,7 +711,7 @@ fi.Xios ||= {}
         c.long = 1
         q ||= {}
         $N = isar(X) ? X : [X]
-        $axN = [{}]
+        $axN = c.a ? [c.a] : [{}]
         $ks = haks(s)
         while (ks.length) {
             $k = ks.shift()
@@ -1078,9 +1078,9 @@ fi.Xios ||= {}
         laterc&ready = fi&Gtime
         
         # to get all "loading's P" then engage them all
-        $N = grep(l => l.t == later.t, 4s&synco)
-        
+        $N = grep(l => l.t == later.t && !lc&done, 4s&synco)
         if (grap(l => ls&waiting, N)) {
+            # < with a timeout since the first is ready, etc
             laters&pending = 1
             return
         }
@@ -1323,6 +1323,7 @@ fi.Xios ||= {}
         # try get something
         A&oftserve = &scqd{
             # is &Ath,s,c,q after d climb
+            # < or @Intro wanting new news
             $Ac = {}
             $Qs = {}
             if (hak(c)) {

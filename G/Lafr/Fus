@@ -1124,8 +1124,29 @@ S 8 Ath redo
          Del-etion
     
     $Am
+    $W_main = &ANc{
+        fi&com,"main"
+        A&ipi and fi&AXVtime
+        # do each
+        pi_is(Am,'reandom')
+        pi_is(Am,'limini')
+        # unify
+        fi&Xsomp,Am,{At:1} .map(&a{
+            fi&Xsomp,a.n,{w:1,h:1},{non:1,a} .map(&a{
+
+                fi&Xsimp,Am,sex({},a,'w,At,h')
+            })
+            fi&Xsomp,a.n,{h:1},{non:1,a} .map(&a{
+
+                fi&Xsimp,Am,sex({},a,'h,At')
+            })
+        })
+
+
+        fi&Xsimp,Am,{works:1},{n:got}
+    }
     $pi_is = &At{
-        $Ai = fi&Atsomewhere,A,t
+        $Ai = fi&Atsomewhere,A,'is:'+t
         $got = fi&Ath,Ai,oft({t})
         !got and return
         
@@ -1134,30 +1155,21 @@ S 8 Ath redo
             if (l.match(/^\S/)) {
                 h = l
                 $x = fi&Xsimp,Ai,{h}
-                me&fu,"headgot",x
             }
             !h and throw "string must start ^\S"
             map(&w{
                 fi&Xsimp,Ai,{w,h}
             }, l.match(/\b(\w+)\b/g))
         })
-        
-        
     }
+    
     Fish.S("the ground",&AV{
         A.5 = V.5
         # the client
         Am = fi&Atsomewhere,A,'more'
         
         # A.3 moment via &Alv
-        Amc&main = &ANc{
-            fi&com,"main"
-            A&ipi and fi&AXVtime
-            
-            pi_is(Am,'reandom')
-            
-            fi&Xsimp,Am,{works:1},{n:got}
-        }
+        Amc&main = W_main
         
         # do the main, via &Alv
         #  A:n C ~~ lv without c&el
@@ -1171,6 +1183,11 @@ S 8 Ath redo
         
         # attend 4%todo
         fi&elvising
+        # test &emergible: compress 4%todo/Amess x2 -> /c&Nx2
+        h.hat('todo Amess before emergible',map(a&todo),'dl:3')
+        fi&emergible,a&todo
+        h.hat(' then after',map(a&todo),'dl:3')
+        
         # having Amess
         fi&elvising
         fi&elvising
