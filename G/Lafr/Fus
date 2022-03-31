@@ -1126,13 +1126,13 @@ S 8 Ath redo
     
     $Am
     # act of A:more filling itself in
-    $W_main = &ANc{
+    $W_main = &A,lv{
         fi&com,"main"
         # A&X new
         A&ipi and fi&AXVtime
         # do each
-        pi_is(Am,'reandom')
-        pi_is(Am,'limini')
+        pi_is(Am,lv,'reandom')
+        pi_is(Am,lv,'limini')
         # unify
         # < a dome... an A
         fi&Xsomp,Am,{At:1} .map(&a{
@@ -1149,8 +1149,25 @@ S 8 Ath redo
 
         fi&Xsimp,Am,{works:1},{n:got}
     }
-    $pi_is = &At{
-        $Ai = fi&Atsomewhere,A,'is:'+t
+    $slep = &A,lv,t{
+        # lv says everything we want to wake
+        lvc&el != 7 and return 0
+        $l = theone(grep(e => e.t == t, lvs&z))
+        l and return 0
+        # link sleeper into new time
+        fi&Xsomp,A&V,{At:t} .map(&a{
+            # < I didnt know &Xsomp here instead wouldn't insert a row...
+            fi&Xsimp,A&X,{At:t},{n:a.n}
+        })
+        return 1
+    }
+    $pi_is = &A,lv,t{
+        # A:n concern:
+        $Jt = 'is:'+t
+        slep(A,lv,Jt) and return
+        $Ai = fi&Atsomewhere,A,Jt
+        
+        # -is itself:
         $got = fi&Ath,Ai,oft({t})
         !got and return
         
@@ -1235,8 +1252,9 @@ S 8 Ath redo
         fi&elvising
         # Athinging makes lv to rollout change
         fi&elvising
-        # Aredo finds A&main, does it
+        # Aredo finds A&main
         fi&elvising
+        # Alv
         fi&elvising
         delete 4s&synco
         # to dampen At/is:limini or t/limini

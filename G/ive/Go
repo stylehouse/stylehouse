@@ -4056,14 +4056,14 @@ me.Sch_Go = &acgt{ return [
             was && was != s and debugger
         }
     
-   // @Run <-> Fish
+ // @Run <-> Fish
         # adapt @Run .. A:least
         #  a disconnected A maker, &com powers
         #  a mock fi&live, a main() for w:Fish as J pin
         #   C is a Run/$W, from @Pro, being A:n
         #   couched in &Yingbal while @Run is running
         # you have a permanent C to hang Cy&Fish on
-       // &Fishliver for A:least + &com + ...
+   // &Fishliver for A:least + &com + ...
         # &Fishliver,t?,c? (t,y+)+
         # Wy&Fish=A:least, the permanent
         # < W that @Pro would give to @Run A:n
@@ -4142,7 +4142,150 @@ me.Sch_Go = &acgt{ return [
             me&Fishlive_dohook,'aft',W,I,g
         }
        
-       // adj
+      // modularly
+       // f, usu
+        me.Fishlive_dohook = &acgttWIgV{
+            $args = [...arguments].slice(5)
+            each ik I.c[t] {
+                # display functions
+                me&mecy,['Fishlive_',t,'_',k],...args
+            }
+        }
+        
+        me.Fishlive_init_basica = &acgtWIg{
+            # A&oftserve()
+            fi&isAthinger
+            # for the &Athinger elvising handler to work in
+            A&thinger = fi&Atsomewhere,A,'loading'
+        }
+        
+        
+        # &fetch can be pre-loaded
+        me.Fishlive_init_nofetch = &acgtWIg{
+            A&fetchserve = &tcy{
+                $s = ahsk(I,'fetch',t)
+                s == null and debugger
+                y (s,{})
+            }
+        }
+        # A.5 can be needed for G&h within
+        me.Fishlive_init_givefive = &acgtWIgV{
+            A.5 = V.5
+        }
+        
+        
+        # datadump I.sc/$A(.3|4)
+        me.Fishlive_aft_hat43 = &acgtWIg{
+            $sipA = hashkv(havs(I.sc).map(n => [nc&sip,n]))
+            Wy&testo.hat(g.t,sipA)
+        }
+        me.Fishlive_aft_AXV = &acgtWIg{
+            $c = pex(g.aftc||{},'nl:500')
+            Wy&testo.tys(g.t,'AXV',A,c)
+        }
+       
+      // notime
+        # A.4 protocols for never going async
+        me.Fishlive_init_notime = &acgtWIg{
+            # Athinger etc
+            me&Fishlive_init_basica,W,I,g
+            
+            # &yl will to async, requests for mock delay
+            me&Fishlive_init_notime_ylserve,W,I,g
+            # 4s%syncs[e+] instead of Ying:elvis:$wake=R
+            me&Fishlive_init_notime_syncserve,W,I,g
+            # &Gtime is made up
+            me&Fishlive_init_notime_Gtimeserve,W,I,g
+            
+        }
+       // 4&ylserve() -> 4%yls getting outside
+        # &yl will to async, requests for mock delay
+        me.Fishlive_init_notime_ylserve = &acgtWIg{
+            A&ylserve = &seconds,y,{
+                ac(A.4,'yls',{seconds,y})
+            }
+            # mock 4%yls completion, no real delay
+            I.Delays_back = &{
+                !4c&live and throw "unlive"
+                # < &syncopation does a better &com?
+                fi&com,"Dials"
+                map(&c{
+                    c.ready = fi&Gtime
+                    c.y ()
+                }, As&yls)
+            }
+            # drain completed &yls before each non-first Fish.S()
+            ahk(I,['c'],'noninit','drainyls')
+        }
+        me.Fishlive_noninit_drainyls = &acgtWIg{
+            grop(c => c.ready, As&yls)
+        }
+        
+       // 4&syncserve() -> 4%syncs wanting inside, after 4%synco
+        # the way back to &elvising Attention from outside
+        # < since we &Delays_back while 4c&live
+        me.Fishlive_init_notime_syncserve = &acgtWIg{
+            # async, callbacks want &elvising to carry on their 4%todo
+            A&syncserve = &N{
+                N.map(e => ac(A.4,'syncs',e))
+            }
+            # inside the above, &syncopation / &elvis / &wantfour,e
+            #  one 4%synco/*.t at a time
+            #   ie group of callbacks may eject N=[e+]
+            #   may or not be 4c&live
+            #    trusts you to 4%todo if 4c&live
+            I.syncserve_drain = &{
+                !4c&live and throw "unlive"
+                # < may or not be 4c&live
+                #  depends on doing this in|out of Fish()
+                #   which is really &Fishlive, a step++
+                #   &complace has a built in 
+                $N = delete 4s&syncs
+                hak(N) and fi&com,"syncs-drain",{N}
+                return N
+            }
+        }
+        # < use Ying
+        #   Go sleepy Nine until 4%syncs are served
+        #    the Fishlive Sunpit knows leaving early
+        #    cursors park meanwhile, etc...
+        me.Fishlive_init_Yingtime_syncserve = &acgtWIg{
+            A&syncserve = &e{
+                # one wake:R%Cat, from whereever hopefully
+                $R = Cy&R
+                $wake = 4c&otherer
+                !R || !wake and debugger; return
+                A = 4c&otherA
+                !A and debugger
+                me&elvis,R,'re-live',{wake}
+            }
+            # drain completed &syncopations before each non-first Fish.S()
+            ahk(I,['c'],'noninit','drainsynco')
+        }
+        me.Fishlive_noninit_drainsynco = &acgtWIg{
+            grop(l => lc&ready, As&synco)
+        }
+        
+       // 4&Gtimeserve()
+        me.Fishlive_init_notime_Gtimeserve = &acgtWIg{
+            # mock timeofday
+            I.thetime = 36363636
+            
+            I.tick = seconds => I.thetime += seconds||0.001
+            # I.tick() before each non-first Fish.S()
+            ahk(I,['c'],'noninit','autotick')
+            
+            # ability to get the time things are happening
+            A&Gtimeserve = &{
+                !4c&live and throw "unlive"
+                return I.thetime
+            }
+        }
+        me.Fishlive_noninit_autotick = &acgtWIg{
+            I.tick()
+        }
+        
+    // adj ~~ %TX traveling pattern matching
         # pseudo-&TXilay (which is pseudo i The)
         #  quickly mute parts of the data dump aft Fishlive
         #  matches at any depth better than %TX now?
@@ -4321,145 +4464,6 @@ me.Sch_Go = &acgt{ return [
             
             # done/tx.qua are to give
             return now.done
-        }
-        
-      // modularly
-       // f, usu
-        me.Fishlive_dohook = &acgttWIgV{
-            $args = [...arguments].slice(5)
-            each ik I.c[t] {
-                # display functions
-                me&mecy,['Fishlive_',t,'_',k],...args
-            }
-        }
-        
-        me.Fishlive_init_basica = &acgtWIg{
-            # A&oftserve()
-            fi&isAthinger
-            # for the &Athinger elvising handler to work in
-            A&thinger = fi&Atsomewhere,A,'loading'
-        }
-        
-        # datadump I.sc/$A(.3|4)
-        me.Fishlive_aft_hat43 = &acgtWIg{
-            $sipA = hashkv(havs(I.sc).map(n => [nc&sip,n]))
-            Wy&testo.hat(g.t,sipA)
-        }
-        me.Fishlive_aft_AXV = &acgtWIg{
-            $c = pex(g.aftc||{},'nl:500')
-            Wy&testo.tys(g.t,'AXV',A,c)
-        }
-       
-       // notime
-        # A.4 protocols for never going async
-        me.Fishlive_init_notime = &acgtWIg{
-            # Athinger etc
-            me&Fishlive_init_basica,W,I,g
-            
-            # &yl will to async, requests for mock delay
-            me&Fishlive_init_notime_ylserve,W,I,g
-            # 4s%syncs[e+] instead of Ying:elvis:$wake=R
-            me&Fishlive_init_notime_syncserve,W,I,g
-            # &Gtime is made up
-            me&Fishlive_init_notime_Gtimeserve,W,I,g
-            
-        }
-        
-        # &fetch can be pre-loaded
-        me.Fishlive_init_nofetch = &acgtWIg{
-            A&fetchserve = &tcy{
-                $s = ahsk(I,'fetch',t)
-                s == null and debugger
-                y (s,{})
-            }
-        }
-        # A.5 can be needed for G&h within
-        me.Fishlive_init_givefive = &acgtWIgV{
-            A.5 = V.5
-        }
-        
-        # &yl will to async, requests for mock delay
-        me.Fishlive_init_notime_ylserve = &acgtWIg{
-            A&ylserve = &seconds,y,{
-                ac(A.4,'yls',{seconds,y})
-            }
-            # mock 4%yls completion, no real delay
-            I.Delays_back = &{
-                !4c&live and throw "unlive"
-                # < &syncopation does a better &com?
-                fi&com,"Dials"
-                map(&c{
-                    c.ready = fi&Gtime
-                    c.y ()
-                }, As&yls)
-            }
-            # drain completed &yls before each non-first Fish.S()
-            ahk(I,['c'],'noninit','drainyls')
-        }
-        me.Fishlive_noninit_drainyls = &acgtWIg{
-            grop(c => c.ready, As&yls)
-        }
-        
-        # the way back to &elvising Attention from outside
-        # < since we &Delays_back while 4c&live
-        me.Fishlive_init_notime_syncserve = &acgtWIg{
-            # async, callbacks want &elvising to carry on their 4%todo
-            A&syncserve = &N{
-                N.map(e => ac(A.4,'syncs',e))
-            }
-            # inside the above, &syncopation / &elvis / &wantfour,e
-            #  one 4%synco/*.t at a time
-            #   ie group of callbacks may eject N=[e+]
-            #   may or not be 4c&live
-            #    trusts you to 4%todo if 4c&live
-            I.syncserve_drain = &{
-                !4c&live and throw "unlive"
-                # < may or not be 4c&live
-                #  depends on doing this in|out of Fish()
-                #   which is really &Fishlive, a step++
-                #   &complace has a built in 
-                $N = delete 4s&syncs
-                hak(N) and fi&com,"syncs-drain",{N}
-                return N
-            }
-        }
-        # < use Ying
-        #   Go sleepy Nine until 4%syncs are served
-        #    the Fishlive Sunpit knows leaving early
-        #    cursors park meanwhile, etc...
-        me.Fishlive_init_Yingtime_syncserve = &acgtWIg{
-            A&syncserve = &e{
-                # one wake:R%Cat, from whereever hopefully
-                $R = Cy&R
-                $wake = 4c&otherer
-                !R || !wake and debugger; return
-                A = 4c&otherA
-                !A and debugger
-                me&elvis,R,'re-live',{wake}
-            }
-            # drain completed &syncopations before each non-first Fish.S()
-            ahk(I,['c'],'noninit','drainsynco')
-        }
-        me.Fishlive_noninit_drainsynco = &acgtWIg{
-            grop(l => lc&ready, As&synco)
-        }
-        
-        me.Fishlive_init_notime_Gtimeserve = &acgtWIg{
-            # mock timeofday
-            I.thetime = 36363636
-            
-            I.tick = seconds => I.thetime += seconds||0.001
-            # I.tick() before each non-first Fish.S()
-            ahk(I,['c'],'noninit','autotick')
-            
-            # ability to get the time things are happening
-            A&Gtimeserve = &{
-                !4c&live and throw "unlive"
-                return I.thetime
-            }
-        }
-        me.Fishlive_noninit_autotick = &acgtWIg{
-            I.tick()
         }
         
     },
