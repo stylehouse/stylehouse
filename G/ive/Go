@@ -4143,7 +4143,10 @@ me.Sch_Go = &acgt{ return [
         }
        
        // adj
-        # pseudo-&TXilay for the aft thing
+        # pseudo-&TXilay (which is pseudo i The)
+        #  quickly mute parts of the data dump aft Fishlive
+        #  matches at any depth better than %TX now?
+        # < Fus@6 could use this to mute noisy R%ci
         # < survey all the objects and boundaries of RX|TX
         #    esp what N/aq/qua|pointers are
         me.Fishlive_adj = &acgtWIgN{
@@ -4225,8 +4228,8 @@ me.Sch_Go = &acgt{ return [
                 # E adopts sc&adj
                 $s = up.y.ers
                 sc&adj and Ec&adj = map(sc&adj)
+                #me&fu,"adj",Ec&adj
                 # dont start on -AXV
-                me&fu,"adj",Ec&adj
                 return
             }
             !ubec&adj and return
@@ -4252,7 +4255,7 @@ me.Sch_Go = &acgt{ return [
             $adj = map(ubec&adj||[])
             # and in-progress, passed down
             pro and map(tx => adj.push(tx), pro.doing)
-            $neu = grep(tx => matches(tx,pro), adj)
+            $neu = grep(tx => matches(tx,pro), uniq(adj))
             # fyi, all complete matches somewhere above
             $eve = pro && joint(armap(tx => tx.t,pro.evers),' - ')
             
@@ -4288,7 +4291,7 @@ me.Sch_Go = &acgt{ return [
                 map(tx => ahk(now,['alsos'],tx), tx.andthen)
                 #tx.negation and me&fu,"Negation:"+bit,{tx,pro,eve}
                 
-                me&tc,"Complete:"+tx.t,'g' .sc.fs = 16
+                #me&tc,"Complete:"+tx.t,'g' .sc.fs = 16
             })
             # every tx ever matched (once)
             pro && map(tx => me&X_s,now,tx,0,'ever' , pro.evers)
