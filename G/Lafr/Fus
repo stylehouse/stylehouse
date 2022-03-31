@@ -1150,15 +1150,31 @@ S 8 Ath redo
         fi&Xsimp,Am,{works:1},{n:got}
     }
     $slep = &A,lv,t{
-        # lv says everything we want to wake
         lvc&el != 7 and return 0
+        # lv says everything we want to wake
         $l = theone(grep(e => e.t == t, lvs&z))
         l and return 0
-        # link sleeper into new time
-        fi&Xsomp,A&V,{At:t} .map(&a{
-            # < I didnt know &Xsomp here instead wouldn't insert a row...
-            fi&Xsimp,A&X,{At:t},{n:a.n}
+        
+        # sleeping
+        # replay or link what it i A
+        # see &recycleRbitXz
+        # half generate, half know X.** to rebuild
+        $b = fi&Xsomp,A&V,{At:t} [0].n
+        b.t != t and debugger
+        !b and return 0
+        $props = [
+            # we can know it is /$At
+            {At:t},
+            # /$of/$t is more dynamic, hoists|mirrors to A:more
+            # < see $of/** until /$n or similar marker, eg x.endoft
+            ... fi&Xsomp,bc&X,{of:1,t:1}
+                .map(a => sex({},a,'of,t'))
+        ]
+        props.map(&s{
+            fi&Xsomp,A&V,s,{n:b}
+                .map(a => fi&Xsimp,A,s,{n:b})
         })
+        # < I didnt know &Xsomp here instead wouldn't insert a row...
         return 1
     }
     $pi_is = &A,lv,t{
