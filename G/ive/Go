@@ -4144,47 +4144,74 @@ me.Sch_Go = &acgt{ return [
        
        // adj
         # pseudo-&TXilay for the aft thing
+        # < survey all the objects and boundaries of RX|TX
+        #    esp what N/aq/qua|pointers are
         me.Fishlive_adj = &acgtWIgN{
-            # N = T.adj = ['At/is:limini','t/limini','&b',
-            #              '&V !^^At/is:reandom']
-            # become l/tx
+            # N = T.adj = []
             fatal.isar(N)
+            # multiply aq by aq.N=[many pointers]
+            N = flatten(map(&aq,{
+                aq.N and return map(l => ex({},aq,{l}),aq.N)
+                return aq
+            },N))
+            map(aq => delete aq.N, N)
+            $M = []
+            map(&aq,{
+                !aq.l and debugger
+                # parse
+                aq.TX = me&Fishlive_adj_tx,aq.l
+                
+                # pick a tx to give qua
+                $ta = grep(tx => !tx.negation, reverse(aq.TX))[0]
+                !ta and debugger
+                ta.qua = nex({},aq,'TX,l')
+                
+                # those exposed to the immediacy
+                M.push(...grep(tx => !tx.nested, aq.TX))
+            }, N)
+            !hak(M) and return
+            
+            ahk(g,'aftc','adj',M)
+        }
+        me.Fishlive_adj_tx = &acgtl{
+            # become l/tx
+            # l eg 'At/is:limini','t/limini','&b',
+            #      '&V !^^At/is:reandom'
             $lex = &l{
                 return {t:l,path:l.split("/")}
             }
-            $M = []
-            each il N {
-                l = map(lex, l.split(' '))
-                if (hak(l) > 1) {
-                    hak(l) > 2 and debugger
-                    # negations
-                    $ifnot = grop(&tx,{
-                        if (tx.path[0].startsWith('!^^')) {
-                            tx.path[0] = tx.path[0].slice(2)
-                            return 1
-                        }
-                    },l)
-                    
-                    # ' ' ~~ /**, whereas tx.path are continuous
-                    $la = null
-                    grop(&tx,{
-                        la and $depends = la.andthen = [tx]
-                        la = tx
-                        # see them only via la matching
-                        depends and return 1
-                    },l)
-                    
-                    if (hak(ifnot)) {
-                        map(&tx,{
-                            # the &V dont match if At/is:reandom did 
-                            tx.ifnot = map(ifnot)
-                        },l)
-                        l.push(...ifnot)
+            l = map(lex, l.split(' '))
+            if (hak(l) > 1) {
+                hak(l) > 2 and debugger
+                
+                # negation
+                $la = null
+                map(&tx,{
+                    if (tx.path[0].startsWith('!^^')) {
+                        !la and debugger
+                        tx.path[0] = tx.path[0].slice(3)
+                        # not the tx to give qua (usu TX[-1] would)
+                        tx.negation = 1
+                        # < multiple? AND|OR? cif
+                        # the &V dont match if At/is:reandom did 
+                        la.ifnot = [tx]
                     }
-                }
-                M.push(...l)
+                    la = tx
+                },l)
+                
+                # wander
+                # ' ' ~~ /**, whereas tx.path are continuous
+                $la = null
+                map(&tx,{
+                    if (la && !tx.negation) {
+                        # see them only via la matching precedents
+                        la.andthen = [tx]
+                        tx.nested = 1
+                    }
+                    la = tx
+                },l)
             }
-            hak(M) and ahk(g,'aftc','adj',M)
+            return l
         }
         # pseudo %RXing
         me.Fishlive_matching = &acgtE{
@@ -4199,6 +4226,7 @@ me.Sch_Go = &acgt{ return [
                 $s = up.y.ers
                 sc&adj and Ec&adj = map(sc&adj)
                 # dont start on -AXV
+                me&fu,"adj",Ec&adj
                 return
             }
             !ubec&adj and return
@@ -4225,6 +4253,8 @@ me.Sch_Go = &acgt{ return [
             # and in-progress, passed down
             pro and map(tx => adj.push(tx), pro.doing)
             $neu = grep(tx => matches(tx,pro), adj)
+            # fyi, all complete matches somewhere above
+            $eve = pro && joint(armap(tx => tx.t,pro.evers),' - ')
             
         // neu/tx that matched
             neu.map(&tx,{
@@ -4245,7 +4275,8 @@ me.Sch_Go = &acgt{ return [
                 }
                 if (tx.ifnot) {
                     # unless, some other adj/tx has happened
-                    pro && grap(tx.ifnot,pro.evers) and me&fu,"Notifnot",{bit,tx,pro}
+                    # see &fu Negation, is now in pro/ever
+                    #pro && grap(tx.ifnot,pro.evers) and me&fu,"Notifnot",{bit,tx,pro,eve}
                     pro && grap(tx.ifnot,pro.evers) and return
                 }
                 
@@ -4255,6 +4286,7 @@ me.Sch_Go = &acgt{ return [
                 me&X_s,now,tx,0,'ever'
                 # it might lead to more %TX, see ' ' ~~ /**
                 map(tx => ahk(now,['alsos'],tx), tx.andthen)
+                #tx.negation and me&fu,"Negation:"+bit,{tx,pro,eve}
                 
                 me&tc,"Complete:"+tx.t,'g' .sc.fs = 16
             })
@@ -4262,19 +4294,30 @@ me.Sch_Go = &acgt{ return [
             pro && map(tx => me&X_s,now,tx,0,'ever' , pro.evers)
             # ** keep floating down
             pro && map(tx => ahk(now,['alsos'],tx), pro.alsos)
-            #   then take themselves out when not
-            # ! either arg to grop() may be null, noop
+            #   then take themselves out when done
             grop(now.done, now.alsos)
             #   alsos are pro.doing another round
             map(tx => ahk(now,['doing'],tx), now.alsos)
-            
-            
+            # ! either arg to grop() may be null, noop
+        
+        // done/tx.qua
+            map(&tx,{
+                $qua = tx.qua
+                if (qua) {
+                    qua.Ri and me&Ri,qua.Ri
+                }
+            }, now.done)
             
             Rs&adj_progress = now
             
             $say = now.done ? "Done " : (hak(neu) ? "..." : '!')
             $neusay = spant(neu.map(tx=>tx.t))
-            #hak(neu) and me&fu,say+neusay,{bit,now,neu,pro}
+            #!bit.endsWith('more/∫/0/&X') and return
+            #!bit.endsWith('more/∫/0/&X/At/is:reandom') and return
+            #me&fu,"Well,"+say+neusay,{bit,now,neu,pro,eve,adj}
+            
+            # done/tx.qua are to give
+            return now.done
         }
         
       // modularly
