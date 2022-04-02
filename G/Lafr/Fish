@@ -1003,7 +1003,7 @@ fi.Xios ||= {}
         return Gtime()
     }
    
-   // &syncopation to an async callback, their &elvis -> 4c&syncserve()
+   // &syncopation to an async callback that can &elvis -> 4c&syncserve()
     # behalving A.t + s={P}
     #  4%synco/later spool awaiting callbacks
     #   and doing the callback async,
@@ -1014,7 +1014,22 @@ fi.Xios ||= {}
     # < probably do this for the requestIdleCallback stream
     #   and other things, eg &Amess's response
     #   < and permanent listenings...
-    # one 4%synco/*.t at a time
+    
+    # $cb = &syncopating,cid (&...{ callback })
+    fi.syncopating = &acgts{
+        return &recv,{
+            $ack = fi&syncopation,s
+            # callback for eg &fetch
+            return &{
+                $args = [...arguments]
+                # the later becomes ready
+                ack(&{
+                    # each here slightly batched in time
+                    #  when all of a kind ready
+                    recv(...args) })
+            }
+        }
+    }
     fi.syncopation = &acgtsc{
         
         # A + s identifies where+what
@@ -1022,6 +1037,12 @@ fi.Xios ||= {}
         c ||= {timeout:5}
         # create a later, they persist
         $later = fi&synco_later_begin,s,c
+        # < perhaps this is better called 4%laters
+        #   of times we expect to come (yl|fetch)
+        #   and times that could keep reoccuring (sockets)
+        # < A.4 should linger %Cat on this $W|plan
+        #  < involving A.4/A.3/A:loading and /asked/$P
+        ac(A.4,'synco',later)
         # called in async time, see &Amess
         # < which we may not want to suddenly &elvis from
         return &y{
@@ -1068,9 +1089,6 @@ fi.Xios ||= {}
         c.n ||= A
         $name = A.t+"'s "+joint(haks(s))
         $later = Cye([name,8,c,s])
-        # < A.4 should linger %Cat on this %plan
-        #  < involving A.4/A.3/A:loading and /asked/$P
-        ac(A.4,'synco',later)
         laters&waiting = 1
         return later
     }
@@ -1566,6 +1584,7 @@ fi.Xios ||= {}
     =cut
     # < proxy to @Aearch
     # &elvis must be coming back to %Cat sometimes
+    
     fi.Amess = &acgtANc{
         # ! this must not be a for (each) loop, or we ack the same later
         N.map(&P{
@@ -1573,13 +1592,6 @@ fi.Xios ||= {}
             if (Py&cv == 0.1) {
                 # P@2 while waiting for a response
                 Py&cv = 0.2
-                $recv = &sc{
-                    # response usu blob of text
-                    #  possibly with http header 'sc: {json...}'
-                    Py&cv = 0.3
-                    Ps&string = s
-                    fi&elvis,{fi:'Athinger',A,N:[P],c:{}}
-                }
                 # a 4%synco/later from this Amess|P
                 #  wraps completion event recv(...)
                 #  which later%spawns=[e:Athinger] above
@@ -1587,10 +1599,13 @@ fi.Xios ||= {}
                 #   this later could just be a noop 4%todo
                 #    so other events can see and wait for it?
                 # allows recv() to happen outside time and &elvis its way in
-                $ack = fi&syncopation,{P}
-                $back = &sc{
-                    ack(&{ recv(s,c) })
-                }
+                $back = fi&syncopating,{P} (&sc{
+                    # response usu blob of text
+                    #  possibly with http header 'sc: {json...}'
+                    Py&cv = 0.3
+                    Ps&string = s
+                    fi&elvis,{fi:'Athinger',A,N:[P],c:{}}
+                })
                 # requests usu /$of/$t
                 #  possibly with http params
                 fi&fetch,slant(Pc&of,Pc&t),{},back
@@ -1794,6 +1809,8 @@ fi.Xios ||= {}
         G.bugs[t]--
         !G.bugs[t] and return 1
     }
+   
+   
    
  // &pio: %TX %RX
       =pod what did -log know ♦
