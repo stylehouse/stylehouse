@@ -1150,8 +1150,11 @@ me.Sch_Go = &acgt{ return [
             #       mid-time should not be end-posted
             ninec&ReNessy = 1
             
-            # io Run%time
-            $time = c.time = (Runs&time || 0)*1
+            # io Run%time, hoisted from the latest etc
+            $W = c.GoRun && c.GoRun.W
+            $RunA = W && Wy&RunA
+            
+            $time = c.time = (RunA && RunAc&time || 0)*1
             
             # < io @Fe+1|-1 $Fe1|_1? etc
             $time1 = time + 1
@@ -3445,6 +3448,8 @@ me.Sch_Go = &acgt{ return [
         # per RunGo,i
         me.RunA = &acgtRWgc{
             $Y = G&Aye:'Run:'+W.t+' .'+g.i
+            $b = Wy&RunA
+            Wy&RunA = Y
             
             # the awake above
             Y.Run = R
@@ -3474,16 +3479,20 @@ me.Sch_Go = &acgt{ return [
             
             me&way,R,Wc&Runpin
             
-            return 0
-            $now = A&doords[A&time]
-            g.title = now.t
-            $nums = haks(A&doords)
-            $ti = nums.indexOf(A&time+'')
-            # < &strange?
-            ti < 0 and return me&tc,"no-time:"+A&time,'B'
-            $ni = nums.slice(ti)[1]
-            $next = A&doords[ni]
-            next and me&ha,R,{next_Ness_title_clue:next.t,dome:g.dome}
+            $N = A&Sunpit.done
+            if (hak(N)) {
+                $d = reverse(N)[0]
+                # < may be many done
+                g.title = d.t
+                $next = ahsk(A&Sunpit,'i',d.i*1+1)
+                if (next) {
+                    me&ha,R,{next_Ness_title_clue:next.t,dome:g.dome}
+                }
+            }
+            else {
+                # < &strange?
+                ti < 0 and return me&tc,"no-time:"+A&time,'B'
+            }
         }
      
      // &Sunpit
@@ -3494,12 +3503,14 @@ me.Sch_Go = &acgt{ return [
             # almost an X/Sunpit/i|t etc
             $g = A&Sunpit ||= {}
             # Sunpit/i|t/@d
-            # < trust numbers more?
-            #   tell when they are lies|outoforder with a Sunpit stack
-            $d = ahsk(g,'t',t) || ahk(g,'t',t,{})
-            # < ahk(g,'i',i,d) != d and debugger
+            g.i ||= {}
+            g.t ||= {}
+            # < tell when they are lies|outoforder with a Sunpit stack
+            $d = g.i[i] ||= {}
+            # < ahk(g,'t',t,d) != d and debugger
             #   can it monitor sameness?
-            ahk(g,'i',i,d)
+            g.t[t] && g.t[t] != d and debugger
+            g.t[t] = d
             ex(d,{i,t})
             
             if (num(i) && !g.lob) {
