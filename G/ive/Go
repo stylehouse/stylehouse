@@ -802,6 +802,7 @@ me.Sch_Go = &acgt{ return [
             # < your use case may be sensitive to rough landings
             # < Superarg that arent nodes
             ex(arg,me&Superarg_arrive,cl )
+            grop(c => !isC(c), arg)
             rap(r => ry&R, arg)
             
             # arg.Gome gives Gome/*, eg xs&Fories
@@ -970,7 +971,10 @@ me.Sch_Go = &acgt{ return [
             $Pro = me&Superarg,{Pro:0},{viatw:'Cat'}
             $Run = me&Superarg,{Run:0},{viatw:'Cat'}
         me&Superready and return
-            !x.ro('maynotRun',{}) and me&nodei,R,Run,'mayRun'
+            $GoRun = me&rollbs,R,'GoRun',{ov:1}
+            !GoRun.ov and debugger
+            me&Superarg,{GoRun}
+            !x.ro('maynotRun',{}) and me&nodei,R,Run,{mayRun:GoRun}
 
             $This = me&Superarg,{This:0},{viatw:'Run'}
             $The = me&Superarg,{The:0},{viatw:'Run'}
@@ -994,6 +998,7 @@ me.Sch_Go = &acgt{ return [
             $Inc = ar.Inc
             $Pro = ar.Pro
             $Run = ar.Run
+            $GoRun = ar.GoRun
             !Inc and return ha('pur:!Inc')
             # e:G seeks here
             4s&sheys_gotoplace = T.ab.y.up
@@ -1039,7 +1044,8 @@ me.Sch_Go = &acgt{ return [
             me&SG_draw_oks,okc
             # < including Run things of late
             me&SG_draw_comrades,[This,Run,Fine]
-            
+          
+          // stabilised
             # usu the motion of This>Nine, we wait for
             $unsure = me&Superready
             # usu first time here
@@ -1048,7 +1054,7 @@ me.Sch_Go = &acgt{ return [
             # < proto for async state through to a @Story here
             #   see Doming & Beeping will separate
             $c = {unsure,starting}
-            ex(c,{Fine,nine,This})
+            ex(c,{Fine,nine,This,GoRun})
             
             # i RunStep o ~P > @Cat
             #  must be rolled out while P%dige same
@@ -1105,6 +1111,10 @@ me.Sch_Go = &acgt{ return [
   // @Gnome <-> @Run
       
       // RunStep
+        # pretty messy organiser of running a list of tests
+        #  a Go broker, @Cat is ready for elvising leash
+        #  < robot with lots of cats on leashes
+        #     crane around a rat house, flood it with killbots
         # < an ult
         # < @Ta for hs&Ta rowing ark, h.ar the @Gnome Names
         # %%RunStep flock
@@ -1260,6 +1270,8 @@ me.Sch_Go = &acgt{ return [
             row('c',&Smola{
                 $n = a.n
                 
+                
+                
                 tw[S] = n
                 a.ov < 0.8 and active_n ||= n
                 if (eisa_R) {
@@ -1270,7 +1282,7 @@ me.Sch_Go = &acgt{ return [
                     active_n == n and a.ov = 0.5; eisa_R = 0
                 }
                 
-                # can always a.will for when !c.unsure
+                # can always a.will
                 if (me&tt,"will",'y' (1)) {
                     # eg added by tt:+gap start @4, make @5
                     a.ov < 0.5 and a.ov = 0.5
@@ -1283,7 +1295,7 @@ me.Sch_Go = &acgt{ return [
                 #  < style it stale if someone is watching
                 if (!c.unsure && a.ov >= 0.5) {
                     # getting 0.5->0.8, looking at Fe, etc
-                    me&RunStep_stabilised,R,c,h,a,n
+                    me&RunStep_main,R,c,h,a,n
                 }
                         
                 $looks = ns&looks || 0
@@ -1347,8 +1359,8 @@ me.Sch_Go = &acgt{ return [
                 memy&iN([sc])
             }
         }
-        
-        me.RunStep_stabilised = &acgtRchan{
+        # getting 0.5->0.8, looking at Fe, etc
+        me.RunStep_main = &acgtRchan{
             $Fine = c.Fine
             $Run = c.Run
             
@@ -1403,6 +1415,7 @@ me.Sch_Go = &acgt{ return [
             $ok = 1
             if (a.ov < 0.8) {
                 if (a.ov < 0.72) {
+                    # < put in %%RunGo?
                     # while @Run still has:
                     $ers = me&ja,Runy&R,'er,Bang',1
                     # each step remembers errors
@@ -1481,26 +1494,66 @@ me.Sch_Go = &acgt{ return [
       
       // Go doing
         # < simply wanting a RunningStep from a RunStep
+        me.GoRun_reset = &acgtRchan{
+            $GoRun = c.GoRun
+            fatal.isnum(GoRun.ov)
+            $Fine = c.Fine
+            $Fe = a.Fe
+            
+            # persistence
+            # this is what Run will read on the %%mayRun=$GoRun
+            # < what Pro would tell Run
+            #   and reset for us if we talk Step to Pro instead
+            $W = Cye([Fine.t,1])
+            # routine to do
+            if (Finec&w) {
+                # < this should have already been prepared for
+                #   is currently preloaded by @Pro
+                # < and we should .5 its version, etc?
+                Wc&Runpin = notoneor(Finec&w, Fine.t)
+            }
+            # part
+            if (ns&RunStep) {
+                # the elvising that pushes the button
+                Wc&RunStep = ns&RunStep
+                W.t += '@'+ns&RunStep
+            }
+            # leash time
+            Wc&i = 0
+            Wc&iv = 1
+            if (Fe) {
+                # < how many async is usual, note when changey|wanting
+                Fec&leash and Wc&iv = Fec&leash
+            }
+            
+            # reset Pro $W|this S expression
+            GoRun.W = W
+        }
         me.dotheRunStep = &acgtRchan{
             $Fine = c.Fine
             $Run = c.Run
             me&tc,"Run++"
             h.ha('pur:Run++')
             
-            
-            # < many steps
-            # < -Effect it there
-            # Run increments itself
-            Runs&time = ns&RunStep - 1
-            
-            # drop -Eight/$S-seven
+            # new $W, instruct w+S
+            me&GoRun_reset,R,c,h,a,n
+            # < connect ^v
+            #   has Asmallmind of how to reset?
+            # drop This.../$S-seven
             me&forgetRunStep,Run,ns&RunStep
-
+            
+            if (0) {
+                # < many steps
+                # < -Effect it there
+                # Run increments itself
+                Runs&time = ns&RunStep - 1
+                rs&Run = 1
+            }
             # if ro Run oncer on
             # < pass singleton through %%Go
             $r = Runy&R
+            # < time, to make r->b, also %%quiet_wake
             a.Runafter = r
-            rs&Run = 1
             # go there
             me&wants,R,'Run++',Run
 
@@ -3046,7 +3099,11 @@ me.Sch_Go = &acgt{ return [
         me&ha,R,'loaded'
     },'ift,D'],
     # have steps, todos
-    #  e heading for A:n rather than Run/The...
+    # < have Go tree for what Gnome is up to
+    #    Go(/Fine,Gnome,Cat,etc) and many (/S,Fe,RunStep)+
+    #  load what Fine thinks (Fine.c.w=1=w:Fus)
+    #   to unwind into steps, after initial 
+    # < e heading for A:n, Run/The...
     ['PiiPro',0.2901,&acgtRs{
         # < Go comes with specific mechanism for running the tests
         #    usu w:$t (as Travelable|Gnome is named)
@@ -3054,11 +3111,14 @@ me.Sch_Go = &acgt{ return [
         $Cat = me.cbu(R,'client')
         $t = Caty&up.t
         me&ha,R,{clientWay:t}
+        
         T.asyncQs = []
         me&way,R,t,{},'noop'
         $was = delete T.asyncQs
         hak(was) and return me&waits,"preload-w"
+        
         me&settle_prev,R and return
+        
         me&ha,R,'loaded'
     },'ift,D'],
     
@@ -3068,8 +3128,6 @@ me.Sch_Go = &acgt{ return [
     # see TheThy 2901
     ['PiiRun',0.2901,&acgtRs{
         $x = me&Jx,R
-        me&ja,xc&Pro,'loaded'
-        !me&ja,R,'mayRun' and return me&tc,"!mayRun..."
         Rs&Piing = 1
         # < &Gnome_Jx: its def @Run should match up
         #   it basically discovers its way to @Gnome, @Cat, etc
@@ -3079,10 +3137,18 @@ me.Sch_Go = &acgt{ return [
     ['PiiRun',0.299,&acgtRs{
         $x = me&Jx,R
         me&bin,'PiiRunThis'
+        
+        !me&ja,xc&Pro,'loaded' and return me&tc,"!Pro..."
+        Rs&GoRun = theone( me&jaa,R,'mayRun',1 )
+        !Rs&GoRun and return me&tc,"!mayRun..."
+        
+        me&RunGo,R
+        return
+        
         $t = me&jaa,xc&Pro,'clientWay',1 [0]
         !t.match(/\w+/) and return me&tc,"!way",'g'
         $x = me&Jx,R
-        if (x.ro("Run") || 0 && !Rc&b) {
+        if (x.ro("Run")) {
             # synth a thing
             ss&time ||= 0
             $time = (ss&time*1) + 1
@@ -3091,7 +3157,6 @@ me.Sch_Go = &acgt{ return [
             # may not make it back
             ss&time = time
         }
-        me&Runpin_amb,R,t
     },'ift,D'],
     ['PiiRun+Piing',0.293,&acgtRs{
         Rs&Sarndat = me&Sarn,<<'',[R]
@@ -3322,62 +3387,94 @@ me.Sch_Go = &acgt{ return [
    
    &{
    // @Run -> &Sunpit
-     // &Runpin
-        me.Runpin = &acgtRtv{
-            $time = v
-            # keep the latest facts, title clues, %%Bang,er... etc per &Runpin
-            $dome = 'ranRun'
-            $conc = {Runpin:1,time,dome}
+     // &RunGo / &Runpin
+        # any time Run wakes, we may %%RunGo:$W,... whatever GoRun.W, if time
+        me.RunGo = &acgtR{
+            $W = Rs&GoRun.W
+            !W and return me&tc,"!GoRun.W"
+            $plan = "Run "+W.t
+            $clog = ~>7 Atry: plan, '>0:fail'
             
-            $A = me&RunA,{time}
-            A.Run = R
+            $a = {}
+            # how we got here
+            $e = me&Dtunneling,R
+            (e) and a.et = e.t
+            
+            # < and what now, is it %synco?
+            
+            # sometimes %%RunGo
+            Wc&i ||= 0
+            if (Wc&i >= Wc&iv) {
+                a.GoRun = W.t
+                a.notime = 1
+                me&tc,"Run-ig:"+dis(a),'d'
+            }
+            else {
+                $g = ex({RunGo:W},a)
+                # each S, per time in here
+                #  and things emit, eg %%Bang,er
+                g.dome = 'RunGo/'+Wc&RunStep
+                g.i = Wc&i += 1
+                me&Bangrasp,plan (&{
+                    g.A = A = me&RunA,R,W,g
+                    
+                    if (Wc&Runpin) {
+                        me&Runpin,R,W,g
+                    }
+                    else {
+                        throw "what RunGo f", W
+                    }
+                },&er,c{
+                    # er taints the %%RunGo:$W,...
+                    # < for ever?
+                    g.er = er
+                    #  and the #msgs logline
+                    clog && clog.set('fail','ERR: '+erc&s)
+                    # keep the latest %%Bang,er... per &Runpin
+                    me&ha,R,c,{},{dome:g.dome}
+                    #  which we draw up in &Runpin_amb
+                })
+                me&ha,R,g,{},a
+                me&dome_traction,R,g.dome
+            }
+            
+            # re-print all errors rememebered (per S)
+            $ers = me&ja,R,'er,Bang',1
+            ers and me&erscap,ers
+        }
+        # per RunGo,i
+        me.RunA = &acgtRWgc{
+            $V = G&Aye:'Run:'+W.t+' .'+g.i
+            V.Run = R
+            # test harness
+            me&RunA_testo,V
+            return V
+        }
+      // Sunpitter
+        # when we have the Go
+        me.Runpin = &acgtRWg{
+            # instruct Sunpit directly now
+            A&Srupto = me.Sunpit
+            A&time = Wc&RunStep
+            A.time = A
             # < these go somewhere, copy %SummerCat some more
             #   to allow -nine to glean a title @Run's latest bunch
             # only do S 1 if time
             # ! dont use R%Ace because of missing 4c&Srupto
             #   strange fact of R-life, so far very little A
-            $plan = "Run "+t+"@"+time
-            $clog = ~>7 Atry: plan, '>0:fail'
-            me&Bangrasp,plan (&{
-                me&way,R,t
-            },&er,c{
-                # er taints the %%Runpin,...
-                conc.er = er
-                #  and the #msgs logline
-                clog && clog.set('fail','ERR: '+erc&s)
-                # keep the latest %%Bang,er... per &Runpin
-                me&ha,R,c,{},{dome}
-                #  which we draw up in &Runpin_amb
-            })
             
-            $now = A&doords[time]
-            conc.title = now.t
+            me&way,R,Wc&Runpin
+            
+            
+            $now = A&doords[A&time]
+            g.title = now.t
             $nums = haks(A&doords)
-            $ti = nums.indexOf(time+'')
+            $ti = nums.indexOf(A&time+'')
             # < &strange?
-            ti < 0 and return me&tc,"no-time:"+time,'B'
+            ti < 0 and return me&tc,"no-time:"+A&time,'B'
             $ni = nums.slice(ti)[1]
             $next = A&doords[ni]
-            next and me&ha,R,{next_Ness_title_clue:next.t,dome}
-            
-            # < notice %%er up there
-            me&ha,R,conc
-            me&dome_traction,R,dome
-        }
-        me.Runpin_amb = &acgtRt{
-            $ers = me&ja,R,'er,Bang',1
-            ers and me&erscap,ers
-        }
-        me.RunA = &acgtc{
-            $name = ''
-            c.time and name += '@'+c.time
-            $V = G&Aye,'Run'+name
-            c.time and V.time = V
-            ex(V.c,c)
-            Vc&Srupto = me.Sunpit
-            me&RunA_testo,V
-            
-            return V
+            next and me&ha,R,{next_Ness_title_clue:next.t,dome:g.dome}
         }
      
      // &Sunpit
