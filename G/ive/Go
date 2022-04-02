@@ -3444,18 +3444,27 @@ me.Sch_Go = &acgt{ return [
         }
         # per RunGo,i
         me.RunA = &acgtRWgc{
-            $V = G&Aye:'Run:'+W.t+' .'+g.i
-            V.Run = R
-            # test harness
-            me&RunA_testo,V
-            return V
+            $Y = G&Aye:'Run:'+W.t+' .'+g.i
+            
+            # the awake above
+            Y.Run = R
+            
+            # Y.time - required for i This
+            #  given by eg &Runpin + &Sunpit
+            
+            # Y.h - test harness
+            me&RunA_testo,Y
+            
+            return Y
         }
       // Sunpitter
         # when we have the Go
         me.Runpin = &acgtRWg{
             # instruct Sunpit directly now
             A&Srupto = me.Sunpit
-            A&time = Wc&RunStep
+            ahk(A.c,'Sunpit','do','i',Wc&RunStep,{})
+            # produces a sense of time for i This
+            # < from anywhere, A.4.6.time to the actuator of our G time
             A.time = A
             # < these go somewhere, copy %SummerCat some more
             #   to allow -nine to glean a title @Run's latest bunch
@@ -3465,7 +3474,7 @@ me.Sch_Go = &acgt{ return [
             
             me&way,R,Wc&Runpin
             
-            
+            return 0
             $now = A&doords[A&time]
             g.title = now.t
             $nums = haks(A&doords)
@@ -3481,28 +3490,44 @@ me.Sch_Go = &acgt{ return [
         # S for an osc pin, bump through segments of the work
         me.Sunpit = &acgtit,talk,params{
             !i && !t and throw "no io"
-            $m =
-            ~>3 Sunpit: dis(cint(i,t)), 'thought was'
             !num(i) and debugger
+            # almost an X/Sunpit/i|t etc
+            $g = A&Sunpit ||= {}
+            # Sunpit/i|t/@d
+            # < trust numbers more?
+            #   tell when they are lies|outoforder with a Sunpit stack
+            $d = ahsk(g,'t',t) || ahk(g,'t',t,{})
+            # < ahk(g,'i',i,d) != d and debugger
+            #   can it monitor sameness?
+            ahk(g,'i',i,d)
+            ex(d,{i,t})
             
-            
-            A&doings ||= {};
-            A&doords ||= {};
-            $l = A&doings[t] ||= {}
-            $ld = A&doords[i] ||= l
-            ld != l and debugger
-            l.num = i
-            l.t = t
-
-            if (A&time && num(i)) {
-                A&time != i and return 0
+            if (num(i) && !g.lob) {
+                # must be requesting it
+                $l = ahsk(g,'do','i',i)
+                !l and return 0
             }
             
             # or until done
-            l.done and return
+            if (d.doing) {
+                # commit
+                delete d.doing
+                # < delta
+                d.done = 1
+                # on to the next S..?
+                return 0
+            }
+            d.done and return
             
-            l.done = 1
+            # begin
+            d.doing = 1
+            ahk(g,['done'],d)
+            # seeks -seven
+            A&time = i
+            
             #~sttalk: ki([s,t,talk,params]);
+            $m =
+            ~>3 Sunpit: dis(cint(i,t))
             return 1
         }
      
