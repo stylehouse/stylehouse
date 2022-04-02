@@ -1327,21 +1327,33 @@ me.Sch_Go = &acgt{ return [
             })
             
             $seeseq = me&GapFinder
+            $laS = null
             row('keep',&Sma{
                 $n = a.n
                 seeseq.have(S)
                 # async once with visit
                 me&tt,"drop" (a.done)
+                laS = S
             })
             
             th('tude',&vma{
                 # < c.* should be brack, for an in-sute per row?
                 $odd = grep(nex({},c,'Fine,nine,This'))
                 hak(odd) and me&tc,dis(odd),'6G'
-                if (hak(seeseq.gaps)) {
-                    me&tt,"+gap" (1) && seeseq.gaps.map(&S{
+                
+                # get the set of steps
+                # < /$Ness in Aip, or so. is now Ness.t =~ /(\d+)$/
+                $allS = map(i => i*1+1, haks(me&iot,Fine,'-Ness'))
+                if (laS && laS < hak(allS)) {
+                    $afters = allS.slice(laS)
+                }
+                $befores = seeseq.gaps
+                $gappy = befores || afters
+                if (gappy && me&tt,"+gap" (1)) {
+                    map(&S{
                         me&sustain,{},{RunStep:S},'k' .ov = 0.4
-                    })
+                    }, uniq(flatten(grep([befores,afters]))))
+                    h.ha("pur:+gapped")
                 }
             })
            
