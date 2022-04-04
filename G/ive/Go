@@ -1135,6 +1135,7 @@ me.Sch_Go = &acgt{ return [
             $Fine = c.Fine
             $nine = c.nine
             $Run = c.Run = h.ar.Run
+            $GoRun = c.GoRun
             
             me&tt,'spaz' () and me&wants,R,"FLopja",Rc&s
             # merges new -seven with its previum,
@@ -1151,7 +1152,7 @@ me.Sch_Go = &acgt{ return [
             ninec&ReNessy = 1
             
             # io Run%time, hoisted from the latest etc
-            $W = c.GoRun && c.GoRun.W
+            $W = GoRun && GoRun.W
             $RunA = W && Wy&RunA
             
             $time = c.time = (RunA && RunAc&time || 0)*1
@@ -1240,7 +1241,7 @@ me.Sch_Go = &acgt{ return [
                 else me&tc,"calm"
             })
             
-           // => RunningStep
+           // RunStep => RunningStep
             # < decide to advance, then see that we do...
             #   is ++time ... time++, becauses, political
             #  < time wanders along the sync: Run ... Fe%%ok
@@ -1301,6 +1302,7 @@ me.Sch_Go = &acgt{ return [
                     me&RunStep_main,R,c,h,a,n
                 }
                         
+           // RunStep attr
                 $looks = ns&looks || 0
                 ns&looks = looks + 1
                 me&tc,'@','6y'
@@ -1313,7 +1315,16 @@ me.Sch_Go = &acgt{ return [
                     ns&obsessed = 1
                 }
                 
-                
+                W && Wc&RunStep == S &&
+                me&boxcap,'GoRun',1 (&{
+                    # GoRun.*
+                    $odd = nex({},GoRun,'W')
+                    me&tc,dis(odd),'6y'
+                    
+                    # GoRun.W.y|c.*
+                    me&tc,dis(W.y),'6G'
+                    me&tc,dis(W.c),'6y'
+                })
                 
                 me&boxcap,'c|a',1 (&{
                     $late = ksaf(n.sc,{aft:'rec',inc:0})
@@ -1326,6 +1337,7 @@ me.Sch_Go = &acgt{ return [
                 })
             })
             
+           // set
             $seeseq = me&GapFinder
             $laS = null
             row('keep',&Sma{
@@ -1338,7 +1350,7 @@ me.Sch_Go = &acgt{ return [
             
             th('tude',&vma{
                 # < c.* should be brack, for an in-sute per row?
-                $odd = grep(nex({},c,'Fine,nine,This'))
+                $odd = grep(nex({},c,'GoRun,Run,Fine,nine,This'))
                 hak(odd) and me&tc,dis(odd),'6G'
                 
                 # get the set of steps
