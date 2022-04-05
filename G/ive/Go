@@ -3505,7 +3505,10 @@ me.Sch_Go = &acgt{ return [
         me.Runpin = &acgtRWg{
             # instruct Sunpit directly now
             A&Srupto = me.Sunpit
-            ahk(A.c,'Sunpit','do','i',Wc&RunStep,{})
+            $g = A&Sunpit ||= {}
+            # W brings intent to do S ...
+            ahk(g,'do','i',Wc&RunStep,{})
+            
             # produces a sense of time for i This
             # < from anywhere, A.4.6.time to the actuator of our G time
             A.time = A
@@ -3517,9 +3520,9 @@ me.Sch_Go = &acgt{ return [
             
             me&way,R,Wc&Runpin
             
-            $N = A&Sunpit.done
+            $N = g.done
             if (hak(N)) {
-                $d = reverse(N)[0]
+                $d = N.slice(-1)[0]
                 # < may be many done
                 g.title = d.t
                 $next = ahsk(A&Sunpit,'i',d.i*1+1)
@@ -3559,6 +3562,7 @@ me.Sch_Go = &acgt{ return [
             
             # or until done
             if (d.doing) {
+                g.active != d and debugger
                 # commit
                 delete d.doing
                 # < delta
@@ -3566,11 +3570,15 @@ me.Sch_Go = &acgt{ return [
                 # on to the next S..?
                 return 0
             }
+            else
+            g.active and debugger
+            
             d.done and return
             
             # begin
             d.doing = 1
             ahk(g,['done'],d)
+            g.active = d
             # seeks -seven
             A&time = i
             
@@ -4287,20 +4295,19 @@ me.Sch_Go = &acgt{ return [
             # A:least has no .up
             A = Wy&Fish ||= fi&Atopleast
             $testo = Wy&testo
-            $init = !A&step
-            # more once &complace()
-            init and fi&Thisplanet,{testo}
-
-            # < -seven time = 1.2 if step=2
-            A&step ||= 0
-            A&step++
-            $com = {}
-            A&step > 1 and com.step = A&step
-            # go inside
-            A&live = 1
-            $done = fi&complace,g.t,{W,A},com
+            
+            # first trip to &Fishliver
+            !A&step and g.init = 1
+            # first &Fishlive per &Fishliver
+            !I.pit and g.soft_init = 1
+            
+            $pit_done = me&Fishpit_maybe,W,I,g
+            # may seek further Fish.S()
+            !pit_done and return
+            $live_done = me&Fishlive_wrapstep,W,I,g
+            
             # modularly
-            me&Fishlive_dohook,(init?'init':'noninit'),W,I,g,V
+            me&Fishlive_dohook,(g.init?'init':'noninit'),W,I,g,V
             
             $aT = {}
             
@@ -4309,19 +4316,67 @@ me.Sch_Go = &acgt{ return [
                 y (A,V,aT)
             }
             
+            live_done()
+            pit_done(aT)
             aT.adj and me&Fishlive_adj,W,I,g,aT.adj; delete aT.adj
             
-            # go outside
-            done()
-            delete A&live
-            # after-Sunpit
-            # give 4+3s
-            $WN = fi&Xsomp,A,{At:1} .map(ax => ax.n)
-            $As = [A,...WN]
-            I.sc = hashkv(As.map(n => [n.t,n]))
-
             # datadumps
             me&Fishlive_dohook,'aft',W,I,g
+        }
+      // &Fishpit knows &Sunpit
+        # < a branch of one big &Sunpit
+        me.Fishpit_maybe = &acgtWIg{
+            if (g.soft_init) {
+                # first Fishpit per Sunpit, any time it happens
+                # download Fishpit state from random stash place
+                I.pit = Wc&Fishpit || {}
+            }
+            # Fishpit time advances
+            $p = I.pit
+            p.step ||= 0
+            p.step++
+            $not = p.begin_step && p.begin_step > p.step
+                || p.abandon
+            not and return
+            return &T{
+                # have completed instructions left
+                delete Wc&Fishpit
+                T.again_later and p.abandon = {begin_step:p.step}
+                T.next_later and p.abandon = {begin_step:p.step+1}
+                if (p.abandon) {
+                    # leave new instructions for next &Fishliver
+                    Wc&Fishpit = p.abandon
+                }
+            }
+        }
+        
+      // f
+        me.Fishlive_wrapstep = &acgtWIg{
+            # < -seven time = 1.2 if step=2
+            A&step ||= 0
+            A&step++
+            $com = {}
+            A&step > 1 and com.step = A&step
+            
+            # go inside
+            A&live = 1
+            
+            if (g.soft_init) {
+                # uplink to current A.h
+                fi&Thisplanet,{testo:Wy&testo}
+            }
+            $done = fi&complace,g.t,{W,A},com
+            
+            return &{
+                # go outside
+                done()
+                delete A&live
+                
+                # give 4+3s
+                $WN = fi&Xsomp,A,{At:1} .map(ax => ax.n)
+                $As = [A,...WN]
+                I.sc = hashkv(As.map(n => [n.t,n]))
+            }
         }
        
       // modularly
