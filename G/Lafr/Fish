@@ -966,6 +966,7 @@ fi.Xios ||= {}
     }
  
  // < Attention
+ 
     =pod
      we 4%todo/e callbacks
       &elvis creates them
@@ -1050,7 +1051,8 @@ fi.Xios ||= {}
             !N and return
             # N=[later+] batched
             # we are resolving one or more waits
-            $com_done = fi&complace,'syncopation',{A}
+            $com_done = 4c&live ? fi&complace,'syncopation',{A}
+                : &{}
             
             # if these &elvis,
             # < as one big+individual B, try-catch
@@ -1072,12 +1074,12 @@ fi.Xios ||= {}
             }
             else {
                 # when &syncopation doesnt lead to an &elvis
-                fi&com,"pool!elvis",{later}
+                4c&live && fi&com,"pool!elvis",{later}
             }
             
             $pts = joint(N)
             # < timings of all (like DevTools Network)
-            fi&com,'re-live:',ex(hashkv(later.t,'x'+hak(N)),{pts})
+            4c&live && fi&com,'re-live:',ex(hashkv(later.t,'x'+hak(N)),{pts})
             com_done('packup')
         }
     }
@@ -2780,6 +2782,7 @@ fi.Xios ||= {}
         # default, same as &me_log anyway:
         s ||= {A}
         $Eit = idint(s)
+        !4c&live and debugger
         # mores is just for our initial -log, not Eight.t
         mores and pex(s,mores)
         
@@ -2851,6 +2854,7 @@ fi.Xios ||= {}
     fi.com = &acgttsc{
         s ||= {}
         c ||= {}
+        !4c&live and debugger
         # any -seven-ish thing collecting D-log
         # < after the climber below?
         #$into = me&Gstaco,'-log'

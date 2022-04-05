@@ -3528,6 +3528,11 @@ me.settleblab = 1
             hy&waits = n
             
         })
+        me&jaa,r,{want_spaceout:1} .map(&n{
+            $q = {via:s}
+            me&ha,R,n,{},q
+            waits.push(n)
+        })
         !waits.length and rs&isbready = 1
     }
  // &Ying_8
@@ -3719,34 +3724,42 @@ me.settleblab = 1
         # < then submit to another round of ^ (Jx doming)
         # the arrays going to &log must be readonly
         
-        # sooners take precedence over any wakers
-        $rem = ''
-        if (sooner.length) {
+        if (me&ja,R,{want_spaceout:1}) {
+            $not_quiet = 1
             momentarily.push(...wakers)
-            wakers = sooner
-            rem = "sooner"
-            hak(momentarily) and rem = "<-sooner"
-            hak(momentarily) and me&log,R,'sooner',{wakers,momentarily}
+            wakers = []
+            ~>2 WANT SPACEOUT:
         }
-        if (!wakers.length) {
-            wakers = momentarily.slice()
-            # < shouldnt happen?
-            hak(wakers) and rem = "()momentarily"
-            momentarily = []
+        else {
+            # sooners take precedence over any wakers
+            $rem = ''
+            if (sooner.length) {
+                momentarily.push(...wakers)
+                wakers = sooner
+                rem = "sooner"
+                hak(momentarily) and rem = "<-sooner"
+                hak(momentarily) and me&log,R,'sooner',{wakers,momentarily}
+            }
+            if (!wakers.length) {
+                wakers = momentarily.slice()
+                # < shouldnt happen?
+                hak(wakers) and rem = "()momentarily"
+                momentarily = []
+            }
+            if (!wakers.length) {
+                wakers = (Ys&momentarilys||[]).pop() || []
+                hak(wakers) and rem = "<-momentarily"
+            }
+
+            # laters give precedence to any wakers
+            !wakers.length and wakers = later; later = []
+            if (!wakers.length) {
+                wakers = (Ys&laters||[]).pop() || [];
+                hak(wakers) and rem = "<-later"
+                hak(wakers) and me&log,R,'later',{wakers}
+            }
+            wakers = uniq(wakers)
         }
-        if (!wakers.length) {
-            wakers = (Ys&momentarilys||[]).pop() || []
-            hak(wakers) and rem = "<-momentarily"
-        }
-        
-        # laters give precedence to any wakers
-        !wakers.length and wakers = later; later = []
-        if (!wakers.length) {
-            wakers = (Ys&laters||[]).pop() || [];
-            hak(wakers) and rem = "<-later"
-            hak(wakers) and me&log,R,'later',{wakers}
-        }
-        wakers = uniq(wakers)
         
    //   are concluded
         if (wakers.length) {
@@ -3795,8 +3808,10 @@ me.settleblab = 1
         }
    
    // and finally ish
-        !wakers.length and wakers.push(... me&quiet_wakers,R )
-        !wakers.length and ~>4 .:
+       if (!not_quiet) {
+            !wakers.length and wakers.push(... me&quiet_wakers,R )
+            !wakers.length and ~>4 .:
+        }
         
         me&Yingate_8,R,{wakers}
         

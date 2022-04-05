@@ -1423,41 +1423,52 @@ S 9 Run async
             # do &elvis as A.4:planet
             $y = &{
                 map(&A{
-                    ~>6 NOW NOW NOW:
                     me&elvis,V.Run,"oh"
                 },[V])
             }
-            G&delay,3,y
+            G&delay,1,y
         }
         
         4s&la = {
             Wc: tex({},W.c),
         }
         # substep
-        if (Wc&i == 1) {
+        if (0 && Wc&i == 1) {
             comeback()
             map(&A{
-                ~>6 expect_comback: V.t, A.t, W.t
+            #    ~>6 expect_comback: V.t, A.t, W.t
+            
             },[V])
+            me&ha,R,{want_spaceout:1}
         }
         
         fi&Xsimp,A,{aya:1,thing:4}
         
         # futuristic new system
-        if (0 && Wc&i == 1) {
+        if (Wc&i == 1) {
             4c&syncserve = &N{
+                grop(N,4s&synco)
+                
                 comeback()
             }
             $kinda = &seconds,str{
                 $ack = fi&syncopating,{Zeeg:'oo'+str} (&s{
-                    debugger
-                    ~>6 bluck: str
                     fi&elvis,{fi:'Agroundofthing',A,N:[s],c:{}}
                 })
-                fi&yl,seconds (&{ ack(str) })
+                fi&yl,seconds (&{
+                    ack(str)
+                })
             }
-            kinda(0.1,'rotation')
+            kinda(0.3,'rotation')
             kinda(0.1,'spin')
+            
+            # we expect more after 4%synco
+            #  then that turns into 4%syncs when -> &syncserve
+            if (hak(4s&synco)) {
+                # < creating a view of synco to timeout,
+                #    telling Gnome about what timed out
+                me&ha,R,{want_spaceout:1}
+            }
         }
     })
     h.hat('thing',['_','n','_'])
