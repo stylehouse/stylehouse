@@ -3478,7 +3478,9 @@
                     ac(d,'chaComp',L)
                     # pull until we uncover a same, continue as
                     l = Comp[++upto]
+                    !l and return
                     l = skipgone(l) || l
+                    !l and return
                     # dedupes (see this line in while(l) below)
                     l.t != 'same' and ac(d,'chaComp',l)
                     # line-splitting not near folds
@@ -3486,6 +3488,7 @@
                     return l
                 }
                 l = skipgone(l) || l
+                !l and d.offtape = 1; return me&tc,"skipgone-off","b"
                 
                 # everything we visit should be open, may %moren
                 ls&ope == '1' and 'ok'
