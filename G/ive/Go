@@ -4412,6 +4412,15 @@ me.Sch_Go = &acgt{ return [
             A.5 = V.5
         }
         
+        me.Fishlive_aft_mute_synco = &acgtWIg{
+            $N = [
+                # one desire to close off boring stuff
+                {Ri:'limit:sens,toomuch',
+                # multiplied over all points it should occur
+                N:['%synco']}
+            ]
+            me&Fishlive_adj,W,I,g,N
+        }
         
         # datadump I.sc/$A(.3|4)
         me.Fishlive_aft_hat43 = &acgtWIg{
@@ -4555,8 +4564,7 @@ me.Sch_Go = &acgt{ return [
                 M.push(...grep(tx => !tx.nested, aq.TX))
             }, N)
             !hak(M) and return
-            
-            ahk(g,'aftc','adj',M)
+            M.map(tx => ahk(g,['aftc'],'adj',tx))
         }
         me.Fishlive_adj_tx = &acgtl{
             # become l/tx
@@ -4604,7 +4612,6 @@ me.Sch_Go = &acgt{ return [
             $up = Ey&up
             $ube = me.cbu(E,e=>ec&top)
             $bit = slant(me.cby(E,e => e == ube))
-            ube.y.up.t != 'takes a change' and return
           // get in
             if (E == ube) {
                 # E adopts sc&adj
