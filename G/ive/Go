@@ -4296,7 +4296,7 @@ me.Sch_Go = &acgt{ return [
             # a type of A** lifetiming is going on, see Fish&A / &At
             # A:least has no .up
             A = Wy&Fish ||= fi&Atopleast
-            $testo = Wy&testo
+            ex(I,{V,A})
             
             # first trip to &Fishliver
             !A&step and g.init = 1
@@ -4306,21 +4306,23 @@ me.Sch_Go = &acgt{ return [
             $pit_done = me&Fishpit_maybe,W,I,g
             # may seek further Fish.S()
             !pit_done and return
+            # A&step++, A&live=1, &complace
             $live_done = me&Fishlive_wrapstep,W,I,g
             
             # modularly
-            me&Fishlive_dohook,(g.init?'init':'noninit'),W,I,g,V
+            me&Fishlive_dohook,(g.init?'init':'noninit'),W,I,g
             
-            $aT = {}
-            
+            # < T session. uplink what we dont understand?
+            $T = {}
             # main(), sunpit, the ways
             each iy g.y {
-                y (A,V,aT)
+                y (A,V,T)
             }
             
             live_done()
-            pit_done(aT)
-            aT.adj and me&Fishlive_adj,W,I,g,aT.adj; delete aT.adj
+            me&Fishlive_dohook,'post',W,I,g
+            pit_done(T)
+            T.adj and me&Fishlive_adj,W,I,g,T.adj; delete T.adj
             
             # datadumps
             me&Fishlive_dohook,'aft',W,I,g
@@ -4352,7 +4354,6 @@ me.Sch_Go = &acgt{ return [
             }
         }
         
-      // f
         me.Fishlive_wrapstep = &acgtWIg{
             # < -seven time = 1.2 if step=2
             A&step ||= 0
@@ -4382,7 +4383,8 @@ me.Sch_Go = &acgt{ return [
         }
        
       // modularly
-       // f, usu
+       // f, usu, test
+        # dispatch a hook on I.c.$t
         me.Fishlive_dohook = &acgttWIgV{
             $args = [...arguments].slice(5)
             each ik I.c[t] {
@@ -4397,8 +4399,49 @@ me.Sch_Go = &acgt{ return [
             # for the &Athinger elvising handler to work in
             A&thinger = fi&Atsomewhere,A,'loading'
         }
+        # A.5 can be needed for G&h within
+        me.Fishlive_init_givefive = &acgtWIgV{
+            $V = I.V
+            A.5 = V.5
+        }
+        # datadump I.sc/$A(.3|4)
+        me.Fishlive_aft_hat43 = &acgtWIg{
+            $sipA = hashkv(havs(I.sc).map(n => [nc&sip,n]))
+            Wy&testo.hat(g.t,sipA)
+        }
+        me.Fishlive_aft_AXV = &acgtWIg{
+            $c = pex(g.aftc||{},'nl:500')
+            Wy&testo.tys(g.t,'AXV',A,c)
+        }
         
+      // real time via R:Run
+        # inside time can be go back to via R:Run,
+        #  as long as GoRun left Wc&iv++
+        me.Fishlive_init_Runin = &acgtWIg{
+            ahk(I,['c'],'post','spaceout')
+            4c&syncserve = &N{
+                $V = Wy&RunA
+                # all is ready
+                # < note that the next et:oh, etc
+                Wc&iv += 1
+                map(&A{
+                    me&elvis,V.Run,"oh"
+                },[V])
+            }
+        }
+        # we expect more after 4%synco
+        #  then that turns into 4%syncs when -> &syncserve
+        me.Fishlive_post_spaceout = &acgtWIg{
+            if (hak(4s&synco)) {
+                $V = Wy&RunA
+                # < creating a view of synco to timeout,
+                #    telling Gnome about what timed out
+                me&ha,V.Run,{want_spaceout:1}
+                T.again_later = 1
+            }
+        }
         
+      // semi-notime: nofetch, mute_synco
         # &fetch can be pre-loaded
         me.Fishlive_init_nofetch = &acgtWIg{
             A&fetchserve = &tcy{
@@ -4407,11 +4450,9 @@ me.Sch_Go = &acgt{ return [
                 y (s,{})
             }
         }
-        # A.5 can be needed for G&h within
-        me.Fishlive_init_givefive = &acgtWIgV{
-            A.5 = V.5
-        }
         
+        # avoid the timestampey, non-todo-pending bits
+        # < %synco/* ?
         me.Fishlive_aft_mute_synco = &acgtWIg{
             $N = [
                 # one desire to close off boring stuff
@@ -4422,15 +4463,6 @@ me.Sch_Go = &acgt{ return [
             me&Fishlive_adj,W,I,g,N
         }
         
-        # datadump I.sc/$A(.3|4)
-        me.Fishlive_aft_hat43 = &acgtWIg{
-            $sipA = hashkv(havs(I.sc).map(n => [nc&sip,n]))
-            Wy&testo.hat(g.t,sipA)
-        }
-        me.Fishlive_aft_AXV = &acgtWIg{
-            $c = pex(g.aftc||{},'nl:500')
-            Wy&testo.tys(g.t,'AXV',A,c)
-        }
        
       // notime, &*serve()
         # A.4 protocols for never going async
