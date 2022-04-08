@@ -4458,7 +4458,7 @@ me.Sch_Go = &acgt{ return [
                 # one desire to close off boring stuff
                 {Ri:'limit:sens,toomuch',
                 # multiplied over all points it should occur
-                N:['%synco']}
+                N:['%synco/*']}
             ]
             me&Fishlive_adj,W,I,g,N
         }
@@ -4565,7 +4565,7 @@ me.Sch_Go = &acgt{ return [
             I.tick()
         }
         
-    // adj ~~ %TX traveling pattern matching
+   // adj ~~ %TX traveling pattern matching
         # pseudo-&TXilay (which is pseudo i The)
         #  quickly mute parts of the data dump aft Fishlive
         #  matches at any depth better than %TX now?
@@ -4669,7 +4669,8 @@ me.Sch_Go = &acgt{ return [
                     $prog = me&oX_s,pro,tx,0,'match'
                     prog && prog.thusfar and i = prog.thusfar
                 }
-                return tx.path[i] == E.t
+                return tx.path[i] == '*'
+                    || tx.path[i] == E.t
             }
             
             # matches from the top
