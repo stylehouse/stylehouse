@@ -129,8 +129,11 @@
             isst(y) and $k = y; y = j => j.sc[k]
             N.map(j => me&X_s,X,y(j),j )
             X.ss ||= []
-            $order = c.sort ? X.ss.slice().sort()
-                .map(s => X.ss.indexOf(s))
+            $order = c.sort ?
+                (c.num ? vsortz(X.ss.slice(),n=>n)
+                    : X.ss.slice().sort()
+                )
+                    .map(s => X.ss.indexOf(s))
                 :
                 haks(X.s)
             $M = order.map(i => X.s [i] .z)
