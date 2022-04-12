@@ -1276,6 +1276,8 @@ fi.Xios ||= {}
    
    // &Ath front ^^4/$of...
     fi.Ath = &acgtAscq{
+        fatal.isA(A)
+        fatal.ish(s,'$oft')
         c ||= {}
         q ||= {}
         $a = fi&wantbelieve,A,s,c,q
@@ -1345,7 +1347,7 @@ fi.Xios ||= {}
     #  &oftserve finally elvises P:Q to &Athinger
     #   it will be async at least up to Fish@8
     #    which may keep %todo-ing (&elvising) in one A:Run sync
-    fi.isAthinger = &acgt{
+    fi.oftserve_Athinger = &acgt{
         # try get something
         A&oftserve = &scqd{
             # is &Ath,s,c,q after d climb
@@ -1744,17 +1746,20 @@ fi.Xios ||= {}
         fi&elvis,{fi:'Aredo',V,N:M,c:{}}
     }
     
+   // Aredo -> Alv
     # when to wake what, given lv c&n=A:least s&QN=[Q+]
     fi.Aredo = &acgtVNc{
         N.map(&lv,{
             $Y = lvc&n
             Yc&main and fi&elvis,{fi:'Alv',Y,N:[lv],c:{}}
+            elsif (A&thinger == Y) {
+                fi&com,"okay,no-main:",{Y}
+            }
             else {
                 throw "how else to wake A", Y, lv
             }
         })
     }
-    
     # A&main can &Alv
     fi.Alv = &acgtVNc{
         N.map(&lv,{
@@ -1764,6 +1769,50 @@ fi.Xios ||= {}
             $y = Yc&main
             y(Y,lv)
         })
+    }
+   // $Am = &YA,t (&{...}), a J that Alv, given main routine
+    # first sketched in Fus@8
+    fi.YA = &acgtt{
+        fatal.iske(t)
+        return &y{
+            $Y = fi&Atsomewhere,A,t
+            !Y.3 and Y.3 = Y
+            Yc&main = &A,lv{
+                # A&X new
+                A&ipi and fi&AXVtime
+                fi&com,"IntoMina"
+                y (A,lv)
+            }
+            Yc&join = &A{
+                $n = Cye([Y.t,1])
+                fi&elvis,{fi:'Alv',Y,N:[n],c:{}}
+            }
+            return Y
+        }
+    }
+    # winding up
+    fi.YAing = &acgtY{
+        Y ||= A
+        # creates elvises to joinable /$At
+        fi&joinjoinableAt,Y
+        # does everything
+        # < may leash (a stiffer  Wc&iv) round trips to &elvising
+        #    ~~ Det-gate
+        fi&elvis_leaving
+    }
+    fi.joinjoinableAt = &acgtY{
+        map(y => y && y (A),
+            Y => Yc&join,
+            a => a.n,
+            fi&Xsomp,Y,{At:1})
+    }
+    fi.elvis_leaving = &acgt{
+        $i = 10
+        while (1) {
+            i-- < 0 and fi&com,"elvis>10",'strange'; return
+            fi&elvising
+            !hak(4s&todo) and return
+        }
     }
    
    // more P doc

@@ -4381,12 +4381,6 @@ me.Sch_Go = &acgt{ return [
             }
         }
         
-        me.Fishlive_init_basica = &acgtWIg{
-            # A&oftserve()
-            fi&isAthinger
-            # for the &Athinger elvising handler to work in
-            A&thinger = fi&Atsomewhere,A,'loading'
-        }
         # A.5 can be needed for G&h within
         me.Fishlive_init_givefive = &acgtWIgV{
             $V = I.V
@@ -4401,12 +4395,27 @@ me.Sch_Go = &acgt{ return [
             $c = pex(g.aftc||{},'nl:500')
             Wy&testo.tys(g.t,'AXV',A,c)
         }
+      // 4&oftserve() and its /A:loading
+        me.Fishlive_init_basica = &acgtWIg{
+            fi&oftserve_Athinger
+            # for the &Athinger elvising handler to work in
+            A&thinger = fi&Atsomewhere,A,'loading'
+        }
         
       // Runin 4&syncserve() -> R:Run waking up
         # outside time can get back in via R:Run
         #  called when all synco are completed and &elvis pends
         me.Fishlive_init_Runin = &acgtWIg{
+            # Athinger etc
+            me&Fishlive_init_basica,W,I,g
+            
+            # wait when 4%synco
+            #  4%todo already loses them while they are idle
+            #   so this is merely for Ying to not -> Gnome etc
             ahk(I,['c'],'post','spaceout')
+            # when callbacks are ready
+            #  a minimum of stuff happens "outside"
+            #   usu &elvis a fuller processing
             4c&syncserve = &N{
                 $V = Wy&RunA
                 # all is ready to run some more:
@@ -4418,9 +4427,8 @@ me.Sch_Go = &acgt{ return [
             }
         }
         # we expect more after 4%synco
-        #  tells Ying to postpone everything its wanting (ie, ->Gnome)
-        #   for a bit of waiting around until:
-        #  then that turns into 4%syncs when -> &syncserve
+        #  tells Ying to wait around until:
+        #  turns into 4%syncs when -> &syncserve
         me.Fishlive_post_spaceout = &acgtWIg{
             if (hak(4s&synco)) {
                 $V = Wy&RunA
