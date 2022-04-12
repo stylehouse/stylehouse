@@ -1564,9 +1564,9 @@ fi.Xios ||= {}
             $Q = Cye([P.t,1])
             ex(Q.c,P.c)
             each kv P.sc {
-                !isob(v) and Q.sc[k] = v
+                # < P%Live on second Amess returns to decode itself
+                !isob(v) || k == 'Live' and Q.sc[k] = v
             }
-            sex(Q.sc,P.sc,'Live')
             Qs&P = P
             fi&elvis,{fi:'Abelieve',A,N:[Q],c:{}}
         }
@@ -1610,6 +1610,7 @@ fi.Xios ||= {}
                     #  possibly with http header 'sc: {json...}'
                     Py&cv = 0.3
                     Ps&string = s
+                    hak(c) and Ps&attr = c
                     fi&elvis,{fi:'Athinger',A,N:[P],c:{}}
                 })
                 # requests usu /$of/$t
@@ -1621,13 +1622,33 @@ fi.Xios ||= {}
             }
         })
     }
+    
     fi.fetch = &acgttcy{
         4c&fetchserve and return 4c&fetchserve(t,c,y)
-        # < real
-        $s = '3 * 3'
-        $delay = 0.3
-        t[2] == 'r' and delay -= 0.1; s = "yardial"
-        fi&yl,delay (&{ y(s,{}) })
+        $q = {}
+        t.startsWith('ghost') and q.type = 'json'
+        $sc = {}
+        # < c params in
+        fetch(t) .then(&res,{
+            # < should high prio &elvising to parse response?
+            !res.ok and throw "un ok", res
+            $attr = res.headers.get('sc')
+            attr and ex(sc,dej(attr))
+            return q.type == 'json' ? res.json()
+                : res.text()
+        })
+        .then(&s,{
+            if (q.type == 'json') {
+                # one hash, not header+string
+                hak(sc) and debugger
+                # ghost?
+                nex(sc,s,'s')
+                s = s.s
+            }
+            !isst(s) and debugger
+            
+            y(s,sc)
+        })
     }
    
    // -> Abelieve -> Athinging
@@ -1770,6 +1791,7 @@ fi.Xios ||= {}
             y(Y,lv)
         })
     }
+   
    // $Am = &YA,t (&{...}), a J that Alv, given main routine
     # first sketched in Fus@8
     fi.YA = &acgtt{
