@@ -3185,20 +3185,6 @@ me.Sch_Go = &acgt{ return [
         !Rs&GoRun and return me&tc,"!mayRun..."
         
         me&RunGo,R
-        return
-        
-        $t = me&jaa,xc&Pro,'clientWay',1 [0]
-        !t.match(/\w+/) and return me&tc,"!way",'g'
-        $x = me&Jx,R
-        if (x.ro("Run")) {
-            # synth a thing
-            ss&time ||= 0
-            $time = (ss&time*1) + 1
-            !time and debugger
-            me&Runpin,R,t,time
-            # may not make it back
-            ss&time = time
-        }
     },'ift,D'],
     ['PiiRun+Piing',0.293,&acgtRs{
         Rs&Sarndat = me&Sarn,<<'',[R]
@@ -4416,15 +4402,15 @@ me.Sch_Go = &acgt{ return [
             Wy&testo.tys(g.t,'AXV',A,c)
         }
         
-      // real time via R:Run
-        # inside time can be go back to via R:Run,
-        #  as long as GoRun left Wc&iv++
+      // Runin 4&syncserve() -> R:Run waking up
+        # outside time can get back in via R:Run
+        #  called when all synco are completed and &elvis pends
         me.Fishlive_init_Runin = &acgtWIg{
             ahk(I,['c'],'post','spaceout')
             4c&syncserve = &N{
                 $V = Wy&RunA
-                # all is ready
-                # < note that the next et:oh, etc
+                # all is ready to run some more:
+                # < note that the next et:oh, trace e-e properly, etc
                 Wc&iv += 1
                 map(&A{
                     me&elvis,V.Run,"oh"
@@ -4432,6 +4418,8 @@ me.Sch_Go = &acgt{ return [
             }
         }
         # we expect more after 4%synco
+        #  tells Ying to postpone everything its wanting (ie, ->Gnome)
+        #   for a bit of waiting around until:
         #  then that turns into 4%syncs when -> &syncserve
         me.Fishlive_post_spaceout = &acgtWIg{
             if (hak(4s&synco)) {
