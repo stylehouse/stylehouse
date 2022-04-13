@@ -1192,11 +1192,18 @@ fi.Xios ||= {}
     #   errors|more-async cause a traffic jam
     fi.elvising = &acgt{
         $N = a&todo || []
-        # merge same fi,N,c
+        # regroup: merge same fi,N,c
         fi&emergible,N
         # notice new 4%todo
         $done = fi&todowatch
         $began = map(N)
+        
+        # reorder: dont attempt later until all of %todo is such (see Abelieve)
+        $later = grop(e => ec&c && ec&c.later, began)
+        !hak(began) and began = later
+        else
+        hak(later) and fi&com,"Got-laters",{laters:cint(later)}
+        
         began.map(&e{
             # < mergible ec&N amongst c.*+c.c.*-same
             if (ec&fi) {
@@ -1249,6 +1256,7 @@ fi.Xios ||= {}
     fi.elvising_onward = &acgt{
         $i = 10
         while (1) {
+            grap(e => !ec&ready,4s&synco) and fi&com,"synco>elvis"; return
             i-- < 0 and fi&com,"elvis>10"; return
             fi&elvising
             !hak(4s&todo) and return
