@@ -1006,6 +1006,7 @@ fi.Xios ||= {}
         return Gtime()
     }
    
+   # Go ish
    // &syncopation to an async callback that can &elvis -> 4c&syncserve()
     # behalving A.t + s={P}
     #  4%synco/later spool awaiting callbacks
@@ -1214,6 +1215,7 @@ fi.Xios ||= {}
         !hak(N) and fi&com,'8-still'
     }
     # merge ec&N when ec&*, ec&c.*, etc same
+    #  ie, can merge calls but not the lv in N
     fi.emergible = &acgtN{
         $fiz = uniqe(N,{map:n => nc&fi})
         $nonNcc = &c{
@@ -1243,7 +1245,15 @@ fi.Xios ||= {}
         #me&nu,"Fiz",{N,merged}
         grepout(N,merged)
     }
-   
+    # o 4%todo until done
+    fi.elvising_onward = &acgt{
+        $i = 10
+        while (1) {
+            i-- < 0 and fi&com,"elvis>10"; return
+            fi&elvising
+            !hak(4s&todo) and return
+        }
+    }
    
   // Athinger, A/$oft/believe/
     =pod
@@ -1468,7 +1478,7 @@ fi.Xios ||= {}
             fi&Athinger_Posc,P,O,On,q
             On != P and fi&AiQ,A,P,q
             
-            # @1|3 actuate P%*-ing
+            # @1|3|4 actuate P%*-ing
             fi&Athinger_Pact,P,O,On,q
             
             # a clone of P at the end of each time
@@ -1505,8 +1515,6 @@ fi.Xios ||= {}
                 $dige = dig(Ps&string)
                 Ps&dige != null && Ps&dige != dige and debugger
                 Ps&dige = dige
-                # < decode, get wjs script|function?
-                Ps&act ||= 'decode'
             }
         }
     }
@@ -1552,24 +1560,47 @@ fi.Xios ||= {}
             # what was set by an async handler prior to &elvising back here
             $kd = hakd(O.sc,P.sc)
             hak(kd) and fi&com,"OP",{kd}
+            kd.map(k => ahk(q,'ch',k,1))
         }
     }
-    fi.Athinger_Pact = &acgtP,q,{
+    fi.Athinger_Pact = &acgtPO,On,q,{
+        if (Ps&error) {
+            fi&com,"Fail",{er:Ps&er,P}
+            return
+        }
         if (Py&cv == 0.1) {
             fi&elvis,{fi:'Amess',A,N:[P],c:{}}
         }
         elsif (Py&cv == 0.3) {
             q.novers and debugger
-            # -> Q
-            $Q = Cye([P.t,1])
-            ex(Q.c,P.c)
-            each kv P.sc {
-                # < P%Live on second Amess returns to decode itself
-                !isob(v) || k == 'Live' and Q.sc[k] = v
+            if (Ps&act == 'decode') {
+                # < sleep decode for most if dige same...
+                !ahk(q,'ch','dige') and debugger
+                if (Pc&of == 'wjs') {
+                    fi&wjs_provides_dige,P
+                    fi&elvis,{fi:'Ascripttag',A,N:[P],c:{}}
+                    return
+                }
+                Ps&act = 'alright'
             }
-            Qs&P = P
-            fi&elvis,{fi:'Abelieve',A,N:[Q],c:{}}
+            Py&cv = 0.4
         }
+        if (Py&cv == 0.4) {
+            # -> Q
+            fi&believable,P
+        }
+    }
+    # P -> Q -> /believe/...
+    #  and via &Aredo etc -> .../believe/...
+    fi.believable = &acgtP{
+        $Q = Cye([P.t,1])
+        ex(Q.c,P.c)
+        each kv P.sc {
+            # < P%Live on second Amess returns to decode itself
+            !isob(v) || k == 'Live' and Q.sc[k] = v
+        }
+        Qs&P = P
+        fi&elvis,{fi:'Abelieve',A,N:[Q],c:{later:1}}
     }
     
    //   Amess
@@ -1590,7 +1621,6 @@ fi.Xios ||= {}
     =cut
     # < proxy to @Aearch
     # &elvis must be coming back to %Cat sometimes
-    
     fi.Amess = &acgtANc{
         # ! this must not be a for (each) loop, or we ack the same later
         N.map(&P{
@@ -1608,21 +1638,110 @@ fi.Xios ||= {}
                 $back = fi&syncopating,{P} (&sc{
                     # response usu blob of text
                     #  possibly with http header 'sc: {json...}'
-                    Py&cv = 0.3
                     Ps&string = s
                     hak(c) and Ps&attr = c
+                    
+                    Ps&act = 'decode'
+                    Py&cv = 0.3
                     fi&elvis,{fi:'Athinger',A,N:[P],c:{}}
                 })
-                # requests usu /$of/$t
-                #  possibly with http params
-                fi&fetch,slant(Pc&of,Pc&t),{},back
+                $url = fi&Purl,P
+                fi&fetch,url,{},back
             }
             else {
                 debugger
             }
         })
     }
-    
+   // of:wjs being <script>
+    fi.wjs_provides_dige = &acgtP{
+        $at = Ps&attr
+        # we derived from P%string we download:
+        !Ps&dige and debugger
+        #  which includes one big function wrapping all else
+        at.dige == Ps&dige and debugger
+        # see Wud / away() for how the G/*/$t sources are %dige
+        # < to the of:ghost %dige? almost
+        $l = Lin_Lines(Ps&string)
+        l.shift(); l.pop();
+        # is jsbab but not wjs-wrapped
+        $inner = indents('',l)
+        at.dige == dig(inner) and debugger
+        
+        Ps&dige = at.dige
+    }
+    fi.Ascripttag = &acgtANc{
+        N.map(&P{
+            if (!Ps&script) {
+                !Ps&dige and debugger
+                $t = fi&Purl,P
+                fi&com,"add_script",{P,t}
+                $intime = 1
+                $back = fi&syncopating,{P} (&s{
+                    # s = <script> dom
+                    intime and fi&com,"sync-add_script",{P,t}
+                    Ps&script = s
+                    fi&elvis,{fi:'Ascripttag',A,N:[P],c:{}}
+                })
+                fi&add_script,t,back
+                intime = 0
+                return
+            }
+            
+            # one big function wraps each one, with a:
+            # unique name
+            $name = ['w',P.t,Pc&args,Ps&dige].join('__');
+            name = name.replace(/\W+/g,'_');
+            $y = window[name];
+            
+            # which might have trouble
+            $comperr = Ps&script.compile_errors;
+            !y && !comperr and ~>5 <script> not comperring: w.t
+            if (!y) {
+                Ps&error = "nocompile: "+name;
+                fi&com,"!compile",{er:comperr,P,t}
+                ~>5 <script> not compiling: w.t, name
+            }
+            
+            fi&com,"have_script",{P}
+            Ps&script.loaded = 1;
+            Ps&code = y
+            
+            Ps&act = 'alright'
+            Py&cv = 0.4
+            fi&elvis,{fi:'Athinger',A,N:[P],c:{}}
+        })
+    }
+                    
+    # <script> tag
+    fi.add_script = &acgtty{
+        $have = document.body.querySelectorAll('script[src="'+t+'"]')
+        have.length and return y (have[0])
+        $s = document.createElement('script');
+        s.setAttribute('src', '/'+t);
+        s.setAttribute('type', 'text/javascript');
+        y and s.onload = &e{ y (s,e) };
+        y and s.onerror = &e,r,o{ debugger; y (s,e) };
+        document.body.appendChild(s);
+        return s
+    }
+    fi.remove_script = &acgtt{
+        document.body.querySelectorAll('script[src^="'+t+'"]').forEach(n => n.remove())
+    }
+   // &fetch
+    fi.Purl = &acgtP{
+        # requests usu /$of/$t
+        $url = slant(Pc&of,Pc&t)
+        if (Pc&of == 'wjs') {
+            !Pc&args and throw "wjs!args"
+            url += '__'+Pc&args
+            # < ipfs: different versions of dige reachable
+            Ps&dige and url += '__'+Ps&dige
+            # is javascript
+            url += ".js"
+        }
+        return url
+    }
     fi.fetch = &acgttcy{
         4c&fetchserve and return 4c&fetchserve(t,c,y)
         $q = {}
@@ -1836,14 +1955,6 @@ fi.Xios ||= {}
             Y => Yc&join,
             a => a.n,
             fi&Xsomp,Y,{At:1})
-    }
-    fi.elvising_onward = &acgt{
-        $i = 10
-        while (1) {
-            i-- < 0 and fi&com,"elvis>10",'strange'; return
-            fi&elvising
-            !hak(4s&todo) and return
-        }
     }
    
    // more P doc
