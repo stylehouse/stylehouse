@@ -1165,6 +1165,7 @@ me.Sch_Go = &acgt{ return [
             $nine = c.nine
             $Run = c.Run = h.ar.Run
             $GoRun = c.GoRun
+            $W = c.W = GoRun && GoRun.W
             
             me&tt,'spaz' () and me&wants,R,"FLopja",Rc&s
             # merges new -seven with its previum,
@@ -1181,7 +1182,6 @@ me.Sch_Go = &acgt{ return [
             ninec&ReNessy = 1
             
             # io Run%time, hoisted from the latest etc
-            $W = GoRun && GoRun.W
             $RunA = W && Wy&RunA
             
             $time = c.time = (RunA && RunAc&time || 0)*1
@@ -1467,6 +1467,7 @@ me.Sch_Go = &acgt{ return [
         me.RunStep_checkup = &acgtRchan{
             $Fine = c.Fine
             $Run = c.Run
+            $W = c.W
             # not-ok if errors
             $ok = 1
             if (a.ov < 0.8) {
@@ -1494,7 +1495,7 @@ me.Sch_Go = &acgt{ return [
             else {
                 # Fine will have your attention
                 # < keep going, with|after fugue
-                if (c.time < 1) {
+                if (W && !Wc&i) {
                     # Run%time isnt yet anywhere
                     # < sending a Go with particulars
                     #    situation there must match description
@@ -3529,7 +3530,7 @@ me.Sch_Go = &acgt{ return [
             }
             else {
                 # < &strange?
-                ti < 0 and return me&tc,"no-time:"+A&time,'B'
+                throw "Sunpit !time", W
             }
         }
      
