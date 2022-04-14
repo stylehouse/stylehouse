@@ -5,6 +5,7 @@ S 1 fetch ghost
     $c = {init:['givefive','Runin'],aft:['mute_synco','AXV']}
     $Fish = me&Fishliver,c
     
+    # 3 steps because we await &fetch then &add_script
     Fish.S("alittlestep",&AVT{
         $W = Vc&s
         Wc&iv > 3 and return fi&com,"lotsiv",{W}
@@ -13,15 +14,26 @@ S 1 fetch ghost
         }
         
         fi&YA,"Leopardo" (&A{
-            $w = fi&Ath,A,{of:'ghost',t:'Easiness'}
-            #!w and return
+            # what we edit, source, uncompiled
+            $gh = fi&Ath,A,{of:'ghost',t:'Easiness'}
+            # bunch of code in a sub
             $w = fi&Ath,A,{of:'wjs',t:'Easiness',args:'J'}
+            # < of:me: as above
+            #    except we have compiled s/me/this/g
+            #     and stored at $W/1.js
+            #   then we call the function with new a me={}
+            #   then copy a bunch of them together to form a mind
+            #    possibly does patches to individual me.*?
+            # > of:Ijs: &add_script, loadI
+            #    so P%I is to be got, as A.5%I starts everything else
+            #    possibly does patches to individual me.*?
             #!w and return
-            $w = fi&Ath,A,{of:'W',t:'Sleigh'}
-            !w and return
+            $W = fi&Ath,A,{of:'W',t:'Sleigh'}
+            !W and return
             $says = dis(w)
             fi&Xsimp,A,{says},{n:w}
-            fi&com,"Completo",{A}
+            $c = {A, ghosdig:dig(ghs&string), wjsdige:ws&dige}
+            fi&com,"Completo",c
         })
         # see &Ring, Piing
         #fi&YAing
@@ -30,6 +42,18 @@ S 1 fetch ghost
         Wc&iv == 1 and fi&joinjoinableAt,A
         fi&elvising_onward
     })
+    
+    # <<<
+    # mostly:
+    #   new me collation
+    #    me.I_Thing = &{ [mindC+] } for voice:Ring
+    #     and something derived from &Ying
+    #      which for some reason became the name|type of the A.4...
+    #    
+    #   @Search, %ting%Gens W:Thy
+    #   interpret !me.$function errors, suck subs out
+    #   html writer
+    #    should escape a lot of code?
     
     # < electroding between each line, animating the -Difmo...
     # misc:
