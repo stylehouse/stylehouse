@@ -1000,6 +1000,10 @@ me.Sch_Go = &acgt{ return [
             $Run = ar.Run
             $GoRun = ar.GoRun
             !Inc and return ha('pur:!Inc')
+            # want them if they are waiting
+            grep(s => me&za,Aof(s),'waits' , [Inc,Pro,Run])
+                .map(s => ha('pur:waitsym',{pre:s}))
+            
             # e:G seeks here
             4s&sheys_gotoplace = T.ab.y.up
             $F = ar.F
@@ -1110,6 +1114,31 @@ me.Sch_Go = &acgt{ return [
   
   // @Gnome <-> @Run
       
+        
+      // misc f
+        # given have(6), gaps=[1-5]
+        me.GapFinder = &acgt{
+            $i = 1
+            $gaps = []
+            
+            
+            return {
+                gaps,
+                have: &S{
+                    !num(S) and throw "!num", S
+                    # dup?
+                    S == i-1 and return
+                    S < i and debugger
+                    while (i != S) {
+                        gaps.push(i)
+                        i++ > 64 and throw "manysteps"
+                    }
+                    # the S+1
+                    i++
+                },
+            }
+        }
+        
       // RunStep
         # pretty messy organiser of running a list of tests
         #  a Go broker, @Cat is ready for elvising leash
@@ -1640,28 +1669,6 @@ me.Sch_Go = &acgt{ return [
         
         
       // RunStep f
-        # given have(6), gaps=[1-5]
-        me.GapFinder = &acgt{
-            $i = 1
-            $gaps = []
-            
-            
-            return {
-                gaps,
-                have: &S{
-                    !num(S) and throw "!num", S
-                    # dup?
-                    S == i-1 and return
-                    S < i and debugger
-                    while (i != S) {
-                        gaps.push(i)
-                        i++ > 64 and throw "manysteps"
-                    }
-                    # the S+1
-                    i++
-                },
-            }
-        }
         # < need a sequence generator, number ranges in [...new Array(i)]
         me.RunStep_tw_nine_igStep = &acgt,tw,nine{
             $i = 1
