@@ -3188,7 +3188,7 @@ me.Sch_Go = &acgt{ return [
         $x = me&Jx,R
         me&bin,'PiiRunThis'
         
-        !me&ja,xc&Pro,'loaded' and return me&tc,"!Pro..."
+        !me&ja,xc&Pro,'loaded' and return me&wants,R,"!Pro...",xs&Pro
         Rs&GoRun = theone( me&jaa,R,'mayRun',1 )
         !Rs&GoRun and return me&tc,"!mayRun..."
         
@@ -3435,7 +3435,6 @@ me.Sch_Go = &acgt{ return [
             # how we got here
             $e = me&Dtunneling,R
             (e) and a.et = e.t
-            
             # < and what now, is it %synco?
             
             # sometimes %%RunGo
@@ -3446,8 +3445,11 @@ me.Sch_Go = &acgt{ return [
                 me&tc,"Run-ig:"+dis(a),'d'
             }
             else {
+                # have a try
+                Wy&current_Run_elvis = e
+                
                 $g = ex({RunGo:W},a)
-                # each S, per time in here
+                # each S reset when tried (per time in here)
                 #  and things emit, eg %%Bang,er
                 g.dome = 'RunGo/'+Wc&RunStep
                 g.i = Wc&i += 1
@@ -4357,7 +4359,7 @@ me.Sch_Go = &acgt{ return [
             $com = {}
             A&step > 1 and com.step = A&step
             
-            # go inside
+            # A.4 go inside
             A&live = 1
             
             if (g.soft_init) {
@@ -4405,6 +4407,7 @@ me.Sch_Go = &acgt{ return [
             $c = pex(g.aftc||{},'nl:500')
             Wy&testo.tys(g.t,'AXV',A,c)
         }
+        
       // 4&oftserve() and its /A:loading
         me.Fishlive_init_basica = &acgtWIg{
             fi&oftserve_Athinger
