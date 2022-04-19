@@ -84,19 +84,11 @@ S 2 complanet in syncopation
                 }
                 fi&com,'hadtosay',{things}
                 
-                # < just out here
-                #   and at the end of &syncopation,
-                #    still being 4c&live, request next frame?
-                #fi&com,'hadtosay',{things}
-                
                 # change state of things
                 things.also = 2
                 
                 # 4%todo++ leads to next frame
                 fi&Yjoin,A,'latchmo'
-                map(&A{
-        #        ~>0 want back in:
-                },[A.5])
             })
         }
         else {
@@ -109,9 +101,12 @@ S 2 complanet in syncopation
         # <   and Fish.S(&AWVT{ V.tys })
         #   then we may need to adjust &t to find A.5.4 if A.5.4!=.4
         if (Wc&i == 3) {
-            $ec = ex({},Wy&current_Run_elvis.c)
-            delete ec.wake
-            h.hat('re-sync e:Run',ec,{dl:2})
+            # now slightly obfuscated, since syncserve() while live
+            #  leads to ^^%JRom%elvoids += e to pack (treeing)
+            #$ec = ex({},Wy&current_Run_elvis.c)
+            #delete ec.wake
+            $N = me&through_packs,Wy&current_Run_elvis
+            h.hat('re-sync e:Run',N,{dl:2})
         }
     })
     Fish.S("look again",&AWVT{
