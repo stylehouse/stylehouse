@@ -1007,7 +1007,8 @@ fi.Xios ||= {}
     }
    
    # Go ish
-   // &syncopation to an async callback that can &elvis -> 4c&syncserve()
+   // &syncopation
+    # to an async callback that can &elvis -> 4c&syncserve()
     # behalving A.t + s={P}
     #  4%synco/later spool awaiting callbacks
     #   and doing the callback async,
@@ -1054,9 +1055,15 @@ fi.Xios ||= {}
             !N and return
             # N=[later+] batched
             # we are resolving one or more waits
-            $com_done = 4c&live ? fi&complace,'syncopation',{A}
-                : &{}
-            
+            #  if they emit &elvis, we will want Attention
+            $is_async = !4c&live
+            # < this A is not reliable? is now N/laterc&n=A*
+            #   anyway we will ignore it if we have to &e_GoRun
+            #    as instead of &complace,'syncopation'
+            #     it shall &Fishlive g.t='syncopation'
+            #  < remove references to $later below
+        fi&complacement,'syncopation',{A} (&{
+                
             # if these &elvis,
             # < as one big+individual B, try-catch
             #  < going into Atime just to go into Atime
@@ -1073,17 +1080,44 @@ fi.Xios ||= {}
                 # or eg &Fishlive being sync
                 #  it can simply Fish.S(...) for more Attention
                 #  we are in mock-async &yl there right now
-                !4c&live and 4c&syncserve(M)
+                is_async and 4c&syncserve(M)
             }
             else {
                 # when &syncopation doesnt lead to an &elvis
-                4c&live && fi&com,"pool!elvis",{later}
+                fi&com,"pool!elvis",{later}
             }
             
             $pts = joint(N)
             # < timings of all (like DevTools Network)
-            4c&live && fi&com,'re-live:',ex(hashkv(later.t,'x'+hak(N)),{pts})
-            com_done('packup')
+            fi&com,'re-live:',ex(hashkv(later.t,'x'+hak(N)),{pts})
+        })
+        }
+    }
+    # given &com-using callback y to do
+    #  wrapped in &e_GoRun if if we are outside
+    fi.complacement = &acgttsc{
+        return &y{
+            if (!4c&live) {
+                # we are outside|async|not-awake
+                # so slight-wake Run with GoPara
+                $yc = {t,do:&AWVT{
+                    # in particular, &Thisplanet can i This
+                    #  and has already opened a &complace at A.4
+                    #  < taking &complacement s,c for it
+                    #    elvis could potentially bring anything to ...
+                    y (A,W,V,T)
+                }}
+                fi&e_GoRun,'outin',yc
+            }
+            else {
+                # we are inside, so make a complace:
+                $done = fi&complace,t,s,c
+                y ()
+                # < the complace above doesnt packup
+                #   the idea of that is not well rounded
+                #    supposing one complace per A?
+                done('packup')
+            }
         }
     }
    // synco f
@@ -3246,7 +3280,6 @@ fi.Xios ||= {}
     }
     
   // test
-  
     fi.test_Yingong = &acgtYJs,ar{
         # the C persists, until Jproto el2 it: tog:'!'
         $theC = C
