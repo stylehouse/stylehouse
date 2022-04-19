@@ -3436,6 +3436,13 @@ me.Sch_Go = &acgt{ return [
             $e = me&Dtunneling,R
             (e) and a.et = e.t
             # < and what now, is it %synco?
+            if (ec&GoPara) {
+                # ticket to ride
+                #  usu a callback to have in a Fishlive
+                #   instead of doing any Fishpits
+                Wc&GoPara = ec&GoPara
+                Wc&iv += 1
+            }
             
             # sometimes %%RunGo
             Wc&i ||= 0
@@ -3519,6 +3526,9 @@ me.Sch_Go = &acgt{ return [
             #   strange fact of R-life, so far very little A
             
             me&way,R,Wc&Runpin
+            
+            # this should be taken off when Fish.S() is found for it
+            Wc&GoPara and debugger
             
             $N = g.done
             if (hak(N)) {
@@ -4304,10 +4314,26 @@ me.Sch_Go = &acgt{ return [
             $pit_done = me&Fishpit_maybe,W,I,g
             # may seek further Fish.S()
             !pit_done and return
+            if (Wc&GoPara) {
+                # an elvis-serving Run time
+                #  just does a callback, "inside" (so &com i This works)
+                # we seek the S the async will eventuate
+                #  ie keep Wc&Fishpit pending
+                !Wc&Fishpit and debugger
+                # ie, do this handler in A.4, including the Fishlive parts
+                $pa = Wc&GoPara
+                # our &complace name
+                # < as a parallel -Eight to the &syncopation
+                #    ie all times when GoPara > times syncopating
+                g.t = "GoPara: "+pa.t
+                pa.do and g.y = [pa.do]
+                else debugger
+                # < not quite a 4&step++
+            }
             # A&step++, A&live=1, &complace
             $live_done = me&Fishlive_wrapstep,W,I,g
             
-            # modularly
+            # modularly!
             me&Fishlive_dohook,(g.init?'init':'noninit'),W,I,g
             
             # < T session. uplink what we dont understand?
@@ -4317,7 +4343,18 @@ me.Sch_Go = &acgt{ return [
                 y (A,W,V,T)
             }
             
+            Wc&GoPara and fi&com,"DePara",{nextpit:Wc&Fishpit}
             live_done()
+            if (Wc&GoPara) {
+                # stop doing this callback
+                delete Wc&GoPara
+                # and on with whatever was pending..?
+                !Wc&Fishpit and debugger
+                # instead of having any T.again_later
+                # or datadumps
+                return
+            }
+            
             me&Fishlive_dohook,'post',W,I,g
             pit_done(T)
             T.adj and me&Fishlive_adj,W,I,g,T.adj; delete T.adj
@@ -4331,7 +4368,7 @@ me.Sch_Go = &acgt{ return [
             if (g.soft_init) {
                 # first Fishpit per Sunpit, any time it happens
                 # download Fishpit state from random stash place
-                I.pit = Wc&Fishpit || {}
+                I.pit = ex({},Wc&Fishpit||{})
             }
             # Fishpit time advances
             $p = I.pit
@@ -4340,6 +4377,12 @@ me.Sch_Go = &acgt{ return [
             $not = p.begin_step && p.begin_step > p.step
                 || p.abandon
             not and return
+            if (Wc&GoPara) {
+                # do no more Fish.S() in this GoPara Run
+                p.abandon = 'noop'
+                # doesnt take instructions left
+                return &{}
+            }
             return &T{
                 # have completed instructions left
                 delete Wc&Fishpit
@@ -4392,6 +4435,7 @@ me.Sch_Go = &acgt{ return [
         }
         
         # A.5 can be needed for G&h within
+        me.Fishlive_noninit_givefive =
         me.Fishlive_init_givefive = &acgtWIgV{
             $V = I.V
             A.5 = V
@@ -4435,7 +4479,7 @@ me.Sch_Go = &acgt{ return [
                 # < note that the next et:oh, trace e-e properly, etc
                 Wc&iv += 1
                 map(&A{
-                    me&elvis,V.Run,"oh"
+                    me&elvis,V.Run,"oh",{wake:V.Run,dialsog:333}
                 },[V])
             }
             # keep done synco for one Fishlive aft

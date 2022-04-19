@@ -70,10 +70,27 @@ S 2 complanet in syncopation
         if (Wc&i == 1) {
             sometime("inside")
             fi&yl,0.01 (&y{
+                # notice not being awake
                 sometime("outside")
+                
+                # slight wake Run with GoPara
+                $yc = {t:"outsidesaying",do:&AWVT{
+                    # capturing state of things
+                    fi&com,'hadtosay',{things}
+                }}
+                fi&e_GoRun,'outin',yc
+                
+                # < just out here
+                #   and at the end of &syncopation,
+                #    still being 4c&live, request next frame?
                 #fi&com,'hadtosay',{things}
+                
+                # change state of things
                 things.also = 2
+                
+                # 4%todo++ leads to next frame
                 fi&Yjoin,A,'latchmo'
+                debugger
                 map(&A{
         #        ~>0 want back in:
                 },[A.5])
@@ -89,7 +106,7 @@ S 2 complanet in syncopation
         # V, the A:RunGo Sunpitter!
         # <   and Fish.S(&AWVT{ V.tys })
         #   then we may need to adjust &t to find A.5.4 if A.5.4!=.4
-        if (Wc&i == 2) {
+        if (Wc&i == 3) {
             h.hat('re-sync e:Run',Wy&current_Run_elvis,{dl:2})
         }
     })
