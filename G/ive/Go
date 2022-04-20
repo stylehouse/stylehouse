@@ -1471,13 +1471,15 @@ me.Sch_Go = &acgt{ return [
             # not-ok if errors
             $ok = 1
             if (a.ov < 0.8) {
-                if (a.ov < 0.72) {
-                    # < put in %%RunGo?
-                    # while @Run still has:
-                    $ers = me&ja,Runy&R,'er,Bang',1
-                    # each step remembers errors
-                    ers and a.ers = ers
-                    a.ov = 0.72
+                if (a.ov < 0.72 || 1) {
+                    # find its %%RunGo=W (W=%%GoRun)
+                    $RunGo =  me&zaa,Runy&R,{RunGo:a.GoRun} [0]
+                    if (RunGo) {
+                        a.RunGo = RunGo
+                        # each step remembers errors
+                        RunGos&er and a.ers = [RunGos&er]
+                        a.ov = 0.72
+                    }
                     # < could we do this too early?
                     #   it is a quiet_wake away
                 }
@@ -1585,6 +1587,8 @@ me.Sch_Go = &acgt{ return [
                 Fec&leash and Wc&iv = Fec&leash
             }
             
+            # %%RunStep's ticket to its effects
+            a.GoRun = W
             # reset Pro $W|this S expression
             GoRun.W = W
         }
@@ -4385,7 +4389,7 @@ me.Sch_Go = &acgt{ return [
             if (Wc&GoPara) {
                 # do no more Fish.S() in this GoPara Run
                 # < does it need giving a next step?
-                p.abandon = {begin_step:p.step}
+                p.abandon = 'GoParating'
                 # doesnt take instructions left
                 return &{}
             }
