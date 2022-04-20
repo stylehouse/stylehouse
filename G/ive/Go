@@ -4320,7 +4320,9 @@ me.Sch_Go = &acgt{ return [
                 #  just does a callback, "inside" (so &com i This works)
                 # we seek the S the async will eventuate
                 #  ie keep Wc&Fishpit pending
-                !Wc&Fishpit and debugger
+                !Wc&Fishpit && map(&A{
+                    ~>0 NoFishpit : dis(tex({},I.pit)), Wc&i
+                },[V])
                 # ie, do this handler in A.4, including the Fishlive parts
                 $pa = Wc&GoPara
                 # our &complace name
@@ -4350,7 +4352,7 @@ me.Sch_Go = &acgt{ return [
                 # stop doing this callback
                 delete Wc&GoPara
                 # and on with whatever was pending..?
-                !Wc&Fishpit and debugger
+                #!Wc&Fishpit and debugger
                 # instead of having any T.again_later
                 # < Ying should do nothing next...?
                 #me&ha,V.Run,{want_spaceout:1}
@@ -4382,10 +4384,12 @@ me.Sch_Go = &acgt{ return [
             not and return
             if (Wc&GoPara) {
                 # do no more Fish.S() in this GoPara Run
-                p.abandon = 'noop'
+                # < does it need giving a next step?
+                p.abandon = {begin_step:p.step}
                 # doesnt take instructions left
                 return &{}
             }
+            g.Fishpit_step = p.step
             return &T{
                 # have completed instructions left
                 delete Wc&Fishpit
@@ -4493,7 +4497,7 @@ me.Sch_Go = &acgt{ return [
         #  tells Ying to wait around until:
         #  turns into 4%syncs when -> &syncserve
         me.Fishlive_post_spaceout = &acgtWIg{
-            if (hak(4s&synco)) {
+            if (grap(e => !ec&ready,4s&synco)) {
                 $V = Wy&RunA
                 # < creating a view of synco to timeout,
                 #    telling Gnome about what timed out
