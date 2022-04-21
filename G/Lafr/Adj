@@ -139,6 +139,7 @@ S 3 formula
             #       /$n dupey insert, /$z once
             #   for now, the way these ark is nice:
             i input/n.t /ns&dige $n
+            
             delete T.iocom
             
             # < might sleep here if so far is matching &V
@@ -154,15 +155,16 @@ S 3 formula
                 hs&first_line = lines[hs&line]
             })
             # z/z are the toc?
-            $N = me&ioty,z
             # < what's up with the order?
-            # < producing Lines .t that quotes when /^ /
+            N = vsortz(zs&chunks,h => hs&line)
+            N = grep(h => hs&indent < 3,N)
             N.map(&h{
                 i heads/hs&first_line
             })
             
-            $c = {A,z}
-            fi&com,"Completo",c
+            h.hat("Headings",N,{dl:2})
+            
+            fi&com,"Completo"
         })
         fi&com,"Everyone..."
         Wc&iv == 1 and fi&YAtjoinable,A
