@@ -1083,7 +1083,7 @@
             return c
         }
       
-      // common
+      // common, parse
         me.parserify = &acgts{
             $p = {}
             p.s = s
@@ -1110,16 +1110,20 @@
                 return 1
             }
             # apply a pattern
-            p.a = &regex,y{
+            p.a = &regex,y,c{
+                c = peel(c)
                 $times = 30
                 while (p.p(regex)) {
                     y (...p.m)
                     !times-- and throw "looping"
                     !times and debugger
+                    # dont loop if matching eg /$/
+                    c.noloop and return
                 }
             }
             return p
         }
+        # < move out
         self.hassignar = &sc{
             !isar(s) and throw "!array"
             # String.match() returns a mostly-array
@@ -1308,24 +1312,81 @@
             return thosen
         }
         
-  // 'Fishliveio' N/ax  
-        me.Fishliveio = &acgtscq{
-            return me&Sarg,'Shx',s,c,q
+  // 'Fishliveio' N/ax
+        # use &Fishliveio, the next &Shx
+        me.Fishlivioer = &ACGT{
+            $io = {}
+            # < use &Fishliveio, the next &Shx
+            #   > compiles for each expr+arg variety, like Yingmind
+            # it starts from A&X, so call this from there
+            # < &boxcap in there, emit warnings?
+            T.Sargfail_throw = 1
+            #T.SargfailA = V
+
+            # be inputty|outputty
+            map(&gee,{
+                io[gee] = &tN{
+                    t = gee+' '+t
+
+                    $g = me&Fishliveio,t,map(N)
+
+                    fi&com,"io-i",{t,N,g}
+
+                    return Cye([t,5])
+                }
+            }, ['i','o'])
+            return io
         }
-        
-        me.Sarg_Fishliveio = &acgtpscq{
-            $a = me&paullistify,p,s,c,q
-  
+        # get your expr solved
+        me.Fishliveio = &acgtscq{
+            me.Fishliveio_isn = me.Shx_isn
+            return me&Sarg,'Fishliveio',s,c,q
+        }
+        # adapted via &Sarg
+        me.Sarg_Fishliveio = &acgtpsgq{
+            $a = me&paullistify,p,s,g,q
+            g.X ||= A&X
+            
             # set /$n
             a(/ \$(\w+)$/, &ark,{
-                $n = c.arg.pop()
+                $n = g.arg.pop()
                 p.ist('n',n) and return
-                ahk(c,'tn',ark,n)
-                c.N = [ me&axsimilate,{n} ]
+                ahk(g,'tn',ark,n)
+                g.N = [ me&axsimilate,{n} ]
             })
-            while (!c.fail) {
-                me&fu,"Fishesto:"+c.whole,a
-                break
+            # for eg 'i anything'
+            !hak(g.N) and g.N = [ me&axsimilate,{x:A&X,autoviv:1} ]
+            
+            # columns until /$n is
+            $clutch = {}
+            # goes until it stops consuming expr (dwindling p.s)
+            while (!g.fail) {
+                #g.expr == 'input/$t /$dige $n' and debugger
+                $still = p.s
+                # we may avoid /long/limbs/beyond/rowings
+                !hak(g.N) and return
+                
+                # the separator
+                a(/^\//, &{})
+                # word=1
+                a(/^(\w+)/, &ark,{
+                    clutch[ark] = 1
+                })
+                # name=$given
+                a(/^\$(\w+)/, &ark,{
+                    clutch[ark] = g.arg.pop()
+                })
+                # branch (< leg) delimited by spaces
+                a(/^( |$)/, &{
+                    $s = clutch
+                    clutch = {}
+                    # we make &Xsimp to it, putting /$n, etc
+                    me&Shx_io,g,s,{},q
+                    
+                    # we then go from there (the N/ax.x)
+                    delete g.X
+                },'noloop')
+                p.s == still and break
             }
             
         }
