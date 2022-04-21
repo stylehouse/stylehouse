@@ -121,12 +121,12 @@ S 3 formula
     Fish.S("alittlestep",&AWVT{
         fi&YA,"Leopardo" (&A{
             $io = me&Fishlivioer
+            T.iocom = 1
             # so every A&V we see has some
             i anything
             # what we edit, source, uncompiled
             $gh = fi&Ath,A,{of:'ghost',t:'Fish'}
             !gh and return
-            
             # <<<
             # clone P:Fish to n:Fish
             $n = Cye(gh)
@@ -139,13 +139,29 @@ S 3 formula
             #       /$n dupey insert, /$z once
             #   for now, the way these ark is nice:
             i input/n.t /ns&dige $n
+            delete T.iocom
             
             # < might sleep here if so far is matching &V
             #   does a hard copy, inc the old $n
             #    for all structure we thence introduce
             
+            # turn into chunks
+            $z = Cye([n.t,1])
+            $lines = ns&string.split("\n")
+            me&chunksoflines,z,lines
+            # all of them?
+            me&ioty,zs&chunks .map(&h{
+                hs&first_line = lines[hs&line]
+            })
+            # z/z are the toc?
+            $N = me&ioty,z
+            # < what's up with the order?
+            # < producing Lines .t that quotes when /^ /
+            N.map(&h{
+                i heads/hs&first_line
+            })
             
-            $c = {A,gh}
+            $c = {A,z}
             fi&com,"Completo",c
         })
         fi&com,"Everyone..."
