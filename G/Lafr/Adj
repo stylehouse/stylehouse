@@ -120,6 +120,7 @@ S 3 formula
     $Fish = me&Fishliver,c
     Fish.S("alittlestep",&AWVT{
         fi&YA,"Leopardo" (&A{
+          // get ghost:Fish
             $io = me&Fishlivioer
             T.iocom = 1
             # so every A&V we see has some
@@ -146,46 +147,70 @@ S 3 formula
             #   does a hard copy, inc the old $n
             #    for all structure we thence introduce
             
-            # turn into chunks
+          // turn into chunks
             $z = Cye([n.t,1])
             $lines = ns&string.split("\n")
             me&chunksoflines,z,lines
             # all of them?
-            me&ioty,zs&chunks .map(&h{
-                hs&first_line = lines[hs&line]
-            })
             # z/z are the toc?
             # < what's up with the order?
-            $N = [z,zs&chunks]
-            N = vsortz(zs&chunks,h => hs&line)
-            N = grep(h => hs&indent < 3,N)
-            N.map(&h{
+            $N = [z,...zs&chunks]
+            N = vsortz(N,h => hs&line)
+            
+            # make ch of these chunks
+            # they include the
+            $all = []
+            $stack = []
+            each is N {
+                $ind = ss&indent || 0
+                $up = null
+                if (i > 0) {
+                    ind += 1
+                    while (ind > 0 && !stack[ind-1]) { ind-- }
+                    while (stack[ind]) { stack.pop() }
+                    up = stack[ind-1]
+                }
+                !up && 1*(i||ind) and debugger
+                # new ch
+                $ch = Cye(["ch@"+i,1])
+                ch.sc = tex({},s.sc)
+                up and ac(up,'z',ch)
+                all.push(ch)
+                stack[ind] = ch
+            }
+            $top = all[0]
+            
+            # get their titles
+            all .map(&h{
+                hs&first_line = lines[hs&line]
+            })
+            $some = grep(h => hs&indent < 3,all)
+            some .map(&h{
                 i heads/hs&first_line
             })
             
             h.Womb('Heads', me&abTap,'situa',Cye(['situa',1]) (&{
                 $i = 1
-                N.map(&s{
+                me&indo,top (&sd{
                     me&boxcap,'z**#'+i++,1 (&ml{
                         lc&s = 'o'
-                        ms&ml = ss&indent
+                        ms&ml = d.d
                         
                         $str = ss&first_line
                         $st = me&tc,'string','G'
                         stc&s = str
-                        sts&fs = 18 - Math.min(ss&indent*3,0)
+                        sts&fs = 22 - Math.min(d.d*3,9)
                         
                         me&tc,"length",'x'+ss&lines,'y'
-                        ss&lines < 400 and ss&puny = 1
-                        $p = sy&up
-                        p && ps&puny and m.c.not = ss&puny = 2
+                        ss&lines < 400 and d.nofurther = 1; me&tc,"..."
                         
-                        me&tc,"Indent" .c.s = ss&indent
+                        # < if different?
+                        ss&indent and me&tc,"Indent" .c.s = ss&indent
                         
                     })
                 })
             }))
-            h.hat("Headings",N,{dl:2})
+            h.hat("Headings",some,{dl:2})
             
             fi&com,"Completo"
         })
