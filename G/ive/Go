@@ -3601,6 +3601,40 @@ me.Sch_Go = &acgt{ return [
             ~>3 Sunpit: dis(cint(i,t))
             return 1
         }
+      // genera
+        # S() args, like &mockbrackR c.Again
+        me.arg_itcy = &acgtNc{
+            c = peel(c)
+            # information about a Sunpit.S, that comes from S() args:
+            $g = {}
+            each iv N {
+                if (iske(v)) {
+                    isnu(v) || isip(v) and g.i = v
+                    else g.t = v
+                }
+                elsif (isfu(v)) {
+                    ahk(g,['y'],v)
+                }
+                elsif (isR(v)) {
+                    # b is the previous r
+                    g.b = v
+                }
+                elsif (ish(v)) {
+                    hak(g) and throw "replacing non-empty $g", g
+                    g = v
+                }
+                else {
+                    debugger
+                }
+            }
+            # < throw from the perspective of the caller
+            c.required && haks(peel(c.required)).map(&k{
+                hak(g,k) and return
+                debugger
+                throw "missing arg", k, g
+            })
+            return g
+        }
      
      // &Bangrasp
         # @Run's try...catch
@@ -3935,16 +3969,8 @@ me.Sch_Go = &acgt{ return [
             # and perhaps b and or g||'title'
             c.Again = &{
                 # < safe to iterate?
-                $g = {}
-                each iv arguments {
-                    ish(v) and g = v
-                    # b is the previous r
-                    isR(v) and g.b = v
-                    isfu(v) and ahk(g,['y'],v)
-                    isst(v) and g.t = v
-                }
+                $g = me&arg_itcy,arguments,{required:'y'}
                 c.g = g
-                !g.y and throw "huh"
                 
                 me&mockbrackR_An,c,g
                 
@@ -4263,7 +4289,7 @@ me.Sch_Go = &acgt{ return [
         #   couched in &Yingbal while @Run is running
         # you have a permanent C to hang Cy&Fish on
    // &Fishliver for A:least + &com + ...
-   
+        
         # &Fishliver,t?,c? (t,y+)+
         # Wy&Fish=A:least, the permanent
         # < W that @Pro would give to @Run A:n
@@ -4287,15 +4313,8 @@ me.Sch_Go = &acgt{ return [
             Wy&testo = h
             # give time senses
             $I = {W,c}
-            I.S = &ty{
-                # args like &mockbrackR c.Again
-                $g = {t:"Ascape"}
-                each iv arguments {
-                    isfu(v) and ahk(g,['y'],v)
-                    isst(v) and g.t = v
-                }
-                !g.y and throw "huh"
-                
+            I.S = &itcy{
+                $g = me&arg_itcy,arguments,{required:'t,y'}
                 me&Fishlive,W,I,g
             }
             return I
