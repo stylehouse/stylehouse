@@ -5297,10 +5297,57 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
     ['istri',0.22,&acgtRs{
         me&Epigraph,'in:istri'
-        ss&edge and return
+        $E = Rs&E
+        $D = Rs&D
+        # < Epigraph your depth?
+        $depth = hak(me.cby(R,'^^^istri'))
+        # < GOING dont need to indent a boxcap if E**
+        #ms&ml = d.d
+        Rs&tiny = 1
+        
+       // ch
+        $str = ss&first_line
+        # < title from locode
+        str = str.replace(/^[\s+\/]+/,'')
+        $st = me&tc,'string','G'
+        stc&s = Dc&s = str
+        sts&label = 'title'
+        # < title sizing
+        sts&fs = 33 - Math.min(depth*5,22)
+        
+        Ds&lines = ss&lines
+        me&tc,"length",'x'+ss&lines,'y'
+
+        # < if different?
+        ss&indent and me&tc,"Indent" .c.s = ss&indent
+
+        ss&defines && me&boxcap,'def',2 (&ml{
+            ms&hue = 100
+            each in ss&defines {
+                # < optional &Ei $t if isC(s)?
+                me&Ei,{t:'&'+n,pi:'isdef',s:n}
+            }
+        })
+
+        ss&strange && me&boxcap,'strange' (&ml{
+            map(t => me&tc,"!?!?"+t,'g' , ss&strange)
+        })
+       // ch**
+        ss&edge and return me&tc,"..."
         each in ss&z {
             me&Ei,{t:n.t,s:n}
         }
+    },'ift,D'],
+    ['isdef',0.22,&acgtRs{
+        me&Epigraph
+        $E = Rs&E
+        $D = Rs&D
+        Rs&tiny = 1
+        Rs&inline = 1
+        # < mergible with At
+        me&tc,"&"+s,'G' .sc.label = 'title'
+        # < something mirrors ^ into v
+        Dc&s = "&"+s
     },'ift,D'],
     &{
         me.istr_chunkpile = &acgtnX{
