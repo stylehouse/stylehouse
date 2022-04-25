@@ -148,87 +148,20 @@ S 3 formula
             #    for all structure we thence introduce
           // -istr
             # < proto -is
-            h.tys("istr "+n.t,'istr',n)
+            # < better exporting of X onto the s**
+            #   better yet, i @This...$n-istr/
+            #    then in indent, o all
+            #     here suggesting all i|o Sunpit if indenting?
+            $z = h.tys("istr "+n.t,'istr',n)
+            $istr = zs&X
+            !istr and return
+            $top = istr.all[0]
+            
             
           // pile ch**
-            # are not everything
-            $z = Cye([n.t,1])
-            $lines = ns&string.split("\n")
-            me&chunksoflines,z,lines
-            # all of them?
-            # z/z are the toc?
-            # < what's up with the order?
-            $N = [z,...zs&chunks]
-            N = vsortz(N,h => hs&line)
-            
-            # make ch of these chunks
-            # they include the
-            $all = []
-            $stack = []
-            N .map(&h{
-                hs&first_line = lines[hs&line]
-            })
-            each is N {
-                $ind = ss&indent || 0
-                # "" from a blank line?
-                !ss&first_line and continue
-                $up = null
-                if (i > 0) {
-                    ind += 1
-                    $findind = ind
-                    while (findind > 0 && !stack[findind-1]) { findind-- }
-                    while (hak(stack,findind)) { stack.pop() }
-                    up = stack[findind-1]
-                }
-                !up && 1*(i||ind) and debugger
-                # new ch
-                $ch = Cye(["ch@"+i,1])
-                ch.sc = tex({},s.sc)
-                up and ac(up,'z',ch)
-                all.push(ch)
-                stack[ind] = ch
-            }
-            $top = all[0]
-            # the first one thinks its everything
-            # < and it's twice, or is the top one t=Fish?
-            me&indo,top (&sd{
-                $la = null
-                each in ss&z {
-                    if (la && ns&line < las&toline) {
-                        ac(la,'strange','went all the way to: '+las&toline)
-                        las&toline = ns&line -1
-                    }
-                    la = n
-                }
-            })
-            
-          // bits to know
-            # decide where to fold
-            me&indo,top (&sd{
-                ss&lines < 400 and ss&edge = 1
-            })
-            # route line number to a chunk, stopping at chunk%edge
-            $line_to_ch = &si{
-                $test = s => ss&line <= i && ss&toline >= i
-                !test(s) and debugger
-                ss&edge and return s
-                $better = grep(n => test(n), me&ioty,s )[0]
-                better and return line_to_ch(better,i)
-                return s
-            }
-            
-            $def = /fi\.(\w+) =/
-            $use = /fi&(\w+)\b/
-            each is lines {
-                $m = s.match(def)
-                if (m) {
-                    $ch = line_to_ch(top,i)
-                    ch and ac(ch,'defines',m[1])
-                }
-            }
             
           // write up
-            $some = grep(h => hs&indent < 3,all)
+            $some = grep(h => hs&indent < 3,istr.all)
             some .map(&h{
                 i heads/hs&first_line
             })
