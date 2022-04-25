@@ -146,6 +146,9 @@ S 3 formula
             # < might sleep here if so far is matching &V
             #   does a hard copy, inc the old $n
             #    for all structure we thence introduce
+          // -istr
+            # < proto -is
+            h.tys("istr "+n.t,'istr',n)
             
           // pile ch**
             # are not everything
@@ -186,29 +189,25 @@ S 3 formula
                 stack[ind] = ch
             }
             $top = all[0]
-            
-          // bits to know
-            $some = grep(h => hs&indent < 3,all)
-            some .map(&h{
-                i heads/hs&first_line
-            })
             # the first one thinks its everything
             # < and it's twice, or is the top one t=Fish?
             me&indo,top (&sd{
                 $la = null
                 each in ss&z {
                     if (la && ns&line < las&toline) {
-                        ac(s,'strange','went all the way to: '+las&toline)
+                        ac(la,'strange','went all the way to: '+las&toline)
                         las&toline = ns&line -1
                     }
                     la = n
                 }
             })
+            
+          // bits to know
             # decide where to fold
             me&indo,top (&sd{
                 ss&lines < 400 and ss&edge = 1
             })
-            
+            # route line number to a chunk, stopping at chunk%edge
             $line_to_ch = &si{
                 $test = s => ss&line <= i && ss&toline >= i
                 !test(s) and debugger
@@ -229,6 +228,10 @@ S 3 formula
             }
             
           // write up
+            $some = grep(h => hs&indent < 3,all)
+            some .map(&h{
+                i heads/hs&first_line
+            })
             h.Womb('Heads', me&abTap,'situa',Cye(['situa',1]) (&{
                 $i = 1
                 me&indo,top (&sd{
