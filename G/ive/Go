@@ -3719,6 +3719,8 @@ me.Sch_Go = &acgt{ return [
                 $args = [...arguments]
                 A = Ya
                 A = G&Aye,'-Eight...-six'
+                $time = Vc&time
+                fatal.isip(time)
                 $six = me&legramp,Eight,time+'-seven',...args
                 ac(A,'six',six)
                 return six
@@ -4358,6 +4360,17 @@ me.Sch_Go = &acgt{ return [
                 pa.do and g.y = [pa.do]
                 else debugger
                 # < not quite a 4&step++
+            }
+            if (Wc&Gotime) {
+                fatal.isip(Vc&time)
+                Vc&time = Wc&Gotime
+                fatal.isip(Vc&time)
+                # < transact. could just delete later
+                #    yet we are likely to assign it while 4%live
+                delete Wc&Gotime
+            }
+            if (Wc&Goresetty) {
+                # < &complace drops -Eight/-seven
             }
             # A&step++, A&live=1, &complace
             $live_done = me&Fishlive_wrapstep,W,I,g
