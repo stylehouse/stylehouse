@@ -5306,28 +5306,22 @@ me.Sch_The = &acgt{ return [
         Rs&tiny = 1
         
        // ch
-        $str = ss&first_line
-        # < title from locode
-        str = str.replace(/^[\s+\/]+/,'')
-        $st = me&tc,'string','G'
-        stc&s = Dc&s = str
-        sts&label = 'title'
+        $str = ss&title
+        $st =
+        n string 11 $s:str %label:title,hs:567
         # < title sizing
         sts&fs = 33 - Math.min(depth*5,22)
         
         Ds&lines = ss&lines
         me&tc,"length",'x'+ss&lines,'y'
 
-        # < if different?
-        ss&indent and me&tc,"Indent" .c.s = ss&indent
-
-        ss&defines && me&boxcap,'def',2 (&ml{
-            ms&hue = 100
-            each in ss&defines {
-                # < optional &Ei $t if isC(s)?
-                me&Ei,{t:'&'+n,pi:'isdef',s:n}
-            }
-        })
+        ss&defines and me&Ei,{t:'defs',pi:'isdefs',s:ss&defines}
+        
+        !ss&heading and me&tc,"!!",'b'
+        $c = tex({},s.sc)
+        delete c.first_line
+        me&tc,"sc"+dis(c),'6y'
+        
 
         ss&strange && me&boxcap,'strange' (&ml{
             map(t => me&tc,"!?!?"+t,'g' , ss&strange)
@@ -5338,17 +5332,7 @@ me.Sch_The = &acgt{ return [
             me&Ei,{t:n.t,s:n}
         }
     },'ift,D'],
-    ['isdef',0.22,&acgtRs{
-        me&Epigraph
-        $E = Rs&E
-        $D = Rs&D
-        Rs&tiny = 1
-        Rs&inline = 1
-        # < mergible with At
-        me&tc,"&"+s,'G' .sc.label = 'title'
-        # < something mirrors ^ into v
-        Dc&s = "&"+s
-    },'ift,D'],
+   // X:istr
     &{
         me.istr_chunkpile = &acgtnX{
           // chunkpile
@@ -5394,6 +5378,7 @@ me.Sch_The = &acgt{ return [
                 stack[ind] = ch
             }
             X.top = X.all[0]
+          // massage
             # the first one thinks its everything
             # < and it's twice, or is the top one t=Fish?
             me&indo,X.top (&sd{
@@ -5405,6 +5390,16 @@ me.Sch_The = &acgt{ return [
                     }
                     la = n
                 }
+            })
+            me&indo,X.top (&sd{
+                d.up and sy&up = d.up.s
+                # < shorten title to a concise word or so
+                me&istr_concise_title,s
+            })
+            me&indo,X.top (&sd{
+                !d.up and return
+                $p = d.up.s
+                # < is s.t unique in p/*.t
             })
             
           // bits to know
@@ -5432,7 +5427,43 @@ me.Sch_The = &acgt{ return [
                 }
             }
         }
+        me.istr_concise_title = &acgts{
+            $str = ss&first_line
+            str = str.replace(/^[\s\/]+/,'')
+            str = str.replace(/^(<|=pod) /,'')
+            str = str.replace(/^GOING /,'')
+            $m = str.match(/(\S*\w+\S*)/)
+            !m and str = ss&first_line; me&strange,"!concise_title:"+ss&first_line
+            else {
+                ss&title = m[1]
+                ss&title = ss&title.replace(/[,:]$/,'')
+            }
+        }
     },
+   // -isdef
+    ['isdefs',0.22,&acgtRs{
+        $E = Rs&E
+        $D = Rs&D
+        Rs&tiny = 1
+        s&hue = 40
+        s&dis = 1
+        me&walls,C,'bd:2.2'
+        each in s {
+            # < optional &Ei $t if isC(s)?
+            me&Ei,{t:'&'+n,pi:'isdef',s:n}
+        }
+    },'ift,D'],
+    ['isdef',0.22,&acgtRs{
+        me&Epigraph
+        $E = Rs&E
+        $D = Rs&D
+        Rs&tiny = 1
+        Rs&inline = 1
+        # < mergible with At
+        me&tc,"&"+s,'G' .sc.label = 'title'
+        # < something mirrors ^ into v
+        Dc&s = "&"+s
+    },'ift,D'],
   
   
   // -hat > -Hash etc data divergence @21
