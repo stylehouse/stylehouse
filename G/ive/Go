@@ -1649,7 +1649,7 @@ me.Sch_Go = &acgt{ return [
             $goners = me&Sharg,'$s/*/*',[This] .N
                 .filter(&s{
                     sc&pi != 'seven' and debugger
-                    return s.t == S
+                    isip(s.t) && (s.t+'').split('.') [0] == S and return 1
                 })
             
             # reorder hack, else bottom-posting, see resolve $n
@@ -4368,6 +4368,8 @@ me.Sch_Go = &acgt{ return [
                 # < transact. could just delete later
                 #    yet we are likely to assign it while 4%live
                 delete Wc&Gotime
+                # we must call &Thisplanet to &com to the right time...
+                g.soft_init = 'forGotime'
             }
             if (Wc&Goresetty) {
                 # < &complace drops -Eight/-seven
