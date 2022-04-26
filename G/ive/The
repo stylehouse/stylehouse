@@ -5314,7 +5314,6 @@ me.Sch_The = &acgt{ return [
         
         Ds&lines = ss&lines
         me&tc,"length",'x'+ss&lines,'6y'
-        me&protott,'istrisc' and me&Ei,{t:'sc',pi:'hat',s:s.sc,dl:2}
 
         ss&defines and me&Ei,{t:'defs',pi:'isdefs',s:ss&defines}
         
@@ -5326,6 +5325,10 @@ me.Sch_The = &acgt{ return [
         each in ss&z {
             me&Ei,{t:n.t,s:n}
         }
+    },'ift,D'],
+    ['istri',0.28,&acgtRs{
+        isspace(ss&first_line) and me&strange,"Allspace"
+        Rs&ope and me&Eiing,{t:'sc',pi:'hat',s:s.sc,dl:2}
     },'ift,D'],
    // X:istr
     &{
@@ -5345,36 +5348,37 @@ me.Sch_The = &acgt{ return [
             $N = [z,...zs&chunks]
             N = vsortz(N,h => hs&line)
             
-            # make ch of these chunks
-            # they include the
+            # stack indent for ch** nodes
             X.all = []
             $stack = []
-            N .map(&h{
-                hs&first_line = lines[hs&line]
+            N .map(&s{
+                ss&first_line = lines[ss&line]
             })
             each is N {
                 $ind = ss&indent || 0
                 # "" from a blank line?
                 !ss&first_line and continue
-                $up = null
+                $p = null
                 if (i > 0) {
                     ind += 1
                     $findind = ind
                     while (findind > 0 && !stack[findind-1]) { findind-- }
                     while (hak(stack,findind)) { stack.pop() }
-                    up = stack[findind-1]
+                    p = stack[findind-1]
                 }
-                !up && 1*(i||ind) and debugger
+                !p && 1*(i||ind) and debugger
                 # new ch
                 $ch = Cye(["ch@"+i,1])
                 ch.sc = tex({},s.sc)
-                up and ac(up,'z',ch)
+                p and ac(p,'z',ch)
                 X.all.push(ch)
                 stack[ind] = ch
             }
             X.top = X.all[0]
           // massage
             # decide where to fold
+            # < would need to arrive by ip already
+            #   and then redo if ip changes wrt t its really pointing at
             me&indo,X.top (&sd{
                 ss&lines < 400 and ss&edge = 1
             })
@@ -5385,6 +5389,16 @@ me.Sch_The = &acgt{ return [
                     ss&edge and d.nofurther = 1
                 })
             }
+            tocode(&sd{
+                d.up and sy&up = d.up.s
+            })
+            
+            # " " become transparent
+            # < skipping up in stack, causes trouble?
+            tocode(&sd{
+                isspace(ss&first_line) and me&istr_vanish_node,s
+            })
+            
             # the first one thinks its everything
             # < and it's twice, or is the top one t=Fish?
             tocode(&sd{
@@ -5398,7 +5412,6 @@ me.Sch_The = &acgt{ return [
                 }
             })
             tocode(&sd{
-                d.up and sy&up = d.up.s
                 # < shorten title to a concise word or so
                 me&istr_concise_title,s
             })
@@ -5429,6 +5442,18 @@ me.Sch_The = &acgt{ return [
                 }
             }
         }
+        # hide a sleeving, inners join outers
+        me.istr_vanish_node = &acgts{
+            $p = sy&up
+            !p and debugger; return
+            !ss&z and debugger; return
+            # replace p/s with p/{s/*}
+            me&listin,ps&z,s,ss&z,[s]
+            ss&z .map(s => sy&up = p)
+            # and take out of the flatlist
+            grop([s],A&X.all)
+        }
+        # < sense to being in CODE or POD
         me.istr_concise_title = &acgts{
             $str = ss&first_line
             str = str.replace(/^[\s\/]+/,'')
