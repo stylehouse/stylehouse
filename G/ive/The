@@ -4234,7 +4234,7 @@ me.Sch_The = &acgt{ return [
             Xsc.ope and Xsc.ope += qua.ope||0
             ex(qua,Xsc)
         }
-        hak(qua) and aqs&qua = qua
+        hak(qua) and Es&qua = aqs&qua = qua
         me&Ei,{t:'aq%qua',pi:'hat',s:qua,dl:2,inline:1,noencode:1}
 
         $letswake = 0
@@ -4248,10 +4248,64 @@ me.Sch_The = &acgt{ return [
             $Bat = me.cbu(R,'Bat')
             ac(Bat,'letswake',E)
         }
-        me&tc,"done:"+joint(done)
-
-        #me&Ei,{t:'aq',pi:'hat',s:aq,dl:2}
+        me&tsc,"done-Bet",joint(done)
+       
     },'ift,D'],
+  // -Eel ... adj
+    ['Eel',0.27,&acgtRs{
+        $E = Rs&E
+        if (Rs&ope) {
+            # proto -Lab hoist, code as a bunch of adj tx
+            # Xc + Xsc
+            $adjlet = me&Eelend_adjcode,E
+            $n = me&tc,"adjcode",'6y'
+            nc&s = enj(adjlet)
+            ns&e = 1
+            me&fu,"Stalk",enj(adjlet)
+        }
+    },'ift,D'],
+    &{
+        me.Eelend_adjcode = &acgtE{
+            # the E^^^-Eel
+            $EN = me.cby(E,E => !Ec&Xc && -2)
+            #  are holding c&Xc:cif
+            $Ncif = map(E => Ec&Xc, EN)
+            #   the top one is to -istr
+            #    whereas adj will start there 
+            #    < is a one s//E/e limit
+            Ncif.shift();
+            
+            $adjpath = me&Ncif_adjpath,Ncif
+            
+            $qua = Es&qua || {}
+            
+            $adjlet = ex({},qua,{N:[adjpath]})
+            return adjlet
+        }
+        # convert an array of cif (aka E-Eelc&Xc)
+        me.Ncif_adjpath = &acgtN{
+            # won't break grammar of: stuff/things/etc
+            #  or look like json - starting with any: {["
+            # < code can be: stuff / things complicate / etc
+            #    ending with a t match or regex to line
+            $safe_adjpath = /^[-:%&@=\w]+$/
+            $safe = 1
+            $expr = []
+            each ic N {
+                $ks = joint(haks(c))
+                if (ks == 't') {
+                    fatal.isst(c.t)
+                    $s = ""+c.t
+                    !s.match(safe_adjpath) and safe = 0
+                    expr.push(s)
+                }
+                else {
+                    debugger
+                }
+            }
+            return safe ? expr.join('/') : enj(expr)
+        }
+    },
  
  
   # from -hat                         divergences
@@ -5283,13 +5337,15 @@ me.Sch_The = &acgt{ return [
         me&Epigraph,'in:istri'
         $E = Rs&E
         $D = Rs&D
+        me&adju_matching,E
+        
         $n = s
         # convert to:
         $X = {A:R}
         # on the s**-ball%Piing sphere
         $s = sof(me.cbu(R,'Piing'))
         ss&X = X
-        me&istr_chunkpile,n,X
+        me&istr_chunkpile,n,X,E
         
         me&tsc,"Something"
         me&Ei,{t:n.t,s:X.top}
@@ -5332,7 +5388,7 @@ me.Sch_The = &acgt{ return [
     },'ift,D'],
    // X:istr
     &{
-        me.istr_chunkpile = &acgtnX{
+        me.istr_chunkpile = &acgtnXE{
           // chunkpile
             A = fi&At,"istr_chunkpile"
             A&X = X
@@ -5366,9 +5422,6 @@ me.Sch_The = &acgt{ return [
             # decide where to fold
             # < would need to arrive by ip already
             #   and then redo if ip changes wrt t its really pointing at
-            me&indo,X.top (&sd{
-                ss&lines < 400 and ss&edge = 1
-            })
             # travel ch** wrt fold
             $tocode = &y{
                 me&indo,X.top (&sd{
@@ -5376,6 +5429,19 @@ me.Sch_The = &acgt{ return [
                     ss&edge and d.nofurther = 1
                 })
             }
+            
+            # for s%qua from adj
+            $eins = &sd{
+                # <<<
+            }
+            tocode(&sd{
+                
+                if (d.d == 1) {
+                    $e = 1
+                }
+                ss&lines < 400 and ss&edge = 1
+            })
+            
             tocode(&sd{
                 d.up and sy&up = d.up.s
             })

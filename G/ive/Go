@@ -4672,6 +4672,7 @@ me.Sch_Go = &acgt{ return [
         }
         
    // adj ~~ %TX traveling pattern matching
+      // creation
         # pseudo-&TXilay (which is pseudo i The)
         #  quickly mute parts of the data dump aft Fishlive
         #  matches at any depth better than %TX now?
@@ -4680,18 +4681,28 @@ me.Sch_Go = &acgt{ return [
         #    esp what N/aq/qua|pointers are
         me.Fishlive_adj = &acgtWIgN{
             # N = T.adj = []
+            $adjN = me&adjuN_adjN,N
+            # this will mix g.aftc.adj.*
+            #  may clobber sc&adj, if multiple things set it...
+            #  < non-matching -Bat containers
+            #    tar/get/ing/$topic = tx+
+            adjN.map(tx => ahk(g,['aftc'],'adj',tx))
+        }
+       // compilation
+        me.adjuN_adjN = &acgtN{
             fatal.isar(N)
-            # multiply aq by aq.N=[many pointers]
+            # multiply aq by aq.N=[ma/ny, poi/nt/ers]
             N = flatten(map(&aq,{
                 aq.N and return map(l => ex({},aq,{l}),aq.N)
                 return aq
             },N))
             map(aq => delete aq.N, N)
+            
             $M = []
             map(&aq,{
                 !aq.l and debugger
-                # parse
-                aq.TX = me&Fishlive_adj_tx,aq.l
+                # parse l='t/t/t' into {t:l,path:[t,t,t]}
+                aq.TX = me&adjpath_txN,aq.l
                 
                 # pick a tx to give qua
                 $ta = grep(tx => !tx.negation, reverse(aq.TX))[0]
@@ -4701,10 +4712,9 @@ me.Sch_Go = &acgt{ return [
                 # those exposed to the immediacy
                 M.push(...grep(tx => !tx.nested, aq.TX))
             }, N)
-            !hak(M) and return
-            M.map(tx => ahk(g,['aftc'],'adj',tx))
+            return M
         }
-        me.Fishlive_adj_tx = &acgtl{
+        me.adjpath_txN = &acgtl{
             # become l/tx
             # l eg 'At/is:limini','t/limini','&b',
             #      '&V !^^At/is:reandom'
@@ -4744,27 +4754,10 @@ me.Sch_Go = &acgt{ return [
             }
             return l
         }
-        # pseudo %RXing
-        me.Fishlive_matching = &acgtE{
-            $R = Aof(E)
-            $up = Ey&up
-            $ube = me.cbu(E,e=>ec&top)
-            $bit = slant(me.cby(E,e => e == ube))
-          // get in
-            if (E == ube) {
-                # E adopts sc&adj
-                $s = up.y.ers
-                sc&adj and Ec&adj = map(sc&adj)
-                #me&fu,"adj",Ec&adj
-                # dont start on -AXV
-                return
-            }
-            !ubec&adj and return
-            
-            $r = Aof(up)
-            # matches dribbling down here
-            $pro = rs&adj_progress
-            
+      // matcher
+        # E to match (otherwise not an E)
+        #  ube and pro are the first|last adj|now
+        me.adj_matching = &acgtE,ube,pro{
             # may have pro - knows path solving
             $now = {}
             $matches = &tx,pro,{
@@ -4788,6 +4781,7 @@ me.Sch_Go = &acgt{ return [
             $eve = pro && joint(armap(tx => tx.t,pro.evers),' - ')
             
         // neu/tx that matched
+            # complete matches, may now.done += tx
             neu.map(&tx,{
                 # (above and)? here matching of $tx
                 $prog = me&X_s,now,tx,0,'match'
@@ -4830,7 +4824,35 @@ me.Sch_Go = &acgt{ return [
             #   alsos are pro.doing another round
             map(tx => ahk(now,['doing'],tx), now.alsos)
             # ! either arg to grop() may be null, noop
+            
+            now.neu = neu
+            return now
+        }
         
+      // users
+        # pseudo %RXing
+        #  for an E
+        me.Fishlive_matching = &acgtE{
+            $R = Aof(E)
+            $up = Ey&up
+            $ube = me.cbu(E,e=>ec&top)
+            $bit = slant(me.cby(E,e => e == ube))
+            if (E == ube) {
+                # E adopts sc&adj
+                $s = up.y.ers
+                sc&adj and Ec&adj = map(sc&adj)
+                #me&fu,"adj",Ec&adj
+                # dont start on -AXV
+                return
+            }
+            !ubec&adj and return
+            
+            $r = Aof(up)
+            # matches dribbling down here
+            $pro = rs&adj_progress
+            
+            $now = me&adj_matching,E,ube,pro
+            
         // done/tx.qua
             map(&tx,{
                 $qua = tx.qua
@@ -4841,14 +4863,49 @@ me.Sch_Go = &acgt{ return [
             
             Rs&adj_progress = now
             
-            $say = now.done ? "Done " : (hak(neu) ? "..." : '!')
-            $neusay = spant(neu.map(tx=>tx.t))
+            
+            
+            $say = now.done ? "Done " : (hak(now.neu) ? "..." : '!')
+            $neusay = spant(now.neu.map(tx=>tx.t))
             #!bit.endsWith('more/∫/0/&X') and return
             #!bit.endsWith('more/∫/0/&X/At/is:reandom') and return
             #me&fu,"Well,"+say+neusay,{bit,now,neu,pro,eve,adj}
             
             # done/tx.qua are to give
             return now.done
+        }
+        # Ec&top compiles sc&adju -> Ec&adj
+        me.adju_matching = &acgtE{
+            $p = Ey&up
+            $ube = me.cbu(E,e=>ec&top)
+            if (E == ube) {
+                # E adopts sc&adju
+                $s = p.y.ers
+                # compiles here
+                sc&adju and Ec&adj = me&adjuN_adjN,map(sc&adju)
+                return
+            }
+            !ubec&adj and return
+            
+            # unlike -AXV, progress rides on E**
+            #  just because we may not start R yet?
+            # matches dribbling down here
+            $pro = ps&adj_progress
+            
+            $now = me&adj_matching,E,ube,pro
+            
+            map(&tx,{
+                $qua = tx.qua
+                if (qua) {
+                    map((v,k) => ah(E.sc,'quaching',k,v),qua)
+                }
+            }, now.done)
+            
+            Es&adj_progress = now
+        }
+        #  for an E-istr, before it fully E**
+        me.lvish_matching = &acgtN{
+            
         }
         
     },
