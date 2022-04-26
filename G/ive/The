@@ -5321,7 +5321,7 @@ me.Sch_The = &acgt{ return [
             map(t => me&tc,"!?!?"+t,'g' , ss&strange)
         })
        // ch**
-        ss&edge and return me&tc,"..."
+        ss&edge and return
         each in ss&z {
             me&Ei,{t:n.t,s:n}
         }
@@ -5349,32 +5349,19 @@ me.Sch_The = &acgt{ return [
             N = vsortz(N,h => hs&line)
             
             # stack indent for ch** nodes
-            X.all = []
             $stack = []
             N .map(&s{
                 ss&first_line = lines[ss&line]
             })
-            each is N {
+            $y = &s{
                 $ind = ss&indent || 0
                 # "" from a blank line?
-                !ss&first_line and continue
-                $p = null
-                if (i > 0) {
-                    ind += 1
-                    $findind = ind
-                    while (findind > 0 && !stack[findind-1]) { findind-- }
-                    while (hak(stack,findind)) { stack.pop() }
-                    p = stack[findind-1]
-                }
-                !p && 1*(i||ind) and debugger
-                # new ch
-                $ch = Cye(["ch@"+i,1])
-                ch.sc = tex({},s.sc)
-                p and ac(p,'z',ch)
-                X.all.push(ch)
-                stack[ind] = ch
+                !ss&first_line and return
+                return ind
             }
-            X.top = X.all[0]
+            # sets up X.all=[ch+] and X.top=ch**
+            me&istr_stack_by,N,y
+            
           // massage
             # decide where to fold
             # < would need to arrive by ip already
@@ -5441,6 +5428,34 @@ me.Sch_The = &acgt{ return [
                     ch and ac(ch,'defines',m[1])
                 }
             }
+        }
+        # sets up X.all=[ch+] and X.top=ch**
+        #  from a [s+], text-copy .sc
+        me.istr_stack_by = &acgtNy{
+            A&X.all = []
+            $stack = []
+            each is N {
+                $ind = y (s)
+                ind == null and continue
+                !isnum(ind) and debugger
+                $p = null
+                if (i > 0) {
+                    ind += 1
+                    $findind = ind
+                    while (findind > 0 && !stack[findind-1]) { findind-- }
+                    while (hak(stack,findind)) { stack.pop() }
+                    p = stack[findind-1]
+                }
+                !p && 1*(i||ind) and debugger
+                # new ch
+                $ch = Cye(["ch@"+i,1])
+                # text-copy .sc
+                ch.sc = tex({},s.sc)
+                p and ac(p,'z',ch)
+                A&X.all.push(ch)
+                stack[ind] = ch
+            }
+            A&X.top = A&X.all[0]
         }
         # hide a sleeving, inners join outers
         me.istr_vanish_node = &acgts{
