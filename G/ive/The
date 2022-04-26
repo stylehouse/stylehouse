@@ -5306,23 +5306,18 @@ me.Sch_The = &acgt{ return [
         Rs&tiny = 1
         
        // ch
-        $str = ss&title
+        $str = Dc&s = ss&title
         $st =
         n string 11 $s:str %label:title,hs:567
         # < title sizing
         sts&fs = 33 - Math.min(depth*5,22)
         
         Ds&lines = ss&lines
-        me&tc,"length",'x'+ss&lines,'y'
+        me&tc,"length",'x'+ss&lines,'6y'
+        me&protott,'istrisc' and me&Ei,{t:'sc',pi:'hat',s:s.sc,dl:2}
 
         ss&defines and me&Ei,{t:'defs',pi:'isdefs',s:ss&defines}
         
-        !ss&heading and me&tc,"!!",'b'
-        $c = tex({},s.sc)
-        delete c.first_line
-        me&tc,"sc"+dis(c),'6y'
-        
-
         ss&strange && me&boxcap,'strange' (&ml{
             map(t => me&tc,"!?!?"+t,'g' , ss&strange)
         })
@@ -5379,9 +5374,20 @@ me.Sch_The = &acgt{ return [
             }
             X.top = X.all[0]
           // massage
+            # decide where to fold
+            me&indo,X.top (&sd{
+                ss&lines < 400 and ss&edge = 1
+            })
+            # travel ch** wrt fold
+            $tocode = &y{
+                me&indo,X.top (&sd{
+                    y (s,d)
+                    ss&edge and d.nofurther = 1
+                })
+            }
             # the first one thinks its everything
             # < and it's twice, or is the top one t=Fish?
-            me&indo,X.top (&sd{
+            tocode(&sd{
                 $la = null
                 each in ss&z {
                     if (la && ns&line < las&toline) {
@@ -5391,22 +5397,18 @@ me.Sch_The = &acgt{ return [
                     la = n
                 }
             })
-            me&indo,X.top (&sd{
+            tocode(&sd{
                 d.up and sy&up = d.up.s
                 # < shorten title to a concise word or so
                 me&istr_concise_title,s
             })
-            me&indo,X.top (&sd{
+            tocode(&sd{
                 !d.up and return
                 $p = d.up.s
                 # < is s.t unique in p/*.t
             })
             
           // bits to know
-            # decide where to fold
-            me&indo,X.top (&sd{
-                ss&lines < 400 and ss&edge = 1
-            })
             # route line number to a chunk, stopping at chunk%edge
             $line_to_ch = &si{
                 $test = s => ss&line <= i && ss&toline >= i
@@ -5433,10 +5435,15 @@ me.Sch_The = &acgt{ return [
             str = str.replace(/^(<|=pod) /,'')
             str = str.replace(/^GOING /,'')
             $m = str.match(/(\S*\w+\S*)/)
-            !m and str = ss&first_line; me&strange,"!concise_title:"+ss&first_line
-            else {
+            if (m) {
                 ss&title = m[1]
                 ss&title = ss&title.replace(/[,:]$/,'')
+            }
+            else {
+                str = ss&first_line
+                me&strange,"!concise_title:"+ss&first_line
+                ac(s,'strange',"!concise_title:"+ss&first_line)
+                ss&title = '???'
             }
         }
     },
