@@ -5393,31 +5393,12 @@ me.Sch_The = &acgt{ return [
           // chunkpile
             A = fi&At,"istr_chunkpile"
             A&X = X
-            
-            fatal.isst(ns&string)
-            # are not everything
-            $z = Cye([n.t,1])
-            $lines = ns&string.split("\n")
-            me&chunksoflines,z,lines
-            # all of them?
-            # z/z are the toc?
-            # < what's up with the order?
-            $N = [z,...zs&chunks]
-            N = vsortz(N,h => hs&line)
-            
-            # stack indent for ch** nodes
-            $stack = []
-            N .map(&s{
-                ss&first_line = lines[ss&line]
-            })
-            $y = &s{
-                $ind = ss&indent || 0
-                # "" from a blank line?
-                !ss&first_line and return
-                return ind
-            }
-            # sets up X.all=[ch+] and X.top=ch**
-            me&istr_stack_by,N,y
+            A.3 = A
+            me&Ploy_io
+            # n->z
+            $N = me&istr_chunklist,n
+            # z->s
+            me&istr_stack_by_firstindent,N
             
           // arrive, massage
             # decide where to fold
@@ -5451,7 +5432,6 @@ me.Sch_The = &acgt{ return [
                 me&istr_concise_title,s
                 # which will E**, so names can arrive a bit
                 $txN = me&s_adj_matching,s,adj
-                #txN.map(syn=>2)
                 each i,tx txN {
                     me&fu,"Arrove@"+s.t,tx
                 }
@@ -5483,30 +5463,108 @@ me.Sch_The = &acgt{ return [
                 $test = s => ss&line <= i && ss&toline >= i
                 !test(s) and debugger
                 ss&edge and return s
-                $better = grep(n => test(n), me&ioty,s )[0]
+                # first s/* containing it
+                $better = grep(n => test(n), me&ioty,s ) [0]
                 better and return line_to_ch(better,i)
                 return s
             }
             
             $def = /fi\.(\w+) =/
             $use = /fi&(\w+)\b/
-            each is lines {
-                $m = s.match(def)
+            map(&lin,i{
+                $m = lin.str.match(def)
                 if (m) {
                     $ch = line_to_ch(X.top,i)
                     ch and ac(ch,'defines',m[1])
                 }
+            }, me&soio,'line')
+        }
+      // n -> z**
+        # lighter than &Ploy_io
+        me.soio = &acgtkvc{
+            fatal.iske(k)
+            v == null || fatal.iske(v)
+            $X = A&X
+            if (!c) {
+                # o
+                return v == null ? ahsk(X,k)
+                                 : ahsk(X,k,v)
             }
+            $lin = ahk(X,k,v,{})
+            lin.up = X
+            ex(lin,c)
+            # ~~ lin.i_line, knows what X.*.* it is in
+            lin['s_'+k] = v
+            return lin
+        }
+        # < partial do|redo, eg of just the changing stuff, etc
+        #    n having lv clues
+        me.istr_chunklist = &acgtn{
+            fatal.isst(ns&string)
+            $lines = ns&string.split("\n")
+            
+            each i,str lines {
+                me&soio,'line',i,{str}
+            }
+            
+            # weird interface. was used for codemirror.
+            $z = Cye([n.t,1])
+            me&chunksoflines,z,lines
+            
+            # < what's up with the order?
+            $N = [z,...zs&chunks]
+            N = vsortz(N,z => zs&line)
+            
+            return N
+        }
+      // pile z:chunk** -> s:ch**
+        # new ch
+        me.istr_i_ch = &acgtzip{
+            $s = Cye(["ch@",1])
+            # < could have ip
+            if (p) {
+                ac(p,'z',s)
+                sy&up = p
+            }
+            
+            s.t += A&X.all.push(s)-1
+            return s
+        }
+        # < could this be reused to accumulate flavours? ie sort style
+        me.istr_stack_by_firstindent = &acgtN{
+            # assign the first line, which becomes its title
+            # < much harder than lines[zs&line] ...
+            #    yet i z/%first_line = o /line/(z%line)
+            N .map(&z{
+                $lin = me&soio,'line',zs&line
+                fatal.isha(lin)
+                fatal.isst(lin.str)
+                zs&first_line = lin.str
+            })
+            # stack indent for ch** nodes
+            $y = &z{
+                $ind = zs&indent || 0
+                # convenient time to filter garbage
+                # "" from a blank line?
+                !zs&first_line and return
+                # < change the above to this... Fish / Story / 
+                #!hak(zs&first_line) || isspace(zs&first_line) and return
+                return ind
+            }
+            # sets up X.all=[ch+] and X.top=ch**
+            me&istr_stack_by,N,y
         }
         # sets up X.all=[ch+] and X.top=ch**
-        #  from a [s+], text-copy .sc
+        #  from a [z+], text-copy .sc
         me.istr_stack_by = &acgtNy{
             A&X.all = []
             $stack = []
-            each is N {
-                $ind = y (s)
+            each iz N {
+                # you rate the indent
+                $ind = y (z)
                 ind == null and continue
                 !isnum(ind) and debugger
+                # given to the latest one with less indent
                 $p = null
                 if (i > 0) {
                     ind += 1
@@ -5516,16 +5574,17 @@ me.Sch_The = &acgt{ return [
                     p = stack[findind-1]
                 }
                 !p && 1*(i||ind) and debugger
+                
                 # new ch
-                $ch = Cye(["ch@"+i,1])
+                $s = me&istr_i_ch,z,i,p
                 # text-copy .sc
-                ch.sc = tex({},s.sc)
-                p and ac(p,'z',ch)
-                A&X.all.push(ch)
-                stack[ind] = ch
+                s.sc = tex({},z.sc)
+            
+                stack[ind] = s
             }
             A&X.top = A&X.all[0]
         }
+      // s:ch**
         # hide a sleeving, inners join outers
         me.istr_vanish_node = &acgts{
             $p = sy&up
