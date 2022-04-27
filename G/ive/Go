@@ -4701,7 +4701,7 @@ me.Sch_Go = &acgt{ return [
             $M = []
             map(&aq,{
                 !aq.l and debugger
-                # parse l='t/t/t' into {t:l,path:[t,t,t]}
+                # parse l='t/t/t' into {t:l,path:[t,t,t],negation|ifnot|nested...}
                 aq.TX = me&adjpath_txN,aq.l
                 
                 # pick a tx to give qua
@@ -4716,10 +4716,16 @@ me.Sch_Go = &acgt{ return [
         }
         me.adjpath_txN = &acgtl{
             # become l/tx
-            # l eg 'At/is:limini','t/limini','&b',
+            # l:adjpath eg 'At/is:limini','t/limini','&b',
             #      '&V !^^At/is:reandom'
+            #   if weird chars, &Ncif_adjpath will not string adjpath:
+            #      ['"At"','is:limini'] # coming from -Bat...-Eel
+            #        ^ name inc quotes E:"At". sarcasm? supposition?
             $lex = &l{
-                return {t:l,path:l.split("/")}
+                return {
+                    t: l,
+                    path: isar(l) ? l : l.split("/"),
+                }
             }
             l = map(lex, l.split(' '))
             if (hak(l) > 1) {
@@ -4757,7 +4763,7 @@ me.Sch_Go = &acgt{ return [
       // matcher
         # E to match (otherwise not an E)
         #  ube and pro are the first|last adj|now
-        me.adj_matching = &acgtE,ube,pro{
+        me.adj_matching = &acgtE,adj,pro{
             # may have pro - knows path solving
             $now = {}
             $matches = &tx,pro,{
@@ -4773,7 +4779,7 @@ me.Sch_Go = &acgt{ return [
             }
             
             # matches from the top
-            $adj = map(ubec&adj||[])
+            adj = map(adj||[])
             # and in-progress, passed down
             pro and map(tx => adj.push(tx), pro.doing)
             $neu = grep(tx => matches(tx,pro), uniq(adj))
@@ -4840,18 +4846,17 @@ me.Sch_Go = &acgt{ return [
             if (E == ube) {
                 # E adopts sc&adj
                 $s = up.y.ers
-                sc&adj and Ec&adj = map(sc&adj)
-                #me&fu,"adj",Ec&adj
-                # dont start on -AXV
+                sc&adj and ubey&adj = map(sc&adj)
+                # dont start on eg -AXV
                 return
             }
-            !ubec&adj and return
+            !ubey&adj and return
             
             $r = Aof(up)
             # matches dribbling down here
             $pro = rs&adj_progress
             
-            $now = me&adj_matching,E,ube,pro
+            $now = me&adj_matching,E,ubey&adj,pro
             
         // done/tx.qua
             map(&tx,{
@@ -4875,33 +4880,37 @@ me.Sch_Go = &acgt{ return [
             return now.done
         }
         # Ec&top compiles sc&adju -> Ec&adj
-        me.adju_matching = &acgtE{
+        me.adju_compile = &acgtE{
+            !Ec&top and debugger
             $p = Ey&up
-            $ube = me.cbu(E,e=>ec&top)
-            if (E == ube) {
-                # E adopts sc&adju
-                $s = p.y.ers
-                # compiles here
-                sc&adju and Ec&adj = me&adjuN_adjN,map(sc&adju)
-                return
-            }
-            !ubec&adj and return
+            $s = p.y.ers
+            # compiles here
+            sc&adju and Ey&adj = me&adjuN_adjN,map(sc&adju)
+            # gives to you, incase you work directly with that...
+            return Ey&adj
+        }
+        # an s** joining adj, using sy&adj_progress
+        me.s_adj_matching = &acgts,adj{
+            fatal.isC(s)
+            !adj and return
+            $p = sy&up
             
             # unlike -AXV, progress rides on E**
             #  just because we may not start R yet?
             # matches dribbling down here
-            $pro = ps&adj_progress
+            $pro = p && py&adj_progress
             
-            $now = me&adj_matching,E,ube,pro
+            $now = me&adj_matching,s,adj,pro
+            
+            sy&adj_progress = now
             
             map(&tx,{
                 $qua = tx.qua
                 if (qua) {
-                    map((v,k) => ah(E.sc,'quaching',k,v),qua)
+                    map((v,k) => ahk(s.sc,'quaching',k,v),qua)
                 }
             }, now.done)
-            
-            Es&adj_progress = now
+            return now.done
         }
         #  for an E-istr, before it fully E**
         me.lvish_matching = &acgtN{

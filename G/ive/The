@@ -4284,7 +4284,7 @@ me.Sch_The = &acgt{ return [
         }
         # convert an array of cif (aka E-Eelc&Xc)
         me.Ncif_adjpath = &acgtN{
-            # won't break grammar of: stuff/things/etc
+            # won't break grammar of: stuff/things/etc, ie contain /
             #  or look like json - starting with any: {["
             # < code can be: stuff / things complicate / etc
             #    ending with a t match or regex to line
@@ -4303,7 +4303,7 @@ me.Sch_The = &acgt{ return [
                     debugger
                 }
             }
-            return safe ? expr.join('/') : enj(expr)
+            return safe ? expr.join('/') : expr
         }
     },
  
@@ -5337,7 +5337,6 @@ me.Sch_The = &acgt{ return [
         me&Epigraph,'in:istri'
         $E = Rs&E
         $D = Rs&D
-        me&adju_matching,E
         
         $n = s
         # convert to:
@@ -5357,8 +5356,6 @@ me.Sch_The = &acgt{ return [
         $D = Rs&D
         # < Epigraph your depth?
         $depth = hak(me.cby(R,'^^^istri'))
-        # < GOING dont need to indent a boxcap if E**
-        #ms&ml = d.d
         Rs&tiny = 1
         
        // ch
@@ -5372,6 +5369,8 @@ me.Sch_The = &acgt{ return [
         me&tc,"length",'x'+ss&lines,'6y'
 
         ss&defines and me&Ei,{t:'defs',pi:'isdefs',s:ss&defines}
+        
+        ss&quaching and me&Ei,{t:'quaching',pi:'hat',s:ss&quaching}
         
         ss&strange && me&boxcap,'strange' (&ml{
             map(t => me&tc,"!?!?"+t,'g' , ss&strange)
@@ -5420,8 +5419,6 @@ me.Sch_The = &acgt{ return [
             
           // massage
             # decide where to fold
-            # < would need to arrive by ip already
-            #   and then redo if ip changes wrt t its really pointing at
             # travel ch** wrt fold
             $tocode = &y{
                 me&indo,X.top (&sd{
@@ -5429,28 +5426,33 @@ me.Sch_The = &acgt{ return [
                     ss&edge and d.nofurther = 1
                 })
             }
-            
-            # for s%qua from adj
-            $eins = &sd{
-                # <<<
-            }
-            tocode(&sd{
-                
-                if (d.d == 1) {
-                    $e = 1
-                }
-                ss&lines < 400 and ss&edge = 1
-            })
-            
             tocode(&sd{
                 d.up and sy&up = d.up.s
             })
-            
             # " " become transparent
             # < skipping up in stack, causes trouble?
             tocode(&sd{
+                # dont do this too far in
+                # < knowing where we want to look, and doing it there
+                #    yet doing already makes better path to know about...
+                #  without setting ss&edge yet
+                #   as it will know where we want to look
+                ss&lines < 400 and d.nofurther = 1; return
                 isspace(ss&first_line) and me&istr_vanish_node,s
             })
+            
+            # proto %TX or lv for instruction of pointers
+            $adj = me&adju_compile,E
+            # we have ch** 
+            tocode(&sd{
+                # s%title = s%first_line shortened to a concise word or so
+                me&istr_concise_title,s
+                # which will E**, so names can arrive a bit
+                $txN = me&s_adj_matching,s,adj
+                
+                ss&lines < 400 and ss&edge = 1
+            })
+            
             
             # the first one thinks its everything
             # < and it's twice, or is the top one t=Fish?
@@ -5463,10 +5465,6 @@ me.Sch_The = &acgt{ return [
                     }
                     la = n
                 }
-            })
-            tocode(&sd{
-                # < shorten title to a concise word or so
-                me&istr_concise_title,s
             })
             tocode(&sd{
                 !d.up and return
@@ -5527,7 +5525,9 @@ me.Sch_The = &acgt{ return [
         me.istr_vanish_node = &acgts{
             $p = sy&up
             !p and debugger; return
-            !ss&z and debugger; return
+            # < subtract inner chunk lines
+            #   then is that all spacey|bracket
+            !ss&z and return
             # replace p/s with p/{s/*}
             me&listin,ps&z,s,ss&z,[s]
             ss&z .map(s => sy&up = p)
