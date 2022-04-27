@@ -5400,62 +5400,19 @@ me.Sch_The = &acgt{ return [
             # z->s
             me&istr_stack_by_firstindent,N
             
-          // arrive, massage
-            # decide where to fold
             # travel ch** wrt fold
-            $tocode = &y{
+            A&tour = &y{
                 me&indo,X.top (&sd{
                     y (s,d)
                     ss&edge and d.nofurther = 1
                 })
             }
-            tocode(&sd{
-                d.up and sy&up = d.up.s
-            })
-            # " " become transparent
-            # < skipping up in stack, causes trouble?
-            tocode(&sd{
-                # dont do this too far in
-                # < knowing where we want to look, and doing it there
-                #    yet doing already makes better path to know about...
-                #  without setting ss&edge yet
-                #   as it will know where we want to look
-                ss&lines < 400 and d.nofurther = 1; return
-                isspace(ss&first_line) and me&istr_vanish_node,s
-            })
+            # decide where to fold (initially)
+            A&edge_by = s => ss&lines < 400
+            me&istr_stacktidy
             
-            # proto %TX or lv for instruction of pointers
-            $adj = me&adju_compile,E
-            # we have ch** 
-            tocode(&sd{
-                # s%title = s%first_line shortened to a concise word or so
-                me&istr_concise_title,s
-                # which will E**, so names can arrive a bit
-                $txN = me&s_adj_matching,s,adj
-                each i,tx txN {
-                    me&fu,"Arrove@"+s.t,tx
-                }
-                ss&lines < 400 and ss&edge = 1
-            })
+            me&inst_realise,E
             
-            
-            # the first one thinks its everything
-            # < and it's twice, or is the top one t=Fish?
-            tocode(&sd{
-                $la = null
-                each in ss&z {
-                    if (la && ns&line < las&toline) {
-                        ac(la,'strange','went all the way to: '+las&toline)
-                        las&toline = ns&line -1
-                    }
-                    la = n
-                }
-            })
-            tocode(&sd{
-                !d.up and return
-                $p = d.up.s
-                # < is s.t unique in p/*.t
-            })
             
           // bits to know
             # route line number to a chunk, stopping at chunk%edge
@@ -5584,7 +5541,7 @@ me.Sch_The = &acgt{ return [
             }
             A&X.top = A&X.all[0]
         }
-      // s:ch**
+      // s:ch** tidily
         # hide a sleeving, inners join outers
         me.istr_vanish_node = &acgts{
             $p = sy&up
@@ -5597,6 +5554,56 @@ me.Sch_The = &acgt{ return [
             ss&z .map(s => sy&up = p)
             # and take out of the flatlist
             grop([s],A&X.all)
+        }
+        # three unrelated things
+        #  middle one mostly, open|closed guess
+        me.istr_stacktidy = &acgt,edge_by{
+            # the first one thinks its everything
+            # < and it's twice, or is the top one t=Fish?
+            A&tour(&sd{
+                $la = null
+                each in ss&z {
+                    if (la && ns&line < las&toline) {
+                        ac(la,'strange','went all the way to: '+las&toline)
+                        las&toline = ns&line -1
+                    }
+                    la = n
+                }
+            })
+            
+            
+            A&tour(&sd{
+                # decides eg size of chunk to settle for
+                A&edge_by && A&edge_by(s,d) and ss&edge = 1
+                
+                
+                # < knowing where we want to look, and doing more there
+                #    see # < partial do|redo
+                #   here before realise, makes better path to know about...
+                # " " become transparent
+                # < skipping up in stack, causes trouble?
+                isspace(ss&first_line) and me&istr_vanish_node,s
+            })
+        }
+      // realise concise
+        me.inst_realise = &acgtE{
+            # proto %TX or lv for instruction of pointers
+            $adj = me&adju_compile,E
+            # we have ch** 
+            A&tour(&sd{
+                # s%title = s%first_line shortened to a concise word or so
+                me&istr_concise_title,s
+                # which will E**, so names can arrive a bit
+                $txN = me&s_adj_matching,s,adj
+                each i,tx txN {
+                    me&fu,"Arrove@"+s.t,tx
+                }
+            })
+            A&tour(&sd{
+                !d.up and return
+                $p = d.up.s
+                # < is s.t unique in p/*.t
+            })
         }
         # < sense to being in CODE or POD
         me.istr_concise_title = &acgts{
