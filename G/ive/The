@@ -3474,10 +3474,10 @@ me.Sch_The = &acgt{ return [
   #    chunkology is compensating for the headings within?
   // %%other
    // < R%strange/** @2 # schema goes
-    me.strange = &acgts{
+    me.strange = &acgtt{
         $R = me&R
-        me&tc,s,'b'
-        ac(R,'strange',s)
+        me&tc,t,'b'
+        ac(R,'strange',t)
     }
     # r and r/*
     me.anystrange = &acgtR{
@@ -5344,10 +5344,12 @@ me.Sch_The = &acgt{ return [
         # on the s**-ball%Piing sphere
         $s = sof(me.cbu(R,'Piing'))
         ss&X = X
-        me&istr_chunkpile,n,X,E
+        me&Bangrasp,'istr_chunkpile' (&{
+            me&istr_chunkpile,n,X,E
+            me&tsc,"Something"
+            me&Ei,{t:n.t,s:X.top}
+        })
         
-        me&tsc,"Something"
-        me&Ei,{t:n.t,s:X.top}
         
     },'ift,D'],
     ['istri',0.22,&acgtRs{
@@ -5449,6 +5451,7 @@ me.Sch_The = &acgt{ return [
                 me&istr_concise_title,s
                 # which will E**, so names can arrive a bit
                 $txN = me&s_adj_matching,s,adj
+                #txN.map(syn=>2)
                 each i,tx txN {
                     me&fu,"Arrove@"+s.t,tx
                 }

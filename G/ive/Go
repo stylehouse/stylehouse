@@ -1551,7 +1551,7 @@ me.Sch_Go = &acgt{ return [
             }
         }
       
-      // Go doing
+      // @GoRun ticket made
         # < simply wanting a RunningStep from a RunStep
         me.GoRun_reset = &acgtRchan{
             $GoRun = c.GoRun
@@ -1579,7 +1579,8 @@ me.Sch_Go = &acgt{ return [
                 Wc&RunStep = 1*ns&RunStep
                 W.t += '@'+ns&RunStep
             }
-            # leash time
+            # < leash time
+            #   currently iv++ done by things wanting to come back
             Wc&i = 0
             Wc&iv = 1
             if (Fe) {
@@ -3639,12 +3640,13 @@ me.Sch_Go = &acgt{ return [
             return g
         }
      
-     // &Bangrasp
+   // &Bangrasp
         # @Run's try...catch
         #  lifted from %Jproto
         #   you can date this code by its use of ;
         # < generalise, with &Supe, %%Go recoils in shock (unless ...)
         me.Bangrasp = &acgtt{
+            $R = me&R
             return &yf{
                 
                 $er = null;
@@ -3670,7 +3672,13 @@ me.Sch_Go = &acgt{ return [
                         # this once
                         ~>0 ERROR: t+':', ''+er
                         me&ha,R,conc
-                        n error  $s:er,R %Error
+                        # immediate, up-to-@314 R%Error
+                        $di = me&Ret,R,{t:'error',s:er,Error:1}
+                        me&zN,di
+                        me&Ring,di,{und:di,ov:314}
+                        me&strange,'Bang:'+t+':'+er
+                        # another version of this... not immediate
+                        #n error  $s:er,R %Error
                     }
                 }
                 destac()
