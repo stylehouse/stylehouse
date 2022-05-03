@@ -5370,7 +5370,8 @@ me.Sch_The = &acgt{ return [
         Ds&lines = ss&lines
         me&tc,"length",'x'+ss&lines,'6y'
 
-        ss&defines and me&Ei,{t:'defs',pi:'isdefs',s:ss&defines}
+        #ss&defs and me&Ei,{t:'defs',pi:'hat',s:ss&defs,dl:2}
+        ss&defs and me&Ei,{t:'defs',pi:'isdefs',s:ss&defs}
         
         ss&quaching and me&Ei,{t:'quaching',pi:'hat',s:ss&quaching}
         
@@ -5593,6 +5594,7 @@ me.Sch_The = &acgt{ return [
                             #   "drifting out to C, this thing called you and me" - Salmonella Dub
                         }
                         else debugger
+                        
                         ahk(s.sc,'quaching',k,v)
                     }
                 }
@@ -5640,6 +5642,7 @@ me.Sch_The = &acgt{ return [
             }
         }
         me.istr_operandi_link_def_use = &acgt,ope{
+            # look for either
             ac(A,'scan_for','defs')
             ac(A,'scan_for','uses')
             # < launch some A to follow up later
@@ -5655,7 +5658,8 @@ me.Sch_The = &acgt{ return [
                 }
                 # o s**/@defs:uses
                 A&tour(&sd{
-                    ahsk(defs,[of],t,x)
+                    # <<<
+                    #ahsk(defs,[of],t,x)
                 })
             })
         }
@@ -5689,7 +5693,7 @@ me.Sch_The = &acgt{ return [
                 map(&lin,i{
                     $mm = [...lin.str.matchAll(g.regex)]
                     !mm and return
-                    each im mm {
+                    map(&m{
                         $s = line_to_ch(A&X.top,i)
                         $captures = [...m]
                         $matched = captures.shift()
@@ -5702,7 +5706,7 @@ me.Sch_The = &acgt{ return [
                                 charto: m.index + hak(matched),
                             })
                         }
-                    }
+                    }, mm)
                 }, me&soio,'line')
             }
         }
@@ -5715,10 +5719,11 @@ me.Sch_The = &acgt{ return [
         s&hue = 40
         s&dis = 1
         me&walls,C,'bd:2.2'
-        each in s {
+        # ss&defs=(/of/t/x:def):defs
+        each of,t,x s {
             # < optional &Ei $t if isC(s)?
-            me&Ei,{t:'&'+n,pi:'isdef',s:n}
-        }
+            me&Ei,{t:'&'+t,pi:'isdef',s:x}
+        }}
     },'ift,D'],
     ['isdef',0.22,&acgtRs{
         me&Epigraph
@@ -5727,9 +5732,9 @@ me.Sch_The = &acgt{ return [
         Rs&tiny = 1
         Rs&inline = 1
         # < mergible with At
-        me&tc,"&"+s,'G' .sc.label = 'title'
+        me&tc,E.t,'G' .sc.label = 'title'
         # < something mirrors ^ into v
-        Dc&s = "&"+s
+        Dc&s = E.t
     },'ift,D'],
   
   
