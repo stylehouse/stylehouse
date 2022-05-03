@@ -5330,7 +5330,7 @@ me.Sch_The = &acgt{ return [
     =pod
       string -> chunks -> meanings
        to tell us where calls|defs are
-       proto Code** maps
+       proto Code** maps !
     =cut
     # computes, makes E/**)%Difmo,pla
     ['istr',0.22,&acgtRs{
@@ -5390,11 +5390,8 @@ me.Sch_The = &acgt{ return [
    // X:istr
     &{
         me.istr_chunkpile = &acgtnXE{
-          // chunkpile
             A = fi&At,"istr_chunkpile"
             A&X = X
-            A.3 = A
-            me&Ploy_io
             # n->z
             $N = me&istr_chunklist,n
             # z->s
@@ -5411,33 +5408,19 @@ me.Sch_The = &acgt{ return [
             A&edge_by = s => ss&lines < 400
             me&istr_stacktidy
             
-            me&inst_realise,E
+            me&istr_realise,E
             
-            
-          // bits to know
-            # route line number to a chunk, stopping at chunk%edge
-            $line_to_ch = &si{
-                $test = s => ss&line <= i && ss&toline >= i
-                !test(s) and debugger
-                ss&edge and return s
-                # first s/* containing it
-                $better = grep(n => test(n), me&ioty,s ) [0]
-                better and return line_to_ch(better,i)
-                return s
-            }
-            
-            $def = /fi\.(\w+) =/
-            $use = /fi&(\w+)\b/
-            map(&lin,i{
-                $m = lin.str.match(def)
-                if (m) {
-                    $ch = line_to_ch(X.top,i)
-                    ch and ac(ch,'defines',m[1])
-                }
-            }, me&soio,'line')
+            me&istr_operandi,E
         }
-      // n -> z**
+      // soio prototype io
         # lighter than &Ploy_io
+        
+        
+        
+        
+        
+        
+        
         me.soio = &acgtkvc{
             fatal.iske(k)
             v == null || fatal.iske(v)
@@ -5454,6 +5437,7 @@ me.Sch_The = &acgt{ return [
             lin['s_'+k] = v
             return lin
         }
+      // n -> z**
         # < partial do|redo, eg of just the changing stuff, etc
         #    n having lv clues
         me.istr_chunklist = &acgtn{
@@ -5586,17 +5570,31 @@ me.Sch_The = &acgt{ return [
             })
         }
       // realise concise
-        me.inst_realise = &acgtE{
+        me.istr_realise = &acgtE{
             # proto %TX or lv for instruction of pointers
             $adj = me&adju_compile,E
             # we have ch** 
             A&tour(&sd{
                 # s%title = s%first_line shortened to a concise word or so
                 me&istr_concise_title,s
+                
                 # which will E**, so names can arrive a bit
                 $txN = me&s_adj_matching,s,adj
                 each i,tx txN {
-                    me&fu,"Arrove@"+s.t,tx
+                    each kv tx.qua {
+                        if (k == 'operandi') {
+                            # what -is is doing involves this $s
+                            $t = v
+                            # < i 3/$t:operandi/$s
+                            $ope = me&soio,'operandi',t,{}
+                            ahk(ope,['z'],s)
+                            # < i 3/operandi/$t/$s
+                            #   it then does more etc
+                            #   "drifting out to C, this thing called you and me" - Salmonella Dub
+                        }
+                        else debugger
+                        ahk(s.sc,'quaching',k,v)
+                    }
                 }
             })
             A&tour(&sd{
@@ -5623,6 +5621,90 @@ me.Sch_The = &acgt{ return [
                 ss&title = '???'
             }
             s.t = ss&title
+        }
+      // operandi scan
+        me.istr_operandi = &acgts{
+            # what we want to do, as arrived with things now ope/$n
+            $h = me&soio,'operandi'
+            each t,ope A&X.operandi {
+                me&mearg,'istr_operandi_'+t,[ope]
+                $some = 1
+            }
+            !some and ac(A,'scan_for','defs')
+            
+            # they might switch on aspects of:
+            me&istr_scanlines
+            
+            each iy a&on_later {
+                y ()
+            }
+        }
+        me.istr_operandi_link_def_use = &acgt,ope{
+            ac(A,'scan_for','defs')
+            ac(A,'scan_for','uses')
+            # < launch some A to follow up later
+            #   with io expr tendrils that switch on the defs|uses resolvers
+            ac(A,'on_later',&{
+                $defs = {}
+                # o selected s**/defs
+                each is ope.z {
+                    # defs from
+                    each of,t,x ss&defs {
+                        ahk(defs,[of],t,x)
+                    }}
+                }
+                # o s**/@defs:uses
+                A&tour(&sd{
+                    ahsk(defs,[of],t,x)
+                })
+            })
+        }
+        # < more popular than chunking everything
+        me.istr_scanlines = &acgt{
+            # route line number to a chunk, stopping at chunk%edge
+            $line_to_ch = &si{
+                $test = s => ss&line <= i && ss&toline >= i
+                !test(s) and debugger
+                ss&edge and return s
+                # first s/* containing it
+                $better = grep(n => test(n), me&ioty,s ) [0]
+                better and return line_to_ch(better,i)
+                return s
+            }
+            
+            each ig a&scan_for {
+                if (isst(g)) {
+                    g = {t:g}
+                    g.t == 'defs' and g.regex = /(fi|me)\.(\w+) =/g
+                    else
+                    g.t == 'uses' and g.regex = /(fi|me)&(\w+)\b/g
+                    else debugger
+                }
+                g.do ||= &s,captures,lin{
+                    # captures become index, usu of+t
+                    return ahk(s.sc,g.t,...captures,{})
+                }
+                
+                # do
+                map(&lin,i{
+                    $mm = [...lin.str.matchAll(g.regex)]
+                    !mm and return
+                    each im mm {
+                        $s = line_to_ch(A&X.top,i)
+                        $captures = [...m]
+                        $matched = captures.shift()
+                        $x = g.do(s,captures,lin)
+                        if (x) {
+                            # a type of selection, give:
+                            ahk(x,['online'],{
+                                lin,
+                                char: m.index,
+                                charto: m.index + hak(matched),
+                            })
+                        }
+                    }
+                }, me&soio,'line')
+            }
         }
     },
    // -isdef
