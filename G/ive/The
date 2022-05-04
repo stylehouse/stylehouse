@@ -5349,8 +5349,6 @@ me.Sch_The = &acgt{ return [
             me&tsc,"Something"
             me&Ei,{t:n.t,s:X.top}
         })
-        
-        
     },'ift,D'],
     ['istri',0.22,&acgtRs{
         me&Epigraph,'in:istri'
@@ -5636,7 +5634,7 @@ me.Sch_The = &acgt{ return [
                             #   "drifting out to C, this thing called you and me" - Salmonella Dub
                         }
                         else debugger
-                        
+                        # has more specific advice later
                         ahk(s.sc,'quaching',k,v)
                     }
                 }
@@ -5679,10 +5677,13 @@ me.Sch_The = &acgt{ return [
             # they might switch on aspects of:
             me&istr_scanlines
             
-            each iy a&on_later {
-                y ()
-            }
+            # < if wanting to display s**/def/use
+            #    since all use occurs within some other def
+            #   we might do that now
+            #   or lazily, just for those selected by:
+            map(y => y (), a&on_later)
         }
+        # < make io for these moves. A&tour() as needed...
         me.istr_operandi_link_def_use = &acgt,ope{
             # look for either
             ac(A,'scan_for','defs')
@@ -5692,18 +5693,52 @@ me.Sch_The = &acgt{ return [
             ac(A,'on_later',&{
                 $defs = {}
                 # o selected s**/defs
+                # < individual defs, matching them...
                 each is ope.z {
                     # defs from
                     each of,t,x ss&defs {
                         ahk(defs,[of],t,x)
                     }}
                 }
+                me&fu,"defs",defs
                 # o s**/@defs:uses
                 A&tour(&sd{
-                    # <<<
-                    #ahsk(defs,[of],t,x)
+                    each of,t,i,def defs {
+                        $use = ahsk(ss&uses,of,t)
+                        !use and continue
+                        # < link_def_use/$of/$t += $def,$use
+                        
+                        $link = me&sooio,'link_def_use',of,t
+                        # a native placement of X...link
+                        #  link is inside X
+                        link.up = A&X
+                        # juxtaposition to link...def
+                        #  natively, def.A leads back to s**
+                        # < dup def finding might happen here
+                        #    are %oddness: gentler and learnable
+                        ahk(link,['defs'],def)
+                        ahk(link,['uses'],use)
+                        # the use must occur in one of these defs
+                        # < (elsewhere?) find def that this use is inside
+                        #  < find s** beyond the s%edge for it?
+                        #    getting into -def|-use > -Code
+                        ahk(s.sc,'selected','defs',of,t,1)
+                    }}}
+                    
+                        #ahk(s.sc,'quaching',k,v)
                 })
             })
+        }
+        # more soothing, any k+, create if not
+        #  makes X.$arg0.$arg1.$arg2 ||= x
+        #   ie more ahk than Xio
+        #   as opposed to args=[s], s={link_def_use:1,of,t}
+        #    which would X/link_def_use/$of/$t = x
+        me.sooio = &acgt{
+            $args = [...arguments].slice(4)
+            $link = ahsk(A&X,...args)
+            link ||= ahk(A&X,...args,{})
+            return link
         }
         # < more popular than chunking everything
         me.istr_scanlines = &acgt{
@@ -5727,8 +5762,13 @@ me.Sch_The = &acgt{ return [
                     else debugger
                 }
                 g.do ||= &s,captures,lin{
-                    # captures become index, usu of+t
-                    return ahk(s.sc,g.t,...captures,{})
+                    # make an x:def|use
+                    #  captures become index, usu of+t
+                    # < ahk() quirk: only an empty hash at the end
+                    #    will return the now value, else return previous
+                    $x = ahk(s.sc,g.t,...captures,{})
+                    x.A = s
+                    return x
                 }
                 
                 # do
