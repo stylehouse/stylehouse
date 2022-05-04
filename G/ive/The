@@ -5717,13 +5717,29 @@ me.Sch_The = &acgt{ return [
         $D = Rs&D
         Rs&tiny = 1
         s&hue = 40
-        s&dis = 1
+        s&dis = 2
         me&walls,C,'bd:2.2'
-        # ss&defs=(/of/t/x:def):defs
-        each of,t,x s {
+        
+        # chs&defs=(/of/t/x:def):defs
+        each of,t_x s {
+            me&Ei,{t:of,pi:'isdefof',s:t_x}
+        }
+    },'ift,D'],
+    ['isdefof',0.22,&acgtRs{
+        $E = Rs&E
+        $D = Rs&D
+        Rs&tiny = 1
+        s&hue = 40
+        #s&dis = 1
+        me&walls,C,'bd:2.2'
+        
+        me&tc,E.t,'b' .sc.label = 'title'
+        Dc&s = E.t
+        
+        each t,x s {
             # < optional &Ei $t if isC(s)?
             me&Ei,{t:'&'+t,pi:'isdef',s:x}
-        }}
+        }
     },'ift,D'],
     ['isdef',0.22,&acgtRs{
         me&Epigraph
