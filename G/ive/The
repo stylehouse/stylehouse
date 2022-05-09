@@ -5346,8 +5346,7 @@ me.Sch_The = &acgt{ return [
         ss&X = X
         me&Bangrasp,'istr_chunkpile' (&{
             me&istr_chunkpile,n,X,E
-            me&tsc,"Something"
-            me&Ei,{t:n.t,s:X.top}
+            me&Ei,{t:n.t,s:X.top,istr:X}
         })
     },'ift,D'],
     ['istri',0.22,&acgtRs{
@@ -5356,9 +5355,12 @@ me.Sch_The = &acgt{ return [
         $D = Rs&D
         # < Epigraph your depth?
         $depth = hak(me.cby(R,'^^^istri'))
+        # the one X:istr (.top|lines|selected)
+        $Eit = me.cbu(E,e => ec&istr)
+        $Xistr = Eitc&istr
         Rs&tiny = 1
         
-       // ch
+        
         $str = Dc&s = ss&title
         $st =
         n string 11 $s:str %label:title,hs:567
@@ -5367,15 +5369,37 @@ me.Sch_The = &acgt{ return [
         
         Ds&lines = ss&lines
         me&tc,"length",'x'+ss&lines,'6y'
-
-        #ss&defs and me&Ei,{t:'defs',pi:'hat',s:ss&defs,dl:2}
-        ss&defs and me&Ei,{t:'defs',pi:'isdefs',s:ss&defs}
+        
+        if (Xistr.selected) {
+            if (ss&selected) {
+                # last s /matching/things
+                # < an extra cap around us?
+                #   that tensions to nearby selections
+                me&tc,'glow','y'
+            }
+            elsif (ss&con_selected) {
+                # leads to selection
+            }
+            else {
+                # dead end
+                !ss&edge and debugger
+                s&bri = 0.5
+                $nostuff = 1
+                # < we want a variety of this,
+                #    tending to hide s** stronger than s/%such
+                #me&Ri,"limit:non_selected,toomuch"
+            }
+        }
+        if (!nostuff) {
+            ss&defs and me&Ei,{t:'defs',pi:'isdefs',s:ss&defs}
+        }
         
         ss&quaching and me&Ei,{t:'quaching',pi:'hat',s:ss&quaching}
         
         ss&strange && me&boxcap,'strange' (&ml{
             map(t => me&tc,"!?!?"+t,'g' , ss&strange)
         })
+        
        // ch**
         ss&edge and return
         each in ss&z {
@@ -5430,7 +5454,9 @@ me.Sch_The = &acgt{ return [
   
    // X:istr
     &{
+      // main
         me.istr_chunkpile = &acgtnXE{
+            
             A = fi&At,"istr_chunkpile"
             A&X = X
             # n->z
@@ -5456,13 +5482,6 @@ me.Sch_The = &acgt{ return [
         }
       // soio prototype io
         # lighter than &Ploy_io
-        
-        
-        
-        
-        
-        
-        
         me.soio = &acgtkvc{
             fatal.iske(k)
             v == null || fatal.iske(v)
@@ -5479,6 +5498,18 @@ me.Sch_The = &acgt{ return [
             lin['s_'+k] = v
             return lin
         }
+        # more soothing, any k+, create if not
+        #  makes X.$arg0.$arg1.$arg2 ||= x
+        #   ie more ahk than Xio
+        #   as opposed to args=[s], s={link_def_use:1,of,t}
+        #    which would X/link_def_use/$of/$t = x
+        me.sooio = &acgt{
+            $args = [...arguments].slice(4)
+            $link = ahsk(A&X,...args)
+            link ||= ahk(A&X,...args,{})
+            return link
+        }
+        
       // n -> z**
         # < partial do|redo, eg of just the changing stuff, etc
         #    n having lv clues
@@ -5701,7 +5732,6 @@ me.Sch_The = &acgt{ return [
                         ahk(defs,[of],t,x)
                     }}
                 }
-                me&fu,"defs",defs
                 # o s**/@defs:uses
                 A&tour(&sd{
                     each of,t,i,def defs {
@@ -5725,21 +5755,25 @@ me.Sch_The = &acgt{ return [
                         #    getting into -def|-use > -Code
                         ahk(s.sc,'selected','defs',of,t,1)
                     }}}
-                    
-                        #ahk(s.sc,'quaching',k,v)
+
+                    if (ss&selected) {                    
+                        # percolate ^^^%selected
+                        d.path.map(s => ss&con_selected = 1)
+                        # all aware of some selection going on
+                        $sel = me&sooio,'selected',1
+                        ahk(sel,['z'],s)
+                    }
                 })
+                # i ^^^ %con_selected o s**/%selected
+                A&tour(&sd{
+                    if (!ss&con_selected) {
+                        d.d == 1 and me&strange,"!%con_selected"
+                        # stops drawing into here
+                        ss&edge = 1
+                    }
+                })
+                
             })
-        }
-        # more soothing, any k+, create if not
-        #  makes X.$arg0.$arg1.$arg2 ||= x
-        #   ie more ahk than Xio
-        #   as opposed to args=[s], s={link_def_use:1,of,t}
-        #    which would X/link_def_use/$of/$t = x
-        me.sooio = &acgt{
-            $args = [...arguments].slice(4)
-            $link = ahsk(A&X,...args)
-            link ||= ahk(A&X,...args,{})
-            return link
         }
         # < more popular than chunking everything
         me.istr_scanlines = &acgt{
