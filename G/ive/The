@@ -5440,16 +5440,52 @@ me.Sch_The = &acgt{ return [
             me&Ei,{t:'&'+t,pi:'isdef',s:x}
         }
     },'ift,D'],
-    ['isdef',0.22,&acgtRs{
+    ['isdef',0.22,&acgtR,def{
         me&Epigraph
         $E = Rs&E
         $D = Rs&D
+        $s = me.cbu(R,'istri') .c.s
         Rs&tiny = 1
         Rs&inline = 1
         # < mergible with At
         me&tc,E.t,'G' .sc.label = 'title'
         # < something mirrors ^ into v
         Dc&s = E.t
+        
+        $is_selected = def.uses || def.selected
+        if (ss&defs_selected) {
+            if (!is_selected) {
+                s&opa = 0.5
+            }
+            else {
+                Ds&selected = 1
+            }
+        }
+        # little half-dried-up puddle of code
+        $defline = def.online.0.lin.s_line
+        # < sorting by def/use/usedef
+        #   brackology joining piles
+        $line_uses = {}
+        each i,use def.uses {
+            delete Rs&inline
+            each i,onl use.online {
+                ahk(line_uses,[onl.lin.s_line],use)
+            }
+        }
+        vsortz(haks(line_uses),v=>v).map(&line,{
+            $uses = line_uses[line]
+            each i,use uses {
+                # we're already iterating lines
+                #  seek the use.online for the enclosing line
+                each i,onl use.online {
+                    onl.lin.s_line != line and continue
+                    $relative_line = line - defline
+                    me&boxcap,'l:'+relative_line,1 (&sd{
+                        me&drawString,onl.lin.str
+                    })
+                }
+            }
+        })
     },'ift,D'],
   
    // X:istr
@@ -5749,10 +5785,11 @@ me.Sch_The = &acgt{ return [
                         #    are %oddness: gentler and learnable
                         ahk(link,['defs'],def)
                         ahk(link,['uses'],use)
-                        # the use must occur in one of these defs
-                        # < (elsewhere?) find def that this use is inside
-                        #  < find s** beyond the s%edge for it?
-                        #    getting into -def|-use > -Code
+                        
+                        # def|use find lines they occurred on
+                        me&istr_find_use_def,s,use,def
+                        
+                        # focuses vision
                         ahk(s.sc,'selected','defs',of,t,1)
                     }}}
 
@@ -5772,8 +5809,66 @@ me.Sch_The = &acgt{ return [
                         ss&edge = 1
                     }
                 })
-                
             })
+        }
+        # def|use find lines they occurred on
+        #  may occur on multiple lines, per s
+        me.istr_find_use_def = &acgts,use,def{
+            $def_linis = &def,{
+                return armap(onl => onl.lin.s_line, def.online)
+            }
+            # the ss&uses must occur inside ss&defs
+            #  remember where ss&defs start
+            $lini_defs = {}
+            each of,t,udef ss&defs {
+                map(lini => lini_defs[lini] = udef,
+                    def_linis(udef))
+            }}
+
+            # find the def that contains (ch**) the lines of use
+            def_linis(use) .map(&lini,{
+                $find = me&istr_findline,s,lini
+                !hak(find.N) and return
+                $relevant_chunks = reverse(find.N)
+                $udef = null
+                each i,ch relevant_chunks {
+                    udef = lini_defs[chs&line]
+                    !udef and continue
+                    break
+                }
+                if (udef) {
+                    ahk(udef,['uses'],use)
+                    # ~~ X.selected, focuses ss%defs for the above
+                    ss&defs_selected = 1
+                }
+            })
+            # < (elsewhere?) find def that this use is inside
+            #  < find s** beyond the s%edge for it?
+            #    getting into -def|-use > -Code
+        }
+        # route line number to a chunk
+        #  ch%edge as well as beyond /ch**
+        me.istr_findline = &acgtsic{
+            fatal.isC(s)
+            fatal.isnum(i)
+            c = peel(c)
+            $test = s => ss&line <= i && ss&toline >= i
+            
+            !test(s) and debugger
+            if (!c.one && ss&edge) {
+                # usu just to find the one at the edge
+                c.one = s
+            }
+            elsif (c.one) {
+                # beyond the edge, into code branches etc
+                ac(c,'N',s)
+            }
+            
+            # first s/* containing it
+            $better = grep(s => test(s), me&ioty,s ) [0]
+            better and return me&istr_findline,better,i,c
+            return c
+            
         }
         # < more popular than chunking everything
         me.istr_scanlines = &acgt{
