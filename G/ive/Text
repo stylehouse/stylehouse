@@ -4124,7 +4124,8 @@
    
    // lines side
     # s/$c**, also s%chunks = [c in reverse (depth first)]
-    me.chunksoflines = &acgts,lines{
+    me.chunksoflines = &acgts,lines,g{
+        g = peel(g)
         # starting from s = the whole document!
         ss&line = 0;
         ss&toline = lines.length-1;
@@ -4138,6 +4139,11 @@
             
             # drop small chunks
             ss&z.filter(c => 1+cs&toline-cs&line < 20)
+                # s%heading/s wanted
+                # < causes strange:Allspace
+                .filter(c => !(g.chunkheadings && ss&heading))
+                # def-looking chunks: /^\w+\.\w+ =/
+                .filter(c => !(g.chunkdefs && cs&definition))
                 .map(c => me&fiu,s,c,9 );
             
             # and any one chunk same as the parent chunk
@@ -4299,6 +4305,7 @@
             if (p != c) {
                 $lindo = ltoindent[cs&line];
                 lindo[2][0] == '/' and cs&heading = 1
+                lindo[2].match(/\w+\.\w+ =/) and cs&definition = 1
             }
 
             if (cs&indent == null) {

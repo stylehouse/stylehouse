@@ -5461,7 +5461,7 @@ me.Sch_The = &acgt{ return [
                 Ds&selected = 1
             }
         }
-        # little half-dried-up puddle of code
+        
         $defline = def.online.0.lin.s_line
         # < sorting by def/use/usedef
         #   brackology joining piles
@@ -5469,7 +5469,14 @@ me.Sch_The = &acgt{ return [
         each i,use def.uses {
             delete Rs&inline
             each i,onl use.online {
-                ahk(line_uses,[onl.lin.s_line],use)
+                $line = onl.lin.s_line
+                if (def.chunk) {
+                    # use may be shared by many def
+                    #  so use/online may point elsewhere
+                    #   than the def leading to def/uses
+                    !me&istr_is_line_in_chunk,def.chunk,line and continue
+                }
+                ahk(line_uses,[line],use)
             }
         }
         # little half-dried-up puddle of code
@@ -5580,7 +5587,13 @@ me.Sch_The = &acgt{ return [
             
             # weird interface. was used for codemirror.
             $z = Cye([n.t,1])
-            me&chunksoflines,z,lines
+            # added: s%heading/s are kept, even if small
+            #  so hopefully every def has .chunk
+            $g = {}
+            # < fix
+            #g.chunkheadings
+            g.chunkdefs = 1
+            me&chunksoflines,z,lines,g
             
             # < what's up with the order?
             $N = [z,...zs&chunks]
@@ -5753,7 +5766,8 @@ me.Sch_The = &acgt{ return [
             }
             s.t = ss&title
         }
-      // operandi scan
+        
+      // operandi: def_use
         me.istr_operandi = &acgts{
             # what we want to do, as arrived with things now ope/$n
             $h = me&soio,'operandi'
@@ -5832,19 +5846,41 @@ me.Sch_The = &acgt{ return [
                 })
             })
         }
+      // around def|use
         # def|use find lines they occurred on
         #  may occur on multiple lines, per s
         me.istr_find_use_def = &acgts,use,def{
+            # def|use/online/onl(.lin) locates it
             $def_linis = &def,{
                 return armap(onl => onl.lin.s_line, def.online)
             }
-            # the ss&uses must occur inside ss&defs
-            #  remember where ss&defs start
+            # know where s/def starts
             $lini_defs = {}
             each of,t,udef ss&defs {
-                map(lini => lini_defs[lini] = udef,
-                    def_linis(udef))
+                $N = def_linis(udef)
+                if (hak(N) > 1) {
+                    # defined many times (within this s%edge)
+                    debugger
+                }
+                N.map(lini => lini_defs[lini] = udef)
             }}
+            
+            # s/def start coincides with a beyond chunk ss&line
+            #  to know s%edge...s~~def
+            each lini,udef lini_defs {
+                $find = me&istr_findline,s,lini
+                if (!hak(find.N)) {
+                    # doesnt correlate to a chunk
+                    # < trips on one-liners, eg self.isba = j => ...
+                    debugger; continue
+                }
+                # it's always the starting line of the chunk
+                $chunk = find.N.pop()
+                lini != chunks&line and debugger; continue
+                
+                udef.chunk && udef.chunk != chunk and throw "udef many times"
+                udef.chunk = chunk
+            }
 
             # find the def that contains (ch**) the lines of use
             def_linis(use) .map(&lini,{
@@ -5867,13 +5903,19 @@ me.Sch_The = &acgt{ return [
             #  < find s** beyond the s%edge for it?
             #    getting into -def|-use > -Code
         }
+        
+      // find, scan
+        # true if given line is in chunk
+        me.istr_is_line_in_chunk = &acgtsi{
+            return ss&line <= i && ss&toline >= i
+        }
         # route line number to a chunk
         #  ch%edge as well as beyond /ch**
         me.istr_findline = &acgtsic{
             fatal.isC(s)
             fatal.isnum(i)
             c = peel(c)
-            $test = s => ss&line <= i && ss&toline >= i
+            $test = s => me&istr_is_line_in_chunk,s,i
             
             !test(s) and debugger
             if (!c.one && ss&edge) {
@@ -5889,10 +5931,10 @@ me.Sch_The = &acgt{ return [
             $better = grep(s => test(s), me&ioty,s ) [0]
             better and return me&istr_findline,better,i,c
             return c
-            
         }
         # < more popular than chunking everything
         me.istr_scanlines = &acgt{
+            # < GOING
             # route line number to a chunk, stopping at chunk%edge
             $line_to_ch = &si{
                 $test = s => ss&line <= i && ss&toline >= i
