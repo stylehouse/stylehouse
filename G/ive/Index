@@ -216,17 +216,18 @@
    // &twlic, &twlim - tw matchup
         # expand twlim to &l,z,c,either.t{} everything
         #  will c.surprise|wanted
+        # used only by TheFine to exp+got its /*
         me.twlic = &acgtNL{
             return &y{
                 $M = []
-                # returns list of y returns
                 $ya = &lzc{
                     c ||= {}
                     c.t ||= l && l.t || z.t
                     $t = delete c.t
                     !z and c.wanted = 1
                     !l and c.surprise = 1
-                    M.push(y(l,z,c,t))
+                    $a = {l,z,c,t}
+                    M.push(a)
                 }
                 $seek = me&twlim,L (&lc{ ya(l,null,c,l.t) })
                 
@@ -237,6 +238,17 @@
                     ya(l,z)
                 })
                 seek()
+                
+                # we probably want the surprises at the end
+                # < order by the %%RunStep, etc...
+                $end = []
+                while (M[0] && M[0].c.surprise) {
+                    end.push(M.shift())
+                }
+                M.push(...end)
+                
+                # then becomes the callback's return
+                M = M.map(g => y (g.l,g.z,g.c,g.t) )
                 
                 return M
             }
