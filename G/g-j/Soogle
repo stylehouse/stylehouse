@@ -154,12 +154,20 @@
     # but could end up in multifaceted games, showing working, etc...
     me.Cavon = &acgtR{
         $N = Rc&N;
+        $topR = R
         each iR N {
             $b = Rc&b;
             $C = Rs&C || Rc&s;
             Rs&on ||= b && bs&on;
             # originsleeping and ..?
             if (Rs&originsleeping) {
+                if (!b) {
+                    # < why, occasionally, on eg R%aYingulog
+                    $s = Rc&s
+                    sy&Display and b = Rc&b = sy&Display
+                    Rs&on ||= b && bs&on;
+                    !Rs&on and topRc&N = topRc&N.filter(n => n != R); continue
+                }
                 !b and throw "Disleep !b"
                 Rs&J and throw "Disleep J"
                 Rs&on !== bs&on and throw "Disleep ons not exactly"
