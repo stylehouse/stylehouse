@@ -10,8 +10,10 @@ me.Adjuiced = &acgts{
         
     // operations
         me.wind_A = &acgtscq{
-            isnu(s) and c = {ov:s}
-            c ||= {}
+            isnu(s) and c = {ov:s}; s = {}
+            isnu(c) and c = {ov:c}
+            !isob(s) and s = peel(s)
+            !isob(c) and c = peel(c)
             A = c.A || A
             # what to do, ie $mind++
             c.ov ||= me&A_default_ov
@@ -22,14 +24,102 @@ me.Adjuiced = &acgts{
             # < Xq|xq|x may index which t|cv input what
             
             # ...
+            me&winding_A,s,c,q
             
-            $re = As&returns || (Ac&M||[])[0]
+            $re = a&returns || (A&N||[])[0]
             return re
         }
-        me.A_default_ov = &acgtc{
-            A&cv and return A&cv += 0.1
+        me.A_default_ov = &acgt{
+            A&cv and return A&cv + 0.1
             return 0.1
         }
+        me.A_default_t = &acgt{
+            A&t and return A&t
+            return A.t
+        }
+        me.winding_A = &acgtscq{
+            q ||= {}
+            
+            # get the mind
+            $mind = me&seek_mind_A,c
+            # reaction branch
+            T = {up:T}
+            
+            while (1) {
+                $t = mind.next()
+                !t and break
+                
+                # < thinkseek
+
+                # < bitseek
+                # <=@o2 iterate themselves
+                $M = ty&cv > 0.02 && !ts&self && Yc&M || [s];
+                each in M {
+                    delete T.not;
+                    
+                }
+                delete T.not;
+                T.hwack and mind.halt(); T.up.hwack = T.hwack; return
+            }
+            
+            # so Y looks @2, if last ty&cv < 2
+            A&cv = A&ov;
+        }
+        # iterate A&U A&cv->A&ov
+        me.seek_mind_A = &acgtc{
+            A&U = me&Yingmindo,A&t
+            # only resumable from a cv
+            # < cursor into U exactly and Go whither
+            #    and deal with it sometimes resolving differently
+            # is U[i++]
+            $i = 0
+            # going ov (and maybe cv)
+            c.ov and A&ov = c.ov
+            c.cv and A&cv = c.cv
+            A&ov and A&ov = sca(A&ov)
+            A&cv and A&cv = sca(A&cv)
+            $wascv = A&cv
+            # 
+            # random infloop stopper
+            $il = 30;
+            return {
+                next: &{
+                    while (1) {
+                        il-- < 0 and throw "infloop"
+                        $t = A&U[i]
+                        # off the end
+                        !t and return
+                        i++
+                        # further than we go
+                        ty&cv > A&ov and return
+                        # from before, or c.incv allows redoing a cv
+                        ty&cv <= A&cv && c.incv != ty&cv and continue
+                        
+                        # is what to do
+                        c.incv and wascv = c.incv
+                        # usu so many at == cv all happen
+                        c.incv = ty&cv;
+                        
+                        return t
+                    }
+                },
+                # complete the next()
+                # ! may set A&cv to one it is still doing.
+                #  see # < cursor into U exactly
+                done: &{
+                    A&cv = c.incv
+                },
+                # or dont
+                halt: &{
+                    A&cv = wascv
+                },
+            }
+        }
+
+
+
+
+
 // Cat
     // Inc
     // Pro
