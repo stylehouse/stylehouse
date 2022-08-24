@@ -100,11 +100,98 @@ running
      podman start -lia
    failing to get console access to them, to check on /js etc
     needs a gui to make trees, version?
-  minikube
+    podman attach 54d51ff8976c
+     says: bash: line 15: $\'\E[A\022\E[A': command not found
+      # the first \ is editorial
+      then at a promptless terminal
+       `pwd` says /js, ten times (multiplied output)
+  minikube (waste of time)
+   attracted by one yaml per cluster of containers
    perhaps more recent tools will help?
-   curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-sudo dpkg -i minikube_latest_amd64.deb
+   curl -LO  https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+   sudo dpkg -i minikube_latest_amd64.deb
+    🚜  Pulling base image ...
+    # wanting to use podman requires the docker cluster to die:
+    minikube delete
+    minikube config set rootless true
+    # downloads tons again
+    minikube start --driver=podman --container-runtime=containerd
+     🚜  Pulling base image ...
+     E0823 16:26:35.759871  119977 cache.go:203] Error downloading kic artifacts:  not yet implemented, see issue #8426
+    # that seems to have broken everything minikube, esp:
+    kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
+     error: failed to create deployment: Post "http://localhost:8080/apis/apps/v1/namespaces/default/deployments?fieldManager=kubectl-create": dial tcp [::1]:8080: connect: connection refused
+    # trying to use docker again:
+    minikube delete
+    minikube start --driver=docker
+     Exiting due to MK_USAGE: Using rootless Docker driver was required, but the current Docker does not seem rootless. Try 'docker context use rootless' 
+     # doesnt seem to have 'rootless'
+     someone suggests: apt install conntrack
+      After that if you get any error like juju,cric dcokered id, cric ctl not found any error it may be..
+     what humour,
+    https://docs.docker.com/engine/security/rootless/
+     a shutdown: sudo systemctl disable --now docker.service docker.socket
+     and install:
+      /usr/bin/dockerd-rootless-setuptool.sh install
+       [ERROR] Aborting because rootful Docker (/var/run/docker.sock) is running and accessible. Set --force to ignore.
+      cat /var/run/docker.sock
+       cat: /var/run/docker.sock: No such device or address
+      /usr/bin/dockerd-rootless-setuptool.sh -f install # works!
+      docker context use rootless
+        rootless
+        Current context is now "rootless"
+      minikube start
+        ❗  docker is currently using the fuse-overlayfs storage driver, consider switching to overlay2 for better performance
+        📌  Using rootless Docker driver
+        ❌  Exiting due to MK_USAGE: --container-runtime must be set to "containerd" or "cri-o" for rootless
+      minikube start --container-runtime containerd
+       # downloads another 400mb?
+      likely to be several viruses now
+      nomad was a nomad
+  podman 2
+   in codemirror/dev: cbf06bbe0b83a11f86c55e852b35e6033f385119
+   so
+    podman build -t cev .
+    podman run --rm -it --name recev cev
+     # can do the CMD from Containerfile
+    podman run --rm -it --name recev cev bash
+     # gets a terminal!
+   now inside cev, @9b5eb06022e6
+    node bin/cm.js install
+     # shows its working more than whence part of the build script (Containerfile)
+    drama:
+        npm WARN EBADENGINE Unsupported engine {
+        npm WARN EBADENGINE   package: 'mocha@10.0.0',
+        npm WARN EBADENGINE   required: { node: '>= 14.0.0' },
+        npm WARN EBADENGINE   current: { node: 'v12.22.9', npm: '8.5.1' }
+        npm WARN EBADENGINE }
+      theres no: find . | grep node
+      or /mocha/ in: cat */package.*  | less
+     then later:
+        npm ERR! code 1
+        npm ERR! path /js/autocomplete
+        npm ERR! command failed
+        npm ERR! command sh -c cm-buildhelper src/index.ts
+        npm ERR! /js/node_modules/@codemirror/buildhelper/src/build.js:182
+        npm ERR!         pos = next.to ?? nextPos;
+        npm ERR!                        ^
+        npm ERR! 
+        npm ERR! SyntaxError: Unexpected token '?'
+        npm ERR!     at [...]
+       just goes around, also from: npm install
+       ungood search: https://github.com/search?q=%40codemirror%2Fbuildhelper%2Fsrc%2Fbuild.js%3A182&ref=opensearch
+       somehow in netstat:
+        tcp        0      0 s:60828                 mail.marijnhaverb:https ESTABLISHED
+       the fruitless, traceless (talks of /js/node_modules) npm
+        may be seen from ps on the host
+         under a /usr/bin/conmon with lots of repeated --exit-command-arg
+         looks rusty..?
+       fetch manifest, brace-expansion
+        and etc is sucking up a lot of time
+       so any `npm i anything` or `npm i` dies there
+   now inside ~/src/codeserv on recose@1eda031bd9ac
     
+      
 
 The-ish
  -Bat
