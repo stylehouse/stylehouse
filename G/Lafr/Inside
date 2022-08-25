@@ -270,13 +270,114 @@ running
             ld-linux-x86-64.so.2 => /lib/ld-linux-x86-64.so.2 (0x7f1a8984f000)
         Error relocating bun: __memmove_chk: symbol not found
         [rest the same]
-       
+       probably just needs glibc over musl
+      needs glibc
+  podman 3
+      following https://github.com/vizhub-core/codemirror-6-experiments
+      FROM debian again...
+       yes, right
+       npm WARN EBADENGINE Unsupported engine {
+        means node 12 is not enough
+      FROM debian:testing takes ages to i nodejs npm
+       heralding https://tracker.debian.org/news/1350829/accepted-nodejs-1860dfsg-4-source-into-unstable/
+          no git tree specified
+        root@58c34a34348d:/js# node -v
+        v18.7.0
+       following README / To run:
+       npm install -g lerna
+        ...added 588 packages...
+       lerna bootstrap
+        ... lerna info Symlinking packages and binaries
+            lerna success Bootstrapped 1 package
+       or something, maybe # npm i
+       has populated /js/packages/experiments/node_modules
+        root@58c34a34348d:/js/packages/experiments# lerna run build
+        lerna notice cli v5.4.3
+        lerna info Executing command in 1 package: "npm run build"
+        lerna ERR! npm run build exited 1 in 'codemirror-6-experiments'
+        lerna ERR! npm run build stdout:
 
+        > codemirror-6-experiments@1.1.0 build
+        > rollup -c rollup.config.js
 
+        lerna ERR! npm run build stderr:
+
+        ./src/server/index.js → ./build/server/bundle.js...
+        created ./build/server/bundle.js in 2.1s
+
+        ./src/client/index.js → ./build/client/bundle.js...
+        {
+          code: 'UNRESOLVED_IMPORT',
+          source: 'events',
+          importer: 'node_modules/sharedb/lib/emitter.js',
+          message: "'events' is imported by node_modules/sharedb/lib/emitter.js, but could not be resolved – treating it as an external dependency",
+          url: 'https://rollupjs.org/guide/en#warning-treating-module-as-external-dependency',
+          toString: [Function (anonymous)]
+        }
+        [more of the above for various importers]
+        created ./build/client/bundle.js in 2.4s
+
+        ./test/test.js → ./build/test/bundle.js...
+        [!] (buble plugin) CompileError: Transforming async functions is not implemented. Use `transforms: { asyncAwait: false }` to skip transformation and disable this error. (17:4)
+        test/test.js (17:4)
+        13 :     let server;
+        14 :     let serverRenderedData;
+        15 :     let id = 'abc';
+        16 : 
+        17 :     async function selectedDropdownOption() {
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        Error: 
+            at Function.missingTransform (/js/packages/experiments/node_modules/buble/src/utils/CompileError.js:33:9)
+            at Node.initialise (/js/packages/experiments/node_modules/buble/src/program/types/FunctionDeclaration.js:11:17)
+            [...]
+            at /js/packages/experiments/node_modules/buble/src/program/Node.js:86:40
+            at Array.forEach (<anonymous>)
+
+        lerna ERR! npm run build exited 1 in 'codemirror-6-experiments'
        
+       rollup.config.js: give buble: transforms: { asyncAwait: false }
+        guess at where that goes via https://bytemeta.vip/repo/vue-styleguidist/vue-live/issues/68
+        excm @be53fbb130d61ca3d9c778f95e95b9f263c1d64f
+       
+       then!
+        root@58c34a34348d:/js/packages/experiments# lerna run build
+        lerna notice cli v5.4.3
+        lerna info Executing command in 1 package: "npm run build"
+        lerna info run Ran npm script 'build' in 'codemirror-6-experiments' in 6.9s:
+
+        > codemirror-6-experiments@1.1.0 build
+        > rollup -c rollup.config.js
+
+        lerna success run Ran npm script 'build' in 1 package in 6.9s:
+        lerna success - codemirror-6-experiments
+       then!
+        root@58c34a34348d:/js/packages/experiments# lerna run start --stream
+        lerna notice cli v5.4.3
+        lerna info Executing command in 1 package: "npm run start"
+        codemirror-6-experiments: > codemirror-6-experiments@1.1.0 start
+        codemirror-6-experiments: > node build/server/bundle.js
+        codemirror-6-experiments: Listening at http://localhost:3000/
+       no connect.
+       but I have EXPOSE 3000
+       no idea how to podman network
+       meanwhile, refactor Containerfile to include lerna
+        seems to not cache steps like COPY?
+  
+  upstairs just now
+   is a b&b, seems to be social housing tonight
+    bogan bothering someone with kids on the phone
+    bored because no tv. will go out to eat something.
+     I vageuly consider feeding him...
+    sweary schemes, a thousand hangs.
+    couldnt "look her in the eye".
+   other days its "thank you for allowing us to stay"
   lxc
     "Specifically the CONFIG_CGROUP_NS entry was something entirely different that had nothing to do with cgroup namespaces per se."
-    
+  musics:
+      to One Touch/Music/Stevetog 62G interruptedly
+       rsyncing from /media/s/Sea/backups/Stevecom/ 123.4G
+       is putting musics in a tar or similar replicate faster?
+       
 
 
 
