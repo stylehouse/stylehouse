@@ -190,8 +190,95 @@ running
         and etc is sucking up a lot of time
        so any `npm i anything` or `npm i` dies there
    now inside ~/src/codeserv on recose@1eda031bd9ac
+   now ~/src/excm
+    podman build -t exc .
+     # from node:alpine:
+      npm ERR! 404 Not Found - GET https://registry.npmjs.org/har-validator/-/har-validator-5.1.2.tgz - Not found
+      and bunch of please upgrade bunch of things
+    podman run --rm -it --name exc1 exc
+     ~/src/excm @fad89ad275 yet:
+        bash-5.1# bun
+        bash: /root/.bun/bin/bun: No such file or directory
+        bash-5.1# ls -lh /root/.bun/bin/bun
+        -rwxr-xr-x    1 root     root       84.0M Aug 24 06:23 /root/.bun/bin/bun
+     try from debian
+      the $HOME-less problem when ENV ...
+      now bun works
+       but says: openat(AT_FDCWD, "/js/bunfig.toml", O_RDONLY|O_NOCTTY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+        if you: podman run --cap-add=SYS_PTRACE ...
+         and: apt install strace, strace bun i
+       not having package.json?
+     ~/src/docusaurus
+      to try bun with a regular js project
+        /js # bun i
+        error: Failed to initialize network thread: PermissionDenied.
+     
+     ~/src/excm@eb8b338f74bd
+      apt install ping
+       classic noises: debconf: (Cant locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module)
+       however: bash: /bin/ping: Operation not permitted
+      FROM alpine again...
+       same old:
+        bash-5.1# bun
+        bash: /root/.bun/bin/bun: No such file or directory
+       straced:
+        bash-5.1# strace bun
+        execve("/root/.bun/bin/bun", ["bun"], 0x7fff8e358fe0 /* 12 vars */) = -1 ENOENT (No such file or directory)
+        strace: exec: No such file or directory
+        +++ exited with 1 +++
+      unix.stackexchange.com/questions/27608
+        bash-5.1# ldd bun
+            /lib64/ld-linux-x86-64.so.2 (0x7fe11eb2d000)
+            libdl.so.2 => /lib64/ld-linux-x86-64.so.2 (0x7fe11eb2d000)
+            libm.so.6 => /lib64/ld-linux-x86-64.so.2 (0x7fe11eb2d000)
+            libpthread.so.0 => /lib64/ld-linux-x86-64.so.2 (0x7fe11eb2d000)
+            libc.so.6 => /lib64/ld-linux-x86-64.so.2 (0x7fe11eb2d000)
+        Error loading shared library ld-linux-x86-64.so.2: No such file or directory (needed by bun)
+        Error relocating bun: __memmove_chk: symbol not found
+        Error relocating bun: __fread_chk: symbol not found
+        Error relocating bun: __strcpy_chk: symbol not found
+        Error relocating bun: __memcpy_chk: symbol not found
+        Error relocating bun: __strcat_chk: symbol not found
+        Error relocating bun: __strncpy_chk: symbol not found
+        Error relocating bun: __snprintf_chk: symbol not found
+        Error relocating bun: __sprintf_chk: symbol not found
+        Error relocating bun: __printf_chk: symbol not found
+        Error relocating bun: __vsnprintf_chk: symbol not found
+        Error relocating bun: __fprintf_chk: symbol not found
+        Error relocating bun: __longjmp_chk: symbol not found
+        Error relocating bun: __vfprintf_chk: symbol not found
+        Error relocating bun: gnu_dev_makedev: symbol not found
+        Error relocating bun: gnu_dev_major: symbol not found
+        Error relocating bun: gnu_dev_minor: symbol not found
+        Error relocating bun: __cxa_thread_atexit_impl: symbol not found
+        Error relocating bun: __strftime_l: symbol not found
+        Error relocating bun: __register_atfork: symbol not found
+        Error relocating bun: backtrace: symbol not found
+        Error relocating bun: malloc_trim: symbol not found
+        Error relocating bun: fcntl64: symbol not found
+        Error relocating bun: gnu_get_libc_version: symbol not found
+        Error relocating bun: __cxa_thread_atexit_impl: symbol not found
+        Error relocating bun: __res_init: symbol not found
+       so: apk add gcompat
+       then:
+        bash-5.1# ldd bun
+            /lib64/ld-linux-x86-64.so.2 (0x7f1a89855000)
+            libdl.so.2 => /lib64/ld-linux-x86-64.so.2 (0x7f1a89855000)
+            libm.so.6 => /lib64/ld-linux-x86-64.so.2 (0x7f1a89855000)
+            libpthread.so.0 => /lib64/ld-linux-x86-64.so.2 (0x7f1a89855000)
+            libc.so.6 => /lib64/ld-linux-x86-64.so.2 (0x7f1a89855000)
+            ld-linux-x86-64.so.2 => /lib/ld-linux-x86-64.so.2 (0x7f1a8984f000)
+        Error relocating bun: __memmove_chk: symbol not found
+        [rest the same]
+       
+
+
+       
+  lxc
+    "Specifically the CONFIG_CGROUP_NS entry was something entirely different that had nothing to do with cgroup namespaces per se."
     
-      
+
+
 
 The-ish
  -Bat
