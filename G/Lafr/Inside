@@ -420,11 +420,115 @@ running
        lets see
         $ curl localhost:1818
         [ stuff coming out ]
-       perfect!
+      perfect!
        except host mode is apparently not the safest?
         it isnt listening on 192.168.1.12:1818
         presumably they mean in some complicated way
+       if localhost:1812 is reused
+        there is no error
+         unless another container has it
+          so maybe it is binding a virtual port
+          then porting the port to localhost, ignorantly
+   so we now run:
+     podman run --rm -it --network host --name sth1 sth
+    and must gives a port, or we eats it whole! :D
+   read https://www.redhat.com/sysadmin/container-networking-podman
+    /etc/cni/net.d/87-podman-bridge.conflist
+     mentions:
+      /usr/share/doc/containernetworking-plugins/main_ptp.md
+       not existing, google forgives:
+        https://github.com/containernetworking/plugins/releases/download/v1.1.1/cni-plugins-linux-amd64-v1.1.1.tgz
+         ptp:                                ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, Go BuildID=LAvCUfDKMeO1s4R_EGoq/h_niTxKog_MZ4q9-oGnO/tJX1mi5jDPJ36S_j-HeG/Hf43L3PKGMja0sjBmNwO, not stripped
+         no docs
+       googling again for containernetworking-plugins main_ptp.md
+        https://github.com/containernetworking/plugins/issues/759
+         introducing...
+       https://www.cni.dev/plugins/current/
+        has ptp
+         not that illuminating
+        macvlan
+         'most wireless cards do not support being enslaved by macvlan.'
+         no unwired internet servers allowed?
+        https://www.cni.dev/plugins/current/meta/firewall/
+         'A successful result would simply be an empty result, unless a previous plugin passed a previous result, in which case this plugin will return that previous result.'
+         do these pipe some input|output to each other?
+          mixing in their own ... and so forth?
+         '...open is the default and does NOP.'
+          "is no-op"?
+          nop is in some output here:
+           https://github.com/kubernetes-sigs/kind/issues/1326
+           might be a way to go to kubernetes everything (the stylehouses)?
+          other nop:
+           broken for me: https://medium-com.translate.goog/nuances-of-programming/%D1%83%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BD%D0%B5%D0%BF%D0%BE%D0%BB%D0%B0%D0%B4%D0%BE%D0%BA-%D0%B2-kubernetes-%D1%81%D1%82%D1%80%D0%B0%D1%82%D0%B5%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9-%D0%BF%D0%BE%D0%B4%D1%85%D0%BE%D0%B4-e7d079b157c1?_x_tr_sl=ru&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=sc
+         https://www.cni.dev/plugins/current/ipam/host-local/
+          I dont have any /var/lib/cni(/networks)
+          wouldnt all this be compiled...
+           as a part of something that actually houses|needs them?
+           
+       https://www.cni.dev/docs/conventions/
+        a central place!
+         https://www.cni.dev/docs/conventions/#dynamic-plugin-specific-fields-capabilities--runtime-configuration 
+           'it should be included as part of a network configuration list'
+           links anchor is broken:
+            https://github.com/containernetworking/cni/blob/main/SPEC.md#network-configuration-lists
+           though Section 1:
+            'At plugin execution time, this configuration format is interpreted by the runtime and transformed in to a form to be passed to the plugins.'
+            to be network-configuration/plugins
+            lists required, optional, well-known keys
+           no mention of lists of configs?
+               
+       IP-NETNS(8)
+         via https://www.cni.dev/docs/cnitool/
+        'By convention a named network namespace is an object at /run/netns/NAME that can be opened.'
+         I dont have any /run/netns
+         surely wouldnt all this be compiled...
+          and I have no `cnitool` directly?
        
+     https://www.redhat.com/sysadmin/container-networking-podman
+       Podman primarily relies on the
+         https://github.com/containernetworking/plugins
+          are 'Some reference and example networking plugins ... by the CNI team.'
+       When rootless, defined as being run by a regular user,
+        Podman uses the slirp4netns project.
+       is that a delirious way to start?
+        CRUD first might be grounding...
+       /usr/share/containers/libpod.conf I havent,
+        does containers.conf though, man page says:
+         default_sysctls = [
+             "net.ipv4.ping_group_range=0 0",
+         ]
+        which sounds like it might block pings?
+       Note: All podman network commands are for rootfull containers only.
+        oh?
+       man sysctl.conf | cat
+        indicates...
+       anyway
+        $ podman run -dt --rm --publish-all -p 5400:1818 sth ./serve.pl
+        $ curl localhost:5400
+        curl: (56) Recv failure: Connection reset by peer
+        $ curl localhost:5401
+        curl: (7) Failed to connect to localhost port 5401: Connection refused
+        
+        some --network=mode tried
+        
+        
+       I dont know? pensive_wright
+      so far
+       podman run --rm -it --network host --name sth1 sth ./serve.pl
+     
+     perhaps
+      I should put it all in a qemu
+      this is some very random code...
+
+
+          
+        
+     
+     < nop: good name for a CRUDder for hostinfo
+     < check I have a debian liveboot somewhere. this snub-nosed usb drive?
+     < backup this host. copying an lv snapshot would miss bootloader?
+     < upgrading to testing might be fantastic
+        for the sync of docs <-> my setup
        
   Thought
    An Invasive Species
