@@ -28,7 +28,7 @@ use List::MoreUtils qw(natatime uniq);
 use POSIX qw'ceil floor';
 use Math::Trig 'pi2';
 
-use HTML::Entities qw(encode_entities decode_entities);
+#use HTML::Entities qw(encode_entities decode_entities);
 use Unicode::UCD 'charinfo';
 use Encode qw(encode_utf8 decode_utf8 is_utf8);
 use Term::ANSIColor;

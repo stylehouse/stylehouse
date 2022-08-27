@@ -371,14 +371,63 @@ running
     sweary schemes, a thousand hangs.
     couldnt "look her in the eye".
    other days its "thank you for allowing us to stay"
+   day 2
+   ringing someone, they answer "run on home"(approx) sarcastically 
   lxc
     "Specifically the CONFIG_CGROUP_NS entry was something entirely different that had nothing to do with cgroup namespaces per se."
   musics:
       to One Touch/Music/Stevetog 62G interruptedly
        rsyncing from /media/s/Sea/backups/Stevecom/ 123.4G
        is putting musics in a tar or similar replicate faster?
-       
+       seems the One Touch doesnt do 
+        rsync: [generator] recv_generator: failed to stat "/media/s/One Touch/Music/Stevetop/Tim & We Ce Ca/Best of/03 - Bravo L'\#311t\#351.mp3": Operation not permitted (1)
+        rsync: [generator] recv_generator: failed to stat "/media/s/One Touch/Music/Stevetop/Tim & We Ce Ca/Best of/15 - Petite Sir\#350ne.mp3": Operation not permitted (1)
+       need to tidy /media/s/Sea/backups/Stevecom/Music/Tim\ \&\ We\ Ce\ Ca/Best\ of/
 
+  podman 4
+   ~/src/stylehouse
+   guess I should read https://github.com/containers/podman/blob/main/docs/tutorials/basic_networking.md
+       If you would like to switch from CNI networking to netavark, you must issue the podman system reset --force command. This will delete all of your images, containers, and custom networks.
+   
+     supposing CNI ~~ slirp4netns
+      probably wants to join this namespace...
+       podman unshare --rootless-netns
+        Error: unknown flag: --rootless-netns
+       (on the host)
+      
+     Macvlan maybe: will present itself as if it is on the same network as the host
+       sudo podman network create -d macvlan -o parent=eth0 webnetwork
+       sudo podman network create -d macvlan -o parent=wlp7s0 webnetwork
+       podman run --rm -it --network webnetwork -p 8084:1812 --name sth1 sth ./serve.pl
+        2022-08-26T07:23:33.000336433Z: container `ce82812347ef0a197c8b0a366d7b98ecdc9fc2e92f98f44248fea88b8b861e81` is not running
+                                                                                                                                   Error: `/usr/bin/crun start ce82812347ef0a197c8b0a366d7b98ecdc9fc2e92f98f44248fea88b8b861e81` failed: exit status 1
+
+      man podman-run
+       --entrypoint= avoids the append-to-CMD trick
+       --network=mode but also network name
+         or host?
+        $ podman run --rm -it --network host -p 8084:1812 --name sth1 sth 
+        Port mappings have been discarded as one of the Host, Container, Pod, and None network modes are in use
+        root@s:/app# ip addr
+        bash: ip: command not found
+       lets see
+        $ whereis ip
+        ip: /usr/bin/ip /usr/sbin/ip /usr/share/man/man7/ip.7.gz /usr/share/man/man8/ip.8.gz
+        $ dpkg -S /usr/share/man/man8/ip.8.gz
+        iproute2: /usr/share/man/man8/ip.8.gz
+        root@s:/app# apt install iproute2
+        ...same as the host!
+       lets see
+        $ curl localhost:1818
+        [ stuff coming out ]
+       perfect!
+       except host mode is apparently not the safest?
+        it isnt listening on 192.168.1.12:1818
+        presumably they mean in some complicated way
+       
+       
+  Thought
+   An Invasive Species
 
 
 The-ish
