@@ -508,14 +508,35 @@ running
         curl: (56) Recv failure: Connection reset by peer
         $ curl localhost:5401
         curl: (7) Failed to connect to localhost port 5401: Connection refused
+       some --network=mode tried
+         --network host never in `podman port -l`
+        the --publish-all|-P
+         causes podman port|ps to show a port mapping
+         but the above curl-ing shows it is vaguely not there
+         perhaps a firewall is dropping it?
+         64 bytes from localhost.localdomain (127.0.0.1): icmp_seq=1 ttl=64 time=0.039 ms
         
-        some --network=mode tried
-        
-        
+        searching for the title of this article on this article-site, found:
+     https://www.redhat.com/sysadmin/basic-security-principles-containers
+       which goes on
+       back in reality,
+       "all this backend shit ... so much shit ... it breaks ... so high-maintenance!" Nat on running the web
+       
        I dont know? pensive_wright
       so far
-       podman run --rm -it --network host --name sth1 sth ./serve.pl
-     
+       podman run --rm -it --network host -P --name sth1 sth ./serve.pl
+         adding -P yields not podman ps to show a port mapping
+        curl localhost:1818 # port configured in app
+       podman run --rm -it -P --name sth1 sth
+        does networking, but you have to:
+         add -P to get podman ps to show a port mapping
+          so it has some 0.0.0.0:40393->1818/tcp
+        it seemed like curl localhost:40393 worked...
+         but now says 'Connection reset by peer'
+         unlike the 'Connection refused' turned up by any random port
+      so
+       host mode it is?
+       seems like picking up random ports is an easy way to address
      perhaps
       I should put it all in a qemu
       this is some very random code...
