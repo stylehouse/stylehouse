@@ -76,6 +76,7 @@ all
 running
   would involve...
    https://github.com/ottypes/json0#summary-of-operations
+    elusive PATH
    
   podman
    writing a Dockerfile for ~/src/excm
@@ -372,9 +373,10 @@ running
     couldnt "look her in the eye".
    other days its "thank you for allowing us to stay"
    day 2
-   ringing someone, they answer "run on home"(approx) sarcastically 
+   ringing someone, they (Stacey?) answer "ride on home" (approx) sarcastically 
   lxc
     "Specifically the CONFIG_CGROUP_NS entry was something entirely different that had nothing to do with cgroup namespaces per se."
+    forebodings.
   musics:
       to One Touch/Music/Stevetog 62G interruptedly
        rsyncing from /media/s/Sea/backups/Stevecom/ 123.4G
@@ -541,10 +543,284 @@ running
       I should put it all in a qemu
       this is some very random code...
 
-
-          
-        
-     
+  qemu
+   and other distractions,
+    after being led around and back to ...--network=host...
+   flatpak
+    perhaps to bundle it all?
+   PipeWire
+    can patchbay X-windows? (now wayland)
+   cockpit
+    a management interface?
+    its in debian, then: `systemctl start cockpit`
+     gets /usr/lib/cockpit/cockpit-tls running
+    /etc/cockpit/cockpit.conf doesnt exist
+     `sudo netstat -tulpn | grep cock` nothing
+     turns out it is localhost:9090, or:
+      tcp6       0      0 :::9090                 :::*                    LISTEN      1/init       well, thats nice, it does detective work:
+      postgresql@13-main.service: Cant open PID file /run/postgresql/13-main.pid (yet?) after start: Operation not permitted
+    I go to create a VM
+     I gleefully await a qemu of debian:testing
+     yet! the create button just turns into a ghost
+     no logs? well, syslog forebodes: libvirtd[561037]: Failed to open file '/sys/kernel/security/apparmor/profiles': Permission denied
+    abandoned
+   qemu getting
+    read https://www.debian.org/doc/manuals/debian-faq/ftparchives#codenames
+    -> https://www.debian.org/CD/http-ftp/
+    -> https://cdimage.debian.org/cdimage/weekly-builds/
+      -> https://wiki.debian.org/DebianEdu/Introduction#Why_consider_it.3F
+         whats it to me, though? SSO?
+         I believe I use it because it comes with firmware-iwlwifi
+         otherwise the netinst experience goes feeble as
+    read http://wiki.colar.net/creating_a_qemu_image_and_installing_debian_in_it
+     vaguely, is 2011 based on the first comment timestamp
+      articles without timestamps considered dodgy
+      I dont have the `qemu` tool, guess it symlink to `qemu-system-x86_64`
+     in ~/src/stylehouse/qemu
+     wget https://cdimage.debian.org/cdimage/weekly-builds/amd64/iso-cd/debian-testing-amd64-netinst.iso
+     qemu-img create -f qcow debian.qcow 3750M
+     qemu-system-x86_64 -cdrom debian-testing-amd64-netinst.iso debian.qcow
+      # blank stare after selecting "Graphioal install"
+     abandon-forward:
+    read Manual page qemu-system-x86_64(1)
+      / Example: boot from a remote Fedora 20 cloud image
+     qemu-img create -f qcow2 -o backing_file='json:{"file.driver":"http",, "file.url":"https://cloud.debian.org/images/cloud/OpenStack/testing/debian-testing-openstack-arm64.qcow2",, "file.readahead":"64k"}' debian-testing.qcow2
+      #     ^^ per man page: -drive / file=file:
+      #         If  the  filename  contains  comma,  you  must  double  it
+      url must "start with 'http://')"
+     qemu-img create -f qcow2 -o backing_file='json:{"file.driver":"http",, "file.url":"http://cloud.debian.org/images/cloud/OpenStack/testing/debian-testing-openstack-arm64.qcow2",, "file.readahead":"64k"}' debian-testing.qcow2
+     qemu-system-x86_64 -drive file=debian-testing.qcow2,copy-on-read=on
+      hangs "Booting from Hard Disk..." forever, 100% cpu
+      climb up and down this site to find a more generic:
+     qemu-img create -f qcow2 -o backing_file='json:{"file.driver":"http",, "file.url":"http://cloud.debian.org/images/cloud/bookworm/daily/20220829-1122/debian-12-generic-amd64-daily-20220829-1122.qcow2",, "file.readahead":"64k"}' -F qcow2 debian-testing.qcow2
+       it doesnt not work, Loading initial ramdisk takes ages
+        100% cpu, the debian-testing.qcow2 grows slowly
+        "Kernel panic ... deadlocked on memory"
+       meanwhile:
+     without backing-via-http tricks:
+      # totaly stuff re
+      wget ....qcow2
+      qemu-img snapshot debian-12-generic-amd64-daily-20220829-1122.qcow2 -c v1
+      qemu-system-x86_64 debian-12-generic-amd64-daily-20220829-1122.qcow2 -m 1g
+       works good! cpu is 92 degrees: `cpulimit -p 571435 -l 66`
+       but what is the login?
+        https://wiki.debian.org/ThomasChung/CloudImage
+         describes resetting it from outside
+        sudo apt install libguestfs-tools
+        virt-customize -a debian-12-generic-amd64-daily-20220829-1122.qcow2 --root-password password:debian
+       am in!
+        takes a minute to start:
+         https://wiki.yoctoproject.org/wiki/How_to_enable_KVM_for_Poky_qemu
+         sudo modprobe kvm-intel
+      qemu-system-x86_64 debian-12-generic-amd64-daily-20220829-1122.qcow2 -m 1g -enable-kvm
+       # up to ten times faster!
+    networking way is vague
+      https://wiki.debian.org/KVM
+       "most users will also want libvirt for convenient configuration"
+       sudo apt install qemu-system libvirt-daemon-system
+       # elected to restart dbus after this and the system hangs
+       #  there is one not-okay message on screen about postgres as above
+       #  have to ctrl-alt-F1 and `systemctl default` to get back...
+       sudo adduser s libvirt
+      hmm, syslog:
+        Aug 29 20:40:30 localhost libvirtd[592190]: invalid argument: malformed 'readahead' field in backing store definition '{"file.driver":"http", "file.url":"http://cloud.debian.org/images/cloud/bookworm/daily/20220829-1122/debian-12-generic-amd64-daily-20220829-1122.qcow2", "file.readahead":"64k"}'
+        Aug 29 20:40:30 localhost kernel: [696189.577093] daemon-init[592206]: segfault at 1c ip 00007f5e9759fd50 sp 00007f5e5b7fd708 error 4 in libvirt.so.0.7000.0[7f5e97511000+28f000]
+       # long after I was playing with that
+       # unable to start libvirtd now
+         https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/sect-troubleshooting-common_libvirt_errors_and_troubleshooting#sect-libvirtd_failed_to_start
+         "Change libvirts logging in /etc/libvirt/libvirtd.conf"
+         and set: log_outputs="3:syslog:libvirtd"
+         # no help
+        eventually rename the directory with the image that must be coming from
+        ~/src/stylehouse/qemu2
+       virt-manager has a New VM flow that noticed the virtual network is not active
+        and goes ahead and enables it
+        ...and
+        now does `ping 8.8.8.8` but not dns...
+        stackoverflow.com/questions/35683443
+         now see it in `virsh list`! aha so:
+        https://wiki.debian.org/ThomasChung/CloudImage
+         (continued)
+          could libvirt be congregation
+   libvirt rather
+    now starting debiantesting in virt-manager or `virsh start debiantesting` says:
+     "Error starting domain: Unable to add bridge enp8s0 port vnet7: Operation not supported"
+    alter things:
+     export LIBVIRT_DEFAULT_URI="qemu:///session"
+      so now `virsh list --all` is empty
+     virt-manager in user session: create a new vm
+      now `virsh list --all` shows it "shut off" while it is running
+      no net, unable to add one due to the above error again...
+      restarting virt-manager I find it no longer starts:
+       Unable to init server: Could not connect: Connection refused
+       (virt-manager:625292): Gtk-WARNING **: 16:50:38.699: cannot open display: 
+    absolute blank.
+     sudo qemu-system-x86_64 disk.img -boot d -netdev tap,id=mynet0,ifname=tap0,script=no,downscript=no -device e1000,netdev=mynet0,mac=52:55:00:d1:55:01 -m 1g -enable-kvm
+     nope
+      they say its impossible to wireless<->VM
+      btw this semi-problem lurks:
+        in syslog:
+          "libvirtd[28416]: Failed to open file '/sys/kernel/security/apparmor/profiles': Permission denied"
+        as per https://superuser.com/questions/1352115
+         the readable file is unreadable
+         
+     maybe another gui (than virt-manager)...
+      gnome-boxes:
+       sees 'dc', my libvirt instance of the above debian-12...qcow2
+       it has other issues, on boot:
+        qemu-system-x86_64: warning: host doesnt support requested feature: MSR(48BH).vmx-apicv-register [bit 8]
+      virtualbox:
+       not oss?
+      vagrant:
+       think Ive heard of this    
+       https://www.vagrantup.com/docs/cli/box
+       vagrant init debian/testing64 # found on vagrantup.com
+        It appears your machine doesnt support NFS, or there is not an
+        adapter to enable NFS on this machine for Vagrant. Please verify
+        that `nfsd` is installed on your machine, and try again.
+       so https://wiki.debian.org/Vagrant
+        sudo systemctl status nfs-kernel-server
+        daemon has problems around this syslog:
+         exportfs[29015]: exportfs: Failed to stat /srv/nfs4/home0: No such file or directory
+         exportfs[29015]: exportfs: Failed to stat /srv/nfs4: No such file or directory
+        only trace of "/srv/nfs4/home0" on google leads to: https://wiki.debian.org/DebianEdu/Documentation/Bullseye/AllInOne
+         which says they come from /etc/exports.d/edu.exports
+         so I edit the latter out, and mkdir /src/nfs4
+        and it systemctl starts!
+        vagrant up --provider=libvirt
+         waits forever at "get an IP address"
+         exactly: https://wiki.debian.org/Vagrant#Hang_on_.22Waiting_for_domain_to_get_an_IP_address....22
+         destroy loop helps along to:
+          "internal error: /usr/lib/qemu/qemu-bridge-helper --use-vnet --br=virbr0 --fd=33: failed to communicate with bridge helper: Transport endpoint is not connected"
+           https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=691138
+            is a security concern
+     a step back:
+       networking
+         creating a /etc/qemu/bridge.conf
+         with https://mike42.me/blog/2019-08-how-to-use-the-qemu-bridge-helper-on-debian-10
+         doesnt help but setuid did change an error
+          all vagrant, qemu-system*, virt-manager fail variously
+         I have deleted my default network by the way!
+         `virsh net-list --all` is empty
+         https://wiki.libvirt.org/page/Networking
+          "Every standard libvirt installation provides NAT based connectivity to virtual machines out of the box."
+          "If it is missing ... config can be reloaded"
+          virsh net-define /usr/share/libvirt/networks/default.xml
+          virsh net-autostart default
+          virsh net-start default
+           # quick loop via "virbr0: File exists" via `ip link delete virbr0`
+          hmm no?
+           add the following to /etc/sysctl.conf
+           net.ipv4.ip_forward = 1
+          hmmm
+          just noticed `host libvirt.org` works
+           but `ping libvirt.org` says: "Temporary failure in name resolution"
+          https://wiki.debian.org/BridgeNetworkConnections
+            $ sudo brctl addif virbr0 wlp7s0
+            cant add wlp7s0 to bridge virbr0: Operation not supported
+          https://superuser.com/questions/597834
+           "prohibited [by WiFi spec] unless something authorizes [slow, insecure]"
+           the next answer is better? but no.
+           as https://forum.armbian.com/topic/17248-cant-add-wlan0-to-bridge-br0-operation-not-supported/
+            "Searching the internet ... weird result ...
+             people saying things like 'It's no problem' and the other lot saying
+             'It's not possible'.. and both groups seemingly haven't heard of each other,
+             ever before ;)"
+           I find this again: https://serverfault.com/questions/1088736
+           also https://amoldighe.github.io/2017/12/20/kvm-networking/
+           but my `virsh net-list --all` is empty!
+          this is a problem. reboot?
+           maybe its because this is debian edu?
+            if it doesnt let me change my chromium settings...
+       networking afresh
+         reboot to no net on the host
+          the whole folly seemed so Tolkeinian
+          fixed with `route add default gw $house_router`
+          which I remember using decades ago :o
+          Black Sabbath - Meglomania
+         more reboots okay
+         `vagrant up` now gets to:
+           mount -o vers=4 192.168.122.1:/home/s/src/stylehouse/qemu2 /vagrant
+           reason given by server: No such file or directory
+         that command doesnt seem real
+         host starts the sketchy sounding servive:
+           org.freedesktop.Tracker1.Miner.Extract
+         `strace vagrant up 2>trace.out`
+           openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libmount.so.1"
+           but no command
+         and still no creating a network in `virsh net-list --all`
+          via the virt-manager at least...
+         but can `host deb.debian.org` and thence `apt update` alright
+         sudo adduser -a s wireshark
+         sudo wireshark # looks better
+         parses arp!
+         `iptables -L -vn` shows packets per rule
+         well yeah... of
+       https://wiki.debian.org/KVM
+         just above "Now configure the VM guests with their names"
+          describes my qemu://system (not session (user))
+           as seen on `virsh net-edit default`
+           except I have a network/forward%dev=wlp7s0/interface%dev=wlp7s0
+          and that seems to be where the guest is put
+          so:
+           `host steve.nz` works
+           `ping steve.nz` fails: Temporary failure in name resolution
+          anyway, other tasks around:
+         thence is essential forms to fill in:
+          /etc/NetworkManager/conf.d/libvirt_dns.conf
+          /etc/NetworkManager/dnsmasq.d/libvirt_dns.conf
+          hmm, should I have a domain...
+           `virsh net-edit default` ++ <domain name="t"/>
+           and qemu-img snap: v3-h.t-mojo
+          with those configs...
+           sudo on the host takes 20s to start
+            should not have done thus?
+           reverting (rm) those files now leaves host resolve-incapable
+            unreverting, set hostname 's', and:
+             /etc/hosts ++ "s.t ":
+              127.0.0.1       localhost.localdomain localhost s.t s
+            (and systemctl restart NetworkManager these two times)
+           fixed, back to the last paragraph
+         okay
+          suddenly
+           sucked back into no internet a third time!
+           `systemctl default` sorts it out!
+          to the networking already!
+           lets ssh in so the guest is finally copypastable
+             which 
+            root@s:/var/www/html# cat ~s/.ssh/stylehouse.pub > index.html
+            and `curl ... > ~s/.ssh...`
+             `adduser s sudo`
+            then `ssh h`, having put that in the hosts /etc/hosts
+            wow, locales-all is 232MB installed
+             I dont know my rm-except-these
+            trouble getting dhcp on init from /etc/network/interfaces
+             make /etc/init.d/dhclient which works great!
+            so qemu-img snapshot v3.1.1
+             its 1.3G already!
+            apt remove network-manager
+            and install qemu-guest-agent
+             which doesnt quite allow virsh dompmsuspend dc disk:
+              error: internal error: S3 state is disabled for this domain
+            call that v3.1.2
+          disk++
+           sources += contrib non-free
+           `qemu-img resize disk.img +6G`
+           "The only way to change a partition size using fdisk is by deleting and recreating it"
+           jeez. yet `fdisk` drop and recreate do seem to work fine. resize2fs also.
+          then... to podman within!
+           
+  qemu/podman
+   two containers!
+    as per "perhaps I should put it all in a qemu"
+    on h, the qemu guest and podman host:
+    `podman build -t sth .` from Containerfile:
+      with even a trivial RUN command:
+        STEP 3/5: RUN ls -lh	
+        error running container: error from /usr/bin/crun creating container for [/bin/sh -c ls -lh]: sd-bus call: Interactive authentication required.: Permission denied
+       
+       
+       
      < nop: good name for a CRUDder for hostinfo
      < check I have a debian liveboot somewhere. this snub-nosed usb drive?
      < backup this host. copying an lv snapshot would miss bootloader?
