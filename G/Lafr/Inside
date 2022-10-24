@@ -73,6 +73,7 @@ all
    further toyings:
     tone.js
     paper.js, image process, tracer
+
 running
   would involve...
    https://github.com/ottypes/json0#summary-of-operations
@@ -106,6 +107,7 @@ running
       # the first \ is editorial
       then at a promptless terminal
        `pwd` says /js, ten times (multiplied output)
+  
   minikube (waste of time)
    attracted by one yaml per cluster of containers
    perhaps more recent tools will help?
@@ -147,8 +149,9 @@ running
         ❌  Exiting due to MK_USAGE: --container-runtime must be set to "containerd" or "cri-o" for rootless
       minikube start --container-runtime containerd
        # downloads another 400mb?
-      likely to be several viruses now
+      likely to have several viruses now
       nomad was a nomad
+  
   podman 2
    in codemirror/dev: cbf06bbe0b83a11f86c55e852b35e6033f385119
    so
@@ -273,7 +276,8 @@ running
         [rest the same]
        probably just needs glibc over musl
       needs glibc
-  podman 3
+  
+  podman 3 etc
       following https://github.com/vizhub-core/codemirror-6-experiments
       FROM debian again...
        yes, right
@@ -364,27 +368,27 @@ running
        meanwhile, refactor Containerfile to include lerna
         seems to not cache steps like COPY?
   
-  upstairs just now
-   is a b&b, seems to be social housing tonight
-    bogan bothering someone with kids on the phone
-    bored because no tv. will go out to eat something.
-     I vageuly consider feeding him...
-    sweary schemes, a thousand hangs.
-    couldnt "look her in the eye".
-   other days its "thank you for allowing us to stay"
-   day 2
-   ringing someone, they (Stacey?) answer "ride on home" (approx) sarcastically 
-  lxc
-    "Specifically the CONFIG_CGROUP_NS entry was something entirely different that had nothing to do with cgroup namespaces per se."
-    forebodings.
-  musics:
-      to One Touch/Music/Stevetog 62G interruptedly
-       rsyncing from /media/s/Sea/backups/Stevecom/ 123.4G
-       is putting musics in a tar or similar replicate faster?
-       seems the One Touch doesnt do 
-        rsync: [generator] recv_generator: failed to stat "/media/s/One Touch/Music/Stevetop/Tim & We Ce Ca/Best of/03 - Bravo L'\#311t\#351.mp3": Operation not permitted (1)
-        rsync: [generator] recv_generator: failed to stat "/media/s/One Touch/Music/Stevetop/Tim & We Ce Ca/Best of/15 - Petite Sir\#350ne.mp3": Operation not permitted (1)
-       need to tidy /media/s/Sea/backups/Stevecom/Music/Tim\ \&\ We\ Ce\ Ca/Best\ of/
+      upstairs just now
+       is a b&b, seems to be social housing for one bloke tonight
+        bogan with troubles voice bothering someone with kids on the phone
+        bored (fatally) because no tv. will go out to eat something.
+         I vageuly consider feeding him...
+        sweary schemes, a thousand (bucks?) hangs in the balance...
+        couldnt "look her in the eye".
+       other days its "thank you for allowing us to stay"
+       day 2
+       ringing someone, they (Stacey?) answer "ride on home" (approx) sarcastically, silence ensues
+      lxc
+        "Specifically the CONFIG_CGROUP_NS entry was something entirely different that had nothing to do with cgroup namespaces per se."
+        forebodings.
+      musics:
+          to One Touch/Music/Stevetog 62G interruptedly
+           rsyncing from /media/s/Sea/backups/Stevecom/ 123.4G
+           does putting music in a tar or similar replicate faster?
+           seems the One Touch doesnt do 
+            rsync: [generator] recv_generator: failed to stat "/media/s/One Touch/Music/Stevetop/Tim & We Ce Ca/Best of/03 - Bravo L'\#311t\#351.mp3": Operation not permitted (1)
+            rsync: [generator] recv_generator: failed to stat "/media/s/One Touch/Music/Stevetop/Tim & We Ce Ca/Best of/15 - Petite Sir\#350ne.mp3": Operation not permitted (1)
+           need to tidy /media/s/Sea/backups/Stevecom/Music/Tim\ \&\ We\ Ce\ Ca/Best\ of/
 
   podman 4
    ~/src/stylehouse
@@ -811,14 +815,120 @@ running
           then... to podman within!
            
   qemu/podman
-   two containers!
+   double containment!
     as per "perhaps I should put it all in a qemu"
     on h, the qemu guest and podman host:
     `podman build -t sth .` from Containerfile:
       with even a trivial RUN command:
         STEP 3/5: RUN ls -lh	
         error running container: error from /usr/bin/crun creating container for [/bin/sh -c ls -lh]: sd-bus call: Interactive authentication required.: Permission denied
+       builds okay via sudo
+       must then run via sudo as well
+        podman * is per user?
+        vaguely remember hearing this is better anyway
+    `sudo podman build -t sth .`
+    `sudo podman run --rm -it -P --name sth1 sth`
+      and changing listen to 0.0.0.0:1818
+      on s: curl h:43001 # works!
+      on h:
+       sudo podman ps -a # tells you that port
+      brilliant.
+      now back to..?
+       excm?
+   excm (~src/excm @d3b89d8be9)
+    the new codemirror sounds good
+     like it could do all the parsing for compilation
+     storing intelligised source code...
+    git clone it to h:
+     `sudo podman build -t exc .`
+      @db002dd3c7: will need .git to do submodules
+       "added 587 packages," sheesh
+     `sudo podman run --cap-add=SYS_PTRACE --rm -it --name exc1 exc`
+      to `strace bun i lerna`
+       no idea why it suddenly exits after:
+        sched_getaffinity(0, 128, [0, 1])       = 8
+      OH, you just need also to add --security-opt seccomp=unconfined
+       might be easier to work with bun on ~/src/codeserv...
+     `sudo podman run -P --rm -it --name exc1 exc`
+      on guest: `lerna run start --stream` (tentatively becoming CMD)
+       and its available on s !
+       but: Uncaught ReferenceError: events is not defined
+        sourcemaps seem to be misleading us
+   excm (~src/excm @d3b89d8be9)
+   h:svod/2
+    a svelte-add spawn
+     run container:
+      s@h:~/svod$ sudo podman run --entrypoint ash -P -v .:/app --rm -it --name cos1 cos
+     run server:
+      /app/2 # npm run dev -- --port 3000 --host 0.0.0.0
+    wanting to use vscode
+     running on h with x forwarding
+      https://unix.stackexchange.com/questions/12755
+       apt install xauth
+       touch .Xauthority
+        not sure what `xauth` gets ya, Ctrl+C-ing it leaves locks:
+        if locks on that file timeout (during login), tidy the others:
+         rm -fr .Xauthority-*
+      virsh stop dc
+      qemu-img snapshot disk.img -c 3.1.3-xauth
+       (in ~/src/stylehouse/qemu2)
+      virsh start dc
+     lets firewall on h https://wiki.debian.org/Uncomplicated%20Firewall%20%28ufw%29
+      apt install ufw
+      abandon this quest to deny random code phoning home from h
+       I want to be asked about each new type of traffic as it happens...
+       redirecting it to wireshark or so...
+       what the heck, cold tools.
+     installing vscodium:
+      dpkg -i ....deb
+       the “dependencies not met” error
+      apt-get -f install
+       adds 329 MB of dependencies
+      it is sluggish running it remotely
+       then it (chromium + qemu) has cpu-bound lock-up, virsh shutdown via tty1
+      
        
+  and so...
+   putting code into the qemu/podman isolation:
+    s:src/* are sources
+    ssh -A h
+     # -A agent forwarding - could be less open
+    sshfs -o allow_other s:src src
+     # allow_other has to be allowed - follow on screen instructions
+     # aside: serverfault.com/questions/6709 seems important for real life ops
+     # aside: unmounting:
+     fusermount -zu src
+      # -u unmount
+      # -z lazy: works when just -u says: Device or resource busy
+    cd src/stylefavela
+    sudo podman run --entrypoint ash -P -v .:/app --rm -it --name cos1 cos
+     # as root required sshfs to allow_other
+    npm run dev -- --port 3000 --host 0.0.0.0
+     # then access that via h:37109
+     #  or whatever port `sudo podman ps` on h says it is
+     
+   backup photos (aside)
+    to run syncthing on h
+     stored on snapshot qcow2 incase of ransomware
+      "No more available PCI slots"
+      mistakenly mkfs.ext4 /dev/vda14, thinking it the new volume
+       becomes unbootable. snapshots to the rescue!
+      200K for a blank 1337G volume
+       + 200K for partition table
+       + 1.2G for "filesystem accounting information"
+     it has taken days to do 60G of the 450G,
+      burning lots of cpu, yet only for 1-2MiB/s
+    to winscp into h (virsh instance 'dc')
+     set up forwarding through s on the flat lan:
+      ssh -L sl:2022:h:22 h
+      (syncthing pod defied having an ssh server)
+     nope, its about as slow
+      even though the connection is more direct (I think?)
+      syncthing uses 150% cpu on h, yet h uses 60% cpu on s (20% mem)
+    
+   secure?:
+    f(x) = x sin 1/x
+    
        
        
      < nop: good name for a CRUDder for hostinfo
@@ -826,7 +936,16 @@ running
      < backup this host. copying an lv snapshot would miss bootloader?
      < upgrading to testing might be fantastic
         for the sync of docs <-> my setup
-       
+  
+  Music
+   starting to sort it out on the 4TB
+    Music/ and Music\ old/ are clones of an out-of-date backup
+     Music/ was rsyncd, Music\ old/ copy-pasted from it (via thunar)
+     only rsync|cp -a preserves folder mtime, so:
+      rsync -Prua Music/* Music\ old/
+     the former going to update from Elvis/Music
+     the latter having slight differences to be determined
+     
   Thought
    An Invasive Species
 
@@ -891,7 +1010,7 @@ The-ish
 
 brack
  noun IRISH a cake or bun containing dried fruit.
- grows Doming for easy modelling with osc eventuality
+ grows Doming for easy modelling with o sc eventuality
   of many C.sc, their constellations of meaning
  substrate of -Effect, &sustain, &supetime
   which are all basically A cultures
