@@ -889,26 +889,33 @@ running
       
        
   and so...
-   putting code into dev @important
-    to the qemu/podman isolation:
-    s:src/* are sources
-    ssh -A h
-     # -A agent forwarding - could be less open
-    sshfs -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 -o allow_other s:src src
+   putting code into dev @important @truth
+    in s:src,
+     # for getting src/letz into the qemu/podman isolation:
+    lsyncd -nodaemon -delay 0 -rsyncssh letz h src/letz
+     # has inotify on s: spawning replication to inotify on h:
+     # < could be a daemon if its failure is detectible
+    ssh h
+     # now in h:
+    cd src/letz
+    sudo podman run -v .:/app:exec -p 3000:3000 --rm -it --name cos1 cos
+     # -v ...:exec seems to be required since lsyncd (but not sshfs)
+     #  lest the next command say "sh: vite: Permission denied"
+     # -p forwards port (h:3000), published to h: `sudo podman ps`
+     # you may strace with --cap-add=SYS_PTRACE
+     # now in the guest cos1:
+    npm run dev -- --port 3000 --host 0.0.0.0
+     # runs a server, compiles (2s for the tiniest website)
+    
+    aside: tried using sshfs before, but it doesnt transmit inotify:
+     sshfs -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 -o allow_other s:src src
      # allow_other has to be allowed - follow on screen instructions
+     #  because of later `sudo podman run ...` as root
      # aside: serverfault.com/questions/6709 seems important for real life ops
      # aside: unmounting:
      fusermount -zu src
       # -u unmount
       # -z lazy: works when just -u says: Device or resource busy
-    cd src/stylefavela
-    sudo podman run -P -v .:/app --expose 3000 --rm -it --name cos1 cos
-     # as root, required sshfs to allow_other
-     # you may strace with --cap-add=SYS_PTRACE
-    npm run dev -- --port 3000 --host 0.0.0.0
-     # then access that via h:37109
-     #  or whatever port `sudo podman ps` on h says it is
-     #   < how to configure which h port?
     
      
    backup photos (aside)
@@ -1008,6 +1015,8 @@ running
               seems to be some ownership problem?
               it is -rwxr-xr-x by 1002, even adduser {z,s} (so s is 1002) doesnt help
               huh.
+              solved. see '-v ...:exec seems to be required since lsyncd'
+      alright
               
        
      < nop: good name for a CRUDder for hostinfo
