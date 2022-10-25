@@ -889,11 +889,12 @@ running
       
        
   and so...
-   putting code into the qemu/podman isolation:
+   putting code into dev @important
+    to the qemu/podman isolation:
     s:src/* are sources
     ssh -A h
      # -A agent forwarding - could be less open
-    sshfs -o allow_other s:src src
+    sshfs -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 -o allow_other s:src src
      # allow_other has to be allowed - follow on screen instructions
      # aside: serverfault.com/questions/6709 seems important for real life ops
      # aside: unmounting:
@@ -901,11 +902,14 @@ running
       # -u unmount
       # -z lazy: works when just -u says: Device or resource busy
     cd src/stylefavela
-    sudo podman run --entrypoint ash -P -v .:/app --rm -it --name cos1 cos
-     # as root required sshfs to allow_other
+    sudo podman run -P -v .:/app --expose 3000 --rm -it --name cos1 cos
+     # as root, required sshfs to allow_other
+     # you may strace with --cap-add=SYS_PTRACE
     npm run dev -- --port 3000 --host 0.0.0.0
      # then access that via h:37109
      #  or whatever port `sudo podman ps` on h says it is
+     #   < how to configure which h port?
+    
      
    backup photos (aside)
     to run syncthing on h
@@ -925,11 +929,86 @@ running
      nope, its about as slow
       even though the connection is more direct (I think?)
       syncthing uses 150% cpu on h, yet h uses 60% cpu on s (20% mem)
+    anyway
+     syncthing, taking 3 weeks or so, is fine
+     though eating 120% cpu (and the usual 1.8g qemu-system-x86)
+     looking forward to automation...
+     suddenly,
+      stays at 200K/s
+      bring the drive itself for 30M/s via rsync
+      syncthing et up
+     < auto bring news over...
     
-   secure?:
+   langing
     f(x) = x sin 1/x
-    
-       
+     as stated by some G
+      crypto dns loosely via random http sites:
+       `ssh swampdirt` (is in my .ssh/config)
+       `ssh st3@sdf.org` (mkhomepg requires $1)
+     with a grammar
+      lezer (in codemirror)
+      the nodejs ecosystem is annoying
+       I always want to read package.json
+        tab completion buggered by package-lock.json
+       supposed to be using vscode?
+        wanting to glance at readme.md, takes a minute to install an extension,
+         which is the top extension, so should be good? not sorted by anything obvious
+         takes an age to display a two-line readme,
+          and is as disconnectey as https://code.visualstudio.com/docs/languages/markdown
+           the build in same thing
+          this 2-thing about the source and compiled is too key here
+          and has eluded us generally...
+       npm install A --save-dev # for no A in production
+      see 'putting code into dev'
+       we are in ~/src/stylefavela in a podman
+       meanwhile svelte seems to have stopped being so sleek:
+        'ReferenceError: closeDescriptionPopup is not' when reloading
+        'Function called outside component initialization' 
+       now in ~/src/letz (in a podman)
+        it is a `npm create svelte` with a wordle game
+        seems like sshfs is not notifying vite of changes
+         though vi-ing changes on h: or the pod (in|after the sshfs mount) does cause '[vite] hmr update'
+         no inotify for sshfs: unix.stackexchange.com/questions/208702
+         lets mount a virtual drive of code on h:
+          `virt-manager`, shutdown 'dc' (h:)
+           dont get much further in there:
+            "Unable to add device: unsupported configuration: 'directory' storage format is not directly supported by QEMU, use 'dir' disk type instead"
+          `virsh`, edit dc
+           and do as per https://libvirt.org/kbase/virtiofs.html
+           finally editing some <filesystem/>, but then!
+            "error: unsupported configuration: virtiofs is not yet supported in session mode"
+           can however do something like:
+            https://dustymabe.com/2012/09/11/share-a-folder-between-kvm-host-and-guest/
+            with /home/s/spool/src -> <target dir="spol"/>
+            h: `sudo mount -t 9p -o trans=virtio,version=9p2000.L spol src`
+            seems to work but symlinks are null-looking, broken:
+             "ls: cannot read symbolic link 'src/letz/node_modules/.bin/svelte-kit': Too many levels of symbolic links"
+             is is supposed to be -> ../@sveltejs/kit/svelte-kit.js
+            seems unsolved.
+            sshfs imo should do inotify and pipes, but: unix.stackexchange.com/questions/144486
+            yet https://www.kernel.org/doc/html/v5.19/filesystems/virtiofs.html
+        `lsyncd -delay 0 -rsyncssh . h src/letz` # in s:src/letz
+         why require -delay 0? to capture whole waves of change at once I suppose
+         is, however, working...
+         lets put h:src into a disk:
+          via `virt-manager`, add ~/.local/share/libvirt/images/dc.qcow2
+           then rename it to      ~/.local/share/libvirt/images/src.qcow2
+           the Overview XML refers to these
+            also the main one /home/s/src/stylehouse/qemu2/disk.img
+          semi-automatable setup in h:
+           sudo fdisk /dev/vdb, n, \n\n\n\n, w
+           sudo mkfs.ext4 /dev/vdb1 # states uuid:
+           sudo vi /etc/fstab
+            "UUID=fc319950-462f-4a08-a4a0-28d95b232725 /home/s/src ext4 user,rw,discard,errors=remount-ro,x-systemd.growfs 0 1"
+            then if on s: `lsyncd -nodaemon -delay 0 -rsyncssh letz h src/letz`
+             you get the output rather than the syslog about:
+              "rsync: [Receiver] mkdir "/home/s/src/letz" failed: Permission denied (13)"
+             on h: sudo chown s src
+             still, "sh: svelte-kit: Permission denied"
+              seems to be some ownership problem?
+              it is -rwxr-xr-x by 1002, even adduser {z,s} (so s is 1002) doesnt help
+              huh.
+              
        
      < nop: good name for a CRUDder for hostinfo
      < check I have a debian liveboot somewhere. this snub-nosed usb drive?
