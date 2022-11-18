@@ -795,6 +795,8 @@ running
             root@s:/var/www/html# cat ~s/.ssh/stylehouse.pub > index.html
             and `curl ... > ~s/.ssh...`
              `adduser s sudo`
+             generate sshd host keys, which the cloud image couldnt come with:
+             `dpkg-reconfigure openssh-server`
             then `ssh h`, having put that in the hosts /etc/hosts
             wow, locales-all is 232MB installed
              I dont know my rm-except-these
@@ -812,6 +814,37 @@ running
            `qemu-img resize disk.img +6G`
            "The only way to change a partition size using fdisk is by deleting and recreating it"
            jeez. yet `fdisk` drop and recreate do seem to work fine. resize2fs also.
+            # later:
+             while using debian-11-genericcloud-amd64-20221020-1174.qcow2
+             this fdisk+resize2fs step seems to be redundant! hooray.
+             HOWEVER
+             5.10.0-19-cloud-amd64 doesnt have virtio 9p filesystem drivers!
+              https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=955232
+             bit of a misnomer, so you must:
+              # install the normal kernel:
+              sudo apt install linux-image-amd64
+              # use it:
+              sudo grub-set-default 'Linux, with Linux 5.10.0-19-amd64'
+              # but that doesnt work, so:
+              sudo vi /boot/grub/grub.cfg
+              # and move stuff around... will break with next update-grub!
+              #  no idea where|what really controls this...
+              #  (pretty amateur, no time left to be otherwise)
+              #  perhaps easier to: apt remove linux-image-5.10.0-19-cloud-amd64
+              # and FINALLY
+              #  after 5 hrs of other stuff
+              #   after a totally hemorraged dist-upgrade
+              #    probably seeking 9p support, cant remember
+              sudo mount -t 9p -o trans=virtio allmusic allmusic/
+              
+             oh by the way,
+              upnpc -e SOUL -a 192.168.1.8 2234 2234 tcp
+              iptables -A PREROUTING -t nat -i wlp7s0 -p tcp --dport 2234 -j DNAT \
+                       --to-destination 192.168.122.24:2234
+              iptables -A FORWARD -p tcp -d 192.168.122.24 --dport 2234 -j ACCEPT
+              iptables -A POSTROUTING -t nat -s 192.168.122.24 -o wlp7s0 -j MASQUERADE
+              # is not quite it...
+              
           then... to podman within!
            
   qemu/podman
@@ -895,17 +928,24 @@ running
     lsyncd -nodaemon -delay 0 -rsyncssh letz h src/letz
      # has inotify on s: spawning replication to inotify on h:
      # < could be a daemon if its failure is detectible
+     
     ssh h
      # now in h:
     cd src/letz
-    sudo podman run -v .:/app:exec -p 3000:3000 --rm -it --name cos1 cos
+    sudo podman run -v .:/app:exec -p 3000:3000 --rm -it --name cos1 cos ash
+     # replace `ash` with `npm ...` as below to make happen in one swoop
      # -v ...:exec seems to be required since lsyncd (but not sshfs)
      #  lest the next command say "sh: vite: Permission denied"
      # -p forwards port (h:3000), published to h: `sudo podman ps`
      # you may strace with --cap-add=SYS_PTRACE
+     # also, you may:
+      sudo podman rm cos1
+       # blow it away (if cos1 doesnt exit before h shuts down or so?)
+      sudo podman exec -it cos1 ash
+       # connect a terminal for doing `npm ...`
      # now in the guest cos1:
     npm run dev -- --port 3000 --host 0.0.0.0
-     # runs a server, compiles (2s for the tiniest website)
+     # runs a server, compiles (3s for the tiniest website)
     
     aside: tried using sshfs before, but it doesnt transmit inotify:
      sshfs -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 -o allow_other s:src src
@@ -916,6 +956,7 @@ running
      fusermount -zu src
       # -u unmount
       # -z lazy: works when just -u says: Device or resource busy
+    etc
     
      
    backup photos (aside)
@@ -954,7 +995,7 @@ running
        `ssh st3@sdf.org` (mkhomepg requires $1)
      with a grammar
       lezer (in codemirror)
-      the nodejs ecosystem is annoying
+      the nodejs ecosystem is annoying # cranky
        I always want to read package.json
         tab completion buggered by package-lock.json
        supposed to be using vscode?
@@ -1016,8 +1057,21 @@ running
               it is -rwxr-xr-x by 1002, even adduser {z,s} (so s is 1002) doesnt help
               huh.
               solved. see '-v ...:exec seems to be required since lsyncd'
-      alright
-              
+      alright ~/src/letz
+       gained lezer
+       then some `npm i @codemirror/*`
+        no auto get it from import statements?
+        `rsync -a h:src/letz ..` to show them to codium
+       find codemirror-svelte, is for cm 5
+       make for cm 6, range
+       split Lezing component
+        $ge transmits, but not view.state.doc.toString() -> sto -> flub -> lems
+         oh, c7485ce1dd629: lems=[] empty on recreation of parse tree list
+         now seems to act fine... only noticed when increasing lemit
+        alter Escape key to insert "★"
+         turns out earlier definition in extensions[] have higher precedence
+          https://codemirror.net/docs/guide/ / Extension is vague on this basic
+        
        
      < nop: good name for a CRUDder for hostinfo
      < check I have a debian liveboot somewhere. this snub-nosed usb drive?
