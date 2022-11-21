@@ -1036,7 +1036,7 @@ running
             sshfs imo should do inotify and pipes, but: unix.stackexchange.com/questions/144486
             yet https://www.kernel.org/doc/html/v5.19/filesystems/virtiofs.html
         `lsyncd -delay 0 -rsyncssh . h src/letz` # in s:src/letz
-         why require -delay 0? to capture whole waves of change at once I suppose
+         why require -delay 0? to batch waves of change I suppose
          is, however, working...
          lets put h:src into a disk:
           via `virt-manager`, add ~/.local/share/libvirt/images/dc.qcow2
@@ -1071,8 +1071,47 @@ running
         alter Escape key to insert "★"
          turns out earlier definition in extensions[] have higher precedence
           https://codemirror.net/docs/guide/ / Extension is vague on this basic
+       we now dump lezer per ViewUpdate.docChanged
+        I want to auto-compile the grammar
+         /app/src/lang # npx lezer-generator style.grammar -o style.js
+          auto?
+           /app/vite.config.ts has a sveltekit() for plugins
+            this mysteriously leads nowhere much in @sveltejs/kit/types/ambient.d.ts
+            yet the type (interface?) Plugin leads to:
+             vite/dist/node/index.d.ts / Plugin_2 (aliased export)
+              which has me reading all the way around to
+               https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction
+               possibly being the A stepper
+               but really async, right? a question of Go
+                # aside: this site has broken anchor linkage, code boxes with selectable line numbers
+               Promise.all, or Promise.allSettled
+                are much like the &settle wait-for thing
+                 has the other-side-ready so far...
+                 the (lack of real) io graphs make the code look horrendous
+            # aside:
+             is this really getPrimes?
+              https://github.com/mdn/content/blob/7bd1e39d340236003d434d45fcc30a419acc3492/files/en-us/web/javascript/reference/statements/import/index.md?plain=1#L165
+            meanwhile, src/Notebook-Experiments/lezer-playground/src/App.jsx
+             the generated_parser_code, may be instanceof Failure
+              or may .get().parser
+             # aside: hard to find codemirror-x-react, things from
+             #  seems to provide this project expr of one-CodeMirror <-> many-Extension
+             https://lezer-playground.vercel.app/glatifo (subjectively URL)
+              is more advanced than eg stackblitz.com/edit/typescript-pkrd8v?file=index.ts
+               or eg https://stackblitz.com/edit/vitejs-vite-thcnqz?file=src%2Fgrammar&terminal=dev
+                has vite? seems heavier
+               these are from discuss.codemirror.net
+              showing corresponding bits in parallel editors is excellent
+               could be taken much further by the general string-cheeser
+                minimal cut graphs of course being key to doming off relationisms
+              I do up this prototype io parser just for progress sake (81957f05f8f)
+               with the above multi-editor tool!
+               the vite version also shows the https://vitejs.dev/guide/assets.html
+                
+            
+           
         
-       
+     < find the best mask|helmet|hood thing for grindering in
      < nop: good name for a CRUDder for hostinfo
      < check I have a debian liveboot somewhere. this snub-nosed usb drive?
      < backup this host. copying an lv snapshot would miss bootloader?
