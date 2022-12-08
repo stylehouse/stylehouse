@@ -1099,7 +1099,7 @@ running
              https://lezer-playground.vercel.app/glatifo (subjectively URL)
               is more advanced than eg stackblitz.com/edit/typescript-pkrd8v?file=index.ts
                or eg https://stackblitz.com/edit/vitejs-vite-thcnqz?file=src%2Fgrammar&terminal=dev
-                has vite? seems heavier
+                has vite compiler in the browser? seems heavier
                these are from discuss.codemirror.net
               showing corresponding bits in parallel editors is excellent
                could be taken much further by the general string-cheeser
@@ -1107,8 +1107,32 @@ running
               I do up this prototype io parser just for progress sake (81957f05f8f)
                with the above multi-editor tool!
                the vite version also shows the https://vitejs.dev/guide/assets.html
-                
-            
+                that all it takes to avoid the `npx lezer-generator` step above is:
+                    import grammar from '../lang/style.grammar?raw'
+                    import { buildParser } from '@lezer/generator'
+                    const parser = buildParser(grammar)
+                and it even updates with changes to style.grammar! svelte.
+              https://css-tricks.com/snippets/css/complete-guide-grid
+               is what this uses, complicatedly
+              it is amongst a bunch of codemirror-x-react abstractions
+               I guess an Effect ~~ a routine, with io?
+             lezer though
+              looking through @lezer/generator/dist/index.es.js
+               it or index.cjs, whats that difference?
+               function readString
+                via codium 'Show Call Hierarchy'
+               called from Input.next(), from parseGrammar()
+               makes much of (extends) Node
+              look for GrammarDeclaration in git://@lezer/generator
+               then a stray Ctrl-Q quits every codium I have open!
+                it takes ages to start..? thumbnailing everything is ideal...
+               const ASTRAL = 0x10000, GAP_START = 0xd800, GAP_END = 0xe000, MAX_CODE = 0x10ffff;
+                history... 4^16 is large.
+                 gap is arcanery https://stackoverflow.com/questions/66680991 "However, Windows ..."
+             lezer then
+              will be... part of it?
+              also https://www.nan.fyi/magic-motion for syntax tree junk interspersion
+              okay, lets try to find current selection amongst syntaxTree...
            
         
      < find the best mask|helmet|hood thing for grindering in
