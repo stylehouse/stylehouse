@@ -1,4 +1,4 @@
-# retro futurism
+# retro futurism!
 
 =spec
 all
@@ -932,8 +932,8 @@ running
     ssh h
      # now in h:
     cd src/letz
-    sudo podman run -v .:/app:exec -p 3000:3000 --rm -it --name cos1 cos ash
-     # replace `ash` with `npm ...` as below to make happen in one swoop
+    sudo podman run -v .:/app:exec -p 3000:3000 --rm -it --name cos1 cos
+     # add on `npm ...` as below to make happen in one swoop
      # -v ...:exec seems to be required since lsyncd (but not sshfs)
      #  lest the next command say "sh: vite: Permission denied"
      # -p forwards port (h:3000), published to h: `sudo podman ps`
@@ -941,7 +941,7 @@ running
      # also, you may:
       sudo podman rm cos1
        # blow it away (if cos1 doesnt exit before h shuts down or so?)
-      sudo podman exec -it cos1 ash
+      sudo podman exec -it cos1 bash
        # connect a terminal for doing `npm ...`
      # now in the guest cos1:
     npm run dev -- --port 3000 --host 0.0.0.0
@@ -1133,6 +1133,44 @@ running
               will be... part of it?
               also https://www.nan.fyi/magic-motion for syntax tree junk interspersion
               okay, lets try to find current selection amongst syntaxTree...
+              we should view an interesting subset of the tree..
+              probably constantly, concluding "per ViewUpdate.docChanged"
+              with an eye to improve visuals
+               which are too often parked in the stark consultancy style, eg https://github.com/joxeankoret/diaphora
+   hard drive crash!
+    supposedly getting replaced and recovered
+     my qemus will have a two month trip to a lab in the Netherlands
+      the country with the furthest-away-sounding name...
+      coming back encrypted, with a complementary blank disk to decrypt it into!
+    so, re-setting up:
+     $ apt install podman
+     $ sudo podman build -t cos .
+      then, drama! "No space left on device"
+       whilst apt install unzip curl strace vim nodejs npm
+        should just use a nodejs image I suppose? using debian:bookworm-slim
+       so, as per my notes, see qemu / disk++:
+       $ qemu-img resize g.qcow2 +6G
+       then I go into it and look at $ sudo fdisk -l /dev/vda
+        drama! sudo takes ten seconds to get to password prompt
+         during which ^C and ^\ do nothing
+         but I vaguely remember this
+          and a similar slow login via ssh
+         are fixed by properly setting hostname
+          it feels like a name lookup timeout
+         so as root
+          $ hostnamectl set-hostname g
+          $ vi /etc/hosts   # adding "192.168.122.16 g"
+         and all better
+        lo! the partition and filesystem have already expanded!
+         maybe its a quirk of the debian-*-nocloud variation this is running
+         other times I had to drop+recreate the partition table, do resize2fs
+      back to this half-hour apt install...
+       no! lets use FROM node:slim
+       and add CMD bash, vircumventing straight-into-node-ness
+       and then! we are back
+       supposing no interruptions it would have been down an hour...
+        
+        
            
         
      < find the best mask|helmet|hood thing for grindering in
