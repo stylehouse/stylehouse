@@ -2904,7 +2904,101 @@ https://www.youtube.com/watch?v=CTq-1UjrGd4
 okay... Terminology taken away by conflicts, now got gnome-terminal (via tty1)
 
 oh and! Timeshift-gtk looks good! lets let it backup unto... /dev/bod/var! bril.
-...fills up var, I decrease number of time-spans to keep copies for (was wdaily, weekly, monthly)
+...fills up var, I decrease number of time-spans to keep copies for (was daily, weekly, monthly)
+it refuses to use steampow19, which is big-file-friendly but NTFS or something
+
 
 anyway, the vm I have book in is now known as doud
 it now refuses to start because /media/s/steampow19/virt/steves-broken-debian-that-tried-to-become-a-bookworm-ineffectually.tgz is libvirt.libvirtError: Cannot access storage file Permission denied
+
+timeshift is backing up its own backup, in an infinite loop
+I add a /var/timeshift ignore
+
+
+so qemu:g starts but qemu:doud does not,
+ and we have a trip to the Netherlands before h: or nico is back
+qemu:g has letz, the Svelte settlement. mainly about grammaring with the new CodeMirror 6.0
+
+I reach for my old notes for g's lack of virbr0
+ also for g's lack of `ip`, which deb is it from?
+I ./serve.pl
+an lunatic chromium tab absorbs it
+I could maybe fill in my calendar
+ aha, iproute2
+ which is lost when you re-podman-run
+so, the networking...
+or the refusing to open my backup since dist-upgrade
+or another dist-upgrade..?
+the networking may be in Inside / running / ...
+ yes, a swathe of things to try...
+ I clone qemu:g to qemu:g-clone and switch that to Usermode networking
+  a cul de sac
+ qemu:doud it is, not having the ntfs mode vg:book disk image.
+ so sshfs has revealed that /media/s/steampow19 was root 600 (an odd owner+mode for a user mount...)
+ perhaps that happens when I reboot? it was plugged in during the last one... sheesh
+ now I have unplugged that around, the sshfs mount known as "vgbook" can work, has shown up in thunar as the only steampow19 manifestation, though mount says /dev/sdb1 on /media/s/steampow19
+ and qemus, looking at that, can now start!
+ hmmm
+ when drives disconnect: [  822.330490] systemd-journald[245]: Failed to write entry (22 items, 756 bytes), ignoring: Read-only file system
+ it is crash-safe!
+ now as a read-only disk, the bookwork.tgz shan't mount: I/O error while writing superblock
+ fair enough, I un-readonly it and etc
+ steampow19 has stopped showing up in thunar...
+
+ANYWAY
+I cant seem to get to the network. my research turned up https://www.cni.dev/plugins/current/ / macvlan / no unwired internet servers allowed?
+hmm, doud also has ii  slirp4netns    1.2.0-1
+https://youtu.be/L5Wxobddl7A?t=704
+s@sa:~/.config/libvirt/qemu/dc.xml alludes to interface / tap1
+ I need to find the docs for connecting them
+ I find doud's (book's) /etc/qemu/bridge.conf: allow virbr0 (and 1)
+  perhaps qemu:book should happen? then I can virsh net-dumpxml
+  https://libvirt.org/sources/virshcmdref/html/sect-net-create.html
+okay, lets qemu:book
+s@sa:/media/s/steampow19/virt$ qemu-img convert steves-broken-debian-that-tried-to-become-a-bookworm-ineffectually.tgz -f raw bookish.qcow2
+qemu-img: Could not open 'steves-broken-debian-that-tried-to-become-a-bookworm-ineffectually.tgz': Failed to get shared "write" lock
+Is another process using the image [steves-broken-debian-that-tried-to-become-a-bookworm-ineffectually.tgz]?
+
+yes.
+it allocates the 112G qcow2, then fills it in at about 5MBps. waves of 20MBps
+qemu-img putters along at 9%, then 3%...
+also, we have noticed the sa:/usr/share/libvirt/networks/default.xml
+so qemu-img is still going
+I make up sa:/etc/qemu/bridge.conf as book: was (will soon be book.qcow2)
+and now starting qemu:g-clone (with the Bridge networking) says:
+ failed to communicate with bridge helper: Transport endpoint is not connected
+sudo apt install uml-utilities
+ failed to create tun device: Operation not permitted
+I kill the qemu-img job without remembering to iotop it.
+ on booting this botched qemu:book it drops to initramfs...
+doing it again.
+
+Jan 24 19:54:34 sa kernel: [17968.459019] intel_powerclamp: Stop forced idle injection
+
+future me might be reversing this backbackup: sudo tar cfz "/media/s/steampow19/Steve's Stuff/backup/bod-2023-01-24_15-45-1.tgz" timeshift/snapshots/2023-01-24_15-45-17/
+ to drain /var/
+ qemu:g-clone takes us to 99% captain!
+tar: timeshift/snapshots/2023-01-24_15-45-17/localhost/usr/share/elementary/images/space.png: file changed as we read it
+ what !?
+https://en.wikipedia.org/wiki/Holacracy sounds like BC
+https://help.ubuntu.com/community/KVM/Networking yay
+ last edited 2016-04-15 17:40:38 by leesharp)
+https://manpages.ubuntu.com/manpages/kinetic/man1/slirp4netns.1.html
+ would be a cold place without EXAMPLE
+Error: Device does not allow enslaving to a bridge.
+ is the central bane.
+qemu:book is failing to make it past its crash into initramfs for seemingly no reason. it refuses to Serial console there.
+ I tried fsck from another vm its lvs...
+shrug
+so https://gist.github.com/extremecoders-re/e8fd8a67a515fee0c873dcafc81d811c doesn't apply because:
+$ sudo ip link set wlp7s0 master virbr0
+Error: Device does not allow enslaving to a bridge.
+
+https://bbs.archlinux.org/viewtopic.php?id=264651
+ someone having the problemo
+ https://youtu.be/NXU_M4030nE?t=4943
+ and before, I noted: they say its impossible to wireless<->VM
+ also this side-problem!
+ syslog says: libvirtd[38386]: Failed to read AppArmor profiles list '/sys/kernel/security/appar
+mor/profiles': Permission denied
+
