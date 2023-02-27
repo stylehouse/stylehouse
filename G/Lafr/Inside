@@ -955,6 +955,19 @@ running
      # now in the guest cos1:
     npm run dev -- --port 3000 --host 0.0.0.0
      # runs a server, compiles (3s for the tiniest website)
+    now on the host:
+     you should be able to find http://192.168.122.92:3000/
+      that ip is findable via:
+       < `virsh domifaddr gox` should work, not showing anything
+         and neither does net-list, perhaps Usermode Networking skips this
+       in virt-manager info for the NIC
+       or in `ssh gox` with `ip a`
+        (h renamed gox for a while, see hard drive crash!)
+        but not in the podman container
+      
+      
+       
+     
     
     aside: tried using sshfs before, but it doesnt transmit inotify:
      sshfs -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 -o allow_other s:src src
@@ -1198,7 +1211,8 @@ running
        - apt install intel-media-va-driver-non-free, or 265 glitches
        - lock screen kicks in after a second of desktop is shown
        - syslog spam eg "Successfully activated service 'org.freedesktop.Tracker3.Miner.Extract'"
-     and now...
+    and now...
+     
       
        
         
