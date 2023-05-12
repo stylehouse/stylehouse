@@ -3594,9 +3594,80 @@ mo May 1
       with a .c.version
        < that is real
      reactive the o -Con/*
+ su
+  thoroughly repaired yesterday
+  @letz / test.ts
+   towards `npm run test`
+    deps: npx playwright install; npx playwright install-deps
+     < test build having that done
+ mo
+   test passing
+    real	0m37.355s real slow. how to hold the loop?
+ tu
+  @letz 036941112b / St<->Con
+   class sip_dispatch
+    has fixed "stop wires from being recycled"
+     no idea why. perhaps toplevel is recreating?
+    critical to updates is: Code.svelte: {#key conver}
+     after a second bleep() no updates received
+     perhaps the old con is still used..?
+    so is Con.svelte: {#key quee}
+     which basically dispatches to Con/Cont etc for us
+ we
+  @letz / St<->Con
+   should check we can dispatch updates to sip=1
+    and lo, problems with 1.2.5 (the new dat.i) not having a wire
+     ie the throw unwired in Con.svelte
+     the wire has been made but unfound by getContext
+     creating a new Con//Con can cause old Context reuse apparently..
+     allowing this to happen now reveals:
+      always unwired after refresh (and bleep, bloop)
+       further bloops keep it unwired
+      another bleep, bloop+ always works
+    kind of stabilise updates to sip=1 @letz 5e54e1dbdbb7
+     ensure refresh=0 during bleep()
+      we were able to ignore the 1.2.5 spawn
+       during loops of (bleep,bloop)+
+       since 'refresh' would stay at 1
+   thinking about diffing...
+    be nice to see Con output in Con
+     wondering what properties they have...
+      just each other, their t,cv,sc
+    d.visit needs to include (and will only use) -Con[tz]
+    d.D is the d.C from before
+     last output fed in again at the top
+    d.D must 'resolve $n' in time to find -Conz its D.c.next_boost
+    C.c.X as the absorber of everything else on C.c|sc.*
+     going into those things as far as it can, eg sip
+      avoiding other C?
+      > looking for time-space deals in there. is it "the same"?
+     Con sees little
+     Cont has the label, typology
+     Conz has a some children
+      and must template any rearrangement?
+     X.c|sc=$gk
+      .is=v if nonref
+      .sym=such,k=$k
+       could then turn into an {is} or {sym,k} if more hash...
+       .sym=such,k=$k2
+        .is='blub'
+         eg is C.sc.flab.$k.$k2 = 'blub'
+     ignoring C&Cont etc
+     C&X <=> D&X
+ th
+  keep it simple now...
+  bind:this might help make an index of components
+   which we might simply call for an update on...
+   instead of this wire stuff
+ fr
+  
+  
+       
+    
+   
+    
   <<<
      reset_tocon()
-      stop wires from being recycled
        having each bleep() more A++, never sip==sip?
    so:
      C with ip, that getContext on themselves
