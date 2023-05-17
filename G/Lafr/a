@@ -3662,10 +3662,55 @@ mo May 1
  fr
   @letz 358b75b82f9b / Co.ts
    do DCresolve and DCdiffer
-   wire Con* and remove their {#key}
-   < deleting mind (1.2.2) keeps its label,
+   wire all -Con** and remove their {#key}
+ sa
+   763d2f4b7 fixed: deleting mind (1.2.2) keeps its label,
       seems to misalign Cont<->Conz for several things
-  
+      probably need to check D<=>C ip somehow
+    we just needed to put Con.svelte C.* reading in a $: upto(C)
+   {#each} can have a key, items in a changing list remain themselves
+    goners going, next item slides up
+    looking at it do transitions we are mutating the goner
+mo 15 May
+ we
+  screen record some demos illustrating last week
+  @letz
+   11c6bb1c272 remove goners and rename it sip_dispatch.setN
+     fixed: old sip is updating as it fades out
+      its size|content becomes that other
+      and doesnt get removed after transition (usually)
+     interestingly, noticed this only becuase:
+      78b26a563ec cause lots of el:4 spam to every ~C.c.ip
+       which is obsolete, since 86f3f76209d5
+        C.c.ip can be kept in sync without dispatch if put in upto()
+        svelte seems to be running all these upto() functions every time
+        luckily they are just assigning a few strings...
+        < get definite svelte<->data awareness awareness
+      subscription dupe from the C now assigned its ip
+     would otherwise be more cornery
+      < fuzz testing
+   perf
+    toCon() 1.6ms
+    setN() 2.2ms
+     it is all console.log
+    layout etc 60ms
+     then without transition 10ms
+   sip dispatch not required!
+    every upto() is running (anbup)
+    an intelligent minimum of work (mozwales)
+    even if the C remains the same (no tocon())
+     ie not '==', perhaps because object
+      < should we make a tree of versions we can recurse efficiently?
+   
+   I hope https://joyofcode.xyz/svelte-state-management
+    will answers? no. why doesnt it not work?
+    $page.url.searchParams sounds nice
+     Storing state in the URL
+     cant quite work out how tho
+   
+   < pull out all dispatch mannequa
+   < should we increase magnitude of the graph?
+     perhaps it is just fast enough?
        
     
    
