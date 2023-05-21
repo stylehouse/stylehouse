@@ -1236,7 +1236,55 @@ running
         then 500mb is needed to direct brave to the snd-aloop kernel modules device
         a stylehouse show about all these lib* things on your system
         Denver Broncos UK rock. # went off and made a bunch of videos hence
-        
+   
+   mediaserver detour
+    I go for serve.pl and /peek/
+      gox:src/stylehouse making a serve.pl container...
+       podman build -t p5 .
+       podman run -v ~/v:/v:ro -v .:/app:exec -p 1812:1812 --rm -it --name p51 p5
+       # having already:
+       #  added /etc/hosts for s, it is resolving to localhost
+       #  from sa (host):
+           ssh -A gox sshfs s:/media/s/Elvis/Photo\\ Ongoing v
+       thus enabling...
+        root@b668d5075ae5:/app# perl -I /usr/share/perl5/ -I/usr/lib/x86_64-linux-gnu/perl5/5.32/ -e "use JSON::XS 'encode_json'; my @l = glob '/v/*Lot*'; print encode_json(\@l)"
+        Cant load '/usr/lib/x86_64-linux-gnu/perl5/5.32/auto/JSON/XS/XS.so' for module JSON::XS: /usr/lib/x86_64-linux-gnu/perl5/5.32/auto/JSON/XS/XS.so: undefined symbol: PL_thr_key at /usr/local/lib/perl5/5.36.1/XSLoader.pm line 94.
+         /usr/bin/perl is the perl I want, 5.32.1
+          `dpkg -S /usr/bin/perl` => is from apt
+         /usr/local/bin/perl is just there, 5.36.1
+     it has major problems splitting filenames by whitespace, from glob
+      `perldoc -f glob` reveals it is mired with bygone twists
+    then raku
+     why not.
+      because cro is tricky to install.
+      cant believe its not in rakudo-star
+       is carnaval, no?
+      @letz cd1e3976d7
+       zef usually cant install things because of test fails
+       attempts at `podman build`
+        the hill `zef install --/test cro`, wanted 2.2GB memory (oom-killed with 1GB?)
+      the shelling out is not whitespace safe
+       on the way, almost Shell::DSL, which by Synopsis is too much abstraction?
+       < https://raku.land/zef:jjmerelo/IO::Capture::Simple has broken links
+       my $proc = run <gm convert -auto-orient>, $src, <-thumbnail '400x400\>'>, $dst, :out;
+        might be?
+    python
+     not too hard flask-uwsgi-websocket even
+     f['t'] = 1 rather than f.t = 1
+     # for magic, which deb python3-magic puts here:
+     sys.path.append('/usr/lib/python3/dist-packages')
+     I need to `podman system prune`
+     everything seems ready and willing
+     and `sudo podman system prune`
+      there is a podman instance per user (or per sudo or not?)
+     put -ss before -i in ffmpeg for speed
+     being in src/letz/py/, it is lsyncd to gox:, where in src/letz:
+      podman build -t py py
+       # latter py being dir with Containerfile
+      podman run -v ~/v:/v:ro -v .:/app:exec -p 5000:5000 --rm -it --name pyt py bash
+     this works quite well after only a day
+      makes ~5kb webp thumbnails, takes <1s for videos
+
     and now...
       
       

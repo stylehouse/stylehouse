@@ -669,10 +669,11 @@ any '/peek/*t' => sub { my ($c) = @_;
     my $line = $c->param('line') || 0;
     # for directory, text,
     my $type = 'f';
-    $t += '/*' if -d $t;
+    $t .= '/*' if -d $t;
     $type = 'd' if $t =~ /\*/;
     
     my ($f) = my @l = glob $t;
+    saybl "glob $t -> ".Dump(\@l);
     
     # weird corners:
     #  supplying ?-ambiguated $t matching many
