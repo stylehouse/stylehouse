@@ -1281,7 +1281,7 @@ running
      being in src/letz/py/, it is lsyncd to gox:, where in src/letz:
       podman build -t py py
        # latter py being dir with Containerfile
-      podman run -v ~/v:/v:ro -v .:/app:exec -p 5000:5000 --rm -it --name pyt py bash
+      podman run -v ~/v:/v:ro -v .:/app:exec -p 5000:5000 --cap-add=SYS_PTRACE --rm -it --name pyt py bash
      this works quite well after only a day
       makes ~5kb webp thumbnails, takes <1s for videos
 

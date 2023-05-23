@@ -3731,28 +3731,56 @@ mo 15 May
       makes ~5kb webp thumbnails, takes <1s for videos
   letz split Diring from Code
    wrong:
-    import { Diring } from "$lib/Diring.svelte"
-     vite will say:
-      Error: <Diring> is not a valid SSR component. You may need to review your build config to ensure that dependencies are compiled, rather than imported as pre-compiled modules. Otherwise you may need to fix a <Diring>.
+    in Code.svelte:
+     import { Diring } from "$lib/Diring.svelte"
+    vite will say:
+     Error: <Diring> is not a valid SSR component. ...
    right:
     import Diring from "$lib/Diring.svelte"
    also if:
     {#each peek as f, i}
-        ...
     at the end of Diring causes the same "not a valid SSR component"
      along with an earlier: /src/lib/Diring.svelte:69:7 'peek' is not defined
    you have to be careful
     to not click away the modal error message in the webapp,
     whence it will have failed to reload
-  letz py thumber
+  detour for exploring video thumbnails
+   backend work in py/serve.py
+   letz py thumber
    2 in parallel, when timestamp > video, snap at 1s
+   opencv used simply to take 9 samples
+    < finding representative thumbs
+ mo
+  detour for exploring video thumbnails
+ tu
+  @letz / Co.ts / inlace Con frontend work
+   prototype inlace refactored for tail calls
+    surprise: no tail call optimisation in javascript
+     so bloop() now runs in 65ms, not 2.5ms
+     it gets 172 calls deep for our 20 d
+    nice picture of the resolving stagger of Atime
+     ie A1@3 with A11@1
+    default d.tailcalls=0
+     bloop() now runs in 1.5-2.5ms
+    < how to depth-first (or not)
+       will generalise to io expr demanding perspective
+        with even @2/@3 possible (child runs ahead)
+    
+   another inlace frontend for -Diring//-Dir
+    api wrangler
    
+   < video editor via python api
+      interesting:
+          fl_time(self, t_func, apply_to=None, keep_duration=False)
+            Returns a Clip instance playing the content of the current clip but with a modified timeline, time t being replaced by another time t_func(t).
+          moviepy.video.tools.segmenting.findObjects
+          moviepy.video.tools.tracking.autoTrack
+            
+          
      
      
 
-   < Raku detour for exploring video thumbnails
-      just making a serve.pl container...
-   < get Babz 'expr and block' and each in here...
+   < get Babz 'expr and block', each, '#' comments, &arg{...} in here...
    < branch layout:
       turtle moves in letter shapes for compute carpentry vocab
       tunneling|folding away, open causing closes
@@ -3765,8 +3793,6 @@ mo 15 May
           as opposed to holding history (3d vs 2d view)
           alluding to a slant, viewing-angle perceptex
    
-      
-    
    
    < loosen the input to Con... drag other items into it?
    
@@ -3788,7 +3814,7 @@ mo 15 May
      Storing state in the URL!
      cant quite work out how tho
      accessible from +page server only?
-       
+   
     
    
      C|A <=> C saved.
