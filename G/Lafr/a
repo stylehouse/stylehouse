@@ -3852,11 +3852,265 @@ mo June 5
     dig google.com @127.0.0.53 # doesnt
    torrents and ipfs still work!
   mad chilly out there
-  < regroup Code.svelte
+  regroup Code.svelte
+   < figure out if inner components can send slots to parent
+     so a bunch of experiments can merge their interfacing handlers...
+  so far Svelte seems to be simplifying this nicely
+ sa
+  regroup Code.svelte
+   have snipped:
+    Le++ -> dat.look -> Con
+     this was going to get cm things together nice
+   it seems:
+    Code is fast becoming -Con/-Code
+    lib/Coning is base class
+     does basic data graphing
+    lib/Diring is for filesystems
+     **-Dir do <img> pile
+     < to be drag-scale|aroundable
+    we want only a few things on the screen
+     constantly pulling everything away, ~~ WebGL-Fluid-Simulation
+     
+mo June 12
+  Conbustank
+ tu
+  Conbustank
+ we
+  Conbustank
+ th
+  Conbustank
+ fr
+  Conbustank
+ su
+  notice on the web:
+   text-indent: 2em;
+   makes the subsequent lines less indent
+    this could also be -2em for lang:spec-like wrapping
+    
+mo June 19
+ mo
+  Conbustank
+ tu
+  Conbustank
+ we
+  Conbustank finito
+ th
+  .
+ fr
+  . 
+mo June 26
+  Conbustank dumprun 50kg, mostly motoroil
+  I have rebooted and done some apt upgrades, so:
+    starting gox error: "Transport endpoint not connected"
+     virbr0 says NO-CARRIER also
+     as documented over here:
+        and to the error when starting bridge-networked podiae:
+         well simply: chmod u+s /usr/lib/qemu/qemu-bridge-helper
+    looking at Inside / running / putting code into dev
+     < a python script, with "OK" dials?
+       we are in:
+       ssh -A gox
+        sshfs s:/media/s/Elvis/Photo v
+         # s is 192.168.122.1, virbr0 on sa
+         # v is the mount at gox:~s/v, goes into:
+       ssh gox
+        cd src/letz
+        podman run -v ~/v:/v:ro -v .:/app:exec -p 5000:5000 --rm -it --name pyt py bash -c './yt.sh'
+       ssh gox
+        cd src/letz
+        podman run -v .:/app:exec -p 8000:8000 --rm -it --name cos1 cos npm run dev -- --port 3000 --host 0.0.0.0
+       cd src/letz
+        code .
+       cd stylehouse
+        ./serve.pl
+       chromeium \
+        http://editong.localhost:1812/ \
+        http://192.168.122.92:5000/dir/ \
+        http://192.168.122.92:8000/
+       
+       # nicotine:
+       ssh n
+        sudo mount -t 9p -o trans=virtio allmusic allmusic/
+         # input: share, is a qemu filesystem%type="mount"/source,target,readonly
+       sshfs n:Downloads/ Mail
+         # output: to sort
+       ssh -X n
+        cd Downloads/
+         # it sometimes drops files where it cd?
+        nicotine
+         # a python window
+        
+       # npm build:
+       ssh gox
+        cd src/letz
+        podman run -v .:/app:exec -p 8001:8000 --rm -it --name cos2 cos
+        npm run build
+        # try again, got Killed
+        
+       # bun build:
+       ssh gox
+        cd src/letz
+        podman run -v .:/app:exec -p 8002:8000 --rm -it --name cos3 cos bash
+        apt-get install curl unzip -y
+        curl -fsSL https://bun.sh/install | bash
+        su
+        bun run build
+        # ...aaages! not sure, everything slow...
+          qemu-system-x86 keeps ~18% cpu busy while bg
+          takes forever to ssh in there,
+           this `apt install top` is minutes later only Reading package lists... 7%
+        # then: Error: Cannot access url.searchParams on a page with prerendering enabled
+          surely its not "SvelteKit will load your +page/layout(.server).js files (and all files they import) for analysis during the build. Any code that should not be executed at this stage must check that building from $app/environment is false"
+          bun not having the url object?
+          abandoned - seems to have .svelte-kit/output/ something, 1.5mb
+        
+       # bun adapter?
+       the above s/cos3/cos4/
+        bun add -d svelte-adapter-bun
+        # ...ages... ~100% cpu on qemu-system-x86
+          in virt-manager I increase its 'Current allocation' to 2000MiB
+           and the beast roars off!
+          and then 
+          how lovely:
+           warn: Slow filesystem detected. If /root/.bun/install/cache is a network drive, consider setting $BUN_INSTALL_CACHE_DIR to a local folder.
+           
+       # bun run:
+       ssh gox
+        cd src/letz
+        podman run -v .:/app:exec -p 8002:8000 --rm -it --name cos3 cos
+        apt-get install curl unzip -y
+        curl -fsSL https://bun.sh/install | bash
+        su
+        bun run dev -- --port 8000 --host 0.0.0.0
+        # is then at http://192.168.122.92:8002/
+          perfectly. 20% faster startup.
+          abandoned - redundant
+        
+       virsh dommemstat gox
+        # < watch, conver numbers
+        
+    looking
+  "monday! production!" Nat
+  hands: coal and sheep shit. healing well.
+  remember prior battle was adding custom syntax language to svelte
+  smooth out jumping to top of page on Dir nav
+    https://chat.openai.com/share/f286117d-3002-4179-95ab-8c2677f71d28
+     I want an nginx thing... (for no reason)
+     https://kit.svelte.dev/docs/adapters
+     my writes contemporaries: https://www.alibabacloud.com/knowledge/alicloudtop/how-to-write-a-vite-plugin
+     more junk https://support.huawei.com/enterprise/en/doc/EDOC1100126913/8e189fc2/display-isis-interface
+     great piles https://nzdotstat.stats.govt.nz/wbos/Index.aspx?_ga=2.171151977.815579889.1684741691-1773240556.1684741691#
+    its because nav was <a on:click>, so they button
+     gpt3.5 prompted with "when on:click" not "when rendering" knew
+    
+ tu
+  our interactivity happens at two layers:
+   Con
+    genericity
+    %boost is adjusted to inlace further
+    -Con / boosting() shall reCon() after ~%boost
+     helps make Diring / theD snappy
+      exploring the D** generated by:
+   Dir
+    eccentricity
+    state machine wanting reflection
+    -Dir / nestDir() shall reCon() after C++
+     directory openness adder
+  caveats:
+   Dir++
+    after a point we need more boost
+     to dive deeper in C**
+     see inlace further
+   Con++
+    inside a D** is faster than "from the top"
+     however: we dont reiterate the source data "from the top",
+      so often opening Dir** and then looking at the D** generated
+       requires "from the top" to refresh t the most unfolded D**
+     < rebase, knowing somehow
+  hmm
+   seems like a good Aism
+   getting sheets of data out to be slowly wandered through in a recoverable way
+    is the essense of the mind...
+   multiple manifolds and their zappy entanglies
+   and the lack of boost to open the door...
+    perhaps it should automatically attract attention to ineffective acts
+     ie we notice no more output with some new input
+      and opt for the nearest %boost
+      things would have reasons not to etc,
+       piled up like in The / Eing
+  fix Compile: '... and ...' happening to '# comments'
+  and look around at:
+   The / TheingE 291
+    R <-> E
+    Ey&ers <-> s
+     ~~ Con s <-> D **
+   The is pretty well-commented
+    translating it all into the Con-junction could be linear
+    &Piing ~~ pit()
+   &Piing_inst
+    an interesting lifecycling and schematising
+    using io to build a flow of information (see <- %%inst)
+     @Gnome/(@Thy...@Lab) is made with one:
+      i @Thy/-This/#@Fine-Labine/@-Lab#@n%ThyLab/c&s=@n
+      see TheThy+Piing 292
+     @Run...
+      i @Run/@-This/-Eight/-seven/**%Ethinging:six
+      see PiiRun+Piing 293
+     @Run...six... sometimes are Log/row/vat 21
+      those use Epigraph to make their inner
+     @Run/This
+      @Run/The is in control of
+       and things occurring in This can find The instructing them
+       via:
+        &Fishlive_matching
+        between &Piing and &Pieri
+ we
+    
   
-  https://en.wikipedia.org/wiki/Iterated_function
-   nice picture
-  "Phases are single-pass, forward graph walks where possible"
+  < look into types ActionData and PageData
+  
+  < once Dir is d>3, you must +2 boost the previous thing, then ring()
+  
+  < an editor to replace this Codap thing
+    all of Text should be importable now?
+    should we expose ghosts/G/... as ....stlli?
+     or .stho
+  < some draggable
+  < ssh swampdirt - can svelte via onion perhaps?
+     it is 10x the cpu as this laptop
+      https://www.cpubenchmark.net/cpu.php?cpu=AMD+Ryzen+7+3700X&id=3485
+      https://www.cpubenchmark.net/cpu.php?cpu=Intel+Core+i5-4210U+%40+1.70GHz&id=2259
+     
+  
+  
+  < it needs a tapedeck and patchbay rack
+    to then geometrise
+  < into codemirror:
+     Compile output
+      nest alternations nicely...
+      with sourcemap
+       (must have been done?)
+     Dir listings, Vid listings
+      moments + text = thing
+  < store it in an ipfs-ish hash key -> value store
+    will it cull sensibly?
+     we just have to request everything more regularly than the pile builds up
+    store state when the url ?h=...&... becomes too long
+     providing routes for when an uncommit state gets renamed in clients?
+      breaks encryption, have to have it done by someone near trust
+      hopefully as the convo goes on such history can be sealed at some point
+     
+  
+  
+  
+  
+  
+  physics inspiration
+   https://paveldogreat.github.io/WebGL-Fluid-Simulation/
+    how it would oily-crumple things around it
+   https://en.wikipedia.org/wiki/Iterated_function
+    nice picture
+   "Phases are single-pass, forward graph walks where possible"
  
     
    music -> tablet @labour
@@ -3866,7 +4120,13 @@ mo June 5
     mv "/media/...Other Folk's Music (Atlantic Records)/"*.ogg) .
 
    < AI
-   < transmission-gtk oughtta let the default download location change
+   < transmission-gtk oughtta
+      let the default download location change
+      old (and well seeded) cull workflow
+   < a monitor that changes brightness depending on the time of day
+      via buttons it has these settings: Standard|Internet for bright|dark
+     I am often glaring by night and sometimes left with a mysteriously dull morning
+  
 
    < branch layout:
       turtle moves in letter shapes for compute carpentry vocab
