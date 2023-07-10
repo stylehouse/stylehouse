@@ -4117,7 +4117,17 @@ mo July 3
  fr
  sa
   zap runs the game
-   < output needs to update, be coloured
+   output streams
+   some colour codes work
+ mo
+   some colour codes blow up:
+     letz/py/culour.py:42:
+       fg = TERMINAL_COLOR_TO_CURSES[color]
+      KeyError: '[31'
+  letz e8451f5212bf
+   I opt for shelling out to less -R +F $tmpfile
+    which is hard to isolate SIGINT to (zap_run.pl)
+  
   
    < giving command = ["ls", "-l"]
       and subprocess.Popen(command, shell=False
