@@ -10,6 +10,7 @@ sub dige { slm(12, Digest::SHA::sha256_hex( encode_utf8(shift) ) ) };
 my ($A,$C,$G,$T);
 my $ar = {};
 !-d $_ && `mkdir -p $_` for qw'wormhole/digway G W';
+$| = 1;
 
 use Mojolicious::Lite;
 use MIME::Base64;
