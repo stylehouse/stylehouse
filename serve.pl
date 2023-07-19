@@ -794,8 +794,9 @@ websocket '/digwaypoll' => sub { my ($s) = @_;
             -- $poll->{ways}->{"$t"} && next;
             delete $poll->{ways}->{"$t"};
             $t = delete $poll->{wayt}->{"$t"};
-            delete $poll->{wayd}->{"$t"};
+            $t and delete $poll->{wayd}->{"$t"};
         }
+	$reason ||= '?';
         1 && sayre "digwaypoll Gone: $addr $code $reason";
     });
 };
