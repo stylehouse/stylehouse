@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 no warnings qw(uninitialized redefine);
+$| = 1;
 use FindBin qw($Bin);
 use lib "$Bin/othlia";
 use lib "$Bin/slib";
