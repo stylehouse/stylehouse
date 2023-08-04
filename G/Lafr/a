@@ -719,7 +719,6 @@ mo July 3
    doing writeups and demo vid - hopefully the other mes find it
    fixing exit code capture - must use shell=True to get it
  we
-   < do a blog on python
    py/zap.py wired to py/git:zap/zap.py
     resolve __file__ symlink to find zap_run.pl
   mix
@@ -770,6 +769,78 @@ mo July 17
   cm state -> Le_Attention() -> Coning
 mo Aug -1
   zap 1.0.3 - figure out how to stream stdout|err
+  Le C
+  Le.ts etc broken sourcemap investigation
+   in a few parts:
+    vite says: Sourcemap for "/app/src/lib/Le.ts" points to missing source files
+     same for {St,Sv}.ts and lang/stho.ts
+     fix: changing 'null'->undef in the stho_vite() compiler: ts.map.sources = [undefined]
+      making that = []
+       causes vite to say: Cannot read properties of undefined (reading 'map')
+        at this line deep in vite:
+         # recurses into SourceMapTrees
+         function originalPositionFor(source, line, ...) {
+             ...
+             return originalPositionFor(source.sources[segment[1]], segment[2], ...)
+         }
+         here it would seem source (.map|names|sources|sourcesContent)
+         is being recursed into: source.sources=[source+]
+         but from here it seems it is an int:
+          decodedMappings() / decode(mappings)
+         getting above
+          all these unknown clusters of words
+          would be great
+      
+    vite says: Not found: /src/lang/null
+     which looks like what you get with `GET http://192.168.122.92:8000/src/lang/null`
+     also for /src/lib/null
+     in DevTools /
+      Sources / Page src/{lib,lang}/null both exist, could not load contents
+      Network
+       there are no requests for src/{lib,lang}/null
+        however:
+       null is given as the Initiator of requests for:
+        node_modules/.vite/deps/@codemirror_language.js?v=1b58732a
+         inside the request, on the Initiator tab
+          the "Request initiator chain" says
+           it comes from src/lib/Le.ts, via Code.svelte
+        src/lang/stho.grammar?import&raw
+        node_modules/.vite/deps/@lezer_generator.js?v=1b58732a
+         as above, inside Initiator is known to be:
+          src/lang/stho.ts via Codemirror.svelte via Code.svelte etc
+   
+   noise basically.
+    Code|Codemirror.svelte are sourcemapping to /app/src/routes
+     their base64 decode is json, has .sourceContents=[null,$stho_compiled]
+      and that errant filename twice in corresponding .source=[$f,$f]
+    src/routes/Codemirror.svelte
+  
+  we
+   avalanche of zap progress
+   a blog on python
+   also, quickly after formatting a flash drive,
+   the computer shuts down.
+    as if I did the wrong device! ha.
+  th
+   zap 1.1.0 - lacks banished
+  fr
+   to recap "Le.ts etc broken sourcemap investigation"
+    I am debuggering into Le.ts Le_Attention()
+    the line we appear to stop on is +2 from the debugger statement
+    if I add a line above debugger of "3 and 4 and 5"
+     which compiles to five lines - two nested if statements and a 5 in the middle
+     we dont appear to stop on any line
+      but we are still there, able to watch local vars change as expected stepping onwards
+    and,
+     if I dont ts.map.sources = [''], Le.ts cannot be found at all
+      we end up on a "null" source, about /src/lib/null being missing
+   so
+    perhaps I should be generating a sourcemap differently
+     using diff-match-patch? which we will need anyway
+   but first, using CodeMirror to display such a thing
+    but first, revision: https://codemirror.net/docs/guide/
+    
+    
   
   
   < code search
