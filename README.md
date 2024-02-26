@@ -4,6 +4,8 @@
 
 Multi-paradigm programming language and environment, compiles to javascript.
 
+Development is currently [over here](https://github.com/stylehouse/letz) in svelte.
+
 The goals are:
  * beautiful, expressive blobs of code that a 12 year old could work on
  * linguistic foundation for the universal thing
