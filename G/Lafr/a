@@ -250,19 +250,31 @@ mo May 20
    Zone refactors for Fili object
  tu
    drop file weirdness
-   < switching to a new track sanity
-   < crossfade duration Knob
-   < figure a File object,
-     so sel.File, and its metadata can be somewhere
-     then we make another kind of cuelet that is the whole thing
-      maybe falling back to transcode whole to opus if it fails to decode
+ tu May 28
+   fix overactive sync_cuelets()
+     reacting from sel.playlets.*.sel.in
+      it should be using sel.in_inclusive
+   switching to a new track sanity
+    a hack: just clear fil|sels on drop
+   figure a fil object
+    < so sel.fil, and its metadata can be somewhere
+   play selection edges on adjustment
+    from the input track, fil, with ModusOriginale
+     < maybe falling back to transcode input to opus if it fails to decode
        ie ffmpeg.wasm can decode it but the browser cannot
-     and transparently ping these to the s:5000/ffmpeg/file interface..?
-   < selection exactly
+     < transparently ping these to the s:5000/ffmpeg/file interface..?
+mo Jun 3
+  bitzliten.git
+ we
+   play selection exactly
+   factor this.playFrom|playFor into Zip.ends_at etc
+   < check animations for this...
+   < seek the ModusCueletSeq to seamlessly take over from ModusOriginale
    < source track, oscillate mix of
      or another encode? eg listening 40k vs 60k
       might involve a bit much CRUD?
    < call that done, move to letz, use ffmpeg via http?
+   < mesh warping
    
    < DJing with a 1GB html file
     < protect from crashes by having another instance in a tab
@@ -276,9 +288,11 @@ mo May 20
     separate cuelet.source
      so we could play 10 layers of the same second at once
      
+   
      
-   adjustables
   letz.git
+   < use Docker Compose, lose zap.git
+      https://docs.docker.com/engine/security/rootless/
    < giverto / takerto = wasted space for it being a column, inline it
   
   
