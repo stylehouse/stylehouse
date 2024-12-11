@@ -416,8 +416,145 @@ mo Nov 4
   announce_title
    and run YourName.svelte through AI re-slop to fix reactivity with it
  tu
-  < fix iphone denying mic access
-    because getUserMedia not close enough to button event?
+  unable to fix iphone denying mic access
+   not because getUserMedia not close enough to button event
+   blame permissions somewhere
+  everyone simply records and uploads their own localStream
+   is nice and simple
+ we
+  peer latency data next to the par kbps
+  announce_title could come with a timestamp!
+  make segmenting involve a MediaRecorder.stop+start
+   making each file playable
+  sync sequencenumber and segment start_time
+ th
+  par.effects groundwork
+   Gainorator
+ fr
+  debug
+ sa
+  sundayed
+ su
+  sleep first
+  looking around
+  saw Santa on his sleigh
+  looking jolly and gay
+  not just yesterday
+  in the octogon, strewn with loot
+  Im not sure if hed been drinking
+  but he was ravishing the seagulls with bread, for their affections
+  then in trouble with the police, oh yes
+  then some kids tried to save Santa
+  but they were defeated in a battle of attrition
+  the end
+  same title as here, from peer, exacts syncinfo
+mo Dec 2
+  investigate no sound if AudioNodes are used
+   but only for remote streams! local is fine.
+ tu 
+  continue setting up new debian installation virtually
+  vision of how to fan the laptop b
+   a cardboard tub it sits in, fanned
+   should go more than 5v probably...
+    the air filters were going very very gently.
+    I should move them further away!
+    and 12v them, why not!
+     in the closet? hosed out high and low?
+   sleepy at 10pm
+ we
+  half way to cardboard tub, winded out
+  < >5v
+  jam tomorrow, hope jamola can come right...
+  I am stuck with:
+   Error in startStreaming: Requested device not found
+  think the tub deserves finishing in one now
+   but first, the cactus shelf
+    is only going to be 70mm off the ground (at lowest)
+    cardboard rolls for verticals, lashed together, mixed lengths
+    one side basically done...
+  gotta code!
+   Requested device not found is indeed fatal, wants reboot
+    Id love to know more ways to eg systemctl --user restart pipewire
+ th
+  finish the cactus shelf
+  80% the laptop tray
+   got to stop to respect its fumigation
+ fr
+  do some more on nicotine-docker
+   discover that /vnc.html itself has clipboard
+   boo, two hours in
+  laptop tray
+   enclavity
+   screen groove
+  g into a Friday suddenly!
+   another person is knocking at the door, timidly.
+   must be a backpacker. yeah.
+ sa
+  good day
+ mo
+  ???
+ tu
+  clean, ???
+ we
+  seems that firefox...
+   input devices list
+    includes all the "Monitor of"
+     so can be used to route audio via eg an unplugged HDMI port
+   cant seem to make stream to others?
+  chrome
+   seems fine?
+  gain knobs
+  < store par properly
+    ui things go dead, no meter but stream still meters remotely
+  < local effect (gain) first, then encode...
+    
+  < class AdaptiveGainorator extends Gainorator
+  < its updating Knob props every time
+   
+  < sidechaining to tape|call about order=4, civilised gain stage
+  < get it all ready!
+  
+  < turn off after a while?
+  
+  < vol knob
+  < forward escape from:
+   < guitars
+  < recording
+   < uploadInterval is a dodgy scheme
+     there should be one that gets told not to happen if we want another one near it
+     and it should just tell the next ondataavailable to segment
+      but then the stop,start,ondataavailable
+       would it have nothing and not happen?
+       suppose it can happen as soon as an opus frame
+  
+  < direct connect nodes along audio graph
+   < recorder records at the right place?
+     
+  < autogain and limiters is really important
+    should be toddler proof by default
+     autogain wanders to keep things at -24dB
+    but settable as well
+    for every channel, in case of cyber terror lol
+    other security initiatives
+     get a room with a name
+      people might start using it for what it does
+  < warn if recording is not happening
+  < check out upload/ files conjoining to play
+     stretching out lots of track to write on
+   < converting to one long webm?
+     before stop+start
+     charge extra to convert to flac at this point?
+      would be a funny way to make a living
+  < try with a timestamp...
+  
+  
+  < heartbeat:
+     remove zombie par
+     keep recording intervals in sync
+     latency data for recordings
+  < stream delays
+    wanting to see latency
+   < beat detection
   < notify if network congested
   < pick who to do the recording|uploading
     since we now get n_participants copies of everything
