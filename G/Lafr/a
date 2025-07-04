@@ -852,20 +852,17 @@ mo June 16
    fadeout-in jitterbug
  fr
   jamsend
-   < do all think() by callbacks from starts
-     rare `Off the end` happens
-      by randomly avoiding having a think() in a while
-     then no loop?
-   < culling aud, telling the server?
-   < memory leak of starfield...star.aud
-      join them via weakrefmap?
+   do all think() by callbacks from starts
+    > then no think()->provision() loop?
+      is little gain... other features better
+   culling aud
+    telling the server
+    starfield...star.aud
+   
    
    < meta.gain to normalise each track
      or guess based on some RMS data?
      
-   < another fade in place
-    < fadeout doesnt mean stop anymore
-     < then pause  
    
    
    
@@ -875,6 +872,9 @@ mo June 16
       tell them to reconnect, or just resend track?
     < track manager
        put everyone in the mute room
+   < audio quality has been terrible lately
+     test an older version
+    < maybe MediaRecorder -> emit()
        
    
    < crypto rooms
@@ -909,35 +909,14 @@ mo June 16
    < silence checker, 
      and in recordings? of opus data size per second?
    < no input shouldnt be fatal
-  jamsend
-   < was nearly ready right? do a spectrum
+  
   jamola
-  < nextly gettable from next stretch whim, promise while get_more async
   < a general silence checker
      check a few wav bytes are wobbly every 200ms
      important to see dead signals
-  < autogain as well
-  < once an aud.queue=3 (future+1), prepare a new_stretch
-   < keep many more of these, in a starfield
-      more than there are, ie resolve each thing to an aud
-       unless youre building with more structure than that
-        cytoscape helping people sculpt music collections
-   < 
-   < check how far through the first 3-stretch want_more happens
-    < with a graph!
-  
-     
-  < gat should favour more-ing the first aud
-     so it can stretch 1,3
-     give them a budget of 1 more initially?
-     create them
-  < AudioServer: not draining the pipe from ffmpeg properly?
+  < autogain as well (too hard to do well without easyeffects-wasm?)
   
   
-  < touchscreen keyboard with less pop-up-gigantism
-    set into the wallpaper behind the non-interactive part of datatupletablature
-    qwerty split in two, one on top horizontally in two for two thumbs
-     
   < move linuxes
    < then
     < tidy journal https://claude.ai/chat/96762a3d-0c10-49fd-b23f-2ed459e5345b
