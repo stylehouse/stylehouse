@@ -990,6 +990,87 @@ mo Aug 18
    forget a Pier
    data carefullity
    unemit queue
+ we
+  feel brained
+ th
+  as above...
+  go around a bit more music tho
+ fr
+  start Sharing, at least as an "its on" thing
+ sa
+  outside a bit?
+   dont care for violin anymore?
+   my people are lost as
+  jamsend
+   finish sharing
+    as in, back to where it was...
+ we
+ th
+  jamsend
+   move P.features to eer.features
+    the fairly-global Peering and PeerilyFeature object
+   moving to F.shares
+   persisting shares
+     requires:
+ fr
+   < DirectoryShare doesnt extend IndexedDBStorage
+      store/key being: "share=${name}"/handle
+     but has something that does
+      store/key being: "share.handle"/$name = handle
+      
+   < Things/Thing thing
+     does it start()? wheres the prompt?
+     
+   < thing-syncing indexedDB layer:
+     I want a base class for indexed db
+      that we can derive storage for PF or F things
+       (tuples, sets of things we shall CRUD|collect)
+       in this case for a DirectoryHandle on PF
+       to separate all this db access noise
+        from the permissions-resuming layer
+         of stuff going on in a restoreDirectoryHandle()
+     on the things,
+      we want to start the set of PF.shares with "music"
+      and in a generic way
+       be able to add more
+       and storage them to indexeddb.
+     so we also need,
+      generalised UI component (svelte5)
+       for the Things/Thing many/one representation.
+       Things needs a "add" button,
+       Thing we might put buttons on,
+       but for now just has a "name" and a "remove" button,
+        which removes it from the set of things.
+       we can represent these things
+        eg PF.shares.* are DirectoryHandle things
+       and others with them, they have eg a type="share" param.
+       they should autoload from indexeddb,
+       auto save as Pier.stashed does
+        which requires the "living" object is in a $state() field
+       and possibly autovivify if empty
+        with eg a "music" DirectoryHandle thing.
+
+
+       
+   < Shares, the global object
+     has named shares, CRUD etc
+      a default "music" one
+       with a scheme for processing incoming culture!
+     
+  
+  < each share can be named, stashed
+  < recursive file lists...
+    getting more code creative for the first time in a while
+     integration work is largely done
+  < local|remote as tabs
+  < the artist/album/track name regroup
+  < standard for persisting data to Directory
+    a more structured stashed
+     sqlite database?
+      then we could read a link to your Strawberry music player library
+       offering no scan-in and decent search powers!
+      default situation of just-a-pile-of-music should be okay too
+    stash, by the way:
     < needs more testing. is saving stash?
      < different Id-instances in the URL?
       > multiple Peering (wait for dev hordes)
