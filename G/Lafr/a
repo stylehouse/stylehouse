@@ -1013,15 +1013,24 @@ mo Aug 18
    persisting shares
      requires:
  fr
-   < DirectoryShare doesnt extend IndexedDBStorage
-      store/key being: "share=${name}"/handle
-     but has something that does
-      store/key being: "share.handle"/$name = handle
-      
-   < Things/Thing thing
-     does it start()? wheres the prompt?
-     
-   < thing-syncing indexedDB layer:
+  jamsend
+   DirectoryShare has persisted_handle:KVStore
+   rename this F Sharing->PeeringSharing
+   Directory* <-> Thing* prep preening
+    needs more AI talk to shake out those UIs
+      Directory stuff is fairly good looking
+       not sure about all the addShare etc granularity
+       that should be a generic Thing(s) responsibility
+       the ThingIsms is very important now.
+
+       we must adjust the UI, Things and Thing, to match Directory
+   thats okay now. Jungle?
+ sa
+  jamsend
+   finishing:
+   Things/Thing thing
+     do .start() etc if .started=false
+     thing-syncing indexedDB layer:
      I want a base class for indexed db
       that we can derive storage for PF or F things
        (tuples, sets of things we shall CRUD|collect)
@@ -1044,24 +1053,182 @@ mo Aug 18
        we can represent these things
         eg PF.shares.* are DirectoryHandle things
        and others with them, they have eg a type="share" param.
+   Scrollability.svelte: better not too big though
+   Thingness could cover the name
+  guitar time?
+
+
+mo Sep 1
+  jamsend
+   concepting up what Stuff is (~~ brackio)
+   it seems to go to form:
+    Modus of advancing states with methods (~~ Super)
+    Selection (~~ C**, nodes)
+     types of hierarchy (edges)
+      ie whether theyre basically all up or down
+      the clone|mirror plane...
+      origin
+      continuity of identity (~~ resolve $n)
+       this is going too far!
+       just want a nice light medium to CRUD with
+        for the think pieces of music piracy
+        that can be persisted, somewhat...
+     should construct a directory tree
+      to slow the directory listing iterator into!
+ we
+  jamsend
+   Stuff: Stuff comes out!
+ th
+  jamsend
+   seems UIs: Shares|Sharee do /Sharability
+    which does modus + FileList
+ fr
+  jamsend
+   adjust FileList for infinite expanditude
+ sa
+ tu
+  jamsend
+   thinking of
+ we
+  jamsend
+   haze since last here
+   did some refactoring and map-building:
+   Sharability is a generalist
+    $S:(Directory|Remote)Share is provisioning FS data
+   Stuff.i|o() may do table partitioning
+    TheX being a partition
+ fr
+  jamsend
+
+mo Sep 15
+  personal?
+ tu
+  jamsend
+   wondering how to conceal the vast hierarchy of files
+    aka tree pointers
+    %in:$m,ex,pr shall be inserted into m.c.X
+     
+    antithetical to stuff C.s.* is control C.c.*
+ we
+  jamsend
+ th
+  jamsend
+   start realising C is Stuff, we want to C/C/C, so C.c.X
+   Stuff.d(s,d) - everything at depth!
+     which we shall use to run out of steam, know trails...
+     based on ind()
+     guesswork...
+   d -> Travel -> o(s,q)
+ fr
+  jamsend
+ mo
+  jamsend
+   fixes, reabsorbtion
+   learn about $effect() in .svelte.ts!
+ tu
+  jamsend
+ th
+  jamsend
+ fr
+  jamsend
+ sa
+  jamsend
+ mo
+  jamsend
+   
+   
+   
+   < step AI through the process of:
+    incorporate the drawing-down, lossy info-compression in presentation stuff of brackology. brackope helps preserve state - we need to generate a set of Bracks (Stuffs) with names based on their makeup. pretend Stuff|TheC is immutable except for being dropped.
+
+    UI:Modus includes controlling runtime of the thing. So it wants to do UI:Stuff, which reacts M|C.c.X -> brackology -> its many UI:Stuffs.
+
+    Each UI:Stuffs can host another UI:Stuff if open enough... Make that a 2-3 level openness.
+
+    UI:Stuffs can default openness=1, where values are described briefly, like it is. ope=0 for no values, only keys (for that Stuffs).
+     at ope=2 every row within should be a separate Stuffs (within Stuffs)
+    
+    
+
+    UI:
+   < new file reader
+    <
+   < %in:$m,ex,pr shall be inserted into m.c.X
+      and you must specify ** by doing .d() to .o() every node
+       eg searching for something
+       implying we must ind()
+     
+   < DirectoryModus should depend on AnyShare.started
+      so should open filereaders. user must be able to stop sharing
+   
+   < DirectoryListing replicates into Stuff:TheFS
+     which other Selections fit to it
+      > orphanise then rehome disappeared (moved) dirs, after time
+   < RemoteListing
+     
+  
+    < run interactions by the modus
+      to see if were just pointing to things etc
+     
+      that invokes a modus, separate to FileListing
+   < recursive file lists...
+     a FS-explorey Modus
+     %curiosity wants whatever can be done
+      eg open a directory
+     %curiosity exhausted by %haveness
+      sans %seenness
+       which might follow a %cursor
+        wanting everything to be played before moving on
+        or move on faster, to seem like we are shuffling everything
+    getting more code creative for the first time in a while
+     integration work is largely done
+   < 
+   < Momentariness is key to Modussion
+     I am trusting the sound of this
+      that that sound is that sound
+       ie those things are one, and there is no Time
+     Modus doming+dispatching effects
+      its UI grasping whatever part needs to have an $effect() over it?
+     
+   < guessing metadata from filenames
+      esp when efficiently hierarchised
+      compile an ffprobe just for music container intelligence?
+      surely WebAudio can read tags...
+    < dedupe view
+       is resolve $n between eg:
+        Music/Stevetop/Roland Kirk - Discography 1956-78 (MP3@256-320)/Rahsaan Roland Kirk - 1996 - I, Eye, Aye Live at the Montreux Jazz Festival, 1972 (Rhino Records)/
+        Music/Highsoul/0 Jazz/Rahsaan Roland Kirk/I, Eye,Aye/
+  
+     
+   < each Share has many Selects!
+     which open the dir tree
+      leaving marks many places
+     but only show one bunch at a time
+      various schemes of show-openness
+      only one dir full of files should be open at once
+       
+   < the local|remote side of sharing
+      via some UI-scroll-jump hyperlinkage
+      pos:fixed toc of Piers
+       and recent targets set there
+       tiny nibs of UI can target nodes in other systems
+     to sometimes pos:fixed things as they want posing...
+     local slides out left, remote slides in right
+      could it look like we were flipping between two pages?
+      while being the usual dom tree->box pageful...
+      
+     
+   < Things/Thing S.stashed
+     might like to have more storage?
        they should autoload from indexeddb,
        auto save as Pier.stashed does
         which requires the "living" object is in a $state() field
-       and possibly autovivify if empty
-        with eg a "music" DirectoryHandle thing.
-
-
-       
-   < Shares, the global object
-     has named shares, CRUD etc
-      a default "music" one
-       with a scheme for processing incoming culture!
-     
+   
+  < "now playing" sharable link
+  < deputising server 2 with server 1s authority
+    as in "1 trusts 2 with $trusts"
+     given to clients, who then say_trust for server 1 to server 2
   
-  < each share can be named, stashed
-  < recursive file lists...
-    getting more code creative for the first time in a while
-     integration work is largely done
   < local|remote as tabs
   < the artist/album/track name regroup
   < standard for persisting data to Directory
@@ -1106,6 +1273,12 @@ mo Aug 18
      tags enable sets of commands (msg.type)
    < cytoscape music explorer
      run by %sc pooling
+  < social events tracker
+     DUD
+      uni
+       https://events.humanitix.com/host/5df0035b07c3f300115e0d4d
+       https://www.otago.ac.nz/news/events
+     
      
    
   or:
