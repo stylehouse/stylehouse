@@ -1518,11 +1518,159 @@ mo Dec 1
    bit mono-doing, time for some other little things?
     improve diag of nested replace() transactions problemo
     Stuffing key:1 should just say key
+   
+ su
+  jamsend
+   oh right so...
+   it looks like its going to make it
+   we just need to:
+    hook up w:radiostreaming
+ mo
+  jamsend
+   so its weirdly close still
+    to making it or not
+   anyway
+   unemit:irecord pings progress() if its playing
+   emit:orecord sends ack_seq, wants_streaming sometimes
+    stop stream unless client keeps up emit:ostream
+   %stream waits for %preview,seq= to finalise
+   yes... stuff.
+    generates multiple %record again
+     broadcaster not re-engaging A:hunting
+ tu
+  jamsend
+   re-seq awaiting %stream when all %preview++ done
+   may have fixed:
+    losing 2% of the audio by duration...
+     all the stop+start must be losing tiny bits
+   more STAY_AHEAD_OF_ACK_SEQ, tuning things
+    was only just making it around the streaming bend
+   c_lock radio_hear() / progress() and listening()
+    to prevent occasional call to listening() when no %aud,playing
+   slow down playback if live edge < 3
+   < nowPlaying_is_ok() not relying on %playing existing
+     see when the last cued thing was cued?
+ we
+  jamsend
+   now, obviously, itll need to be more high level than that
+   I accept not getting it launched today.
+   get code to A** without restarting Modus
+
+mo Jan 6 2026
+  drinkbottle zaza with the bros
+ tu
+  arrive in Dunedin
+  jamsend is a week away?
+  the good:
+   ghost/*.svelte codes Modus more gracefully
+   fixing that all awaitors assuming they then have the c_mutex
+     which reliably, in minutes, caused a `nested replace() transactions`
+     and basically fixed the reliable `clone already decoded`
+      but thats probably just not dispatching to A:* fast enough
+      because stuff wants to happen!
+   and basically nothing is going wrong for a while!
+   shift elvis runway to ghost/Agency
+ we
+  jamsend
+   radioing application code -> ghost/Radios.svelte
+    and also ghost/Records
+    so it now has a clear foreground pool of language...
+ th
+  jamsend
+   very recently, it only plays the first seq of anything!
+   < elvising to sub-bits of A/w space
+      Agency prioritises...
+   < so broadcaster needs refactoring after:
+    
+   
+   theres just a little speedup of Radio activity
+   by developing A/w dispatch
+   so:
+   < survey all our intentions to wake up A
+      M.main()
+     and replace with more intentional something...
+      a way to write multiple things eg i get/the/[thi,ngs%effect]
+   < leading off the front of ^ is of course elvis
+      i injects them, o cares the batch
+       they might do nothing else if pointerest
+   < refactor broadcaster to unemit:orecord -> elvis
+   
+   < are we awaiting c_mutex?
+      so its root cause cant finish happening?
+   
+   
+   < %stocklevels never goes down? we only get 5 %record
+   < full tracks, from the start
+   
+   
+   possibly obsolete problems we should just... avoid somehow
+   < DirectoryModus is losing its interval callback
+      while encoding a %preview
+   < throw `seq!=enqueue_i` keeps going off
+      but I think its okay now
+   < terminal forgets %record when protocol reset
+      levels of protocol reset...
+      
+   < not send %record/%stream until asked, if it exists?
+     re spoolia() whenever conditions ~ eg re%they_want_streaming
+   
+       
+   < have > 20s of %preview?
+      and to know how long it is exactly
+     only just makes it on usually, with help
+     w:radiostreaming should spawn extra main() to get it on
+     
+   < the first %stream is %EOstream!
+      add to record sanity check
+   < plau ENDS
+      means there was no next thing decoded yet
+      did we miss %EOstream?
+      is it:
+   < study the UTC time %stream is ahead
+     be 3s behind it?
+     not sure weve finished a track yet
+      progress() 054aedf3c630e707 out-of-bits !%ENDED
+     sometimes neeeearly make its.
+      terminal seems to be playing stream faster than it is recording?
+     should probably have %preview for longer,
+      but not give too many out until they say
+       via casual emit:orecord, that they along it
+      and then we see when they get far enough for a %stream!
+      being more emit:orecord chatty about UTC etc
+       could allow us to make
+        for an entire blob
+       an adjustment to the speed of playback of the stream
+       that the clients antidote
+       in order to back away from the stream nowizon
+        nowizon = where chunks become undelivered
+         because too live
+        aka buffer underruns
+   
+   < make a report about the %Tree around the %nowPlaying
+     they seem to communicate through the %record itself...
+      
+   < make idzeug (share qrcode|link) store trust
+     and TrustFeature notices when someone uses it
+      logs things
+      knows not to trust another on the same link
+      so it becomes a trusted ticket to get some trust,
+       rather than trust:ftp itself
+      trust:trust,
+    
+   < make A:radiostock auto w:radiostock, etc
+      and A.reset goes back to it, with a template?
+     and A:tree
+      
+   
+   < dont ￼Peerily.svelte.ts:627 [object Object] channel not ready, dropping emit
+   < make ongoing vision of records available, playing, played
+     that tidies away decoded stufff!
+   < Stuffusion rowcount updates but x13/*167 next to it doesnt
    < Stuffing key clicks could enlarge that word
       nearing the computer users ambition:
        "just type stuff in and apply styles"
-     aiming for brack patterns...
-      wants the aim+action subjectivity of a Selection.process()
+     > aiming for brack patterns...
+        wants something of a Selection.process()
    < cytoscaping a Stuffing!
    < next aud.encode_segmentation() via setTimeout from each ondataavailable
      
@@ -1535,6 +1683,9 @@ mo Dec 1
    < turn w/%waits, %waits,for:A, %waits,for:Tree
      into faster turn-around for those things?
       startup w:meander takes too long
+     yes, and perhaps settle()
+      a Selection.process() into A/w/rr|co etc
+       for string changes
       
      
    
